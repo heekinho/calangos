@@ -1,0 +1,67 @@
+<CoordinateSystem> { Z-up }
+
+<Comment> { "Egg laid by Chicken for Blender, version R81" }
+
+<Texture> calango_normal {
+  calango_color.png
+
+}
+
+<Texture> calango_light {
+  calango_color_light.png
+
+}
+<Group> Plane {
+  <Switch> { 1 }
+  <Scalar> fps { 5 }
+
+  <VertexPool> Plane {
+    <Vertex> 0 {
+      1.0 0.999999940395 0.0
+      <UV>  {
+        -0.009064 -0.009064
+        <Tangent> { 1.000000 -0.000000 0.000000 }
+        <Binormal> { -0.000000 -1.000000 -0.000000 }
+      }
+    }
+    <Vertex> 1 {
+      -0.999999642372 1.00000035763 0.0
+      <UV>  {
+        1.009064 -0.009064
+        <Tangent> { 1.000000 -0.000000 0.000000 }
+        <Binormal> { -0.000000 -1.000000 -0.000000 }
+      }
+    }
+    <Vertex> 2 {
+      -1.00000011921 -0.999999821186 0.0
+      <UV>  {
+        1.009064 1.009064
+        <Tangent> { 1.000000 -0.000000 0.000000 }
+        <Binormal> { -0.000000 -1.000000 -0.000000 }
+      }
+    }
+    <Vertex> 3 {
+      1.0 -1.0 0.0
+      <UV>  {
+        -0.009064 1.009064
+        <Tangent> { 1.000000 -0.000000 0.000000 }
+        <Binormal> { -0.000000 -1.000000 -0.000000 }
+      }
+    }
+  }
+  <Group> calango_normal {
+  <Polygon> {
+    <TRef> { calango_normal }
+    <Normal> { 0.000000 -0.000000 1.000000 }
+    <VertexRef> { 0 1 2 3 <Ref> { Plane } }
+  }
+}
+
+<Group> calango_light {
+<Polygon> calango_light {
+    <TRef> { calango_light }
+    <Normal> { 0.000000 -0.000000 1.000000 }
+    <VertexRef> { 0 1 2 3 <Ref> { Plane } }
+  }
+}
+}
