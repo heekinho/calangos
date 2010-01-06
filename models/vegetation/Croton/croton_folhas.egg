@@ -1,0 +1,207 @@
+<CoordinateSystem> { Z-Up }
+
+<Texture> Tex1 {
+  croton_folhas.png
+  <Scalar> format { rgba }
+  <Scalar> wrapu { repeat }
+  <Scalar> wrapv { repeat }
+  <Scalar> minfilter { linear_mipmap_linear }
+  <Scalar> magfilter { linear }
+  <Scalar> envtype { modulate }
+  <Scalar> uv-name { m1 }
+}
+<Group> character {
+  <Dart> { 1 }
+  <Group> folhas_colher1 {
+    <VertexPool> folhas_colher1.verts {
+      <Vertex> 0 {
+        -26.8889 -21.4404 3.32235e-006
+        <UV> m1 { 0 0 }
+        <Normal> { -0.0150771 -0.0150997 0.672163 }
+      }
+      <Vertex> 1 {
+        -11.1825 -21.4404 3.32235e-006
+        <UV> m1 { 0.333333 0 }
+        <Normal> { -0.00885058 -0.0389372 0.671315 }
+      }
+      <Vertex> 2 {
+        -11.1825 -5.6477 0.707081
+        <UV> m1 { 0.333333 0.333333 }
+        <Normal> { -0.0187209 -0.00976815 0.67217 }
+      }
+      <Vertex> 3 {
+        -26.8889 -5.6477 3.32235e-006
+        <UV> m1 { 0 0.333333 }
+        <Normal> { -0.0347245 -0.00449008 0.67159 }
+      }
+      <Vertex> 4 {
+        4.52393 -21.4404 3.32235e-006
+        <UV> m1 { 0.666667 0 }
+        <Normal> { 0.0163726 -0.0489212 0.67052 }
+      }
+      <Vertex> 5 {
+        4.52393 -5.6477 1.53977
+        <UV> m1 { 0.666667 0.333333 }
+        <Normal> { 0.0112566 -0.00369704 0.672397 }
+      }
+      <Vertex> 6 {
+        20.2304 -21.4404 3.32235e-006
+        <UV> m1 { 1 0 }
+        <Normal> { 0 0 0.672502 }
+      }
+      <Vertex> 7 {
+        20.2304 -5.6477 3.32235e-006
+        <UV> m1 { 1 0.333333 }
+        <Normal> { 0.0493022 -0.0163965 0.670492 }
+      }
+      <Vertex> 8 {
+        -11.1825 10.145 1.12845
+        <UV> m1 { 0.333333 0.666667 }
+        <Normal> { -0.0037318 0.0112286 0.672398 }
+      }
+      <Vertex> 9 {
+        -26.8889 10.145 3.32235e-006
+        <UV> m1 { 0 0.666667 }
+        <Normal> { -0.0362002 0.0120343 0.671419 }
+      }
+      <Vertex> 10 {
+        4.52393 10.145 3.32235e-006
+        <UV> m1 { 0.666667 0.666667 }
+        <Normal> { 0.0136994 0.0222439 0.671994 }
+      }
+      <Vertex> 11 {
+        20.2304 10.145 3.32235e-006
+        <UV> m1 { 1 0.666667 }
+        <Normal> { 0.0164006 0.0164251 0.672101 }
+      }
+      <Vertex> 12 {
+        -11.1825 25.9378 3.32235e-006
+        <UV> m1 { 0.333333 1 }
+        <Normal> { -0.0120165 0.0359196 0.671434 }
+      }
+      <Vertex> 13 {
+        -26.8889 25.9378 3.32235e-006
+        <UV> m1 { 0 1 }
+        <Normal> { 0 0 0.672502 }
+      }
+      <Vertex> 14 {
+        4.52393 25.9378 3.32235e-006
+        <UV> m1 { 0.666667 1 }
+        <Normal> { 0.0120276 0.0120456 0.672286 }
+      }
+      <Vertex> 15 {
+        20.2304 25.9378 3.32235e-006
+        <UV> m1 { 1 1 }
+        <Normal> { 0 0 0.672502 }
+      }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 0 1 2 <Ref> { folhas_colher1.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 2 3 0 <Ref> { folhas_colher1.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 1 4 5 <Ref> { folhas_colher1.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 5 2 1 <Ref> { folhas_colher1.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 4 6 7 <Ref> { folhas_colher1.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 7 5 4 <Ref> { folhas_colher1.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 3 2 8 <Ref> { folhas_colher1.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 8 9 3 <Ref> { folhas_colher1.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 2 5 10 <Ref> { folhas_colher1.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 10 8 2 <Ref> { folhas_colher1.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 5 7 11 <Ref> { folhas_colher1.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 11 10 5 <Ref> { folhas_colher1.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 9 8 12 <Ref> { folhas_colher1.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 12 13 9 <Ref> { folhas_colher1.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 8 10 14 <Ref> { folhas_colher1.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 14 12 8 <Ref> { folhas_colher1.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 10 11 15 <Ref> { folhas_colher1.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 15 14 10 <Ref> { folhas_colher1.verts } }
+    }
+  }
+}

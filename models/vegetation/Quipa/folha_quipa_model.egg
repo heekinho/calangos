@@ -1,0 +1,314 @@
+<CoordinateSystem> { Z-Up }
+
+<Texture> Tex1 {
+  quipa.jpg
+  <Scalar> format { rgb }
+  <Scalar> wrapu { repeat }
+  <Scalar> wrapv { repeat }
+  <Scalar> minfilter { linear_mipmap_linear }
+  <Scalar> magfilter { linear }
+  <Scalar> envtype { modulate }
+  <Scalar> uv-name { m1 }
+}
+<Group> character {
+  <Dart> { 1 }
+  <Group> folha_quipa {
+    <VertexPool> folha_quipa.verts {
+      <Vertex> 0 {
+        -5.03099 44.0075 2.93266
+        <UV> m1 { 0.969789 0.282747 }
+        <Normal> { -0.437897 -0.224417 3.38696 }
+      }
+      <Vertex> 1 {
+        -7.07217 43.7373 2.74068
+        <UV> m1 { 0.969789 0.296044 }
+        <Normal> { -0.356901 -0.346894 3.38614 }
+      }
+      <Vertex> 2 {
+        0.738291 25.1599 2.42974
+        <UV> m1 { 0.875369 0.274907 }
+        <Normal> { -1.27802 -0.438197 3.14457 }
+      }
+      <Vertex> 3 {
+        5.76085 25.4393 4.72412
+        <UV> m1 { 0.875369 0.240473 }
+        <Normal> { -1.37652 -0.445689 3.10164 }
+      }
+      <Vertex> 4 {
+        -7.78476 -27.8319 7.08417
+        <UV> m1 { 0.633945 0.398836 }
+        <Normal> { 0.856363 0.811605 3.21272 }
+      }
+      <Vertex> 5 {
+        1.02065 -34.2039 6.56158
+        <UV> m1 { 0.596699 0.354089 }
+        <Normal> { 0.329962 1.25623 3.16649 }
+      }
+      <Vertex> 6 {
+        -1.01757 -26.3039 4.73216
+        <UV> m1 { 0.633945 0.357563 }
+        <Normal> { 0.870101 0.79076 3.21423 }
+      }
+      <Vertex> 7 {
+        -11.1545 43.197 2.35671
+        <UV> m1 { 0.969789 0.322639 }
+        <Normal> { -0.196454 -0.290512 3.40451 }
+      }
+      <Vertex> 8 {
+        -9.83315 23.7607 1.43537
+        <UV> m1 { 0.875369 0.343776 }
+        <Normal> { 0.665143 0.0190295 3.35721 }
+      }
+      <Vertex> 9 {
+        -4.33134 24.8053 0.456905
+        <UV> m1 { 0.875369 0.309342 }
+        <Normal> { -0.314303 -0.239329 3.39964 }
+      }
+      <Vertex> 10 {
+        -9.11329 43.4672 2.54869
+        <UV> m1 { 0.969789 0.309342 }
+        <Normal> { -0.259248 -0.445678 3.38346 }
+      }
+      <Vertex> 11 {
+        14.7581 -32.3856 7.85372
+        <UV> m1 { 0.596699 0.264595 }
+        <Normal> { -1.25641 0.957184 3.03626 }
+      }
+      <Vertex> 12 {
+        13.7864 -24.3444 6.12459
+        <UV> m1 { 0.633945 0.261121 }
+        <Normal> { -1.70233 0.246134 2.95891 }
+      }
+      <Vertex> 13 {
+        6.86276 -24.5603 2.16184
+        <UV> m1 { 0.633945 0.309342 }
+        <Normal> { -0.46876 0.602487 3.3363 }
+      }
+      <Vertex> 14 {
+        9.19385 -41.5856 10.3564
+        <UV> m1 { 0.559452 0.309342 }
+        <Normal> { -0.488062 1.41467 3.07801 }
+      }
+      <Vertex> 15 {
+        2.15983 -2.71124 0.156462
+        <UV> m1 { 0.739356 0.309342 }
+        <Normal> { -0.361838 0.119701 3.40123 }
+      }
+      <Vertex> 16 {
+        10.7367 -2.06554 3.27745
+        <UV> m1 { 0.739356 0.251289 }
+        <Normal> { -1.25944 -0.0405322 3.18211 }
+      }
+      <Vertex> 17 {
+        -15.3821 22.6407 2.73544
+        <UV> m1 { 0.875369 0.378211 }
+        <Normal> { 0.756189 0.0551152 3.33748 }
+      }
+      <Vertex> 18 {
+        -16.3846 -6.22334 3.41086
+        <UV> m1 { 0.739356 0.425448 }
+        <Normal> { 0.570629 0.419008 3.3485 }
+      }
+      <Vertex> 19 {
+        -7.08567 -4.42461 1.60111
+        <UV> m1 { 0.739356 0.367395 }
+        <Normal> { 0.548653 0.371303 3.35779 }
+      }
+      <Vertex> 20 {
+        -13.1956 42.9268 2.16471
+        <UV> m1 { 0.969789 0.335937 }
+        <Normal> { -0.126787 -0.152263 3.41678 }
+      }
+      <Vertex> 21 {
+        19.6902 -24.1951 9.66841
+        <UV> m1 { 0.633945 0.219847 }
+        <Normal> { -1.69447 0.281732 2.96024 }
+      }
+      <Vertex> 22 {
+        19.2602 -1.50518 6.76352
+        <UV> m1 { 0.739356 0.193236 }
+        <Normal> { -1.29817 0.0475074 3.16641 }
+      }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 0 1 2 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 2 3 0 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 4 5 6 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 7 8 9 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 9 10 7 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 11 12 13 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 13 14 11 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 15 16 2 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 2 9 15 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 17 18 19 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 19 8 17 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 1 10 9 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 9 2 1 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 5 14 13 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 13 6 5 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 20 17 8 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 8 7 20 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 11 21 12 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 16 22 3 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 3 2 16 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 15 9 8 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 8 19 15 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 21 22 16 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 16 12 21 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 12 16 15 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 15 13 12 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 15 19 6 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 6 13 15 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 4 6 19 <Ref> { folha_quipa.verts } }
+    }
+    <Polygon> {
+      <RGBA> { 1 1 1 1 }
+      <TRef> { Tex1 }
+      <BFace> { 1 }
+      <VertexRef> { 19 18 4 <Ref> { folha_quipa.verts } }
+    }
+  }
+}
