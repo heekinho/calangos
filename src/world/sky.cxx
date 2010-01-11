@@ -33,7 +33,7 @@ TypeHandle Sky::_type_handle;
 Sky::Sky(const string &model) :
 NodePath(Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), model)) {
 
-   
+
 	set_bin("background", 10);
 	set_depth_write(false);
 	set_depth_test(false);
@@ -56,7 +56,7 @@ NodePath(Simdunas::get_window()->load_model(Simdunas::get_window()->get_render()
         // Configuracao inicial do ceu/////////////////////
 
         int hora=TimeControl::get_instance()->get_hora();
-        if((hora>=19&&hora<=23)||(hora>=0&&hora<6)){            
+        if((hora>=19&&hora<=23)||(hora>=0&&hora<6)){
 			if(ClimaTempo::get_instance()->get_chuva_today()!=0)//verificando se o dia vai ser chovoso
 				change_sky(CHUVOSO,NOITE);
 			else
@@ -71,7 +71,7 @@ NodePath(Simdunas::get_window()->load_model(Simdunas::get_window()->get_render()
                 change_sky(TARDE,AMANHECER);
         }
         else if(hora>=8&&hora<=17){
-            
+
 				if(ClimaTempo::get_instance()->get_chuva_today()!=0)//verificando se o dia vai ser chovoso
 					change_sky(NOITE,CHUVOSO);
 				else if(hora==17)//caso especial da tarde
@@ -81,10 +81,10 @@ NodePath(Simdunas::get_window()->load_model(Simdunas::get_window()->get_render()
 					change_sky(ENTARDECER,TARDE);
         }
           else if(hora>=18&&hora<19){
-				
+
 			  if(ClimaTempo::get_instance()->get_chuva_today()!=0)//verificando se o dia vai ser chovoso
 						change_sky(NOITE,CHUVOSO);
-			  else	
+			  else
 					change_sky(NOITE,ENTARDECER);
         }
 
@@ -159,14 +159,14 @@ void Sky::update_sol(const Event*, void *data) {
         minuto_atual=minuto;
 
 	//nout << hora <<":"<< minuto<< endl;
-	        
+
 	 if (hora >= 5 && hora < 12) {
 
              //colocando de fato o sol na cena
-		 if(hora >= 5 && !flag_sol && ClimaTempo::get_instance()->get_chuva_today()==0){ 
+		 if(hora >= 5 && !flag_sol && ClimaTempo::get_instance()->get_chuva_today()==0){
 			 anda_sol->sol.show();
 			 flag_sol=true;
-			 
+
 		 }
 
                  if((int)fabs((float)minuto_atual-(float)minuto_anterior)<40){
@@ -204,7 +204,7 @@ void Sky::update_sol(const Event*, void *data) {
 		aux = -180;
                 anda_sol->sol.hide();//retirando o sol da cena
 				flag_sol=false;
-				
+
 
 	}
 
@@ -226,7 +226,7 @@ void Sky::change_sky(int new_sky, int previous_sky) {
 }
 
 void Sky::fade(int minuto, int hora) {
-	
+
 	hora_anterior=hora_atual;
 	hora_atual=hora;
 
@@ -236,7 +236,7 @@ void Sky::fade(int minuto, int hora) {
 					change_sky(AMANHECER, NOITE);
 					seta=1.0;//a variável volta ao esado inicial para o próximo
 			}
-				
+
 		}
 		else if (hora == 7) {
 			if(ClimaTempo::get_instance()->get_chuva_today()==0){//verificando se o dia não está  chovoso
@@ -248,7 +248,7 @@ void Sky::fade(int minuto, int hora) {
 					seta=1.0;//a variável volta ao esado inicial para o próximo
 			}
 
-			
+
 		}
 		else if (hora == 16) {
 			if(ClimaTempo::get_instance()->get_chuva_today()==0){//verificando se o dia está  chovoso
@@ -269,29 +269,27 @@ void Sky::fade(int minuto, int hora) {
 			}
 
 		}
-		
+
 	}
 	if (hora >= 18 && hora < 19) {//anoitecendo... escurecendo o ambiente
-			
-		if(ClimaTempo::get_instance()->get_chuva_today()!=0){//se tiver chuvendo....vai ja vai ta um pouco escuro
 
-					
-					if(seta < 0.5){
+		if (ClimaTempo::get_instance()->get_chuva_today() != 0) {//se tiver chuvendo....vai ja vai ta um pouco escuro
+
+
+			if (seta < 0.5) {
 				noite->set_color(LVecBase4f(seta, seta + 0.18, seta + 0.25, 1));
-					}
+			}
 
-					   //retirando as sombras das arvores a noite
-                 Terrain::create_default_terrain()->get_shadows()->add_transparency_to_shadows(0.009);
-                 Terrain::create_default_terrain()->get_shadows()->update_shadows();
+			//retirando as sombras das arvores a noite
+			Terrain::create_default_terrain()->get_shadows()->add_transparency_to_shadows(0.009);
+			Terrain::create_default_terrain()->get_shadows()->update_shadows();
 
-		}
-		else
-				noite->set_color(LVecBase4f(seta, seta + 0.18, seta + 0.25, 1));
+		} else
+			noite->set_color(LVecBase4f(seta, seta + 0.18, seta + 0.25, 1));
 
-                
-                //retirando as sombras das arvores a noite
-                 Terrain::create_default_terrain()->get_shadows()->add_transparency_to_shadows(0.009);
-                 Terrain::create_default_terrain()->get_shadows()->update_shadows();
+		//retirando as sombras das arvores a noite
+		Terrain::create_default_terrain()->get_shadows()->add_transparency_to_shadows(0.009);
+		Terrain::create_default_terrain()->get_shadows()->update_shadows();
 
 	}
 
@@ -305,18 +303,18 @@ void Sky::fade(int minuto, int hora) {
                  Terrain::create_default_terrain()->get_shadows()->add_transparency_to_shadows(-0.009);
                  Terrain::create_default_terrain()->get_shadows()->update_shadows();
 			}
-		
+
 		}
 	}
 
 		else if (hora >= 7 && hora < 8){
-		
+
 			if(ClimaTempo::get_instance()->get_chuva_today()!=0){//se tiver chuvendo.....amanhece as 7 e não vai clariar tudo
 
 					float aux = minuto * 0.0166;
 				if(aux < 0.5 && minuto > 1){//para não escurecer totalmente antes de começar a clariar
 					noite->set_color(LVecBase4f(minuto * 0.0166, 0.18 + (minuto * 0.0166),0.25 + (minuto * 0.0166), 1));
-							
+
 					}
 					 //colocando as sombras de volta
 						if(TimeControl::get_instance()->get_dia()>1){//se não for o primeiro dia
@@ -324,18 +322,18 @@ void Sky::fade(int minuto, int hora) {
 							Terrain::create_default_terrain()->get_shadows()->update_shadows();
 				 }
 		}
-			
-		
-
-                
-                
-               
-                 
 
 
-                            
+
+
+
+
+
+
+
+
 	}
-	
+
 	//cout<<"Hora: "<<TimeControl::get_instance()->get_hora()<<"Minuto : "<<TimeControl::get_instance()->get_minuto()<<endl;
 	//cout<<"Seta: "<<seta<<endl;
 	if(ClimaTempo::get_instance()->get_chuva_today()!=0){
@@ -343,17 +341,17 @@ void Sky::fade(int minuto, int hora) {
 			seta = 1-(0.0166*minuto);//deixando indepedente do minuto virtual, caso de saltos de alguns minutos continua certo. Porém se saltar mais de uma hora vai da pau!!!
 			next_sky_stage->set_color(LVecBase4f(0, 0, 0, seta));
 		}
-		
+
 	}
 	else{//caso o dia não seja chuvoso chama normalmente
-	
+
 		seta = 1-(0.0166*minuto);//deixando indepedente do minuto virtual, caso de saltos de alguns minutos continua certo. Porém se saltar mais de uma hora vai da pau!!!
 		next_sky_stage->set_color(LVecBase4f(0, 0, 0, seta));
-	
+
 	}
 
 
-	
+
 
 }
 

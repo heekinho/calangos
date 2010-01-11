@@ -59,8 +59,6 @@ void ShadowCard::create_shadow(PNMImage &shadow, NodePath obj){
 
 /*! Atualiza de fato as sombras no mundo */
 void ShadowCard::update_shadows(){
-	//shadow_tex->load(*shadows_channel);
-	//if(active_shadows->has_alpha()) active_shadows->alpha_fill(alpha);
 	shadow_tex->load(*active_shadows);
 }
 
@@ -141,13 +139,6 @@ void ShadowCard::add_transparency_to_shadows(double value){
 			active_shadows->set_alpha(x, y, alpha);
 		}
 	}
-
-//	//shadow_stage->set_alpha_scale(shadow_stage->get_alpha_scale() + value);
-//	//active_shadows->set_alpha_val(1, 1, 1);
-//	alpha += value;
-//	if(alpha < 0) alpha = 0;
-//	else if(alpha > 1) alpha = 1;
-//	//active_shadows->alpha_fill(active_shadows->get_alpha(0, 0) + value);
 }
 
 
