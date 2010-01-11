@@ -81,7 +81,7 @@ void MaleLizard::player_did_bobbing(const Event *theEvent, void *data){
 	this_lizard->waiting_player_decide = false;
 	this_lizard->player_decision_counter = 0;
 
-	float fight_prob = (this_lizard->get_tamanho() - player->get_tamanho_lagarto_real())/2 + 40.0;
+	float fight_prob = (this_lizard->get_tamanho() - player->get_tamanho())/2 + 40.0;
 
 	if(rand()%100 < fight_prob){
             this_lizard->set_action("fight", true);
