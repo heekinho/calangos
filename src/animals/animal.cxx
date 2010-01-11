@@ -238,12 +238,10 @@ void Animal::redistribute_animals(){
 	/* Ao invés de obter os setores adjacentes, não adjacentes, faz-se a verificação e em
 	 * seguida já redistribui */
 
-	//nout << "Número de Animais no setor do Player antes: " << Player::get_instance()->get_setor()->get_animals()->size() << endl;
 	for (int i = 0; i < max_sectors; ++i) {
 		PT(Setor) sector = terrain->get_setor(i);
 		/* Se o setor não for considerado vizinho do player, os animais são realocados */
 		if(!sector->is_player_neighbor() && sector->get_indice() != player->get_setor()->get_indice()){
-			//Animal::migrate_animals(sector, all_neighbors);
 			Animal::migrate_animals((vector<PT(ObjetoJogo)>*) sector->get_animals(), sector, all_neighbors);
 			Animal::migrate_animals((vector<PT(ObjetoJogo)>*) sector->get_lizards(), sector, all_neighbors);
 		}
@@ -251,25 +249,11 @@ void Animal::redistribute_animals(){
 	//nout << "Número de Animais no setor do Player depois: " << Player::get_instance()->get_setor()->get_animals()->size() << endl;
 }
 
-///* Migra animais de um setor para outro */
-//void Animal::migrate_animals(vector<PT(ObjetoJogo)> vector, PT(Setor) sector_from, vector<PT(Setor)> *sectors_to){
-//	while(sector_from->get_animals()->size() > 0){
-//		int to = rand() % sectors_to->size();
-//		Animal::migrate_animal(sector_from->get_animals()->back(), sectors_to->at(to));
-//	}
-//}
 
-/* Migra animais de um setor para outro */
+/*! Migra animais de um setor para outro */
 void Animal::migrate_animals(vector<PT(ObjetoJogo)>* vect, PT(Setor) sector_from, vector<PT(Setor)> *sectors_to){
-	//nout << "new vector" << endl;
-
 	while(vect->size() > 0){
-		//nout << "VECTOR SIZE: " << vector->size() << endl;
-		//nout << "TO SIZE: " << sectors_to->size() << endl;
 		int to = rand() % sectors_to->size();
-
-		//nout << "TO: " << to << endl;
-		//nout << "SECTOR FROM: " << sector_from->get_indice() << " - ";
 		Animal::migrate_animal(vect->back(), sectors_to->at(to));
 	}
 }
@@ -285,6 +269,4 @@ void Animal::migrate_animal(PT(ObjetoJogo) theanimal, PT(Setor) sector_to){
 	//nout << "SECTOR TO: " << sector_to->get_indice();
 	LPoint2d random_pos = sector_to->get_random_pos_inside();
 	theanimal->set_pos(random_pos.get_x(), random_pos.get_y(), 0);
-
-	//nout << " - SECTOR TO CONFIRM: " << theanimal->get_setor()->get_indice() << endl;
 }
