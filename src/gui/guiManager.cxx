@@ -2130,8 +2130,8 @@ void GuiManager::click_event_botao8_grafico_GastoEnergetico(const Event*, void* 
         this_guiManager->desliga_leds_painel_tempo();
         botao8GastoEnergetico_ledOFF.hide();
         botao8GastoEnergetico_ledON.show();
-        vetorY = this_guiManager->vector->getVectorTemperaturaSolo();
-        tamanhoVetorY = this_guiManager->vector->getSizeVectorTemperaturaSolo();
+        vetorY = this_guiManager->vector->getVectorGastoEnergeticoTotal();
+        tamanhoVetorY = this_guiManager->vector->getSizeVectorGastoEnergiticoTotal();
         legendaY = (string) "Gasto energetico";
         limiteInferiorY = 0;
         limiteSuperiorY = 0.4;
@@ -2298,11 +2298,11 @@ void GuiManager::click_event_vBotao8_grafico_GastoEnergetico(const Event*, void*
     this_guiManager->desliga_leds_painel_variavel();
     vBotao8GastoEnergetico_ledOFF.hide();
     vBotao8GastoEnergetico_ledON.show();
-    vetorX = this_guiManager->vector->getVectorTemperaturaSolo();
+    vetorX = this_guiManager->vector->getVectorGastoEnergeticoTotal();
     tamanhoVetorX = this_guiManager->vector->getSizeVectorTemperaturaSolo();
     legendaX = (string) "Gasto energetico";
     limiteInferiorX = 0;
-    limiteSuperiorX = 0.8;
+    limiteSuperiorX = 0.4;
     this_guiManager->graphicVariavel = new Graphics(&(this_guiManager->optionFrameNode), vetorX, vetorY, limiteSuperiorX, limiteInferiorX, limiteSuperiorY, limiteInferiorY, false);
     this_guiManager->graphicVariavel->set_Position_Graphic(0.2, 0.6);
     this_guiManager->graphicVariavel->set_scale(1.2);
