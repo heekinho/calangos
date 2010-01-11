@@ -484,6 +484,25 @@ GuiManager::GuiManager() {
   	labelCountEgg_np.set_color(0.0, 0.0, 0.0, 1,0);
 
         //----------------------------------------------------------------------
+	//MOSTRADOR DA QUANTIDADE DE MESES.-------------------------------------
+        //----------------------------------------------------------------------
+        labelIdade = new TextNode("labelIdade");
+	labelIdade->set_text("Idade");
+
+	labelIdade_np = frameNode.attach_new_node(labelIdade);
+	labelIdade_np.set_pos(0.30, 0.0, 1.40);
+	labelIdade_np.set_scale(0.05);
+  	labelIdade_np.set_color(0.0, 0.0, 0.0, 1,0);
+
+        labelIdadeNumero = new TextNode("labelIdadeNumero");
+	labelIdadeNumero->set_text("labelIdadeNumero");
+
+	labelIdadeNumero_np = frameNode.attach_new_node(labelIdadeNumero);
+	labelIdadeNumero_np.set_pos(0.35, 0.0, 1.35);
+	labelIdadeNumero_np.set_scale(0.05);
+  	labelIdadeNumero_np.set_color(0.0, 0.0, 0.0, 1,0);
+
+        //----------------------------------------------------------------------
 	//BOTAO DO GRAFICO.-----------------------------------------------------
         //----------------------------------------------------------------------
         botaoGrafico = new PGButton("botaoGrafico");
@@ -1162,6 +1181,10 @@ void GuiManager::update_gui(const Event*, void *data) {
 
         sprintf(this_guiManager->stringCountEgg, "%d", Player::get_instance()->get_num_ovos());
         this_guiManager->labelCountEgg->set_text(this_guiManager->stringCountEgg);
+
+        sprintf(this_guiManager->stringIdadeNumero, "%d", Player::get_instance()->get_idade());
+        this_guiManager->labelIdadeNumero->set_text(this_guiManager->stringIdadeNumero);
+
     }
 
     //Controla o relogio.
@@ -1407,6 +1430,8 @@ void GuiManager::esconde_mostradores(){
     led.hide();
     egg.hide();
     labelCountEgg_np.hide();
+    labelIdade_np.hide();
+    labelIdadeNumero_np.hide();
 }
 
 void GuiManager::mostra_mostradores(){
@@ -1435,6 +1460,8 @@ void GuiManager::mostra_mostradores(){
     led.show();
     egg.show();
     labelCountEgg_np.show();
+    labelIdade_np.show();
+    labelIdadeNumero_np.show();
 }
 
 void GuiManager::mostra_opcoes_dos_graficos(){

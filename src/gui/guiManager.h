@@ -105,12 +105,16 @@ private:
     ScrollBar umidade_scrollBar;
     TextNode* labelDamage;
     TextNode* labelCountEgg;
+    TextNode* labelIdade;
+    TextNode* labelIdadeNumero;
     TextNode* labelHidratacao;
     TextNode* labelTemperatura;
     TextNode* labelTemperaturaAmb;
     TextNode* labelUmidade;
     NodePath relogioDiaNoite;
     NodePath labelCountEgg_np;
+    NodePath labelIdade_np;
+    NodePath labelIdadeNumero_np;
     NodePath labelHidratacao_np;
     NodePath labelTemperatura_np;
     NodePath labelTemperaturaAmb_np;
@@ -155,6 +159,7 @@ private:
     char stringUmidade[10];
     char stringVida[10];
     char stringCountEgg[10];
+    char stringIdadeNumero[10];
     double cont_relogio;
     double cont_gui_options;
     //A flag gui_options_flag verifica se a janela de opções está aberta ou não.
