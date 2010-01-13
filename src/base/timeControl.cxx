@@ -264,10 +264,12 @@ float TimeControl::get_seconds_min(){
 }
 
 void TimeControl::set_virtual_time_hour(float timeHour){
+	//TODO: virtualTimeHour -> virtualTimeMinInHour
 	virtualTimeHour = timeHour;
 }
 
 void TimeControl::set_virtual_time_month(int timeMonth){
+	//TODO: virtualTimeMonth -> virtualTimeDaysInMonth
 	virtualTimeMonth = timeMonth;
 }
 
