@@ -1,8 +1,13 @@
 ###########################################################
 ###                                                     ###
-### Panda3D Configuration File -  User-Editable Portion ###
+### Panda3D Configuration File -  Calangos              ###
 ###                                                     ###
 ###########################################################
+
+# This default only comes into play if you try to load a model
+# and don't specify an extension.
+
+default-model-extension .bam
 
 # Uncomment one of the following lines to choose whether you should
 # run using OpenGL or DirectX rendering.
