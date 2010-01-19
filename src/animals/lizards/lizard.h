@@ -61,6 +61,8 @@ protected:
 	LizardGender::lizardGender gender;
 	float tamanho;
 	float energia;
+	float scale_temp;
+	float scale;
 };
 
 #endif
