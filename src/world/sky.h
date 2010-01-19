@@ -50,6 +50,10 @@ private:
 	static int hora_anterior;
         static int minuto_atual;//ajudar a controlar o deslocamento do sol pelo ceu
         static int minuto_anterior;
+		static float limite;
+		 static int minuto_atual_sombra;//ajudar a controlar a sombra
+        static int minuto_anterior_sombra;
+		
 
     
 };

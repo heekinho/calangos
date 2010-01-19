@@ -28,6 +28,9 @@ int Sky::hora_atual=0;
 int Sky::hora_anterior=0;
  int Sky::minuto_atual=0;
  int Sky::minuto_anterior=0;
+ float Sky::limite=0.0;
+ int Sky::minuto_anterior_sombra=0;
+ int Sky::minuto_atual_sombra=0;
 
 TypeHandle Sky::_type_handle;
 Sky::Sky(const string &model) :
@@ -227,128 +230,127 @@ void Sky::change_sky(int new_sky, int previous_sky) {
 
 void Sky::fade(int minuto, int hora) {
 
-	hora_anterior=hora_atual;
-	hora_atual=hora;
+	hora_anterior = hora_atual;
+    hora_atual = hora;
+	minuto_anterior_sombra=minuto_atual_sombra;
+	minuto_atual_sombra=minuto;
 
-	if (hora_anterior!=hora_atual) {//se forem diferentes é hora de mudar de textura ficando indepedente do minuto virtual
-		if (hora == 5) {
-			if(ClimaTempo::get_instance()->get_chuva_today()==0){//verificando se o dia não está  chovoso
-					change_sky(AMANHECER, NOITE);
-					seta=1.0;//a variável volta ao esado inicial para o próximo
-			}
-
-		}
-		else if (hora == 7) {
-			if(ClimaTempo::get_instance()->get_chuva_today()==0){//verificando se o dia não está  chovoso
-				change_sky(TARDE, AMANHECER);
-				seta=1.0;//a variável volta ao esado inicial para o próximo
-			}
-			else {
-					change_sky(CHUVOSO,NOITE);//caso esteja chuvoso o dia  só nasce as sete horas
-					seta=1.0;//a variável volta ao esado inicial para o próximo
-			}
+    limite = abs(minuto_atual_sombra - minuto_anterior_sombra);//diferença de minutos para setar na sombra, ficando assim indepedente do minuto virtual
+	if(limite>50)limite=0.0;
+	
 
 
-		}
-		else if (hora == 16) {
-			if(ClimaTempo::get_instance()->get_chuva_today()==0){//verificando se o dia está  chovoso
-			change_sky(ENTARDECER, TARDE);
-			seta=1.0;//a variável volta ao esado inicial para o próximo
-						}
-		}
-		else if (hora == 18) {
+    if (hora_anterior != hora_atual) {//se forem diferentes é hora de mudar de textura ficando indepedente do minuto virtual
+        limite = 0.0;
+        if (hora == 5) {
+            if (ClimaTempo::get_instance()->get_chuva_today() == 0) {//verificando se o dia não está  chovoso
+                change_sky(AMANHECER, NOITE);
+                seta = 1.0; //a variável volta ao esado inicial para o próximo
+            }
 
-			if(ClimaTempo::get_instance()->get_chuva_today()==0){//verificando se o dia está  chovoso
-			change_sky(NOITE, ENTARDECER);
-			seta=1.0;//a variável volta ao esado inicial para o próximo
-			}
-
-			else {
-				change_sky(NOITE,CHUVOSO);//caso esteja chuvoso
-				seta=1.0;//a variável volta ao esado inicial para o próximo
-			}
-
-		}
-
-	}
-	if (hora >= 18 && hora < 19) {//anoitecendo... escurecendo o ambiente
-
-		if (ClimaTempo::get_instance()->get_chuva_today() != 0) {//se tiver chuvendo....vai ja vai ta um pouco escuro
+        } else if (hora == 7) {
+            if (ClimaTempo::get_instance()->get_chuva_today() == 0) {//verificando se o dia não está  chovoso
+                change_sky(TARDE, AMANHECER);
+                seta = 1.0; //a variável volta ao esado inicial para o próximo
+            } else {
+                change_sky(CHUVOSO, NOITE); //caso esteja chuvoso o dia  só nasce as sete horas
+                seta = 1.0; //a variável volta ao esado inicial para o próximo
+            }
 
 
-			if (seta < 0.5) {
-				noite->set_color(LVecBase4f(seta, seta + 0.18, seta + 0.25, 1));
-			}
+        } else if (hora == 16) {
+            if (ClimaTempo::get_instance()->get_chuva_today() == 0) {//verificando se o dia está  chovoso
+                change_sky(ENTARDECER, TARDE);
+                seta = 1.0; //a variável volta ao esado inicial para o próximo
+            }
+        } else if (hora == 18) {
 
-			//retirando as sombras das arvores a noite
-			Terrain::create_default_terrain()->get_shadows()->add_transparency_to_shadows(0.009);
-			Terrain::create_default_terrain()->get_shadows()->update_shadows();
+            if (ClimaTempo::get_instance()->get_chuva_today() == 0) {//verificando se o dia está  chovoso
+                change_sky(NOITE, ENTARDECER);
+                seta = 1.0; //a variável volta ao esado inicial para o próximo
+            }
+            else {
+                change_sky(NOITE, CHUVOSO); //caso esteja chuvoso
+                seta = 1.0; //a variável volta ao esado inicial para o próximo
+            }
 
-		} else
-			noite->set_color(LVecBase4f(seta, seta + 0.18, seta + 0.25, 1));
+        }
 
-		//retirando as sombras das arvores a noite
-		Terrain::create_default_terrain()->get_shadows()->add_transparency_to_shadows(0.009);
-		Terrain::create_default_terrain()->get_shadows()->update_shadows();
+    }
+    if (hora >= 18 && hora < 19) {//anoitecendo... escurecendo o ambiente
 
-	}
-
-	else if (hora >= 5 && hora < 6) {//amanhecendo....clariando novamente o ambiente
-
-		if(ClimaTempo::get_instance()->get_chuva_today()==0){//só clareia as 5 se não tiver chuvendo
-
-			if(minuto > 1){//para não escurecer totalmente antes de começar a clariar
-				noite->set_color(LVecBase4f(minuto * 0.0166, 0.18 + (minuto * 0.0166),0.25 + (minuto * 0.0166), 1));
-				 //colocando as sombras de volta
-                 Terrain::create_default_terrain()->get_shadows()->add_transparency_to_shadows(-0.009);
-                 Terrain::create_default_terrain()->get_shadows()->update_shadows();
-			}
-
-		}
-	}
-
-		else if (hora >= 7 && hora < 8){
-
-			if(ClimaTempo::get_instance()->get_chuva_today()!=0){//se tiver chuvendo.....amanhece as 7 e não vai clariar tudo
-
-					float aux = minuto * 0.0166;
-				if(aux < 0.5 && minuto > 1){//para não escurecer totalmente antes de começar a clariar
-					noite->set_color(LVecBase4f(minuto * 0.0166, 0.18 + (minuto * 0.0166),0.25 + (minuto * 0.0166), 1));
-
-					}
-					 //colocando as sombras de volta
-						if(TimeControl::get_instance()->get_dia()>1){//se não for o primeiro dia
-							Terrain::create_default_terrain()->get_shadows()->add_transparency_to_shadows(-0.009);
-							Terrain::create_default_terrain()->get_shadows()->update_shadows();
-				 }
-		}
+        if (ClimaTempo::get_instance()->get_chuva_today() != 0) {//se tiver chuvendo....vai ja vai ta um pouco escuro
 
 
+            if (seta < 0.5) {
+                noite->set_color(LVecBase4f(seta, seta + 0.18, seta + 0.25, 1));
+            }
+
+            //retirando as sombras das arvores a noite
+
+			Terrain::create_default_terrain()->get_shadows()->add_transparency_to_shadows(0.01 * limite);
+            Terrain::create_default_terrain()->get_shadows()->update_shadows();
+            
+        } else
+            noite->set_color(LVecBase4f(seta, seta + 0.18, seta + 0.25, 1));
+
+        //retirando as sombras das arvores a noite
+        Terrain::create_default_terrain()->get_shadows()->add_transparency_to_shadows(0.01 * limite);
+        Terrain::create_default_terrain()->get_shadows()->update_shadows();
+      
+    }
+    else if (hora >= 5 && hora < 6) {//amanhecendo....clariando novamente o ambiente
+
+        if (ClimaTempo::get_instance()->get_chuva_today() == 0) {//só clareia as 5 se não tiver chuvendo
+
+            if (minuto > 1) {//para não escurecer totalmente antes de começar a clariar
+                noite->set_color(LVecBase4f(minuto * 0.0166, 0.18 + (minuto * 0.0166), 0.25 + (minuto * 0.0166), 1));
+                //colocando as sombras de volta
+               
+                    Terrain::create_default_terrain()->get_shadows()->add_transparency_to_shadows(-0.01 * limite);
+                    Terrain::create_default_terrain()->get_shadows()->update_shadows();
+                    
+                
+
+            }
+        }
+    }
+    else if (hora >= 7 && hora < 8) {
+
+        if (ClimaTempo::get_instance()->get_chuva_today() != 0) {//se tiver chuvendo.....amanhece as 7 e não vai clariar tudo
+			
+            float aux = minuto * 0.0166;
+            if (aux < 0.5 && minuto > 1) {//para não escurecer totalmente antes de começar a clariar
+                noite->set_color(LVecBase4f(minuto * 0.0166, 0.18 + (minuto * 0.0166), 0.25 + (minuto * 0.0166), 1));
+
+            }
+            //colocando as sombras de volta
+            if (TimeControl::get_instance()->get_dia() > 1) {//se não for o primeiro dia
+                
+                    Terrain::create_default_terrain()->get_shadows()->add_transparency_to_shadows(-0.01 * limite);
+                    Terrain::create_default_terrain()->get_shadows()->update_shadows();
+                    
+                
+            }
+        }
+
+    }
 
 
+    //cout<<"Hora: "<<TimeControl::get_instance()->get_hora()<<"Minuto : "<<TimeControl::get_instance()->get_minuto()<<endl;
+    //cout<<"Seta: "<<seta<<endl;
+    if (ClimaTempo::get_instance()->get_chuva_today() != 0) {
+        if (hora != 16 && hora != 5) {//se o dia tiver chuvoso só faz o fade, se a hora for diferente de 16 e 7
+            seta = 1 - (0.0166 * minuto); //deixando indepedente do minuto virtual, caso de saltos de alguns minutos continua certo. Porém se saltar mais de uma hora vai da pau!!!
+            next_sky_stage->set_color(LVecBase4f(0, 0, 0, seta));
+        }
 
+    } else {//caso o dia não seja chuvoso chama normalmente
 
+        seta = 1 - (0.0166 * minuto); //deixando indepedente do minuto virtual, caso de saltos de alguns minutos continua certo. Porém se saltar mais de uma hora vai da pau!!!
+        next_sky_stage->set_color(LVecBase4f(0, 0, 0, seta));
 
-
-
-
-	}
-
-	//cout<<"Hora: "<<TimeControl::get_instance()->get_hora()<<"Minuto : "<<TimeControl::get_instance()->get_minuto()<<endl;
-	//cout<<"Seta: "<<seta<<endl;
-	if(ClimaTempo::get_instance()->get_chuva_today()!=0){
-		if(hora!=16 && hora !=5){//se o dia tiver chuvoso só faz o fade, se a hora for diferente de 16 e 7
-			seta = 1-(0.0166*minuto);//deixando indepedente do minuto virtual, caso de saltos de alguns minutos continua certo. Porém se saltar mais de uma hora vai da pau!!!
-			next_sky_stage->set_color(LVecBase4f(0, 0, 0, seta));
-		}
-
-	}
-	else{//caso o dia não seja chuvoso chama normalmente
-
-		seta = 1-(0.0166*minuto);//deixando indepedente do minuto virtual, caso de saltos de alguns minutos continua certo. Porém se saltar mais de uma hora vai da pau!!!
-		next_sky_stage->set_color(LVecBase4f(0, 0, 0, seta));
-
-	}
+    }
 
 
 
