@@ -106,7 +106,7 @@ NodePath(Simdunas::get_window()->load_model(Simdunas::get_window()->get_render()
 	x = 0;
 	y = 0;
 
-	sol = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), "models/smiley");
+	sol = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), "models/sun");
 	sol.set_scale(10, 10, 10);
 	sol.set_pos(x, y, z);
 	sol.hide();
