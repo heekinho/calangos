@@ -9,7 +9,7 @@
 #include "fontPool.h"
 #include "eventQueue.h"
 
-# define MINUTO_DIA_VIRTUAL 3  //valor default (se mudar mude só aqui)
+
 
 
 
@@ -210,16 +210,16 @@ void  Menu::informa_segundos(string aviso){
 
 }
 
-void Menu::event_clik(const Event*,void *data){
-    Menu * men=(Menu*)data;
+void Menu::event_clik(const Event*, void *data) {
+    Menu * men = (Menu*) data;
 
-	men->botao_iniciar->set_active(false);
+    men->botao_iniciar->set_active(false);
     men->remove_tela_menu();
-	if(men->minuto_dia_virtual==0){
-		men->minuto_dia_virtual=3;
-	}
-   
-    men->rodar=true;
+            if (men->minuto_dia_virtual == 0) {
+                men->minuto_dia_virtual = TimeControl::virtualTime;
+            }
+
+    men->rodar = true;
 
 }
 
@@ -308,7 +308,7 @@ void Menu::configure(const Event*,void *data){
                           Simdunas::get_evt_handler()->add_hook(config->botao_mais->get_click_event(MouseButton::one()),direita,config);
 
                           ////////o default será três? minutos então ja começa como se tivesse dado três clicks no +
-						  for(int i=0; i<MINUTO_DIA_VIRTUAL;i++){
+						  for(int i=0; i<TimeControl::virtualTime;i++){
 //                            const Event *ev_direita = new Event(config->botao_mais->get_click_event(MouseButton::one()));
 //                            Simdunas::get_evt_queue()->queue_event(ev_direita);
                                        //  cout<<"Minuto dia virtual: "<<config->minuto_dia_virtual<<endl;
@@ -447,30 +447,30 @@ void Menu::eurolophosaurus_funcao(const Event*, void* data){
 
 }
 
-void Menu::cnemidophorus_funcao(const Event*, void* data){
-     Menu * c=(Menu*)data;
+void Menu::cnemidophorus_funcao(const Event*, void* data) {
+    Menu * c = (Menu*) data;
 
-   
-     c->marcador.set_pos(4.0,0.0,-7.2);//movendo o marcador
 
-      switch (especie){
+    c->marcador.set_pos(4.0, 0.0, -7.2); //movendo o marcador
 
-        case Player::tropidurus:
-            c->tropidurus.hide();
+    switch (especie) {
+
+        case Player::tropidurus :
+                    c->tropidurus.hide();
             break;
 
 
-        case Player::eurolophosaurus:
-            c->eurolophosasurus.hide();
+        case Player::eurolophosaurus :
+                    c->eurolophosasurus.hide();
             break;
 
-         default:
+        default:
             break;
     }
 
-     especie=Player::cnemidophorus;
-     c->cnemidophorus.show();
-     
+    especie = Player::cnemidophorus;
+    c->cnemidophorus.show();
+
 
 }
 void Menu::slide(const Event*, void* data){
@@ -479,9 +479,9 @@ Menu * slide=(Menu*)data;
 	  slide->minuto_dia_virtual=(int)slide->slid->get_value();
 	  ostringstream letra;//convertendo float em string
 	  letra<<slide->minuto_dia_virtual;
-      std::string st(letra.str());
+          std::string st(letra.str());
     
-      Menu::informa_segundos(st);
+          Menu::informa_segundos(st);
 
 /*cout<<"Chamou Slide"<<endl;
 cout<<"Valor :"<<(int)slide->slid->get_value()<<endl;
@@ -489,28 +489,29 @@ cout<<"Valor Minuto_dia_Virtual Slide:"<<slide->minuto_dia_virtual<<endl;*/
 
 
 }
-void Menu::direita(const Event*, void* data){
 
-     Menu * d=(Menu*)data;
+void Menu::direita(const Event*, void* data) {
 
-     if(d->minuto_dia_virtual<60){
-		d->minuto_dia_virtual++;
-		 
-     ostringstream letra;//convertendo float em string
-	 
-	 
-	 //TimeControl::virtualTime = d->minuto_dia_virtual;
+    Menu * d = (Menu*) data;
 
-	 letra<<d->minuto_dia_virtual;
-     std::string st(letra.str());
-    
-     Menu::informa_segundos(st);
+    if (d->minuto_dia_virtual < 60) {
+        d->minuto_dia_virtual++;
 
-	    /*cout<<"Valor :"<<(int)d->slid->get_value()<<endl;
-		cout<<"Valor Minuto_dia_Virtual Direita:"<<d->minuto_dia_virtual<<endl;*/
-	 
-		d->slid->set_value(d->minuto_dia_virtual);
-     }
+        ostringstream letra; //convertendo float em string
+
+
+        //TimeControl::virtualTime = d->minuto_dia_virtual;
+
+        letra << d->minuto_dia_virtual;
+        std::string st(letra.str());
+
+        Menu::informa_segundos(st);
+
+        /*cout<<"Valor :"<<(int)d->slid->get_value()<<endl;
+            cout<<"Valor Minuto_dia_Virtual Direita:"<<d->minuto_dia_virtual<<endl;*/
+
+        d->slid->set_value(d->minuto_dia_virtual);
+    }
 
 }
 void Menu::esquerda(const Event*, void* data){
