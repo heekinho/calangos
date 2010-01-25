@@ -220,6 +220,21 @@ void PlayerControl::move(float velocity){
 /*! Efetua acao de comer. Verifica se tem algum npc em volta e come */
 void PlayerControl::eat(const Event*, void *data){
 	PlayerControl* this_control = (PlayerControl*) data;
+	PT(Player) player = Player::get_instance();
+
+	/* Falha na ação comer por baixa temperatura */
+	bool eat_fail = false;
+
+	int range = (int) (player->get_temp_interna_ideal() - player->get_temp_interna_minlimite());
+	int sorteio = rand()%range + player->get_temp_interna_minlimite();
+
+	if(sorteio > player->get_temp_interna()) {
+		nout << "Temperatura baixa - falha na ação de comer..." << endl;
+		eat_fail = true;
+		return;
+	}
+	/* ----------------------------------------- */
+
 
 	/* Verifica a posição do mouse... Se estiver sobre a interface não executa a ação de comer */
 	MouseWatcher *mwatcher = DCAST(MouseWatcher, Simdunas::get_window()->get_mouse().node());
@@ -230,7 +245,7 @@ void PlayerControl::eat(const Event*, void *data){
 		int direction_eat_thr = 45;
 
 		/* Obtem uma referencia do player e obtem ser "versor y" */
-		PT(Player) player = Player::get_instance();
+
 		LVector3f player_y_versor = player->get_net_transform()->get_mat().get_row3(1);
 		player_y_versor.normalize(); //Transformando em versor.
 		//nout << "Player: " << player->get_pos() << endl;
@@ -258,6 +273,7 @@ void PlayerControl::eat(const Event*, void *data){
 				if( player_to_npc.angle_deg(player_y_versor) < direction_eat_thr){
 					nout << player_to_npc.angle_deg(player_y_versor) << endl;
 
+
 					//pisca life indicando que obteve sucesso!!
 					GuiManager::get_instance()->piscar_life();
 
@@ -275,6 +291,7 @@ void PlayerControl::eat(const Event*, void *data){
 					Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, eating, (void *) mydata);
 
 					eatsuccess = true;
+
 				}
 			}
 		}
@@ -298,54 +315,11 @@ void PlayerControl::eat(const Event*, void *data){
 					//destruir fruto
 					sector_edible_vegetals->at(i) = NULL;
 					sector_edible_vegetals->erase(sector_edible_vegetals->begin()+i);
-
-					//TODO: FAZER VERIFICAÇÃO DO ANGULO
-					/* Normaliza o vetor para trabalhar com versores corretamente */
-					//player_to_npc.normalize();
-
-					/* //Verifica se o angulo esta dentro do limiar estabelecido
-					if( player_to_npc.angle_deg(player_y_versor) < direction_eat_thr){
-						nout << player_to_npc.angle_deg(player_y_versor) << endl;
-						//pisca life indicando que obteve sucesso!!
-						GuiManager::get_instance()->piscar_life();
-
-
-						Player::get_instance()->eat(npc);
-						nout << "Saude: " << Player::get_instance()->get_energia() << endl;
-						nout << "Hidratação: " << Player::get_instance()->get_hidratacao() << endl;
-
-						npc->hide();
-						sector_edible_vegetals->at(i) = NULL;
-						sector_edible_vegetals->erase(sector_edible_vegetals->begin()+i);
-
-						//npc->set_valor_nutricional(0);
-						//npc->set_valor_hidratacao(0);
-
-						LVecBase2f *mydata = new LVecBase2f(i, player->get_setor()->get_indice());
-						//TimeControl::get_instance()->notify_after_n_frames(40, really_eat, (void*) mydata);
-
-						this_control->last_eating_frame = 0;
-						Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, eating, (void *) mydata);
-
-						eatsuccess = true;
-					}*/
 				}
 
 
+				/* Morder outro lagarto */
 				if(!eatsuccess){
-//					vector<PT(EdibleVegetal)> *sector_edible_vegetals = player->get_setor()->get_edible_vegetals();
-//					for (int i = 0; i < sector_edible_vegetals->size(); i++) {
-//						PT(EdibleVegetal) npc = sector_edible_vegetals->at(i);
-//						LVector3f player_to_npc = player->get_pos() - npc->get_pos();
-//
-//						/* Obt�m a dist�ncia "real" do player ao npc e verifica se est� dentro do limiar */
-//						if ( player_to_npc.length() < dist_eat_thr ) {
-//							npc->hide();
-//							Player::get_instance()->eat(npc);
-//							nout << "Saude: " << Player::get_instance()->get_energia() << endl;
-//							nout << "Hidratação: " << Player::get_instance()->get_hidratacao() << endl;
-//						}
-//					}
 					vector<PT(Lizard)>* lizards = player->get_setor()->get_lizards();
 					for(int i = 0; i < lizards->size(); i++){
 						Lizard* lizard = lizards->at(i);
@@ -360,6 +334,7 @@ void PlayerControl::eat(const Event*, void *data){
 						}
 					}
 				}
+
 			}
 		}
 
@@ -373,6 +348,8 @@ void PlayerControl::eat(const Event*, void *data){
 			/* Se for uma mordida sem sucesso: -0.1 de energia */
 			if(!eatsuccess) Player::get_instance()->add_energia_alimento(-0.1);
 		}
+
+
 	}
 }
 
@@ -501,7 +478,7 @@ void PlayerControl::event_female_next(const Event *, void *data){
 
 		PlayerControl *player_control = (PlayerControl*) data;
 		vector<PT(Lizard)> *sector_lizards = Player::get_instance()->get_setor()->get_lizards();
-		
+
 
 		for (int i = 0; i < sector_lizards->size(); i++) {
 			PT(Lizard) npcf = sector_lizards->at(i);
@@ -514,7 +491,7 @@ void PlayerControl::event_female_next(const Event *, void *data){
 						npcm->fight();
 					}
 				}
-			}	
+			}
 		}
 	}
 }
