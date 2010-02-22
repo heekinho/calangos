@@ -1,6 +1,7 @@
 #include "vetores.h"
 
 #include <queue>
+#include <algorithm>
 
 bool Vetores::instanceFlag = false;
 Vetores* Vetores::singleVector = NULL;
@@ -18,61 +19,38 @@ Vetores::Vetores() {
 	//vectorTemperaturaLagarto = new queue<double>();
 }
 
-
 //Destrutor
 Vetores::~Vetores() {
 	instanceFlag = false;
 }
-
-
 
 /*! "Construtor" da classe Vetores na forma Singleton. Inicializa todas as
 
  * variáveis.
 
  * @return single Referencia para o Vetores recém-criado */
-
 Vetores* Vetores::get_instance() {
-
-	if(!instanceFlag) {
-
+    if (!instanceFlag) {
         singleVector = new Vetores();
-
         instanceFlag = true;
-
     }
-
     return singleVector;
-
 }
 
-void Vetores::unload_vetores(){
-	delete singleVector;
-	singleVector = NULL;
-	instanceFlag = false;
+void Vetores::unload_vetores() {
+    delete singleVector;
+    singleVector = NULL;
+    instanceFlag = false;
 }
-
 
 //VETOR DE TEMPERATURA DO LAGARTO--------------------------------------
-
-void Vetores::addElementVectorTemperaturaLagarto(double tempLagarto){
-
-
-
-	if(vectorTemperaturaLagarto.size() < 180){
-
-		vectorTemperaturaLagarto.push(tempLagarto);
-
-	}
-
-	else {
-
-		vectorTemperaturaLagarto.pop();
-
-		vectorTemperaturaLagarto.push(tempLagarto);
-
-	}
-
+void Vetores::addElementVectorTemperaturaLagarto(double tempLagarto) {
+    if (vectorTemperaturaLagarto.size() < 180) {
+        vectorTemperaturaLagarto.push(tempLagarto);
+    } else {
+        vectorTemperaturaLagarto.pop();
+        vectorTemperaturaLagarto.push(tempLagarto);
+    }
 }
 
 
@@ -483,62 +461,28 @@ queue<double> Vetores::getVectorGastoEnergeticoTotal(){
 
 }
 
+double Vetores::getLargestElement(queue<double> fila) {
+    queue<double> filaTemp(fila);
+    double maior = filaTemp.front();
+    int tamanhoFor = filaTemp.size();
 
-
-double Vetores::getLargestElementTemperaturaLagarto(){
-
-    queue<double> listaTemp = this->getVectorTemperaturaLagarto();
-
-    double maior = listaTemp.front();
-
-    int tamanhoFor = listaTemp.size();
-
-
-
-    for(int i = 1; i < tamanhoFor; i++){
-
-        if(listaTemp.front() > maior)
-
-            maior = listaTemp.front();
-
-        listaTemp.pop();
-
+    for (int i = 1; i < tamanhoFor; i++) {
+        if (filaTemp.front() > maior)
+            maior = filaTemp.front();
+        filaTemp.pop();
     }
-
-
-
     return maior;
-
 }
 
+double Vetores::getSmallestElement(queue<double> fila) {
+    queue<double> filaTemp(fila);
+    double menor = filaTemp.front();
+    int tamanhoFor = filaTemp.size();
 
-
-double Vetores::getSmallestElementTemperaturaLagarto(){
-
-    queue<double> listaTemp = this->getVectorTemperaturaLagarto();
-
-    double menor = listaTemp.front();
-
-    int tamanhoFor = listaTemp.size();
-
-
-
-    //cout << "Tamanho da lista: " << listaTemp.size() << " tamanhoFor: " << tamanhoFor << endl;
-
-    for(int i = 0; i < tamanhoFor; i++){
-
-        //cout << "Lista = " << listaTemp.front() << " Menor = " << menor << " i = " << i << endl;
-
-        if(listaTemp.front() < menor)
-
-            menor = listaTemp.front();
-
-        listaTemp.pop();
-
+    for (int i = 0; i < tamanhoFor; i++) {
+        if (filaTemp.front() < menor)
+            menor = filaTemp.front();
+        filaTemp.pop();
     }
-
-
-
     return menor;
-
 }

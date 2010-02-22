@@ -1308,7 +1308,7 @@ void GuiManager::esconde_graficos() {
 }
 
 void GuiManager::novo_grafico1_TempInterna() {
-    graphic = new Graphics(&(optionFrameNode), vector->getVectorTempo(), vector->getVectorTemperaturaLagarto(), 0, 0, 55, 15, true);
+    graphic = new Graphics(&(optionFrameNode), vector->getVectorTempo(), vector->getVectorTemperaturaLagarto(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaLagarto()), vector->getSmallestElement(vector->getVectorTemperaturaLagarto()), true);
     graphic->set_Position_Graphic(0.4, 1.0);
     graphic->set_scale(0.86);
     graphic->set_Titulo_Grafico("Temperatura Interna");
@@ -1323,12 +1323,12 @@ void GuiManager::novo_grafico2_Hidratacao(){
     graphic2->set_scale(0.86);
     graphic2->set_Titulo_Grafico("Hidratacao do lagarto");
     graphic2->set_Titulo_EixoX("Tempo (h)");
-    graphic2->set_Titulo_EixoY("Hidratacao");
+    graphic2->set_Titulo_EixoY("Hidratacao (%)");
     graphic2->create_Graphic(vector->getSizeVectorTempo(), vector->getSizeVectorHidratacaoLagarto());
 }
 
 void GuiManager::novo_grafico3_TempAr() {
-    graphic3 = new Graphics(&(optionFrameNode), vector->getVectorTempo(), vector->getVectorTemperaturaAr(), 0, 0, 45, 9, true);
+    graphic3 = new Graphics(&(optionFrameNode), vector->getVectorTempo(), vector->getVectorTemperaturaAr(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaAr()), vector->getSmallestElement(vector->getVectorTemperaturaAr()), true);
     graphic3->set_Position_Graphic(0.4, 1.0);
     graphic3->set_scale(0.86);
     graphic3->set_Titulo_Grafico("Temperatura do ar.");
@@ -1348,7 +1348,7 @@ void GuiManager::novo_grafico4_Umidade() {
 }
 
 void GuiManager::novo_grafico5_TempSolo(){
-    graphic5 = new Graphics(&(optionFrameNode), vector->getVectorTempo(), vector->getVectorTemperaturaSolo(), 0, 0, 70, 8, true);
+    graphic5 = new Graphics(&(optionFrameNode), vector->getVectorTempo(), vector->getVectorTemperaturaSolo(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaSolo()), vector->getSmallestElement(vector->getVectorTemperaturaSolo()), true);
     graphic5->set_Position_Graphic(0.4, 1.0);
     graphic5->set_scale(0.86);
     graphic5->set_Titulo_Grafico("Temperatura do Solo");

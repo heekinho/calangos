@@ -176,19 +176,19 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
             }
         }
     }
-    escalaY = ((100 * 0.0063) / limiteSuperiorY);
+    escalaY = (0.63) / (limiteSuperiorY - limiteInferiorY);
     
     if (tamanhoVetorY > 0) {
         posicaoY = vetorY.front();
         vetorY.pop();
-        if (posicaoY > limiteSuperiorY) {
-            posicaoY = limiteSuperiorY;
-        }
-        if (posicaoY < limiteInferiorY) {
-            posicaoY = limiteInferiorY;
-        }
+//        if (posicaoY > limiteSuperiorY) {
+//            posicaoY = limiteSuperiorY;
+//        }
+//        if (posicaoY < limiteInferiorY) {
+//            posicaoY = limiteInferiorY;
+//        }
         linha_grafico->reset();
-        linha_grafico->move_to((posicaoX * escalaX), 0.0, (posicaoY * escalaY));
+        linha_grafico->move_to((posicaoX * escalaX), 0.0, ((posicaoY - limiteInferiorY) * escalaY));
         //linha_grafico->create(false);
     }
 
@@ -259,12 +259,12 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
         for (int i = 1; i < tamanhoVetorX; i++) {
             posicaoY = vetorY.front();
             vetorY.pop();
-            if (posicaoY > limiteSuperiorY) {
-                posicaoY = limiteSuperiorY;
-            }
-            if (posicaoY < limiteInferiorY) {
-                posicaoY = limiteInferiorY;
-            }
+//            if (posicaoY > limiteSuperiorY) {
+//                posicaoY = limiteSuperiorY;
+//            }
+//            if (posicaoY < limiteInferiorY) {
+//                posicaoY = limiteInferiorY;
+//            }
 
 //            if(DEBUG){
 //                cout << " Tipo = " << tipoTempo << endl;
@@ -275,7 +275,7 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
 //                    cout << "\n Entrou no grafico de tempo: " << tipoTempo << endl;
 //                }
                 posicaoX = posicaoX + escalaX;
-                linha_grafico->draw_to(posicaoX, 0.0, (posicaoY * escalaY));
+                linha_grafico->draw_to(posicaoX, 0.0, ((posicaoY - limiteInferiorY) * escalaY));
             } else {
 //                if (DEBUG) {
 //                    cout << "\n Entrou no grafico de variavel: " << tipoTempo << endl;
@@ -439,9 +439,15 @@ void Graphics::desenha_marcacao_eixoX(){
 
 void Graphics::desenha_marcacao_eixoY() {
 
-    unidade_marcacaoY = ((100 * 0.0063) / limiteSuperiorY);
-    posicao_marcacaoY5 = (limiteSuperiorY * unidade_marcacaoY) + 0.15;
-    posicao_marcacaoY1 = (limiteInferiorY * unidade_marcacaoY) + 0.15;
+//    unidade_marcacaoY = ((100 * 0.0063) / limiteSuperiorY);
+//    posicao_marcacaoY5 = (limiteSuperiorY * unidade_marcacaoY) + 0.15;
+//    posicao_marcacaoY1 = (limiteInferiorY * unidade_marcacaoY) + 0.15;
+//    posicao_marcacaoY2 = ((posicao_marcacaoY5 - posicao_marcacaoY1) / 4) + posicao_marcacaoY1;
+//    posicao_marcacaoY3 = (2 * (posicao_marcacaoY5 - posicao_marcacaoY1) / 4) + posicao_marcacaoY1;
+//    posicao_marcacaoY4 = (3 * (posicao_marcacaoY5 - posicao_marcacaoY1) / 4) + posicao_marcacaoY1;
+    unidade_marcacaoY = 0.0063;
+    posicao_marcacaoY5 = (100 * unidade_marcacaoY) + 0.15;
+    posicao_marcacaoY1 = (0 * unidade_marcacaoY) + 0.15;
     posicao_marcacaoY2 = ((posicao_marcacaoY5 - posicao_marcacaoY1) / 4) + posicao_marcacaoY1;
     posicao_marcacaoY3 = (2 * (posicao_marcacaoY5 - posicao_marcacaoY1) / 4) + posicao_marcacaoY1;
     posicao_marcacaoY4 = (3 * (posicao_marcacaoY5 - posicao_marcacaoY1) / 4) + posicao_marcacaoY1;
