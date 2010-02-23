@@ -999,10 +999,10 @@ GuiManager::GuiManager() {
         vetorY = vector->getVectorTemperaturaAr();
         legendaX = (string) "Temp do ar";
         legendaY = (string) "Temp do ar";
-        limiteSuperiorX = 45;
-        limiteInferiorX = 9;
-        limiteSuperiorY = 45;
-        limiteInferiorY = 9;
+        limiteSuperiorX = vector->getLargestElement(vetorX);//45;
+        limiteInferiorX = vector->getSmallestElement(vetorX);//9;
+        limiteSuperiorY = vector->getLargestElement(vetorY);//45;
+        limiteInferiorY = vector->getSmallestElement(vetorX);//9;
         tamanhoVetorX = vector->getSizeVectorTemperaturaAr();
         tamanhoVetorY = vector->getSizeVectorTemperaturaAr();
 
@@ -1358,7 +1358,7 @@ void GuiManager::novo_grafico5_TempSolo(){
 }
 
 void GuiManager::novo_grafico6_Alimentacao(){
-    graphic6 = new Graphics(&(optionFrameNode), vector->getVectorTempo(), vector->getVectorAlimentacao(), 0, 0, 5, 0, true);
+    graphic6 = new Graphics(&(optionFrameNode), vector->getVectorTempo(), vector->getVectorAlimentacao(), 0, 0, vector->getLargestElement(vector->getVectorAlimentacao()), vector->getSmallestElement(vector->getVectorAlimentacao()), true);
     graphic6->set_Position_Graphic(0.4, 1.0);
     graphic6->set_scale(0.86);
     graphic6->set_Titulo_Grafico("Alimentacao");
@@ -1379,7 +1379,7 @@ void GuiManager::novo_grafico7_Energia(){
 }
 
 void GuiManager::novo_grafico8_GastoEnergetico(){
-    graphic8 = new Graphics(&(optionFrameNode), vector->getVectorTempo(), vector->getVectorGastoEnergeticoTotal(), 0, 0, 0.4, 0, true);
+    graphic8 = new Graphics(&(optionFrameNode), vector->getVectorTempo(), vector->getVectorGastoEnergeticoTotal(), 0, 0, vector->getLargestElement(vector->getVectorGastoEnergeticoTotal()), vector->getSmallestElement(vector->getVectorGastoEnergeticoTotal()), true);
     graphic8->set_Position_Graphic(0.4, 1.0);
     graphic8->set_scale(0.86);
     graphic8->set_Titulo_Grafico("Gasto energetico");
@@ -1568,6 +1568,10 @@ void GuiManager::click_event_botao_grafico_variavel(const Event*, void* data) {
         vetorY = this_guiManager->vector->getVectorTemperaturaAr();
         tamanhoVetorX = this_guiManager->vector->getSizeVectorTemperaturaAr();
         tamanhoVetorY = this_guiManager->vector->getSizeVectorTemperaturaAr();
+        limiteSuperiorX = this_guiManager->vector->getLargestElement(vetorX);
+        limiteInferiorX = this_guiManager->vector->getSmallestElement(vetorX);
+        limiteSuperiorY = this_guiManager->vector->getLargestElement(vetorY);
+        limiteInferiorY = this_guiManager->vector->getSmallestElement(vetorX);
         this_guiManager->graphicVariavel = new Graphics(&(this_guiManager->optionFrameNode), vetorX, vetorY, limiteSuperiorX, limiteInferiorX, limiteSuperiorY, limiteInferiorY, false);
         this_guiManager->graphicVariavel->set_Position_Graphic(0.2, 0.6);
         this_guiManager->graphicVariavel->set_scale(1.2);
@@ -1737,10 +1741,10 @@ void GuiManager::click_event_botao1_grafico_TempInterna(const Event*, void *data
         botao1TempInterna_ledOFF.hide();
         botao1TempInterna_ledON.show();
         vetorY = this_guiManager->vector->getVectorTemperaturaLagarto();
-        tamanhoVetorY = this_guiManager->vector->getSizeVectorTemperaturaSolo();
+        tamanhoVetorY = this_guiManager->vector->getSizeVectorTemperaturaLagarto();
         legendaY = (string) "Temp interna";
-        limiteInferiorY = 15;
-        limiteSuperiorY = 55;
+        limiteInferiorY = this_guiManager->vector->getSmallestElement(vetorY);
+        limiteSuperiorY = this_guiManager->vector->getLargestElement(vetorY);
         this_guiManager->graphicVariavel = new Graphics(&(this_guiManager->optionFrameNode), vetorX, vetorY, limiteSuperiorX, limiteInferiorX, limiteSuperiorY, limiteInferiorY, false);
         this_guiManager->graphicVariavel->set_Position_Graphic(0.2, 0.6);
         this_guiManager->graphicVariavel->set_scale(1.2);
@@ -1853,8 +1857,8 @@ void GuiManager::click_event_botao3_grafico_TempAr(const Event*, void* data) {
         vetorY = this_guiManager->vector->getVectorTemperaturaAr();
         tamanhoVetorY = this_guiManager->vector->getSizeVectorTemperaturaAr();
         legendaY = (string) "Temp do ar";
-        limiteInferiorY = 9;
-        limiteSuperiorY = 45;
+        limiteInferiorY = this_guiManager->vector->getSmallestElement(vetorY);//9;
+        limiteSuperiorY = this_guiManager->vector->getLargestElement(vetorY);//45;
         this_guiManager->graphicVariavel = new Graphics(&(this_guiManager->optionFrameNode), vetorX, vetorY, limiteSuperiorX, limiteInferiorX, limiteSuperiorY, limiteInferiorY, false);
         this_guiManager->graphicVariavel->set_Position_Graphic(0.2, 0.6);
         this_guiManager->graphicVariavel->set_scale(1.2);
@@ -2154,8 +2158,8 @@ void GuiManager::click_event_vBotao1_grafico_TempInterna(const Event*, void *dat
     vetorX = this_guiManager->vector->getVectorTemperaturaLagarto();
     tamanhoVetorX = this_guiManager->vector->getSizeVectorTemperaturaSolo();
     legendaX = (string) "Temp interna";
-    limiteInferiorX = 15;
-    limiteSuperiorX = 55;
+    limiteInferiorX = this_guiManager->vector->getSmallestElement(vetorX);
+    limiteSuperiorX = this_guiManager->vector->getLargestElement(vetorX);
     this_guiManager->graphicVariavel = new Graphics(&(this_guiManager->optionFrameNode), vetorX, vetorY, limiteSuperiorX, limiteInferiorX, limiteSuperiorY, limiteInferiorY, false);
     this_guiManager->graphicVariavel->set_Position_Graphic(0.2, 0.6);
     this_guiManager->graphicVariavel->set_scale(1.2);
@@ -2196,8 +2200,8 @@ void GuiManager::click_event_vBotao3_grafico_TempAr(const Event*, void* data) {
     vetorX = this_guiManager->vector->getVectorTemperaturaAr();
     tamanhoVetorX = this_guiManager->vector->getSizeVectorTemperaturaAr();
     legendaX = (string) "Temp do ar";
-    limiteInferiorX = 9;
-    limiteSuperiorX = 45;
+    limiteInferiorX = this_guiManager->vector->getSmallestElement(vetorX);//9;
+    limiteSuperiorX = this_guiManager->vector->getLargestElement(vetorX);//45;
     this_guiManager->graphicVariavel = new Graphics(&(this_guiManager->optionFrameNode), vetorX, vetorY, limiteSuperiorX, limiteInferiorX, limiteSuperiorY, limiteInferiorY, false);
     this_guiManager->graphicVariavel->set_Position_Graphic(0.2, 0.6);
     this_guiManager->graphicVariavel->set_scale(1.2);
@@ -2238,8 +2242,8 @@ void GuiManager::click_event_vBotao5_grafico_TempSolo(const Event*, void* data) 
     vetorX = this_guiManager->vector->getVectorTemperaturaSolo();
     tamanhoVetorX = this_guiManager->vector->getSizeVectorTemperaturaSolo();
     legendaX = (string) "Temp do solo";
-    limiteInferiorX = 8;
-    limiteSuperiorX = 70;
+    limiteInferiorX = this_guiManager->vector->getSmallestElement(vetorX);
+    limiteSuperiorX = this_guiManager->vector->getLargestElement(vetorX);
     this_guiManager->graphicVariavel = new Graphics(&(this_guiManager->optionFrameNode), vetorX, vetorY, limiteSuperiorX, limiteInferiorX, limiteSuperiorY, limiteInferiorY, false);
     this_guiManager->graphicVariavel->set_Position_Graphic(0.2, 0.6);
     this_guiManager->graphicVariavel->set_scale(1.2);

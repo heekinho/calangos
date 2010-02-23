@@ -165,7 +165,7 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
         posicaoX = 0;
     } else {
         if (tamanhoVetorX > 0) {
-            escalaX = ((100 * 0.0063) / limiteSuperiorX);
+            escalaX = (0.63) / (limiteSuperiorX - limiteInferiorX);//((100 * 0.0063) / limiteSuperiorX);
             posicaoX = vetorX.front();
             vetorX.pop();
             if (posicaoX > limiteSuperiorX){
@@ -188,11 +188,15 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
 //            posicaoY = limiteInferiorY;
 //        }
         linha_grafico->reset();
-        linha_grafico->move_to((posicaoX * escalaX), 0.0, ((posicaoY - limiteInferiorY) * escalaY));
+        if (tipoTempo) {
+            linha_grafico->move_to((posicaoX * escalaX), 0.0, ((posicaoY - limiteInferiorY) * escalaY));
+        } else {
+            linha_grafico->move_to(((posicaoX - limiteInferiorX) * escalaX), 0.0, ((posicaoY - limiteInferiorY) * escalaY));
+        }
         //linha_grafico->create(false);
     }
 
-    queue<double> listaTemp = this->vetorX;
+    queue<double> listaTemp (this->vetorX);
     double maior = listaTemp.front();
     int tamanhoFor = listaTemp.size();
 
@@ -288,11 +292,11 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
                 if (posicaoX < limiteInferiorX) {
                     posicaoX = limiteInferiorX;
                 }
-                linha_grafico->move_to(((posicaoX * escalaX) + 0.005), 0.0, (posicaoY * escalaY));
-                linha_grafico->draw_to(((posicaoX * escalaX) - 0.01), 0.0, (posicaoY * escalaY));
+                linha_grafico->move_to((((posicaoX - limiteInferiorX) * escalaX) + 0.005), 0.0, ((posicaoY - limiteInferiorY) * escalaY));
+                linha_grafico->draw_to((((posicaoX - limiteInferiorX) * escalaX) - 0.01), 0.0, ((posicaoY - limiteInferiorY) * escalaY));
                 //linha_grafico->draw_to((posicaoX * escalaX), 0.0, (posicaoY * escalaY));
-                linha_grafico->move_to((posicaoX * escalaX), 0.0, (posicaoY * escalaY) + 0.008);
-                linha_grafico->draw_to((posicaoX * escalaX), 0.0, ((posicaoY * escalaY) - 0.016));
+                linha_grafico->move_to(((posicaoX - limiteInferiorX) * escalaX), 0.0, ((posicaoY - limiteInferiorY) * escalaY) + 0.008);
+                linha_grafico->draw_to(((posicaoX - limiteInferiorX) * escalaX), 0.0, (((posicaoY - limiteInferiorY) * escalaY) - 0.016));
                 //linha_grafico->draw_to((posicaoX * escalaX), 0.0, ((posicaoY * escalaY) + 0.010));
                 //linha_grafico->draw_to((posicaoX * escalaX), 0.0, ((posicaoY * escalaY) - 0.005));
             }
@@ -357,9 +361,15 @@ void Graphics::desenha_marcacao_eixoX(){
         posicao_marcacaoX4 = 0.654;
         posicao_marcacaoX5 = 0.780;
     } else {
-        unidade_marcacaoX = ((100 * 0.0063) / limiteSuperiorX);
-        posicao_marcacaoX5 = (limiteSuperiorX * unidade_marcacaoX) + 0.15;
-        posicao_marcacaoX1 = (limiteInferiorX * unidade_marcacaoX) + 0.15;
+        //        unidade_marcacaoX = ((100 * 0.0063) / limiteSuperiorX);
+        //        posicao_marcacaoX5 = (limiteSuperiorX * unidade_marcacaoX) + 0.15;
+        //        posicao_marcacaoX1 = (limiteInferiorX * unidade_marcacaoX) + 0.15;
+        //        posicao_marcacaoX2 = ((posicao_marcacaoX5 - posicao_marcacaoX1) / 4) + posicao_marcacaoX1;
+        //        posicao_marcacaoX3 = (2 * (posicao_marcacaoX5 - posicao_marcacaoX1) / 4) + posicao_marcacaoX1;
+        //        posicao_marcacaoX4 = (3 * (posicao_marcacaoX5 - posicao_marcacaoX1) / 4) + posicao_marcacaoX1;
+        unidade_marcacaoX = 0.0063;
+        posicao_marcacaoX5 = (100 * unidade_marcacaoX) + 0.15;
+        posicao_marcacaoX1 = (0 * unidade_marcacaoX) + 0.15;
         posicao_marcacaoX2 = ((posicao_marcacaoX5 - posicao_marcacaoX1) / 4) + posicao_marcacaoX1;
         posicao_marcacaoX3 = (2 * (posicao_marcacaoX5 - posicao_marcacaoX1) / 4) + posicao_marcacaoX1;
         posicao_marcacaoX4 = (3 * (posicao_marcacaoX5 - posicao_marcacaoX1) / 4) + posicao_marcacaoX1;
