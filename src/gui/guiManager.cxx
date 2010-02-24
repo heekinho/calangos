@@ -548,6 +548,8 @@ GuiManager::GuiManager() {
         botaoEscolhaGraficoTempo_image_ativo.set_pos(0.28, 0.0, 1.82);
         botaoEscolhaGraficoTempo_image_ativo.hide();
 
+		
+
         //BOTAO PARA VER OS GRAFICOS DE VARIAVEL.
         botaoEscolhaGraficoVariavel = new PGButton("botaoGraficoEscolhaTempo");
         botaoEscolhaGraficoVariavel->setup("Variavel", 0.1);
@@ -782,11 +784,12 @@ GuiManager::GuiManager() {
         botao8GastoEnergetico->setup(botao8GastoEnergetico_image);
         botao8GastoEnergetico->set_frame(-1.3 , 1.3 , -2.8, 2.8);
         botao8Flag = false;
+
         //------------------
 
         this->build_options();
-	gui_options_flag = false;
-	gui_options_flag2 = false;
+		gui_options_flag = false;
+		gui_options_flag2 = false;
 
         //------------
         vBotao1TempInterna = new PGButton("Botao_temperatura_interna");
@@ -997,12 +1000,16 @@ GuiManager::GuiManager() {
 
         vetorX = vector->getVectorTemperaturaAr();
         vetorY = vector->getVectorTemperaturaAr();
+
         legendaX = (string) "Temp do ar";
         legendaY = (string) "Temp do ar";
         limiteSuperiorX = vector->getLargestElement(vetorX);//45;
+		vetorX = vector->getVectorTemperaturaAr();
         limiteInferiorX = vector->getSmallestElement(vetorX);//9;
+
         limiteSuperiorY = vector->getLargestElement(vetorY);//45;
-        limiteInferiorY = vector->getSmallestElement(vetorX);//9;
+		vetorY = vector->getVectorTemperaturaAr();
+        limiteInferiorY = vector->getSmallestElement(vetorY);//9;
         tamanhoVetorX = vector->getSizeVectorTemperaturaAr();
         tamanhoVetorY = vector->getSizeVectorTemperaturaAr();
 
@@ -1034,7 +1041,7 @@ GuiManager::GuiManager() {
         Simdunas::get_evt_handler()->add_hook(vBotao6Alimentacao->get_click_event(MouseButton::one()), click_event_vBotao6_grafico_Alimentacao, this);
         Simdunas::get_evt_handler()->add_hook(vBotao7Energia->get_click_event(MouseButton::one()), click_event_vBotao7_grafico_Energia,this);
         Simdunas::get_evt_handler()->add_hook(vBotao8GastoEnergetico->get_click_event(MouseButton::one()), click_event_vBotao8_grafico_GastoEnergetico,this);
-
+		cout<<"teste4" << endl;
 }
 
 void GuiManager::notifyGameOver() {

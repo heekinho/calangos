@@ -462,6 +462,9 @@ queue<double> Vetores::getVectorGastoEnergeticoTotal(){
 }
 
 double Vetores::getLargestElement(queue<double> fila) {
+	if(fila.size() == 0){
+		return 0;
+	}
     queue<double> filaTemp(fila);
     double maior = filaTemp.front();
     int tamanhoFor = filaTemp.size();
@@ -475,6 +478,9 @@ double Vetores::getLargestElement(queue<double> fila) {
 }
 
 double Vetores::getSmallestElement(queue<double> fila) {
+	if(fila.size() == 0){
+		return 0;
+	}
     queue<double> filaTemp(fila);
     double menor = filaTemp.front();
     int tamanhoFor = filaTemp.size();
