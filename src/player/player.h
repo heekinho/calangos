@@ -74,7 +74,8 @@ public:
 	int get_num_dias();
 	int get_idade();
 	float get_soma_energia_dia();
-	float get_tamanho() {return tamanho_lagarto_base;};
+	float get_tamanho_base();
+	float get_tamanho_real();
 	float get_taxa_crescimento();
 	float get_soma_media_energia_diaria();
 	float get_media_energia_mes();
@@ -123,7 +124,7 @@ public:
 	void set_toca_index(int toca_index);
 
 	//recebe o tamanho do lagarto que mordeu, e calcula um gasto de energia e hidrataçao proporcionalmente
-	void mordida_recebida(int tamanho_lagarto);
+	void mordida_recebida(int tamanho_lagarto_base);
 
 	/* BEGIN OF WORKAROUND */
 	/* RECEBA ESSE GANCHO NA BOCA DO ESTÔMAGO */
@@ -141,6 +142,9 @@ public:
 	static Player::lizardGender lizard_gender;
 
 	void add_ovos();
+
+	//Recebe o tamanho real e retorna em uma escala de 0 a 100
+	float calc_tamanho_base(float tamanho_real);
 
 private:
 	/* Controle Singleton */

@@ -29,8 +29,11 @@ public:
 	LizardGender::lizardGender get_gender(){ return gender; };
 	void set_gender(LizardGender::lizardGender gender){ this->gender = gender; };
 
-	float get_tamanho(){ return tamanho; };
-	void set_tamanho(float tamanho){ this->tamanho = tamanho; };
+	float get_tamanho_base();
+	float get_tamanho_real();
+
+	void set_tamanho_base(float novo_tamanho_base);//(float tamanho){ this->tamanho = tamanho; };
+	void set_tamanho_real(float novo_tamanho_real);
 
 	float get_energia(){ return energia; };
 	void set_energia(float energia){ this->energia = energia; };
@@ -59,7 +62,8 @@ protected:
 	map<string, bool> actions;
 
 	LizardGender::lizardGender gender;
-	float tamanho;
+	float tamanho_real;
+	float tamanho_base;
 	float energia;
 	float scale_temp;
 	float scale;

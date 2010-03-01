@@ -54,8 +54,7 @@ void Lizard::load_lizards(){
 		LPoint3f point = World::get_default_world()->get_terrain()->get_random_point();
 
 		/* Pronto... para criar instancias separadas, sem instancing... */
-
-		
+	
 		PT(Lizard) lizard;
 		string gender_name;
 		int gender = rand()%3;
@@ -70,7 +69,9 @@ void Lizard::load_lizards(){
 			lizard->energia = ClimaTempo::get_instance()->random_normal(60, 20);
 			//0.0021 = 0.0025 - 0.0004 => tamanho máximo - tamanho mínimo
 			lizard->scale_temp = ((0.0021/100)* lizard->get_energia()) + 0.0004;
-			lizard->scale = ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.0001);
+			lizard->set_tamanho_real(ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.0001));
+			lizard->set_tamanho_base(Player::get_instance()->calc_tamanho_base(lizard->get_tamanho_real()));
+			//lizard->scale = ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.0001);
 		}
 		else if(gender == 1){
 			gender_name = "female";
@@ -81,7 +82,9 @@ void Lizard::load_lizards(){
 			lizard->energia = ClimaTempo::get_instance()->random_normal(60, 20);
 			//0.0021 = 0.0025 - 0.0004 => tamanho máximo - tamanho mínimo
 			lizard->scale_temp = ((0.0021/100)* lizard->get_energia()) + 0.0004;
-			lizard->scale = ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.0001);
+			lizard->set_tamanho_real(ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.0001));
+			lizard->set_tamanho_base(Player::get_instance()->calc_tamanho_base(lizard->get_tamanho_real()));
+			//lizard->scale = ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.0001);
 		}
 		else {
 			gender_name = "young";
@@ -94,12 +97,14 @@ void Lizard::load_lizards(){
 			lizard->energia = ClimaTempo::get_instance()->random_normal(10, 3);
 			//0.0021 = 0.0025 - 0.0004 => tamanho máximo - tamanho mínimo
 			lizard->scale_temp = ((0.0021/100)* lizard->get_energia()) + 0.0004;
-			lizard->scale = ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.00001);
+			lizard->set_tamanho_real(ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.0001));
+			lizard->set_tamanho_base(Player::get_instance()->calc_tamanho_base(lizard->get_tamanho_real()));
+			//lizard->scale = ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.00001);
 		}
 		
-		cout << "Scale: " << lizard->scale << endl;
+		cout << "Scale: " << lizard->tamanho_real << endl;
 		lizard->set_pos(point);
-		lizard->set_scale(lizard->scale);
+		lizard->set_scale(lizard->tamanho_real);
 		//lizard->set_scale(0.0003);
 		//lizard->set_hpr(180,0,0);
 
@@ -131,13 +136,27 @@ void Lizard::act(){
 //	else Animal::act();
 }
 
+float Lizard::get_tamanho_base(){
+	return this->tamanho_base;
+}
+
+float Lizard::get_tamanho_real(){
+	return this->tamanho_real;
+}
+
+void Lizard::set_tamanho_base(float novo_tamanho_base){
+	this->tamanho_base = novo_tamanho_base;
+}
+
+void Lizard::set_tamanho_real(float novo_tamanho_real){
+	this->tamanho_real = novo_tamanho_real;
+}
 
 /*! Aciona alguma ação */
 void Lizard::set_action(string action, bool turn_off_others){
 	if(turn_off_others) clear_actions();
 	actions[action] = true;
 }
-
 
 /*! Verifica se tem outra ação ativa além da própria action passada */
 bool Lizard::has_other_action_active(string action){

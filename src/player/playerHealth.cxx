@@ -342,6 +342,13 @@ void Player::calc_tamanho_lagarto_real(float media_energia_mensal){
 	this->equi_term_atual = this->equi_term-(this->equi_term*(this->tamanho_lagarto_base/100)*0.8);
 }
 
+float Player::calc_tamanho_base(float tamanho_real){
+	
+	float tamanho_base = 0;
+	tamanho_base = this->a_tamanho_lagarto_base*(tamanho_real-TAMANHO_INICIAL);
+	return tamanho_base;
+}
+
 /*!Atualiza os valores dos vetores utiliazados para geração dos gráfico*/
 void Player::atualiza_vector(){
 
@@ -498,6 +505,14 @@ bool Player::get_estado_reprodutivo(){
 int Player::get_num_ovos(){
 	return this->num_ovos;
 }
+
+float Player::get_tamanho_base(){
+	return this->tamanho_lagarto_base;
+}
+
+float Player::get_tamanho_real(){
+	return this->tamanho_lagarto_real;
+}
 /* ------------------------------------------------------------------------- */
 /* SETTERS
  * ------------------------------------------------------------------------- */
@@ -590,9 +605,9 @@ void Player::add_ovos(){
 /* "OUTROS"
  * ------------------------------------------------------------------------- */
 
-void Player::mordida_recebida(int tamanho_lagarto){
+void Player::mordida_recebida(int tamanho_lagarto_base){
 	//energia e hidratação que o lagarto retira do outro em uma mordida é igual a 5% do seu temanho(0-100)
-	float ener_hidr_perdida = tamanho_lagarto/20;
+	float ener_hidr_perdida = tamanho_lagarto_base/20;
 	this->energia = this->energia - ener_hidr_perdida;
 	this->hidratacao = this->hidratacao - ener_hidr_perdida;
 	GuiManager::get_instance()->piscar_life();

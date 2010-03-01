@@ -81,7 +81,7 @@ void MaleLizard::player_did_bobbing(const Event *theEvent, void *data){
 	this_lizard->waiting_player_decide = false;
 	this_lizard->player_decision_counter = 0;
 
-	float fight_prob = (this_lizard->get_tamanho() - player->get_tamanho())/2 + 40.0;
+	float fight_prob = (this_lizard->get_tamanho_base() - player->get_tamanho_base())/2 + 40.0;
 
 	if(rand()%100 < fight_prob){
             this_lizard->set_action("fight", true);
@@ -147,7 +147,7 @@ void MaleLizard::bite(){
 		get_anim_control()->play("fast_bite");
 
 		Player::get_instance()->be_bited();
-                Player::get_instance()->mordida_recebida(this->get_tamanho());
+                Player::get_instance()->mordida_recebida(this->get_tamanho_base());
 		//Player::get_instance()->add_energia_alimento(-5.0);
 		//GuiManager::get_instance()->piscar_life();
 	}
