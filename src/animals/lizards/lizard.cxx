@@ -8,6 +8,8 @@
 #include "maleLizard.h"
 #include "youngLizard.h"
 
+#define NORVEL 20.0
+
 Lizard::Lizard(NodePath node) : Animal(node){
 	bind_anims(this->node());
 	init();
@@ -134,6 +136,21 @@ void Lizard::act(){
 //		nout << "Partir para a briga." << endl;
 //	}
 //	else Animal::act();
+}
+
+void Lizard::move(float velocity){
+	float elapsed = TimeControl::get_instance()->get_elapsed_time();
+
+	LVecBase3f forward (this->get_net_transform()->get_mat().get_row3(1));
+	forward.set_z(0);
+	forward.normalize();
+
+	LVecBase3f desloc = this->get_pos() - forward * (this->get_scale().get_x() * velocity * elapsed * NORVEL);
+
+		// Se o movimento for valido, o faca!
+	if(World::get_default_world()->get_terrain()->has_inside(desloc)) this->set_pos(desloc);
+	
+	
 }
 
 float Lizard::get_tamanho_base(){

@@ -49,6 +49,8 @@ public:
 	void config_anims_to_action();
 	void play_action_anims(bool loop = false);
 
+	void move(float velocity);
+
 	/* Ações dos NPCs */
 	virtual void fight(){};
 	virtual void bob(){};
@@ -56,6 +58,7 @@ public:
 	virtual void bite(){};
 	virtual void flee(){};
 	virtual void chase(){};
+
 
 protected:
 	/* Mapeia as ações */

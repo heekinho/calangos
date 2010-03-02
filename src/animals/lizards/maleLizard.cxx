@@ -5,7 +5,11 @@
 #include "guiManager.h"
 
 #define PLAYERWAITING 60
-#define FUGA_VEL_PARAM 0.0012
+#define VEL_WALK 20.0
+#define VEL_RUN 200.0
+
+#define MAXDEGREE 100
+#define PROBTHR 80
 
 MaleLizard::MaleLizard(NodePath node) : Lizard(node){ init(); }
 
@@ -101,11 +105,10 @@ void MaleLizard::flee(){
 
 		/* Comportamento */
 		look_at(*player);  //TODO: Corrigir depois para não permitir muito giro.
-		set_h(*this); // Corrige modelo errado
-		if(rand()%100 < 50) set_h(*this, rand()%40-20);
+		set_h(*this,0); // Corrige modelo errado
 
 		//move(0.02);
-		move(FUGA_VEL_PARAM*this->get_tamanho_base());
+		this->move(VEL_RUN);
 	}
 
 }
@@ -117,7 +120,12 @@ void MaleLizard::bob(){
 }
 
 void MaleLizard::wander(){
-	Animal::act();
+	float elapsed = TimeControl::get_instance()->get_elapsed_time();
+	if(acting && !stay_quiet()){
+		if(rand()%PROBTHR == 34) set_h(*this, rand()%MAXDEGREE - (MAXDEGREE/2));
+		this->move(VEL_WALK);
+	}
+
 }
 
 void MaleLizard::chase(){
@@ -135,7 +143,7 @@ void MaleLizard::chase(){
 		look_at(*player);  //TODO: Corrigir depois para não permitir muito giro.
 		set_h(*this, 180); // Corrige modelo errado
 
-		move(0.01);
+		move(VEL_RUN);
 	}
 
 }

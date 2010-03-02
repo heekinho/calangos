@@ -141,10 +141,8 @@ void Animal::act(){
 //		set_pos(get_pos() + forward * factor);
 
 		move(elapsed * VELOCITY);
-
 	}
 }
-
 
 int Animal::stay_quiet(){
 	if(stay_x_frame_stoped > 0){
