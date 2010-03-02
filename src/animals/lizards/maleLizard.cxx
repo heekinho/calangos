@@ -5,6 +5,7 @@
 #include "guiManager.h"
 
 #define PLAYERWAITING 60
+#define FUGA_VEL_PARAM 0.0012
 
 MaleLizard::MaleLizard(NodePath node) : Lizard(node){ init(); }
 
@@ -85,10 +86,10 @@ void MaleLizard::player_did_bobbing(const Event *theEvent, void *data){
 
 	if(rand()%100 < fight_prob){
             this_lizard->set_action("fight", true);
-        }
+    }
 	else{
             this_lizard->set_action("flee", true);
-        }
+     }
 
 }
 
@@ -103,7 +104,8 @@ void MaleLizard::flee(){
 		set_h(*this); // Corrige modelo errado
 		if(rand()%100 < 50) set_h(*this, rand()%40-20);
 
-		move(0.02);
+		//move(0.02);
+		move(FUGA_VEL_PARAM*this->get_tamanho_base());
 	}
 
 }
