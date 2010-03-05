@@ -14,24 +14,7 @@
 NodePath Spider::spiders_placeholder = NodePath("Spiders Placeholder");
 
 /*! Aranhas basicamente ficam perambulando ao redor de uma determinada árvore */
-Spider::Spider(const string &model) : Animal(model){
-	init();
-}
-
-/*! Aranhas basicamente ficam perambulando ao redor de uma determinada árvore */
-Spider::Spider(NodePath node) : Animal(node){
-	init();
-}
-
-/*! Constrói uma Aranha baseado no recurso de Instancing
- * Basta passar um ponteiro para o modelo a ser instanciado */
-Spider::Spider(PT(AnimatedObjetoJogo) base_object) : Animal(spiders_placeholder.attach_new_node("Spider Placeholder")) {
-	base_object->instance_to(*this);
-	init();
-}
-
-Spider::Spider(PT(Spider) base_spider) : Animal(spiders_placeholder.attach_new_node("Spider Placeholder")) {
-	base_spider->instance_to(*this);
+Spider::Spider(NodePath node) : Prey(node){
 	init();
 }
 
@@ -58,7 +41,7 @@ void Spider::load_spiders(int qtd){
 
 	ModelRepository::get_instance()->get_animated_model("aranha")->get_anim_control()->loop("character", false);
 	ModelRepository::get_instance()->get_animated_model("aranha")->set_scale(0.0003);
-
+	ModelRepository::get_instance()->get_model("aranha")->set_scale(0.0003);
 
 	Setor* my_sector;
 	//Testando o funcionamento da classe Spider
@@ -80,7 +63,11 @@ void Spider::load_spiders(int qtd){
 		}
 		while ((my_sector->get_vegetals()->size() == 0) && (cerror < max_error));
 		if(cerror < max_error){
-			PT(Spider) npc = new Spider((PT(AnimatedObjetoJogo)) ModelRepository::get_instance()->get_animated_model_instance("aranha"));
+			PT(Spider) npc = new Spider(NodePath("Aranha Placeholder"));
+			ModelRepository::get_instance()->get_animated_model_instance("aranha")->instance_to(*npc);
+			npc->set_tag("model_name", "aranha");
+			npc->reparent_to(Simdunas::get_window()->get_render());
+
 //			npc->set_scale(0.1);
 //			if(rand()%3 == 1) npc->get_anim_control()->stop_all();
 //			npc->reparent_to(spiders_placeholder);
@@ -97,9 +84,8 @@ void Spider::load_spiders(int qtd){
 				npc->set_pos(npc->get_living_tree()->get_pos());
 				//nout << "SETOR DO ANIMAL (aranha) " << i << " - " << npc->get_setor()->get_indice() << endl;
 			} else nout << "ERRO: NAO ACHOU VEGETAL!!!!!!!!!" <<endl;
-		 	// Testando
-			//World::get_default_world()->get_terrain()->update_object_z(npc);
 		}
+
 
 	}
 }

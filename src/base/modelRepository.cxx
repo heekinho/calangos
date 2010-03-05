@@ -56,11 +56,22 @@ void ModelRepository::load_models(){
 	nout << endl << "Carregando NPCs" << endl;
 	/* Presas */
 	//TODO: Criar método para criar um conjunto: (aranha, besouro, cupim...)
+	add_model("aranha", "models/npcs/aranha_anim");
 	add_animated_model("aranha",  "models/npcs/", "aranha_anim",  "");
+
+	add_model("besouro", "models/npcs/besouro_anim");
 	add_animated_model("besouro", "models/npcs/", "besouro_anim", "");
+
+	add_model("cupim", "models/npcs/cupim_anim");
 	add_animated_model("cupim",   "models/npcs/", "cupim_anim",   "");
+
+	add_model("formiga", "models/npcs/formiga_anim");
 	add_animated_model("formiga", "models/npcs/", "formiga_anim", "");
+
+	add_model("grilo", "models/npcs/grilo_anim");
 	add_animated_model("grilo",   "models/npcs/", "grilo_anim",   "");
+
+	add_model("larva", "models/npcs/larva_anim");
 	add_animated_model("larva",   "models/npcs/", "larva_anim",   "");
 
 	/* Predadores */

@@ -5,8 +5,8 @@
 #include "guiManager.h"
 
 #define PLAYERWAITING 60
-#define VEL_WALK 20.0
-#define VEL_RUN 200.0
+#define VEL_WALK 5.0
+#define VEL_RUN 50.0
 
 #define MAXDEGREE 100
 #define PROBTHR 80

@@ -56,11 +56,17 @@ public:
 	void walk_sneakily();	// Reduz dois terços a velocidade normal de locomoção.
 	void get_away();		// Quando o player tem sucesso em uma intimidação.
 
+
+	virtual void pause_animation(){};
+	virtual void continue_animation(){};
 protected:
 	int stay_x_frame_stoped;
-	int stay_quiet();
+	virtual int stay_quiet();
 
 	bool acting;
+
+public:
+	NodePath fucking_instance;
 };
 
 #endif

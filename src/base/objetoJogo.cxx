@@ -6,7 +6,7 @@
 
 #include <cmath>
 
-#define NORVEL 20.0
+#define NORVEL 0.2
 
 // Inicializacao de non-integral type
 const string ObjetoJogo::EV_object_move = "EV_OBJECTMOVE";
@@ -170,6 +170,7 @@ void ObjetoJogo::move(float velocity) {
 	float elapsed = TimeControl::get_instance()->get_elapsed_time();
 
 	LVecBase3f desloc = this->get_pos() + is_inverted()*forward * (this->get_scale().get_x() * velocity * elapsed * NORVEL);
+	set_pos(desloc);
 	//set_pos(get_pos() + (is_inverted() * forward * velocity));
 }
 

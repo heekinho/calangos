@@ -1,16 +1,14 @@
 #ifndef SPIDER_H
 #define SPIDER_H
 
-#include "animal.h"
+#include "prey.h"
 #include "vegetal.h"
 
-class Spider : public Animal {
+
+class Spider : public Prey {
 
 public:
-	Spider(const string &model);
 	Spider(NodePath node);
-	Spider(PT(AnimatedObjetoJogo) base_object);
-	Spider(PT(Spider) base_spider);
 	~Spider();
 
 	static NodePath spiders_placeholder;

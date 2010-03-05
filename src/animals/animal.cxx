@@ -5,6 +5,7 @@
 #include "simdunas.h"
 
 /* Animais a serem carregados */
+#include "prey.h"
 #include "spider.h"
 #include "redLegged.h"
 #include "lizard.h"
@@ -16,7 +17,7 @@
 NodePath Animal::animals_placeholder = NodePath("Animals Placeholder");
 
 /*! Default Constructor */
-Animal::Animal(){}
+Animal::Animal() : AnimatedObjetoJogo(){};
 
 /*! Copy Constructor */
 Animal::Animal(NodePath node) : AnimatedObjetoJogo(node) {}
@@ -51,26 +52,10 @@ Animal::~Animal(){
 /*! Carrega os NPCs do jogo. */
 void Animal::load_animals(){
 	Animal::animals_placeholder = Simdunas::get_window()->get_render().attach_new_node("Animals Placeholder");
-	/* Presas */
-	//load_animals("aranha", 50);
-	nout << "Carregando Aranhas..." << endl;
-	Spider::load_spiders(100);
-	nout << "Carregando Besouros..." << endl;
-	load_animals("besouro", 100, 0.0002);
-	nout << "Carregando Cupins..." << endl;
-	load_animals("cupim", 100 , 0.0001);
-	nout << "Carregando Formigas..." << endl;
-	load_animals("formiga", 100, 0.0002);
-	nout << "Carregando Grilo..." << endl;
-	load_animals("grilo", 100, 0.0002);
-	nout << "Carregando Larvas..." << endl;
-	load_animals("larva", 100, 0.0002);
 
+	Prey::load_prey();
 	Predator::load_predators();
-
 	Lizard::load_lizards();
-	/* Predadores */
-	//RedLegged::load_redleggeds(100);
 }
 
 /*! Carrega os NPCs do jogo de forma genérica. Apenas para testes. */
@@ -83,7 +68,9 @@ void Animal::load_animals(const string name, int qtd, double scale){
 	ModelRepository::get_instance()->get_animated_model(name)->set_scale(scale);
 
 	for(int i = 0; i < qtd; i++){
-		PT(Animal) current_npc = new Animal(*ModelRepository::get_instance()->get_animated_model_instance(name));
+		PT(Animal) current_npc = new Animal(NodePath("teste")/*(PT(ObjetoJogo)) ModelRepository::get_instance()->get_animated_model(name)*/);
+		//current_npc->fucking_instance = ModelRepository::get_instance()->get_animated_model(name)->instance_to(*current_npc);
+		ModelRepository::get_instance()->get_animated_model(name)->instance_to(*current_npc);
 		current_npc->reparent_to(Simdunas::get_window()->get_render());
 
 		// Gera localização aleatória.
@@ -144,16 +131,51 @@ void Animal::act(){
 	}
 }
 
+//void Animal::test(PT(Animal) x){
+//	x = new Animal(ModelRepository::get_instance()->get_model("larva-parada"));
+//}
+
 int Animal::stay_quiet(){
 	if(stay_x_frame_stoped > 0){
-		//stop_animation();
+		pause_animation();
+		//get_anim_control()->stop_all();
+		//detach_node();
+		//fucking_instance.detach_node();
+		//fucking_instance = ModelRepository::get_instance()->get_model("larva-parada")->instance_to(*this);
+
+
+//		nout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl;
+//		nout << "NUMERO DE FILHOS: " << node()->get_num_children() << endl;
+//
+//		for(int i=0; i < node()->get_num_children(); i++){
+//			nout << "filho " << i << ": " << node()->get_child(i)->get_name() << endl;
+//
+//		}
+//		nout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl;
+
+		//node()->remove_all_children();
+		//ModelRepository::get_instance()->get_model("larva-parada")->instance_to(*this);
+
+
+		// Fazer manipulação com os pais... vai dah certo.
+
+
+		//attach_new_node(ModelRepository::get_instance()->get_animated_model_instance("larva")->node());
+		//instance_to(*ModelRepository::get_instance()->get_animated_model("larva"));
+		//attach_new_node(ModelRepository::get_instance()->get_animated_model("grilo")->node());
+		//ModelRepository::get_instance()->get_animated_model("larva")->get_anim_control()->stop_all();
+
+		//nout << "TESTE PARAR!" << endl;
+
+
+		//this->bind_anims(this->get_anim_control());
 		return --stay_x_frame_stoped;
 	}
 
 	//Teste: Ficar parado...
 	if(rand()%250 == 50) stay_x_frame_stoped = 100;
 	if(stay_x_frame_stoped == 0) {
-		//continue_animation();
+		continue_animation();
 	}
 	return stay_x_frame_stoped;
 }
