@@ -4,16 +4,13 @@
 #include "player.h"
 #include "guiManager.h"
 
-#define VEL_WALK 5.0
-#define VEL_RUN 50.0
+#define VEL_WALK 1000.0
+#define VEL_RUN 5000.0
 
 #define MAXDEGREE 100
 #define PROBTHR 80
 
 MaleLizard::MaleLizard(NodePath node) : Lizard(node){ init(); }
-
-MaleLizard::MaleLizard(const string &model) : Lizard(model){ init();
-}
 
 MaleLizard::~MaleLizard(){
 	Simdunas::get_evt_handler()->remove_hook(PlayerControl::EV_player_bobbing, player_did_bobbing, (void *) this);

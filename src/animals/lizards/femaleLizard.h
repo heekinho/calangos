@@ -6,7 +6,6 @@
 class FemaleLizard : public Lizard {
 public:
 	FemaleLizard(NodePath node);
-	FemaleLizard(const string &model);
 
 	void init();
         virtual void act();

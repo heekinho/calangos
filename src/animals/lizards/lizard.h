@@ -14,7 +14,6 @@ namespace LizardGender {
 class Lizard : public Animal{
 public:
 	Lizard(NodePath node);
-	Lizard(const string &model);
 
 	~Lizard();
 
@@ -24,7 +23,6 @@ public:
 
 	static void load_lizards();
 	virtual void change_sector(PT(Setor) new_sector);
-	virtual void act();
 
 	LizardGender::lizardGender get_gender(){ return gender; };
 	void set_gender(LizardGender::lizardGender gender){ this->gender = gender; };
@@ -49,8 +47,6 @@ public:
 	void config_anims_to_action();
 	void play_action_anims(bool loop = false);
 
-	void move(float velocity);
-
 	/* Ações dos NPCs */
 	virtual void fight(){};
 	virtual void bob(){};
@@ -58,6 +54,8 @@ public:
 	virtual void bite(){};
 	virtual void flee(){};
 	virtual void chase(){};
+
+	//virtual void move(float velocity);
 
 
 protected:

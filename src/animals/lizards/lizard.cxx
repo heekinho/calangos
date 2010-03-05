@@ -15,15 +15,12 @@ Lizard::Lizard(NodePath node) : Animal(node){
 	init();
 }
 
-Lizard::Lizard(const string &model) : Animal(model){
-	init();
-}
-
 Lizard::~Lizard(){}
 
 
 void Lizard::init(){
 	bind_anims(node());
+
 //	set_blend(true, true, PartBundle::BT_normalized_linear);
 
 	actions["fight"] = false;
@@ -109,6 +106,7 @@ void Lizard::load_lizards(){
 		lizard->set_scale(lizard->tamanho_real);
 		//lizard->set_scale(0.0003);
 		//lizard->set_hpr(180,0,0);
+		lizard->set_velocity(500);
 
 		World::get_default_world()->get_terrain()->add_lizard(lizard);
 		lizard->get_anim_control()->find_anim("walk")->loop(true);
@@ -127,31 +125,6 @@ void Lizard::change_sector(PT(Setor) new_sector){
 	Setor::add_lizard(this, new_sector);
 }
 
-void Lizard::act(){
-//	PT(Player) player = Player::get_instance();
-//	int action_radius = 2;
-//
-//	//nout << player->get_distance(*this) << endl;
-//	if(player->get_distance(*this) < action_radius)	{
-//		nout << "Partir para a briga." << endl;
-//	}
-//	else Animal::act();
-}
-
-void Lizard::move(float velocity){
-	float elapsed = TimeControl::get_instance()->get_elapsed_time();
-
-	LVecBase3f forward (this->get_net_transform()->get_mat().get_row3(1));
-	forward.set_z(0);
-	forward.normalize();
-
-	LVecBase3f desloc = this->get_pos() - forward * (this->get_scale().get_x() * velocity * elapsed * NORVEL);
-
-		// Se o movimento for valido, o faca!
-	if(World::get_default_world()->get_terrain()->has_inside(desloc)) this->set_pos(desloc);
-	
-	
-}
 
 float Lizard::get_tamanho_base(){
 	return this->tamanho_base;

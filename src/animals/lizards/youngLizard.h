@@ -6,7 +6,6 @@
 class YoungLizard : public Lizard {
 public:
     YoungLizard(NodePath node);
-    YoungLizard(const string &model);
    ~YoungLizard();
 
     void init();

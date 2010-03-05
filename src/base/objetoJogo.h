@@ -54,8 +54,6 @@ public:
 	virtual void move(float velocity);
 
 
-
-
 	/* Sobreescreveu-se de NodePath para notificação de setores. */
 	void set_pos(float x, float y, float z);
 	void set_pos(const LVecBase3f &pos);

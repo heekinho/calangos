@@ -6,7 +6,6 @@
 class MaleLizard : public Lizard {
 public:
     MaleLizard(NodePath node);
-    MaleLizard(const string &model);
    ~MaleLizard();
 
     void init();

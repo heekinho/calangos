@@ -5,18 +5,13 @@
 
 class Animal : public AnimatedObjetoJogo {
 public:
-	Animal();
-	Animal(const string &model);
 	Animal(NodePath node);
-	Animal(PT(ObjetoJogo) base_object);
-	Animal(PT(Animal) base_animal);
 	~Animal();
 
 	static NodePath animals_placeholder;
 
 	static void load_animals();
 
-	static void load_animals(const string name, int qtd, double scale);
 	static void unload_animals();
 
 	static void start_acting(const Event*, void *data);
@@ -38,7 +33,6 @@ public:
 	/* Caracteristicas NPC */
 	int level;				// Criar enum para ele. 5 níveis, segundo documento
 	int health;// = 2;		// Quando filhote 2, aumenta em 1 para cada nível de tamanho.
-	int velocity;			// Aumenta em 1 a cada 2 níveis de tamanho.
 
 	int bite_damage;// = 3; // Quando filhote 3, aumenta em 1 a cada nível de tamanho
 	double bite_prob;// = 0.4;
@@ -50,6 +44,9 @@ public:
 	void eat();				// Ação de comer (verificar necessidade)
 
 	/* Ações relacionadas ao movimento */
+	virtual int get_velocity() { return velocity; };
+	virtual void set_velocity(int velocity) { this->velocity = velocity; };
+
 	void wander();
 	void walk();			// Anda com velocidade normal de locomoção.
 	void run();				// Corre (velocidade é aumentada)
@@ -60,13 +57,12 @@ public:
 	virtual void pause_animation(){};
 	virtual void continue_animation(){};
 protected:
-	int stay_x_frame_stoped;
 	virtual int stay_quiet();
-
 	bool acting;
 
-public:
-	NodePath fucking_instance;
+	int velocity;
+
+	int stay_x_frame_stoped;
 };
 
 #endif

@@ -170,8 +170,9 @@ void ObjetoJogo::move(float velocity) {
 	float elapsed = TimeControl::get_instance()->get_elapsed_time();
 
 	LVecBase3f desloc = this->get_pos() + is_inverted()*forward * (this->get_scale().get_x() * velocity * elapsed * NORVEL);
-	set_pos(desloc);
-	//set_pos(get_pos() + (is_inverted() * forward * velocity));
+
+	// Se o movimento for valido, o faça!
+	if(World::get_default_world()->get_terrain()->has_inside(desloc)) this->set_pos(desloc);
 }
 
 

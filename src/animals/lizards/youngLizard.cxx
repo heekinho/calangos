@@ -2,9 +2,6 @@
 
 YoungLizard::YoungLizard(NodePath node) : Lizard(node){ init(); }
 
-YoungLizard::YoungLizard(const string &model) : Lizard(model){ init();
-}
-
 YoungLizard::~YoungLizard(){
 }
 

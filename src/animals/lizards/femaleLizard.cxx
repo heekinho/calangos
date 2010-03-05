@@ -4,9 +4,6 @@
 
 FemaleLizard::FemaleLizard(NodePath node) : Lizard(node){ init(); }
 
-FemaleLizard::FemaleLizard(const string &model) : Lizard(model){ init();
-}
-
 void FemaleLizard::init() {
     reproduziu = false;
     Lizard::init();

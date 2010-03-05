@@ -11,33 +11,14 @@
 #include "lizard.h"
 
 #define MAXDEGREE 100
-#define VELOCITY 0.05
 #define PROBTHR 80
 
 NodePath Animal::animals_placeholder = NodePath("Animals Placeholder");
 
-/*! Default Constructor */
-Animal::Animal() : AnimatedObjetoJogo(){};
-
 /*! Copy Constructor */
-Animal::Animal(NodePath node) : AnimatedObjetoJogo(node) {}
-
-/*! Constrói um Animal carregando um modelo */
-Animal::Animal(const string &model) : AnimatedObjetoJogo(model){}
-
-/*! Constrói um Animal baseado no recurso de Instancing
- * Basta passar um ponteiro para o modelo a ser instanciado */
-Animal::Animal(PT(ObjetoJogo) base_object) : AnimatedObjetoJogo(base_object) {}
-
-
-/*! Constrói um Animal baseado no recurso de Instancing
- * Basta passar um ponteiro para o modelo a ser instanciado */
-Animal::Animal(PT(Animal) base_animal) : AnimatedObjetoJogo(animals_placeholder.attach_new_node("Placeholder")) {
-	base_animal->instance_to(*this);
+Animal::Animal(NodePath node) : AnimatedObjetoJogo(node) {
+	this->velocity = 0.01;
 }
-
-//void Animal::init(){
-//}
 
 
 /*! Destroi o Animal */
@@ -56,32 +37,6 @@ void Animal::load_animals(){
 	Prey::load_prey();
 	Predator::load_predators();
 	Lizard::load_lizards();
-}
-
-/*! Carrega os NPCs do jogo de forma genérica. Apenas para testes. */
-void Animal::load_animals(const string name, int qtd, double scale){
-	// Tamanho do terreno para delimitar a area
-	int width = World::get_default_world()->get_terrain()->get_x_size();
-	int length = World::get_default_world()->get_terrain()->get_y_size();
-
-	ModelRepository::get_instance()->get_animated_model(name)->get_anim_control()->loop("character", false);
-	ModelRepository::get_instance()->get_animated_model(name)->set_scale(scale);
-
-	for(int i = 0; i < qtd; i++){
-		PT(Animal) current_npc = new Animal(NodePath("teste")/*(PT(ObjetoJogo)) ModelRepository::get_instance()->get_animated_model(name)*/);
-		//current_npc->fucking_instance = ModelRepository::get_instance()->get_animated_model(name)->instance_to(*current_npc);
-		ModelRepository::get_instance()->get_animated_model(name)->instance_to(*current_npc);
-		current_npc->reparent_to(Simdunas::get_window()->get_render());
-
-		// Gera localização aleatória.
-		int x = rand() % width;
-		int y = rand() % length;
-		current_npc->set_pos(x, y, 0);
-
-		//current_npc->set_acting(false);
-		// Nova forma mais fácil de adicionar animais.
-		World::get_default_world()->get_terrain()->add_animal( (PT(Animal)) current_npc);
-	}
 }
 
 /*! Exclui e remove do grafo de cena todos os animais, liberando memória. */
@@ -112,63 +67,17 @@ void Animal::act(const Event*, void *data){
 	this_animal->act();
 }
 
-// Generic NPC
+
 void Animal::act(){
-	float elapsed = TimeControl::get_instance()->get_elapsed_time();
-//	float factor = /*get_scale().get_x() *  */ elapsed * VELOCITY ;// * NORVEL;
 	if(acting && !stay_quiet()){
-		//nout << this->get_anim_control()->get_num_anims() << this->get_anim_control()->get_anim_name(0) << endl;
 		if(rand()%PROBTHR == 34) set_h(*this, rand()%MAXDEGREE - (MAXDEGREE/2));
 
-//		// TODO: Movimentar isso para um método move()
-//		LVecBase3f forward (get_net_transform()->get_mat().get_row3(1));
-//		forward.set_z(0);
-//		forward.normalize();
-//
-//		set_pos(get_pos() + forward * factor);
-
-		move(elapsed * VELOCITY);
+		move(get_velocity());
 	}
 }
 
-//void Animal::test(PT(Animal) x){
-//	x = new Animal(ModelRepository::get_instance()->get_model("larva-parada"));
-//}
-
 int Animal::stay_quiet(){
 	if(stay_x_frame_stoped > 0){
-		pause_animation();
-		//get_anim_control()->stop_all();
-		//detach_node();
-		//fucking_instance.detach_node();
-		//fucking_instance = ModelRepository::get_instance()->get_model("larva-parada")->instance_to(*this);
-
-
-//		nout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl;
-//		nout << "NUMERO DE FILHOS: " << node()->get_num_children() << endl;
-//
-//		for(int i=0; i < node()->get_num_children(); i++){
-//			nout << "filho " << i << ": " << node()->get_child(i)->get_name() << endl;
-//
-//		}
-//		nout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl;
-
-		//node()->remove_all_children();
-		//ModelRepository::get_instance()->get_model("larva-parada")->instance_to(*this);
-
-
-		// Fazer manipulação com os pais... vai dah certo.
-
-
-		//attach_new_node(ModelRepository::get_instance()->get_animated_model_instance("larva")->node());
-		//instance_to(*ModelRepository::get_instance()->get_animated_model("larva"));
-		//attach_new_node(ModelRepository::get_instance()->get_animated_model("grilo")->node());
-		//ModelRepository::get_instance()->get_animated_model("larva")->get_anim_control()->stop_all();
-
-		//nout << "TESTE PARAR!" << endl;
-
-
-		//this->bind_anims(this->get_anim_control());
 		return --stay_x_frame_stoped;
 	}
 
@@ -201,8 +110,8 @@ void Animal::start_acting(const Event*, void *data){
 	Animal *this_animal = (Animal*) data;
 	this_animal->show();
 
-	this_animal->set_acting(true);
 	// Ativa o acting
+	this_animal->set_acting(true);
 	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, act, this_animal);
 }
 
