@@ -4,7 +4,6 @@
 #include "player.h"
 #include "guiManager.h"
 
-#define PLAYERWAITING 60
 #define VEL_WALK 5.0
 #define VEL_RUN 50.0
 
@@ -23,7 +22,7 @@ MaleLizard::~MaleLizard(){
 void MaleLizard::init() {
     Lizard::init();
     //bind_anims(node());
-    player_decision_counter = PLAYERWAITING;
+    last_bobbing_done = 0;
     waiting_player_decide = false;
 
     PT(AnimControl) ac = get_anim_control()->find_anim("fast_bite");
@@ -46,14 +45,29 @@ void MaleLizard::act(){
 
 	float bobbing_dist_thr = 3;
 	float eat_thr = 0.05;
+	float flee_max_dist = 10;
 	float distance = (player->get_pos() - get_pos()).length();
 
-	if(player_decision_counter > 0) player_decision_counter--;
-	//if(player_decision_counter > 0) nout << player_decision_counter-- << endl;
 
+	/* Quando esperando a resposta do player... */
+	if(waiting_player_decide == true){
+		/* Se o player não respondeu dentro do tempo */
+		if(ClockObject::get_global_clock()->get_real_time() - last_bobbing_done > BOBBING_WAITING_TIME){
+			waiting_player_decide = false;
+			Simdunas::get_evt_handler()->remove_hook(PlayerControl::EV_player_bobbing, player_did_bobbing, (void *) this);
 
-	if(is_action_active("flee") || (player_decision_counter == 0 && waiting_player_decide == true) || energia < 20){
-		flee();
+			/* Paciência tem limite... Parte para morder o player */
+			set_action("fight", true);
+		}
+	}
+
+	if(is_action_active("flee") || energia < 20){
+		if(distance < flee_max_dist) flee();
+		else {
+			energia = 21;
+			set_action("walk", true);
+		}
+
 		waiting_player_decide = false;
 	}
 	else if(is_action_active("fight")){
@@ -61,11 +75,11 @@ void MaleLizard::act(){
 		if(distance < eat_thr) bite();
 		else chase();
 	}
-	else if(distance < bobbing_dist_thr && player_decision_counter == 0){
+	else if(distance < bobbing_dist_thr && !waiting_player_decide){
 		bob();
-		/* Espera o bobbing do player por X frames */
+		last_bobbing_done = ClockObject::get_global_clock()->get_real_time();
 		waiting_player_decide = true;
-		player_decision_counter = PLAYERWAITING;
+
 		Simdunas::get_evt_handler()->add_hook(PlayerControl::EV_player_bobbing, player_did_bobbing, (void *) this);
 	}
 	else {
@@ -84,17 +98,11 @@ void MaleLizard::player_did_bobbing(const Event *theEvent, void *data){
 	Simdunas::get_evt_handler()->remove_hook(PlayerControl::EV_player_bobbing, player_did_bobbing, (void *) this_lizard);
 
 	this_lizard->waiting_player_decide = false;
-	this_lizard->player_decision_counter = 0;
 
-	float fight_prob = (this_lizard->get_tamanho_base() - player->get_tamanho_base())/2 + 40.0;
+	float fight_prob = (this_lizard->get_tamanho_base() - player->get_tamanho_base()) / 2 + 40.0;
 
-	//if(rand()%100 < fight_prob){
-    //        this_lizard->set_action("fight", true);
-    //}
-	//else{
-            this_lizard->set_action("flee", true);
-    // }
-
+	if (rand() % 100 < fight_prob) this_lizard->set_action("fight", true);
+	else this_lizard->set_action("flee", true);
 }
 
 void MaleLizard::flee(){

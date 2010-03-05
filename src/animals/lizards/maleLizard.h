@@ -12,7 +12,7 @@ public:
     void init();
 
     static void player_did_bobbing(const Event *theEvent, void *data);
-
+    static const double BOBBING_WAITING_TIME = 3.0;
 private:
     virtual void act();
 
@@ -24,8 +24,7 @@ private:
 
     NodePath maleSymbol;
 
-
-    int player_decision_counter;
+    double last_bobbing_done;
     bool waiting_player_decide;
 };
 

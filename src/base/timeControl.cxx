@@ -85,7 +85,7 @@ void TimeControl::event_pframe(const Event *, void *data){
 	//cout << "\n passed an frame"  << "\nelapsed_time: " << time->especial_count << endl;
 
 	/* Como diria o Angra: "Tempo que passou, não vai mais voltar, tudo que se foi..."
-	 * Ou seja: Os seguintes hooks podem ser exclusos pois o tempo não volta... :P */
+	 * Ou seja: Os seguintes hooks podem ser excluídos pois o tempo não volta... :P */
 	std::stringstream this_frame;
 	this_frame << EV_pass_frame << "_" << (ClockObject::get_global_clock()->get_frame_count() - 1);
 	time->p_handler->remove_hooks(this_frame.str());
