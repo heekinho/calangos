@@ -21,6 +21,11 @@ TopCamera::TopCamera(PT(Camera) camera) : CameraNode(camera){
 	look_at(*object);
 };
 
+
+TopCamera::~TopCamera(){
+	this->arrow.remove_node();
+}
+
 void TopCamera::activate(){
 	CameraNode::activate();
 	this->arrow.show();
