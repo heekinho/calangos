@@ -78,6 +78,7 @@ void Animal::act(){
 
 int Animal::stay_quiet(){
 	if(stay_x_frame_stoped > 0){
+		pause_animation();
 		return --stay_x_frame_stoped;
 	}
 
