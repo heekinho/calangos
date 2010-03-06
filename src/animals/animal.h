@@ -44,8 +44,8 @@ public:
 	void eat();				// Ação de comer (verificar necessidade)
 
 	/* Ações relacionadas ao movimento */
-	virtual int get_velocity() { return velocity; };
-	virtual void set_velocity(int velocity) { this->velocity = velocity; };
+	virtual float get_velocity() { return velocity; };
+	virtual void set_velocity(float velocity) { this->velocity = velocity; };
 
 	void wander();
 	void walk();			// Anda com velocidade normal de locomoção.
@@ -60,7 +60,7 @@ protected:
 	virtual int stay_quiet();
 	bool acting;
 
-	int velocity;
+	float velocity;
 
 	int stay_x_frame_stoped;
 };

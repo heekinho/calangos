@@ -269,8 +269,8 @@ void PlayerControl::eat(const Event*, void *data){
 				/* Normaliza o vetor para trabalhar com versores corretamente */
 				player_to_npc.normalize();
 
-				/* Verifica se o angulo esta dentro do limiar estabelecido */
-				if( player_to_npc.angle_deg(player_y_versor) < direction_eat_thr){
+				/* Verifica se o angulo esta dentro do limiar estabelecido, evitando os "já comidos" */
+				if( player_to_npc.angle_deg(player_y_versor) < direction_eat_thr && npc->get_valor_nutricional() > 0){
 					nout << player_to_npc.angle_deg(player_y_versor) << endl;
 
 

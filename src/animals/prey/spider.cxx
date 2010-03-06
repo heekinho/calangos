@@ -23,6 +23,7 @@ void Spider::init(){
 	set_acting(false); hide(); // Mover para Animal
 	this->living_tree = NULL;
 	this->radius_thr = 1;
+	this->velocity = 0.2;
 }
 
 /*! Destroi o objeto Aranha */
@@ -104,34 +105,16 @@ void Spider::act(){
 }
 
 
-/////*! Sobrescrição para não permitir aranhas mudar de setor */
-//void Spider::change_sector(Setor* new_sector){
-//	nout << get_name() << endl;
-//}
-
 /* Movimento padrão executado pelas aranhas */
 void Spider::surround_tree(){
-	// Necessário para manter o sync...
-	float elapsed = TimeControl::get_instance()->get_elapsed_time();
-	float factor = get_scale().get_x() * elapsed * VELOCITY * NORVEL;
-
-	/* Cria aleatoriedade no movimento da aranha */
 	double distance = (living_tree->get_pos() - get_pos()).length();
-
 	if(distance < radius_thr){
+		/* Cria aleatoriedade no movimento da aranha */
 		if(rand()%PROBTHR == 34) set_h(*this, rand()%MAXDEGREE - (MAXDEGREE/2));
 	}
-	else {
-		look_at(*living_tree);
-	}
+	else look_at(*living_tree);
 
-	//move();
-	// TODO: Movimentar isso para um método move()
-	LVecBase3f forward (get_net_transform()->get_mat().get_row3(1));
-	forward.set_z(0);
-	forward.normalize();
-
-	set_pos(get_pos() + forward * factor);
+	move(get_velocity());
 }
 
 /* Define o vegetal sobre o qual a aranha atua */
