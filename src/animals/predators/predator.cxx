@@ -3,12 +3,11 @@
 
 #include "redLegged.h"
 
-Predator::Predator(PT(AnimatedObjetoJogo) base_animal) : Animal(animals_placeholder.attach_new_node("Placeholder")) {
+Predator::Predator(NodePath node) : Animal(node){
 	set_blend(true, true, PartBundle::BT_normalized_linear);
 	set_control_effect("andar", 1.0);
 	set_control_effect("comer", 0);
-	base_animal->instance_to(*this);
-	set_velocity(2.0);
+	set_velocity(200.0);
 }
 
 Predator::~Predator(){}
@@ -57,6 +56,7 @@ void Predator::act(){
 void Predator::pursuit(){
 	PT(Player) player = Player::get_instance();
 	look_at(*player);
+	set_h(*this, 180);
 
 	move(get_velocity());
 }

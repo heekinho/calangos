@@ -6,7 +6,7 @@
 
 class Predator : public Animal {
 public:
-	Predator(PT(AnimatedObjetoJogo) base_object);
+	Predator(NodePath node);
 	~Predator();
 
 	static void load_predators();

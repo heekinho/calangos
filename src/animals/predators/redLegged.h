@@ -5,7 +5,7 @@
 
 class RedLegged : public Predator {
 public:
-	RedLegged(PT(AnimatedObjetoJogo) base_object);
+	RedLegged(NodePath node);
 	~RedLegged();
 
 	static NodePath redleggeds_placeholder;
