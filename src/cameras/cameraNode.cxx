@@ -19,6 +19,7 @@ CameraNode::CameraNode(PT(Camera) camera) : NodePath(camera){
 	this->camera->get_lens()->set_near_far(0.1, 2000.0);
 
 	Simdunas::get_evt_handler()->add_hook("window-event", update_configs, this);
+	update_configs(NULL, this);
 }
 
 
