@@ -8,8 +8,6 @@
 #include "maleLizard.h"
 #include "youngLizard.h"
 
-#define NORVEL 20.0
-
 Lizard::Lizard(NodePath node) : Animal(node){
 	bind_anims(this->node());
 	init();

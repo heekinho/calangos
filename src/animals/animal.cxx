@@ -90,10 +90,6 @@ int Animal::stay_quiet(){
 	return stay_x_frame_stoped;
 }
 
-
-
-
-
 /*! Define o momento de desativação de ação do NPC, geralmente quando recebe uma notificação
  * do terreno, informando que o player já não está próximo */
 void Animal::stop_acting(const Event*, void *data){

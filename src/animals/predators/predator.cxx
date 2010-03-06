@@ -56,7 +56,6 @@ void Predator::act(){
 void Predator::pursuit(){
 	PT(Player) player = Player::get_instance();
 	look_at(*player);
-	set_h(*this, 180);
 
 	move(get_velocity());
 }
@@ -73,5 +72,12 @@ void Predator::bite(){
 	}
 }
 
+void Predator::pause_animation(){
+	get_anim_control()->stop_all();
+}
+
+void Predator::continue_animation(){
+	if(!get_anim_control()->is_playing("andar")) get_anim_control()->play("andar");
+}
 
 

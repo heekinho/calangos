@@ -6,8 +6,6 @@
 
 #include <cmath>
 
-#define NORVEL 0.2
-
 // Inicializacao de non-integral type
 const string ObjetoJogo::EV_object_move = "EV_OBJECTMOVE";
 TypeHandle ObjetoJogo::_type_handle;
@@ -169,7 +167,7 @@ void ObjetoJogo::move(float velocity) {
 
 	float elapsed = TimeControl::get_instance()->get_elapsed_time();
 
-	LVecBase3f desloc = this->get_pos() + is_inverted()*forward * (this->get_scale().get_x() * velocity * elapsed * NORVEL);
+	LVecBase3f desloc = this->get_pos() + is_inverted()*forward * (this->get_scale().get_x() * velocity * elapsed *0.2);
 
 	// Se o movimento for valido, o faça!
 	if(World::get_default_world()->get_terrain()->has_inside(desloc)) this->set_pos(desloc);
@@ -204,6 +202,12 @@ void ObjetoJogo::update_pr(){
 	set_r(roll);
 }
 
+
+
+void ObjetoJogo::look_at(const NodePath &other){
+	NodePath::look_at(other);
+	if(is_inverted() == -1) set_h(*this, 180);
+}
 
 /* Sobreescreveu-se de NodePath para notificação de setores.
  * ----------------------------------------------------------------------- */

@@ -13,6 +13,7 @@ public:
 	static void load_redleggeds(int qtd);
 
 	virtual void act();
+	virtual int is_inverted(){ return -1; };
 private:
 	void init();
 };

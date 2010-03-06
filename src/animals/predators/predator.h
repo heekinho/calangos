@@ -12,7 +12,8 @@ public:
 	static void load_predators();
 
 	virtual void act();
-
+	virtual void pause_animation();
+	virtual void continue_animation();
 private:
 	void pursuit();
 	void bite();

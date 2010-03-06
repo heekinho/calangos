@@ -7,7 +7,6 @@
 
 #define MAXDEGREE 100
 #define VELOCITY 1.0
-#define NORVEL 0.07
 #define PROBTHR 80
 #define RADIUSTHR 100
 

@@ -51,6 +51,8 @@ public:
 	void update_pr();
 
 	virtual int is_inverted(){ return 1; };
+	void look_at(const NodePath &other);
+
 	virtual void move(float velocity);
 
 

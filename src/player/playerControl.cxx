@@ -16,8 +16,6 @@
 #define VEL_RUN 200.0
 #define MAX_VEL_PLAYRATE 40.0
 
-
-#define NORVEL 20.0
 #define NORANG 1
 
 #define DISTANCE_FEMALE 0.2
@@ -200,16 +198,7 @@ void PlayerControl::move(float velocity){
 		p->set_velocity(velocity);
 		//nout << "Letargia: " << p->get_letargia() << " - Velocidade: " << velocity << endl;
 
-
-		LVecBase3f forward (p->get_net_transform()->get_mat().get_row3(1));
-		forward.set_z(0);
-		forward.normalize();
-
-		LVecBase3f desloc = p->get_pos() - forward * (p->get_scale().get_x() * velocity * elapsed * NORVEL);
-
-		// Se o movimento for valido, o faca!
-		if(World::get_default_world()->get_terrain()->has_inside(desloc)) p->set_pos(desloc);
-
+		p->move(velocity*100);
 
 		// Lancar o evento que moveu...
 		Simdunas::get_evt_queue()->queue_event(new Event(PlayerControl::EV_player_move));

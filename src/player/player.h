@@ -134,10 +134,6 @@ public:
 	enum lizardGender {female, male, young};
 	static string get_gender_name(Player::lizardGender gender);
 
-	//	static map<Player::lizardGender, string> lizard_genders;
-	//	static map<Player::lizardEpecie, string> lizard_names;
-	/* END OF WORKAROUND */
-
 	static Player::lizardEpecie lizard_specie;
 	static Player::lizardGender lizard_gender;
 
@@ -146,6 +142,7 @@ public:
 	//Recebe o tamanho real e retorna em uma escala de 0 a 100
 	float calc_tamanho_base(float tamanho_real);
 
+	virtual int is_inverted(){ return -1; };
 private:
 	/* Controle Singleton */
 	Player();
