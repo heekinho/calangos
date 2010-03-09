@@ -11,6 +11,7 @@
 #define PROBTHR 80
 
 MaleLizard::MaleLizard(NodePath node) : Lizard(node){ init(); }
+const double MaleLizard::BOBBING_WAITING_TIME = 3.0;
 
 MaleLizard::~MaleLizard(){
 	Simdunas::get_evt_handler()->remove_hook(PlayerControl::EV_player_bobbing, player_did_bobbing, (void *) this);

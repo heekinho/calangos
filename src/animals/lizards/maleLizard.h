@@ -11,7 +11,7 @@ public:
     void init();
 
     static void player_did_bobbing(const Event *theEvent, void *data);
-    static const double BOBBING_WAITING_TIME = 3.0;
+    static const double BOBBING_WAITING_TIME;// = 3.0;
 private:
     virtual void act();
 
