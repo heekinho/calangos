@@ -304,6 +304,7 @@ void PlayerControl::eat(const Event*, void *data){
 					//destruir fruto
 					sector_edible_vegetals->at(i) = NULL;
 					sector_edible_vegetals->erase(sector_edible_vegetals->begin()+i);
+
 				}
 
 
@@ -319,6 +320,7 @@ void PlayerControl::eat(const Event*, void *data){
 							if((player->get_pos() - male_lizard->get_pos()).length() < 0.1){
 								male_lizard->be_bited();
 								male_lizard->set_energia(male_lizard->get_energia() - 3);
+								nout << "NPC be bited: " << male_lizard->get_energia() << endl;
 							}
 						}
 					}
