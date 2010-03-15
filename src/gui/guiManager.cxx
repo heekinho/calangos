@@ -1041,7 +1041,7 @@ GuiManager::GuiManager() {
         Simdunas::get_evt_handler()->add_hook(vBotao6Alimentacao->get_click_event(MouseButton::one()), click_event_vBotao6_grafico_Alimentacao, this);
         Simdunas::get_evt_handler()->add_hook(vBotao7Energia->get_click_event(MouseButton::one()), click_event_vBotao7_grafico_Energia,this);
         Simdunas::get_evt_handler()->add_hook(vBotao8GastoEnergetico->get_click_event(MouseButton::one()), click_event_vBotao8_grafico_GastoEnergetico,this);
-		cout<<"teste4" << endl;
+		//cout<<"teste4" << endl;
 }
 
 void GuiManager::notifyGameOver() {

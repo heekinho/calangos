@@ -99,7 +99,7 @@ void Lizard::load_lizards(){
 			//lizard->scale = ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.00001);
 		}
 		
-		cout << "Scale: " << lizard->tamanho_real << endl;
+		//cout << "Scale: " << lizard->tamanho_real << endl;
 		lizard->set_pos(point);
 		lizard->set_scale(lizard->tamanho_real);
 		//lizard->set_scale(0.0003);
