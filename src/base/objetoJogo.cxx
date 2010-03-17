@@ -57,10 +57,21 @@ void ObjetoJogo::be_bited(){
 void ObjetoJogo::blink(const Event*, void *data){
 	ObjetoJogo* object = (ObjetoJogo*) data;
 
-	if(object->is_hidden()) object->show();
-	else object->hide();
+	if(object->is_hidden()) {
+		object->show();
+		object->set_color_scale(1.0, 0.6, 0.6, 1.0);
+		nout<<"color1"<<endl;
+	}
+	else {
+		object->hide();
+		object->set_color_scale(1.0, 1.0, 1.0, 1.0);
+		nout<<"color2"<<endl;
+	}
 
-	if(object->bite_blink_counter <= 0) object->show();
+	if(object->bite_blink_counter <= 0) {
+		object->show();
+		object->set_color_scale(1.0, 1.0, 1.0, 1.0);
+	}
 	else if(object->bite_blink_counter > 0) {
 		TimeControl::get_instance()->notify_after_n_frames(1, blink, (void *) object);
 	}
