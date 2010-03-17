@@ -6,8 +6,10 @@ FemaleLizard::FemaleLizard(NodePath node) : Lizard(node){ init(); }
 
 void FemaleLizard::init() {
     reproduziu = false;
-    Lizard::init();
+	
+	Lizard::init();
     //Lizard::isFemale();
+
     femaleSymbol = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/lizards/symbols/female.png");
     femaleSymbol.reparent_to(*this);
     femaleSymbol.set_scale(2.0);
@@ -29,7 +31,7 @@ void FemaleLizard::reproduzir(const Event *theEvent, void *data){
     if(Player::get_instance()->get_estado_reprodutivo()) {
         FemaleLizard* this_female = (FemaleLizard*) data;
         if (!this_female->reproduziu) {
-            nout << "Reproduziu" << endl;
+            //nout << "Tentativa de Reproduzir" << endl;
             if ((this_female->get_pos() - Player::get_instance()->get_pos()).length() < 1) {
                 vector < PT(Lizard)>* lizards = Player::get_instance()->get_setor()->get_lizards();
                 for (int i = 0; i < lizards->size(); i++) {
@@ -42,7 +44,11 @@ void FemaleLizard::reproduzir(const Event *theEvent, void *data){
                 Player::get_instance()->add_ovos();
                 Player::get_instance()->add_energia_alimento(-5);
                 this_female->reproduziu = true;
+				/*fica verde quando reproduz*/
+				this_female->set_color_scale(0.6,1.0,0.6,1.0); 
+				/*para voltar a cor normal depois de 1 dia usar (1.0,1.0,1.0,1.0)*/
             }
         }
     }
 }
+
