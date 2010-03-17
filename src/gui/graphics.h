@@ -57,11 +57,11 @@ private:
     double limiteInferiorX;
     double limiteSuperiorY;
     double limiteInferiorY;
-    char stringMarcacaoX1[4];
-    char stringMarcacaoX2[4];
-    char stringMarcacaoX3[4];
-    char stringMarcacaoX4[4];
-    char stringMarcacaoX5[4];
+    char stringMarcacaoX1[8];
+    char stringMarcacaoX2[8];
+    char stringMarcacaoX3[8];
+    char stringMarcacaoX4[8];
+    char stringMarcacaoX5[8];
     
 
 };

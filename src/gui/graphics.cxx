@@ -29,11 +29,11 @@ NodePath marcacaoY2_titulo_np;
 NodePath marcacaoY3_titulo_np;
 NodePath marcacaoY4_titulo_np;
 NodePath marcacaoY5_titulo_np;
-char stringMarcacaoY1[6];
-char stringMarcacaoY2[6];
-char stringMarcacaoY3[6];
-char stringMarcacaoY4[6];
-char stringMarcacaoY5[6];
+char stringMarcacaoY1[8];
+char stringMarcacaoY2[8];
+char stringMarcacaoY3[8];
+char stringMarcacaoY4[8];
+char stringMarcacaoY5[8];
 float unidade_marcacaoX;
 float posicao_marcacaoX1;
 float posicao_marcacaoX2;
@@ -211,40 +211,40 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
             cout << " Marcacao tipo tempo" << endl;
         }
         //Colocando os numeros das marcacoes do eixo X.
-        sprintf(stringMarcacaoX1, "%.1f", (maior / 5));
+        sprintf(stringMarcacaoX1, "%.2f", (maior / 5));
         marcacaoX1_titulo->set_text(stringMarcacaoX1);
-        sprintf(stringMarcacaoX2, "%.1f", (2 * (maior / 5)));
+        sprintf(stringMarcacaoX2, "%.2f", (2 * (maior / 5)));
         marcacaoX2_titulo->set_text(stringMarcacaoX2);
-        sprintf(stringMarcacaoX3, "%.1f", (3 * (maior / 5)));
+        sprintf(stringMarcacaoX3, "%.2f", (3 * (maior / 5)));
         marcacaoX3_titulo->set_text(stringMarcacaoX3);
-        sprintf(stringMarcacaoX4, "%.1f", (4 * (maior / 5)));
+        sprintf(stringMarcacaoX4, "%.2f", (4 * (maior / 5)));
         marcacaoX4_titulo->set_text(stringMarcacaoX4);
-        sprintf(stringMarcacaoX5, "%.1f", maior);
+        sprintf(stringMarcacaoX5, "%.2f", maior);
         marcacaoX5_titulo->set_text(stringMarcacaoX5);
     } else {
         //Colocando os numeros das marcacoes do eixo X.
-        sprintf(stringMarcacaoX1, "%.1f", (limiteInferiorX));
+        sprintf(stringMarcacaoX1, "%.2f", (limiteInferiorX));
         marcacaoX1_titulo->set_text(stringMarcacaoX1);
-        sprintf(stringMarcacaoX2, "%.1f", (((limiteSuperiorX - limiteInferiorX) / 4)) + limiteInferiorX);
+        sprintf(stringMarcacaoX2, "%.2f", (((limiteSuperiorX - limiteInferiorX) / 4)) + limiteInferiorX);
         marcacaoX2_titulo->set_text(stringMarcacaoX2);
-        sprintf(stringMarcacaoX3, "%.1f", ((2 * ((limiteSuperiorX - limiteInferiorX) / 4))) + limiteInferiorX);
+        sprintf(stringMarcacaoX3, "%.2f", ((2 * ((limiteSuperiorX - limiteInferiorX) / 4))) + limiteInferiorX);
         marcacaoX3_titulo->set_text(stringMarcacaoX3);
-        sprintf(stringMarcacaoX4, "%.1f", ((3 * ((limiteSuperiorX - limiteInferiorX) / 4))) + limiteInferiorX);
+        sprintf(stringMarcacaoX4, "%.2f", ((3 * ((limiteSuperiorX - limiteInferiorX) / 4))) + limiteInferiorX);
         marcacaoX4_titulo->set_text(stringMarcacaoX4);
-        sprintf(stringMarcacaoX5, "%.1f", (limiteSuperiorX));
+        sprintf(stringMarcacaoX5, "%.2f", (limiteSuperiorX));
         marcacaoX5_titulo->set_text(stringMarcacaoX5);
     }
 
     //Colocando os numeros das marcacoes do eixo Y.
-    sprintf(stringMarcacaoY1, "%.1f", (limiteInferiorY));
+    sprintf(stringMarcacaoY1, "%.2f", (limiteInferiorY));
     marcacaoY1_titulo->set_text(stringMarcacaoY1);
-    sprintf(stringMarcacaoY2, "%.1f", (((limiteSuperiorY - limiteInferiorY) / 4)) + limiteInferiorY);
+    sprintf(stringMarcacaoY2, "%.2f", (((limiteSuperiorY - limiteInferiorY) / 4)) + limiteInferiorY);
     marcacaoY2_titulo->set_text(stringMarcacaoY2);
-    sprintf(stringMarcacaoY3, "%.1f", ((2 * ((limiteSuperiorY - limiteInferiorY) / 4))) + limiteInferiorY);
+    sprintf(stringMarcacaoY3, "%.2f", ((2 * ((limiteSuperiorY - limiteInferiorY) / 4))) + limiteInferiorY);
     marcacaoY3_titulo->set_text(stringMarcacaoY3);
-    sprintf(stringMarcacaoY4, "%.1f", ((3 * ((limiteSuperiorY - limiteInferiorY) / 4))) + limiteInferiorY);
+    sprintf(stringMarcacaoY4, "%.2f", ((3 * ((limiteSuperiorY - limiteInferiorY) / 4))) + limiteInferiorY);
     marcacaoY4_titulo->set_text(stringMarcacaoY4);
-    sprintf(stringMarcacaoY5, "%.1f", (limiteSuperiorY));
+    sprintf(stringMarcacaoY5, "%.2f", (limiteSuperiorY));
     marcacaoY5_titulo->set_text(stringMarcacaoY5);
 
     if(DEBUG){
@@ -386,7 +386,7 @@ void Graphics::desenha_marcacao_eixoX(){
         marcacaoX1_titulo = new TextNode("legendamarcacaoX1");
 	marcacaoX1_titulo->set_text("");
 	marcacaoX1_titulo_np = graphic_np.attach_new_node(marcacaoX1_titulo);
-	marcacaoX1_titulo_np.set_pos(posicao_marcacaoX1 - 0.03, 0.0, 0.09);
+	marcacaoX1_titulo_np.set_pos(posicao_marcacaoX1 - 0.03, 0.0, 0.07);
 	marcacaoX1_titulo_np.set_scale(0.04);
   	marcacaoX1_titulo_np.set_color(0.0, 0.0, 0.0, 1,0);
 
@@ -400,7 +400,7 @@ void Graphics::desenha_marcacao_eixoX(){
         marcacaoX2_titulo = new TextNode("legendamarcacaoX2");
 	marcacaoX2_titulo->set_text("");
 	marcacaoX2_titulo_np = graphic_np.attach_new_node(marcacaoX2_titulo);
-	marcacaoX2_titulo_np.set_pos(posicao_marcacaoX2 - 0.03, 0.0, 0.09);
+	marcacaoX2_titulo_np.set_pos(posicao_marcacaoX2 - 0.03, 0.0, 0.07);
 	marcacaoX2_titulo_np.set_scale(0.04);
   	marcacaoX2_titulo_np.set_color(0.0, 0.0, 0.0, 1,0);
 
@@ -414,7 +414,7 @@ void Graphics::desenha_marcacao_eixoX(){
         marcacaoX3_titulo = new TextNode("legendamarcacaoX3");
 	marcacaoX3_titulo->set_text("");
 	marcacaoX3_titulo_np = graphic_np.attach_new_node(marcacaoX3_titulo);
-	marcacaoX3_titulo_np.set_pos(posicao_marcacaoX3 - 0.03, 0.0, 0.09);
+	marcacaoX3_titulo_np.set_pos(posicao_marcacaoX3 - 0.03, 0.0, 0.07);
 	marcacaoX3_titulo_np.set_scale(0.04);
   	marcacaoX3_titulo_np.set_color(0.0, 0.0, 0.0, 1,0);
 
@@ -428,7 +428,7 @@ void Graphics::desenha_marcacao_eixoX(){
         marcacaoX4_titulo = new TextNode("legendamarcacaoX4");
 	marcacaoX4_titulo->set_text("");
 	marcacaoX4_titulo_np = graphic_np.attach_new_node(marcacaoX4_titulo);
-	marcacaoX4_titulo_np.set_pos(posicao_marcacaoX4 - 0.03, 0.0, 0.09);
+	marcacaoX4_titulo_np.set_pos(posicao_marcacaoX4 - 0.03, 0.0, 0.07);
 	marcacaoX4_titulo_np.set_scale(0.04);
   	marcacaoX4_titulo_np.set_color(0.0, 0.0, 0.0, 1,0);
 
@@ -442,7 +442,7 @@ void Graphics::desenha_marcacao_eixoX(){
         marcacaoX5_titulo = new TextNode("legendamarcacaoX5");
 	marcacaoX5_titulo->set_text("");
 	marcacaoX5_titulo_np = graphic_np.attach_new_node(marcacaoX5_titulo);
-	marcacaoX5_titulo_np.set_pos(posicao_marcacaoX5 - 0.03, 0.0, 0.09);
+	marcacaoX5_titulo_np.set_pos(posicao_marcacaoX5 - 0.03, 0.0, 0.07);
 	marcacaoX5_titulo_np.set_scale(0.04);
   	marcacaoX5_titulo_np.set_color(0.0, 0.0, 0.0, 1,0);
 }
@@ -482,7 +482,7 @@ void Graphics::desenha_marcacao_eixoY() {
     marcacaoY1_titulo = new TextNode("legendamarcacaoY1");
     marcacaoY1_titulo->set_text("");
     marcacaoY1_titulo_np = graphic_np.attach_new_node(marcacaoY1_titulo);
-    marcacaoY1_titulo_np.set_pos(0.05, 0.0, posicao_marcacaoY1 - 0.01);
+    marcacaoY1_titulo_np.set_pos(0.015, 0.0, posicao_marcacaoY1 - 0.01);
     marcacaoY1_titulo_np.set_scale(0.04);
     marcacaoY1_titulo_np.set_color(0.0, 0.0, 0.0, 1, 0);
 
@@ -496,7 +496,7 @@ void Graphics::desenha_marcacao_eixoY() {
     marcacaoY2_titulo = new TextNode("legendamarcacaoY2");
     marcacaoY2_titulo->set_text("");
     marcacaoY2_titulo_np = graphic_np.attach_new_node(marcacaoY2_titulo);
-    marcacaoY2_titulo_np.set_pos(0.05, 0.0, posicao_marcacaoY2 - 0.01);
+    marcacaoY2_titulo_np.set_pos(0.015, 0.0, posicao_marcacaoY2 - 0.01);
     marcacaoY2_titulo_np.set_scale(0.04);
     marcacaoY2_titulo_np.set_color(0.0, 0.0, 0.0, 1, 0);
 
@@ -510,7 +510,7 @@ void Graphics::desenha_marcacao_eixoY() {
     marcacaoY3_titulo = new TextNode("legendamarcacaoY3");
     marcacaoY3_titulo->set_text("");
     marcacaoY3_titulo_np = graphic_np.attach_new_node(marcacaoY3_titulo);
-    marcacaoY3_titulo_np.set_pos(0.05, 0.0, posicao_marcacaoY3 - 0.01);
+    marcacaoY3_titulo_np.set_pos(0.015, 0.0, posicao_marcacaoY3 - 0.01);
     marcacaoY3_titulo_np.set_scale(0.04);
     marcacaoY3_titulo_np.set_color(0.0, 0.0, 0.0, 1, 0);
 
@@ -524,7 +524,7 @@ void Graphics::desenha_marcacao_eixoY() {
     marcacaoY4_titulo = new TextNode("legendamarcacaoY4");
     marcacaoY4_titulo->set_text("");
     marcacaoY4_titulo_np = graphic_np.attach_new_node(marcacaoY4_titulo);
-    marcacaoY4_titulo_np.set_pos(0.05, 0.0, posicao_marcacaoY4 - 0.01);
+    marcacaoY4_titulo_np.set_pos(0.015, 0.0, posicao_marcacaoY4 - 0.01);
     marcacaoY4_titulo_np.set_scale(0.04);
     marcacaoY4_titulo_np.set_color(0.0, 0.0, 0.0, 1, 0);
 
@@ -539,7 +539,7 @@ void Graphics::desenha_marcacao_eixoY() {
     marcacaoY5_titulo = new TextNode("legendamarcacaoY5");
     marcacaoY5_titulo->set_text("");
     marcacaoY5_titulo_np = graphic_np.attach_new_node(marcacaoY5_titulo);
-    marcacaoY5_titulo_np.set_pos(0.05, 0.0, posicao_marcacaoY5 - 0.01);
+    marcacaoY5_titulo_np.set_pos(0.015, 0.0, posicao_marcacaoY5 - 0.01);
     marcacaoY5_titulo_np.set_scale(0.04);
     marcacaoY5_titulo_np.set_color(0.0, 0.0, 0.0, 1, 0);
 }

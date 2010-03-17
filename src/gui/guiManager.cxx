@@ -1568,6 +1568,22 @@ void GuiManager::click_event_botao_grafico_variavel(const Event*, void* data) {
         botao7Energia_ledON.hide();
         botao8GastoEnergetico_ledOFF.show();
         botao8GastoEnergetico_ledON.hide();
+        vBotao1TempInterna_ledOFF.show();
+        vBotao1TempInterna_ledON.hide();
+        vBotao2Hidratcao_ledOFF.show();
+        vBotao2Hidratcao_ledON.hide();
+        vBotao3TempAr_ledOFF.hide();
+        vBotao3TempAr_ledON.show();
+        vBotao4UmidadeAr_ledOFF.show();
+        vBotao4UmidadeAr_ledON.hide();
+        vBotao5TempSolo_ledOFF.show();
+        vBotao5TempSolo_ledON.hide();
+        vBotao6Alimentacao_ledOFF.show();
+        vBotao6Alimentacao_ledON.hide();
+        vBotao7Energia_ledOFF.show();
+        vBotao7Energia_ledON.hide();
+        vBotao8GastoEnergetico_ledOFF.show();
+        vBotao8GastoEnergetico_ledON.hide();
         grafico_variavel_ativo = true;
         grafico_tempo_ativo = false;
 
@@ -1579,7 +1595,8 @@ void GuiManager::click_event_botao_grafico_variavel(const Event*, void* data) {
         limiteInferiorX = this_guiManager->vector->getSmallestElement(vetorX);
         limiteSuperiorY = this_guiManager->vector->getLargestElement(vetorY);
         limiteInferiorY = this_guiManager->vector->getSmallestElement(vetorX);
-        legendaX = (string) "Temp interna";
+        legendaX = (string) "Temp ar";
+        legendaY = (string) "Temp ar";
         this_guiManager->graphicVariavel = new Graphics(&(this_guiManager->optionFrameNode), vetorX, vetorY, limiteSuperiorX, limiteInferiorX, limiteSuperiorY, limiteInferiorY, false);
         this_guiManager->graphicVariavel->set_Position_Graphic(0.2, 0.6);
         this_guiManager->graphicVariavel->set_scale(1.2);
@@ -1814,7 +1831,8 @@ void GuiManager::click_event_botao2_grafico_Hidratacao(const Event*, void* data)
         this_guiManager->graphicVariavel = new Graphics(&(this_guiManager->optionFrameNode), vetorX, vetorY, limiteSuperiorX, limiteInferiorX, limiteSuperiorY, limiteInferiorY, false);
         this_guiManager->graphicVariavel->set_Position_Graphic(0.2, 0.6);
         this_guiManager->graphicVariavel->set_scale(1.2);
-        string titulo = legendaX + (string) " x " + legendaY;         this_guiManager->graphicVariavel->set_Titulo_Grafico(titulo);
+        string titulo = legendaX + (string) " x " + legendaY;
+        this_guiManager->graphicVariavel->set_Titulo_Grafico(titulo);
         this_guiManager->graphicVariavel->set_Titulo_EixoX(legendaX);
         this_guiManager->graphicVariavel->set_Titulo_EixoY(legendaY);
         this_guiManager->graphicVariavel->create_Graphic(tamanhoVetorX, tamanhoVetorY);
@@ -1973,6 +1991,7 @@ void GuiManager::click_event_botao5_grafico_TempSolo(const Event*, void* data) {
             }
         }
     } else {
+        cout << "PASSOU AQUI!" << endl;
         this_guiManager->desliga_leds_painel_tempo();
         botao5TempSolo_ledOFF.hide();
         botao5TempSolo_ledON.show();
@@ -1980,11 +1999,12 @@ void GuiManager::click_event_botao5_grafico_TempSolo(const Event*, void* data) {
         tamanhoVetorY = this_guiManager->vector->getSizeVectorTemperaturaSolo();
         legendaY = (string) "Temp do solo";
         limiteInferiorY = this_guiManager->vector->getSmallestElement(vetorY);
-        limiteSuperiorY = this_guiManager->vector->getSmallestElement(vetorY);
+        limiteSuperiorY = this_guiManager->vector->getLargestElement(vetorY);
         this_guiManager->graphicVariavel = new Graphics(&(this_guiManager->optionFrameNode), vetorX, vetorY, limiteSuperiorX, limiteInferiorX, limiteSuperiorY, limiteInferiorY, false);
         this_guiManager->graphicVariavel->set_Position_Graphic(0.2, 0.6);
         this_guiManager->graphicVariavel->set_scale(1.2);
-        string titulo = legendaX + (string) " x " + legendaY;         this_guiManager->graphicVariavel->set_Titulo_Grafico(titulo);
+        string titulo = legendaX + (string) " x " + legendaY;
+        this_guiManager->graphicVariavel->set_Titulo_Grafico(titulo);
         this_guiManager->graphicVariavel->set_Titulo_EixoX(legendaX);
         this_guiManager->graphicVariavel->set_Titulo_EixoY(legendaY);
         this_guiManager->graphicVariavel->create_Graphic(tamanhoVetorX, tamanhoVetorY);
@@ -2033,8 +2053,8 @@ void GuiManager::click_event_botao6_grafico_Alimentacao(const Event*, void* data
         vetorY = this_guiManager->vector->getVectorAlimentacao();
         tamanhoVetorY = this_guiManager->vector->getSizeVectorAlimentacao();
         legendaY = (string) "Alimentacao";
-        limiteInferiorY = 0;
-        limiteSuperiorY = 100;
+        limiteInferiorY = this_guiManager->vector->getSmallestElement(this_guiManager->vector->getVectorAlimentacao());
+        limiteSuperiorY = this_guiManager->vector->getLargestElement(this_guiManager->vector->getVectorAlimentacao());
         this_guiManager->graphicVariavel = new Graphics(&(this_guiManager->optionFrameNode), vetorX, vetorY, limiteSuperiorX, limiteInferiorX, limiteSuperiorY, limiteInferiorY, false);
         this_guiManager->graphicVariavel->set_Position_Graphic(0.2, 0.6);
         this_guiManager->graphicVariavel->set_scale(1.2);
@@ -2145,8 +2165,8 @@ void GuiManager::click_event_botao8_grafico_GastoEnergetico(const Event*, void* 
         vetorY = this_guiManager->vector->getVectorGastoEnergeticoTotal();
         tamanhoVetorY = this_guiManager->vector->getSizeVectorGastoEnergiticoTotal();
         legendaY = (string) "Gasto energetico";
-        limiteInferiorY = 0;
-        limiteSuperiorY = 0.4;
+        limiteInferiorY = this_guiManager->vector->getSmallestElement(this_guiManager->vector->getVectorGastoEnergeticoTotal());//0;
+        limiteSuperiorY = this_guiManager->vector->getLargestElement(this_guiManager->vector->getVectorGastoEnergeticoTotal());//0.4;
         this_guiManager->graphicVariavel = new Graphics(&(this_guiManager->optionFrameNode), vetorX, vetorY, limiteSuperiorX, limiteInferiorX, limiteSuperiorY, limiteInferiorY, false);
         this_guiManager->graphicVariavel->set_Position_Graphic(0.2, 0.6);
         this_guiManager->graphicVariavel->set_scale(1.2);
@@ -2164,9 +2184,9 @@ void GuiManager::click_event_vBotao1_grafico_TempInterna(const Event*, void *dat
     vBotao1TempInterna_ledOFF.hide();
     vBotao1TempInterna_ledON.show();
     vetorX = this_guiManager->vector->getVectorTemperaturaLagarto();
-    tamanhoVetorX = this_guiManager->vector->getSizeVectorTemperaturaSolo();
-    legendaX = (string) "Temp do ar";
-    legendaY = (string) "Temp do ar";
+    tamanhoVetorX = this_guiManager->vector->getSizeVectorTemperaturaLagarto();
+    legendaX = (string) "Temp interna";
+    //legendaY = (string) "Temp do ar";
     limiteInferiorX = this_guiManager->vector->getSmallestElement(vetorX);
     limiteSuperiorX = this_guiManager->vector->getLargestElement(vetorX);
     this_guiManager->graphicVariavel = new Graphics(&(this_guiManager->optionFrameNode), vetorX, vetorY, limiteSuperiorX, limiteInferiorX, limiteSuperiorY, limiteInferiorY, false);
@@ -2259,7 +2279,8 @@ void GuiManager::click_event_vBotao5_grafico_TempSolo(const Event*, void* data) 
     this_guiManager->graphicVariavel = new Graphics(&(this_guiManager->optionFrameNode), vetorX, vetorY, limiteSuperiorX, limiteInferiorX, limiteSuperiorY, limiteInferiorY, false);
     this_guiManager->graphicVariavel->set_Position_Graphic(0.2, 0.6);
     this_guiManager->graphicVariavel->set_scale(1.2);
-    string titulo = legendaX + (string) " x " + legendaY;         this_guiManager->graphicVariavel->set_Titulo_Grafico(titulo);
+    string titulo = legendaX + (string) " x " + legendaY;
+    this_guiManager->graphicVariavel->set_Titulo_Grafico(titulo);
     this_guiManager->graphicVariavel->set_Titulo_EixoX(legendaX);
     this_guiManager->graphicVariavel->set_Titulo_EixoY(legendaY);
     this_guiManager->graphicVariavel->create_Graphic(tamanhoVetorX, tamanhoVetorY);
@@ -2275,8 +2296,8 @@ void GuiManager::click_event_vBotao6_grafico_Alimentacao(const Event*, void* dat
     vetorX = this_guiManager->vector->getVectorAlimentacao();
     tamanhoVetorX = this_guiManager->vector->getSizeVectorAlimentacao();
     legendaX = (string) "Alimentacao";
-    limiteInferiorX = 0;
-    limiteSuperiorX = 100;
+    limiteInferiorX = this_guiManager->vector->getSmallestElement(this_guiManager->vector->getVectorAlimentacao());
+    limiteSuperiorX = this_guiManager->vector->getLargestElement(this_guiManager->vector->getVectorAlimentacao());
     this_guiManager->graphicVariavel = new Graphics(&(this_guiManager->optionFrameNode), vetorX, vetorY, limiteSuperiorX, limiteInferiorX, limiteSuperiorY, limiteInferiorY, false);
     this_guiManager->graphicVariavel->set_Position_Graphic(0.2, 0.6);
     this_guiManager->graphicVariavel->set_scale(1.2);
@@ -2317,8 +2338,8 @@ void GuiManager::click_event_vBotao8_grafico_GastoEnergetico(const Event*, void*
     vetorX = this_guiManager->vector->getVectorGastoEnergeticoTotal();
     tamanhoVetorX = this_guiManager->vector->getSizeVectorTemperaturaSolo();
     legendaX = (string) "Gasto energetico";
-    limiteInferiorX = 0;
-    limiteSuperiorX = 0.4;
+    limiteInferiorX = this_guiManager->vector->getSmallestElement(this_guiManager->vector->getVectorGastoEnergeticoTotal());
+    limiteSuperiorX = this_guiManager->vector->getLargestElement(this_guiManager->vector->getVectorGastoEnergeticoTotal());
     this_guiManager->graphicVariavel = new Graphics(&(this_guiManager->optionFrameNode), vetorX, vetorY, limiteSuperiorX, limiteInferiorX, limiteSuperiorY, limiteInferiorY, false);
     this_guiManager->graphicVariavel->set_Position_Graphic(0.2, 0.6);
     this_guiManager->graphicVariavel->set_scale(1.2);
