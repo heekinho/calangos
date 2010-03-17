@@ -163,8 +163,8 @@ void MaleLizard::bite(){
 		get_anim_control()->play("fast_bite");
 
 		Player::get_instance()->be_bited();
-                Player::get_instance()->mordida_recebida(this->get_tamanho_base());
+        Player::get_instance()->mordida_recebida(this->get_tamanho_base());
 		//Player::get_instance()->add_energia_alimento(-5.0);
-		//GuiManager::get_instance()->piscar_life();
+		GuiManager::get_instance()->piscar_life();
 	}
 }
