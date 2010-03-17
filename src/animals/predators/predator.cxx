@@ -68,7 +68,9 @@ void Predator::bite(){
 		this->set_control_effect("comer", 1.0);
 
 		/* Diminui energia do player */
-		Player::get_instance()->add_energia_alimento(-0.2);
+		Player::get_instance()->be_bited();
+		Player::get_instance()->add_energia_alimento(-1.0);
+		GuiManager::get_instance()->piscar_life();
 	}
 }
 
