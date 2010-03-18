@@ -609,6 +609,6 @@ void Player::mordida_recebida(int tamanho_lagarto_base){
 	//energia e hidratação que o lagarto retira do outro em uma mordida é igual a 5% do seu temanho(0-100)
 	float ener_hidr_perdida = tamanho_lagarto_base/20;
 	this->energia = this->energia - ener_hidr_perdida;
-	this->hidratacao = this->hidratacao - ener_hidr_perdida;
+	//this->hidratacao = this->hidratacao - ener_hidr_perdida;
 	GuiManager::get_instance()->piscar_life();
 }
