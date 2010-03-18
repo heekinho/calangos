@@ -68,20 +68,5 @@ void PovCamera::update() {
 		dummy->set_pos(*object, mouse_x * -50*5, -50*5, dummy->get_z() + mouse_y * 50*5);
 		look_at(*dummy);
 	}
-//	else {
-//		dummy->set_pos(*object, 0, -50 * 5, 0);
-//	}
-
-	/* Modifica a visualização da camera pela modificação do mouse */
-
-
-	//set_p(*this, 10);
-//	World::get_default_world()->get_skybox()->set_pos(
-
-//			Simdunas::get_window()->get_render().get_relative_point(*this, LVector3f(0,0,0)));
-
-	// Mudar a orientação do player também aqui?
-	//this->object->look_at(*dummy);
-
 }
 
