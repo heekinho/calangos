@@ -25,6 +25,8 @@ private:
 
     double last_bobbing_done;
     bool waiting_player_decide;
+
+    float eat_thr;
 };
 
 #endif

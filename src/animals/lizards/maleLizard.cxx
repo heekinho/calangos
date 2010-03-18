@@ -36,13 +36,14 @@ void MaleLizard::init() {
     set_gender(LizardGender::male);
 
 
+
+    this->eat_thr = 0.3;
 }
 
 void MaleLizard::act(){
 	PT(Player) player = Player::get_instance();
 
 	float bobbing_dist_thr = 3;
-	float eat_thr = 0.05;
 	float flee_max_dist = 10;
 	float distance = (player->get_pos() - get_pos()).length();
 
@@ -111,9 +112,8 @@ void MaleLizard::flee(){
 
 		/* Comportamento */
 		look_at(*player);  //TODO: Corrigir depois para não permitir muito giro.
-		set_h(*this,0); // Corrige modelo errado
+		set_h(*this, 180); // Corrige modelo errado
 
-		//move(0.02);
 		this->move(VEL_RUN);
 	}
 
@@ -136,6 +136,7 @@ void MaleLizard::wander(){
 
 void MaleLizard::chase(){
 	PT(Player) player = Player::get_instance();
+	float distance = (player->get_pos() - get_pos()).length();
 
 	if(!has_other_anim_active("walk")){
 
@@ -147,9 +148,8 @@ void MaleLizard::chase(){
 
 		/* Comportamento */
 		look_at(*player);  //TODO: Corrigir depois para não permitir muito giro.
-		set_h(*this, 180); // Corrige modelo errado
 
-		move(VEL_RUN);
+		 if(distance > eat_thr - (eat_thr / 10)) move(VEL_RUN);
 	}
 
 }

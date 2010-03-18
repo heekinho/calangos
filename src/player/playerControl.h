@@ -26,7 +26,7 @@ public:
 	//static void move_forward(const Event* ev, void *data);
 	static const string EV_player_move;
 	static const string EV_player_bobbing;
-        static const string EV_player_reproducao;
+	static const string EV_player_reproducao;
 	static const string EV_player_enter_toca;
 	static const string EV_player_outof_toca;
 	static void update(const Event*, void *data);
