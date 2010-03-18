@@ -15,7 +15,8 @@ int main(int argc, char *argv[]) {
 
 	PandaFramework framework;
 	framework.open_framework(argc, argv);
-	framework.set_window_title("Simdunas v1.0");
+	/*AJUSTAR NOME DA VERSÃO A CADA RELEASE*/
+	framework.set_window_title("Simdunas v1.0 beta");
 
 	/* Configurações Iniciais da Janela */
 	WindowProperties properties = WindowProperties();

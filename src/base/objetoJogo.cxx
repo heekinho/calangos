@@ -60,12 +60,12 @@ void ObjetoJogo::blink(const Event*, void *data){
 	if(object->is_hidden()) {
 		object->show();
 		object->set_color_scale(1.0, 0.6, 0.6, 1.0);
-		nout<<"color1"<<endl;
+		//nout<<"color1"<<endl;
 	}
 	else {
 		object->hide();
 		object->set_color_scale(1.0, 1.0, 1.0, 1.0);
-		nout<<"color2"<<endl;
+		//nout<<"color2"<<endl;
 	}
 
 	if(object->bite_blink_counter <= 0) {
