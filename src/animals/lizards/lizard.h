@@ -57,7 +57,8 @@ public:
 
 	//virtual void move(float velocity);
 
-
+	virtual void continue_animation();
+	virtual void pause_animation();
 protected:
 	/* Mapeia as ações */
 	map<string, bool> actions;

@@ -47,6 +47,7 @@ void MaleLizard::act(){
 	float flee_max_dist = 10;
 	float distance = (player->get_pos() - get_pos()).length();
 
+	if(!player->has_female_around() && is_action_active("fight")) set_action("walk", true);
 
 	/* Quando esperando a resposta do player... */
 	if(waiting_player_decide == true){

@@ -201,3 +201,14 @@ void Lizard::play_action_anims(bool loop){
 		}
 	}
 }
+
+
+void Lizard::pause_animation(){
+	clear_actions();
+	get_anim_control()->stop_all();
+}
+
+void Lizard::continue_animation(){
+	set_action("walk", true);
+	if(!get_anim_control()->is_playing("walk")) get_anim_control()->play("walk");
+}
