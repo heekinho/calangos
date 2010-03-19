@@ -309,7 +309,7 @@ GuiManager::GuiManager() {
 	life_bar = ImageBar(frameNode, calango_border, calango);
 
 	//Criando o label do life.
-	labelDamage = new TextNode("Life");
+	labelDamage = new TextNode("VIDA");
 	labelDamage->set_text("VIDA");
 
 	label_np = frameNode.attach_new_node(labelDamage);
@@ -475,7 +475,7 @@ GuiManager::GuiManager() {
 	egg.set_scale(0.006);
 	egg.set_pos(0.28, 0.0, 0.32);
 
-        labelCountEgg = new TextNode("CountEgg");
+        labelCountEgg = new TextNode("0");
 	labelCountEgg->set_text("0");
 
 	labelCountEgg_np = frameNode.attach_new_node(labelCountEgg);
@@ -486,7 +486,7 @@ GuiManager::GuiManager() {
         //----------------------------------------------------------------------
 	//MOSTRADOR DA QUANTIDADE DE MESES.-------------------------------------
         //----------------------------------------------------------------------
-        labelIdade = new TextNode("labelIdade");
+        labelIdade = new TextNode("Idade");
 	labelIdade->set_text("Idade");
 
 	labelIdade_np = frameNode.attach_new_node(labelIdade);
@@ -494,8 +494,8 @@ GuiManager::GuiManager() {
 	labelIdade_np.set_scale(0.05);
   	labelIdade_np.set_color(0.0, 0.0, 0.0, 1,0);
 
-        labelIdadeNumero = new TextNode("labelIdadeNumero");
-	labelIdadeNumero->set_text("labelIdadeNumero");
+        labelIdadeNumero = new TextNode("0");
+	labelIdadeNumero->set_text("0");
 
 	labelIdadeNumero_np = frameNode.attach_new_node(labelIdadeNumero);
 	labelIdadeNumero_np.set_pos(0.35, 0.0, 1.35);

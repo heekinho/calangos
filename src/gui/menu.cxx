@@ -662,7 +662,10 @@ void Menu::tela_over(Session *nsession){
   
 NodePath im_reiniciar = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/reiniciar");
 NodePath im_grafico = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/grafico");
-//NodePath im_sair = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/sair");  
+//NodePath im_sair = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/sair");
+NodePath pos_click = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/pos_click");
+
+pos_click.detach_node();
 im_reiniciar.detach_node();
 im_grafico.detach_node();
 //im_sair.detach_node();
@@ -671,7 +674,7 @@ im_grafico.detach_node();
 ////////////////////////////botoes
   
     	botao_restart = new PGButton("restart");
-  	botao_restart->setup(im_reiniciar);
+  	botao_restart->setup(im_reiniciar, pos_click);
   	
        	button_restart =  Simdunas::get_window()->get_aspect_2d().attach_new_node(botao_restart);
   	button_restart.set_scale(0.3);
