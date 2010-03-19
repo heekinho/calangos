@@ -238,7 +238,7 @@ void Menu::instrucoes_teclas(const Event*, void* data) {
 
         /////Carregando tela teclas
         background_instrucoes = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render_2d(), "models/gui/teclas.png");
-        background_instrucoes.set_scale(0.1, 0.0, 0.17);
+        background_instrucoes.set_scale(0.1, 0.001, 0.17);
         background_instrucoes.set_pos(0.0, 0.0, 0.07);
 
         informa_segundos("Teclas");
@@ -264,7 +264,7 @@ void Menu::instrucoes_teclas(const Event*, void* data) {
         /////carregando tela de marcadores
 
         background_icones = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render_2d(), "models/gui/icones.png");
-        background_icones.set_scale(0.1, 0.0, 0.15);
+        background_icones.set_scale(0.1, 0.001, 0.15);
         background_icones.set_pos(0.0, 0.0, 0.0);
 
 
