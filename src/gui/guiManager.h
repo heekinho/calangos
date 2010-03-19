@@ -65,6 +65,8 @@ public:
     void novo_grafico6_Alimentacao();
     void novo_grafico7_Energia();
     void novo_grafico8_GastoEnergetico();
+    void hide_frameNode();
+    void show_frameNode();
     static void click_event_botao_grafico(const Event*, void *data);
     static void click_event_botao_grafico_tempo(const Event*, void *data);
     static void click_event_botao_grafico_variavel(const Event*, void *data);
