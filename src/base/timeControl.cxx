@@ -135,6 +135,13 @@ void TimeControl::event_pyear(const Event *, void *data){
 void TimeControl::update_time_control(float elapsed_time){
 	_elapsed_time = elapsed_time;
 
+ 			////caso esteja tocando um vídeo será necessário atualizar a cada frame
+        if(Menu::get_instance()->get_playing_movie()){
+
+            Menu::get_instance()->get_audioManager()->update();
+        }
+
+
 	if(stop_time == false){
 		/*cria uma vari?vel event constante, pois o m?todo de enfileirar eventos da classe
 		EventQueue s? aceita vari?veis constantes*/

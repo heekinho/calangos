@@ -1,5 +1,5 @@
 
-#include <panda3d/audioSound.h>
+#include "audioSound.h"
 
 
 #include "simdunas.h"

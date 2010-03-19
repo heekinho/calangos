@@ -51,7 +51,7 @@ Menu::Menu(WindowFramework *window) {
 
 void Menu::start_Menu() {
 
-    play_movie("models/videos/vinheta_opcao_1_mpeg4.avi");
+    play_movie("models/videos/vinheta opcao 1_mpeg4.avi");
 
 
     Simdunas::get_window()->set_background_type(WindowFramework::BT_black);
