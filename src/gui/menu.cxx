@@ -51,7 +51,7 @@ Menu::Menu(WindowFramework *window) {
 
 void Menu::start_Menu() {
 
-    play_movie("models/videos/vinheta opcao 1_mpeg4.avi");
+    play_movie("models/videos/vinheta_opcao_1_mpeg4.avi");
 
 
     Simdunas::get_window()->set_background_type(WindowFramework::BT_black);
@@ -305,7 +305,7 @@ void Menu::lagartos_play(const Event*, void* data) {
     Menu * lagartos = (Menu*) data;
     lagartos->hide_tela_pause();
     GuiManager::get_instance()->hide_frameNode();
-    lagartos->play_movie("models/videos/clipe 1_lagartos_mpeg4.avi");
+    lagartos->play_movie("models/videos/clipe_1_lagartos_mpeg4.avi");
     
 }
 
@@ -313,7 +313,7 @@ void Menu::predadores_play(const Event*, void* data) {
     Menu * predadores = (Menu*) data;
     predadores->hide_tela_pause();
     GuiManager::get_instance()->hide_frameNode();
-    predadores->play_movie("models/videos/clipe 2_predadores_mpeg4.avi");
+    predadores->play_movie("models/videos/clipe_2_predadores_mpeg4.avi");
 
 }
 
@@ -321,7 +321,7 @@ void Menu::presas_play(const Event*, void* data) {
     Menu * presas = (Menu*) data;
     presas->hide_tela_pause();
     GuiManager::get_instance()->hide_frameNode();
-    presas->play_movie("models/videos/clipe 3_presas_mpeg4.avi");
+    presas->play_movie("models/videos/clipe_3_presas_mpeg4.avi");
 
 }
 
@@ -329,14 +329,14 @@ void Menu::habitat_play(const Event*, void* data) {
     Menu * habitat = (Menu*) data;
     habitat->hide_tela_pause();
     GuiManager::get_instance()->hide_frameNode();
-    habitat->play_movie("models/videos/clipe 4_habitat_mpeg4.avi");
+    habitat->play_movie("models/videos/clipe_4_habitat_mpeg4.avi");
 }
 
 void Menu::clima_play(const Event*, void* data) {
     Menu * clima = (Menu*) data;
     clima->hide_tela_pause();
     GuiManager::get_instance()->hide_frameNode();
-    clima->play_movie("models/videos/clipe 5_variacoes_climaticas_mpeg4.avi");
+    clima->play_movie("models/videos/clipe_5_variacoes_climaticas_mpeg4.avi");
 }
 
 void Menu::stop_movie(const Event*, void* data) {
