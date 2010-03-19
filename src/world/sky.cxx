@@ -1,5 +1,8 @@
 
 #include <cmath>
+#include <assert.h>
+
+#include "menu.h"
 
 #include "nodePath.h"
 
@@ -139,7 +142,8 @@ NodePath(Simdunas::get_window()->load_model(Simdunas::get_window()->get_render()
         }
 
 	this->set_scale(1024);
-}
+        
+ }
 
 PT(Sky) Sky::get_default_sky(){
     if(sky==NULL){
@@ -230,10 +234,12 @@ void Sky::change_sky(int new_sky, int previous_sky) {
 
 void Sky::fade(int minuto, int hora) {
 
-	hora_anterior = hora_atual;
+    
+
+    hora_anterior = hora_atual;
     hora_atual = hora;
-	minuto_anterior_sombra=minuto_atual_sombra;
-	minuto_atual_sombra=minuto;
+    minuto_anterior_sombra = minuto_atual_sombra;
+    minuto_atual_sombra = minuto;
 
     limite = abs(minuto_atual_sombra - minuto_anterior_sombra);//diferença de minutos para setar na sombra, ficando assim indepedente do minuto virtual
 	if(limite>50)limite=0.0;
