@@ -57,6 +57,8 @@ private:
 
 	map<string,bool> key_map_player;
 
+
+
 	void morder();
 	void fight(MaleLizard*);
 };

@@ -55,31 +55,42 @@ PlayerControl::PlayerControl() {
 	//char *data;
 	char* action;
 	action = "left"; 		Simdunas::get_framework()->define_key("a", "Rotate Player Left", set_key, (void *) action);
+							Simdunas::get_framework()->define_key("arrow_left", "Rotate Player Left", set_key, (void *) action);
+							Simdunas::get_framework()->define_key("shift-arrow_left", "Rotate Player Left", set_key, (void *) action);
 	action = "fastleft";    Simdunas::get_framework()->define_key("q", "Rotate Player Fast-Left", set_key, (void *) action);
 	action = "forward";   	Simdunas::get_framework()->define_key("s", "Move Player Forward", set_key, (void *) action);
+							Simdunas::get_framework()->define_key("arrow_up", "Rotate Player Left", set_key, (void *) action);
+							Simdunas::get_framework()->define_key("shift-arrow_up", "Rotate Player Left", set_key, (void *) action);
 	action = "fastforward"; Simdunas::get_framework()->define_key("w", "Run Player Forward", set_key, (void *) action);
 	action = "right";     	Simdunas::get_framework()->define_key("d", "Rotate Player Right", set_key, (void *) action);
+							Simdunas::get_framework()->define_key("arrow_right", "Run Player Forward", set_key, (void *) action);
+							Simdunas::get_framework()->define_key("shift-arrow_right", "Rotate Player Left", set_key, (void *) action);
 	action = "fastright";   Simdunas::get_framework()->define_key("e", "Rotate Player Fast Right", set_key, (void *) action);
 
 
 	action = "left"; 		Simdunas::get_framework()->define_key("a-up", "Rotate Player Left", unset_key, (void *) action);
+							Simdunas::get_framework()->define_key("arrow_left-up", "Rotate Player Left", unset_key, (void *) action);
 	action = "fastleft";    Simdunas::get_framework()->define_key("q-up", "Rotate Player Fast-Left", unset_key, (void *) action);
 	action = "forward";   	Simdunas::get_framework()->define_key("s-up", "Move Player Forward", unset_key, (void *) action);
+							Simdunas::get_framework()->define_key("arrow_up-up", "Move Player Forward", unset_key, (void *) action);
 	action = "fastforward"; Simdunas::get_framework()->define_key("w-up", "Run Player Forward", unset_key, (void *) action);
 	action = "right";     	Simdunas::get_framework()->define_key("d-up", "Rotate Player Right", unset_key, (void *) action);
+							Simdunas::get_framework()->define_key("arrow_right-up", "Rotate Player Right", unset_key, (void *) action);
 	action = "fastright";   Simdunas::get_framework()->define_key("e-up", "Rotate Player Fast Right", unset_key, (void *) action);
 
+	action = "shift";		Simdunas::get_framework()->define_key("shift", "SHIFT", special_control, action);
+	action = "shift-up";	Simdunas::get_framework()->define_key("shift-up", "SHIFTUP", special_control, action);
 
 	action = "mouse1";  	Simdunas::get_framework()->define_key("mouse1", "Player Bite", eat, this);
 	action = "bite";  		Simdunas::get_framework()->define_key("space", "Player Bite", eat, this);
-	action = "bobbing";  		Simdunas::get_framework()->define_key("b", "Bobbing", bobbing, this);
+	action = "bobbing";  	Simdunas::get_framework()->define_key("b", "Bobbing", bobbing, this);
 	action = "toca";   		Simdunas::get_framework()->define_key("t", "Toca Control", toca_control, this);
-    action = "reproduzir";		Simdunas::get_framework()->define_key("r", "Reproduzir", reproducao, this);
+    action = "reproduzir";	Simdunas::get_framework()->define_key("r", "Reproduzir", reproducao, this);
 
 	action = "pause"; 		Simdunas::get_framework()->define_key("escape", "Pause Game", chama_pause, this);
 
 	//CHEATS
-	action = "die";		Simdunas::get_framework()->define_key("control-m", "Easter Egg1", special_control, action);
+	action = "die";			Simdunas::get_framework()->define_key("control-m", "Easter Egg1", special_control, action);
 	action = "grow-old";	Simdunas::get_framework()->define_key("control-o", "Easter Egg2", special_control, action);
 
 }
@@ -93,6 +104,9 @@ void PlayerControl::special_control(const Event *theEvent, void *data){
 
 	if(strcmp(str,"grow-old")==0)
 		me->event_pmonth(NULL, me);
+
+	if(strcmp(str,"shift")==0) PlayerControl::get_instance()->key_map_player["shift"] = true;
+	if(strcmp(str,"shift-up")==0) PlayerControl::get_instance()->key_map_player["shift"] = false;
 }
 
 void PlayerControl::reproducao(const Event*, void *data){
@@ -122,7 +136,7 @@ void PlayerControl::update(const Event*, void *data){
 	PT(Player) p = Player::get_instance();
 
 
-	bool fastturn = this_control->key_map_player["fastleft"] || this_control->key_map_player["fastright"];
+	bool fastturn = this_control->key_map_player["fastleft"] || this_control->key_map_player["fastright"] || this_control->key_map_player["shift"];
 	bool rotatingleft  = this_control->key_map_player["left"] || this_control->key_map_player["fastleft"];
 	bool rotatingright = this_control->key_map_player["right"] || this_control->key_map_player["fastright"];
 	bool rotating = rotatingleft || rotatingright;
@@ -146,7 +160,7 @@ void PlayerControl::update(const Event*, void *data){
 	}
 
 	/* Concretiza movimentos e roda animações */
-	if(this_control->key_map_player["fastforward"]){
+	if(this_control->key_map_player["fastforward"] || this_control->key_map_player["shift"]){
 		this_control->move(VEL_RUN);
 		if(!p->get_anim_control()->is_playing("run")) p->get_anim_control()->loop("run", false);
 		p->set_lagarto_correndo();
