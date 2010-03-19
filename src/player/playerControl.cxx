@@ -225,6 +225,8 @@ void PlayerControl::eat(const Event*, void *data){
 	PlayerControl* this_control = (PlayerControl*) data;
 	PT(Player) player = Player::get_instance();
 
+	if(player->get_anim_control()->is_playing("fast_bite")) return;
+
 	/* Falha na ação comer por baixa temperatura */
 	bool eat_fail = false;
 
