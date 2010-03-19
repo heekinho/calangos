@@ -64,7 +64,7 @@ void MaleLizard::act(){
 	if(is_action_active("flee") || this->get_energia() < 20){
 		if(distance < flee_max_dist) flee();
 		else {
-			energia = 21;
+			energia = 50;
 			set_action("walk", true);
 		}
 
