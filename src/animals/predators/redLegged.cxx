@@ -28,7 +28,7 @@ void RedLegged::load_redleggeds(int qtd){
 	int terrain_x_size = World::get_default_world()->get_terrain()->get_x_size();
 	int terrain_y_size = World::get_default_world()->get_terrain()->get_y_size();
 
-	ModelRepository::get_instance()->get_animated_model("siriema")->set_scale(0.003);
+	ModelRepository::get_instance()->get_animated_model("siriema")->set_scale(0.03);
 
 	for (int i = 0; i < qtd; i++) {
 		// Cria a aranha e coloca-a no grafo de cena
@@ -40,7 +40,7 @@ void RedLegged::load_redleggeds(int qtd){
 		int y = rand() % terrain_y_size;
 
 		npc->set_pos(x, y, 0);
-		World::get_default_world()->get_terrain()->add_animal((PT(Animal)) npc);
+		World::get_default_world()->get_terrain()->add_predator((PT(Predator)) npc);
 		npc->get_anim_control()->loop("andar", false);
 		npc->reparent_to(Simdunas::get_window()->get_render());
 	}

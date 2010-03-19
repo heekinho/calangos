@@ -28,7 +28,7 @@ Terrain::Terrain(const string &name) : GeoMipTerrain (name) {
 	Simdunas::get_evt_handler()->add_hook(PlayerControl::EV_player_move, update_terrain, this);
 }
 
-/*! Adiciona um animal ao seu respectivo setor */
+
 void Terrain::add_lizard(PT(Lizard) lizard){
 	Setor::add_lizard(lizard, get_setor_from_pos(lizard->get_x(), lizard->get_y()) );
 }
@@ -36,6 +36,10 @@ void Terrain::add_lizard(PT(Lizard) lizard){
 /*! Adiciona um animal ao seu respectivo setor */
 void Terrain::add_animal(PT(Animal) animal){
 	Setor::add_animal(animal, get_setor_from_pos(animal->get_x(), animal->get_y()) );
+}
+
+void Terrain::add_predator(PT(Predator) predator){
+	Setor::add_predator(predator, get_setor_from_pos(predator->get_x(), predator->get_y()) );
 }
 
 

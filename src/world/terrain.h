@@ -16,6 +16,7 @@
 #include "typedReferenceCount.h"
 
 #include "shadowCard.h"
+#include "predator.h"
 
 /*! A classe Terrain, é compostas por setores, que são divisões lógicas do mesmo.
  * Classe que conta com o auxilio do GeoMipTerrain para gerar os terrenos a partir de um
@@ -30,6 +31,7 @@ public:
 	//void add_object(ObjetoJogo *object);
 	void add_lizard(PT(Lizard) lizard);
 	void add_animal(PT(Animal) animal);
+	void add_predator(PT(Predator) predator);
 	void add_vegetal(PT(Vegetal) vegetal);
 	void add_edible_vegetal(PT(EdibleVegetal) vegetal);
 

@@ -231,6 +231,29 @@ void Setor::remove_lizards(){
 
 
 
+void Setor::add_predator(PT(Predator) predator, PT(Setor) setor){
+	predator->set_setor(setor);
+	setor->predator_list.push_back(predator);
+}
+
+vector<PT(Predator)>* Setor::get_predators(){
+	return &predator_list;
+}
+
+void Setor::remove_predator(PT(Predator) predator){
+	for(int i = 0; i < predator_list.size(); i++){
+		if(*predator_list.at(i) == *predator) {
+			predator_list.erase(predator_list.begin() + i);
+		}
+	}
+}
+
+void Setor::remove_predators(){
+	predator_list.clear();
+}
+
+
+
 // Métodos de animais do setor
 /*! Adiciona um animal ao setor */
 void Setor::add_animal(PT(Animal) animal, PT(Setor) setor){

@@ -6,6 +6,7 @@
 #include "animal.h"
 #include "vegetal.h"
 #include "lizard.h"
+#include "predator.h"
 
 #include "referenceCount.h"
 #include <list>
@@ -44,6 +45,11 @@ public:
 	void remove_animals();
 	vector<PT(Animal)>* get_animals();
 
+	static void add_predator (PT(Predator) predator, PT(Setor) setor);
+	void remove_predator(PT(Predator) animal);
+	void remove_predators();
+	vector<PT(Predator)>* get_predators();
+
 	//TODO: Reference Counting e vector*
 	static void add_vegetal(PT(Vegetal) vegetal, PT(Setor) setor);
 	void remove_vegetals();
@@ -76,6 +82,7 @@ private:
 	vector<PT(Lizard)> lizard_list;
 	vector<PT(Animal)> animal_list;
 	vector<PT(Vegetal)> vegetal_list;
+	vector<PT(Predator)> predator_list;
 	vector<PT(EdibleVegetal)> edible_vegetal_list;
 	vector<PT(ObjetoJogo)> toca_list;
 
