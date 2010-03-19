@@ -240,7 +240,7 @@ void PlayerControl::eat(const Event*, void *data){
 	MouseWatcher *mwatcher = DCAST(MouseWatcher, Simdunas::get_window()->get_mouse().node());
 	if(mwatcher->has_mouse() && mwatcher->get_mouse_x() < 0.57 && !TimeControl::get_instance()->get_stop_time()){
 		/* Distancia em coordenadas "reais" */
-		float dist_eat_thr = 0.20;
+		float dist_eat_thr = 0.20 * player->get_sx() * 1350;
 		/* Dire��o para ambos os lados a partir do versor y do transform do player */
 		int direction_eat_thr = 45;
 
@@ -329,7 +329,7 @@ void PlayerControl::eat(const Event*, void *data){
 					MaleLizard* male_lizard = (MaleLizard*) lizard;
 
 					/*TODO: Parametrizar e pegar o angulo depois */
-					if((player->get_pos() - male_lizard->get_pos()).length() < 0.2){
+					if((player->get_pos() - male_lizard->get_pos()).length() < dist_eat_thr){
 						male_lizard->be_bited();
 						male_lizard->set_energia(male_lizard->get_energia() - 10);
 					}

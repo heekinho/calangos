@@ -8,7 +8,7 @@ NearCamera::NearCamera(PT(Camera) camera) : CameraNode(camera){
 }
 
 void NearCamera::update() {
-	float normalizacao = object->get_sx() * 2500;
+	float normalizacao = object->get_sx() * 2600;
 	nout << normalizacao << endl;
 
 	// Definindo vetores de camera e obtendo a distancia
