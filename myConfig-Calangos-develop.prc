@@ -75,7 +75,8 @@ show-frame-rate-meter  #t
 
 # Enable audio using the FMOD audio library by default:
 
-audio-library-name p3fmod_audio
+#audio-library-name p3fmod_audio
+audio-library-name p3openal_audio
 
 # Enable the use of the new movietexture class.
 
