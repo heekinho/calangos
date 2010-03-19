@@ -110,6 +110,7 @@ void Session::player_death(int causa_mortis){
 * causa_mortis  = 2, desidratação
 * causa_mortis  = 3, alta temperatura
 * causa_mortis  = 4, baixa temperatura
+* causa_mortis  = 5, idade maxima
 **depois fazer enum**/
 
 	stop_animations();
@@ -125,7 +126,7 @@ void Session::player_death(int causa_mortis){
 void Session::receive_answer(char *ans){
 
 	if(strcmp(ans, "r") == 0){
-		cout << "Pressionao Botão de Restar" << endl;
+		//cout << "Pressionao Botão de Restar" << endl;
 		Session::get_instance()->game_over = true;
 	}
 }
