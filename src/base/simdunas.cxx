@@ -1,7 +1,15 @@
+
+#include <panda3d/audioSound.h>
+
+
 #include "simdunas.h"
 
 #include "menu.h"
 #include "antialiasAttrib.h"
+
+#include "movieAudio.h"
+#include "audioSound.h"
+
 //TODO: Colocar constants: modelpath, soundpath, imagepath, texturepath.
 
 //WindowProperties *win_prop;
@@ -42,14 +50,28 @@ int main(int argc, char *argv[]) {
 		//Simdunas::get_framework()->enable_default_keys();
 
 		nout << "Carregando Tela de Abertura..." << endl;
+              
+         
 
 		/* Inicia o Menu */
 		Menu::get_instance()->start_Menu();
-
+               
 		// Segura o jogo no menu até que este libere o início do jogo
 		Thread *current_thread = Thread::get_current_thread();
 		while (Simdunas::get_framework()->do_frame(current_thread)
-				&& Menu::get_instance()->get_rodar() == false) {}
+                && Menu::get_instance()->get_rodar() == false) {
+
+                    if(Menu::get_instance()->get_playing_movie()){//verifica se a vinheta ta sendo tocada
+                                if (Menu::get_instance()->get_sound()->get_time() <= 62) {//verifica se o video chegou ao fim(DEPOIS PROCURAR UMA OUTRA FORMA DE FAZER)
+                                    Menu::get_instance()->get_audioManager()->update(); //é necessário atualizar a cada frame
+                                }
+                                else {
+                                    Menu::get_instance()->stop_movie(NULL,Menu::get_instance());//quando chegar chama o método que para
+                                    
+                                }
+                    }
+               }
+
 
 		TimeControl::virtualTime = Menu::get_instance()->get_minuto_dia_virtual();
 
@@ -105,3 +127,4 @@ EventQueue* Simdunas::get_evt_queue(){
 void Simdunas::set_evt_queue(EventQueue *evt_queue){
 	Simdunas::evt_queue = evt_queue;
 }
+
