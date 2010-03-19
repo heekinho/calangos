@@ -331,7 +331,7 @@ void PlayerControl::eat(const Event*, void *data){
 					/*TODO: Parametrizar e pegar o angulo depois */
 					if((player->get_pos() - male_lizard->get_pos()).length() < 0.2){
 						male_lizard->be_bited();
-						male_lizard->set_energia(male_lizard->get_energia() - 3);
+						male_lizard->set_energia(male_lizard->get_energia() - 10);
 					}
 				}
 			}
