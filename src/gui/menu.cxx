@@ -238,11 +238,11 @@ void Menu::instrucoes_teclas(const Event*, void* data) {
 
         /////Carregando tela teclas
         background_instrucoes = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render_2d(), "models/gui/teclas.png");
-        background_instrucoes.set_scale(0.1, 0.0, 0.15);
-        background_instrucoes.set_pos(0.0, 0.0, 0.0);
+        background_instrucoes.set_scale(0.1, 0.0, 0.17);
+        background_instrucoes.set_pos(0.0, 0.0, 0.07);
 
         informa_segundos("Teclas");
-        node_texto.set_pos(-0.3, 0.0, 0.88);
+        node_texto.set_pos(-0.3, 0.0, 0.85);
         node_texto.set_color(0.0, 0.0, 0.0);
         //construindo o botão instruções
         inst->botao_voltar = new PGButton("instrucoes");
