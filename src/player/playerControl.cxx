@@ -296,8 +296,7 @@ void PlayerControl::eat(const Event*, void *data){
 			}
 		}
 
-		if(!eatsuccess)
-		{
+		if(!eatsuccess) {
 			vector<PT(EdibleVegetal)> *sector_edible_vegetals = player->get_setor()->get_edible_vegetals();
 			for (int i = 0; i < sector_edible_vegetals->size(); i++) {
 				PT(EdibleVegetal) npc = sector_edible_vegetals->at(i);
@@ -318,25 +317,23 @@ void PlayerControl::eat(const Event*, void *data){
 
 				}
 
+			}
+		}
 
-				/* Morder outro lagarto */
-				if(!eatsuccess){
-					vector<PT(Lizard)>* lizards = player->get_setor()->get_lizards();
-					for(int i = 0; i < lizards->size(); i++){
-						Lizard* lizard = lizards->at(i);
-						if(lizard->get_gender() == LizardGender::male){
-							MaleLizard* male_lizard = (MaleLizard*) lizard;
+		/* Morder outro lagarto */
+		if(!eatsuccess){
+			vector<PT(Lizard)>* lizards = player->get_setor()->get_lizards();
+			for(int i = 0; i < lizards->size(); i++){
+				Lizard* lizard = lizards->at(i);
+				if(lizard->get_gender() == LizardGender::male){
+					MaleLizard* male_lizard = (MaleLizard*) lizard;
 
-							/*TODO: Parametrizar e pegar o angulo depois */
-							if((player->get_pos() - male_lizard->get_pos()).length() < 0.1){
-								male_lizard->be_bited();
-								male_lizard->set_energia(male_lizard->get_energia() - 3);
-								nout << "NPC be bited: " << male_lizard->get_energia() << endl;
-							}
-						}
+					/*TODO: Parametrizar e pegar o angulo depois */
+					if((player->get_pos() - male_lizard->get_pos()).length() < 0.2){
+						male_lizard->be_bited();
+						male_lizard->set_energia(male_lizard->get_energia() - 3);
 					}
 				}
-
 			}
 		}
 

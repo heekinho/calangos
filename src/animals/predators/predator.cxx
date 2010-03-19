@@ -11,12 +11,12 @@ Predator::~Predator(){}
 
 
 void Predator::load_predators(){
-	RedLegged::load_redleggeds(40);
+	RedLegged::load_redleggeds(30);
 }
 
 
 void Predator::act(){
-	float distance = 25;
+	float distance = 10;
 	PT(Player) player = Player::get_instance();
 	LVector3f predator_to_player = this->get_pos() - player->get_pos();
 
@@ -75,7 +75,7 @@ void Predator::bite(){
 
 void Predator::pause_animation(){
 	get_anim_control()->stop_all();
-	get_anim_control()->pose_all(0);
+	get_anim_control()->pose("andar", 7);
 }
 
 void Predator::continue_animation(){
