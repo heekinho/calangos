@@ -2391,3 +2391,12 @@ void GuiManager::verifica_conta(const Event*, void* data) {
         Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_pass_frame_gui_options, verifica_conta, this_manager);
     }
 }
+
+void GuiManager::hide_frameNode(){
+
+    frameNode.hide();
+}
+
+void GuiManager::show_frameNode(){
+    frameNode.show();
+}
