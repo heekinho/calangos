@@ -130,11 +130,10 @@ void PlayerControl::unset_key(const Event *theEvent, void *data) {
 void PlayerControl::update(const Event*, void *data){
 	PlayerControl* this_control = (PlayerControl*)data;
 
-	//TODO: Colocar tudo em funcao de elapsedTime
-	//float elapsed = TimeControl::get_instance()->get_elapsed_time();
-
 	PT(Player) p = Player::get_instance();
 
+	/* Verifica se tem femeas por perto */
+	p->update_female_around();
 
 	bool fastturn = this_control->key_map_player["fastleft"] || this_control->key_map_player["fastright"] || this_control->key_map_player["shift"];
 	bool rotatingleft  = this_control->key_map_player["left"] || this_control->key_map_player["fastleft"];
@@ -183,10 +182,6 @@ void PlayerControl::update(const Event*, void *data){
 
 		p->set_lagarto_parado();
 	}
-
-
-	// Atualiza o Z do player...
-	//World::get_default_world()->get_terrain()->update_object_z(p);
 }
 
 

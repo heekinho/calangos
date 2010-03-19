@@ -15,6 +15,7 @@ Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_anim
 	Player::get_gender_name(lizard_gender))){
 	in_toca = false;
 	toca_index = -1;
+	female_around = false;
 
 	//int especie = Menu::get_instance()->get_especie();
 	load_health(Menu::get_instance()->get_especie());
@@ -37,10 +38,7 @@ PT(Player) Player::get_instance() {
 
 /* Destrutor da classe Player */
 Player::~Player() {
-	
 	nout << "O player está sendo destruído" << endl << endl << endl << endl;
-	
-	
 	//this->~ObjetoJogo();
 }
 
@@ -159,4 +157,26 @@ void Player::unload_player(){
 	single->remove_node();
 	single = NULL;
 	//single->~Player();
+}
+
+bool Player::has_female_around(){
+	return female_around;
+}
+
+void Player::update_female_around(){
+	float dist_thr = 5.0;
+
+	vector<PT(Lizard)>* lizards = this->get_setor()->get_lizards();
+	for(int i = 0; i < lizards->size(); i++){
+		Lizard* lizard = lizards->at(i);
+		if(lizard->get_gender() == LizardGender::female){
+			float distance_player_to_female = (lizard->get_pos() - get_pos()).length();
+			if(distance_player_to_female < dist_thr){
+				this->female_around = true;
+				return;
+			}
+		}
+	}
+
+	this->female_around = false;
 }

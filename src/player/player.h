@@ -284,6 +284,12 @@ private:
 	int idade;
 	//numero de ovos
 	int num_ovos;
+
+public:
+	bool has_female_around();
+	void update_female_around();
+private:
+	bool female_around;
 };
 
 #endif

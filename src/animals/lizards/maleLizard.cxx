@@ -75,11 +75,16 @@ void MaleLizard::act(){
 		else chase();
 	}
 	else if(distance < bobbing_dist_thr && !waiting_player_decide){
-		bob();
-		last_bobbing_done = ClockObject::get_global_clock()->get_real_time();
-		waiting_player_decide = true;
+		/* Aqui se verifica as condições para começar uma briga */
+		/* "Se o player tem femea próximo dele, e eu tow perto dele, logo tem femea perto de mim..."
+		 * Evita-se assim ter que calcular toda santa hora as distâncias e etc. Só consulto a flag... */
+		if(player->has_female_around()){
+			bob();
+			last_bobbing_done = ClockObject::get_global_clock()->get_real_time();
+			waiting_player_decide = true;
 
-		Simdunas::get_evt_handler()->add_hook(PlayerControl::EV_player_bobbing, player_did_bobbing, (void *) this);
+			Simdunas::get_evt_handler()->add_hook(PlayerControl::EV_player_bobbing, player_did_bobbing, (void *) this);
+		}
 	}
 	else {
 		set_action("walk");
