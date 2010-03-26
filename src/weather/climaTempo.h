@@ -1,3 +1,7 @@
+/*Essa classe é responsável por controlar as temperaturas do ambiente (ar, solo e toca). A cada dia (virtual), os valores de 
+temperaturas máximas e mínimas são obtidas mediante um sorteio normal e, a partir desses valores, as temperaturas 
+são atualizadas a cada hora virtual.*/
+
 #ifndef CLIMATEMPO_H
 #define CLIMATEMPO_H
 
@@ -15,7 +19,7 @@ public:
 	//Singleton
 	static PT(ClimaTempo) get_instance();
 
-	//M�todo respons�vel por manter atualizados os valores das vari�veis ambientais
+	//Método responsável por manter atualizados os valores das variáveis ambientais
     void ambient_control(int hour,int month);
 
 	//M�todos respons�veis pelos c�lculos do valores das vari�veis ambientais
@@ -36,15 +40,17 @@ public:
 	*aleatoriamente, de acordo com as vari�veis recebidas*/
 	double random_normal(double esp,double var);
 
+	//get's
 	double get_temp_ar();
 	double get_temp_solo();
 	double get_temp_toca();
 	double get_chuva_today();
 	double get_umi_rel();
 
-	//processa evento de passagem de hora(�nico que interessa at� o momento)
+	//processa evento de passagem de hora(�nico que interessa at� o momento), onde as temperaturas serão atualizadas
 	static void event_phour_temp(const Event *, void *data);
 
+	//destroi o objeto e/ou qualquer referência a ele
 	static void unload_climaTempo();
 
 	//armazena a quantidade de chuvas para cada dia
@@ -94,9 +100,7 @@ public:
 private:
 	static bool instanceFlag;
 	static PT(ClimaTempo) single;
-
 	static TypeHandle _type_handle;
 };
 
-//#include "climaTempo.I"
 #endif
