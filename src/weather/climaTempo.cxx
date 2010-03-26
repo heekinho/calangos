@@ -1,14 +1,14 @@
 #include <iostream>
-//#include <stdlib.h>
 #include <stdio.h>
-//#include <math.h>
 #include <vector>
-//#include <time.h>
 using namespace std;
 
 #include "climaTempo.h"
 
+/*Inicializando constante que será utilizado em sorteio normal com um valor
+* aleatório, situado entre 0 e 1*/
 #define RAND_UNIFORME (double)rand()/(double)RAND_MAX
+
 /*Quantidade maxima de chuvas no historico de 4 localidades proximas as
 dunas, ocorrido em Morpara, marco de 1960*/
 #define QT_CHUVA_MAX 624
@@ -18,25 +18,34 @@ dunas, ocorrido em Morpara, marco de 1960*/
 
 TypeHandle ClimaTempo::_type_handle;
 
+/*Inicializando informações do singleton*/
 bool ClimaTempo::instanceFlag = false;
 PT(ClimaTempo) ClimaTempo::single = NULL;
 
 ClimaTempo::ClimaTempo() {
 
 	/*inicializa o rand, para que a cada chamada do jogo, os valores
-	*retornados por essa fun��es sejam diferentes*/
+	*retornados por essas fun��es sejam diferentes*/
 	srand(time(NULL));
+	//Sinaliza que o jogo está começando
 	initialization = 0;
+	/*Chama o método responsável pelo controle dos valores das temperaturas, passando como parâmetros a hora
+	*e o mês (virtuais) atuais*/
 	this->ambient_control(TimeControl::get_instance()->get_hora(), TimeControl::get_instance()->get_mes());
 
-	//initialization = this->initialization;
+	/*Se 'inscreve' para escutar o evento de passagem de hora virtual (Ev_pass_hour), gerado pela classe TimeControl.
+	*Quando esse evento acontecer, o método event_phour_temp() será chamado.*/
 	Simdunas::get_evt_handler()->add_hook(TimeControl::get_instance()->EV_pass_hour, event_phour_temp, this);
 }
 
+/*Isso e o TypeHandle garantem que todos as referências sejam eliminadas ao finalizar o jogo
+e, ao reiniciá-lo, garante-se que um novo objeto da classe será gerado.*/
 ClimaTempo::~ClimaTempo() {
 	instanceFlag = false;
 }
 
+/*Método chamado quando o evento de passagem de hora é lançado.  
+*Chama um método que atualiza os valores das temperaturas.*/
 void ClimaTempo::event_phour_temp(const Event*, void *data){
 
 	ClimaTempo::get_instance()->ambient_control(TimeControl::get_instance()->get_hora(), TimeControl::get_instance()->get_mes());
@@ -45,6 +54,8 @@ void ClimaTempo::event_phour_temp(const Event*, void *data){
 	}
 }
 
+/*Método que recebe esperança (ou média) e variância (ou desvio padrão), e retorna um número
+*gerado a partir de um sorteio normal (ou gaussiano)*/
 double ClimaTempo::random_normal(double esp,double var)
 {
 	double u1=RAND_UNIFORME;
@@ -54,7 +65,7 @@ double ClimaTempo::random_normal(double esp,double var)
 };
 
 
-//TODO:MUDAR PARA DECAIMENTO SER ENTRE 20 E 6 HORAS...
+//PAREI DOCUMENTAÇÃO AKI!!!
 double ClimaTempo::temp_ar_single(int hour, float nextMin, float nextMax, float nextVariation, float tminToday, float tmaxToday, float variationToday){
 
 	//armazena a temperatura do ar a ser retornada
