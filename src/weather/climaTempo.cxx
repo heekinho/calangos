@@ -118,24 +118,36 @@ double ClimaTempo::temp_solo_single(int hour, float nextMin, float nextMax, floa
 	double lamp = 0;
 
 	if(hour == 0){
+		/*Para modelar o atraso de fase (0h = 24h, 24 - 1 = 23). Usa como parâmetros as temperaturas máximas e
+		*mínimas do dia atual e do seguinte*/
 		lamp = temp_ar_single((23),nextMin, nextMax, nextVariation, tminToday, tmaxToday, variationToday);
 	}else{
 		if(hour == 6){
+			/*Usa como parametros as temperaturas maximas e minimas do dia atual do dia anterior*/
 			lamp = temp_ar_single((5), tminToday, tmaxToday, variationToday, prevTmin, prevTmax, preVariaton);
 		}else{
-			//O parametro (hour-1) modela o atraso de fase, já que para os cálculos da temperatura do solo,
+			/*O parametro (hour-1) modela o atraso de fase, já que para os cálculos da temperatura do solo,
+			* a base será  a temperatura do ar de um hora atrás. Usa como parâmetros as temperaturas maximas e mínimas 
+			* do dia atual e do dia seguinte.*/
 			lamp = temp_ar_single((hour-1), nextMin, nextMax, nextVariation, tminToday, tmaxToday, variationToday);
 		}
 	}
+
 	double tempSoloSingle = alfa*lamp*lamp + beta;
 	return tempSoloSingle;
 }
 
+/*Calcula e retorna a temperatura das tocas (abaixo da superfície) para a hora 'hour', de acordo com os outros argumentos 
+*recebidos. Essa temperatura toma como base a temperatura do ar, e tem mesmo formato de curva, tento, porém uma amplitude menor,
+*e uma latência (atraso de fase) em relação a curva da temperatura do ar*/
 double ClimaTempo::temp_toca_single(int hour, float nextMin, float nextMax, float nextVariation, float tminToday, float tmaxToday, float variationToday, float prevTmin, float prevTmax, float preVariaton){
 
+	//Fator de atenuação da curva da temperatura do ar
 	double alfa = 0.15;
+	//Deslocamento para cima, para curva ter valores rozoavelmente realistas
 	double beta = 26;
 	double gama = 0;
+	//Essa parte é semelhante ao que ocorre em temp_solo_single
 	if(hour == 0){
 		gama = temp_ar_single((23),nextMin, nextMax, nextVariation, tminToday, tmaxToday, variationToday);
 	}else{
@@ -145,18 +157,19 @@ double ClimaTempo::temp_toca_single(int hour, float nextMin, float nextMax, floa
 			gama = temp_ar_single((hour-1), nextMin, nextMax, nextVariation, tminToday, tmaxToday, variationToday);
 		}
 	}
-	//double teste = temp_ar_single((hour-1), nextMin, nextMax, nextVariation, tminToday, tmaxToday, variationToday);
 	double tempTocaSingle = gama*alfa + beta;
-	//cout << "teste:" << teste << "\ngama: " <<gama << "\ntemptoca" << tempTocaSingle<< endl;
 	return tempTocaSingle;
 }
 
-
+/*A principal caracteristica da umidade relativa do ar é a inversão de fase em relação às temperaturas, e sua variação,
+*cujos valores podem ir de 0 a 100. Então esse método recebe a temperatura do ar, inverte a fase, e faz o ajuste 
+*do valor correspondente da umidade relativa, referente ao valor de temperatura do ar passada*/
 double ClimaTempo::umidade_relativa(double tempAr){
 
 	double alfa = -3.9;
     double beta = 158;
 	double umidadeRel;
+	//Se estiver chuvendo, umidade relativa em 100% o dia todo
 	if(qtChuva != 0){
 		umidadeRel = 100;
 	}else{
@@ -174,6 +187,7 @@ double ClimaTempo::umidade_relativa(double tempAr){
 	//return ((-3.9)*tempAr + 158);
 }
 
+/*PAREI DOCUMENAÇÂO AKI!!!!*/
 void ClimaTempo::ambient_control(int hour, int month){
 	if(hour == 2 || initialization==0){//se for a primeira interação gera o cálculo
 		//verifica a quantidade de chuvas para esse dia
