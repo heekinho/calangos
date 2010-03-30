@@ -65,28 +65,27 @@ double ClimaTempo::random_normal(double esp,double var)
 };
 
 
-//PAREI DOCUMENTAÇÃO AKI!!!
+/*Método que calcula e retorna a temperatura do ar na hora 'hour', de acordo com os outros argumenos recebidos pela função */
 double ClimaTempo::temp_ar_single(int hour, float nextMin, float nextMax, float nextVariation, float tminToday, float tmaxToday, float variationToday){
 
-	//armazena a temperatura do ar a ser retornada
+	//armazena a temperatura do ar que será retornada
 	double tempArSingle = 0;
 	float tmin = tminToday;
     float tmax = tmaxToday;
-
+	
+	//ponto (hora do dia) onde a curva (temperatura) começa a declinar
 	float ponto_inflecao = tmax - ((tmax - nextMin)/2);
 	// variavel que define a inclinacao da reta.
 	float a_reta = -(((tmax-nextMin)/2)/9);
 	float b_reta = nextMin;
-	/*// define em que temperatura acima da minina a senoide acaba.
-    float endSin = (tmin + variationToday);*/
 	/*constante que define onde sera o pico da fun�ao cos-seno (que horas sera a temperatura maxima do dia, esse valor coloca
 	a temperatura maxima em 14:00 horas).*/
     double const1 = (PI/16);
 	// constante que define como a fun�ao cos-seno deve decair apos a temperatura maxima, para que seu valor seja igual a b as 24:00h.
     double const2 = (PI/14);
 	if (hour < 6 || hour > 21){
-		/*reta que come�a em b, e cuja inclina�ao e definida por a. Ela vai de b ate a temperatura minima do dia seguinte,
-		que definimos que sera as 5:00h.*/
+		/*reta que comeca em b, e cuja inclina�ao e definida por a. Ela vai de b ate a temperatura minima do dia seguinte,
+		que definimos as 5:00h.*/
 		if(hour < 6){
 			tempArSingle = (a_reta * ((hour + 24) - 30)) + b_reta;
 		}else{
@@ -103,26 +102,28 @@ double ClimaTempo::temp_ar_single(int hour, float nextMin, float nextMax, float 
 			tempArSingle = ponto_inflecao + ((tmax - nextMin)/2)*cos((hour - 14)*const2);
 		}
 	}
-	/*if(qtChuva != 0){
-		//TODO: continuidade de um dia para o outro
-		//tempArSingle = tempArSingle*0.9;
-	}*/
+	
 	return tempArSingle;
 }
 
+/*Calcula e retorna a temperatura do solo para a hora 'hour', de acordo com os outros argumentos recebidos.
+* Essa temperatura toma como base a temperatura do ar, e tem mesmo formato de curva, tento porém uma amplitude maior, 
+* e uma latência (atraso de fase) em relação a curva da temperatura do ar*/
 double ClimaTempo::temp_solo_single(int hour, float nextMin, float nextMax, float nextVariation, float tminToday, float tmaxToday, float variationToday, float prevTmin, float prevTmax, float preVariaton){
 
-	//tentar explicar alfa e beta
+	//Fator de atenuação da curva gerada pelo quadrado dos valores de temperatura do ar
 	double alfa = 0.0425;
+	//Deslocamento da curva para cima (shift), para que fique em  torno de valores razoavelmente reais
     double beta = 3.9;
 	double lamp = 0;
+
 	if(hour == 0){
 		lamp = temp_ar_single((23),nextMin, nextMax, nextVariation, tminToday, tmaxToday, variationToday);
-		//lamp = temp_ar_single((23),tminToday, tmaxToday, variationToday, prevTmin, prevTmax, preVariaton);
 	}else{
 		if(hour == 6){
 			lamp = temp_ar_single((5), tminToday, tmaxToday, variationToday, prevTmin, prevTmax, preVariaton);
 		}else{
+			//O parametro (hour-1) modela o atraso de fase, já que para os cálculos da temperatura do solo,
 			lamp = temp_ar_single((hour-1), nextMin, nextMax, nextVariation, tminToday, tmaxToday, variationToday);
 		}
 	}
