@@ -187,9 +187,13 @@ double ClimaTempo::umidade_relativa(double tempAr){
 	//return ((-3.9)*tempAr + 158);
 }
 
-/*PAREI DOCUMENAÇÂO AKI!!!!*/
+/*Método que gerencia a geração dos parâmetros ambientais necessários para os cálculos de temperatura e umidade relativa do ar.
+*No início de cada dia ele chama os métodos responsáveis pela geração desses parâmetros, e faz as aquisições levando em
+consideração a época do ano.*/
 void ClimaTempo::ambient_control(int hour, int month){
-	if(hour == 2 || initialization==0){//se for a primeira interação gera o cálculo
+
+	//se for a primeira interação gera o cálculo
+	if(hour == 2 || initialization==0){
 		//verifica a quantidade de chuvas para esse dia
 		qtChuva = prob_chuva(month);
 		if(DEBUG){
@@ -282,6 +286,8 @@ void ClimaTempo::ambient_control(int hour, int month){
 	if(DEBUG){
 		cout << "\n TMaxToday = " <<  this->tmaxToday << "\n TMinToday = " << this->tminToday << "\n TMinNext = " << this->nextMin << "\n TMinPrev = " << this->minPrev << "\n VariationToday = " << this->variationToday << endl;
 	}
+
+	//Atualiza os valores das variáveis ambientais
 	tempArControl = temp_ar_single(hour, this->nextMin, this->nextMax ,this->nextVariation , this->tminToday, this->tmaxToday ,this->variationToday);
 	umidadeRel = umidade_relativa(tempArControl);
 	tempSoloControl = temp_solo_single(hour, nextMin ,this->nextMax ,this->nextVariation , this->tminToday, this->tmaxToday ,this->variationToday, this->minPrev, this->maxPrev, this->variationPrev);
@@ -309,8 +315,15 @@ void ClimaTempo::ambient_control(int hour, int month){
 	
 }
 
+/*Calcula e retorna a quantidade de chuva em determinado dia.
+*Esse método toma como base, o histórico de chuvas da região, com a média e o desvio padrão em cada mês,
+*e o dia considerado o mais chuvoso do hitórico avaliado.*/
 double ClimaTempo::prob_chuva(int mes){
 
+	/*Nome inapropriado, na verdade é um vetor. Matrizes eram utilizadas no Matlab
+	* As 12 primeiras posições são as médias de chuva (em mm) dos meses de Janeiro à Dezembro,
+	* em ordem. As 12 últimas são os desvios padrão da precipitação, também dos meses de Janeiro
+	* à Dezembro, em ordem.*/
 	double matriz[24] = {129.28, 103.1, 105.83, 56.22, 11.49, 1.65, 0.6, 1.17, 8.2, 47.3, 123, 137.7, 107.1, 84, 113.7, 51.46, 19.36, 4, 2.17, 5.27, 17.17, 47, 74.4, 93.3};
     //Quantidade de chuva total que sera sorteada para aquele mes
     double qt_chuva_mes = 0;
@@ -327,8 +340,11 @@ double ClimaTempo::prob_chuva(int mes){
 	//armazena um n�mero entre 0 e 1 com 4 casas decimais de precis�o
 	double count = (count_temp/10000);
 
-	if (prob_chuva_dia >= count)
+	//Se o a probabilidade de chuva for maior que o número sorteado
+	if (prob_chuva_dia >= count){
+		//Faz sorteio da quantidade de chuvas para o dia
 		qt_chuva_dia_pedido = random_normal(matriz[mes-1],matriz[mes+11])/(prob_chuva_dia*30);
+	}
 	return sqrt(qt_chuva_dia_pedido*qt_chuva_dia_pedido);
 }
 
@@ -352,11 +368,13 @@ double ClimaTempo::get_chuva_today(){
 	return qtChuva;
 }
 
+//Descarregamento da memória, para permitir reinicialização
 void ClimaTempo::unload_climaTempo(){
 	ClimaTempo::instanceFlag = false;
 	ClimaTempo::single = NULL;
 }
 
+//Implementação do singleton
 PT(ClimaTempo) ClimaTempo::get_instance(){
 	if(!instanceFlag) {
 		if(DEBUG){
