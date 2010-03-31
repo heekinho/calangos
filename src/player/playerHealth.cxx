@@ -3,23 +3,45 @@
 
 /* Bloco de constantes
  * ------------------------------------------------------------------------- */
-//idade, em meses, na qual o lagarto poderá se reproduzir
+//Idade, em meses, na qual o lagarto poderá se reproduzir
 #define IDADE_REPRODUTIVA 12
-//idade, em meses, em que o lagarto deve morrer
+//Idade, em meses, em que o lagarto deve morrer
 #define IDADE_MORTE 36
-
+//Energia e hidratação iniciais
 #define ENERGIA_INIT 50.0
 #define HIDRATACAO_INIT 50.0
 
+//Tamanho máximo do lagarto (em termos dos parâmetros recebidos pela função set_scale)
 #define TAMANHO_MAXIMO 0.0025
+//Tamanho máximo do lagarto (em termos dos parâmetros recebidos pela função set_scale)
 #define TAMANHO_INICIAL 0.0004
+//Tempo (em meses virtuais) em que o lagarto poderá chegar ao tamanho máximo
 #define MESES_TAMANHO_MAXIMO 36
 /* Debugar */
 #define DEBUG false
+
 /* ------------------------------------------------------------------------- */
 /*! Carrega os atributos iniciais relacionados à saúde do lagarto*/
 
-float Player::arrayTropidurus[13] = {38, 168, 48, 40, 10, 50, 15, 45, 5, 2, 0.05, 0.05, 0.1};
+//Parâmetros da espécie tropidurus
+/*TODO:enum nas posições*/
+const int Player::temperatura_interna_ideal_trop = 38;
+const int Player::qnt_h_sem_alimento_trop = 168;
+const int Player::qnt_h_baixa_hidrat_trop = 48;
+const int Player::umidade_afeta_hidrat_trop = 40;
+const int Player::umidade_param_trop = 10;
+const int Player::temp_interna_max_trop = 50;
+const int Player::temp_interna_min_trop = 15;
+const int Player::hidrat_min_trop = 45;
+const int Player::energia_min_trop = 5;
+const int Player::faixa_tolerancia_tem_interna_trop = 2;
+const int Player::gasto_baixa_temp_trop = 0.05;
+const int Player::gasto_alta_temp_trop = 0.05;
+const int Player::vel_equi_termico_trop = 0.1;
+
+float Player::arrayTropidurus[13] = {temperatura_interna_ideal_trop, qnt_h_sem_alimento_trop, qnt_h_baixa_hidrat_trop, 
+umidade_afeta_hidrat_trop, umidade_param_trop, temp_interna_max_trop, temp_interna_min_trop, hidrat_min_trop, 
+energia_min_trop, faixa_tolerancia_tem_interna_trop, gasto_baixa_temp_trop, gasto_alta_temp_trop, vel_equi_termico_trop};
 float Player::arrayEurolophosaurus[13] = {36, 190, 48, 40, 10, 45, 13, 40, 3, 1.5, 0.06, 0.08, 0.1};
 float Player::arrayCnemidophorus[13] = {40, 168, 48, 40, 10, 50, 15, 45, 5, 2, 0.06, 0.06, 0.1};
 

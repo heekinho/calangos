@@ -45,6 +45,8 @@ public:
 	 * � necess�rio saber o qu�o energ�tico e hidratante � o alimento ingerido,
 	 * para que se possa setar coerentemente as vari�veis relacionadas. */
 	static void event_ingestao_alimento(const Event *, void *data);
+
+
 	static void event_pday(const Event *, void *data);
 	static void event_pmonth(const Event *, void *data);
 
@@ -239,7 +241,7 @@ private:
 	bool in_toca;
 	int toca_index;
 
-
+	/*TODO: ENUM*/
 	/*ORDEM: 1 - Tempera interna ideal, 2 - Quantidade de horas sem se alimentar,
 	*3 - Quantidade de horas com baixa hidratação, 4 - Umidade que afeta a hidratação,
 	*5 - Umidade parametro, 6 - Temperatura interna de limite máximo, 7 - Temperatura interna de limite mínimo,
@@ -247,6 +249,52 @@ private:
 	*11 - Gasto com baixa temperatura, por grau abaixo da ideal, a cada atualização,
 	*12 - Gasto com alta temperatura, por grau abaixo da ideal, a cada atualização,
 	*13 - Velocidade de equilíbrio térmico com o meio*/
+
+	//Variáveis do Tropidurus
+	static const int temperatura_interna_ideal_trop;
+	static const int qnt_h_sem_alimento_trop;
+	static const int qnt_h_baixa_hidrat_trop;
+	static const int umidade_afeta_hidrat_trop;
+	static const int umidade_param_trop;
+	static const int temp_interna_max_trop;
+	static const int temp_interna_min_trop;
+	static const int hidrat_min_trop;
+	static const int energia_min_trop;
+	static const int faixa_tolerancia_tem_interna_trop;
+	static const int gasto_baixa_temp_trop;
+	static const int gasto_alta_temp_trop;
+	static const int vel_equi_termico_trop;
+
+	//Variáveis do Eurolophosaurus
+	static const int temperatura_interna_ideal_euro;
+	static const int qnt_h_sem_alimento_euro;
+	static const int qnt_h_baixa_hidrat_euro;
+	static const int umidade_afeta_hidrat_euro;
+	static const int umidade_param_euro;
+	static const int temp_interna_max_euro;
+	static const int temp_interna_min_euro;
+	static const int hidrat_min_euro;
+	static const int energia_min_euro;
+	static const int faixa_tolerancia_tem_interna_euro;
+	static const int gasto_baixa_temp_euro;
+	static const int gasto_alta_temp_euro;
+	static const int vel_equi_termico_euro;
+
+	//Variáveis do Cnemidophorus
+	static const int temperatura_interna_ideal_cnem;
+	static const int qnt_h_sem_alimento_cnem;
+	static const int qnt_h_baixa_hidrat_cnem;
+	static const int umidade_afeta_hidrat_cnem;
+	static const int umidade_param_cnem;
+	static const int temp_interna_max_cnem;
+	static const int temp_interna_min_cnem;
+	static const int hidrat_min_cnem;
+	static const int energia_min_cnem;
+	static const int faixa_tolerancia_tem_interna_cnem;
+	static const int gasto_baixa_temp_cnem;
+	static const int gasto_alta_temp_cnem;
+	static const int vel_equi_termico_cnem;
+
 	static float arrayTropidurus[13];
 	static float arrayEurolophosaurus[13];
 	static float arrayCnemidophorus[13];
