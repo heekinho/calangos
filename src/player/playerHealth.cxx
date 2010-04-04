@@ -231,35 +231,48 @@ void Player::event_gasto_energia(const Event*, void *data){
 	player->soma_energia_dia = player->soma_energia_dia + player->energia;
 }
 
+/*Na passagem do dia, faz a média diária de energia, e armazena a soma.
+* Essa média servirá para determinar o quanto o lagarto irá crescer na passagem de um mês.*/
 void Player::event_pday(const Event*, void *data){
 
 	PT(Player) player = (Player*) data;
 
 	player->num_dias++;
 
+	//Calcula a média de energia do dia corrente
 	float media_energia_hoje = player->soma_energia_dia/player->num_atualizacoes_dia;
+	//Soma as médias de energia de cada dia, para na passagem do mês seja feita uma média diária do mês
 	player->soma_media_energia_diaria = player->soma_media_energia_diaria + media_energia_hoje;
 
 	player->num_atualizacoes_dia = 0;
 	player->soma_energia_dia = 0;
 }
 
+/*Na passagem do mês, faz a média de energia dos dias do mês que passou.
+* Essa média servirá para determinar o quanto o lagarto irá crescer na passagem do mês.*/
 void Player::event_pmonth(const Event*, void *data){
 	PT(Player) player = (Player*) data;
 
+	//Calcula a média de energia diária do mês
 	player->media_energia_mes = player->soma_media_energia_diaria/player->num_dias;
 	
 	player->num_dias = 0;
 	player->soma_media_energia_diaria = 0;
 
+	/*Calcula o quanto o lagarto vai crescer, tomando como parâmetro a média diária de energia do lagarto
+	* durante o mês que passou.*/
 	player->calc_tamanho_lagarto_real(player->media_energia_mes);
+	//Ajusta o novo tamanho do personagem
 	player->set_scale(player->tamanho_lagarto_real);
-	//cout << "Novo Tamanho: " << player->tamanho_lagarto_real << endl;
 
+	//Aumenta a idade do lagarto
 	player->idade++;
+
+	//Verifica se lagarto chegou na idades reprodutiva
 	if(player->idade>=IDADE_REPRODUTIVA){
 		GuiManager::get_instance()->liga_led_estado_reprodutivo();
 	}
+	//Verifica se o personagem chegou na idade máxima
 	if(player->idade>=IDADE_MORTE){
 		Session::get_instance()->player_death(5);
 	}

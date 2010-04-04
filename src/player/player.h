@@ -46,8 +46,9 @@ public:
 	 * para que se possa setar coerentemente as vari�veis relacionadas. */
 	static void event_ingestao_alimento(const Event *, void *data);
 
-
+    //No evento de passagem do dia, esse método será chamado
 	static void event_pday(const Event *, void *data);
+	//No evento de passagem do dia, esse método será chamado
 	static void event_pmonth(const Event *, void *data);
 
 	double get_energia();
@@ -109,7 +110,7 @@ public:
 	void display(PT(Player) player);
 	/* ------------------------------------------------------------------------- */
 
-
+	//Descarrega qualquer referência de objeto da classe player da memória, para que possa ser recriado
 	static void unload_player();
 
 	/* TODO: Testando a inclina��o do lagarto */
@@ -130,12 +131,15 @@ public:
 
 	/* BEGIN OF WORKAROUND */
 	/*RECEBA ESSE GANCHO NA BOCA DO ESTÔMAGO*/
+
+	/*Enum que corresponde as espécies dos lagartos com os quais o jogador pode jogar*/
 	enum lizardEpecie {
 		tropidurus,
 		eurolophosaurus,
 		cnemidophorus
 	};
 
+	/*Enum que corresponde as grandezas armazenadas no vetor de variáveis de saúde dos lagartos*/
 	enum lizard_variables{
 		TEMP_INTER_IDEAL,//0
 		QNT_H_SEM_ALIMENTO,//1
@@ -152,8 +156,9 @@ public:
 		VEL_EQUI_TERM//12
 	};
 
-	static string get_specie_name(Player::lizardEpecie specie);
+   /*PAREI DOCUMENTAÇÃO AQUI*/
 
+	static string get_specie_name(Player::lizardEpecie specie);
 	enum lizardGender {female, male, young};
 	static string get_gender_name(Player::lizardGender gender);
 
@@ -217,7 +222,6 @@ private:
 	/* Gasto de energia por consequ�ncia da temperatura */
 	double gasto_temp;
 
-	/* TEMPERATURA INTERNA */
 	/* Temperatura interna do lagarto */
 	double temp_interna;
 	/* Valor depender� da esp�cie de lagarto escolhido pelo jogador */
@@ -235,7 +239,9 @@ private:
 	double hidratacao_minlimite;
 	double energia_minlimite;
 
+	/*Carrega os parâmetros iniciais de saúde do lagarto. O lagarto default para carregar a saúde é o Eurolophosaurus*/
 	void load_health();
+	/*Carrega os parâmetros iniciais de saúde do lagarto, cuja espécie foi passada como parâmetro.*/
 	void load_health(int especie);
 
 	/* C�lculos de Vari�veis */
