@@ -23,8 +23,7 @@
 /* ------------------------------------------------------------------------- */
 /*! Carrega os atributos iniciais relacionados à saúde do lagarto*/
 
-//Parâmetros da espécie tropidurus
-/*TODO:enum nas posições*/
+//Parâmetros da espécie Tropidurus
 const int Player::temperatura_interna_ideal_trop = 38;
 const int Player::qnt_h_sem_alimento_trop = 168;
 const int Player::qnt_h_baixa_hidrat_trop = 48;
@@ -39,18 +38,52 @@ const int Player::gasto_baixa_temp_trop = 0.05;
 const int Player::gasto_alta_temp_trop = 0.05;
 const int Player::vel_equi_termico_trop = 0.1;
 
+//Parâmetros da espécie Eurolophosaurus
+const int Player::temperatura_interna_ideal_euro = 36;
+const int Player::qnt_h_sem_alimento_euro = 190;
+const int Player::qnt_h_baixa_hidrat_euro = 48;
+const int Player::umidade_afeta_hidrat_euro = 40;
+const int Player::umidade_param_euro = 10;
+const int Player::temp_interna_max_euro = 45;
+const int Player::temp_interna_min_euro = 13;
+const int Player::hidrat_min_euro = 40;
+const int Player::energia_min_euro = 3;
+const int Player::faixa_tolerancia_tem_interna_euro = 1.5;
+const int Player::gasto_baixa_temp_euro = 0.06;
+const int Player::gasto_alta_temp_euro = 0.08;
+const int Player::vel_equi_termico_euro = 0.1;
+
+//Parâmetros da espécie Cnemidophorus
+const int Player::temperatura_interna_ideal_cnem = 40;
+const int Player::qnt_h_sem_alimento_cnem = 168;
+const int Player::qnt_h_baixa_hidrat_cnem = 48;
+const int Player::umidade_afeta_hidrat_cnem = 40;
+const int Player::umidade_param_cnem = 10;
+const int Player::temp_interna_max_cnem = 50;
+const int Player::temp_interna_min_cnem = 15;
+const int Player::hidrat_min_cnem = 45;
+const int Player::energia_min_cnem = 5;
+const int Player::faixa_tolerancia_tem_interna_cnem = 2;
+const int Player::gasto_baixa_temp_cnem = 0.06;
+const int Player::gasto_alta_temp_cnem = 0.06;
+const int Player::vel_equi_termico_cnem = 0.1;
+
 float Player::arrayTropidurus[13] = {temperatura_interna_ideal_trop, qnt_h_sem_alimento_trop, qnt_h_baixa_hidrat_trop, 
 umidade_afeta_hidrat_trop, umidade_param_trop, temp_interna_max_trop, temp_interna_min_trop, hidrat_min_trop, 
 energia_min_trop, faixa_tolerancia_tem_interna_trop, gasto_baixa_temp_trop, gasto_alta_temp_trop, vel_equi_termico_trop};
-float Player::arrayEurolophosaurus[13] = {36, 190, 48, 40, 10, 45, 13, 40, 3, 1.5, 0.06, 0.08, 0.1};
-float Player::arrayCnemidophorus[13] = {40, 168, 48, 40, 10, 50, 15, 45, 5, 2, 0.06, 0.06, 0.1};
+
+float Player::arrayEurolophosaurus[13] = {temperatura_interna_ideal_euro, qnt_h_sem_alimento_euro, qnt_h_baixa_hidrat_euro,
+umidade_afeta_hidrat_euro, umidade_param_euro, temp_interna_max_euro, temp_interna_min_euro, hidrat_min_euro, energia_min_euro,
+faixa_tolerancia_tem_interna_euro, gasto_baixa_temp_euro, gasto_alta_temp_euro, vel_equi_termico_euro};
+
+float Player::arrayCnemidophorus[13] = {temperatura_interna_ideal_cnem, qnt_h_sem_alimento_cnem, qnt_h_baixa_hidrat_cnem,
+umidade_afeta_hidrat_cnem, umidade_param_cnem, temp_interna_max_cnem, temp_interna_min_cnem, hidrat_min_cnem, energia_min_cnem,
+faixa_tolerancia_tem_interna_cnem, gasto_baixa_temp_cnem, gasto_alta_temp_cnem, vel_equi_termico_cnem};
 
 void Player::load_health(int especie){
 
 	calc_atualizacoes_phora();
-	//int especie = Menu::get_instance()->get_especie();
 	lizardEpecie lizard = lizardEpecie(especie);
-	//lizard = Menu::get_instance()->get_especie();//lizardEpecie(especie);
 
 	if(lizard == tropidurus){
 		init_tropidurus_lizard();
@@ -96,61 +129,59 @@ void Player::load_health(){
 }
 
 /*Inicializando lagartos*/
-
 void Player::init_eurolophosaurus_lizard(){
 
-	num_horas_alimento = Player::arrayEurolophosaurus[1];
-	temp_interna_ideal = Player::arrayEurolophosaurus[0];
+	num_horas_alimento = Player::arrayEurolophosaurus[QNT_H_SEM_ALIMENTO];
+	temp_interna_ideal = Player::arrayEurolophosaurus[TEMP_INTER_IDEAL];
 	gasto_basal = ENERGIA_INIT / (num_horas_alimento * atualizacoes_phora);
-	a_fator_umidade = -(HIDRATACAO_INIT / Player::arrayEurolophosaurus[2]) / (Player::arrayEurolophosaurus[3] - Player::arrayEurolophosaurus[4]);
-	b_fator_umidade = -(a_fator_umidade * (Player::arrayEurolophosaurus[3]));
-	temp_interna =  Player::arrayEurolophosaurus[0];
-	temp_interna_maxlimite =  Player::arrayEurolophosaurus[5];
-	temp_interna_minlimite = Player::arrayEurolophosaurus[6];
-	hidratacao_minlimite = Player::arrayEurolophosaurus[7];
-	energia_minlimite = Player::arrayEurolophosaurus[8];
-	variacao_temp_interna = Player::arrayEurolophosaurus[9];
-	gasto_baixa_temp = Player::arrayEurolophosaurus[10];
-	gasto_alta_temp = Player::arrayEurolophosaurus[11];
-	equi_term = Player::arrayEurolophosaurus[12];
+	a_fator_umidade = -(HIDRATACAO_INIT / Player::arrayEurolophosaurus[QNT_H_BAIXA_HIDRAT]) / (Player::arrayEurolophosaurus[UMID_AFETA_HIDRAT] - Player::arrayEurolophosaurus[UMID_PARAM]);
+	b_fator_umidade = -(a_fator_umidade * (Player::arrayEurolophosaurus[UMID_AFETA_HIDRAT]));
+	temp_interna =  Player::arrayEurolophosaurus[TEMP_INTER_IDEAL];
+	temp_interna_maxlimite =  Player::arrayEurolophosaurus[TEMP_INT_MAX];
+	temp_interna_minlimite = Player::arrayEurolophosaurus[TEMP_INT_MIN];
+	hidratacao_minlimite = Player::arrayEurolophosaurus[HIDT_MIN];
+	energia_minlimite = Player::arrayEurolophosaurus[ENER_MIN];
+	variacao_temp_interna = Player::arrayEurolophosaurus[TOLER_TEMP_INTER];
+	gasto_baixa_temp = Player::arrayEurolophosaurus[GASTO_BAIXA_TEMP];
+	gasto_alta_temp = Player::arrayEurolophosaurus[GASTO_ALTA_TEMP];
+	equi_term = Player::arrayEurolophosaurus[VEL_EQUI_TERM];
 }
 
 void Player::init_tropidurus_lizard(){
 
-	num_horas_alimento = Player::arrayTropidurus[1];
-	temp_interna_ideal = Player::arrayTropidurus[0];
+	num_horas_alimento = Player::arrayTropidurus[QNT_H_SEM_ALIMENTO];
+	temp_interna_ideal = Player::arrayTropidurus[TEMP_INTER_IDEAL];
 	gasto_basal = ENERGIA_INIT / (num_horas_alimento * atualizacoes_phora);
-	a_fator_umidade = -(HIDRATACAO_INIT / Player::arrayTropidurus[2]) / (Player::arrayTropidurus[3] - Player::arrayTropidurus[4]);
-	b_fator_umidade = -(a_fator_umidade * (Player::arrayTropidurus[3]));
-	temp_interna =  Player::arrayTropidurus[0];
-	temp_interna_maxlimite =  Player::arrayTropidurus[5];
-	temp_interna_minlimite = Player::arrayTropidurus[6];
-	hidratacao_minlimite = Player::arrayTropidurus[7];
-	energia_minlimite = Player::arrayTropidurus[8];
-	variacao_temp_interna = Player::arrayTropidurus[9];
-	gasto_baixa_temp = Player::arrayTropidurus[10];
-	gasto_alta_temp = Player::arrayTropidurus[11];
-	equi_term = Player::arrayTropidurus[12];
+	a_fator_umidade = -(HIDRATACAO_INIT / Player::arrayTropidurus[QNT_H_BAIXA_HIDRAT]) / (Player::arrayTropidurus[UMID_AFETA_HIDRAT] - Player::arrayTropidurus[UMID_PARAM]);
+	b_fator_umidade = -(a_fator_umidade * (Player::arrayTropidurus[UMID_AFETA_HIDRAT]));
+	temp_interna =  Player::arrayTropidurus[TEMP_INTER_IDEAL];
+	temp_interna_maxlimite =  Player::arrayTropidurus[TEMP_INT_MAX];
+	temp_interna_minlimite = Player::arrayTropidurus[TEMP_INT_MIN];
+	hidratacao_minlimite = Player::arrayTropidurus[HIDT_MIN];
+	energia_minlimite = Player::arrayTropidurus[ENER_MIN];
+	variacao_temp_interna = Player::arrayTropidurus[TOLER_TEMP_INTER];
+	gasto_baixa_temp = Player::arrayTropidurus[GASTO_BAIXA_TEMP];
+	gasto_alta_temp = Player::arrayTropidurus[GASTO_ALTA_TEMP];
+	equi_term = Player::arrayTropidurus[VEL_EQUI_TERM];
 }
 
 void Player::init_cnemidophorus_lizard(){
 
-	num_horas_alimento = Player::arrayCnemidophorus[1];
-	temp_interna_ideal = Player::arrayCnemidophorus[0];
+	num_horas_alimento = Player::arrayCnemidophorus[QNT_H_SEM_ALIMENTO];
+	temp_interna_ideal = Player::arrayCnemidophorus[TEMP_INTER_IDEAL];
 	gasto_basal = ENERGIA_INIT / (num_horas_alimento * atualizacoes_phora);
-	a_fator_umidade = -(HIDRATACAO_INIT / Player::arrayCnemidophorus[2]) / (Player::arrayCnemidophorus[3] - Player::arrayCnemidophorus[4]);
-	b_fator_umidade = -(a_fator_umidade * (Player::arrayCnemidophorus[3]));
-	temp_interna =  Player::arrayCnemidophorus[0];
-	temp_interna_maxlimite =  Player::arrayCnemidophorus[5];
-	temp_interna_minlimite = Player::arrayCnemidophorus[6];
-	hidratacao_minlimite = Player::arrayCnemidophorus[7];
-	energia_minlimite = Player::arrayCnemidophorus[8];
-	variacao_temp_interna = Player::arrayCnemidophorus[9];
-	gasto_baixa_temp = Player::arrayCnemidophorus[10];
-	gasto_alta_temp = Player::arrayCnemidophorus[11];
-	equi_term = Player::arrayCnemidophorus[12];
+	a_fator_umidade = -(HIDRATACAO_INIT / Player::arrayCnemidophorus[QNT_H_BAIXA_HIDRAT]) / (Player::arrayCnemidophorus[UMID_AFETA_HIDRAT] - Player::arrayCnemidophorus[UMID_PARAM]);
+	b_fator_umidade = -(a_fator_umidade * (Player::arrayCnemidophorus[UMID_AFETA_HIDRAT]));
+	temp_interna =  Player::arrayCnemidophorus[TEMP_INTER_IDEAL];
+	temp_interna_maxlimite =  Player::arrayCnemidophorus[TEMP_INT_MAX];
+	temp_interna_minlimite = Player::arrayCnemidophorus[TEMP_INT_MIN];
+	hidratacao_minlimite = Player::arrayCnemidophorus[HIDT_MIN];
+	energia_minlimite = Player::arrayCnemidophorus[ENER_MIN];
+	variacao_temp_interna = Player::arrayCnemidophorus[TOLER_TEMP_INTER];
+	gasto_baixa_temp = Player::arrayCnemidophorus[GASTO_BAIXA_TEMP];
+	gasto_alta_temp = Player::arrayCnemidophorus[GASTO_ALTA_TEMP];
+	equi_term = Player::arrayCnemidophorus[VEL_EQUI_TERM];
 }
-
 
 /* EVENTOS
  * ------------------------------------------------------------------------- */

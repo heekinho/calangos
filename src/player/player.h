@@ -129,8 +129,29 @@ public:
 	void mordida_recebida(int tamanho_lagarto_base);
 
 	/* BEGIN OF WORKAROUND */
-	/* RECEBA ESSE GANCHO NA BOCA DO ESTÔMAGO */
-	enum lizardEpecie {tropidurus , eurolophosaurus, cnemidophorus};
+	/*RECEBA ESSE GANCHO NA BOCA DO ESTÔMAGO*/
+	enum lizardEpecie {
+		tropidurus,
+		eurolophosaurus,
+		cnemidophorus
+	};
+
+	enum lizard_variables{
+		TEMP_INTER_IDEAL,//0
+		QNT_H_SEM_ALIMENTO,//1
+		QNT_H_BAIXA_HIDRAT,//2
+		UMID_AFETA_HIDRAT,//3
+		UMID_PARAM,//4
+		TEMP_INT_MAX,//5
+		TEMP_INT_MIN,//6
+		HIDT_MIN,//7
+		ENER_MIN,//8
+		TOLER_TEMP_INTER,//9
+		GASTO_BAIXA_TEMP,//10
+		GASTO_ALTA_TEMP,//11
+		VEL_EQUI_TERM//12
+	};
+
 	static string get_specie_name(Player::lizardEpecie specie);
 
 	enum lizardGender {female, male, young};
