@@ -5,6 +5,8 @@
 
 class Animal : public AnimatedObjetoJogo {
 public:
+
+
 	Animal(NodePath node);
 	~Animal();
 
