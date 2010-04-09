@@ -25,6 +25,8 @@ public:
 
 	void player_death(int);
 
+	static void stop_movie(const Event*, void *data);
+
 	//TODO: Corrigir. A interface que usa isso para consertar o aspect2D.
 	NodePath dummy;
 //	GuiManager* get_gui_manager();

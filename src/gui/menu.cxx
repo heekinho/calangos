@@ -44,6 +44,7 @@ Menu::Menu(WindowFramework *window) {
 
     Simdunas::get_framework()->define_key("escape", "Stop_Movie", stop_movie, this);
 
+		
 }
 
 #include "auto_bind.h"
@@ -342,7 +343,7 @@ void Menu::clima_play(const Event*, void* data) {
 void Menu::stop_movie(const Event*, void* data) {
     Menu * stop = (Menu*) data;
 
-    if (stop->playing_movio) {
+	    if (stop->playing_movio) {
         stop->ASound->stop();
         stop->node_card.remove_node();
         if (!stop->nod_config_egg.is_empty()) {//só mostra a tela principal quando for a vinheta que estiver tocando

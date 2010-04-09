@@ -79,6 +79,7 @@ void Session::run(){
 	
 	Simdunas::get_framework()->do_frame(Thread::get_current_thread());
 
+	
 	/* Loop principal do programa */
 	double elapsed_time = 0.0;
 	double previous_time = ClockObject::get_global_clock()->get_frame_time();
@@ -100,6 +101,10 @@ void Session::run(){
 		this->end_session();
 		//Simdunas::get_window()->get_render().ls();
 		//system("pause");
+
+			////////////colocando o evento para parar os vídeos das vinhetas (ta aqui pq se não quando renicia não funciona mais)
+			Simdunas::get_framework()->define_key("escape", "Stop_Movie", stop_movie, this);
+	
 		this->run();
 	}
 }
@@ -182,4 +187,12 @@ Session* Session::get_instance() {
         instanceFlag = true;
     }
     return singleSession;
+}
+
+
+void Session::stop_movie(const Event*, void* data){
+	///apenas chama o stop_movie de menu que vai parar os vídeos efetivamente
+	Menu::get_instance()->stop_movie(NULL,Menu::get_instance());
+
+	
 }
