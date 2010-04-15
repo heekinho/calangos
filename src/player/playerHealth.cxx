@@ -68,14 +68,17 @@ const int Player::gasto_baixa_temp_cnem = 0.06;
 const int Player::gasto_alta_temp_cnem = 0.06;
 const int Player::vel_equi_termico_cnem = 0.1;
 
+//Carrega os valores inicias para a espécie Tropiduros
 float Player::arrayTropidurus[13] = {temperatura_interna_ideal_trop, qnt_h_sem_alimento_trop, qnt_h_baixa_hidrat_trop, 
 umidade_afeta_hidrat_trop, umidade_param_trop, temp_interna_max_trop, temp_interna_min_trop, hidrat_min_trop, 
 energia_min_trop, faixa_tolerancia_tem_interna_trop, gasto_baixa_temp_trop, gasto_alta_temp_trop, vel_equi_termico_trop};
 
+//Carrega os valores inicias para a espécie Europhosaurus
 float Player::arrayEurolophosaurus[13] = {temperatura_interna_ideal_euro, qnt_h_sem_alimento_euro, qnt_h_baixa_hidrat_euro,
 umidade_afeta_hidrat_euro, umidade_param_euro, temp_interna_max_euro, temp_interna_min_euro, hidrat_min_euro, energia_min_euro,
 faixa_tolerancia_tem_interna_euro, gasto_baixa_temp_euro, gasto_alta_temp_euro, vel_equi_termico_euro};
 
+//Carrega os valores inicias para a espécie Cnemidosphorus
 float Player::arrayCnemidophorus[13] = {temperatura_interna_ideal_cnem, qnt_h_sem_alimento_cnem, qnt_h_baixa_hidrat_cnem,
 umidade_afeta_hidrat_cnem, umidade_param_cnem, temp_interna_max_cnem, temp_interna_min_cnem, hidrat_min_cnem, energia_min_cnem,
 faixa_tolerancia_tem_interna_cnem, gasto_baixa_temp_cnem, gasto_alta_temp_cnem, vel_equi_termico_cnem};
@@ -110,7 +113,7 @@ void Player::load_health(int especie){
 	soma_media_energia_diaria = 0;
 	num_dias = 0;
 	media_energia_mes = 0;
-							//LEMBRA DE COLOCAR TAMANHO_INICIL DE VOLTA
+			
 	tamanho_lagarto_real = TAMANHO_INICIAL-0.00001;//colocar um valor inicial default razoável (um valor para cada espécie?)
 	a_tamanho_lagarto_base = (100/(TAMANHO_MAXIMO - TAMANHO_INICIAL));
 	tamanho_lagarto_base = a_tamanho_lagarto_base*(tamanho_lagarto_real-TAMANHO_INICIAL);
@@ -124,7 +127,6 @@ void Player::load_health(int especie){
 }
 
 void Player::load_health(){
-
 	load_health(eurolophosaurus);
 }
 
@@ -217,6 +219,7 @@ void Player::event_gasto_energia(const Event*, void *data){
 		if(player->temp_interna >= player->temp_interna_maxlimite){
 			Session::get_instance()->player_death(3);
 		}else {
+			//Verifica se a morte foi por baixa temperatura
 			if(player->temp_interna < player->temp_interna_minlimite){
 				Session::get_instance()->player_death(4);
 			}else{
@@ -230,6 +233,8 @@ void Player::event_gasto_energia(const Event*, void *data){
 	player->num_atualizacoes_dia++;
 	player->soma_energia_dia = player->soma_energia_dia + player->energia;
 }
+
+/*PAREI DOCUMENTAÇÃO AKI*/
 
 /*Na passagem do dia, faz a média diária de energia, e armazena a soma.
 * Essa média servirá para determinar o quanto o lagarto irá crescer na passagem de um mês.*/
