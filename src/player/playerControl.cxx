@@ -18,7 +18,7 @@
 
 #define NORANG 1
 
-#define DISTANCE_FEMALE 0.2
+#define DISTANCE_FEMALE 0.3
 #define DISTANCE_MALE 0.2
 
 // Inicializacao de non-integral type
@@ -463,24 +463,17 @@ void PlayerControl::morder(){
 }
 
 void PlayerControl::event_female_next(const Event *, void *data){
+	PT(Player) player = Player::get_instance();
 
 	if(Player::get_instance()->get_estado_reprodutivo()){
-
-		PlayerControl *player_control = (PlayerControl*) data;
 		vector<PT(Lizard)> *sector_lizards = Player::get_instance()->get_setor()->get_lizards();
-
 
 		for (int i = 0; i < sector_lizards->size(); i++) {
 			PT(Lizard) npcf = sector_lizards->at(i);
-			//se for fêmea e estiver próxima
-			if((npcf->get_gender() == 1) && ((Player::get_instance()->get_pos() - npcf->get_pos()) < DISTANCE_FEMALE)){
-				for (int i = 0; i < sector_lizards->size(); i++) {
-					PT(Lizard) npcm = sector_lizards->at(i);
-					//se for macho e estiver próximo
-					if((npcm->get_gender() == 0) && ((Player::get_instance()->get_pos() - npcm->get_pos()) < DISTANCE_MALE)){
-						npcm->fight();
-					}
-				}
+			// e for fêmea e estiver próxima
+			if((npcf->get_gender() == LizardGender::female) && (npcf->get_distance(player->get_pos()) < DISTANCE_FEMALE)){
+				PT(FemaleLizard) female = (PT(FemaleLizard))((FemaleLizard*)(Lizard*) npcf);
+				female->set_frames_stopped(150);
 			}
 		}
 	}
