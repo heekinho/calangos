@@ -47,7 +47,7 @@ void MaleLizard::act(){
 	float flee_max_dist = 10;
 	float distance = (player->get_pos() - get_pos()).length();
 
-	if(!player->has_female_around() && is_action_active("fight")) set_action("walk", true);
+	//if(!player->has_female_around() && is_action_active("fight")) set_action("walk", true);
 
 	/* Quando esperando a resposta do player... */
 	if(waiting_player_decide == true){
@@ -61,6 +61,9 @@ void MaleLizard::act(){
 		}
 	}
 
+	if(distance > 1.25 * flee_max_dist){
+		set_action("walk", true);
+	}
 	if(is_action_active("flee") || this->get_energia() < 20){
 		if(distance < flee_max_dist) flee();
 		else {
@@ -158,6 +161,11 @@ void MaleLizard::chase(){
 		 if(distance > eat_thr - (eat_thr / 10)) move(VEL_RUN);
 	}
 
+}
+
+void MaleLizard::be_bited(){
+	Lizard::be_bited();
+	set_action("fight", true);
 }
 
 void MaleLizard::bite(){

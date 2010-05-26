@@ -37,7 +37,7 @@ public:
 	int get_valor_hidratacao();
 	void set_valor_hidratacao(int novo_valor_hidratacao);
 
-	void be_bited();
+	virtual void be_bited();
 	static void blink(const Event*, void *data);
 	int bite_blink_counter;
 
