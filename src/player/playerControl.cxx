@@ -219,6 +219,7 @@ void PlayerControl::move(float velocity){
 void PlayerControl::eat(const Event*, void *data){
 	PlayerControl* this_control = (PlayerControl*) data;
 	PT(Player) player = Player::get_instance();
+	PT(Setor) player_sector = player->get_setor();
 
 	if(player->get_anim_control()->is_playing("fast_bite")) return;
 
@@ -239,103 +240,84 @@ void PlayerControl::eat(const Event*, void *data){
 	/* Verifica a posição do mouse... Se estiver sobre a interface não executa a ação de comer */
 	MouseWatcher *mwatcher = DCAST(MouseWatcher, Simdunas::get_window()->get_mouse().node());
 	if(mwatcher->has_mouse() && mwatcher->get_mouse_x() < 0.57 && !TimeControl::get_instance()->get_stop_time()){
-		/* Distancia em coordenadas "reais" */
-		float dist_eat_thr = 0.20 * player->get_sx() * 1350;
-		/* Dire��o para ambos os lados a partir do versor y do transform do player */
+
+
+		vector<PT(ObjetoJogo)> action_objects;
+		vector<int> action_objects_index;
+
+		int closest_prey_index = player_sector->get_closest_object_index_to(player->get_pos(), (vector<PT(ObjetoJogo)>*) player_sector->get_animals());
+		action_objects.push_back((PT(ObjetoJogo)) player_sector->get_animals()->at(closest_prey_index));
+		action_objects_index.push_back(closest_prey_index);
+
+		int closest_vegetal_index = player_sector->get_closest_object_index_to(player->get_pos(), (vector<PT(ObjetoJogo)>*) player_sector->get_edible_vegetals());
+		action_objects.push_back((PT(ObjetoJogo)) player_sector->get_edible_vegetals()->at(closest_vegetal_index));
+		action_objects_index.push_back(closest_vegetal_index);
+
+		int closest_lizard_index = player_sector->get_closest_object_index_to(player->get_pos(), (vector<PT(ObjetoJogo)>*) player_sector->get_lizards());
+		action_objects.push_back((PT(ObjetoJogo)) player_sector->get_lizards()->at(closest_lizard_index));
+		action_objects_index.push_back(closest_lizard_index);
+
+		/* 0: prey; 1: vegetal; 2: lizard */
+		int type_of_closest = player_sector->get_closest_object_index_to(player->get_pos(), &action_objects);
+		int index_of_closest = action_objects_index.at(type_of_closest);
+
+		PT(ObjetoJogo) npc = action_objects.at(type_of_closest);
+		if (npc == NULL) return; //REVER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+		/* Configuração de distância. Quando os objetos estaram no raio de ação do player.*/
+		float act_dist_thr = 0.20 * player->get_sx() * 1350;
 		int direction_eat_thr = 45;
 
-		/* Obtem uma referencia do player e obtem ser "versor y" */
-
+		/* Obtem o "versor y" do player */
 		LVector3f player_y_versor = player->get_net_transform()->get_mat().get_row3(1);
-		player_y_versor.normalize(); //Transformando em versor.
-		//nout << "Player: " << player->get_pos() << endl;
+		player_y_versor.normalize();
 
+		/* Obtem distancia para o npc */
+		LVector3f player_to_npc = player->get_pos() - npc->get_pos();
+		float dist_to_npc = player_to_npc.length();
 
-		//TODO: Utilizar padrao STL.
-		/* Pede ao setor, o vetor que guarda as presas. */
-		vector<PT(Animal)> *sector_animals = player->get_setor()->get_animals();
-		//nout << "Quantidade de animais: " << sector_animals.size() << endl;
+		/* Obtem angulo para o npc */
+		player_to_npc.normalize();
+		float angle_to_npc = player_to_npc.angle_deg(player_y_versor);
 
-
-		/* Se não obteve sucesso em comer tira 0.1 de energia */
+		/* Ação de comer! */
 		bool eatsuccess = false;
+		if (type_of_closest == 0 || type_of_closest == 1) {
+			/* Verifica se o ângulo esta dentro do limiar estabelecido, evitando os "já comidos" */
+			if (dist_to_npc < act_dist_thr && angle_to_npc < direction_eat_thr && npc->get_valor_nutricional() > 0) {
 
-		for (int i = 0; i < sector_animals->size(); i++) {
-			PT(Animal) npc = sector_animals->at(i);
-			LVector3f player_to_npc = player->get_pos() - npc->get_pos();
+				// Pisca life indicando que obteve sucesso!!
+				GuiManager::get_instance()->piscar_life();
 
-			/* Obt�m a dist�ncia "real" do player ao npc e verifica se est� dentro do limiar */
-			if ( player_to_npc.length() < dist_eat_thr ) {
-				/* Normaliza o vetor para trabalhar com versores corretamente */
-				player_to_npc.normalize();
+				/* Atualiza saúde */
+				player->eat(npc);
+				nout << "Saude: " << Player::get_instance()->get_energia() << endl;
+				nout << "Hidratação: " << Player::get_instance()->get_hidratacao() << endl;
+				npc->set_valor_nutricional(0);
+				npc->set_valor_hidratacao(0);
 
-				/* Verifica se o angulo esta dentro do limiar estabelecido, evitando os "já comidos" */
-				if( player_to_npc.angle_deg(player_y_versor) < direction_eat_thr && npc->get_valor_nutricional() > 0){
-					nout << player_to_npc.angle_deg(player_y_versor) << endl;
+				LVecBase3f *mydata = new LVecBase3f(index_of_closest, player->get_setor()->get_indice(), type_of_closest);
+				//TimeControl::get_instance()->notify_after_n_frames(40, really_eat, (void*) mydata);
 
+				this_control->last_eating_frame = 0;
+				Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, eating, (void *) mydata);
 
-					//pisca life indicando que obteve sucesso!!
-					GuiManager::get_instance()->piscar_life();
-
-					/* Atualiza saúde */
-					Player::get_instance()->eat(npc);
-					nout << "Saude: " << Player::get_instance()->get_energia() << endl;
-					nout << "Hidratação: " << Player::get_instance()->get_hidratacao() << endl;
-					npc->set_valor_nutricional(0);
-					npc->set_valor_hidratacao(0);
-
-					LVecBase2f *mydata = new LVecBase2f(i, player->get_setor()->get_indice());
-					//TimeControl::get_instance()->notify_after_n_frames(40, really_eat, (void*) mydata);
-
-					this_control->last_eating_frame = 0;
-					Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, eating, (void *) mydata);
-
-					eatsuccess = true;
-
-				}
+				eatsuccess = true;
 			}
 		}
-
-		if(!eatsuccess) {
-			vector<PT(EdibleVegetal)> *sector_edible_vegetals = player->get_setor()->get_edible_vegetals();
-			for (int i = 0; i < sector_edible_vegetals->size(); i++) {
-				PT(EdibleVegetal) npc = sector_edible_vegetals->at(i);
-				LVector3f player_to_npc = player->get_pos() - npc->get_pos();
-
-				/* Obt�m a dist�ncia "real" do player ao npc e verifica se est� dentro do limiar */
-				if ( player_to_npc.length() < dist_eat_thr ) {
-					npc->hide();
-
-					GuiManager::get_instance()->piscar_life();
-					Player::get_instance()->eat(npc);
-					nout << "Saude: " << Player::get_instance()->get_energia() << endl;
-					nout << "Hidratação: " << Player::get_instance()->get_hidratacao() << endl;
-
-					//destruir fruto
-					sector_edible_vegetals->at(i) = NULL;
-					sector_edible_vegetals->erase(sector_edible_vegetals->begin()+i);
-
-				}
-
-			}
-		}
-
 		/* Morder outro lagarto */
-		if(!eatsuccess){
-			vector<PT(Lizard)>* lizards = player->get_setor()->get_lizards();
-			for(int i = 0; i < lizards->size(); i++){
-				Lizard* lizard = lizards->at(i);
-				if(lizard->get_gender() == LizardGender::male){
-					MaleLizard* male_lizard = (MaleLizard*) lizard;
+		if (type_of_closest == 2) {
+			Lizard* lizard = (Lizard*) (ObjetoJogo*) npc;
+			if (lizard->get_gender() == LizardGender::male) {
+				MaleLizard* male_lizard = (MaleLizard*) lizard;
 
-					/*TODO: Parametrizar e pegar o angulo depois */
-					if((player->get_pos() - male_lizard->get_pos()).length() < dist_eat_thr){
-						male_lizard->be_bited();
-						male_lizard->set_energia(male_lizard->get_energia() - 10);
-					}
+				if (dist_to_npc < act_dist_thr) {
+					male_lizard->be_bited();
+					male_lizard->set_energia(male_lizard->get_energia() - 10);
 				}
 			}
 		}
+
 
 		/* Animação roda independente de comer ou não */
 		if(!player->get_anim_control()->is_playing("fast_bite")){
@@ -347,8 +329,6 @@ void PlayerControl::eat(const Event*, void *data){
 			/* Se for uma mordida sem sucesso: -0.1 de energia */
 			if(!eatsuccess) Player::get_instance()->add_energia_alimento(-0.1);
 		}
-
-
 	}
 }
 
@@ -369,10 +349,21 @@ void PlayerControl::eating(const Event* evt, void *data){
 
 //consolide_eating();
 void PlayerControl::really_eat(const Event*, void *data){
-	LVecBase2f* the_pair = (LVecBase2f*) data;
+	LVecBase3f* the_data = (LVecBase3f*) data;
 
-	vector<PT(Animal)> *animals = World::get_default_world()->get_terrain()->get_setor(the_pair->get_y())->get_animals();
-	animals->erase(animals->begin() + the_pair->get_x());
+	/* Quebra os dados em partes */
+	int index = the_data->get_x();
+	PT(Setor) sector = World::get_default_world()->get_terrain()->get_setor(the_data->get_y());
+	int type = the_data->get_z();
+
+	/* Seleciona o tipo de objeto e respectivo vector */
+	vector<PT(ObjetoJogo)> *objects;
+	if(type == 0) objects = (vector<PT(ObjetoJogo)>*) sector->get_animals();
+	else if(type == 1) objects = (vector<PT(ObjetoJogo)>*) sector->get_edible_vegetals();
+
+	/* Exclui de fato o "objeto" comido */
+	objects->at(index) = NULL;
+	objects->erase(objects->begin() + index);
 }
 
 
