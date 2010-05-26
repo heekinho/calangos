@@ -41,7 +41,6 @@ public:
 	//private void calc_bite_thr();
 
 	/* Ações NPC */
-	void reproduce();
 	void bite();			// Ação de morder
 	void eat();				// Ação de comer (verificar necessidade)
 
@@ -58,6 +57,8 @@ public:
 
 	virtual void pause_animation(){};
 	virtual void continue_animation(){};
+
+	void set_frames_stopped(int frames);
 protected:
 	virtual int stay_quiet();
 	bool acting;

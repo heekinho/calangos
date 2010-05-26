@@ -76,6 +76,10 @@ void Animal::act(){
 	}
 }
 
+void Animal::set_frames_stopped(int frames){
+	stay_x_frame_stoped = frames;
+}
+
 int Animal::stay_quiet(){
 	if(stay_x_frame_stoped > 0){
 		pause_animation();
