@@ -73,6 +73,10 @@ public:
 	LPoint2d get_pos_end();
 	LPoint2d get_random_pos_inside();
 
+
+	int get_closest_object_index_to(LPoint3f ref_point, vector<PT(ObjetoJogo)> *ref_vector);
+	PT(ObjetoJogo) get_closest_object_to(LPoint3f ref_point, vector<PT(ObjetoJogo)> *ref_vector);
+
 	// Typed Object
 	static TypeHandle get_class_type() { return _type_handle; }
 	static void init_type() { register_type(_type_handle, "Setor"); }

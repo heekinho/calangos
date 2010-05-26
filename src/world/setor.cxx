@@ -324,6 +324,28 @@ LPoint2d Setor::get_random_pos_inside(){
 }
 
 
+PT(ObjetoJogo) Setor::get_closest_object_to(LPoint3f ref_point, vector<PT(ObjetoJogo)> *ref_vector){
+	return ref_vector->at(get_closest_object_index_to(ref_point, ref_vector));
+}
+
+int Setor::get_closest_object_index_to(LPoint3f ref_point, vector<PT(ObjetoJogo)> *ref_vector){
+	int index = 0;
+	if(ref_vector->size() > 0){
+		float dist = (*ref_vector->begin())->get_distance(ref_point);
+
+		for (int i = 0; i < ref_vector->size(); i++) {
+			float new_dist = ref_vector->at(i)->get_distance(ref_point);
+			if(new_dist < dist) {
+				dist = new_dist;
+				index = i;
+			}
+		}
+
+	}
+	return index;
+}
+
+
 void Setor::unload_sector(){
 	Simdunas::get_evt_handler()->remove_hooks_with(this);
 }
