@@ -214,6 +214,15 @@ void ObjetoJogo::update_pr(){
 }
 
 
+/** Sobreescrevendo para consertar */
+float ObjetoJogo::get_distance(const NodePath &other){
+	return get_distance(other.get_pos());
+}
+
+/** Sobreescrevendo para consertar */
+float ObjetoJogo::get_distance(LPoint3f other){
+	return (get_pos() - other).length();
+}
 
 void ObjetoJogo::look_at(const NodePath &other){
 	NodePath::look_at(other);

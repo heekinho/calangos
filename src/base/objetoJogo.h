@@ -55,6 +55,8 @@ public:
 
 	virtual void move(float velocity);
 
+	float get_distance(const NodePath &other);
+	float get_distance(LPoint3f other);
 
 	/* Sobreescreveu-se de NodePath para notificação de setores. */
 	void set_pos(float x, float y, float z);
