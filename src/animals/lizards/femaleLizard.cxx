@@ -46,9 +46,17 @@ void FemaleLizard::reproduzir(const Event *theEvent, void *data){
                 this_female->reproduziu = true;
 				/*fica verde quando reproduz*/
 				this_female->set_color_scale(0.6,1.0,0.6,1.0); 
-				/*para voltar a cor normal depois de 1 dia usar (1.0,1.0,1.0,1.0)*/
+
+				/* Um dia depois (24*60 minutos) volta ao estado reprodutivo */
+				TimeControl::get_instance()->notify_after_n_vminutes(24*60, FemaleLizard::back_to_reprodutive, this_female);
             }
         }
     }
 }
 
+
+void FemaleLizard::back_to_reprodutive(const Event *theEvent, void *data){
+	FemaleLizard* this_female = (FemaleLizard*) data;
+	this_female->set_color_scale(1.0, 1.0, 1.0, 1.0);
+	this_female->reproduziu = false;
+}

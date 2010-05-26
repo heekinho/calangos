@@ -37,8 +37,10 @@ public:
 	void set_stop_time(bool stop_time);
 	void set_habilita_event_frame_gui(bool habilita_event_frame_gui);
 
+	float get_vminute_count();
 	typedef void EventCallbackFunction(const Event *, void *);
 	void notify_after_n_frames(int after_n_frames, EventCallbackFunction *function, void *data);
+	void notify_after_n_vminutes(int after_n_vmins, EventCallbackFunction *function, void *data);
 
 	// Bloco de m�todos que processam os eventos relacionados a passagem do tempo virtual
 	static void event_pframe_gui_options(const Event *, void *data);
@@ -59,6 +61,7 @@ public:
 	static const string EV_pass_month;
 	static const string EV_pass_year;
 	static const string EV_segundo_real;
+	static const string EV_pass_vminute;
 
 	// M�todo Auxiliar para partes do c�digo que desejarem obter informa��es sobre
 	// o tempo decorrido entre um frame e outro.
@@ -111,6 +114,10 @@ private:
 	float seconds_min;
 
 	float count_second;
+
+
+	float vminute_count;
+
 	/* Gera��o e controle de eventos */
 	// Ponteiro para a fila de eventos
 	EventQueue *p_queue;

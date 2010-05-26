@@ -11,6 +11,7 @@ public:
         virtual void act();
 
         static void reproduzir(const Event *theEvent, void *data);
+        static void back_to_reprodutive(const Event *theEvent, void *data);
         bool reproduziu;
 private:
     NodePath femaleSymbol;

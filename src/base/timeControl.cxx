@@ -30,6 +30,7 @@ const string TimeControl::EV_pass_hour = "EV_PASSHOUR";
 const string TimeControl::EV_pass_day = "EV_PASSDAY";
 const string TimeControl::EV_pass_month = "EV_PASSMONTH";
 const string TimeControl::EV_pass_year = "EV_PASSYEAR";
+const string TimeControl::EV_pass_vminute = "EV_PASSVMIN";
 
 bool TimeControl::instanceFlag = false;
 PT(TimeControl) TimeControl::single = NULL;
@@ -38,6 +39,7 @@ float TimeControl::virtualTime = 3;
 TimeControl::TimeControl() {
 
 	passTime = 1;
+	vminute_count = 0;
 	count_et = 0;
 	count_second = 0;
 	//MUDAR DE NOME
@@ -89,6 +91,10 @@ void TimeControl::event_pframe(const Event *, void *data){
 	std::stringstream this_frame;
 	this_frame << EV_pass_frame << "_" << (ClockObject::get_global_clock()->get_frame_count() - 1);
 	time->p_handler->remove_hooks(this_frame.str());
+
+	std::stringstream this_minute;
+	this_minute << EV_pass_vminute << "_" << (time->get_vminute_count() - 1);
+	time->p_handler->remove_hooks(this_minute.str());
 }
 
 void TimeControl::event_psegundo_real(const Event *, void *data){
@@ -180,6 +186,13 @@ void TimeControl::update_time_control(float elapsed_time){
 		
 		//considerando que recebe-se o elapsed_time em segundos.
 		if(count_et >= seconds_min){
+			vminute_count++;
+			/* --------------------------------------------------------------------------- */
+			std::stringstream pass_vmin_numbered;
+			pass_vmin_numbered << EV_pass_vminute << "_" << get_vminute_count();
+			(*p_queue).queue_event(new Event(pass_vmin_numbered.str()));
+			/* --------------------------------------------------------------------------- */
+
 			minute += count_et / seconds_min;
 			count_et = count_et - seconds_min * (int) (count_et / seconds_min);
 
@@ -310,6 +323,22 @@ void TimeControl::notify_after_n_frames(int after_n_frames, EventCallbackFunctio
 
 	p_handler->add_hook(listen_frame.str(), function, data);
 }
+
+
+float TimeControl::get_vminute_count(){
+	return vminute_count;
+}
+
+//IMPORTANTE: Não esquecer de retirar SEMPRE os hooks com frame_numbered.
+void TimeControl::notify_after_n_vminutes(int after_n_vmins, EventCallbackFunction *function, void *data) {
+	int target_minute = TimeControl::get_instance()->get_vminute_count()  + after_n_vmins;
+
+	std::stringstream listen_minute;
+	listen_minute << EV_pass_vminute << "_" << target_minute;
+
+	p_handler->add_hook(listen_minute.str(), function, data);
+}
+
 
 
 PT(TimeControl) TimeControl::get_instance(){
