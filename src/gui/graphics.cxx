@@ -5,8 +5,11 @@
 
 #define DEBUG false
 
+//Utilizado para tornar a classe PT
 TypeHandle Graphics::_type_handle;
 
+//Declaração de variavel. Foram declarados aqui como variaveis globais
+//porque quando colocadas no graphics.h dava erro de compilação.
 NodePath linha_grafico_np;
 LineSegs* linha_grafico;
 TextNode* marcacaoX1_titulo;
@@ -48,6 +51,7 @@ float posicao_marcacaoY4;
 float posicao_marcacaoY5;
 bool tipoTempo;
 
+//Destrutor: Remove os graficos da tela.
 Graphics::~Graphics() {
     //if(&graphic_np != NULL)
     if (&graphic_np != NULL)
@@ -67,6 +71,15 @@ Graphics::~Graphics() {
 		    }
 }
 
+//Construtor
+//NodePath* paiNode: Node onde o grafico vai ser anexado (componente de interface grafica, ex. frame)
+//queue<double> vetorXtmp: Fila com os valores do eixo X.
+//queue<double> vetorYtmp: Fila com os valores do eixo Y.
+//double limiteSuperiorXTmp: Valor maximo do eixo X.
+//double limiteInferiorXTmp: Valor minimo do eixo X.
+//double limiteSuperiorYTmp: Valor maximo do eixo Y.
+//double limiteInferiorYTmp: Valor minimo do eixo Y.
+//bool tipoTempoTmp: Indica se é grafico de tempo (tipoTempoTmp = true) ou se é do tipo variavel por variavel (tipoTempoTmp = false).
 Graphics::Graphics(NodePath* paiNode, queue<double> vetorXtmp, queue<double> vetorYtmp,  double limiteSuperiorXTmp, double limiteInferiorXTmp, double limiteSuperiorYTmp, double limiteInferiorYTmp, bool tipoTempoTmp){
 
     vetorX = vetorXtmp;
@@ -79,7 +92,7 @@ Graphics::Graphics(NodePath* paiNode, queue<double> vetorXtmp, queue<double> vet
     limiteSuperiorY = limiteSuperiorYTmp;
     limiteInferiorY = limiteInferiorYTmp;
 
-    //window = Simdunas::get_window();
+    //Cria o frame e seta a propriedade do frame onde o grafico será construido.
     graphic_frame = new PGVirtualFrame("Frame do grafico");
     graphic_frame->setup(1.1, 1.0);
     PGFrameStyle style = graphic_frame->get_frame_style(graphic_frame->get_state());
@@ -87,16 +100,13 @@ Graphics::Graphics(NodePath* paiNode, queue<double> vetorXtmp, queue<double> vet
     style.clear_texture();
     graphic_frame->set_frame_style(graphic_frame->get_state(), style);
     graphic_np = paiNode->attach_new_node(graphic_frame);
-    //graphic_np.reparent_to(paiNode);
-    //graphic_np.set_pos(0.4, 0.0, 0.5);
     graphic_np.set_color(1.0, 1.0, 1.0);
 
+    //Inicia as linhas utilizadas nos desenhos dos eixos.
     eixoX = new LineSegs("eixoX");
     eixoX2 = new LineSegs("eixoX2");
     eixoY = new LineSegs("eixoY");
     eixoY2 = new LineSegs("eixoY2");
-    
-    //eixoX_Marcacao1 = new LineSegs("eixoX-Marcacao1");
 
     //DESENHANDO OS EIXOS-------------------------------------------------------
     //Eixo X.
@@ -138,9 +148,14 @@ Graphics::Graphics(NodePath* paiNode, queue<double> vetorXtmp, queue<double> vet
 
 }
 
-
+//create_Graphic é o método que desenha o grafico na tela. Caso um objeto graphics seja iniciado e esse método
+//não seja chamado, o grafico não irá ser desenhado, aparecerá apenas o frame branco com os eixos azuis.
+//double tamanhoVetorXtmp: Quantidade de amostras do eixo x.
+//double tamanhoVetorYtmp: Quantidade de amostras do eixo Y.
 void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) {
 
+    //Inicia a linha do grafico. Esse componente é usado tanto para desenhar um linha continua, no caso do grafico
+    //de tempo, como pontos, no caso do grafico de variavel por variavel.
     linha_grafico = new LineSegs("linha-grafico");
     linha_grafico->set_color(0.0, 0.0, 0.0);
     double tamanhoVetorX = tamanhoVetorXtmp;
@@ -150,17 +165,8 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
     double posicaoX;
     double posicaoY;
 
-
-    if (DEBUG) {
-        cout << "\n O tamanho do vetor X eh: " << tamanhoVetorX << endl;
-        cout << " O tamanho do vetor Y eh: " << tamanhoVetorY << endl;
-        cout << " O tipo de grafico eh: " << tipoTempo << endl;
-    }
-
+    //Faz o calculo da escala em x de acordo com o tipo de grafico.
     if(tipoTempo){
-        if(DEBUG){
-            cout << " Escala tipo tempo" << endl;
-        }
         escalaX = 0.63 / (tamanhoVetorX - 1);
         posicaoX = 0;
     } else {
@@ -176,26 +182,22 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
             }
         }
     }
+    //Calcula a escala em y.
     escalaY = (0.63) / (limiteSuperiorY - limiteInferiorY);
     
-    if (tamanhoVetorY > 0) {
+    //Se o vetor Y não for vazio ele coloca a linha do grafico na posição inicial.
+	if (tamanhoVetorY > 0) {
         posicaoY = vetorY.front();
         vetorY.pop();
-//        if (posicaoY > limiteSuperiorY) {
-//            posicaoY = limiteSuperiorY;
-//        }
-//        if (posicaoY < limiteInferiorY) {
-//            posicaoY = limiteInferiorY;
-//        }
         linha_grafico->reset();
         if (tipoTempo) {
             linha_grafico->move_to((posicaoX * escalaX), 0.0, ((posicaoY - limiteInferiorY) * escalaY));
         } else {
             linha_grafico->move_to(((posicaoX - limiteInferiorX) * escalaX), 0.0, ((posicaoY - limiteInferiorY) * escalaY));
         }
-        //linha_grafico->create(false);
     }
 
+	//Verifica qual o maior valor do vetor X.
     queue<double> listaTemp (this->vetorX);
     double maior = listaTemp.front();
     int tamanhoFor = listaTemp.size();
@@ -206,10 +208,8 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
         listaTemp.pop();
     }
 
+	//Gera os valores das marcações dos eixos do grafico.
     if (tipoTempo) {
-        if(DEBUG){
-            cout << " Marcacao tipo tempo" << endl;
-        }
         //Colocando os numeros das marcacoes do eixo X.
         sprintf(stringMarcacaoX1, "%.2f", (maior / 5));
         marcacaoX1_titulo->set_text(stringMarcacaoX1);
@@ -247,14 +247,6 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
     sprintf(stringMarcacaoY5, "%.2f", (limiteSuperiorY));
     marcacaoY5_titulo->set_text(stringMarcacaoY5);
 
-    if(DEBUG){
-        cout << " A legenda da posicao Y1 ficou: " << stringMarcacaoY1 << endl;
-        cout << " A legenda da posicao Y2 ficou: " << stringMarcacaoY2 << endl;
-        cout << " A legenda da posicao Y3 ficou: " << stringMarcacaoY3 << endl;
-        cout << " A legenda da posicao Y4 ficou: " << stringMarcacaoY4 << endl;
-        cout << " A legenda da posicao Y5 ficou: " << stringMarcacaoY5 << endl;
-    }
-
     /*
      * For que constroi o grafico.
      * Comeca de 1 porque a primeira amostra foi postada anteriormente.
@@ -263,27 +255,10 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
         for (int i = 1; i < tamanhoVetorX; i++) {
             posicaoY = vetorY.front();
             vetorY.pop();
-//            if (posicaoY > limiteSuperiorY) {
-//                posicaoY = limiteSuperiorY;
-//            }
-//            if (posicaoY < limiteInferiorY) {
-//                posicaoY = limiteInferiorY;
-//            }
-
-//            if(DEBUG){
-//                cout << " Tipo = " << tipoTempo << endl;
-//            }
-
             if (tipoTempo) {
-//                if (DEBUG) {
-//                    cout << "\n Entrou no grafico de tempo: " << tipoTempo << endl;
-//                }
                 posicaoX = posicaoX + escalaX;
                 linha_grafico->draw_to(posicaoX, 0.0, ((posicaoY - limiteInferiorY) * escalaY));
             } else {
-//                if (DEBUG) {
-//                    cout << "\n Entrou no grafico de variavel: " << tipoTempo << endl;
-//                }
                 posicaoX = vetorX.front();
                 vetorX.pop();
                 if (posicaoX > limiteSuperiorX) {
@@ -294,16 +269,13 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
                 }
                 linha_grafico->move_to((((posicaoX - limiteInferiorX) * escalaX) + 0.005), 0.0, ((posicaoY - limiteInferiorY) * escalaY));
                 linha_grafico->draw_to((((posicaoX - limiteInferiorX) * escalaX) - 0.01), 0.0, ((posicaoY - limiteInferiorY) * escalaY));
-                //linha_grafico->draw_to((posicaoX * escalaX), 0.0, (posicaoY * escalaY));
                 linha_grafico->move_to(((posicaoX - limiteInferiorX) * escalaX), 0.0, ((posicaoY - limiteInferiorY) * escalaY) + 0.008);
                 linha_grafico->draw_to(((posicaoX - limiteInferiorX) * escalaX), 0.0, (((posicaoY - limiteInferiorY) * escalaY) - 0.016));
-                //linha_grafico->draw_to((posicaoX * escalaX), 0.0, ((posicaoY * escalaY) + 0.010));
-                //linha_grafico->draw_to((posicaoX * escalaX), 0.0, ((posicaoY * escalaY) - 0.005));
             }
-
-            //posicaoY = posicaoY + escala;
         }
     }
+	
+	//Faz o attach do grafico na tela.
     linha_grafico_np = graphic_np.attach_new_node(linha_grafico->create(true));
     linha_grafico_np.set_pos(0.15, 0.0, 0.15);
     linha_grafico_np.set_color(0.0, 0.0, 0.0);
@@ -361,12 +333,6 @@ void Graphics::desenha_marcacao_eixoX(){
         posicao_marcacaoX4 = 0.654;
         posicao_marcacaoX5 = 0.780;
     } else {
-        //        unidade_marcacaoX = ((100 * 0.0063) / limiteSuperiorX);
-        //        posicao_marcacaoX5 = (limiteSuperiorX * unidade_marcacaoX) + 0.15;
-        //        posicao_marcacaoX1 = (limiteInferiorX * unidade_marcacaoX) + 0.15;
-        //        posicao_marcacaoX2 = ((posicao_marcacaoX5 - posicao_marcacaoX1) / 4) + posicao_marcacaoX1;
-        //        posicao_marcacaoX3 = (2 * (posicao_marcacaoX5 - posicao_marcacaoX1) / 4) + posicao_marcacaoX1;
-        //        posicao_marcacaoX4 = (3 * (posicao_marcacaoX5 - posicao_marcacaoX1) / 4) + posicao_marcacaoX1;
         unidade_marcacaoX = 0.0063;
         posicao_marcacaoX5 = (100 * unidade_marcacaoX) + 0.15;
         posicao_marcacaoX1 = (0 * unidade_marcacaoX) + 0.15;
@@ -375,71 +341,70 @@ void Graphics::desenha_marcacao_eixoX(){
         posicao_marcacaoX4 = (3 * (posicao_marcacaoX5 - posicao_marcacaoX1) / 4) + posicao_marcacaoX1;
     }
 
-
-        LineSegs* marcacaoX1 = new LineSegs("mx1");
-        marcacaoX1->set_color(0.0, 0.0, 1.0);
-        marcacaoX1->draw_to(0.0, 0.0, 0.0);
-        marcacaoX1->draw_to(0.0, 0.0, 0.035);
-        NodePath marcacaoX1_np = graphic_np.attach_new_node(marcacaoX1->create());
-        marcacaoX1_np.set_pos(posicao_marcacaoX1, 0.0, 0.13);
-        //legenda da marcação 1
-        marcacaoX1_titulo = new TextNode("legendamarcacaoX1");
+    LineSegs* marcacaoX1 = new LineSegs("mx1");
+    marcacaoX1->set_color(0.0, 0.0, 1.0);
+    marcacaoX1->draw_to(0.0, 0.0, 0.0);
+    marcacaoX1->draw_to(0.0, 0.0, 0.035);
+    NodePath marcacaoX1_np = graphic_np.attach_new_node(marcacaoX1->create());
+    marcacaoX1_np.set_pos(posicao_marcacaoX1, 0.0, 0.13);
+    //legenda da marcação 1
+    marcacaoX1_titulo = new TextNode("legendamarcacaoX1");
 	marcacaoX1_titulo->set_text("");
 	marcacaoX1_titulo_np = graphic_np.attach_new_node(marcacaoX1_titulo);
 	marcacaoX1_titulo_np.set_pos(posicao_marcacaoX1 - 0.03, 0.0, 0.07);
 	marcacaoX1_titulo_np.set_scale(0.04);
   	marcacaoX1_titulo_np.set_color(0.0, 0.0, 0.0, 1,0);
 
-        LineSegs* marcacaoX2 = new LineSegs("mx2");
-        marcacaoX2->set_color(0.0, 0.0, 1.0);
-        marcacaoX2->draw_to(0.0, 0.0, 0.0);
-        marcacaoX2->draw_to(0.0, 0.0, 0.035);
-        NodePath marcacaoX2_np = graphic_np.attach_new_node(marcacaoX2->create());
-        marcacaoX2_np.set_pos(posicao_marcacaoX2, 0.0, 0.13);
-        //legenda da marcação 2
-        marcacaoX2_titulo = new TextNode("legendamarcacaoX2");
+    LineSegs* marcacaoX2 = new LineSegs("mx2");
+    marcacaoX2->set_color(0.0, 0.0, 1.0);
+    marcacaoX2->draw_to(0.0, 0.0, 0.0);
+    marcacaoX2->draw_to(0.0, 0.0, 0.035);
+    NodePath marcacaoX2_np = graphic_np.attach_new_node(marcacaoX2->create());
+    marcacaoX2_np.set_pos(posicao_marcacaoX2, 0.0, 0.13);
+    //legenda da marcação 2
+    marcacaoX2_titulo = new TextNode("legendamarcacaoX2");
 	marcacaoX2_titulo->set_text("");
 	marcacaoX2_titulo_np = graphic_np.attach_new_node(marcacaoX2_titulo);
 	marcacaoX2_titulo_np.set_pos(posicao_marcacaoX2 - 0.03, 0.0, 0.07);
 	marcacaoX2_titulo_np.set_scale(0.04);
   	marcacaoX2_titulo_np.set_color(0.0, 0.0, 0.0, 1,0);
 
-        LineSegs* marcacaoX3 = new LineSegs("mx3");
-        marcacaoX3->set_color(0.0, 0.0, 1.0);
-        marcacaoX3->draw_to(0.0, 0.0, 0.0);
-        marcacaoX3->draw_to(0.0, 0.0, 0.035);
-        NodePath marcacaoX3_np = graphic_np.attach_new_node(marcacaoX3->create());
-        marcacaoX3_np.set_pos(posicao_marcacaoX3, 0.0, 0.13);
-        //legenda da marcação 3
-        marcacaoX3_titulo = new TextNode("legendamarcacaoX3");
+    LineSegs* marcacaoX3 = new LineSegs("mx3");
+    marcacaoX3->set_color(0.0, 0.0, 1.0);
+    marcacaoX3->draw_to(0.0, 0.0, 0.0);
+    marcacaoX3->draw_to(0.0, 0.0, 0.035);
+    NodePath marcacaoX3_np = graphic_np.attach_new_node(marcacaoX3->create());
+    marcacaoX3_np.set_pos(posicao_marcacaoX3, 0.0, 0.13);
+    //legenda da marcação 3
+    marcacaoX3_titulo = new TextNode("legendamarcacaoX3");
 	marcacaoX3_titulo->set_text("");
 	marcacaoX3_titulo_np = graphic_np.attach_new_node(marcacaoX3_titulo);
 	marcacaoX3_titulo_np.set_pos(posicao_marcacaoX3 - 0.03, 0.0, 0.07);
 	marcacaoX3_titulo_np.set_scale(0.04);
   	marcacaoX3_titulo_np.set_color(0.0, 0.0, 0.0, 1,0);
 
-        LineSegs* marcacaoX4 = new LineSegs("mx4");
-        marcacaoX4->set_color(0.0, 0.0, 1.0);
-        marcacaoX4->draw_to(0.0, 0.0, 0.0);
-        marcacaoX4->draw_to(0.0, 0.0, 0.035);
-        NodePath marcacaoX4_np = graphic_np.attach_new_node(marcacaoX4->create());
-        marcacaoX4_np.set_pos(posicao_marcacaoX4, 0.0, 0.13);
-        //legenda da marcação 4
-        marcacaoX4_titulo = new TextNode("legendamarcacaoX4");
+    LineSegs* marcacaoX4 = new LineSegs("mx4");
+    marcacaoX4->set_color(0.0, 0.0, 1.0);
+    marcacaoX4->draw_to(0.0, 0.0, 0.0);
+    marcacaoX4->draw_to(0.0, 0.0, 0.035);
+    NodePath marcacaoX4_np = graphic_np.attach_new_node(marcacaoX4->create());
+    marcacaoX4_np.set_pos(posicao_marcacaoX4, 0.0, 0.13);
+    //legenda da marcação 4
+    marcacaoX4_titulo = new TextNode("legendamarcacaoX4");
 	marcacaoX4_titulo->set_text("");
 	marcacaoX4_titulo_np = graphic_np.attach_new_node(marcacaoX4_titulo);
 	marcacaoX4_titulo_np.set_pos(posicao_marcacaoX4 - 0.03, 0.0, 0.07);
 	marcacaoX4_titulo_np.set_scale(0.04);
   	marcacaoX4_titulo_np.set_color(0.0, 0.0, 0.0, 1,0);
 
-        LineSegs* marcacaoX5 = new LineSegs("mx5");
-        marcacaoX5->set_color(0.0, 0.0, 1.0);
-        marcacaoX5->draw_to(0.0, 0.0, 0.0);
-        marcacaoX5->draw_to(0.0, 0.0, 0.035);
-        NodePath marcacaoX5_np = graphic_np.attach_new_node(marcacaoX5->create());
-        marcacaoX5_np.set_pos(posicao_marcacaoX5, 0.0, 0.13);
-        //legenda da marcação 5
-        marcacaoX5_titulo = new TextNode("legendamarcacaoX5");
+    LineSegs* marcacaoX5 = new LineSegs("mx5");
+    marcacaoX5->set_color(0.0, 0.0, 1.0);
+    marcacaoX5->draw_to(0.0, 0.0, 0.0);
+    marcacaoX5->draw_to(0.0, 0.0, 0.035);
+    NodePath marcacaoX5_np = graphic_np.attach_new_node(marcacaoX5->create());
+    marcacaoX5_np.set_pos(posicao_marcacaoX5, 0.0, 0.13);
+    //legenda da marcação 5
+    marcacaoX5_titulo = new TextNode("legendamarcacaoX5");
 	marcacaoX5_titulo->set_text("");
 	marcacaoX5_titulo_np = graphic_np.attach_new_node(marcacaoX5_titulo);
 	marcacaoX5_titulo_np.set_pos(posicao_marcacaoX5 - 0.03, 0.0, 0.07);
@@ -449,12 +414,6 @@ void Graphics::desenha_marcacao_eixoX(){
 
 void Graphics::desenha_marcacao_eixoY() {
 
-//    unidade_marcacaoY = ((100 * 0.0063) / limiteSuperiorY);
-//    posicao_marcacaoY5 = (limiteSuperiorY * unidade_marcacaoY) + 0.15;
-//    posicao_marcacaoY1 = (limiteInferiorY * unidade_marcacaoY) + 0.15;
-//    posicao_marcacaoY2 = ((posicao_marcacaoY5 - posicao_marcacaoY1) / 4) + posicao_marcacaoY1;
-//    posicao_marcacaoY3 = (2 * (posicao_marcacaoY5 - posicao_marcacaoY1) / 4) + posicao_marcacaoY1;
-//    posicao_marcacaoY4 = (3 * (posicao_marcacaoY5 - posicao_marcacaoY1) / 4) + posicao_marcacaoY1;
     unidade_marcacaoY = 0.0063;
     posicao_marcacaoY5 = (100 * unidade_marcacaoY) + 0.15;
     posicao_marcacaoY1 = (0 * unidade_marcacaoY) + 0.15;
@@ -462,16 +421,6 @@ void Graphics::desenha_marcacao_eixoY() {
     posicao_marcacaoY3 = (2 * (posicao_marcacaoY5 - posicao_marcacaoY1) / 4) + posicao_marcacaoY1;
     posicao_marcacaoY4 = (3 * (posicao_marcacaoY5 - posicao_marcacaoY1) / 4) + posicao_marcacaoY1;
     
-    if (DEBUG) {
-        cout << " A unidade marcacao Y ficou: " << unidade_marcacaoY << endl;
-        cout << " A posicao Y1 ficou: " << posicao_marcacaoY1 << endl;
-        cout << " A posicao Y2 ficou: " << posicao_marcacaoY2 << endl;
-        cout << " A posicao Y3 ficou: " << posicao_marcacaoY3 << endl;
-        cout << " A posicao Y4 ficou: " << posicao_marcacaoY4 << endl;
-        cout << " A posicao Y5 ficou: " << posicao_marcacaoY5 << endl;
-    }
-
-
     LineSegs* marcacaoY1 = new LineSegs("my1");
     marcacaoY1->set_color(0.0, 0.0, 1.0);
     marcacaoY1->draw_to(0.0, 0.0, 0.0);

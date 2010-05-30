@@ -170,9 +170,9 @@ bool GuiManager::flag_piscar=false;
 int GuiManager::conta=0;
 //float GuiManager::controle_tempo_piscando=0.0;
 
+//Destrutor: Somente coloca os objetos graphics igual a null devido ao
+//fato da classe guiManager ser PT.
 GuiManager::~GuiManager(){
-	
-
     cout<< "\n inicio do destrutor... " << endl;
     graphic = NULL;
     graphic2 = NULL;
@@ -185,6 +185,7 @@ GuiManager::~GuiManager(){
     cout<< "\n fim do destrutor..." << endl;
 }
 
+//Padrão singleton
 PT(GuiManager) GuiManager::get_instance() {
     if (!instanceFlag) {
         instance = new GuiManager();
@@ -193,9 +194,9 @@ PT(GuiManager) GuiManager::get_instance() {
     return instance;
 }
 
+//Método usado na hora do reinicio do jogo.
 void GuiManager::unload_gui(){
     GuiManager::get_instance()->remove_hooks();
-    //delete this;
     GuiManager::get_instance()->graphic = NULL;
     GuiManager::get_instance()->graphic2 = NULL;
     GuiManager::get_instance()->graphic3 = NULL;
@@ -209,6 +210,7 @@ void GuiManager::unload_gui(){
     instanceFlag = false;
 }
 
+//Método que remove os eventos cadastrados na fila de eventos.
 void GuiManager::remove_hooks() {
     //------------------------------------------------------------
     Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_segundo_real, update_gui, this);
@@ -227,6 +229,7 @@ void GuiManager::remove_hooks() {
 
 }
 
+//Construtor.
 GuiManager::GuiManager() {
     //window = Simdunas::get_window();
 
@@ -249,7 +252,7 @@ GuiManager::GuiManager() {
 	molduraToca.hide();
 
 
-	//FRAME.-----------------------------------------------------------
+	//DESENHA O FRAME-----------------------------------------------------------
   	testeFrame = new PGVirtualFrame("Frame de teste");
   	testeFrame->setup(0.42, 2.0);
         PGFrameStyle style = testeFrame->get_frame_style(testeFrame->get_state());
@@ -269,7 +272,7 @@ GuiManager::GuiManager() {
 
 
 
-	//RELOGIO PARA MOSTRAR DIA/NOITE.----------------------------------
+	//DESENHA O RELOGIO PARA MOSTRAR DIA/NOITE----------------------------------
 	relogioDiaNoite = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/gui/diaEnoite.png");
 	relogio_pointer = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/gui/ponteiro.png");
 
@@ -289,7 +292,7 @@ GuiManager::GuiManager() {
 
 	cont_relogio = (TimeControl::get_instance()->get_hora())*270/6;
 
-	//BARRA DO LIFE.---------------------------------------------------
+	//BARRA DO LIFE------------------------------------------------------
   	calango = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/calango_color.png");
 	calango_border = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/calango_border.png");
 
@@ -459,6 +462,7 @@ GuiManager::GuiManager() {
 	//AVISO DO ESTADO REPRODUTIVO.------------------------------------------
         //----------------------------------------------------------------------
 	estadoReprodutivo = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/gui/(fe)male_symbol.png");
+	//led é a luz que indica se o estado reprodutivo está ativo ou não.
 	led = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/gui/GrayLed.png");
         egg = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/gui/egg2.png");
 	//ledGreen = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/gui/GreenLed.png");
@@ -570,7 +574,13 @@ GuiManager::GuiManager() {
 
         grafico_tempo_ativo = true;
         grafico_variavel_ativo = false;
-        //------------
+        
+		//------------
+		//Aqui sao setadas as propriedades dos botes da barra lateral
+		//1 - Inicia o botão e seta a imagem nele.
+		//2 - Inicia o led que fica ao lado do botão.
+		//Essa sequencia server pros 8 botões.
+		//------------
         botao1TempInterna = new PGButton("Botao_temperatura_interna");
         botao1TempInterna->setup("", 0.1);
         botao1TempInterna_np = frameNode.attach_new_node(botao1TempInterna);
@@ -792,6 +802,11 @@ GuiManager::GuiManager() {
 		gui_options_flag2 = false;
 
         //------------
+		//Aqui sao setadas as propriedades dos botes da barra lateral
+		//1 - Inicia o botão e seta a imagem nele.
+		//2 - Inicia o led que fica ao lado do botão.
+		//Essa sequencia server pros 8 botões.
+		//------------
         vBotao1TempInterna = new PGButton("Botao_temperatura_interna");
         vBotao1TempInterna->setup("", 0.1);
         vBotao1TempInterna_np = graficoVariavelFrameNode.attach_new_node(vBotao1TempInterna);
@@ -1022,6 +1037,7 @@ GuiManager::GuiManager() {
 	TimeControl::get_instance()->set_habilita_event_frame_gui(true);
 	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_segundo_real, update_gui, this);
 	
+		//Coloca os eventos na fila de eventos.
         Simdunas::get_evt_handler()->add_hook(botaoGrafico->get_click_event(MouseButton::one()), click_event_botao_grafico,this);
         Simdunas::get_evt_handler()->add_hook(botaoEscolhaGraficoTempo->get_click_event(MouseButton::one()), click_event_botao_grafico_tempo,this);
         Simdunas::get_evt_handler()->add_hook(botaoEscolhaGraficoVariavel->get_click_event(MouseButton::one()), click_event_botao_grafico_variavel,this);
@@ -1044,6 +1060,7 @@ GuiManager::GuiManager() {
 		//cout<<"teste4" << endl;
 }
 
+//Notifica a interface que houve game over
 void GuiManager::notifyGameOver() {
 	update_gui(NULL,this);
     is_game_over = true;
@@ -1051,6 +1068,7 @@ void GuiManager::notifyGameOver() {
     Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame_gui_options, update_gui, this);
 }
 
+//Metodo que é chamado toda vez que o evento de clique no botao de abertura do painel dos graficos.
 void GuiManager::click_event_botao_grafico(const Event*, void *data) {
 
     PT(GuiManager) this_guiManager = (PT(GuiManager)) (GuiManager*) data;
