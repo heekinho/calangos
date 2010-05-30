@@ -479,6 +479,7 @@ GuiManager::GuiManager() {
 	egg.set_scale(0.006);
 	egg.set_pos(0.28, 0.0, 0.32);
 
+	//Inicia o contador de ovos.
         labelCountEgg = new TextNode("0");
 	labelCountEgg->set_text("0");
 
@@ -1135,6 +1136,7 @@ void GuiManager::click_event_botao_grafico(const Event*, void *data) {
 
 }
 
+//Metodo que é chamado a cada frame do jogo para atualizar a interface de acordo com as variaveis de ambiente.
 void GuiManager::update_gui(const Event*, void *data) {
     //TODO:Chamar método genérico para mostrar temperatura do ambiente, não mais temperatura do ar, do solo, etc...
 
@@ -1224,6 +1226,7 @@ void GuiManager::update_gui(const Event*, void *data) {
     }
 }
 
+//Metodo que faz com que o painel dos graficos se mova na abertura e fechamento do mesmo.
 void GuiManager::init_options(const Event *, void *data) {
 
     PT(GuiManager) this_guiManager = (PT(GuiManager)) (GuiManager*) data;
@@ -1268,6 +1271,7 @@ void GuiManager::init_options(const Event *, void *data) {
     }
 }
 
+//Constroi o painel que contém os graficos.
 void GuiManager::build_options() {
 
     optionFrame = new PGVirtualFrame("Frame do menu de opcoes");
@@ -1303,6 +1307,7 @@ void GuiManager::build_options() {
 
 }
 
+//Inicia os objetos dos graficos.
 void GuiManager::inicia_graficos() {
     this->novo_grafico1_TempInterna();
     this->novo_grafico2_Hidratacao();
@@ -1321,6 +1326,7 @@ void GuiManager::inicia_graficos() {
     graphic8->hide();
 }
 
+//Faz com que os graficos nao fiquem visiveis.
 void GuiManager::esconde_graficos() {
     graphic->hide();
     graphic2->hide();
@@ -1332,6 +1338,7 @@ void GuiManager::esconde_graficos() {
     graphic8->hide();
 }
 
+//Constroi o grafico de temperatura interna X tempo.
 void GuiManager::novo_grafico1_TempInterna() {
     graphic = new Graphics(&(optionFrameNode), vector->getVectorTempo(), vector->getVectorTemperaturaLagarto(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaLagarto()), vector->getSmallestElement(vector->getVectorTemperaturaLagarto()), true);
     graphic->set_Position_Graphic(0.4, 1.0);
@@ -1342,6 +1349,7 @@ void GuiManager::novo_grafico1_TempInterna() {
     graphic->create_Graphic(vector->getSizeVectorTempo(), vector->getSizeVectorTemperaturaLagarto());
 }
 
+//Constroi o grafico de hidratacao X tempo.
 void GuiManager::novo_grafico2_Hidratacao(){
     graphic2 = new Graphics(&(optionFrameNode), vector->getVectorTempo(), vector->getVectorHidratacaoLagarto(), 0, 0, 100, 0, true);
     graphic2->set_Position_Graphic(0.4, 1.0);
@@ -1352,6 +1360,7 @@ void GuiManager::novo_grafico2_Hidratacao(){
     graphic2->create_Graphic(vector->getSizeVectorTempo(), vector->getSizeVectorHidratacaoLagarto());
 }
 
+//Constroi o grafico de temperatura do ar X tempo.
 void GuiManager::novo_grafico3_TempAr() {
     graphic3 = new Graphics(&(optionFrameNode), vector->getVectorTempo(), vector->getVectorTemperaturaAr(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaAr()), vector->getSmallestElement(vector->getVectorTemperaturaAr()), true);
     graphic3->set_Position_Graphic(0.4, 1.0);
@@ -1362,6 +1371,7 @@ void GuiManager::novo_grafico3_TempAr() {
     graphic3->create_Graphic(vector->getSizeVectorTempo(), vector->getSizeVectorTemperaturaAr());
 }
 
+//Constroi o grafico de umidade X tempo.
 void GuiManager::novo_grafico4_Umidade() {
     graphic4 = new Graphics(&(optionFrameNode), vector->getVectorTempo(), vector->getVectorUmidadeAmbiente(), 0, 0, 100, 0, true);
     graphic4->set_Position_Graphic(0.4, 1.0);
@@ -1372,6 +1382,7 @@ void GuiManager::novo_grafico4_Umidade() {
     graphic4->create_Graphic(vector->getSizeVectorTempo(), vector->getSizeVectorUmidadeAmbiente());
 }
 
+//Constroi o grafico de temperatura do solo X tempo.
 void GuiManager::novo_grafico5_TempSolo(){
     graphic5 = new Graphics(&(optionFrameNode), vector->getVectorTempo(), vector->getVectorTemperaturaSolo(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaSolo()), vector->getSmallestElement(vector->getVectorTemperaturaSolo()), true);
     graphic5->set_Position_Graphic(0.4, 1.0);
@@ -1382,6 +1393,7 @@ void GuiManager::novo_grafico5_TempSolo(){
     graphic5->create_Graphic(vector->getSizeVectorTempo(), vector->getSizeVectorTemperaturaSolo());
 }
 
+//Constroi o grafico de alimentacao X tempo.
 void GuiManager::novo_grafico6_Alimentacao(){
     graphic6 = new Graphics(&(optionFrameNode), vector->getVectorTempo(), vector->getVectorAlimentacao(), 0, 0, vector->getLargestElement(vector->getVectorAlimentacao()), vector->getSmallestElement(vector->getVectorAlimentacao()), true);
     graphic6->set_Position_Graphic(0.4, 1.0);
@@ -1392,6 +1404,7 @@ void GuiManager::novo_grafico6_Alimentacao(){
     graphic6->create_Graphic(vector->getSizeVectorTempo(), vector->getSizeVectorAlimentacao());
 }
 
+//Constroi o grafico de energia X tempo.
 void GuiManager::novo_grafico7_Energia(){
     graphic7 = new Graphics(&(optionFrameNode), vector->getVectorTempo(), vector->getVectorEnergia(), 0, 0, 100, 0, true);
     graphic7->set_Position_Graphic(0.4, 1.0);
@@ -1403,6 +1416,7 @@ void GuiManager::novo_grafico7_Energia(){
 
 }
 
+//Constroi o grafico de gasto energetico X tempo.
 void GuiManager::novo_grafico8_GastoEnergetico(){
     graphic8 = new Graphics(&(optionFrameNode), vector->getVectorTempo(), vector->getVectorGastoEnergeticoTotal(), 0, 0, vector->getLargestElement(vector->getVectorGastoEnergeticoTotal()), vector->getSmallestElement(vector->getVectorGastoEnergeticoTotal()), true);
     graphic8->set_Position_Graphic(0.4, 1.0);
@@ -1413,6 +1427,7 @@ void GuiManager::novo_grafico8_GastoEnergetico(){
     graphic8->create_Graphic(vector->getSizeVectorTempo(), vector->getSizeVectorGastoEnergiticoTotal());
 }
 
+//Ascende a luz que indica que o lagarto está com o estado reprodutivo ativo.
 void GuiManager::liga_led_estado_reprodutivo() {
     led.remove_node();
     led = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/gui/GreenLed.png");
@@ -1421,6 +1436,7 @@ void GuiManager::liga_led_estado_reprodutivo() {
     led.set_pos(0.16, 0.0, 0.32);
 }
 
+//Ascende a luz que indica que o lagarto está com o estado reprodutivo ativo.
 void GuiManager::desliga_led_estado_reprodutivo(){
     led.remove_node();
     led = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/gui/GrayLed.png");
@@ -1429,6 +1445,7 @@ void GuiManager::desliga_led_estado_reprodutivo(){
     led.set_pos(0.16, 0.0, 0.32);
 }
 
+//Deixa os componentes de interface que estão no painel lateral invisiveis.
 void GuiManager::esconde_mostradores(){
     relogioDiaNoite.hide();
     relogio_pointer.hide();
@@ -1459,6 +1476,7 @@ void GuiManager::esconde_mostradores(){
     labelIdadeNumero_np.hide();
 }
 
+//Deixa os componentes de interface que estão no painel lateral visiveis.
 void GuiManager::mostra_mostradores(){
     relogioDiaNoite.show();
     relogio_pointer.show();
@@ -1489,10 +1507,12 @@ void GuiManager::mostra_mostradores(){
     labelIdadeNumero_np.show();
 }
 
+//Torna visivel as opções relacionadas aos graficos.
 void GuiManager::mostra_opcoes_dos_graficos(){
     this->mostra_painel_grafico_tempo();
 }
 
+//Torna invisivel as opções relacionadas aos graficos.
 void GuiManager::esconde_opcoes_dos_graficos(){
     this->esconde_painel_grafico_tempo();
     this->esconde_painel_grafico_variavel();
@@ -1506,10 +1526,13 @@ void GuiManager::esconde_opcoes_dos_graficos(){
     botaoEscolhaGraficoVariavel_image_ativo.hide();
 }
 
+//Metodo que captura o clique no botao tempo.
 void GuiManager::click_event_botao_grafico_tempo(const Event*, void* data) {
 
      PT(GuiManager) this_guiManager = (PT(GuiManager)) (GuiManager*) data;
 
+    //Verifica se o painel de tempo ja esta aberto. Caso esteja ele esconde esse painel, se não ele oculta todos os outros paineis
+    //e torna o painel de tempo visivel.
     if (grafico_tempo_ativo) {
         this_guiManager->esconde_painel_grafico_tempo();
         this_guiManager->esconde_graficos();
@@ -1550,10 +1573,13 @@ void GuiManager::click_event_botao_grafico_tempo(const Event*, void* data) {
     }
 }
 
+//Metodo que captura o clique no botao variavel.
 void GuiManager::click_event_botao_grafico_variavel(const Event*, void* data) {
 
      PT(GuiManager) this_guiManager = (PT(GuiManager)) (GuiManager*) data;
 
+    //Verifica se o painel de variavel ja esta aberto. Caso esteja ele esconde esse painel, se não ele oculta todos os outros paineis
+    //e torna o painel de variavel visivel.
     if (grafico_variavel_ativo) {
         this_guiManager->esconde_painel_grafico_variavel();
         this_guiManager->esconde_graficos();
@@ -1626,6 +1652,7 @@ void GuiManager::click_event_botao_grafico_variavel(const Event*, void* data) {
     }
 }
 
+//Desliga as luzes que indicam quais graficos estao ativos no painel de tempo.
 void GuiManager::desliga_leds_painel_tempo(){
     botao1TempInterna_ledON.hide();
     botao2Hidratcao_ledON.hide();
@@ -1645,6 +1672,7 @@ void GuiManager::desliga_leds_painel_tempo(){
     botao8GastoEnergetico_ledOFF.show();
 }
 
+//Desliga as luzes que indicam quais graficos estao ativos no painel de variavel.
 void GuiManager::desliga_leds_painel_variavel(){
     vBotao1TempInterna_ledON.hide();
     vBotao2Hidratcao_ledON.hide();
@@ -1664,6 +1692,7 @@ void GuiManager::desliga_leds_painel_variavel(){
     vBotao8GastoEnergetico_ledOFF.show();
 }
 
+//Torna visivel o painel que contem os botoes para ativar os graficos de tempo.
 void GuiManager::mostra_painel_grafico_tempo() {
     botaoEscolhaGrafico_label.show();
     botaoEscolhaGraficoTempo_np.show();
@@ -1696,6 +1725,7 @@ void GuiManager::mostra_painel_grafico_tempo() {
     botao8GastoEnergetico_ledOFF.show();
 }
 
+//Torna invisivel o painel que contem os botoes para ativar os graficos de tempo.
 void GuiManager::esconde_painel_grafico_tempo() {
     botao1TempInterna_np.hide();
     botao1TempInterna_image.hide();
@@ -1731,16 +1761,21 @@ void GuiManager::esconde_painel_grafico_tempo() {
     botao8GastoEnergetico_ledOFF.hide();
 }
 
+//Torna visivel o painel que contem os botoes para ativar os graficos de variaveis.
 void GuiManager::mostra_painel_grafico_variavel(){
     this->esconde_graficos();
     graficoVariavelFrameNode.show();
 }
 
+//Torna invisivel o painel que contem os botoes para ativar os graficos de variaveis.
 void GuiManager::esconde_painel_grafico_variavel(){
     this->esconde_painel_grafico_tempo();
     graficoVariavelFrameNode.hide();
 }
 
+//Metodo chamado quando acontece um clique no botao de temperatura interna do painel lateral.
+//Verifica se está no modo variavel X tempo ou no modo variavel X variavel para saber qual grafico
+//será criado.
 void GuiManager::click_event_botao1_grafico_TempInterna(const Event*, void *data) {
 
      PT(GuiManager) this_guiManager = (PT(GuiManager)) (GuiManager*) data;
@@ -1800,6 +1835,9 @@ void GuiManager::click_event_botao1_grafico_TempInterna(const Event*, void *data
     }
 }
 
+//Metodo chamado quando acontece um clique no botao de hidratação do painel lateral.
+//Verifica se está no modo variavel X tempo ou no modo variavel X variavel para saber qual grafico
+//será criado.
 void GuiManager::click_event_botao2_grafico_Hidratacao(const Event*, void* data) {
 
      PT(GuiManager) this_guiManager = (PT(GuiManager)) (GuiManager*) data;
@@ -1857,6 +1895,9 @@ void GuiManager::click_event_botao2_grafico_Hidratacao(const Event*, void* data)
     }
 }
 
+//Metodo chamado quando acontece um clique no botao de temperatura do ar do painel lateral.
+//Verifica se está no modo variavel X tempo ou no modo variavel X variavel para saber qual grafico
+//será criado.
 void GuiManager::click_event_botao3_grafico_TempAr(const Event*, void* data) {
 
      PT(GuiManager) this_guiManager = (PT(GuiManager)) (GuiManager*) data;
@@ -1914,6 +1955,9 @@ void GuiManager::click_event_botao3_grafico_TempAr(const Event*, void* data) {
     }
 }
 
+//Metodo chamado quando acontece um clique no botao de umidade do painel lateral.
+//Verifica se está no modo variavel X tempo ou no modo variavel X variavel para saber qual grafico
+//será criado.
 void GuiManager::click_event_botao4_grafico_Umidade(const Event*, void* data) {
 
      PT(GuiManager) this_guiManager = (PT(GuiManager)) (GuiManager*) data;
@@ -1970,6 +2014,9 @@ void GuiManager::click_event_botao4_grafico_Umidade(const Event*, void* data) {
     }
 }
 
+//Metodo chamado quando acontece um clique no botao de temperatura do solo do painel lateral.
+//Verifica se está no modo variavel X tempo ou no modo variavel X variavel para saber qual grafico
+//será criado.
 void GuiManager::click_event_botao5_grafico_TempSolo(const Event*, void* data) {
 
     PT(GuiManager) this_guiManager = (PT(GuiManager)) (GuiManager*) data;
@@ -2029,6 +2076,9 @@ void GuiManager::click_event_botao5_grafico_TempSolo(const Event*, void* data) {
     }
 }
 
+//Metodo chamado quando acontece um clique no botao de alimentação do painel lateral.
+//Verifica se está no modo variavel X tempo ou no modo variavel X variavel para saber qual grafico
+//será criado.
 void GuiManager::click_event_botao6_grafico_Alimentacao(const Event*, void* data) {
 
     PT(GuiManager) this_guiManager = (PT(GuiManager)) (GuiManager*) data;
@@ -2083,6 +2133,9 @@ void GuiManager::click_event_botao6_grafico_Alimentacao(const Event*, void* data
     }
 }
 
+//Metodo chamado quando acontece um clique no botao de energia do painel lateral.
+//Verifica se está no modo variavel X tempo ou no modo variavel X variavel para saber qual grafico
+//será criado.
 void GuiManager::click_event_botao7_grafico_Energia(const Event*, void* data) {
 
      PT(GuiManager) this_guiManager = (PT(GuiManager)) (GuiManager*) data;
@@ -2139,6 +2192,9 @@ void GuiManager::click_event_botao7_grafico_Energia(const Event*, void* data) {
     }
 }
 
+//Metodo chamado quando acontece um clique no botao de gasto energetico do painel lateral.
+//Verifica se está no modo variavel X tempo ou no modo variavel X variavel para saber qual grafico
+//será criado.
 void GuiManager::click_event_botao8_grafico_GastoEnergetico(const Event*, void* data) {
 
     PT(GuiManager) this_guiManager = (PT(GuiManager)) (GuiManager*) data;
@@ -2195,6 +2251,7 @@ void GuiManager::click_event_botao8_grafico_GastoEnergetico(const Event*, void* 
     }
 }
 
+//Metodo chamado quando acontece um clique no botao de temperatura interna do painel inferior.
 void GuiManager::click_event_vBotao1_grafico_TempInterna(const Event*, void *data) {
 
     PT(GuiManager) this_guiManager = (PT(GuiManager)) (GuiManager*) data;
@@ -2218,6 +2275,7 @@ void GuiManager::click_event_vBotao1_grafico_TempInterna(const Event*, void *dat
 
 }
 
+//Metodo chamado quando acontece um clique no botao de hidratação do painel inferior.
 void GuiManager::click_event_vBotao2_grafico_Hidratacao(const Event*, void* data) {
 
     PT(GuiManager) this_guiManager = (PT(GuiManager)) (GuiManager*) data;
@@ -2240,6 +2298,7 @@ void GuiManager::click_event_vBotao2_grafico_Hidratacao(const Event*, void* data
 
 }
 
+//Metodo chamado quando acontece um clique no botao de temperatura do ar do painel inferior.
 void GuiManager::click_event_vBotao3_grafico_TempAr(const Event*, void* data) {
 
     PT(GuiManager) this_guiManager = (PT(GuiManager)) (GuiManager*) data;
@@ -2262,6 +2321,7 @@ void GuiManager::click_event_vBotao3_grafico_TempAr(const Event*, void* data) {
 
 }
 
+//Metodo chamado quando acontece um clique no botao de umidade do painel inferior.
 void GuiManager::click_event_vBotao4_grafico_Umidade(const Event*, void* data) {
 
     PT(GuiManager) this_guiManager = (PT(GuiManager)) (GuiManager*) data;
@@ -2283,6 +2343,7 @@ void GuiManager::click_event_vBotao4_grafico_Umidade(const Event*, void* data) {
 
 }
 
+//Metodo chamado quando acontece um clique no botao de temperatura do solo do painel inferior.
 void GuiManager::click_event_vBotao5_grafico_TempSolo(const Event*, void* data) {
 
     PT(GuiManager) this_guiManager = (PT(GuiManager)) (GuiManager*) data;
@@ -2305,6 +2366,7 @@ void GuiManager::click_event_vBotao5_grafico_TempSolo(const Event*, void* data) 
 
 }
 
+//Metodo chamado quando acontece um clique no botao de alimentação do painel inferior.
 void GuiManager::click_event_vBotao6_grafico_Alimentacao(const Event*, void* data) {
 
     PT(GuiManager) this_guiManager = (PT(GuiManager)) (GuiManager*) data;
@@ -2326,6 +2388,7 @@ void GuiManager::click_event_vBotao6_grafico_Alimentacao(const Event*, void* dat
 
 }
 
+//Metodo chamado quando acontece um clique no botao de energia do painel inferior.
 void GuiManager::click_event_vBotao7_grafico_Energia(const Event*, void* data) {
 
     PT(GuiManager) this_guiManager = (PT(GuiManager)) (GuiManager*) data;
@@ -2347,6 +2410,7 @@ void GuiManager::click_event_vBotao7_grafico_Energia(const Event*, void* data) {
 
 }
 
+//Metodo chamado quando acontece um clique no botao de gasto energetico do painel inferior.
 void GuiManager::click_event_vBotao8_grafico_GastoEnergetico(const Event*, void* data) {
 
     PT(GuiManager) this_guiManager = (PT(GuiManager)) (GuiManager*) data;
@@ -2368,16 +2432,19 @@ void GuiManager::click_event_vBotao8_grafico_GastoEnergetico(const Event*, void*
 
 }
 
+//Torna a toca visivel.
 void GuiManager::mostra_moldura_toca(const Event*, void *data) {
     PT(GuiManager) this_guiManager = (PT(GuiManager)) (GuiManager*) data;
     this_guiManager->molduraToca.show();
 }
 
+//Torna a toca invisivel.
 void GuiManager::esconde_moldura_toca(const Event*, void *data) {
     PT(GuiManager) this_guiManager = (PT(GuiManager)) (GuiManager*) data;
     this_guiManager->molduraToca.hide();
 }
 
+//Torna a toca invisivel.
 void GuiManager::piscar_life() {
 
     if (flag_piscar) {
@@ -2391,6 +2458,7 @@ void GuiManager::piscar_life() {
     }
 
 }
+
 
 void GuiManager::verifica_conta(const Event*, void* data) {
 
