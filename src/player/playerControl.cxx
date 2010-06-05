@@ -261,8 +261,8 @@ void PlayerControl::eat(const Event*, void *data){
 		int type_of_closest = player_sector->get_closest_object_index_to(player->get_pos(), &action_objects);
 		int index_of_closest = action_objects_index.at(type_of_closest);
 
-		PT(ObjetoJogo) npc = action_objects.at(type_of_closest);
-		if (npc == NULL) return; //REVER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		PT(ObjetoJogo) target = action_objects.at(type_of_closest);
+		if (target == NULL) return; //REVER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 		/* Configuração de distância. Quando os objetos estaram no raio de ação do player.*/
 		float act_dist_thr = 0.20 * player->get_sx() * 1350;
@@ -273,28 +273,30 @@ void PlayerControl::eat(const Event*, void *data){
 		player_y_versor.normalize();
 
 		/* Obtem distancia para o npc */
-		LVector3f player_to_npc = player->get_pos() - npc->get_pos();
-		float dist_to_npc = player_to_npc.length();
+		//LVector3f player_to_target = player->get_pos() - target->get_pos();
+		/* HACK para consertar um offset maluco dos frutos */
+		LVector3f player_to_target = LPoint3f(player->get_x(), player->get_y(), 0) - LPoint3f(target->get_x(), target->get_y(), 0);
+		float dist_to_target = player_to_target.length();
 
 		/* Obtem angulo para o npc */
-		player_to_npc.normalize();
-		float angle_to_npc = player_to_npc.angle_deg(player_y_versor);
+		player_to_target.normalize();
+		float angle_to_npc = player_to_target.angle_deg(player_y_versor);
 
 		/* Ação de comer! */
 		bool eatsuccess = false;
 		if (type_of_closest == 0 || type_of_closest == 1) {
 			/* Verifica se o ângulo esta dentro do limiar estabelecido, evitando os "já comidos" */
-			if (dist_to_npc < act_dist_thr && angle_to_npc < direction_eat_thr && npc->get_valor_nutricional() > 0) {
+			if (dist_to_target < act_dist_thr && angle_to_npc < direction_eat_thr && target->get_valor_nutricional() > 0) {
 
 				// Pisca life indicando que obteve sucesso!!
 				GuiManager::get_instance()->piscar_life();
 
 				/* Atualiza saúde */
-				player->eat(npc);
+				player->eat(target);
 				nout << "Saude: " << Player::get_instance()->get_energia() << endl;
 				nout << "Hidratação: " << Player::get_instance()->get_hidratacao() << endl;
-				npc->set_valor_nutricional(0);
-				npc->set_valor_hidratacao(0);
+				target->set_valor_nutricional(0);
+				target->set_valor_hidratacao(0);
 
 				LVecBase3f *mydata = new LVecBase3f(index_of_closest, player->get_setor()->get_indice(), type_of_closest);
 				//TimeControl::get_instance()->notify_after_n_frames(40, really_eat, (void*) mydata);
@@ -307,11 +309,11 @@ void PlayerControl::eat(const Event*, void *data){
 		}
 		/* Morder outro lagarto */
 		if (type_of_closest == 2) {
-			Lizard* lizard = (Lizard*) (ObjetoJogo*) npc;
+			Lizard* lizard = (Lizard*) (ObjetoJogo*) target;
 			if (lizard->get_gender() == LizardGender::male) {
 				MaleLizard* male_lizard = (MaleLizard*) lizard;
 
-				if (dist_to_npc < act_dist_thr) {
+				if (dist_to_target < act_dist_thr) {
 					male_lizard->be_bited();
 					male_lizard->set_energia(male_lizard->get_energia() - 10);
 				}
