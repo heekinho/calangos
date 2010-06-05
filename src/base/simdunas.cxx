@@ -1,14 +1,14 @@
-
-#include "audioSound.h"
-
-
 #include "simdunas.h"
+
+#include "load_prc_file.h"
 
 #include "menu.h"
 #include "antialiasAttrib.h"
 
 #include "movieAudio.h"
 #include "audioSound.h"
+
+#include "pStatClient.h"
 
 //TODO: Colocar constants: modelpath, soundpath, imagepath, texturepath.
 
@@ -19,6 +19,15 @@ EventQueue* Simdunas::evt_queue = NULL;
 EventHandler* Simdunas::evt_handler = NULL;
 
 int main(int argc, char *argv[]) {
+	/* Carrega o arquivo de configuração do jogo */
+	#ifdef DEBUG
+		load_prc_file("myConfig-Calangos-develop.prc");
+	#else
+		load_prc_file("myConfig-Calangos-distribute.prc");
+	#endif
+
+	//PStatClient::connect();
+
 	Simdunas::init_types();
 
 	PandaFramework framework;
@@ -26,16 +35,14 @@ int main(int argc, char *argv[]) {
 	/*AJUSTAR NOME DA VERSÃO A CADA RELEASE*/
 	framework.set_window_title("Simdunas v1.0 beta");
 
-	/* Configurações Iniciais da Janela */
-	WindowProperties properties = WindowProperties();
-	framework.get_default_window_props(properties);
 
-	#ifndef DEBUG
-		properties.set_fullscreen(true);
-	#endif
+	/* Configurações Iniciais da Janela */
+	//	WindowProperties properties = WindowProperties();
+	//	framework.get_default_window_props(properties);
+	//	properties.set_fullscreen(true);
 
 	// Define a janela, o framework, manipulação e geração de eventos e constrói uma nova sessão.
-	Simdunas::set_window(framework.open_window(properties));
+	Simdunas::set_window(framework.open_window(/*properties*/));
 	Simdunas::set_framework(Simdunas::get_window()->get_panda_framework());
 	Simdunas::set_evt_queue(EventQueue::get_global_event_queue());
 	Simdunas::set_evt_handler(EventHandler::get_global_event_handler(Simdunas::get_evt_queue()));

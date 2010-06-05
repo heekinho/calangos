@@ -175,7 +175,7 @@ void Animal::redistribute_animals(){
 			/* Tem que fazer com todos os vetores de animais. */
 			Animal::migrate_animals((vector<PT(ObjetoJogo)>*) sector->get_animals(), sector, all_neighbors);
 			Animal::migrate_animals((vector<PT(ObjetoJogo)>*) sector->get_lizards(), sector, all_neighbors);
-			Animal::migrate_animals((vector<PT(ObjetoJogo)>*) sector->get_predators(), sector, all_neighbors);
+			//Animal::migrate_animals((vector<PT(ObjetoJogo)>*) sector->get_predators(), sector, all_neighbors);
 		}
 	}
 	//nout << "Número de Animais no setor do Player depois: " << Player::get_instance()->get_setor()->get_animals()->size() << endl;
