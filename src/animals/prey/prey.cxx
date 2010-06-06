@@ -62,7 +62,7 @@ void Prey::load_prey_specie(const string name, int qtd, double scale){
 
 /*! Define o comportamento padrão das presas. */
 void Prey::act(){
-	float elapsed = TimeControl::get_instance()->get_elapsed_time();
+//	float elapsed = TimeControl::get_instance()->get_elapsed_time();
 
 	if(acting && !stay_quiet()){
 		if(rand()%PROBTHR == 34) set_h(*this, rand()%MAXDEGREE - (MAXDEGREE/2));

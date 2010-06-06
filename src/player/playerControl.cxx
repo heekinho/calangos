@@ -125,12 +125,83 @@ void PlayerControl::unset_key(const Event *theEvent, void *data) {
 	PlayerControl::get_instance()->key_map_player[key] = false;
 }
 
+
+void PlayerControl::calc_closest_object(){
+	PT(Player) player = Player::get_instance();
+	PT(Setor) player_sector = player->get_setor();
+
+	if(player_sector == NULL) return;
+
+	vector<PT(ObjetoJogo)> action_objects;
+	vector<int> action_objects_index;
+
+	if(player_sector->get_animals()->size() > 0){
+		int closest_prey_index = player_sector->get_closest_object_index_to(player->get_pos(), (vector<PT(ObjetoJogo)>*) player_sector->get_animals());
+		action_objects.push_back((PT(ObjetoJogo)) player_sector->get_animals()->at(closest_prey_index));
+		action_objects_index.push_back(closest_prey_index);
+	}
+
+	if(player_sector->get_edible_vegetals()->size() > 0){
+		int closest_vegetal_index = player_sector->get_closest_object_index_to(player->get_pos(), (vector<PT(ObjetoJogo)>*) player_sector->get_edible_vegetals());
+		action_objects.push_back((PT(ObjetoJogo)) player_sector->get_edible_vegetals()->at(closest_vegetal_index));
+		action_objects_index.push_back(closest_vegetal_index);
+	}
+
+	if(player_sector->get_lizards()->size() > 0){
+		int closest_lizard_index = player_sector->get_closest_object_index_to(player->get_pos(), (vector<PT(ObjetoJogo)>*) player_sector->get_lizards());
+		action_objects.push_back((PT(ObjetoJogo)) player_sector->get_lizards()->at(closest_lizard_index));
+		action_objects_index.push_back(closest_lizard_index);
+	}
+
+	if(player_sector->get_predators()->size() > 0){
+		int closest_predator_index = player_sector->get_closest_object_index_to(player->get_pos(), (vector<PT(ObjetoJogo)>*) player_sector->get_predators());
+		action_objects.push_back((PT(ObjetoJogo)) player_sector->get_predators()->at(closest_predator_index));
+		action_objects_index.push_back(closest_predator_index);
+	}
+
+	PT(ObjetoJogo) closest = action_objects.at(0);
+	for(int i = 1; i < action_objects.size(); i++){
+		PT(ObjetoJogo) current = action_objects.at(i);
+		if(current != NULL){
+			if(current->get_distance(player->get_pos()) < closest->get_distance(player->get_pos()) || closest == NULL){
+				closest = current;
+			}
+		}
+	}
+
+	this->closest_object = closest;
+}
+
+
+LineSegs line = LineSegs();
+NodePath lineNP = NodePath();
+#include "spotlight.h"
+
 /*! Chamado a cada ciclo, verifica se tem tecla ativa no map, e executa a a��o
  * associada. Basicamente realiza movimento */
 void PlayerControl::update(const Event*, void *data){
 	PlayerControl* this_control = (PlayerControl*)data;
 
 	PT(Player) p = Player::get_instance();
+
+	/** TESTES */
+	if(this_control->closest_object != NULL) {
+		this_control->closest_object->set_all_color_scale(1.0);
+	}
+	this_control->calc_closest_object();
+	if(this_control->closest_object != NULL){
+		line.set_thickness(1);
+		line.set_color(1,0,0);
+		line.move_to(this_control->closest_object->get_pos());
+		line.draw_to(this_control->closest_object->get_pos()+LPoint3f(0,0,0.1));
+
+		lineNP.remove_node();
+		lineNP = NodePath(line.create());
+		lineNP.reparent_to(Simdunas::get_window()->get_render());
+
+		line.reset();
+	}
+
 
 	/* Verifica se tem femeas por perto */
 	p->update_female_around();

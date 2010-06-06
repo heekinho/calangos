@@ -48,6 +48,9 @@ public:
 	void walk();
 	void run();
 
+
+	void calc_closest_object();
+	PT(ObjetoJogo) closest_object;
 private:
 	/* Controle do Singleton */
 	static bool instanceFlag;
@@ -56,6 +59,7 @@ private:
 	PlayerControl();
 
 	map<string,bool> key_map_player;
+
 
 
 

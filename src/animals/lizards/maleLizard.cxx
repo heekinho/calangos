@@ -57,7 +57,8 @@ void MaleLizard::act(){
 			Simdunas::get_evt_handler()->remove_hook(PlayerControl::EV_player_bobbing, player_did_bobbing, (void *) this);
 
 			/* Paciência tem limite... Parte para morder o player */
-			set_action("fight", true);
+			// TODO: Consertar essa bagunça de enums.
+			if(player->lizard_gender != Player::young) set_action("fight", true);
 		}
 	}
 
@@ -109,7 +110,9 @@ void MaleLizard::player_did_bobbing(const Event *theEvent, void *data){
 
 	float fight_prob = (this_lizard->get_tamanho_base() - player->get_tamanho_base()) / 2 + 40.0;
 
-	if (rand() % 100 < fight_prob) this_lizard->set_action("fight", true);
+	if (rand() % 100 < fight_prob) {
+		if(player->lizard_gender != Player::young) this_lizard->set_action("fight", true);
+	}
 	else this_lizard->set_action("flee", true);
 }
 

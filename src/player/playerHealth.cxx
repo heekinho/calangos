@@ -275,7 +275,7 @@ void Player::event_pmonth(const Event*, void *data){
 	player->idade++;
 
 	//Verifica se lagarto chegou na idades reprodutiva
-	if(player->idade>=IDADE_REPRODUTIVA){
+	if(player->idade ==IDADE_REPRODUTIVA){
 		GuiManager::get_instance()->liga_led_estado_reprodutivo();
 
 
@@ -285,6 +285,8 @@ void Player::event_pmonth(const Event*, void *data){
 		ts->set_mode(TextureStage::M_replace);
 		PT(Texture) t = TexturePool::load_texture("models/lizards/" + player->get_specie_name(player->lizard_specie) + "/male/texture.jpg");
 		player->set_texture(ts, t, 1);
+
+		player->lizard_gender = Player::male;
 	}
 	//Verifica se o personagem chegou na idade máxima
 	if(player->idade>=IDADE_MORTE){
