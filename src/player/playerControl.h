@@ -49,6 +49,7 @@ public:
 	void run();
 
 
+	NodePath indicator;
 	void calc_closest_object();
 	PT(ObjetoJogo) closest_object;
 private:

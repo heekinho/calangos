@@ -41,6 +41,11 @@ PlayerControl::PlayerControl() {
 	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, update, this);
 	Simdunas::get_evt_handler()->add_hook(TimeControl::get_instance()->EV_segundo_real, event_female_next, this);
 
+    indicator = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), "models/indicator.png");
+    indicator.set_scale(0.0005);
+    indicator.set_billboard_point_eye(0);
+
+
 	// Define a flag de movimento do PC, e define o set de teclas a usar para movimento.
 	bool is_moving = false;
 	key_map_player["left"] = false;
@@ -176,6 +181,8 @@ void PlayerControl::calc_closest_object(){
 LineSegs line = LineSegs();
 NodePath lineNP = NodePath();
 #include "spotlight.h"
+#include "boundingVolume.h"
+#include "boundingSphere.h"
 
 /*! Chamado a cada ciclo, verifica se tem tecla ativa no map, e executa a a��o
  * associada. Basicamente realiza movimento */
@@ -184,23 +191,23 @@ void PlayerControl::update(const Event*, void *data){
 
 	PT(Player) p = Player::get_instance();
 
-	/** TESTES */
-	if(this_control->closest_object != NULL) {
-		this_control->closest_object->set_all_color_scale(1.0);
-	}
-	this_control->calc_closest_object();
-	if(this_control->closest_object != NULL){
-		line.set_thickness(1);
-		line.set_color(1,0,0);
-		line.move_to(this_control->closest_object->get_pos());
-		line.draw_to(this_control->closest_object->get_pos()+LPoint3f(0,0,0.1));
-
-		lineNP.remove_node();
-		lineNP = NodePath(line.create());
-		lineNP.reparent_to(Simdunas::get_window()->get_render());
-
-		line.reset();
-	}
+//	/** TESTES */
+//	if(this_control->closest_object != NULL) {
+//		this_control->closest_object->set_all_color_scale(1.0);
+//	}
+//	this_control->calc_closest_object();
+//	if(this_control->closest_object != NULL){
+//		line.set_thickness(1);
+//		line.set_color(1,0,0);
+//		line.move_to(this_control->closest_object->get_pos());
+//		line.draw_to(this_control->closest_object->get_pos()+LPoint3f(0,0,0.1));
+//
+//		lineNP.remove_node();
+//		lineNP = NodePath(line.create());
+//		lineNP.reparent_to(Simdunas::get_window()->get_render());
+//
+//		line.reset();
+//	}
 
 
 	/* Verifica se tem femeas por perto */
@@ -252,6 +259,17 @@ void PlayerControl::update(const Event*, void *data){
 		//p->get_anim_control()->stop_all();
 
 		p->set_lagarto_parado();
+	}
+
+
+
+	this_control->calc_closest_object();
+	if(this_control->closest_object != NULL){
+		this_control->indicator.set_pos(this_control->closest_object->get_pos());
+		LPoint3f max, min;
+		/* TODO: NÃO É PRA CALCULAR TODA HORA!!! É PRA ARMAZENAR ESSA INFORMAÇÃO! */
+		this_control->closest_object->calc_tight_bounds(min, max);
+		this_control->indicator.set_z(max.get_z()+0.01);
 	}
 }
 

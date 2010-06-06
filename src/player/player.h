@@ -10,10 +10,12 @@
 #include "microClima.h"
 #include "vetores.h"
 
+#define DEBUG false
+
+
 // Forward Declaration
 class MicroClima;
 class Vetores;
-
 
 //typedef enum {tropidurus , eurolophosaurus, cnemidophorus} LizardEspecie;
 //typedef enum {female, male, young} LizardGender;
