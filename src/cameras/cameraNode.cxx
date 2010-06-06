@@ -45,7 +45,6 @@ void CameraNode::update_configs(const Event*, void *data){
 
 /* Destrói o CameraNode */
 CameraNode::~CameraNode(){
-	nout << "Destruindo Camera"<< endl;
 	Simdunas::get_evt_handler()->remove_hooks_with(this);
 
 	this->object = NULL;

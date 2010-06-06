@@ -1220,7 +1220,6 @@ void GuiManager::update_gui(const Event*, void *data) {
             this_guiManager->cont_relogio = 0;
         }
 		this_guiManager->cont_relogio = 180+TimeControl::get_instance()->get_hora()*360.0/24+TimeControl::get_instance()->get_minuto()*360.0/(24*60);
-		//nout << TimeControl::get_instance()->get_hora()<<":"<<TimeControl::get_instance()->get_minuto()<<">"<<this_guiManager->cont_relogio<<endl;
         //this_guiManager->cont_relogio = this_guiManager->cont_relogio + 0.25; //360/(24*60)
         this_guiManager->relogioDiaNoite.set_hpr(0.0, 0.0, this_guiManager->cont_relogio);
     }

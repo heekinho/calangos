@@ -138,7 +138,6 @@ void Session::receive_answer(char *ans){
 
 void Session::end_session(){
 	nout << "Destruindo Tempo..." << endl;
-	//nout << "Instancias de TimeControl: " << TimeControl::get_instance()->get_ref_count() << endl;
 	TimeControl::unload_timeControl();
 
 	nout << "Destruindo Interface..." << endl;
@@ -163,12 +162,11 @@ void Session::end_session(){
 	Vetores::unload_vetores();
 
 
-	//nout << "Destruindo Controle de Camera..." << endl;
+	nout << "Destruindo Controle de Camera..." << endl;
 	CameraControl::unload();
 
 		
 	nout << "Destruindo Player..." << endl;
-	//nout << "Instancias de Player: " << Player::get_instance()->get_ref_count() << endl;
 	Player::unload_player();
 }
 

@@ -167,8 +167,6 @@ PT(Setor) Terrain::get_setor_from_pos(int x, int y){
 	if(line > NUM_SECTORS_Y - 1) line = NUM_SECTORS_Y - 1;
 	if(line < 0) line = 0;
 
-	//nout << "column: " << column << "; line: " << line << endl;
-
 	//int index = column + (8 * line);
 
 	int index = (column * NUM_SECTORS_X) + line;
@@ -191,7 +189,6 @@ void Terrain::update_adjacent_sectors(PT(Setor) s){
 	}
 	neighborhood.clear();
 
-	//nout << "Sector: " << s->get_indice() << ": ";
 	// Define a nova vizinhança
 	int flagx = -1, flagy = -1;
 	for (int i = 0; i < 3; ++i) {
@@ -201,15 +198,12 @@ void Terrain::update_adjacent_sectors(PT(Setor) s){
 				PT(Setor) sector_found = get_setor_from_pos(adj_sector);
 				sector_found->set_player_neighbor(true);
 				neighborhood.push_back(sector_found);
-				//nout << sector_found->get_indice() << "; ";
 			}
 			flagx++;
 		}
 		flagx = -1;
 		flagy++;
 	}
-
-	//nout << endl << "Tamanho da vizinhanca: " << neighborhood.size();
 }
 
 /*! Necessário para atualizar o ponto focal para o LOD do terreno */

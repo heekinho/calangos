@@ -31,7 +31,6 @@ void FemaleLizard::reproduzir(const Event *theEvent, void *data){
     if(Player::get_instance()->get_estado_reprodutivo()) {
         FemaleLizard* this_female = (FemaleLizard*) data;
         if (!this_female->reproduziu) {
-            //nout << "Tentativa de Reproduzir" << endl;
             if ((this_female->get_pos() - Player::get_instance()->get_pos()).length() < 1) {
                 vector < PT(Lizard)>* lizards = Player::get_instance()->get_setor()->get_lizards();
                 for (int i = 0; i < lizards->size(); i++) {

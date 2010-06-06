@@ -31,7 +31,7 @@ void Predator::act(){
 			for (unsigned int i = 0; i < vegetal_list->size(); i++){
 				PT(Vegetal) vegetal = vegetal_list->at(i);
 				LVector3f player_to_vegetal = player->get_pos() - vegetal->get_pos();
-				if (player_to_vegetal.length() < 3.5){
+				if (player_to_vegetal.length() < 3.5 || player->is_in_toca()){
 					if(!this->get_anim_control()->is_playing("comer") && !get_anim_control()->is_playing("andar"))
 						get_anim_control()->play("andar");
 					Animal::act();

@@ -9,7 +9,6 @@ NearCamera::NearCamera(PT(Camera) camera) : CameraNode(camera){
 
 void NearCamera::update() {
 	float normalizacao = object->get_sx() * 2600;
-	//nout << normalizacao << endl;
 
 	// Definindo vetores de camera e obtendo a distancia
 	LVecBase3f camvec (object->get_pos() - this->get_pos());

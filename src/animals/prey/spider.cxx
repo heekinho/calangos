@@ -27,7 +27,6 @@ void Spider::init(){
 
 /*! Destroi o objeto Aranha */
 Spider::~Spider(){
-	//nout << "ARANHA SENDO DELETADA!" << endl;
 	spiders_placeholder.remove_node();
 	living_tree = NULL;
 }
@@ -56,7 +55,6 @@ void Spider::load_spiders(int qtd){
 			// Gera localização aleatória.
 			x = rand() % terrain_x_size;
 			y = rand() % terrain_y_size;
-			//nout << "x,y (aranha) " << x <<","<< y << endl;
 			// Obtem o setor daquela posição e atualiza o npc
 			my_sector = World::get_default_world()->get_terrain()->get_setor_from_pos(LPoint2d(x, y));
 			cerror++;
@@ -76,14 +74,11 @@ void Spider::load_spiders(int qtd){
 			World::get_default_world()->get_terrain()->add_animal((PT(Animal)) npc);
 			//my_sector->add_animal( (PT(Animal)) npc);
 			// Adiciona o animal ao setor definindo a arvore em que a aranha vai ficar
-			//nout << "buscando vegetal mais proximo " << endl;
 			PT(Vegetal) veg=npc->get_setor()->get_closest_vegetal_to((PT(ObjetoJogo)) npc);
 			if(veg!=NULL){
-				//nout << "alocando aranha " << endl;
 				npc->set_living_tree(veg);
 				npc->set_pos(npc->get_living_tree()->get_pos());
-				//nout << "SETOR DO ANIMAL (aranha) " << i << " - " << npc->get_setor()->get_indice() << endl;
-			} else nout << "ERRO: NAO ACHOU VEGETAL!!!!!!!!!" <<endl;
+			} else nout << "ERRO: NAO ACHOU VEGETAL!" <<endl;
 		}
 
 

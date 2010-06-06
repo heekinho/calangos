@@ -133,12 +133,8 @@ void Animal::set_setor(PT(Setor) setor){
 	//set_acting(setor->is_player_neighbor());
 }
 
-//void Animal::has_moved(){
-//	nout << "Chamando has_moved de Animal" << endl;
-//}
 
 void Animal::change_sector(PT(Setor) new_sector){
-	//nout << "Change Sector de Animal" << endl;
 	this->get_setor()->remove_animal(this);
 	Setor::add_animal(this, new_sector);
 }
@@ -164,7 +160,6 @@ void Animal::redistribute_animals(){
 //			player_neighborhood->push_back(terrain->get_adjacent_sectors()->at(i));
 //	}
 
-	nout << endl;
 	/* Ao invés de obter os setores adjacentes, não adjacentes, faz-se a verificação e em
 	 * seguida já redistribui */
 
@@ -178,7 +173,6 @@ void Animal::redistribute_animals(){
 			//Animal::migrate_animals((vector<PT(ObjetoJogo)>*) sector->get_predators(), sector, all_neighbors);
 		}
 	}
-	//nout << "Número de Animais no setor do Player depois: " << Player::get_instance()->get_setor()->get_animals()->size() << endl;
 }
 
 
@@ -198,7 +192,6 @@ void Animal::migrate_animal(PT(ObjetoJogo) theanimal, PT(Setor) sector_to){
 	/* TODO: Ao invés de chamar um método para gerar uma localização aleatória, chamar um
 	 * método que gere uma localização inicial a depender do tipo de animal. Um exemplo
 	 * seria uma aranha, que teria um algoritmo de localização inicial: perto de árvores. */
-	//nout << "SECTOR TO: " << sector_to->get_indice();
 	LPoint2d random_pos = sector_to->get_random_pos_inside();
 	theanimal->set_pos(random_pos.get_x(), random_pos.get_y(), 0);
 }

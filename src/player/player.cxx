@@ -2,8 +2,6 @@
 #include "menu.h"
 #include "modelRepository.h"
 
-#define DEBUG false
-
 bool Player::instanceFlag = false;
 PT(Player) Player::single = NULL;
 
@@ -38,7 +36,6 @@ PT(Player) Player::get_instance() {
 
 /* Destrutor da classe Player */
 Player::~Player() {
-	nout << "O player está sendo destruído" << endl << endl << endl << endl;
 	//this->~ObjetoJogo();
 }
 
@@ -92,8 +89,6 @@ void Player::load_player(){
 
 	/* [ATENCAO] Esta sendo chamado o primeiro Player::get_instance em ModelRepository */
 	//Player::get_instance((PT(AnimatedObjetoJogo)) ModelRepository::get_instance()->get_animated_model("tropidurus/female"));
-
-	nout << endl << endl << "Nome: " << Player::get_instance()->get_name() << endl;
 
 	Player::get_instance()->set_scale(Player::get_instance()->tamanho_lagarto_real);
 	Player::get_instance()->set_pos(255,255, 0);

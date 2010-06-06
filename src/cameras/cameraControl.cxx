@@ -65,8 +65,6 @@ CameraControl::CameraControl(PT(ObjetoJogo) object){
 
 
 CameraControl::~CameraControl(){
-	nout << "CameraControl sendo destruída" << endl;
-	
 	for(int i = 0; i < cameras.size(); i++){
 		cameras[i]->remove_node();
 	}

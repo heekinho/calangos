@@ -60,12 +60,10 @@ void ObjetoJogo::blink(const Event*, void *data){
 	if(object->is_hidden()) {
 		object->show();
 		object->set_color_scale(1.0, 0.6, 0.6, 1.0);
-		//nout<<"color1"<<endl;
 	}
 	else {
 		object->hide();
 		object->set_color_scale(1.0, 1.0, 1.0, 1.0);
-		//nout<<"color2"<<endl;
 	}
 
 	if(object->bite_blink_counter <= 0) {
@@ -134,11 +132,7 @@ void ObjetoJogo::set_offset_z(double offset){
 	this->offset_z = offset;
 
 	// Atualizar o Z do objeto.
-//	if(World::get_default_world() && World::get_default_world()->get_terrain()) {
-		set_z(World::get_default_world()->get_terrain()->get_elevation(get_x(), get_y()) + offset);
-//		nout << get_x() << " - " <<  get_z() << endl;
-//		//World::get_default_world()->get_terrain()->update_object_z((PT(ObjetoJogo)) this);
-//	}
+	set_z(World::get_default_world()->get_terrain()->get_elevation(get_x(), get_y()) + offset);
 }
 
 //TODO: Colocar distância? Distancia anterior para colisões?
@@ -165,8 +159,6 @@ void ObjetoJogo::has_moved(){
 
 // Virtual com implementação default.
 void ObjetoJogo::change_sector(PT(Setor) new_sector){
-	//nout << "Change Sector de ObjetoJogo" << endl;
-	//nout << get_name() << endl;
 	parent_sector = new_sector;
 }
 

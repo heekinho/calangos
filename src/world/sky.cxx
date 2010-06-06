@@ -166,8 +166,6 @@ void Sky::update_sol(const Event*, void *data) {
         minuto_anterior=minuto_atual;
         minuto_atual=minuto;
 
-	//nout << hora <<":"<< minuto<< endl;
-
 	 if (hora >= 5 && hora < 12) {
 
              //colocando de fato o sol na cena

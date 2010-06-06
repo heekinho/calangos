@@ -259,7 +259,6 @@ void Setor::remove_predators(){
 void Setor::add_animal(PT(Animal) animal, PT(Setor) setor){
 	animal->set_setor(setor);
 	setor->animal_list.push_back(animal);
-	//nout << "Adicionado Animal: " << "Setor: " << indice << " _ " << animal_list.size() << endl;
 }
 
 /*! Obtém o vetor dos animais que estão no setor */
@@ -271,7 +270,6 @@ vector<PT(Animal)>* Setor::get_animals(){
 //TODO: Verificar iteração com list
 /*! Remove determinado Animal da lista de Animais do setor */
 void Setor::remove_animal(PT(Animal) animal){
-	//if(animal_list.size() > 0) nout << "Removendo Animal do Setor: " << indice << ". Agora o setor tem: " << animal_list.size() << endl;
 	for(int i = 0; i < animal_list.size(); i++){
 		if(*animal_list.at(i) == *animal) {
 			animal_list.erase(animal_list.begin() + i);

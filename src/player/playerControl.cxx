@@ -276,7 +276,6 @@ void PlayerControl::move(float velocity){
 		/* A Letargia influencia na velocidade (decidiu-se por influenciar linearmente */
 		velocity = velocity * (1 - p->get_letargia());
 		p->set_velocity(velocity);
-		//nout << "Letargia: " << p->get_letargia() << " - Velocidade: " << velocity << endl;
 
 		p->move(velocity*100);
 
@@ -362,10 +361,8 @@ void PlayerControl::eat(const Event*, void *data){
 				// Pisca life indicando que obteve sucesso!!
 				GuiManager::get_instance()->piscar_life();
 
-				/* Atualiza saúde */
+				/* Come o alvo saúde */
 				player->eat(target);
-				nout << "Saude: " << Player::get_instance()->get_energia() << endl;
-				nout << "Hidratação: " << Player::get_instance()->get_hidratacao() << endl;
 				target->set_valor_nutricional(0);
 				target->set_valor_hidratacao(0);
 
