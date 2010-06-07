@@ -10,6 +10,7 @@
 #include "femaleLizard.h"
 #include "maleLizard.h"
 #include "lizard.h"
+#include "prey.h"
 
 
 #define VEL_WALK 20.0
@@ -373,6 +374,21 @@ void PlayerControl::eat(const Event*, void *data){
 		/* Ação de comer! */
 		bool eatsuccess = false;
 		if (type_of_closest == 0 || type_of_closest == 1) {
+
+			/* Fazendo as presas fugirem no ataque do player */
+			if(type_of_closest == 0){
+				for(int i = 0; i < player_sector->get_animals()->size(); i++){
+					PT(Prey) prey = (PT(Prey))(Prey*)(Animal*) player_sector->get_animals()->at(i);
+					if(prey != NULL){
+						if((prey->get_pos() - player->get_pos()).length() < act_dist_thr * 3){
+							prey->set_fleing(true);
+							TimeControl::get_instance()->notify_after_n_vminutes(30, Prey::stop_flee, prey);
+						}
+					}
+				}
+			}
+
+
 			/* Verifica se o ângulo esta dentro do limiar estabelecido, evitando os "já comidos" */
 			if (dist_to_target < act_dist_thr && angle_to_npc < direction_eat_thr && target->get_valor_nutricional() > 0) {
 
