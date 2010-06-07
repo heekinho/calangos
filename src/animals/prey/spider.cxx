@@ -89,27 +89,25 @@ void Spider::load_spiders(int qtd){
 void Spider::act(){
 	if(is_acting()){
 		if(living_tree){
-			if(!stay_quiet()){
-				surround_tree();
-			}
+			double distance = (living_tree->get_pos() - get_pos()).length();
+			if(distance > radius_thr) look_at(*living_tree);
 		}
-		// Fica andando até achar uma arvore... A implementar
-		else this->Animal::act();
+		Prey::act();
 	}
 }
 
 
-/* Movimento padrão executado pelas aranhas */
-void Spider::surround_tree(){
-	double distance = (living_tree->get_pos() - get_pos()).length();
-	if(distance < radius_thr){
-		/* Cria aleatoriedade no movimento da aranha */
-		if(rand()%PROBTHR == 34) set_h(*this, rand()%MAXDEGREE - (MAXDEGREE/2));
-	}
-	else look_at(*living_tree);
-
-	move(get_velocity());
-}
+///* Movimento padrão executado pelas aranhas */
+//void Spider::surround_tree(){
+//	double distance = (living_tree->get_pos() - get_pos()).length();
+//	if(distance < radius_thr){
+//		/* Cria aleatoriedade no movimento da aranha */
+//		if(rand()%PROBTHR == 34) set_h(*this, rand()%MAXDEGREE - (MAXDEGREE/2));
+//	}
+//	else look_at(*living_tree);
+//
+//	move(get_velocity());
+//}
 
 /* Define o vegetal sobre o qual a aranha atua */
 void Spider::set_living_tree(PT(Vegetal) living_tree){

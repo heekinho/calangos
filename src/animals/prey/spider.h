@@ -21,7 +21,7 @@ public:
 	void set_living_tree(PT(Vegetal) living_tree);
 	PT(Vegetal) get_living_tree();
 
-	void surround_tree();
+//	void surround_tree();
 private:
 	void init();
 

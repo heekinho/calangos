@@ -5,11 +5,10 @@
 #include "terrain.h"
 #include "modelRepository.h"
 
-#define MAXDEGREE 100
-#define VELOCITY 0.085
-#define PROBTHR 80
+Prey::Prey(NodePath node) : Animal(node) {
+	set_velocity(0.085);
+};
 
-Prey::Prey(NodePath node) : Animal(node) {};
 
 void Prey::load_prey(){
 		nout << "Carregando Aranhas..." << endl;
@@ -62,15 +61,26 @@ void Prey::load_prey_specie(const string name, int qtd, double scale){
 
 /*! Define o comportamento padrão das presas. */
 void Prey::act(){
-//	float elapsed = TimeControl::get_instance()->get_elapsed_time();
-
-	if(acting && !stay_quiet()){
-		if(rand()%PROBTHR == 34) set_h(*this, rand()%MAXDEGREE - (MAXDEGREE/2));
-
-		move(VELOCITY);
-	}
+	if(fleing) flee();
+	else Animal::act();
 }
 
+void Prey::flee(){
+	PT(Player) player = Player::get_instance();
+
+	/* Comportamento */
+	look_at(*player);  //TODO: Corrigir depois para não permitir muito giro.
+	set_h(*this, 180); // Corrige modelo errado
+
+	this->move(4*get_velocity());
+
+	continue_animation();
+}
+
+void Prey::stop_flee(const Event *theEvent, void *data){
+	Prey* this_prey = (Prey*) data;
+	this_prey->set_fleing(false);
+}
 
 /*! Pausa a animação, neste caso fazendo o link com o modelo não-animado */
 void Prey::pause_animation(){
