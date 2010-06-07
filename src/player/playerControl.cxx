@@ -561,7 +561,7 @@ void PlayerControl::event_female_next(const Event *, void *data){
 			// e for fêmea e estiver próxima
 			if((npcf->get_gender() == LizardGender::female) && (npcf->get_distance(player->get_pos()) < DISTANCE_FEMALE)){
 				PT(FemaleLizard) female = (PT(FemaleLizard))((FemaleLizard*)(Lizard*) npcf);
-				female->set_frames_stopped(120);
+				if(!female->reproduziu) female->set_frames_stopped(120);
 			}
 		}
 	}

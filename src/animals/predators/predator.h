@@ -14,6 +14,7 @@ public:
 	virtual void act();
 	virtual void pause_animation();
 	virtual void continue_animation();
+	virtual void change_sector(PT(Setor) new_sector);
 private:
 	void pursuit();
 	void bite();

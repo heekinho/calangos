@@ -8,6 +8,13 @@
 #include "maleLizard.h"
 #include "youngLizard.h"
 
+#define VEL_WALK 1000.0
+#define VEL_RUN 5000.0
+
+#define MAXDEGREE 100
+#define PROBTHR 80
+
+
 Lizard::Lizard(NodePath node) : Animal(node){
 	bind_anims(this->node());
 	init();
@@ -116,6 +123,23 @@ void Lizard::load_lizards(){
 		lizard->set_action("walk");
 	}
 }
+
+
+void Lizard::flee(){
+	PT(Player) player = Player::get_instance();
+
+	if(!has_other_anim_active("walk")){
+		if(!get_anim_control()->is_playing("walk")) get_anim_control()->play("walk");
+
+		/* Comportamento */
+		look_at(*player);  //TODO: Corrigir depois para não permitir muito giro.
+		set_h(*this, 180); // Corrige modelo errado
+
+		this->move(VEL_RUN);
+	}
+}
+
+
 
 void Lizard::change_sector(PT(Setor) new_sector){
 	this->get_setor()->remove_lizard(this);

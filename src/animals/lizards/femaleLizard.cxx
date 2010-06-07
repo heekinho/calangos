@@ -2,6 +2,12 @@
 #include "simdunas.h"
 #include "maleLizard.h"
 
+#define VEL_WALK 1000.0
+#define VEL_RUN 5000.0
+
+#define MAXDEGREE 100
+#define PROBTHR 80
+
 FemaleLizard::FemaleLizard(NodePath node) : Lizard(node){ init(); }
 
 void FemaleLizard::init() {
@@ -9,6 +15,7 @@ void FemaleLizard::init() {
 	
 	Lizard::init();
     //Lizard::isFemale();
+	away_from_player = false;
 
     femaleSymbol = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/lizards/symbols/female.png");
     femaleSymbol.reparent_to(*this);
@@ -21,9 +28,10 @@ void FemaleLizard::init() {
     Simdunas::get_evt_handler()->add_hook(PlayerControl::EV_player_reproducao, reproduzir, (void *) this);
 }
 
-
+//#include "inte"
 void FemaleLizard::act(){
-    Animal::act();
+	if(away_from_player) Lizard::flee();
+	else Animal::act();
 }
 
 
@@ -48,11 +56,18 @@ void FemaleLizard::reproduzir(const Event *theEvent, void *data){
 
 				/* Um dia depois (24*60 minutos) volta ao estado reprodutivo */
 				TimeControl::get_instance()->notify_after_n_vminutes(24*60, FemaleLizard::back_to_reprodutive, this_female);
+				TimeControl::get_instance()->notify_after_n_vminutes(30, FemaleLizard::stop_flee, this_female);
+				this_female->away_from_player = true;
             }
         }
     }
 }
 
+
+void FemaleLizard::stop_flee(const Event *theEvent, void *data){
+	FemaleLizard* this_female = (FemaleLizard*) data;
+	this_female->away_from_player = false;
+}
 
 void FemaleLizard::back_to_reprodutive(const Event *theEvent, void *data){
 	FemaleLizard* this_female = (FemaleLizard*) data;

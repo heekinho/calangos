@@ -52,7 +52,7 @@ public:
 	virtual void bob(){};
 	virtual void wander(){};
 	virtual void bite(){};
-	virtual void flee(){};
+	virtual void flee();
 	virtual void chase(){};
 
 	//virtual void move(float velocity);

@@ -116,21 +116,6 @@ void MaleLizard::player_did_bobbing(const Event *theEvent, void *data){
 	else this_lizard->set_action("flee", true);
 }
 
-void MaleLizard::flee(){
-	PT(Player) player = Player::get_instance();
-
-	if(!has_other_anim_active("walk")){
-		if(!get_anim_control()->is_playing("walk")) get_anim_control()->play("walk");
-
-		/* Comportamento */
-		look_at(*player);  //TODO: Corrigir depois para não permitir muito giro.
-		set_h(*this, 180); // Corrige modelo errado
-
-		this->move(VEL_RUN);
-	}
-
-}
-
 void MaleLizard::bob(){
 	//set_action("bobbing");
 	//play_action_anims();

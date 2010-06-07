@@ -21,7 +21,7 @@ private:
     virtual void chase();
     virtual void bite();
     virtual void bob();
-    virtual void flee();
+    //virtual void flee();
 
     NodePath maleSymbol;
 

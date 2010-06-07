@@ -48,6 +48,11 @@ void Predator::act(){
 
 }
 
+void Predator::change_sector(PT(Setor) new_sector){
+	this->get_setor()->remove_predator(this);
+	Setor::add_predator(this, new_sector);
+}
+
 
 void Predator::pursuit(){
 	if(!this->get_anim_control()->is_playing("comer")){

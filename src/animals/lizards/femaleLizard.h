@@ -12,9 +12,12 @@ public:
 
         static void reproduzir(const Event *theEvent, void *data);
         static void back_to_reprodutive(const Event *theEvent, void *data);
+        static void stop_flee(const Event *theEvent, void *data);
         bool reproduziu;
 private:
     NodePath femaleSymbol;
+
+    bool away_from_player;
 };
 
 #endif
