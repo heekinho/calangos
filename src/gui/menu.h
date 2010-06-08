@@ -115,8 +115,8 @@ private:
     float ratio;
     static Menu *instance;
 
-    static TextNode *tex;
-    static NodePath node_texto, background_over, background_instrucoes, background_icones;
+    static TextNode *tex,*tex_obj;
+    static NodePath node_texto, background_over, background_instrucoes, background_icones,node_tex_obj,frameNode;
     static bool rodar;
     static bool controle;
 

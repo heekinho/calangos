@@ -19,6 +19,9 @@
 
 
 TextNode* Menu::tex = NULL;
+TextNode* Menu::tex_obj=NULL;
+NodePath Menu::frameNode=NULL;
+NodePath Menu::node_tex_obj=NULL;
 NodePath Menu::node_texto = NULL;
 NodePath Menu::background_over = NULL;
 NodePath Menu::background_instrucoes = NULL;
@@ -252,7 +255,6 @@ void Menu::instrucoes_teclas(const Event*, void* data) {
         inst->nod_botao_voltar.set_pos(-1.2, 0.0, -0.9);
 
         ///construindo o botão next
-
         inst->botao_next = new PGButton("next");
         inst->nod_botao_next = inst->constroi_botao("models/buttons/next", inst->botao_next);
         inst->nod_botao_next.set_scale(0.24);
@@ -261,6 +263,7 @@ void Menu::instrucoes_teclas(const Event*, void* data) {
         Simdunas::get_evt_handler()->add_hook(inst->botao_voltar->get_click_event(MouseButton::one()), event_voltar_funcao, inst);
         Simdunas::get_evt_handler()->add_hook(inst->botao_next->get_click_event(MouseButton::one()), next, inst);
         inst->node_texto.show();
+        
 
         /////carregando tela de marcadores
 
@@ -273,9 +276,46 @@ void Menu::instrucoes_teclas(const Event*, void* data) {
         inst->nod_botao_back = inst->constroi_botao("models/buttons/back", inst->botao_back);
         inst->nod_botao_back.set_scale(0.24);
         inst->nod_botao_back.set_pos(-1.2, 0.0, -0.9);
-
         Simdunas::get_evt_handler()->add_hook(inst->botao_back->get_click_event(MouseButton::one()), back, inst);
+
+
+
+        //colocando texto com objetivos da primeira fase do jogo (SÓ ACONTECE NA INICIALIZAÇÃO DO JOGO)
+
         inst->hide_tela_marcadores(); //escondendo a segunda tela
+        inst->hide_tela_instrucoes();//esconde a primeira tela
+        
+        PGVirtualFrame *Frame = new PGVirtualFrame("Frame de Texto");
+        Frame->setup(3.0, 2.0);
+
+        PGFrameStyle style = Frame->get_frame_style(Frame->get_state());
+        style.set_type(PGFrameStyle::T_flat);
+        Frame->set_frame_style(Frame->get_state(), style);
+
+        frameNode = NodePath(Frame);
+        frameNode.reparent_to(Simdunas::get_window()->get_aspect_2d());
+        frameNode.set_pos(-1.4, 0.0, -0.85);
+        frameNode.set_color(0.0, 0.0, 0.0);
+
+
+        inst->nod_botao_next.show();
+         
+/////////////////////////////////criando texto com objetivos///////////////
+        tex_obj = new TextNode("objetivo");
+
+
+        tex_obj->set_text("               Objetivos do Jogo:                               Seu objetivo nesta primeira fase é sobreviver, "
+                "desenvolver-se e reproduzir. Seu sucesso será medido pelo número de vezes "
+                "que conseguiu se reproduzir. Busque controlar o nível de energia e de hidratação,"
+                " e também a temperatura interna. Seu lagarto vive até 36 meses.");
+
+        node_tex_obj = Simdunas::get_window()->get_aspect_2d().attach_new_node(tex_obj);
+        node_tex_obj.set_scale(0.17);
+        node_tex_obj.set_pos(-1.2, 0, 0.75);
+        node_tex_obj.set_color(0.87, 0.72, 0.52);
+
+        tex_obj->set_wordwrap(15.0);
+      /////////////////////////////////////////////////////////////////////////
 
     } else {
 
@@ -297,8 +337,18 @@ void Menu::next(const Event*, void* data) {
 
     Menu * next = (Menu*) data;
 
+    if(!next->node_tex_obj.is_empty()){//verifica se as informações do objetivo está sendo mostrada (só acontece na primeira vez que abre a tela de instruções)
+
+        next->node_tex_obj.remove_node();
+        frameNode.remove_node();
+        next->show_tela_instrucoes();
+
+    }
+    else{
     next->hide_tela_instrucoes();
     next->show_tela_marcadores();
+    }
+   
 
 }
 
