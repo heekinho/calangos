@@ -15,18 +15,13 @@ public:
 
 	static void load_spiders(int qtd);
 
+
+	virtual void change_sector(PT(Setor) new_sector);
+
 	virtual void act();
-//	virtual void change_sector(PT(Setor) new_sector);
-
-	void set_living_tree(PT(Vegetal) living_tree);
-	PT(Vegetal) get_living_tree();
-
-//	void surround_tree();
+	void set_random_living_tree();
 private:
 	void init();
-
-	PT(Vegetal) living_tree;
-	float radius_thr;
 };
 
 

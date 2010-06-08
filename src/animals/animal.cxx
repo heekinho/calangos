@@ -188,7 +188,6 @@ void Animal::migrate_animals(vector<PT(ObjetoJogo)>* vect, PT(Setor) sector_from
 /*! Migra um animal de um setor para outro, escolhendo aleatóriamente dentre os setores de
  * destino especificados. */
 void Animal::migrate_animal(PT(ObjetoJogo) theanimal, PT(Setor) sector_to){
-	theanimal->change_sector(sector_to);
 	/* TODO: Ao invés de chamar um método para gerar uma localização aleatória, chamar um
 	 * método que gere uma localização inicial a depender do tipo de animal. Um exemplo
 	 * seria uma aranha, que teria um algoritmo de localização inicial: perto de árvores. */

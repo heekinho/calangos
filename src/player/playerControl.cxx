@@ -382,7 +382,7 @@ void PlayerControl::eat(const Event*, void *data){
 					if(prey != NULL){
 						if((prey->get_pos() - player->get_pos()).length() < act_dist_thr * 3){
 							prey->set_fleing(true);
-							TimeControl::get_instance()->notify_after_n_vminutes(30, Prey::stop_flee, prey);
+							TimeControl::get_instance()->notify_after_n_vminutes(50, Prey::stop_flee, prey);
 						}
 					}
 				}

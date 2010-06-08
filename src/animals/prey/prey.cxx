@@ -12,22 +12,22 @@ Prey::Prey(NodePath node) : Animal(node) {
 
 void Prey::load_prey(){
 		nout << "Carregando Aranhas..." << endl;
-		Spider::load_spiders(100);
+		Spider::load_spiders(1000);
 
-		nout << "Carregando Besouros..." << endl;
-		load_prey_specie("besouro", 100, 0.0002);
-
-		nout << "Carregando Cupins..." << endl;
-		load_prey_specie("cupim", 100, 0.0001);
-
-		nout << "Carregando Formigas..." << endl;
-		load_prey_specie("formiga", 100, 0.0002);
-
-		nout << "Carregando Grilo..." << endl;
-		load_prey_specie("grilo", 100, 0.0002);
-
-		nout << "Carregando Larvas..." << endl;
-		load_prey_specie("larva", 100, 0.0002);
+//		nout << "Carregando Besouros..." << endl;
+//		load_prey_specie("besouro", 100, 0.0002);
+//
+//		nout << "Carregando Cupins..." << endl;
+//		load_prey_specie("cupim", 100, 0.0001);
+//
+//		nout << "Carregando Formigas..." << endl;
+//		load_prey_specie("formiga", 100, 0.0002);
+//
+//		nout << "Carregando Grilo..." << endl;
+//		load_prey_specie("grilo", 100, 0.0002);
+//
+//		nout << "Carregando Larvas..." << endl;
+//		load_prey_specie("larva", 100, 0.0002);
 }
 
 
@@ -61,8 +61,7 @@ void Prey::load_prey_specie(const string name, int qtd, double scale){
 
 /*! Define o comportamento padrão das presas. */
 void Prey::act(){
-	if(fleing) flee();
-	else Animal::act();
+	Animal::act();
 }
 
 void Prey::flee(){
@@ -80,6 +79,16 @@ void Prey::flee(){
 void Prey::stop_flee(const Event *theEvent, void *data){
 	Prey* this_prey = (Prey*) data;
 	this_prey->set_fleing(false);
+}
+
+/* Define o vegetal sobre o qual a aranha atua */
+void Prey::set_living_tree(PT(Vegetal) living_tree){
+	this->living_tree = living_tree;
+}
+
+/* Obtém o vegetal sobre o qual a aranha atua */
+PT(Vegetal) Prey::get_living_tree(){
+	return this->living_tree;
 }
 
 /*! Pausa a animação, neste caso fazendo o link com o modelo não-animado */
