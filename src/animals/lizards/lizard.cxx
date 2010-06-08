@@ -39,8 +39,8 @@ void Lizard::init(){
 
 
 	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_minute, check_temp, this);
-	tempo_no_sol_thr = 60;
-	tempo_na_sombra_thr = 100;
+	tempo_no_sol_thr = 100;
+	tempo_na_sombra_thr = 150;
 	tempo_no_sol = 0;
 	tempo_na_sombra = 0;
 	ficar_na_sombra = false;
@@ -156,7 +156,7 @@ void Lizard::act(){
 	if(ficar_na_sombra && (arvore_da_sombra != NULL)){
 		if(! World::get_default_world()->get_terrain()->get_shadows()->is_in_shadow(*this)){
 			look_at(*arvore_da_sombra);
-			move(get_velocity());
+			move(get_velocity()*1.5);
 			return;
 		}
 	}
