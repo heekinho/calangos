@@ -6,7 +6,7 @@ TocaCamera::TocaCamera(PT(Camera) camera) : CameraNode(camera){
 	set_h(*this, 180);
 	set_z(*this, 50);
 
-	this->camera->get_lens()->set_near_far(0.1, 200000.0);
+	this->camera->get_lens()->set_near_far(0.1, 800000.0);
 	dummy = new NodePath("DummyNode");
 	dummy->set_pos(*object, 0, -50, 0);
 	World::get_default_world()->get_terrain()->update_node_z(*dummy);
