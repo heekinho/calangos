@@ -88,7 +88,7 @@ bool ShadowCard::is_in_shadow(LPoint2f pos, double threshold){
 
 
 bool ShadowCard::is_in_shadow(NodePath obj, double threshold){
-	return is_in_shadow(LPoint2f(obj.get_x(), obj.get_y()));
+	return is_in_shadow(LPoint2f(obj.get_x(), obj.get_y()), threshold);
 }
 
 /*! Obtem o canal das sombras. Uma PNMImage. */

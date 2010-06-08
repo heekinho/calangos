@@ -2,6 +2,7 @@
 #define LIZARD_H
 
 #include "animal.h"
+#include "vegetal.h"
 
 namespace LizardEspecie {
 	enum lizardEpecie {tropidurus , eurolophosaurus, cnemidophorus};
@@ -16,6 +17,9 @@ public:
 	Lizard(NodePath node);
 
 	~Lizard();
+
+	virtual void act();
+	static void check_temp(const Event *theEvent, void *data);
 
 	void init();
         void isMale();
@@ -69,6 +73,14 @@ protected:
 	float energia;
 	float scale_temp;
 	float scale;
+
+private:
+	bool ficar_na_sombra;
+	int tempo_no_sol_thr;
+	int tempo_na_sombra_thr;
+	int tempo_no_sol;
+	int tempo_na_sombra;
+	PT(Vegetal) arvore_da_sombra;
 };
 
 #endif

@@ -120,7 +120,7 @@ void Session::player_death(int causa_mortis){
 
 	stop_animations();
 
-	cout << endl << "Morreu!" << endl;
+	//cout << endl << "Morreu!" << endl;
 	this->causa_mortis = causa_mortis;
 	GuiManager::get_instance()->notifyGameOver();
 	//para o tempo

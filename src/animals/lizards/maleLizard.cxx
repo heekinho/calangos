@@ -83,7 +83,7 @@ void MaleLizard::act(){
 		/* Aqui se verifica as condições para começar uma briga */
 		/* "Se o player tem femea próximo dele, e eu tow perto dele, logo tem femea perto de mim..."
 		 * Evita-se assim ter que calcular toda santa hora as distâncias e etc. Só consulto a flag... */
-		if(player->has_female_around()){
+		if(player->has_female_around() && player->lizard_gender != Player::young){
 			bob();
 			last_bobbing_done = ClockObject::get_global_clock()->get_real_time();
 			waiting_player_decide = true;
@@ -95,7 +95,7 @@ void MaleLizard::act(){
 		set_action("walk");
 		play_action_anims(true);
 
-		Animal::act();
+		Lizard::act();
 	}
 }
 
@@ -110,9 +110,7 @@ void MaleLizard::player_did_bobbing(const Event *theEvent, void *data){
 
 	float fight_prob = (this_lizard->get_tamanho_base() - player->get_tamanho_base()) / 2 + 40.0;
 
-	if (rand() % 100 < fight_prob) {
-		if(player->lizard_gender != Player::young) this_lizard->set_action("fight", true);
-	}
+	if (rand() % 100 < fight_prob) this_lizard->set_action("fight", true);
 	else this_lizard->set_action("flee", true);
 }
 

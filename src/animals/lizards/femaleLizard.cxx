@@ -31,7 +31,7 @@ void FemaleLizard::init() {
 //#include "inte"
 void FemaleLizard::act(){
 	if(away_from_player) Lizard::flee();
-	else Animal::act();
+	else Lizard::act();
 }
 
 
