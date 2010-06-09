@@ -11,7 +11,6 @@
 #define RADIUSTHR 100
 
 NodePath Spider::spiders_placeholder = NodePath("Spiders Placeholder");
-
 /*! Aranhas basicamente ficam perambulando ao redor de uma determinada árvore */
 Spider::Spider(NodePath node) : Prey(node){
 	init();
@@ -19,9 +18,6 @@ Spider::Spider(NodePath node) : Prey(node){
 
 /*! "Construtor" comum */
 void Spider::init(){
-	set_acting(false); hide(); // Mover para Animal
-	this->living_tree = NULL;
-	this->radius_thr = 1.5;
 	this->velocity = 0.2;
 }
 
@@ -56,28 +52,12 @@ void Spider::load_spiders(int qtd){
 		npc->set_pos(random_pos);
 		npc->set_h(rand()%360);
 		terrain->add_animal((PT(Animal)) npc);
-		npc->set_random_living_tree();
-	}
-}
 
-void Spider::change_sector(PT(Setor) new_sector){
-	Animal::change_sector(new_sector);
-	set_random_living_tree();
-}
+		if(rand() % 100 < 20){
+			npc->set_has_living_tree(true);
+			npc->set_random_living_tree();
+		}
+		else npc->set_has_living_tree(false);
 
-void Spider::set_random_living_tree(){
-	PT(Vegetal) tree = get_setor()->get_closest_vegetal_to((PT(ObjetoJogo)) this);
-	set_living_tree(tree);
-	float x = float(rand() % int(radius_thr*2000))/1000 - radius_thr;
-	float y = float(rand() % int(radius_thr*2000))/1000 - radius_thr;
-	if(get_living_tree()) set_pos(get_living_tree()->get_pos() + LPoint3f(x,y,0));
-}
-
-/* Implementação do método da classe Animal */
-void Spider::act(){
-	if(is_acting()){
-		if(fleing) flee();
-		else if(living_tree && get_distance(*living_tree) > radius_thr){ look_at(*living_tree); move(get_velocity()); }
-		else Prey::act();
 	}
 }
