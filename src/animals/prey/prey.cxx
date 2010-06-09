@@ -1,5 +1,6 @@
 #include "prey.h"
 
+#include "groupPrey.h"
 #include "spider.h"
 #include "world.h"
 #include "terrain.h"
@@ -22,16 +23,17 @@ void Prey::load_prey(){
 		load_prey_specie("besouro", 140, 0.0002, 70, 4, 4.5);
 
 		nout << "Carregando Cupins..." << endl;
-		load_prey_specie("cupim", 130, 0.0001, 100, 5, 2.5);
+		load_prey_specie("cupim", 130/10, 0.0001, 100, 5, 2.5, true, 10);
 
 		nout << "Carregando Formigas..." << endl;
-		load_prey_specie("formiga", 150, 0.0002, 80, 2, 2.5);
+		//load_prey_specie("formiga", 150, 0.0002, 80, 2, 2.5);
+		load_prey_specie("formiga", 150/12, 0.0002, 80, 2, 2.5, true, 12);
 
 		nout << "Carregando Grilo..." << endl;
 		load_prey_specie("grilo", 60, 0.0002, 60, 3, 4);
 
 		nout << "Carregando Larvas..." << endl;
-		load_prey_specie("larva", 80, 0.0002, 100, 7, 5.5);
+		load_prey_specie("larva", 80/5, 0.0002, 100, 7, 5.5, true, 5);
 }
 
 
@@ -72,26 +74,106 @@ void Prey::configure_prey(const string name, int living_tree_prob, float nutrici
 }
 
 /*! Carrega cada tipo diferente de presa: aranha, grilo... */
-void Prey::load_prey_specie(const string name, int qtd, double scale, int living_tree_prob, float nutricional, float hidratacao){
+void Prey::load_prey_specie(const string name, int qtd, double scale, int living_tree_prob, float nutricional, float hidratacao, bool comp_group, int n){
 	Prey::configure_prey_model(name, scale);
 	for(int i = 0; i < qtd; i++){
 		/* Cria nova instância de cada Presa. */
 		PT(Prey) npc = new Prey(NodePath("Prey PlaceHolder"));
 		npc->configure_prey(name, living_tree_prob, nutricional, hidratacao);
+
+		//=====================================================//
+		if(comp_group){
+			npc->group = new GroupPrey();
+			npc->group->add_prey(npc);
+
+			PT(Prey) last_leader = npc; // Começa com o líder!
+
+			for(int j = 0; j < n; j++){
+				PT(Prey) c_npc = new Prey(NodePath("Prey PlaceHolder"));
+
+				c_npc->configure_prey(name, 0, nutricional, hidratacao);
+				c_npc->set_pos(last_leader->get_x(), last_leader->get_y()+ 0.1, 0);
+				c_npc->look_at(*last_leader);
+
+				last_leader = c_npc;
+				npc->group->add_prey(c_npc);
+				c_npc->group = npc->group;
+			}
+			npc->group->calc_leaders();
+		}
+		else {
+			npc->group = NULL;
+		}
+		//=====================================================//
+
 	}
 }
 
-void Prey::change_sector(PT(Setor) new_sector){
-	Animal::change_sector(new_sector);
+void Prey::migrate_prey(vector<PT(ObjetoJogo)>* vect, PT(Setor) sector_from, vector<PT(Setor)> *sectors_to){
+	vector<PT(ObjetoJogo)>* the_copy = new vector<PT(ObjetoJogo)>(*vect);
+
+
+	while(the_copy->size() > 0){
+		int to = rand() % sectors_to->size();
+		Prey::migrate_prey(the_copy->back(), sectors_to->at(to));
+		the_copy->erase(the_copy->end());
+	}
+}
+
+void Prey::migrate_prey(PT(ObjetoJogo) theanimal, PT(Setor) sector_to){
+	PT(Prey) theprey = (PT(Prey))(Prey*)(ObjetoJogo*) theanimal;
+
+	if(theprey->group == NULL) {
+		Animal::migrate_animal(theanimal, sector_to);
+		return;
+	}
+
+	theprey->was_redistributed();
+	if(theprey->is_master_leader()){
+		LPoint2d random_pos = sector_to->get_random_pos_inside();
+		theprey->set_pos(random_pos.get_x(), random_pos.get_y(), 0);
+
+		PT(Prey) last_leader = theprey;
+		for (list<PT(Prey)>::iterator it = theprey->group->get_array()->begin(); it != theprey->group->get_array()->end(); ++it){
+			(*it)->set_pos(last_leader->get_x(), last_leader->get_y()+0.1, 0);
+			(*it)->look_at(*last_leader);
+			last_leader = *it;
+		}
+
+	}
+}
+
+
+//void Prey::change_sector(PT(Setor) new_sector){
+//	Animal::change_sector(new_sector);
+//	set_random_living_tree();
+//}
+
+
+void Prey::was_redistributed(){
 	set_random_living_tree();
+}
+
+void Prey::group_behavior(){
+	float dist_max = 0.1;
+
+	if(get_distance(*get_leader()) > dist_max){
+		look_at(*get_leader());
+//		set_h(*this, rand()%40 - 20);
+		move(get_velocity());
+		continue_animation();
+	}
+	else Animal::act();
 }
 
 /*! Define o comportamento padrão das presas. */
 void Prey::act(){
 	if(fleing) flee();
+	else if(get_leader() != NULL) group_behavior();
 	else if(get_has_living_tree() && living_tree != NULL && get_distance(*living_tree) > radius_thr){
 		look_at(*living_tree);
 		move(get_velocity());
+		continue_animation();
 	}
 	else Animal::act();
 }
@@ -125,6 +207,7 @@ PT(Vegetal) Prey::get_living_tree(){
 
 void Prey::set_random_living_tree(){
 	if(get_has_living_tree()){
+		//TODO: Colocar sorteio de posição aqui?
 		PT(Vegetal) tree = get_setor()->get_closest_vegetal_to((PT(ObjetoJogo)) this);
 		set_living_tree(tree);
 		float x = float(rand() % int(radius_thr*2000))/1000 - radius_thr;

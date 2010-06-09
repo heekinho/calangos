@@ -22,6 +22,8 @@ public:
 
 	static const string EV_object_move;
 
+	virtual void was_redistributed(){};
+
 	// Getters e Setters
 	int get_especie();
 	void set_especie(int especie);

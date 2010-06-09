@@ -452,6 +452,7 @@ void PlayerControl::eating(const Event* evt, void *data){
 }
 
 //consolide_eating();
+#include "groupPrey.h"
 void PlayerControl::really_eat(const Event*, void *data){
 	LVecBase3f* the_data = (LVecBase3f*) data;
 
@@ -466,6 +467,12 @@ void PlayerControl::really_eat(const Event*, void *data){
 	else if(type == 1) objects = (vector<PT(ObjetoJogo)>*) sector->get_edible_vegetals();
 
 	/* Exclui de fato o "objeto" comido */
+
+	if(type == 0) {
+		PT(Prey) cprey = (PT(Prey))(Prey*)(ObjetoJogo*) objects->at(index);
+		if(cprey->group != NULL) cprey->group->remove_prey(cprey);
+	}
+
 	objects->at(index) = NULL;
 	objects->erase(objects->begin() + index);
 }
