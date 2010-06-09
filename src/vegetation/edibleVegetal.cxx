@@ -24,7 +24,7 @@ void EdibleVegetal::configure_vegetal(PT(EdibleVegetal) base_vegetal){
 	set_offset_z(base_vegetal->get_offset_z());
 }
 
-PT(EdibleVegetal) EdibleVegetal::configure_edible_vegetal(const string name, float scale, float offset_z, int nutritional_value, int hidratacao){
+PT(EdibleVegetal) EdibleVegetal::configure_edible_vegetal(const string name, float scale, float offset_z, float nutritional_value, float hidratacao){
 
 	PT(EdibleVegetal) especie = new EdibleVegetal(*ModelRepository::get_instance()->get_model(name));
 	especie->set_valor_nutricional(nutritional_value);
@@ -40,15 +40,18 @@ void EdibleVegetal::configure_default_edible_vegetal(){
 	{
 		EdibleVegetal::vegetals_food_placeholder = Simdunas::get_window()->get_render().attach_new_node("Edible Vegetals Placeholder");
 		
-		vegetals["copaifera-flor"] = configure_edible_vegetal("copaifera-flor",0.03,-1.96);
-		vegetals["jatropha-flor"] = configure_edible_vegetal("jatropha-flor",0.04,-1.96);
-		vegetals["eugenia-flor"] = configure_edible_vegetal("eugenia-flor",0.02,-1.95);
-		vegetals["colher-flor"] = configure_edible_vegetal("colher-flor",0.03,-1.94);
-		vegetals["colher-fruto"] = configure_edible_vegetal("colher-fruto",0.09,-1.85);
-		vegetals["murici-flor"] = configure_edible_vegetal("murici-flor",0.03,-1.94);
-		vegetals["murici-fruto"] = configure_edible_vegetal("murici-fruto",0.09,-1.84);
-		vegetals["xique_xique-fruto"] = configure_edible_vegetal("xique_xique-fruto",0.08,-1.86);
+		float fl_nut = 2, fl_hid = 6.5;
+		float fr_nut = 5, fr_hid = 8;
 		
+		vegetals["copaifera-flor"] = configure_edible_vegetal("copaifera-flor",0.03,-1.96,fl_nut,fl_hid);
+		vegetals["jatropha-flor"] = configure_edible_vegetal("jatropha-flor",0.04,-1.96,fl_nut,fl_hid);
+		vegetals["eugenia-flor"] = configure_edible_vegetal("eugenia-flor",0.02,-1.95,fl_nut,fl_hid);
+		vegetals["colher-flor"] = configure_edible_vegetal("colher-flor",0.03,-1.94,fl_nut,fl_hid);
+		vegetals["colher-fruto"] = configure_edible_vegetal("colher-fruto",0.09,-1.85,fr_nut,fr_hid);
+		vegetals["murici-flor"] = configure_edible_vegetal("murici-flor",0.03,-1.94,fr_nut,fr_hid);
+		vegetals["murici-fruto"] = configure_edible_vegetal("murici-fruto",0.09,-1.84,fr_nut,fr_hid);
+		vegetals["xique_xique-fruto"] = configure_edible_vegetal("xique_xique-fruto",0.08,-1.86,fr_nut,fr_hid);
+
 		//nao comestiveis
 		//vegetals["quipa-fruto"] = configure_edible_vegetal("quipa-fruto",1,0.1,-1.6);
 		//vegetals["eugenia-fruto"] = configure_edible_vegetal("eugenia-fruto",1,0.1,-2);

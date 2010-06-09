@@ -10,8 +10,10 @@ public:
 	Prey(NodePath node);
 	static void load_prey();
 
-	static void load_prey_specie(const string name, int qtd, double scale, int living_tree_prob);
+	static void load_prey_specie(const string name, int qtd, double scale, int living_tree_prob, float nutricional, float hidratacao);
 	static void load(){};
+	virtual void configure_prey(const string name, int living_tree_prob, float nutricional, float hidratacao);
+	static void configure_prey_model(const string name, double scale);
 
 	virtual void act();
 	virtual void flee();
@@ -30,6 +32,7 @@ public:
 	void set_random_living_tree();
 	void set_has_living_tree(bool has_living_tree){ this->has_living_tree = has_living_tree; };
 	bool get_has_living_tree(){ return has_living_tree; };
+
 protected:
 	bool fleing;
 	PT(Vegetal) living_tree;

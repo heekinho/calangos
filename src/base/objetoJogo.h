@@ -32,10 +32,10 @@ public:
 	void set_setor(PT(Setor) setor);
 
 
-	int get_valor_nutricional();
-	void set_valor_nutricional(int novo_valor_nutricional);
-	int get_valor_hidratacao();
-	void set_valor_hidratacao(int novo_valor_hidratacao);
+	float get_valor_nutricional();
+	void set_valor_nutricional(float novo_valor_nutricional);
+	float get_valor_hidratacao();
+	void set_valor_hidratacao(float novo_valor_hidratacao);
 
 	virtual void be_bited();
 	static void blink(const Event*, void *data);
@@ -73,8 +73,8 @@ private:
 	AnimControlCollection anims;
 	int especie;
 
-	int valor_nutricional;
-	int valor_hidratacao;
+	float valor_nutricional;
+	float valor_hidratacao;
 protected:
 	LPoint3f prev_pos;
 	double offset_z;

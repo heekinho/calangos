@@ -16,58 +16,68 @@ Prey::Prey(NodePath node) : Animal(node) {
 void Prey::load_prey(){
 		nout << "Carregando Aranhas..." << endl;
 		//Spider::load_spiders(1000);
-		load_prey_specie("aranha", 100, 0.0002, 20);
+		load_prey_specie("aranha", 100, 0.0002, 20, 3, 3.5);
 
 		nout << "Carregando Besouros..." << endl;
-		load_prey_specie("besouro", 100, 0.0002, 70);
+		load_prey_specie("besouro", 140, 0.0002, 70, 4, 4.5);
 
 		nout << "Carregando Cupins..." << endl;
-		load_prey_specie("cupim", 100, 0.0001, 100);
+		load_prey_specie("cupim", 130, 0.0001, 100, 5, 2.5);
 
 		nout << "Carregando Formigas..." << endl;
-		load_prey_specie("formiga", 100, 0.0002, 80);
+		load_prey_specie("formiga", 150, 0.0002, 80, 2, 2.5);
 
 		nout << "Carregando Grilo..." << endl;
-		load_prey_specie("grilo", 100, 0.0002, 60);
+		load_prey_specie("grilo", 60, 0.0002, 60, 3, 4);
 
 		nout << "Carregando Larvas..." << endl;
-		load_prey_specie("larva", 100, 0.0002, 100);
+		load_prey_specie("larva", 80, 0.0002, 100, 7, 5.5);
 }
 
 
-/*! Carrega cada tipo diferente de presa: aranha, grilo... */
-void Prey::load_prey_specie(const string name, int qtd, double scale, int living_tree_prob){
-	// Define alguma características do modelo fixo (e não das instâncias). Obs.: Talvez isso mude de lugar mais tarde.
+void Prey::configure_prey_model(const string name, double scale){
 	ModelRepository::get_instance()->get_animated_model(name)->get_anim_control()->loop("character", false);
 	ModelRepository::get_instance()->get_animated_model(name)->set_scale(scale);
 	ModelRepository::get_instance()->get_model(name)->set_scale(scale);
+}
 
+void Prey::configure_prey(const string name, int living_tree_prob, float nutricional, float hidratacao){
+	ModelRepository::get_instance()->get_animated_model(name)->instance_to(*this);
+
+	/* Guarda a informação para uso na troca de modelo animado/não-animado */
+	set_tag("model_name", name);
+
+	/* Configurações de valor nutritivo e hidratação */
+	set_valor_nutricional(nutricional);
+	set_valor_hidratacao(hidratacao);
+
+	/* Gera localização aleatória. */
+	LPoint3f point = World::get_default_world()->get_terrain()->get_random_point();
+	set_pos(point);
+	set_h(rand()%360);
+
+	/* Adiciona os animais ao mundo. */
+	World::get_default_world()->get_terrain()->add_animal((PT(Animal)) this);
+
+	/* Dependendo da caracteristica, atribui ou não uma árvore para o npc */
+	if((rand() % 100) < living_tree_prob){
+		set_has_living_tree(true);
+		set_random_living_tree();
+	}
+	else set_has_living_tree(false);
+
+	/* Finalmente o torna disponível pra visualização. */
+	reparent_to(Simdunas::get_window()->get_render());
+	continue_animation();
+}
+
+/*! Carrega cada tipo diferente de presa: aranha, grilo... */
+void Prey::load_prey_specie(const string name, int qtd, double scale, int living_tree_prob, float nutricional, float hidratacao){
+	Prey::configure_prey_model(name, scale);
 	for(int i = 0; i < qtd; i++){
 		/* Cria nova instância de cada Presa. */
 		PT(Prey) npc = new Prey(NodePath("Prey PlaceHolder"));
-		ModelRepository::get_instance()->get_animated_model(name)->instance_to(*npc);
-
-		/* Guarda a informação para uso na troca de modelo animado/não-animado */
-		npc->set_tag("model_name", name);
-
-		/* Gera localização aleatória. */
-		LPoint3f point = World::get_default_world()->get_terrain()->get_random_point();
-		npc->set_pos(point);
-		npc->set_h(rand()%360);
-
-		/* Adiciona os animais ao mundo. */
-		World::get_default_world()->get_terrain()->add_animal( (PT(Animal)) npc);
-
-		/* Dependendo da caracteristica, atribui ou não uma árvore para o npc */
-		if((rand() % 100) < living_tree_prob){
-			npc->set_has_living_tree(true);
-			npc->set_random_living_tree();
-		}
-		else npc->set_has_living_tree(false);
-
-		/* Finalmente o torna disponível pra visualização. */
-		npc->reparent_to(Simdunas::get_window()->get_render());
-		npc->continue_animation();
+		npc->configure_prey(name, living_tree_prob, nutricional, hidratacao);
 	}
 }
 

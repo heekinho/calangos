@@ -21,7 +21,7 @@ public:
 	static PT(EdibleVegetal) get_edible_vegetal(string name, Edible::EdibleType type);
 
 	void configure_vegetal(PT(EdibleVegetal) base_vegetal);
-	static PT(EdibleVegetal) configure_edible_vegetal(const string name, float scale = 1.0, float offset_z = 0.0, int nutritional_value = 2, int hidratacao = 3);
+	static PT(EdibleVegetal) configure_edible_vegetal(const string name, float scale = 1.0, float offset_z = 0.0, float nutritional_value = 2, float hidratacao = 3);
 	static void configure_default_edible_vegetal();
 
 	static NodePath vegetals_food_placeholder;
