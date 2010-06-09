@@ -9,14 +9,14 @@ Prey::Prey(NodePath node) : Animal(node) {
 	this->living_tree = NULL;
 	this->radius_thr = 1.5;
 	this->fleing = false;
-	set_velocity(85);
+	set_velocity(0.085);
 };
 
 
 void Prey::load_prey(){
 		nout << "Carregando Aranhas..." << endl;
 		//Spider::load_spiders(1000);
-		load_prey_specie("aranha", 100, 0.02, 20);
+		load_prey_specie("aranha", 100, 0.0002, 20);
 
 		nout << "Carregando Besouros..." << endl;
 		load_prey_specie("besouro", 100, 0.0002, 70);
