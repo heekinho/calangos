@@ -17,16 +17,19 @@ NodePath Animal::animals_placeholder = NodePath("Animals Placeholder");
 
 /*! Copy Constructor */
 Animal::Animal(NodePath node) : AnimatedObjetoJogo(node) {
+//	set_acting(true);
 	this->velocity = 0.01;
+	this->stay_x_frame_stoped = 0;
+	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, act, this);
 }
 
 
 /*! Destroi o Animal */
 Animal::~Animal(){
-	if(parent_sector != NULL){
-		Simdunas::get_evt_handler()->remove_hook(parent_sector->EV_player_next, start_acting, this);
-		Simdunas::get_evt_handler()->remove_hook(parent_sector->EV_player_not_next, stop_acting, this);
-	}
+//	if(parent_sector != NULL){
+//		Simdunas::get_evt_handler()->remove_hook(parent_sector->EV_player_next, start_acting, this);
+//		Simdunas::get_evt_handler()->remove_hook(parent_sector->EV_player_not_next, stop_acting, this);
+//	}
 	Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_pass_frame, act, this);
 }
 
@@ -48,18 +51,18 @@ void Animal::unload_animals(){
 	animals_placeholder.remove_node();
 }
 
-/* Identifica se aranha está agindo */
-void Animal::set_acting(bool acting){
-//	if(acting) start_acting(NULL, this);
-//	else stop_acting(NULL, this);
-
-	this->acting = acting;
-}
-
-/* Identifica se aranha está agindo */
-bool Animal::is_acting(){
-	return acting;
-}
+///* Identifica se aranha está agindo */
+//void Animal::set_acting(bool acting){
+////	if(acting) start_acting(NULL, this);
+////	else stop_acting(NULL, this);
+//
+//	this->acting = acting;
+//}
+//
+///* Identifica se aranha está agindo */
+//bool Animal::is_acting(){
+//	return acting;
+//}
 
 
 void Animal::act(const Event*, void *data){
@@ -69,7 +72,7 @@ void Animal::act(const Event*, void *data){
 
 
 void Animal::act(){
-	if(acting && !stay_quiet()){
+	if(stay_quiet() <= 0){
 		if(rand()%PROBTHR == 34) set_h(*this, rand()%MAXDEGREE - (MAXDEGREE/2));
 
 		move(get_velocity());
@@ -82,56 +85,56 @@ void Animal::set_frames_stopped(int frames){
 
 int Animal::stay_quiet(){
 	if(stay_x_frame_stoped > 0){
-		pause_animation();
-		return --stay_x_frame_stoped;
+		if(get_num_children() != 0) pause_animation();
+		stay_x_frame_stoped--;
+		return stay_x_frame_stoped;
 	}
 
-	//Teste: Ficar parado...
+	// Ficar parado...
 	if(rand()%250 == 50) stay_x_frame_stoped = 100;
-	if(stay_x_frame_stoped == 0) {
-		continue_animation();
-	}
+	if(stay_x_frame_stoped <= 0) continue_animation();
+
 	return stay_x_frame_stoped;
 }
 
-/*! Define o momento de desativação de ação do NPC, geralmente quando recebe uma notificação
- * do terreno, informando que o player já não está próximo */
-void Animal::stop_acting(const Event*, void *data){
-	Animal *this_animal = (Animal*) data;
-	this_animal->hide();
+///*! Define o momento de desativação de ação do NPC, geralmente quando recebe uma notificação
+// * do terreno, informando que o player já não está próximo */
+//void Animal::stop_acting(const Event*, void *data){
+//	Animal *this_animal = (Animal*) data;
+//	this_animal->hide();
+//
+//	this_animal->set_acting(false);
+//	// Desativa o acting
+//	Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_pass_frame, act, this_animal);
+//}
+//
+///*! Define o momento de ativação de ação do NPC, geralmente quando recebe uma notificação
+// * do terreno, informando que o player está próximo */
+//void Animal::start_acting(const Event*, void *data){
+//	Animal *this_animal = (Animal*) data;
+//	this_animal->show();
+//
+//	// Ativa o acting
+//	this_animal->set_acting(true);
+//	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, act, this_animal);
+//}
 
-	this_animal->set_acting(false);
-	// Desativa o acting
-	Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_pass_frame, act, this_animal);
-}
 
-/*! Define o momento de ativação de ação do NPC, geralmente quando recebe uma notificação
- * do terreno, informando que o player está próximo */
-void Animal::start_acting(const Event*, void *data){
-	Animal *this_animal = (Animal*) data;
-	this_animal->show();
-
-	// Ativa o acting
-	this_animal->set_acting(true);
-	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, act, this_animal);
-}
-
-
-/*! Define o setor no qual o animal está inserido
- * Sobrescreve set_setor de objeto jogo, para adicionar o esquema de evento. */
-//@overhide
-void Animal::set_setor(PT(Setor) setor){
-	if(parent_sector != NULL){
-		// Remove a escuta dos "eventos de borda" da proximidade do player do setor antigo
-		Simdunas::get_evt_handler()->remove_hook(parent_sector->EV_player_next, start_acting, this);
-		Simdunas::get_evt_handler()->remove_hook(parent_sector->EV_player_not_next, stop_acting, this);
-	}
-	parent_sector = setor;
-	// Adiciona a escuta dos "eventos de borda" de proximidade do player do setor atual
-	Simdunas::get_evt_handler()->add_hook(parent_sector->EV_player_next, start_acting, this);
-	Simdunas::get_evt_handler()->add_hook(parent_sector->EV_player_not_next, stop_acting, this);
-	//set_acting(setor->is_player_neighbor());
-}
+///*! Define o setor no qual o animal está inserido
+// * Sobrescreve set_setor de objeto jogo, para adicionar o esquema de evento. */
+////@overhide
+//void Animal::set_setor(PT(Setor) setor){
+//	if(parent_sector != NULL){
+//		// Remove a escuta dos "eventos de borda" da proximidade do player do setor antigo
+//		Simdunas::get_evt_handler()->remove_hook(parent_sector->EV_player_next, start_acting, this);
+//		Simdunas::get_evt_handler()->remove_hook(parent_sector->EV_player_not_next, stop_acting, this);
+//	}
+//	parent_sector = setor;
+//	// Adiciona a escuta dos "eventos de borda" de proximidade do player do setor atual
+//	Simdunas::get_evt_handler()->add_hook(parent_sector->EV_player_next, start_acting, this);
+//	Simdunas::get_evt_handler()->add_hook(parent_sector->EV_player_not_next, stop_acting, this);
+//	//set_acting(setor->is_player_neighbor());
+//}
 
 
 void Animal::change_sector(PT(Setor) new_sector){

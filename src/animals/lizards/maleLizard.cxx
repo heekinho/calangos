@@ -122,7 +122,7 @@ void MaleLizard::bob(){
 
 void MaleLizard::wander(){
 	float elapsed = TimeControl::get_instance()->get_elapsed_time();
-	if(acting && !stay_quiet()){
+	if(!stay_quiet()){
 		if(rand()%PROBTHR == 34) set_h(*this, rand()%MAXDEGREE - (MAXDEGREE/2));
 		this->move(VEL_WALK);
 	}

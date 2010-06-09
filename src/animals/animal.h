@@ -16,12 +16,12 @@ public:
 
 	static void unload_animals();
 
-	static void start_acting(const Event*, void *data);
 	static void act(const Event*, void *data);
 	virtual void act();
-	static void stop_acting(const Event*, void *data);
-	void set_acting(bool acting);
-	bool is_acting();
+//	static void start_acting(const Event*, void *data);
+//	static void stop_acting(const Event*, void *data);
+//	void set_acting(bool acting);
+//	bool is_acting();
 
 	//virtual void has_moved();
 	virtual void change_sector(PT(Setor) new_sector);
@@ -29,7 +29,7 @@ public:
 	static void migrate_animals(vector<PT(ObjetoJogo)>* vect, PT(Setor) sector_from, vector<PT(Setor)> *sectors_to);
 	static void migrate_animal(PT(ObjetoJogo) theanimal, PT(Setor) to);
 
-	void set_setor(PT(Setor) setor);
+//	void set_setor(PT(Setor) setor);
 
 
 	/* Caracteristicas NPC */
@@ -61,7 +61,7 @@ public:
 	void set_frames_stopped(int frames);
 protected:
 	virtual int stay_quiet();
-	bool acting;
+	//bool acting;
 
 	float velocity;
 
