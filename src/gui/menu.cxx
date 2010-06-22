@@ -155,11 +155,23 @@ void Menu::start_Menu() {
 
     button_np.set_scale(0.25, 0.25, 0.25);
     //button_np.set_color(0.2, 0.5, 0.2, 0.0);
-    button_np.set_pos(0.0, 0.4, -0.55);
+    //button_np.set_pos(-0.3, 0.4, -0.55);
 
     //setando o frame do botao
     //as coordenadas do frame é em relação ao botao
     botao_iniciar->set_frame(-0.4, 0.4, -0.4, 0.4);
+
+
+    //////////////////////////cria botão de créditos////////////////////////////
+
+    botao_creditos = new PGButton("creditos");
+    nod_botao_creditos = constroi_botao("models/buttons/creditos",botao_creditos);
+    nod_botao_creditos.set_scale(0.4, 0.25, 0.3);
+    nod_botao_creditos.set_pos(0.3, 0.0, -0.55);
+
+
+
+    /////////////////////////////////////////////////////////////////
 
     //////////////////////criando o botao sair//////////////////////////////////////////////////////////////
     NodePath saindo = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/sair");
@@ -1082,6 +1094,7 @@ void Menu::hide_tela_principal() {
     logo.hide();
     nod_config_egg.hide();
     nod_botao_instrucao.hide();
+    nod_botao_creditos.hide();
 
 }
 
@@ -1157,6 +1170,7 @@ void Menu::remove_tela_menu() {
 
     node_texto.remove_node();
     button_np.remove_node();
+    nod_botao_creditos.remove_node();
     nod_sair.hide(); //este não eh removido pois será utilizado em caso de pausa ou morte do calango
     lagarto.remove_node();
     logo.remove_node();
@@ -1211,7 +1225,8 @@ void Menu::show_tela_pause() {
 void Menu::show_tela_principal() {
 
     button_np.show();
-    button_np.set_pos(0.0, 0.4, -0.55); //colocando o botão (Iniciar) novamente em seu lugar na tela principal
+    nod_botao_creditos.show();
+    button_np.set_pos(-0.3, 0.4, -0.55); //colocando o botão (Iniciar) novamente em seu lugar na tela principal
     nod_sair.show();
     logo.show();
     nod_config_egg.show();

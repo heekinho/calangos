@@ -98,11 +98,11 @@ private:
     PandaFramework *_framework;
     PGButton *botao_iniciar, *botao_sair, *botao_restart, *botao_graph,
     *botao_configuracoes, *botao_ok, *botao_voltar, *botao_mais,
-    *botao_menos, *botao_voltar_jogo, *botao_instrucao, *botao_next, *botao_back; //botoes
+    *botao_menos, *botao_voltar_jogo, *botao_instrucao, *botao_next, *botao_back,*botao_creditos; //botoes
     PGButton *botao_tropidurus, *botao_eurolophosaurus, *botao_cnemidophorus; //botoes de escolha das espécies
     PGButton *lagartos, *predadores, *presas, *habitat, *variacao_clima; //botoes dos videos
     NodePath button_np, nod_sair, nod_config_egg, nod_botao_ok,
-    nod_botao_voltar, nod_mais, nod_menos, nod_noid, nod_botao_voltar_jogo, nod_botao_instrucao, nod_botao_next, nod_botao_back; //nodepaths dos botoes
+    nod_botao_voltar, nod_mais, nod_menos, nod_noid, nod_botao_voltar_jogo, nod_botao_instrucao, nod_botao_next, nod_botao_back, nod_botao_creditos; //nodepaths dos botoes
     NodePath nod_bot_tropidurus, nod_bot_eurolophosaurus, nod_bot_cnemidophorus; //nodepaths dos botoes de escolha das especies
     NodePath marcador; //nodepath do marcador da especie escolhida
     NodePath lagarto, tropidurus, eurolophosasurus, cnemidophorus; //lagarto andando
