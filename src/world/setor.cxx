@@ -21,7 +21,7 @@ Setor::Setor(LPoint2d inicio, LPoint2d fim, int indice){
 
 	// Quando o player deixa de ser vizinho, é preciso lançar um evento.
 	std::stringstream not_next_event_name;
-	sector_event_name << "ev_player_not_next_to_sector_" << indice;
+	not_next_event_name << "ev_player_not_next_to_sector_" << indice;
 	EV_player_not_next = sector_event_name.str();
 }
 
