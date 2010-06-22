@@ -117,6 +117,7 @@ void Lizard::load_lizards(){
 		
 		//cout << "Scale: " << lizard->tamanho_real << endl;
 		lizard->set_pos(point);
+		lizard->set_h(rand()%360);
 		lizard->set_scale(lizard->tamanho_real);
 		//lizard->set_scale(0.0003);
 		//lizard->set_hpr(180,0,0);

@@ -40,6 +40,7 @@ void RedLegged::load_redleggeds(int qtd){
 		int y = rand() % terrain_y_size;
 
 		npc->set_pos(x, y, 0);
+		npc->set_h(rand()%360);
 		World::get_default_world()->get_terrain()->add_predator((PT(Predator)) npc);
 		npc->get_anim_control()->loop("andar", false);
 		npc->reparent_to(Simdunas::get_window()->get_render());
