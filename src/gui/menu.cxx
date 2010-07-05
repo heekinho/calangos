@@ -28,6 +28,7 @@ NodePath Menu::background_instrucoes = NULL;
 NodePath Menu::background_icones = NULL;
 bool Menu::rodar = false;
 bool Menu::controle = false;
+bool Menu::showing_creditos = false;
 char* Menu::tecla = NULL;
 Menu * Menu::instance = NULL;
 
@@ -217,6 +218,7 @@ void Menu::start_Menu() {
     Simdunas::get_evt_handler()->add_hook(botao_sair->get_click_event(MouseButton::one()), out, this);
     Simdunas::get_evt_handler()->add_hook(botao_configuracoes->get_click_event(MouseButton::one()), configure, this);
     Simdunas::get_evt_handler()->add_hook(botao_instrucao->get_click_event(MouseButton::one()), instrucoes_teclas, this);
+    Simdunas::get_evt_handler()->add_hook(botao_creditos->get_click_event(MouseButton::one()), creditos, this);
 
     hide_tela_principal();
 }
@@ -342,6 +344,32 @@ void Menu::back(const Event*, void* data) {
 
     back->hide_tela_marcadores();
     back->show_tela_instrucoes();
+
+}
+
+void Menu::creditos(const Event*, void* data){
+
+     Menu * cr = (Menu*) data;
+
+     cr->hide_tela_principal();
+     cr->showing_creditos=true;
+
+        cr->credit = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render_2d(), "models/apoio-creditos.jpg");
+        cr->credit.set_scale(0.12, 0.001, 0.15);
+        cr->credit.set_pos(0.0, 0.0, 0.06);
+
+        //////Criando botão voltar
+        NodePath botao_voltar = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/voltar");
+        botao_voltar.detach_node();
+        cr->botao_voltar = new PGButton("voltar");
+        cr->botao_voltar->setup(botao_voltar);
+        cr->nod_botao_voltar = Simdunas::get_window()->get_aspect_2d().attach_new_node(cr->botao_voltar);
+        cr->nod_botao_voltar.set_scale(0.21, 0.21, 0.21);
+        cr->nod_botao_voltar.set_pos(1.1, 0.0, -0.8);
+        cr->botao_voltar->set_frame(-0.4, 0.4, -0.4, 0.4);
+
+        ///adicionando o evento no botão voltar
+        Simdunas::get_evt_handler()->add_hook(cr->botao_voltar->get_click_event(MouseButton::one()), event_voltar_funcao, cr);
 
 }
 
@@ -826,7 +854,16 @@ void Menu::esquerda(const Event*, void* data) {
 void Menu::event_voltar_funcao(const Event*, void* data) {
     Menu * voltar = (Menu*) data;
 
-    if (voltar->title_config.is_empty() || !voltar->showing_conf) {//ta voltando da tela de instruções
+
+    if(voltar->showing_creditos){
+
+        voltar->credit.hide();
+        voltar->nod_botao_voltar.hide();
+        voltar->showing_creditos=false;//escondendo tela de créditos
+    }
+
+
+    else if (voltar->title_config.is_empty() || !voltar->showing_conf) {//ta voltando da tela de instruções
 
         voltar->hide_tela_instrucoes();
 

@@ -43,6 +43,7 @@ public:
     static void cnemidophorus_funcao(const Event*, void *data); //escolha da especie CNEMIDOPHORUS
     static void chama_pause_game(const Event*, void *data);
     static void instrucoes_teclas(const Event*, void *data);
+    static void creditos(const Event*, void *data);
     static void back(const Event*, void *data);
     static void next(const Event*, void *data);
     static void stop_movie(const Event*, void *data);
@@ -104,7 +105,7 @@ private:
     NodePath button_np, nod_sair, nod_config_egg, nod_botao_ok,
     nod_botao_voltar, nod_mais, nod_menos, nod_noid, nod_botao_voltar_jogo, nod_botao_instrucao, nod_botao_next, nod_botao_back, nod_botao_creditos; //nodepaths dos botoes
     NodePath nod_bot_tropidurus, nod_bot_eurolophosaurus, nod_bot_cnemidophorus; //nodepaths dos botoes de escolha das especies
-    NodePath marcador; //nodepath do marcador da especie escolhida
+    NodePath marcador, credit; //nodepath do marcador da especie escolhida
     NodePath lagarto, tropidurus, eurolophosasurus, cnemidophorus; //lagarto andando
     NodePath config_egg, videos; //imagem para o botão de configurações
     NodePath title_config, escolha_especie, tempo, relogio_frase, indica_morte; //imagem com o título e frases que vão ser usados no menu de configurações
@@ -148,6 +149,7 @@ private:
 
     bool showing_conf; //flag para saber qual tela ta sendo mostrada (Configurações ou Instruções)
     bool playing_movio; //flag para saber se o vídeio esta sendo tocado
+   static bool showing_creditos;//flag para controlar a volta da tela de créditos
 
 };
 
