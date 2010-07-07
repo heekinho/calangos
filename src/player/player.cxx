@@ -119,6 +119,8 @@ void Player::change_sector(PT(Setor) new_sector){
 	Animal::redistribute_animals();
 	
  	/* Quando o player muda de setor é necessário esconder alguns vegetais e mostrar outros*/
+	Vegetal::update_show_hide();
+
  	//Vegetal::show_player_next_sector_vegetation();
  	//World::get_default_world()->get_terrain()->get_shadows()->update_active_shadows(new_sector);
 }

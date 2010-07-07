@@ -9,10 +9,13 @@ Setor::Setor(LPoint2d inicio, LPoint2d fim, int indice){
 	this->indice = indice;
 	this->player_sector_neighbor = false;
 
-	// Deve receber eventos de movimento de npc, para atualizar setores por exemplo.
-	std::stringstream npc_moving_name;
-	npc_moving_name << "ev_npc_moving_on_sector_" << indice;
-	Simdunas::get_evt_handler()->add_hook(npc_moving_name.str(), npc_moving, this);
+	_vegetals = NodePath("sectorVegetals");
+	_vegetals.reparent_to(Vegetal::vegetals_placeholder);
+
+//	// Deve receber eventos de movimento de npc, para atualizar setores por exemplo.
+//	std::stringstream npc_moving_name;
+//	npc_moving_name << "ev_npc_moving_on_sector_" << indice;
+//	Simdunas::get_evt_handler()->add_hook(npc_moving_name.str(), npc_moving, this);
 
 	// Deve gerar eventos indicando proximidade do player, para npc se movimentar, por exemplo.
 	std::stringstream sector_event_name;
@@ -29,12 +32,12 @@ Setor::Setor(){}
 
 Setor::~Setor() {}
 
-/*! Lançado na movimentação dos NPCs */
-void Setor::npc_moving(const Event* evt, void *data){
-	Setor* this_sector = (Setor*) data;
-	Animal *obj = (Animal*) evt->get_receiver();
-	//this_sector->update_object_sector( (PT(ObjetoJogo)) obj);
-}
+///*! Lançado na movimentação dos NPCs */
+//void Setor::npc_moving(const Event* evt, void *data){
+//	Setor* this_sector = (Setor*) data;
+//	Animal *obj = (Animal*) evt->get_receiver();
+//	//this_sector->update_object_sector( (PT(ObjetoJogo)) obj);
+//}
 
 /*! Atualiza o setor do objeto, se este mudou de setor */
 void Setor::update_object_sector(PT(ObjetoJogo) object){
@@ -54,7 +57,7 @@ bool Setor::is_player_neighbor(){
 /*! Define se este setor é vizinho do player.
  * Se for, adiciona um hook para que se lance um evento (player_next) a cada frame */
 void Setor::set_player_neighbor(bool is_neighbor){
-	if(is_neighbor == true){
+	if(is_neighbor){
 		player_sector_neighbor = true;
 		//Simdunas::get_evt_handler()->add_hook(TimeControl::get_instance()->EV_pass_frame, event_player_next, this);
 		Simdunas::get_evt_queue()->queue_event(new Event(this->EV_player_next));
@@ -165,7 +168,7 @@ PT(EdibleVegetal) Setor::get_closest_edible_vegetal_to(PT(ObjetoJogo) object){
 /*! esconde vegetais */
 void Setor::hide_vegetals()
 {
-	if(vegetal_list.size() > 0 && !(vegetal_list[0]->is_hidden()) ) {
+	if(vegetal_list.size() > 0 /*&& !(vegetal_list[0]->is_hidden()) */) {
 
 		vector<PT(Vegetal)>::iterator vegetal = vegetal_list.begin();
 		while( vegetal != vegetal_list.end() ) {
@@ -180,13 +183,13 @@ void Setor::hide_vegetals()
 		}
 
 	}
-	World::get_default_world()->get_terrain()->get_shadows()->update_active_shadows(this);
+	World::get_default_world()->get_terrain()->get_shadows()->update_active_shadows();
 }
 
 /*! mostra vegetais */
 void Setor::show_vegetals()
 {
-	if(vegetal_list.size() > 0 && vegetal_list[0]->is_hidden()) {
+	if(vegetal_list.size() > 0 /*&& vegetal_list[0]->is_hidden()*/) {
 
 		vector<PT(Vegetal)>::iterator vegetal = vegetal_list.begin();
 
@@ -201,7 +204,7 @@ void Setor::show_vegetals()
 			edible_vegetal++;
 		}
 	}
-	World::get_default_world()->get_terrain()->get_shadows()->update_active_shadows(this);
+	World::get_default_world()->get_terrain()->get_shadows()->update_active_shadows();
 }
 
 
@@ -327,18 +330,19 @@ PT(ObjetoJogo) Setor::get_closest_object_to(LPoint3f ref_point, vector<PT(Objeto
 }
 
 int Setor::get_closest_object_index_to(LPoint3f ref_point, vector<PT(ObjetoJogo)> *ref_vector){
-	int index = 0;
+	int index = -1;
 	if(ref_vector->size() > 0){
-		float dist = (*ref_vector->begin())->get_distance(ref_point);
+		float dist = INT_MAX;//(*ref_vector->begin())->get_distance(ref_point);
 
 		for (int i = 0; i < ref_vector->size(); i++) {
-			float new_dist = ref_vector->at(i)->get_distance(ref_point);
-			if(new_dist < dist) {
-				dist = new_dist;
-				index = i;
+			if(ref_vector->at(i)){
+				float new_dist = ref_vector->at(i)->get_distance(ref_point);
+				if(new_dist < dist) {
+					dist = new_dist;
+					index = i;
+				}
 			}
 		}
-
 	}
 	return index;
 }

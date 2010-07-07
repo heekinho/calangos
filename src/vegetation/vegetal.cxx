@@ -34,11 +34,11 @@ Vegetal::Vegetal(){}
 Vegetal::Vegetal(const string &model) : ObjetoJogo(model){}
 Vegetal::Vegetal(NodePath node) : ObjetoJogo(node) {}
 
-Vegetal::Vegetal(PT(ObjetoJogo) base_object) : ObjetoJogo(vegetals_placeholder.attach_new_node("VegetalPlaceholder")) {
+Vegetal::Vegetal(PT(ObjetoJogo) base_object) : ObjetoJogo(vegetals_placeholder.attach_new_node("VegetalPlaceholder")){
 	base_object->instance_to(*this);
 }
 
-Vegetal::Vegetal(PT(Vegetal) base_vegetal) : ObjetoJogo(vegetals_placeholder.attach_new_node("VegetalPlaceholder")) {
+Vegetal::Vegetal(PT(Vegetal) base_vegetal) : ObjetoJogo(vegetals_placeholder.attach_new_node("VegetalPlaceholder")){
 	base_vegetal->instance_to(*this);
 	configure_vegetal(base_vegetal);
 }
@@ -56,7 +56,7 @@ void Vegetal::configure_vegetal(PT(Vegetal) base_vegetal){
 	set_vegetal_name(base_vegetal->get_vegetal_name());
 	set_vegetal_season(base_vegetal->get_vegetal_season());
 
-	hide();
+//	hide();
 }
 
 /*! Configura posição um vegetal a partir da posição de um vegetal base */
@@ -318,7 +318,8 @@ void Vegetal::load_vegetals(int density) {
 
 	load_default_model_and_data();
 	
-	Vegetal::vegetals_placeholder = Simdunas::get_window()->get_render().attach_new_node("Vegetals Placeholder");
+	//Vegetal::vegetals_placeholder = Simdunas::get_window()->get_render().attach_new_node("Vegetals Placeholder");
+	Vegetal::vegetals_placeholder.reparent_to(Simdunas::get_window()->get_render());
 
 	int terrain_x_size = (int) World::get_default_world()->get_terrain()->get_x_size();
 	int terrain_y_size = (int) World::get_default_world()->get_terrain()->get_y_size();
@@ -362,8 +363,7 @@ void Vegetal::unload_vegetals() {
 	vegetals_placeholder.remove_node();
 }
 
-void Vegetal::configure_change_season_event()
-{
+void Vegetal::configure_change_season_event(){
 	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_month, hook_change_season, NULL);
 }
 
@@ -374,8 +374,7 @@ void Vegetal::hook_change_season(const Event* evt, void *data){
 		change_season(Season::RAINY);
 }
 
-void Vegetal::change_season(Season::SeasonType season)
-{
+void Vegetal::change_season(Season::SeasonType season){
 	current_season = season;
 	World::get_default_world()->get_terrain()->remove_all_edible_vegetals();
 
@@ -408,51 +407,53 @@ void Vegetal::change_season(Season::SeasonType season)
 }
 
 /*!atualiza setores visiveis e invisiveis de acordo com o player*/
-void Vegetal::update_show_hide()
-{
+void Vegetal::update_show_hide(){
 	PT(Terrain) terrain = World::get_default_world()->get_terrain();
 	int max_sectors = terrain->MAX_SETORES;
 
-	for (int i = 0; i < max_sectors; ++i)
-	{
+	for (int i = 0; i < max_sectors; ++i){
 		PT(Setor) sector = terrain->get_setor(i);
 
 		//config inicial
-		if( sector->is_player_neighbor() )
-			sector->show_vegetals();
-		else
-			sector->hide_vegetals();
+//		if( sector->is_player_neighbor() )
+//			sector->show_vegetals();
+//		else
+//			sector->hide_vegetals();
+
+		if(sector->is_player_neighbor()) sector->_vegetals.show();
+		else sector->_vegetals.hide();
 	}
+	World::get_default_world()->get_terrain()->get_shadows()->update_active_shadows();
 }
 
 /*! configura eventos de show and hide dos setores*/
-void Vegetal::configure_show_hide_event()
-{
+void Vegetal::configure_show_hide_event(){
 	update_show_hide();
-	
-	PT(Terrain) terrain = World::get_default_world()->get_terrain();
-	int max_sectors = terrain->MAX_SETORES;
 
-	for (int i = 0; i < max_sectors; ++i)
-	{
-		PT(Setor) sector = terrain->get_setor(i);
+//	PT(Terrain) terrain = World::get_default_world()->get_terrain();
+//	int max_sectors = terrain->MAX_SETORES;
+//
+//	for (int i = 0; i < max_sectors; ++i){
+//		PT(Setor) sector = terrain->get_setor(i);
+//
+//		//event show hide
+//		Simdunas::get_evt_handler()->add_hook(sector->EV_player_next, hook_show, sector);
+//		Simdunas::get_evt_handler()->add_hook(sector->EV_player_not_next, hook_hide, sector);
+//
+//	}
 
-		//event show hide
-		Simdunas::get_evt_handler()->add_hook(sector->EV_player_next, hook_show, sector);
-		Simdunas::get_evt_handler()->add_hook(sector->EV_player_not_next, hook_hide, sector);
-
-	}
-	
 }
 
 void Vegetal::hook_show(const Event* evt, void *data){
 	Setor * sector = ( Setor *) data;
-	(sector)->show_vegetals();
+//	sector->_vegetals.show();
+	//(sector)->show_vegetals();
 }
 
 void Vegetal::hook_hide(const Event* evt, void *data){
 	Setor * sector = ( Setor *) data;
-	(sector)->hide_vegetals();
+//	sector->_vegetals.hide();
+	//(sector)->hide_vegetals();
 }
 
 /*! escolhe quais e quantos frutos/flores serão sorteados e carrega*/

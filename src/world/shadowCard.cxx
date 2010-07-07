@@ -97,7 +97,7 @@ PNMImage* ShadowCard::get_shadows_channel(){
 }
 
 
-void ShadowCard::update_active_shadows(PT(Setor) s){
+void ShadowCard::update_active_shadows(){
 	PT(Terrain) terrain = World::get_default_world()->get_terrain();
 	vector<PT(Setor)>* sectors = terrain->get_adjacent_sectors();
 

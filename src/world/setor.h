@@ -51,6 +51,7 @@ public:
 	vector<PT(Predator)>* get_predators();
 
 	//TODO: Reference Counting e vector*
+	NodePath _vegetals;
 	static void add_vegetal(PT(Vegetal) vegetal, PT(Setor) setor);
 	void remove_vegetals();
 	vector<PT(Vegetal)>* get_vegetals();

@@ -67,8 +67,22 @@ void Session::init_session(){
 	GuiManager::get_instance();
 	causa_mortis = -1;
 
+	/* Patch para dar flatten na vegetação */
+	PT(Terrain) terrain = World::get_default_world()->get_terrain();
+	for(int i = 0; i < terrain->MAX_SETORES; i++){
+		PT(Setor) sector = terrain->get_setor(i);
+		vector<PT(Vegetal)>::iterator it = sector->get_vegetals()->begin();
+		while(it != sector->get_vegetals()->end()){
+			(*it)->reparent_to(sector->_vegetals);
+			it++;
+		}
+		sector->_vegetals.clear_model_nodes();
+		sector->_vegetals.flatten_strong();
+	}
+
 	//Redistribui animais para setores próximos ao player
-	Animal::redistribute_animals();
+	//Animal::redistribute_animals();
+	Player::get_instance()->change_sector(Player::get_instance()->get_setor());
 }
 
 /*! MainLoop. O loop principal da session */

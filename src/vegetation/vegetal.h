@@ -19,6 +19,7 @@ namespace Area {
 	};
 }
 
+
 class Vegetal : public ObjetoJogo {
 public:
 	~Vegetal();
@@ -78,6 +79,7 @@ public:
 	static const int VEGETAL_PERCENT_MID_AREA = 50;
 	static const int VEGETAL_PERCENT_HIGH_AREA = 30;
 
+	static void update_show_hide();
 private:
 	Vegetal();
 	Vegetal(const string &model);
@@ -103,7 +105,7 @@ private:
 
 	//vector<PT(EdibleVegetal)> edibleVegetals;
 	
-	static void update_show_hide();
+
 	static void hook_show(const Event* evt, void *data);
 	static void hook_hide(const Event* evt, void *data);
 

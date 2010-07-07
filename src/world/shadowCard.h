@@ -33,7 +33,7 @@ public:
 	PNMImage* get_channel(){ return shadows_channel; };
 
 
-	void update_active_shadows(PT(Setor) s);
+	void update_active_shadows();
 
 private:
 	double alpha;

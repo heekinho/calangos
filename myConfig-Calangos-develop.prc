@@ -16,8 +16,12 @@ load-display pandagl
 #load-display pandadx9
 #load-display pandadx8
 
-# These control the placement and size of the default rendering window.
+# For flatten operations
+max-collect-indices 655350000
+max-collect-vertices 655350000
 
+# These control the placement and size of the default rendering window.
+sync-video #f
 win-origin 50 50
 win-size 800 600
 
@@ -57,10 +61,10 @@ default-directnotify-level warning
 # a special variable that indicates the same directory as this
 # particular Config.prc file.
 
-model-path    .
-model-path    $MAIN_DIR
-model-path    $THIS_PRC_DIR/..
-model-path    $THIS_PRC_DIR/../models
+model-path    	.
+model-path    	$MAIN_DIR
+model-path    	models
+model-cache-dir modelcache
 
 # This enable the automatic creation of a TK window when running
 # Direct.
