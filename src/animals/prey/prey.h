@@ -38,6 +38,7 @@ public:
 	void set_has_living_tree(bool has_living_tree){ this->has_living_tree = has_living_tree; };
 	bool get_has_living_tree(){ return has_living_tree; };
 
+	PT(Vegetal) chose_new_living_tree();
 
 	bool is_master_leader(){ if(leader == NULL) return true; return false; };
 	void set_leader(PT(Prey) leader){ this->leader = leader; };

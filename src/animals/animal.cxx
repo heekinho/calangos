@@ -171,7 +171,7 @@ void Animal::redistribute_animals(){
 		/* Se o setor não for considerado vizinho do player, os animais são realocados */
 		if(!sector->is_player_neighbor() && sector->get_indice() != player->get_setor()->get_indice()){
 			/* Tem que fazer com todos os vetores de animais. */
-			Prey::migrate_prey((vector<PT(ObjetoJogo)>*) sector->get_animals(), sector, all_neighbors);
+//			Prey::migrate_prey((vector<PT(ObjetoJogo)>*) sector->get_animals(), sector, all_neighbors);
 			Animal::migrate_animals((vector<PT(ObjetoJogo)>*) sector->get_lizards(), sector, all_neighbors);
 			//Animal::migrate_animals((vector<PT(ObjetoJogo)>*) sector->get_predators(), sector, all_neighbors);
 		}

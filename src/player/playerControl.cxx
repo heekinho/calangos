@@ -98,8 +98,10 @@ PlayerControl::PlayerControl() {
 	//CHEATS
 	action = "die";			Simdunas::get_framework()->define_key("control-m", "Easter Egg1", special_control, action);
 	action = "grow-old";	Simdunas::get_framework()->define_key("control-o", "Easter Egg2", special_control, action);
+	action = "info";		Simdunas::get_framework()->define_key("control-i", "Print Info", special_control, action);
 
 }
+
 
 void PlayerControl::special_control(const Event *theEvent, void *data){
 	char *str=(char *)data;
@@ -110,6 +112,12 @@ void PlayerControl::special_control(const Event *theEvent, void *data){
 
 	if(strcmp(str,"grow-old")==0)
 		me->event_pmonth(NULL, me);
+
+	if(strcmp(str,"info")==0){
+		World::get_default_world()->get_terrain()->remove_all_edible_vegetals();
+//		Vegetal::vegetals_placeholder.flatten_strong();
+//		Simdunas::get_window()->get_render().analyze();
+	}
 
 	if(strcmp(str,"shift")==0) PlayerControl::get_instance()->key_map_player["shift"] = true;
 	if(strcmp(str,"shift-up")==0) PlayerControl::get_instance()->key_map_player["shift"] = false;
@@ -192,24 +200,8 @@ void PlayerControl::update(const Event*, void *data){
 
 	PT(Player) p = Player::get_instance();
 
-//	/** TESTES */
-//	if(this_control->closest_object != NULL) {
-//		this_control->closest_object->set_all_color_scale(1.0);
-//	}
-//	this_control->calc_closest_object();
-//	if(this_control->closest_object != NULL){
-//		line.set_thickness(1);
-//		line.set_color(1,0,0);
-//		line.move_to(this_control->closest_object->get_pos());
-//		line.draw_to(this_control->closest_object->get_pos()+LPoint3f(0,0,0.1));
-//
-//		lineNP.remove_node();
-//		lineNP = NodePath(line.create());
-//		lineNP.reparent_to(Simdunas::get_window()->get_render());
-//
-//		line.reset();
-//	}
-
+	/* Test */
+	World::get_default_world()->get_terrain()->update_prey();
 
 	/* Verifica se tem femeas por perto */
 	p->update_female_around();
@@ -334,21 +326,41 @@ void PlayerControl::eat(const Event*, void *data){
 		vector<PT(ObjetoJogo)> action_objects;
 		vector<int> action_objects_index;
 
-		int closest_prey_index = player_sector->get_closest_object_index_to(player->get_pos(), (vector<PT(ObjetoJogo)>*) player_sector->get_animals());
-		action_objects.push_back((PT(ObjetoJogo)) player_sector->get_animals()->at(closest_prey_index));
-		action_objects_index.push_back(closest_prey_index);
+		if(player_sector->get_animals()->size() > 0){
+			int closest_prey_index = player_sector->get_closest_object_index_to(player->get_pos(), (vector<PT(ObjetoJogo)>*) player_sector->get_animals());
+			action_objects.push_back((PT(ObjetoJogo)) player_sector->get_animals()->at(closest_prey_index));
+			action_objects_index.push_back(closest_prey_index);
+		}
+		else {
+			action_objects_index.push_back(-1);
+			action_objects.push_back(NULL);
+		}
 
-		int closest_vegetal_index = player_sector->get_closest_object_index_to(player->get_pos(), (vector<PT(ObjetoJogo)>*) player_sector->get_edible_vegetals());
-		action_objects.push_back((PT(ObjetoJogo)) player_sector->get_edible_vegetals()->at(closest_vegetal_index));
-		action_objects_index.push_back(closest_vegetal_index);
+		if(player_sector->get_edible_vegetals()->size() > 0){
+			int closest_vegetal_index = player_sector->get_closest_object_index_to(player->get_pos(), (vector<PT(ObjetoJogo)>*) player_sector->get_edible_vegetals());
+			action_objects.push_back((PT(ObjetoJogo)) player_sector->get_edible_vegetals()->at(closest_vegetal_index));
+			action_objects_index.push_back(closest_vegetal_index);
+		}
+		else {
+			action_objects_index.push_back(-1);
+			action_objects.push_back(NULL);
+		}
 
-		int closest_lizard_index = player_sector->get_closest_object_index_to(player->get_pos(), (vector<PT(ObjetoJogo)>*) player_sector->get_lizards());
-		action_objects.push_back((PT(ObjetoJogo)) player_sector->get_lizards()->at(closest_lizard_index));
-		action_objects_index.push_back(closest_lizard_index);
+		if(player_sector->get_lizards()->size() > 0){
+			int closest_lizard_index = player_sector->get_closest_object_index_to(player->get_pos(), (vector<PT(ObjetoJogo)>*) player_sector->get_lizards());
+			action_objects.push_back((PT(ObjetoJogo)) player_sector->get_lizards()->at(closest_lizard_index));
+			action_objects_index.push_back(closest_lizard_index);
+		}
+		else {
+			action_objects_index.push_back(-1);
+			action_objects.push_back(NULL);
+		}
 
 		/* 0: prey; 1: vegetal; 2: lizard */
 		int type_of_closest = player_sector->get_closest_object_index_to(player->get_pos(), &action_objects);
 		int index_of_closest = action_objects_index.at(type_of_closest);
+
+		if(index_of_closest == -1) return;
 
 		PT(ObjetoJogo) target = action_objects.at(type_of_closest);
 		if (target == NULL) return; //REVER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -397,8 +409,11 @@ void PlayerControl::eat(const Event*, void *data){
 
 				/* Come o alvo saúde */
 				player->eat(target);
-				target->set_valor_nutricional(0);
-				target->set_valor_hidratacao(0);
+				/* Com a redistribuição dos animais não pode zera-los */
+				if(type_of_closest == 1){
+					target->set_valor_nutricional(0);
+					target->set_valor_hidratacao(0);
+				}
 
 				LVecBase3f *mydata = new LVecBase3f(index_of_closest, player->get_setor()->get_indice(), type_of_closest);
 				//TimeControl::get_instance()->notify_after_n_frames(40, really_eat, (void*) mydata);
@@ -470,11 +485,13 @@ void PlayerControl::really_eat(const Event*, void *data){
 
 	if(type == 0) {
 		PT(Prey) cprey = (PT(Prey))(Prey*)(ObjetoJogo*) objects->at(index);
-		if(cprey->group != NULL) cprey->group->remove_prey(cprey);
+		//if(cprey->group != NULL) cprey->group->remove_prey(cprey);
+		World::get_default_world()->get_terrain()->realoc_prey(cprey, Player::get_instance()->get_pos());
 	}
-
-	objects->at(index) = NULL;
-	objects->erase(objects->begin() + index);
+	else {
+		objects->at(index) = NULL;
+		objects->erase(objects->begin() + index);
+	}
 }
 
 

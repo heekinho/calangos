@@ -10,7 +10,7 @@ Setor::Setor(LPoint2d inicio, LPoint2d fim, int indice){
 	this->player_sector_neighbor = false;
 
 	_vegetals = NodePath("sectorVegetals");
-	_vegetals.reparent_to(Vegetal::vegetals_placeholder);
+	_vegetals.reparent_to(Vegetal::visible_vegetals_placeholder);
 
 //	// Deve receber eventos de movimento de npc, para atualizar setores por exemplo.
 //	std::stringstream npc_moving_name;

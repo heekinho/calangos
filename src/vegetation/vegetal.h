@@ -25,6 +25,7 @@ public:
 	~Vegetal();
 
 	static NodePath vegetals_placeholder;
+	static NodePath visible_vegetals_placeholder;
 
 	static void configure_show_hide_event();
 
@@ -129,6 +130,5 @@ private:
 
 	static vector<LVecBase3f> generate_elements(LPoint2d start, LPoint2d end, int qtd, float distance, float model_radius = 0);
 	static bool verify_distance(vector<LVecBase3f>* points, LVecBase3f point, float distance);
-
 };
 #endif

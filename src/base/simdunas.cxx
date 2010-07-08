@@ -18,6 +18,9 @@ WindowFramework* Simdunas::window = NULL;
 EventQueue* Simdunas::evt_queue = NULL;
 EventHandler* Simdunas::evt_handler = NULL;
 
+#include "objetoJogo.h"
+#include "sectorItems.h"
+#include "animal.h"
 int main(int argc, char *argv[]) {
 	/* Carrega o arquivo de configuração do jogo */
 	#ifdef DEBUG
@@ -25,6 +28,7 @@ int main(int argc, char *argv[]) {
 	#else
 		load_prc_file("myConfig-Calangos-distribute.prc");
 	#endif
+
 
 	//PStatClient::connect();
 
@@ -57,8 +61,30 @@ int main(int argc, char *argv[]) {
 		//Simdunas::get_framework()->enable_default_keys();
 
 		nout << "Carregando Tela de Abertura..." << endl;
-              
-         
+
+
+
+//		PT(ObjetoJogo) x = new ObjetoJogo(NodePath("1"));
+//		PT(ObjetoJogo) y = new ObjetoJogo(NodePath("2"));
+//		PT(ObjetoJogo) z = new ObjetoJogo(NodePath("3"));
+//
+//		PT(Animal) a = new Animal(NodePath("aewewwew"));
+//		SectorItems<PT(ObjetoJogo)> items;
+//
+//		//items.add(a);
+//		items.add(x);
+//		items.add(y);
+//		items.add(z);
+//
+//		PT(ObjetoJogo) copy = x;
+//		items.remove(copy);
+//
+//		nout << items.get_all()->size() << endl;
+//
+//
+//		exit(1);
+
+
 
 		/* Inicia o Menu */
 		Menu::get_instance()->start_Menu();

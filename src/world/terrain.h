@@ -17,6 +17,7 @@
 
 #include "shadowCard.h"
 #include "predator.h"
+#include "prey.h"
 
 /*! A classe Terrain, é compostas por setores, que são divisões lógicas do mesmo.
  * Classe que conta com o auxilio do GeoMipTerrain para gerar os terrenos a partir de um
@@ -87,9 +88,23 @@ public:
 	static void init_type() { register_type(_type_handle, "Terrain"); }
 
 	PT(ShadowCard) get_shadows(){ return shadows; };
-
-
 	LPoint3f get_random_point();
+
+
+
+
+	//Test
+	static const float dist_min = 5;
+	static const float dist_mid = 6;
+	static const float dist_max = 10;
+	list<PT(Prey)> list_prey;
+
+	void add_prey(PT(Prey) prey);
+	void update_prey();
+	void realoc_prey(PT(Prey) prey, LPoint3f ref);
+	float random(float lower, float higher);
+	void do_initial_distribution();
+
 private:
 
 	void init_sectors();

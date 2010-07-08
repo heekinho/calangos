@@ -17,7 +17,7 @@ Terrain::Terrain(const string &name) : GeoMipTerrain (name) {
 
 	// Configuraes Padrao do terreno:
 	//this->get_root().set_sz(100);
-	this->set_block_size(32);   // Se houver muito lag, aumentar o tamanho
+//	this->set_block_size(32);   // Se houver muito lag, aumentar o tamanho
 	//this->set_min_level(0); // Quanto menos, melhor a qualidade
 	//this->set_factor(100);
 	//Simdunas::get_window()->set_wireframe(true);
@@ -25,7 +25,8 @@ Terrain::Terrain(const string &name) : GeoMipTerrain (name) {
 	shadows = new ShadowCard(LPoint2f(512, 512), LPoint2f(512, 512));
 	this->get_root().set_texture(shadows->get_stage(), shadows->get_texture());
 
-	Simdunas::get_evt_handler()->add_hook(PlayerControl::EV_player_move, update_terrain, this);
+//	Simdunas::get_evt_handler()->add_hook(PlayerControl::EV_player_move, update_terrain, this);
+//	get_root().hide();
 }
 
 
@@ -89,10 +90,16 @@ PT(Terrain) Terrain::create_default_terrain(){
 		terrain->get_root().set_tex_scale(stage_far, 20);
 
 		// Gera o Terreno
-		terrain->generate();
+//		terrain->generate();
 		terrain->get_root().reparent_to(Simdunas::get_window()->get_render());
 		terrain->set_focal_point(LPoint2d(256, 256));
-		terrain->update();
+//		terrain->update();
+
+		terrain->set_bruteforce(true);
+		terrain->set_min_level(0);
+		terrain->set_block_size(256);
+		terrain->generate();
+
 
 		// Configuracoes do terreno
 		terrain->get_root().set_pos(terrain->get_root(), 0, 0, 0);
@@ -194,16 +201,22 @@ void Terrain::update_adjacent_sectors(PT(Setor) s){
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
 			LPoint2d adj_sector = s->get_pos_start() + LPoint2d(flagx * (get_x_size()/8), flagy * (get_y_size()/8));
-			if(has_inside(adj_sector) /* && !((i == 1) && (j == 1))*/){
+			//if(has_inside(adj_sector) /* && !((i == 1) && (j == 1))*/){
 				PT(Setor) sector_found = get_setor_from_pos(adj_sector);
 				sector_found->set_player_neighbor(true);
 				neighborhood.push_back(sector_found);
-			}
+			//}
 			flagx++;
 		}
 		flagx = -1;
 		flagy++;
 	}
+
+//	nout << "neighbors(" << Player::get_instance()->get_setor()->get_indice() << "): ";
+//	for(int i = 0; i < neighborhood.size(); i++){
+//		nout << neighborhood.at(i)->get_indice() << " ";
+//	}
+//	nout << endl;
 }
 
 /*! Necessário para atualizar o ponto focal para o LOD do terreno */
@@ -446,4 +459,64 @@ LPoint3f Terrain::get_random_point(){
 
 	return LPoint3f(x, y, z);
 }
+
+
+
+
+
+
+
+void Terrain::add_prey(PT(Prey) prey){
+	list_prey.push_back(prey);
+}
+
+
+void Terrain::update_prey(){
+	PT(Player) player = Player::get_instance();
+	list<PT(Prey)>::iterator it = list_prey.begin();
+	while(it != list_prey.end()){
+		if((*it)->get_distance(*player) > dist_max) realoc_prey(*it, player->get_pos());
+		it++;
+	}
+}
+
+
+void Terrain::do_initial_distribution(){
+	PT(Player) player = Player::get_instance();
+	list<PT(Prey)>::iterator it = list_prey.begin();
+	nout << "teste" << endl;
+	while(it != list_prey.end()){
+		(*it)->set_pos(player->get_x()+random(-dist_mid, dist_mid), player->get_y()+random(-dist_mid, dist_mid), 0);
+		(*it)->was_redistributed();
+		it++;
+	}
+}
+
+int r[] = {1, -1};
+void Terrain::realoc_prey(PT(Prey) prey, LPoint3f ref){
+//	int i = rand()%2;
+//	float x = random(-dist_mid/2, dist_mid/2)+r[i]*dist_min;
+//	float y = random(-dist_mid/2, dist_mid/2)+r[i]*dist_min;
+
+	float x, y;
+
+	int quadrante = rand()%2;
+	if(quadrante == 1){
+		x = r[rand()%2]*random(dist_min, dist_mid);
+		y = random(-dist_mid, dist_mid);
+	} else {
+		y = r[rand()%2]*random(dist_min, dist_mid);
+		x = random(-dist_mid, dist_mid);
+	}
+
+
+	prey->set_pos(ref.get_x()+x, ref.get_y()+y, 0);
+	prey->was_redistributed();
+}
+
+float Terrain::random(float lower, float higher){
+	return lower + (higher-lower)*(float(rand())/RAND_MAX);
+}
+
+
 

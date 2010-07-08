@@ -68,12 +68,19 @@ void Session::init_session(){
 	causa_mortis = -1;
 
 	/* Patch para dar flatten na vegetação */
+	/* Problemas no Patch:
+	 * 	- Em alguns trechos do código, utiliza-se get_pos(). Com a operação
+	 * 	de flatten, esta informação é perdida.
+	 * Por enquanto, estou criando uma cópia (sic) e colocando para renderizar.
+	 */
 	PT(Terrain) terrain = World::get_default_world()->get_terrain();
 	for(int i = 0; i < terrain->MAX_SETORES; i++){
 		PT(Setor) sector = terrain->get_setor(i);
 		vector<PT(Vegetal)>::iterator it = sector->get_vegetals()->begin();
 		while(it != sector->get_vegetals()->end()){
-			(*it)->reparent_to(sector->_vegetals);
+			NodePath vcopy = (*it)->copy_to(NodePath("Vegetal_copy"));
+			//(*it)->reparent_to(sector->_vegetals);
+			vcopy.reparent_to(sector->_vegetals);
 			it++;
 		}
 		sector->_vegetals.clear_model_nodes();
@@ -83,6 +90,7 @@ void Session::init_session(){
 	//Redistribui animais para setores próximos ao player
 	//Animal::redistribute_animals();
 	Player::get_instance()->change_sector(Player::get_instance()->get_setor());
+	World::get_default_world()->get_terrain()->do_initial_distribution();
 }
 
 /*! MainLoop. O loop principal da session */

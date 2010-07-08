@@ -61,7 +61,7 @@ void Lizard::load_lizards(){
 	/* Ter calangos do tipo do player */
 	string player_specie = Player::get_specie_name(Player::lizard_specie);
 
-	int qtd = 250;
+	int qtd = 100;
 
 	for(int i = 0; i < qtd; i++){
 		LPoint3f point = World::get_default_world()->get_terrain()->get_random_point();

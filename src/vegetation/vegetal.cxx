@@ -29,6 +29,7 @@ vector<PT(Vegetal)> Vegetal::low_area;
 Season::SeasonType Vegetal::current_season = Season::DRY;
 
 NodePath Vegetal::vegetals_placeholder = NodePath("Vegetals Placeholder");
+NodePath Vegetal::visible_vegetals_placeholder = NodePath("Vegetals Placeholder");
 
 Vegetal::Vegetal(){}
 Vegetal::Vegetal(const string &model) : ObjetoJogo(model){}
@@ -319,7 +320,8 @@ void Vegetal::load_vegetals(int density) {
 	load_default_model_and_data();
 	
 	//Vegetal::vegetals_placeholder = Simdunas::get_window()->get_render().attach_new_node("Vegetals Placeholder");
-	Vegetal::vegetals_placeholder.reparent_to(Simdunas::get_window()->get_render());
+	//Vegetal::vegetals_placeholder.reparent_to(Simdunas::get_window()->get_render());
+	Vegetal::visible_vegetals_placeholder.reparent_to(Simdunas::get_window()->get_render());
 
 	int terrain_x_size = (int) World::get_default_world()->get_terrain()->get_x_size();
 	int terrain_y_size = (int) World::get_default_world()->get_terrain()->get_y_size();
