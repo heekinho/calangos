@@ -19,7 +19,6 @@ EventQueue* Simdunas::evt_queue = NULL;
 EventHandler* Simdunas::evt_handler = NULL;
 
 #include "objetoJogo.h"
-#include "sectorItems.h"
 #include "animal.h"
 int main(int argc, char *argv[]) {
 	/* Carrega o arquivo de configuração do jogo */
