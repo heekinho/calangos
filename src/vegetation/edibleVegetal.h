@@ -14,9 +14,6 @@ namespace Edible {
 class EdibleVegetal : public ObjetoJogo {
 public:
 	~EdibleVegetal();
-
-	float get_nutritional_value();
-	void set_nutritional_value(float value);
 	
 	static PT(EdibleVegetal) get_edible_vegetal(string name, Edible::EdibleType type);
 
@@ -34,10 +31,6 @@ private:
 	EdibleVegetal(PT(EdibleVegetal) vegetal);
 
 	static map<string, PT(EdibleVegetal)> vegetals;
-
-	//ver depois como funciona valor nutricional
-	//float nutritional_value;
-	
 };
 
 #endif

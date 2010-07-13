@@ -24,12 +24,6 @@ public:
 
 	virtual void was_redistributed(){};
 
-	// Getters e Setters
-	int get_especie();
-	void set_especie(int especie);
-
-
-	// Todo ObjetoJogo pertence a um setor. O setor precisa desses métodos.
 	PT(Setor) get_setor();
 	void set_setor(PT(Setor) setor);
 

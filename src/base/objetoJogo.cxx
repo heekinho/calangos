@@ -79,18 +79,6 @@ void ObjetoJogo::blink(const Event*, void *data){
 
 
 //TODO: Colocar getters e setters em INLINE?
-//TODO: Fazer espécies com enumeration?
-/*! Obtem um identificador da espécie
- * @return int identificador */
-int ObjetoJogo::get_especie() {
-	return especie;
-}
-
-/*! Define um identificador de espécie para o objeto jogo
- * @param espécie - int identificador */
-void ObjetoJogo::set_especie(int especie) {
-	this->especie = especie;
-}
 
 /*! Retorna o setor no qual o objeto se encontra */
 PT(Setor) ObjetoJogo::get_setor(){
