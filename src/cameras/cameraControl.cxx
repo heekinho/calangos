@@ -19,22 +19,22 @@
 #include "tocaCamera.h"
 
 /* Controle Singleton */
-bool CameraControl::instanceFlag = false;
 PT(CameraControl) CameraControl::single = NULL;
 
 /* Controle de Reference Counting */
 TypeHandle CameraControl::_type_handle;
 
+/*! Obtém o Controle de Camera */
 PT(CameraControl) CameraControl::get_instance(){
-	if(!instanceFlag) {
+	if(!single) {
 		/* Qual a forma de passar atributos antes da primeira chamada no Singleton? */
         single = new CameraControl((PT(ObjetoJogo)) Player::get_instance());
-        instanceFlag = true;
     }
     return single;
 }
 
-
+/*! Constrói o Controle de Cameras. Este controle é responsável pela criação e ativação
+ * das cameras, bem como no mapeamento das teclas das cameras. */
 CameraControl::CameraControl(PT(ObjetoJogo) object){
 	this->object = object;
 	this->object->set_transparency(TransparencyAttrib::M_alpha);
@@ -63,7 +63,7 @@ CameraControl::CameraControl(PT(ObjetoJogo) object){
 	this->set_active_camera(current_camera);
 }
 
-
+/*! Destrói o Controle de Cameras */
 CameraControl::~CameraControl(){
 	for(int i = 0; i < cameras.size(); i++){
 		cameras[i]->remove_node();
@@ -78,17 +78,18 @@ CameraControl::~CameraControl(){
 	Simdunas::get_evt_handler()->remove_hooks_with(this);
 }
 
+/*! Descarrega o Controle de Cameras, liberando-o para nova criação */
 void CameraControl::unload(){
-	instanceFlag=false;
-	single=NULL;
+	single = NULL;
 }
 
 
-/*! Cria as camera. No momento 4:
+/*! Cria as camera. No momento 5:
  * - Camera em primeira pessoa
  * - Camera que acompanha de perto
  * - Camera que acompanha de longe
- * - Camera de visão geral (topo) */
+ * - Camera de visão geral (topo)
+ * - Camera específica das tocas */
 void CameraControl::create_cameras(){
 	/* Adiciona as cameras */
 	this->cameras.push_back(new PovCamera(new Camera("pov_camera")));

@@ -22,10 +22,10 @@ public:
 	PT(ObjetoJogo) get_object(){ return object; }
 	void set_object(PT(ObjetoJogo) object){ this->object = object; }
 
-	PT(CameraNode) get_current_camera(){return cameras[current_camera];};
+	PT(CameraNode) get_current_camera(){ return cameras[current_camera]; };
 
     vector<PT(CameraNode)>* get_cameras(){ return &cameras; };
-private:
+protected:
 	vector<PT(CameraNode)> cameras;
 	PT(DisplayRegion) display_region;
 	PT(ObjetoJogo) object;
@@ -39,9 +39,7 @@ public:
 	static void unload();
 private:
 	CameraControl(PT(ObjetoJogo) objeto);
-	static bool instanceFlag;
 	static PT(CameraControl) single;
-
 
 /* Controle de Reference Counting */
 public:
