@@ -19,7 +19,7 @@
 //Tempo (em meses virtuais) em que o lagarto poderá chegar ao tamanho máximo
 #define MESES_TAMANHO_MAXIMO 36
 /* Debugar */
-#define DEBUG false
+#define DEBUG_PHEALTH 0
 
 /* ------------------------------------------------------------------------- */
 /*! Carrega os atributos iniciais relacionados à saúde do lagarto*/
@@ -122,9 +122,9 @@ void Player::load_health(int especie){
 	idade = 0;
 	num_ovos = 0;
 	//simples conferencia
-	if(DEBUG){
+	#if(DEBUG_PHEALTH)
 		cout << endl << "A temperatura interna do lagarto eh: " << this->temp_interna << endl;
-	}
+	#endif
 }
 
 void Player::load_health(){
@@ -451,7 +451,7 @@ void Player::atualiza_vector(){
 
 	Vetores::get_instance()->addElementVectorTempo(TimeControl::get_instance()->get_hora_generica());
 
-	if(DEBUG){
+	#if(DEBUG_PHEALTH)
 		cout << endl << "A temperatura interna do lagarto eh: " << this->temp_interna << endl;
 		cout << endl << "A temperatura interna do lagarto adicionada ao vetor foi: " << vetores->getLastElementTemperaturaLagarto() << endl;
 		cout << endl << "O tamanho do vetor de temperatura interna do lagarto eh: " << vetores->getSizeVectorTemperaturaLagarto() << endl;
@@ -459,7 +459,7 @@ void Player::atualiza_vector(){
 		cout << endl << "A temperatura do ambiente eh: " << MicroClima::get_instance()->get_temp_ar_sector() << endl;
 		cout << endl << "A temperatura do ambiente adicionada ao vetor foi: " << vetores->getLastElementTemperaturaAr() << endl;
 		cout << endl << "O tamanho do vetor de temperatura do ambiente eh: " << vetores->getSizeVectorTemperaturaAr() << endl;
-	}
+	#endif
 }
 
 /* ------------------------------------------------------------------------- */

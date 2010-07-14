@@ -22,7 +22,7 @@ EventHandler* Simdunas::evt_handler = NULL;
 #include "animal.h"
 int main(int argc, char *argv[]) {
 	/* Carrega o arquivo de configuração do jogo */
-	#ifdef DEBUG
+	#if DEBUG
 		load_prc_file("myConfig-Calangos-develop.prc");
 	#else
 		load_prc_file("myConfig-Calangos-distribute.prc");

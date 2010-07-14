@@ -12,9 +12,6 @@
 
 #include "edible.h"
 
-#define DEBUG false
-
-
 // Forward Declaration
 class MicroClima;
 class Vetores;

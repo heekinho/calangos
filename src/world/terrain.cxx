@@ -484,7 +484,6 @@ void Terrain::update_prey(){
 void Terrain::do_initial_distribution(){
 	PT(Player) player = Player::get_instance();
 	list<PT(Prey)>::iterator it = list_prey.begin();
-	nout << "teste" << endl;
 	while(it != list_prey.end()){
 		(*it)->set_pos(player->get_x()+random(-dist_mid, dist_mid), player->get_y()+random(-dist_mid, dist_mid), 0);
 		(*it)->was_redistributed();

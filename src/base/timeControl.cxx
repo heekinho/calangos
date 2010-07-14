@@ -16,7 +16,7 @@
 #include <vector>
 using namespace std;
 
-#define DEBUG false//true
+#define DEBUG_TCONTROL 0
 #define INIT_HOUR 6
 
 TypeHandle TimeControl::_type_handle;
@@ -56,9 +56,9 @@ TimeControl::TimeControl() {
 	p_queue = EventQueue::get_global_event_queue();
 	p_handler = EventHandler::get_global_event_handler(p_queue);
 
-	if(DEBUG){
+	#if(DEBUG_TCONTROL)
 		cout << "hour = " << hour << " day = " << day << " month = " << month << " year = "<< year << endl;
-	}
+	#endif
 	// Adiciona os "listeners"
 	p_handler->add_hook(EV_pass_frame_gui_options, event_pframe_gui_options, this);
 	p_handler->add_hook(EV_pass_frame, event_pframe, this);
@@ -98,44 +98,44 @@ void TimeControl::event_pframe(const Event *, void *data){
 }
 
 void TimeControl::event_psegundo_real(const Event *, void *data){
-	if(DEBUG){
+	#if(DEBUG_TCONTROL)
 		cout << "\n passed an real second" << endl;
-	}
+	#endif
 }
 
 void TimeControl::event_pminute(const Event *, void *data){
 	PT(TimeControl) time = (PT(TimeControl))(TimeControl*)data;
-	if(DEBUG){
+	#if(DEBUG_TCONTROL)
 		cout << "\n passed an minute"  << time->get_minuto() << endl;
-	}
+	#endif
 }
 
 void TimeControl::event_phour(const Event *, void *data){
 	PT(TimeControl) time = (PT(TimeControl))(TimeControl*)data;
-	if(DEBUG){
+	#if(DEBUG_TCONTROL)
 		cout << "\n passed an hour = " << time->get_hora() << endl;
-	}
+	#endif
 }
 
 void TimeControl::event_pday(const Event *, void *data){
 	PT(TimeControl) time = (PT(TimeControl))(TimeControl*)data;
-	if(DEBUG){
+	#if(DEBUG_TCONTROL)
 		cout << "\n passed a day = " << time->get_dia() << endl;
-	}
+	#endif
 }
 
 void TimeControl::event_pmonth(const Event *, void *data){
 	PT(TimeControl) time = (PT(TimeControl))(TimeControl*)data;
-	if(DEBUG){
+	#if(DEBUG_TCONTROL)
 		cout << "\n passed a month = " << time->get_mes() << endl;
-	}
+	#endif
 }
 
 void TimeControl::event_pyear(const Event *, void *data){
 	PT(TimeControl) time = (PT(TimeControl))(TimeControl*)data;
-	if(DEBUG){
+	#if(DEBUG_TCONTROL)
 		cout << "\n passed an year = " << time->get_ano() << endl;
-	}
+	#endif
 }
 
 void TimeControl::update_time_control(float elapsed_time){
@@ -343,9 +343,9 @@ void TimeControl::notify_after_n_vminutes(int after_n_vmins, EventCallbackFuncti
 
 PT(TimeControl) TimeControl::get_instance(){
 	if(!instanceFlag) {
-		if(DEBUG){
+		#if(DEBUG_TCONTROL)
 			cout << "\n single tcontrol\n " << endl;
-		}
+		#endif
 		single = new TimeControl();
         instanceFlag = true;
     }
@@ -353,7 +353,7 @@ PT(TimeControl) TimeControl::get_instance(){
 }
 
 void TimeControl::unload_timeControl(){
-cout<<"Unload time control"<<endl;
+	cout<<"Unload time control"<<endl;
 	
 	//Retiranda os hooks adicionados
 	TimeControl::get_instance()->p_handler->remove_hooks(TimeControl::get_instance()->EV_pass_day);

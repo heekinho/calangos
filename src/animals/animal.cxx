@@ -13,6 +13,8 @@
 #define MAXDEGREE 100
 #define PROBTHR 80
 
+#define DEBUG_ANIMAL 1
+
 NodePath Animal::animals_placeholder = NodePath("Animals Placeholder");
 
 /*! Copy Constructor */
@@ -145,7 +147,7 @@ void Animal::change_sector(PT(Setor) new_sector){
 
 /*! Redistribui os animais em setores mais próximos do player. */
 void Animal::redistribute_animals(){
-	#ifdef DEBUG
+	#if(DEBUG_ANIMAL)
 		cout << endl << "Redistribuindo Animais";
 	#endif
 

@@ -14,7 +14,7 @@
 
 #define PI 3.141592653589793
 
-#define DEBUG false
+#define DEBUG_MCLIMA 0
 
 TypeHandle MicroClima::_type_handle;
 
@@ -53,9 +53,9 @@ void MicroClima::event_player_hour_move(const Event*, void *data){
 	/*se o player est� na sombra e é entre 5h e 19h, atualiza as vari�veis*/
 	if((World::get_default_world()->get_terrain()->get_shadows()->is_in_shadow(*Player::get_instance(), 0.1)) && (TimeControl::get_instance()->get_hora() > 6) && (TimeControl::get_instance()->get_hora() < 20)){
 		
-		if(DEBUG){
+		#if(DEBUG_MCLIMA)
 			cout << "\n Atualizando Microclima" << endl;
-		}
+		#endif
 
 		/*Fatores calculados para uma redução razoável e válida dos valores das variáveis ambientais, em relação
 		*aos valores calculados na classe climaTempo.*/
@@ -87,7 +87,7 @@ void MicroClima::event_player_hour_move(const Event*, void *data){
 		}
 	}
 
-	if(DEBUG){
+	#if(DEBUG_MCLIMA)
 		if((MicroClima::get_instance()->arquivo = fopen("TempArMicro.txt", "a+")) != NULL){
 			fprintf(MicroClima::get_instance()->arquivo, "%f\n", MicroClima::get_instance()->get_temp_ar_sector());
 			fclose(MicroClima::get_instance()->arquivo);
@@ -104,7 +104,7 @@ void MicroClima::event_player_hour_move(const Event*, void *data){
 		cout << " Temperatura do solo da microregiao: " << MicroClima::get_instance()->temp_solo_sector << endl;
 		cout << " Temperatura da toca da microregiao: " << MicroClima::get_instance()->temp_toca_sector << endl;
 		cout << " Umidade relativa do ar: " << MicroClima::get_instance()->umidade_relativa_sector << endl;
-	}
+	#endif
 }
 
 double MicroClima::get_temp_ar_sector(){
@@ -132,9 +132,9 @@ void MicroClima::unload_microClima(){
 //Implementação do singleton
 PT(MicroClima) MicroClima::get_instance(){
 	if(!instanceFlag){
-		if(DEBUG){
+		#if(DEBUG_MCLIMA)
 			cout << "\n single mclima\n " << endl;
-		}
+		#endif
 		single = new MicroClima();
         instanceFlag = true;
     }

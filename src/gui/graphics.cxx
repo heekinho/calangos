@@ -3,7 +3,7 @@
 #include <queue>
 #include "graphics.h"
 
-#define DEBUG false
+#define DEBUG_GUI 0
 
 //Utilizado para tornar a classe PT
 TypeHandle Graphics::_type_handle;

@@ -2,6 +2,8 @@
 #include "menu.h"
 #include "modelRepository.h"
 
+#define DEBUG_PLAYER 0
+
 bool Player::instanceFlag = false;
 PT(Player) Player::single = NULL;
 
@@ -72,13 +74,13 @@ void Player::set_velocity(double velocity){
 }
 
 void Player::display(PT(Player) player){
-	if(DEBUG){
+	#if(DEBUG_PLAYER)
 	    cout << "\nHora: " << TimeControl::get_instance()->get_hora() << ":" << TimeControl::get_instance()->get_minuto() << "\nTemperatura interna do lagarto: " << player->get_temp_interna() <<
 		"\nGasto com temperatura interna: " << Player::get_instance()->get_gasto_temp() << "\nGasto basal: " << Player::get_instance()->get_gasto_basal()
 		<< "\nGasto total: " << Player::get_instance()->get_gasto_total() << "\nFatorUmidade: " << Player::get_instance()->fator_umidade << "\nHidrata��o: "
 		<< Player::get_instance()->get_hidratacao() << "\nEnergia do lagarto: "
 		<< Player::get_instance()->get_energia() << endl;
-	}
+	#endif
 }
 
 /** Carrega o Player */

@@ -14,7 +14,7 @@ dunas, ocorrido em Morpara, marco de 1960*/
 #define QT_CHUVA_MAX 624
 #define PI 3.141592653589793
 
-#define DEBUG false
+#define DEBUG_CTEMPO 0
 
 TypeHandle ClimaTempo::_type_handle;
 
@@ -49,9 +49,9 @@ ClimaTempo::~ClimaTempo() {
 void ClimaTempo::event_phour_temp(const Event*, void *data){
 
 	ClimaTempo::get_instance()->ambient_control(TimeControl::get_instance()->get_hora(), TimeControl::get_instance()->get_mes());
-	if(DEBUG){
+	#if(DEBUG_CTEMPO)
 		cout << "\n Hora: " << TimeControl::get_instance()->get_hora() << "\n Temperatura do ar: " << ClimaTempo::get_instance()->tempArControl << "\n Temperatura do solo: " << ClimaTempo::get_instance()->tempSoloControl << "\n Temperatura das tocas: " << ClimaTempo::get_instance()->temTocaControl << "\n Chuva: " << ClimaTempo::get_instance()->qtChuva << endl;
-	}
+	#endif
 }
 
 /*Método que recebe esperança (ou média) e variância (ou desvio padrão), e retorna um número
@@ -196,12 +196,12 @@ void ClimaTempo::ambient_control(int hour, int month){
 	if(hour == 2 || initialization==0){
 		//verifica a quantidade de chuvas para esse dia
 		qtChuva = prob_chuva(month);
-		if(DEBUG){
+		#if(DEBUG_CTEMPO)
 			if((arquivo = fopen("Chuvas.txt", "a+")) != NULL){
 				fprintf(arquivo, "%f\n", qtChuva);
 				fclose(arquivo);
 			}
-		}
+		#endif
 		
 		//se for a primeira iteracao tem-se que gerar todas as variaveis
 		if(initialization == 0){
@@ -283,9 +283,9 @@ void ClimaTempo::ambient_control(int hour, int month){
 		}
 	}
 
-	if(DEBUG){
+	#if(DEBUG_CTEMPO)
 		cout << "\n TMaxToday = " <<  this->tmaxToday << "\n TMinToday = " << this->tminToday << "\n TMinNext = " << this->nextMin << "\n TMinPrev = " << this->minPrev << "\n VariationToday = " << this->variationToday << endl;
-	}
+	#endif
 
 	//Atualiza os valores das variáveis ambientais
 	tempArControl = temp_ar_single(hour, this->nextMin, this->nextMax ,this->nextVariation , this->tminToday, this->tmaxToday ,this->variationToday);
@@ -294,7 +294,7 @@ void ClimaTempo::ambient_control(int hour, int month){
 	temTocaControl = temp_toca_single(hour, nextMin ,this->nextMax ,this->nextVariation , this->tminToday, this->tmaxToday ,this->variationToday, this->minPrev, this->maxPrev, this->variationPrev);
 	//vectorTempAr.push_back(tempArControl);
 
-	if(DEBUG){
+	#if(DEBUG_CTEMPO)
 		if((arquivo = fopen("TempAr.txt", "a+")) != NULL){
 			fprintf(arquivo, "%f\n", tempArControl);
 			fclose(arquivo);
@@ -311,7 +311,7 @@ void ClimaTempo::ambient_control(int hour, int month){
 			fprintf(arquivo, "%f\n", temTocaControl);
 			fclose(arquivo);
 		}*/
-	}
+	#endif
 	
 }
 
@@ -377,9 +377,9 @@ void ClimaTempo::unload_climaTempo(){
 //Implementação do singleton
 PT(ClimaTempo) ClimaTempo::get_instance(){
 	if(!instanceFlag) {
-		if(DEBUG){
+		#if(DEBUG_CTEMPO)
 			cout << "\n single ctempo\n " << endl;
-		}
+		#endif
 		single = new ClimaTempo();
         instanceFlag = true;
     }

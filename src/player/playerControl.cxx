@@ -48,7 +48,6 @@ PlayerControl::PlayerControl() {
 
 
 	// Define a flag de movimento do PC, e define o set de teclas a usar para movimento.
-	bool is_moving = false;
 	key_map_player["left"] = false;
 	key_map_player["fastleft"] = false;
 	key_map_player["right"] = false;
@@ -269,8 +268,6 @@ void PlayerControl::update(const Event*, void *data){
 
 void PlayerControl::move(float velocity){
 	Player *p = Player::get_instance();
-	float elapsed = TimeControl::get_instance()->get_elapsed_time();
-
 
 	if(!p->get_anim_control()->is_playing("fast_bite")){
 		if(!p->get_anim_control()->is_playing("walk")) p->get_anim_control()->loop("walk", false);
@@ -281,9 +278,6 @@ void PlayerControl::move(float velocity){
 		if(velocity <= VEL_WALK) p->get_anim_control()->find_anim("walk")->set_play_rate(1.0);
 		else if(velocity > VEL_WALK) p->get_anim_control()->find_anim("walk")->set_play_rate(4.0);
 
-
-
-		//TODO: Consertar a maneira que � feita as altera��es de velocidade.
 		/* A Letargia influencia na velocidade (decidiu-se por influenciar linearmente */
 		velocity = velocity * (1 - p->get_letargia());
 		p->set_velocity(velocity);
@@ -481,7 +475,7 @@ void PlayerControl::really_eat(const Event*, void *data){
 	vector<PT(ObjetoJogo)> *objects;
 	if(type == 0) objects = (vector<PT(ObjetoJogo)>*) sector->get_animals();
 	else if(type == 1) objects = (vector<PT(ObjetoJogo)>*) sector->get_edible_vegetals();
-
+	else return;
 	/* Exclui de fato o "objeto" comido */
 
 	if(type == 0) {
