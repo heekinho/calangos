@@ -90,26 +90,6 @@ void ObjetoJogo::set_setor(PT(Setor) setor){
 	parent_sector = setor;
 }
 
-/*! Retorna valor nutricional do ObjetoJogo */
-float ObjetoJogo::get_valor_nutricional(){
-	return valor_nutricional;
-}
-
-/*! Define valor nutricional do ObjetoJogo */
-void ObjetoJogo::set_valor_nutricional(float novo_valor_nutricional){
-	valor_nutricional = novo_valor_nutricional;
-}
-
-/*! Retorna valor de hidratação do ObjetoJogo */
-float ObjetoJogo::get_valor_hidratacao(){
-	return valor_hidratacao;
-}
-
-/*! Define valor de hidratação do ObjetoJogo */
-void ObjetoJogo::set_valor_hidratacao(float novo_valor_hidratacao){
-	valor_hidratacao = novo_valor_hidratacao;
-}
-
 /*! Retorna um valor de deslocamento do objeto no eixo Z, para ajustes */
 double ObjetoJogo::get_offset_z(){
 	return this->offset_z;

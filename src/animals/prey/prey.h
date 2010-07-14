@@ -3,10 +3,11 @@
 
 #include "animal.h"
 #include "vegetal.h"
+#include "edible.h"
 
 class GroupPrey;
 
-class Prey : public Animal {
+class Prey : public Animal, public Edible {
 public:
 	Prey(NodePath node);
 	static void load_prey();

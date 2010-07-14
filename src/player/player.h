@@ -10,6 +10,8 @@
 #include "microClima.h"
 #include "vetores.h"
 
+#include "edible.h"
+
 #define DEBUG false
 
 
@@ -20,8 +22,8 @@ class Vetores;
 //typedef enum {tropidurus , eurolophosaurus, cnemidophorus} LizardEspecie;
 //typedef enum {female, male, young} LizardGender;
 
-/*! A classe Player � respons�vel por criar o Jogador que ser� controlado pelo
- * usu�rio.<br> Representada como objeto de jogo. Suas tarefas de controle, ficam
+/*! A classe Player é responsável por criar o Jogador que será controlado pelo
+ * usuário.<br> Representada como objeto de jogo. Suas tarefas de controle, ficam
  * sob responsabilidade da classe playerControl */
 class Player : public AnimatedObjetoJogo {
 
@@ -31,21 +33,21 @@ public:
 
 	~Player();
 
-	void eat(ObjetoJogo *food);
+	void eat(Edible* food);
 
 	static void load_player();
 
 
 	/* PlayerHealth - (playerHealth.cxx)
-	 * Relacionado com as vari�veis de sa�de do lagarto.
+	 * Relacionado com as variáveis de saúde do lagarto.
 	 * ------------------------------------------------------------------------- */
 
-	/* Evento peri�dico de gasto de energia (� preciso criar) */
+	/* Evento periódico de gasto de energia (é preciso criar) */
 	static void event_gasto_energia(const Event *, void *data);
 
-	/* Evento de ingest�o de alimento (� preciso criar).
-	 * � necess�rio saber o qu�o energ�tico e hidratante � o alimento ingerido,
-	 * para que se possa setar coerentemente as vari�veis relacionadas. */
+	/* Evento de ingestão de alimento (é preciso criar).
+	 * É necessário saber o quão energético e hidratante é o alimento ingerido,
+	 * para que se possa setar coerentemente as variáveis relacionadas. */
 	static void event_ingestao_alimento(const Event *, void *data);
 
     //No evento de passagem do dia, esse método será chamado
@@ -115,7 +117,6 @@ public:
 	//Descarrega qualquer referência de objeto da classe player da memória, para que possa ser recriado
 	static void unload_player();
 
-	/* TODO: Testando a inclina��o do lagarto */
 	virtual void has_moved();
 	virtual void change_sector(PT(Setor) new_sector);
 
@@ -173,7 +174,7 @@ public:
 	//Recebe o tamanho real e retorna em uma escala de 0 a 100
 	float calc_tamanho_base(float tamanho_real);
 	
-	/*Jairo?*/
+	/* Corrige a orientação dos modelos */
 	virtual int is_inverted(){ return -1; };
 
 private:
@@ -197,7 +198,7 @@ private:
 
 	/* Valor nutricional proveniente da ingestao de alimentos
 	 * Necessario zera-la sempre que for usada */
-	//TODO: Tirar essa vari�vel. Atualizar direto em energia.
+	//TODO: Tirar essa variável. Atualizar direto em energia.
 	double energia_alimento;
 
 	/* Valor nutricional acumulado proveniente da ingestao de alimentos
@@ -217,7 +218,7 @@ private:
 	double a_fator_umidade;
 	/* Offset  da reta*/
 	double b_fator_umidade;
-	/* Valor de deca�mento caso as atualiza��es fossem de hora em hora */
+	/* Valor de decaimento caso as atualizações fossem de hora em hora */
 	double y_fator_umidade;
 
 	/* Gasto total de energia */
@@ -229,16 +230,16 @@ private:
 
 	/* Temperatura interna do lagarto */
 	double temp_interna;
-	/* Temperatura ideal do lagarto. Valor depender� da esp�cie de lagarto escolhido pelo jogador */
+	/* Temperatura ideal do lagarto. Valor dependerá da espécie de lagarto escolhido pelo jogador */
 	double temp_interna_ideal;
 
-	/* Letargia - Perda tempor�ria da sensibilidade e movimento por causa fisiol�gica */
+	/* Letargia - Perda temporária da sensibilidade e movimento por causa fisiológica */
 	double letargia;
 
-	/* Quantidade de atualiza��es que as vari�veis sofrem em uma hora virtual */
+	/* Quantidade de atualizações que as variáveis sofrem em uma hora virtual */
 	double atualizacoes_phora;
 
-	/* Limites extremos das vari�veis que podem causar a morte do personagem */
+	/* Limites extremos das variáveis que podem causar a morte do personagem */
 	double temp_interna_maxlimite;
 	double temp_interna_minlimite;
 	double hidratacao_minlimite;
@@ -249,7 +250,7 @@ private:
 	/*Carrega os parâmetros iniciais de saúde do lagarto, cuja espécie foi passada como parâmetro.*/
 	void load_health(int especie);
 
-	/* C�lculos de Vari�veis */
+	/* Cálculos de Variáveis */
 	void calc_energia();
 	void calc_gasto_temp();
 	void calc_gasto_basal();
@@ -275,7 +276,7 @@ private:
 	//Guarda referencia para os vetores que armazenarão o histórico das variáveis de saúde do lagarto
 	Vetores* vetores;
 
-	//vari�vel que ser� multiplicada ao gasto basal, e controlar� o gasto adicional por movimenta��o
+	//Variável que será multiplicada ao gasto basal, e controlará o gasto adicional por movimentação
 	float gasto_movimento;
 
 	//Informa se o lagarto está na toca ou não

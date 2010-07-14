@@ -58,9 +58,9 @@ string Player::get_gender_name(Player::lizardGender gender){
 }
 
 /*! Ao comer um objeto, a respectiva hidratacao e energia eh adquirida */
-void Player::eat(ObjetoJogo *food){
-	this->add_energia_alimento(food->get_valor_nutricional());
-	this->add_hidratacao_alimento(food->get_valor_hidratacao());
+void Player::eat(Edible* food){
+	add_energia_alimento(food->get_nutritional_value());
+	add_hidratacao_alimento(food->get_hydration_value());
 }
 
 double Player::get_velocity(){

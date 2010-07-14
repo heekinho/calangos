@@ -401,18 +401,19 @@ void PlayerControl::eat(const Event*, void *data){
 			}
 
 
+			Edible* food = dynamic_cast<Edible*>((ObjetoJogo*)target);
 			/* Verifica se o ângulo esta dentro do limiar estabelecido, evitando os "já comidos" */
-			if (dist_to_target < act_dist_thr && angle_to_npc < direction_eat_thr && target->get_valor_nutricional() > 0) {
+			if (dist_to_target < act_dist_thr && angle_to_npc < direction_eat_thr && food->get_nutritional_value() > 0) {
 
 				// Pisca life indicando que obteve sucesso!!
 				GuiManager::get_instance()->piscar_life();
 
 				/* Come o alvo saúde */
-				player->eat(target);
+				player->eat(food);
 				/* Com a redistribuição dos animais não pode zera-los */
 				if(type_of_closest == 1){
-					target->set_valor_nutricional(0);
-					target->set_valor_hidratacao(0);
+					food->set_nutritional_value(0);
+					food->set_hydration_value(0);
 				}
 
 				LVecBase3f *mydata = new LVecBase3f(index_of_closest, player->get_setor()->get_indice(), type_of_closest);

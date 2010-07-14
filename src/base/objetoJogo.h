@@ -27,12 +27,6 @@ public:
 	PT(Setor) get_setor();
 	void set_setor(PT(Setor) setor);
 
-
-	float get_valor_nutricional();
-	void set_valor_nutricional(float novo_valor_nutricional);
-	float get_valor_hidratacao();
-	void set_valor_hidratacao(float novo_valor_hidratacao);
-
 	virtual void be_bited();
 	static void blink(const Event*, void *data);
 	int bite_blink_counter;

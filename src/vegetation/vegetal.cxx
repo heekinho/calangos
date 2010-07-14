@@ -478,7 +478,7 @@ void Vegetal::load_edible_vegetal_model(string name, int quant_flower, int quant
 
 	int max_edible_per_tree = quant_flower + quant_fruit;
 	int radius_size = 1;
-	Edible::EdibleType type;
+	EdibleT::EdibleType type;
 
 	float param = 0, result;
 
@@ -511,20 +511,20 @@ void Vegetal::load_edible_vegetal_model(string name, int quant_flower, int quant
 		
 		//escolhe fruto ou flor
 		if(quant_flower == 0) {
-			type = Edible::FRUIT;
+			type = EdibleT::FRUIT;
 			--quant_fruit;
 		}
 		if(quant_fruit == 0) {
-			type = Edible::FLOWER;
+			type = EdibleT::FLOWER;
 			--quant_flower;
 		}
 		if(quant_fruit > 0 && quant_flower > 0) {
 			if( rand() % 2 == 0 ) {
-				type = Edible::FLOWER;
+				type = EdibleT::FLOWER;
 				--quant_flower;
 			}
 			else {
-				type = Edible::FRUIT;
+				type = EdibleT::FRUIT;
 				--quant_fruit;
 			}	
 		}

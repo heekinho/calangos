@@ -52,8 +52,11 @@ void Prey::configure_prey(const string name, int living_tree_prob, float nutrici
 	set_tag("model_name", name);
 
 	/* Configurações de valor nutritivo e hidratação */
-	set_valor_nutricional(nutricional);
-	set_valor_hidratacao(hidratacao);
+//	set_valor_nutricional(nutricional);
+//	set_valor_hidratacao(hidratacao);
+	set_nutritional_value(nutricional);
+	set_hydration_value(hidratacao);
+
 
 	/* Gera localização aleatória. */
 	LPoint3f point = World::get_default_world()->get_terrain()->get_random_point();

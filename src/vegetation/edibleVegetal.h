@@ -3,19 +3,20 @@
 
 #include "objetoJogo.h"
 #include "string.h"
+#include "edible.h"
 
-namespace Edible {
+namespace EdibleT {
 	enum EdibleType {
 		FLOWER,
 		FRUIT
 	};
 }
 
-class EdibleVegetal : public ObjetoJogo {
+class EdibleVegetal : public ObjetoJogo, public Edible {
 public:
 	~EdibleVegetal();
 	
-	static PT(EdibleVegetal) get_edible_vegetal(string name, Edible::EdibleType type);
+	static PT(EdibleVegetal) get_edible_vegetal(string name, EdibleT::EdibleType type);
 
 	void configure_vegetal(PT(EdibleVegetal) base_vegetal);
 	static PT(EdibleVegetal) configure_edible_vegetal(const string name, float scale = 1.0, float offset_z = 0.0, float nutritional_value = 2, float hidratacao = 3);

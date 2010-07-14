@@ -19,7 +19,9 @@ EdibleVegetal::EdibleVegetal(PT(EdibleVegetal) base_vegetal) : ObjetoJogo(vegeta
 }
 
 void EdibleVegetal::configure_vegetal(PT(EdibleVegetal) base_vegetal){
-	set_valor_nutricional(base_vegetal->get_valor_nutricional());
+	set_nutritional_value(base_vegetal->get_nutritional_value());
+	set_hydration_value(base_vegetal->get_hydration_value());
+
 	set_scale(base_vegetal->get_scale());
 	set_offset_z(base_vegetal->get_offset_z());
 }
@@ -27,8 +29,9 @@ void EdibleVegetal::configure_vegetal(PT(EdibleVegetal) base_vegetal){
 PT(EdibleVegetal) EdibleVegetal::configure_edible_vegetal(const string name, float scale, float offset_z, float nutritional_value, float hidratacao){
 
 	PT(EdibleVegetal) especie = new EdibleVegetal(*ModelRepository::get_instance()->get_model(name));
-	especie->set_valor_nutricional(nutritional_value);
-	especie->set_valor_hidratacao(hidratacao);
+	especie->set_nutritional_value(nutritional_value);
+	especie->set_hydration_value(hidratacao);
+
 	especie->set_scale(scale);
 	especie->set_offset_z(offset_z);
 	return especie;
@@ -62,8 +65,8 @@ void EdibleVegetal::configure_default_edible_vegetal(){
 
 EdibleVegetal::~EdibleVegetal(){}
 
-PT(EdibleVegetal) EdibleVegetal::get_edible_vegetal(string name, Edible::EdibleType type){
-	if(type == Edible::FLOWER)
+PT(EdibleVegetal) EdibleVegetal::get_edible_vegetal(string name, EdibleT::EdibleType type){
+	if(type == EdibleT::FLOWER)
 		name += "-flor";
 	else
 		name += "-fruto";
