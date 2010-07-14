@@ -35,29 +35,28 @@ public:
 	virtual void has_moved();
 	virtual void change_sector(PT(Setor) new_sector);
 
-	double get_offset_z();
+	INLINE double get_offset_z();
 	void set_offset_z(double offset);
-
-	void update_pr();
-
 	virtual int is_inverted(){ return 1; };
-	void look_at(const NodePath &other);
 
 	virtual void move(float velocity);
+	void update_pr();
 
-	float get_distance(const NodePath &other);
-	float get_distance(LPoint3f other);
+	/* Sobreescreveu-se para realizar pequenas correções */
+	INLINE void look_at(const NodePath &other);
+	INLINE float get_distance(const NodePath &other);
+	INLINE float get_distance(LPoint3f other);
 
-	/* Sobreescreveu-se de NodePath para notificação de setores. */
-	void set_pos(float x, float y, float z);
-	void set_pos(const LVecBase3f &pos);
-	void set_x(float x);
-	void set_y(float y);
-	void set_z(float z);
-	void set_pos(const NodePath &other, const LVecBase3f &pos);
-	void set_x(const NodePath &other, float x);
-	void set_y(const NodePath &other, float y);
-	void set_z(const NodePath &other, float z);
+	/* Sobreescreveu-se para informar ao código de maneira fácil o movimento. */
+	INLINE void set_pos(float x, float y, float z);
+	INLINE void set_pos(const LVecBase3f &pos);
+	INLINE void set_x(float x);
+	INLINE void set_y(float y);
+	INLINE void set_z(float z);
+	INLINE void set_pos(const NodePath &other, const LVecBase3f &pos);
+	INLINE void set_x(const NodePath &other, float x);
+	INLINE void set_y(const NodePath &other, float y);
+	INLINE void set_z(const NodePath &other, float z);
 private:
 	virtual void init();
 	AnimControlCollection anims;
@@ -80,5 +79,7 @@ public:
 private:
 	static TypeHandle _type_handle;
 };
+
+#include "objetoJogo.I"
 
 #endif

@@ -28,13 +28,13 @@ void FemaleLizard::init() {
     Simdunas::get_evt_handler()->add_hook(PlayerControl::EV_player_reproducao, reproduzir, (void *) this);
 }
 
-//#include "inte"
+/*! Comportamento dos lagartos fêmeas */
 void FemaleLizard::act(){
 	if(away_from_player) Lizard::flee();
 	else Lizard::act();
 }
 
-
+/*! Realiza a reprodução com o player */
 void FemaleLizard::reproduzir(const Event *theEvent, void *data){
     if(Player::get_instance()->get_estado_reprodutivo()) {
         FemaleLizard* this_female = (FemaleLizard*) data;
@@ -63,12 +63,13 @@ void FemaleLizard::reproduzir(const Event *theEvent, void *data){
     }
 }
 
-
+/*! Recebe um evento para indicar a parada da fuga em relação ao player */
 void FemaleLizard::stop_flee(const Event *theEvent, void *data){
 	FemaleLizard* this_female = (FemaleLizard*) data;
 	this_female->away_from_player = false;
 }
 
+/*! Após um período de tempo após a reprodução, ela já pode voltar a reproduzir */
 void FemaleLizard::back_to_reprodutive(const Event *theEvent, void *data){
 	FemaleLizard* this_female = (FemaleLizard*) data;
 	this_female->set_color_scale(1.0, 1.0, 1.0, 1.0);

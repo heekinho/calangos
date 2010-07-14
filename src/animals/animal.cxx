@@ -53,26 +53,14 @@ void Animal::unload_animals(){
 	animals_placeholder.remove_node();
 }
 
-///* Identifica se aranha está agindo */
-//void Animal::set_acting(bool acting){
-////	if(acting) start_acting(NULL, this);
-////	else stop_acting(NULL, this);
-//
-//	this->acting = acting;
-//}
-//
-///* Identifica se aranha está agindo */
-//bool Animal::is_acting(){
-//	return acting;
-//}
-
-
+/*! Recebe um evento do sistema de eventos a cada *frame* e repassa para um método
+ * virtual, que deve ser sobreescrito nas classes derivadas */
 void Animal::act(const Event*, void *data){
 	Animal* this_animal = (Animal*)data;
 	this_animal->act();
 }
 
-
+/*! Onde as ações de comportamento dos animais realmente se encontram */
 void Animal::act(){
 	if(stay_quiet() <= 0){
 		if(rand()%PROBTHR == 34) set_h(*this, rand()%MAXDEGREE - (MAXDEGREE/2));
@@ -81,10 +69,15 @@ void Animal::act(){
 	}
 }
 
+/*! Define uma quantidade de frames para o animal ficar parado */
 void Animal::set_frames_stopped(int frames){
 	stay_x_frame_stoped = frames;
 }
 
+/*! Neste comportamento o animal faz um sorteio para ver se ele vai ficar
+ * por algum instante parado. Um valor é guardado, informando quantos frames
+ * o animal deve ficar parado. Se ao entrar neste comportamento o valor for
+ * maior que zero, este é então decrementado. */
 int Animal::stay_quiet(){
 	if(stay_x_frame_stoped > 0){
 		if(get_num_children() != 0) pause_animation();
@@ -98,29 +91,6 @@ int Animal::stay_quiet(){
 
 	return stay_x_frame_stoped;
 }
-
-///*! Define o momento de desativação de ação do NPC, geralmente quando recebe uma notificação
-// * do terreno, informando que o player já não está próximo */
-//void Animal::stop_acting(const Event*, void *data){
-//	Animal *this_animal = (Animal*) data;
-//	this_animal->hide();
-//
-//	this_animal->set_acting(false);
-//	// Desativa o acting
-//	Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_pass_frame, act, this_animal);
-//}
-//
-///*! Define o momento de ativação de ação do NPC, geralmente quando recebe uma notificação
-// * do terreno, informando que o player está próximo */
-//void Animal::start_acting(const Event*, void *data){
-//	Animal *this_animal = (Animal*) data;
-//	this_animal->show();
-//
-//	// Ativa o acting
-//	this_animal->set_acting(true);
-//	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, act, this_animal);
-//}
-
 
 ///*! Define o setor no qual o animal está inserido
 // * Sobrescreve set_setor de objeto jogo, para adicionar o esquema de evento. */
@@ -138,7 +108,8 @@ int Animal::stay_quiet(){
 //	//set_acting(setor->is_player_neighbor());
 //}
 
-
+/*! Sobreescreve a ação de mudança de setor, pois precisa-se colocar os "animais" no
+ * respectivo vetor. Classes derivadas devem sobreescrever este comportamento. */
 void Animal::change_sector(PT(Setor) new_sector){
 	this->get_setor()->remove_animal(this);
 	Setor::add_animal(this, new_sector);

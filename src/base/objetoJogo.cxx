@@ -47,6 +47,22 @@ ObjetoJogo::~ObjetoJogo(){
 	remove_node();
 }
 
+/*! Retorna o setor no qual o objeto se encontra */
+PT(Setor) ObjetoJogo::get_setor(){
+	return parent_sector;
+}
+
+/*! Define o setor no qual o objeto se encontra */
+void ObjetoJogo::set_setor(PT(Setor) setor){
+	parent_sector = setor;
+}
+
+/*! Implementação padrão de mudança de setor */
+void ObjetoJogo::change_sector(PT(Setor) new_sector) {
+	parent_sector = new_sector;
+};
+
+
 void ObjetoJogo::be_bited(){
 	bite_blink_counter = 10;
 	TimeControl::get_instance()->notify_after_n_frames(1, blink, (void*) this);
@@ -76,46 +92,17 @@ void ObjetoJogo::blink(const Event*, void *data){
 }
 
 
-//TODO: Colocar getters e setters em INLINE?
-
-/*! Retorna o setor no qual o objeto se encontra */
-PT(Setor) ObjetoJogo::get_setor(){
-	return parent_sector;
-}
-
-/*! Define o setor no qual o objeto se encontra */
-void ObjetoJogo::set_setor(PT(Setor) setor){
-	parent_sector = setor;
-}
-
-/*! Retorna um valor de deslocamento do objeto no eixo Z, para ajustes */
-double ObjetoJogo::get_offset_z(){
-	return this->offset_z;
-}
-
-/*! Define um valor de deslocamento do objeto no eixo Z, para ajustes */
-void ObjetoJogo::set_offset_z(double offset){
-	this->offset_z = offset;
-
-	// Atualizar o Z do objeto.
-	set_z(World::get_default_world()->get_terrain()->get_elevation(get_x(), get_y()) + offset);
-}
-
-//TODO: Colocar distância? Distancia anterior para colisões?
-//TODO: Atualizar o Z aqui e livra todo mundo de atualizar o Z!!!
+/*! O objeto moveu. Dessa maneira, algumas verificações e atualizações são feitas */
 void ObjetoJogo::has_moved(){
 	if(prev_pos.compare_to(get_pos()) != 0){
 		if(World::get_default_world()){
 			if(World::get_default_world()->get_terrain()){
 				if (parent_sector != NULL){
 					parent_sector->update_object_sector((PT(ObjetoJogo)) this);
-					//World::get_default_world()->get_terrain()->update_object_z((PT(ObjetoJogo)) this);
 				}
 
 				//WARNING: Não utilizar "update_object_z()" dentro desta classe.
-				//set_z(World::get_default_world()->get_terrain()->get_elevation(get_x(), get_y()) + offset_z);
 				World::get_default_world()->get_terrain()->update_object_z((PT(ObjetoJogo)) this);
-				//update_pr();
 			}
 		}
 
@@ -123,12 +110,7 @@ void ObjetoJogo::has_moved(){
 	}
 }
 
-// Virtual com implementação default.
-void ObjetoJogo::change_sector(PT(Setor) new_sector){
-	parent_sector = new_sector;
-}
-
-
+/*! Move o objeto para frente com a velocidade especificada */
 void ObjetoJogo::move(float velocity) {
 	LVecBase3f forward (get_net_transform()->get_mat().get_row3(1));
 	forward.set_z(0);
@@ -171,66 +153,9 @@ void ObjetoJogo::update_pr(){
 	set_r(roll);
 }
 
-
-/** Sobreescrevendo para consertar */
-float ObjetoJogo::get_distance(const NodePath &other){
-	return get_distance(other.get_pos());
-}
-
-/** Sobreescrevendo para consertar */
-float ObjetoJogo::get_distance(LPoint3f other){
-	return (get_pos() - other).length();
-}
-
-void ObjetoJogo::look_at(const NodePath &other){
-	NodePath::look_at(other);
-	if(is_inverted() == -1) set_h(*this, 180);
-}
-
-/* Sobreescreveu-se de NodePath para notificação de setores.
- * ----------------------------------------------------------------------- */
-void ObjetoJogo::set_pos(float x, float y, float z){
-	this->NodePath::set_pos(x, y, z);
-	this->has_moved();
-}
-
-void ObjetoJogo::set_pos(const LVecBase3f &pos){
-	this->NodePath::set_pos(pos);
-	this->has_moved();
-}
-
-void ObjetoJogo::set_x(float x){
-	this->NodePath::set_x(x);
-	this->has_moved();
-}
-
-void ObjetoJogo::set_y(float y){
-	this->NodePath::set_y(y);
-	this->has_moved();
-}
-
-void ObjetoJogo::set_z(float z){
-	this->NodePath::set_z(z);
-//	this->has_moved();
-}
-
-void ObjetoJogo::set_pos(const NodePath &other, const LVecBase3f &pos){
-	this->NodePath::set_pos(other, pos);
-	this->has_moved();
-}
-
-void ObjetoJogo::set_x(const NodePath &other, float x){
-	this->NodePath::set_x(other, x);
-	this->has_moved();
-}
-
-void ObjetoJogo::set_y(const NodePath &other, float y){
-	this->NodePath::set_y(other, y);
-	this->has_moved();
-}
-
-void ObjetoJogo::set_z(const NodePath &other, float z){
-	this->NodePath::set_z(other, z);
-//	// Se moveu...
-//	this->has_moved();
+/*! Define um valor de deslocamento do objeto no eixo Z, para ajustes */
+//TODO: O ajuste do set_z deveria ser feito para movimento também.
+void ObjetoJogo::set_offset_z(double offset){
+	this->offset_z = offset;
+	set_z(World::get_default_world()->get_terrain()->get_elevation(get_x(), get_y()) + offset);
 }

@@ -6,6 +6,7 @@
 #include "terrain.h"
 #include "modelRepository.h"
 
+/*! Representa as presas do lagarto */
 Prey::Prey(NodePath node) : Animal(node) {
 	this->living_tree = NULL;
 	this->radius_thr = 1.5;
@@ -13,7 +14,7 @@ Prey::Prey(NodePath node) : Animal(node) {
 	set_velocity(0.085);
 };
 
-
+/*! Realiza o carremento das presas */
 void Prey::load_prey(){
 	float factor = 0.0001;
 
@@ -38,13 +39,14 @@ void Prey::load_prey(){
 	load_prey_specie("larva", 8, 2*factor, 100, 7, 5.5, true, 5);
 }
 
-
+/*! Configura o modelo base da espécie de presa */
 void Prey::configure_prey_model(const string name, double scale){
 	ModelRepository::get_instance()->get_animated_model(name)->get_anim_control()->loop("character", false);
 	ModelRepository::get_instance()->get_animated_model(name)->set_scale(scale);
 	ModelRepository::get_instance()->get_model(name)->set_scale(scale);
 }
 
+/*! Configura a presa de acordo com os valores passados */
 void Prey::configure_prey(const string name, int living_tree_prob, float nutricional, float hidratacao){
 	ModelRepository::get_instance()->get_animated_model(name)->instance_to(*this);
 
@@ -154,11 +156,13 @@ void Prey::load_prey_specie(const string name, int qtd, double scale, int living
 //	set_random_living_tree();
 //}
 
-
+/*! É chamado quando uma redistribuição aconteceu. Assim, é possível
+ * por exemplo, definir um novo vegetal para a presa */
 void Prey::was_redistributed(){
 	set_random_living_tree();
 }
 
+/*! Comportamento em grupo das presas */
 void Prey::group_behavior(){
 	float dist_max = 0.1;
 
@@ -183,6 +187,7 @@ void Prey::act(){
 	else Animal::act();
 }
 
+/*! Comportamento de fuga das presas */
 void Prey::flee(){
 	PT(Player) player = Player::get_instance();
 
@@ -194,6 +199,9 @@ void Prey::flee(){
 	continue_animation();
 }
 
+/*! Recebe o evento que indica a parada da fuga da presa.
+ * Normalmente acontece quando o player dá uma mordida sem sucesso, fazendo com
+ * que as presas fujam. Este evento é chamado para forçar a parada da fuga.*/
 void Prey::stop_flee(const Event *theEvent, void *data){
 	Prey* this_prey = (Prey*) data;
 	this_prey->set_fleing(false);
@@ -210,6 +218,8 @@ PT(Vegetal) Prey::get_living_tree(){
 	return this->living_tree;
 }
 
+/*! Define um novo vegetal aleatório para "morar".
+ *  Este código está dependente da redistribuição das presas */
 void Prey::set_random_living_tree(){
 	if(get_has_living_tree()){
 		//TODO: Colocar sorteio de posição aqui?
@@ -222,6 +232,10 @@ void Prey::set_random_living_tree(){
 	}
 }
 
+/*! Com toda redistribuição acontecendo, é necessário escolher um novo vegetal
+ * para associar com a presa. */
+/* TODO: É preciso verificar a probabilidade de determinada presa ser associada
+ * à um vegetal */
 PT(Vegetal) Prey::chose_new_living_tree(){
 	PT(Player) player = Player::get_instance();
 	vector<PT(Vegetal)>* vegetal_list = get_setor()->get_vegetals();
