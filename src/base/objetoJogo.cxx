@@ -38,8 +38,6 @@ ObjetoJogo::ObjetoJogo(PT(ObjetoJogo) object) : NodePath(Simdunas::get_window()-
 void ObjetoJogo::init(){
 	bite_blink_counter = 0;
 	parent_sector = NULL;
-	valor_nutricional = 5;
-	valor_hidratacao = 5;
 	offset_z = 0.0;
 	prev_pos = LPoint3f(this->NodePath::get_pos());
 }

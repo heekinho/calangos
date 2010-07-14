@@ -61,10 +61,6 @@ public:
 private:
 	virtual void init();
 	AnimControlCollection anims;
-	int especie;
-
-	float valor_nutricional;
-	float valor_hidratacao;
 protected:
 	LPoint3f prev_pos;
 	double offset_z;
