@@ -7,22 +7,29 @@
 #include "vegetal.h"
 #include "lizard.h"
 #include "predator.h"
+#include "prey.h"
 
 #include "referenceCount.h"
 #include <list>
 #include <vector>
 
+#include "sectorItems.h"
+
 class Setor : public TypedReferenceCount{
 public:
-	Setor();
 	Setor(LPoint2d inicio, LPoint2d fim, int indice);
 
 	~Setor();
 	void unload_sector();
 
-
 	static void npc_moving(const Event* evt, void *data);
 	void update_object_sector(PT(ObjetoJogo) object);
+
+	/*! Caracteristicas do setor */
+	int get_indice();
+	LPoint2d get_pos_start();
+	LPoint2d get_pos_end();
+	LPoint2d get_random_pos_inside();
 
 	/*! Operações de vizinhança */
 	string EV_player_next;
@@ -34,69 +41,38 @@ public:
 	//void init_setor();
 	bool has_inside(LPoint2d point);
 
-
-	static void add_lizard (PT(Lizard) lizard, PT(Setor) setor);
-	void remove_lizard(PT(Lizard) lizard);
-	void remove_lizards();
-	vector<PT(Lizard)>* get_lizards();
-
-	static void add_animal (PT(Animal) animal, PT(Setor) setor);
-	void remove_animal(PT(Animal) animal);
-	void remove_animals();
-	vector<PT(Animal)>* get_animals();
-
-	static void add_predator (PT(Predator) predator, PT(Setor) setor);
-	void remove_predator(PT(Predator) animal);
-	void remove_predators();
-	vector<PT(Predator)>* get_predators();
-
-	//TODO: Reference Counting e vector*
 	NodePath _vegetals;
-	static void add_vegetal(PT(Vegetal) vegetal, PT(Setor) setor);
-	void remove_vegetals();
-	vector<PT(Vegetal)>* get_vegetals();
-	PT(Vegetal) get_closest_vegetal_to(PT(ObjetoJogo) object);
-	
-	static void add_edible_vegetal(PT(EdibleVegetal) vegetal, PT(Setor) setor);
-	void remove_edible_vegetals();
-	vector<PT(EdibleVegetal)>* get_edible_vegetals();
-	PT(EdibleVegetal) get_closest_edible_vegetal_to(PT(ObjetoJogo) object);
 
 	void hide_vegetals();
 	void show_vegetals();
 
-	static void add_toca (PT(ObjetoJogo) toca, PT(Setor) setor);
-	vector<PT(ObjetoJogo)>* get_tocas();
-	void remove_tocas();
-
-	int get_indice();
-	LPoint2d get_pos_start();
-	LPoint2d get_pos_end();
-	LPoint2d get_random_pos_inside();
-
-
 	int get_closest_object_index_to(LPoint3f ref_point, vector<PT(ObjetoJogo)> *ref_vector);
 	PT(ObjetoJogo) get_closest_object_to(LPoint3f ref_point, vector<PT(ObjetoJogo)> *ref_vector);
 
-	// Typed Object
+
 	static TypeHandle get_class_type() { return _type_handle; }
 	static void init_type() { register_type(_type_handle, "Setor"); }
 
+	SectorItems<PT(Prey)>* preys(){ return &_prey_list; };
+	SectorItems<PT(Predator)>* predators(){ return &_predator_list; };
+	SectorItems<PT(Vegetal)>* vegetals(){ return &_vegetal_list; };
+	SectorItems<PT(EdibleVegetal)>* edible_vegetals(){ return &_edible_vegetal_list; };
+	SectorItems<PT(Lizard)>* lizards(){ return &_lizard_list; };
+	SectorItems<PT(ObjetoJogo)>* tocas(){ return &_toca_list; };
 private:
+	SectorItems<PT(Prey)> _prey_list;
+	SectorItems<PT(Predator)> _predator_list;
+	SectorItems<PT(Vegetal)> _vegetal_list;
+	SectorItems<PT(EdibleVegetal)> _edible_vegetal_list;
+	SectorItems<PT(Lizard)> _lizard_list;
+	SectorItems<PT(ObjetoJogo)> _toca_list;
 
-	vector<PT(Lizard)> lizard_list;
-	vector<PT(Animal)> animal_list;
-	vector<PT(Vegetal)> vegetal_list;
-	vector<PT(Predator)> predator_list;
-	vector<PT(EdibleVegetal)> edible_vegetal_list;
-	vector<PT(ObjetoJogo)> toca_list;
+	LPoint2d _pos_start;
+	LPoint2d _pos_end;
 
-	LPoint2d pos_start;
-	LPoint2d pos_end;
+	int _indice;
 
-	int indice;
-
-	bool player_sector_neighbor;
+	bool _player_sector_neighbor;
 	static TypeHandle _type_handle;
 };
 

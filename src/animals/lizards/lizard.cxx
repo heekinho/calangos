@@ -137,20 +137,20 @@ void Lizard::load_lizards(){
 
 
 void Lizard::check_temp(const Event *theEvent, void *data){
-	Lizard* me = (Lizard*) data;
+	Lizard* this_lizard = (Lizard*) data;
 
 	float temp_solo_thr = 45;
 	double temp_solo = ClimaTempo::get_instance()->get_temp_solo();
-	bool in_shadow = World::get_default_world()->get_terrain()->get_shadows()->is_in_shadow(*me);
+	bool in_shadow = World::get_default_world()->get_terrain()->get_shadows()->is_in_shadow(*this_lizard);
 
-	if(in_shadow){ me->tempo_na_sombra++; me->tempo_no_sol = 0; }
-	else if(temp_solo > temp_solo_thr) { me->tempo_no_sol++; me->tempo_na_sombra = 0; }
+	if(in_shadow){ this_lizard->tempo_na_sombra++; this_lizard->tempo_no_sol = 0; }
+	else if(temp_solo > temp_solo_thr) { this_lizard->tempo_no_sol++; this_lizard->tempo_na_sombra = 0; }
 
-	if(me->tempo_no_sol > me->tempo_no_sol_thr){
-		me->ficar_na_sombra = true;
-		me->arvore_da_sombra = me->get_setor()->get_closest_vegetal_to(me);
+	if(this_lizard->tempo_no_sol > this_lizard->tempo_no_sol_thr){
+		this_lizard->ficar_na_sombra = true;
+		this_lizard->arvore_da_sombra = this_lizard->get_setor()->vegetals()->get_closest_to(this_lizard->get_pos());
 	}
-	if(me->tempo_na_sombra > me->tempo_na_sombra_thr) me->ficar_na_sombra = false;
+	if(this_lizard->tempo_na_sombra > this_lizard->tempo_na_sombra_thr) this_lizard->ficar_na_sombra = false;
 }
 
 void Lizard::act(){
@@ -182,8 +182,8 @@ void Lizard::flee(){
 
 
 void Lizard::change_sector(PT(Setor) new_sector){
-	this->get_setor()->remove_lizard(this);
-	Setor::add_lizard(this, new_sector);
+	get_setor()->lizards()->remove(this);
+	new_sector->lizards()->push_back(this);
 }
 
 

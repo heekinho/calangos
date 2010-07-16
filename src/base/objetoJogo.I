@@ -14,6 +14,17 @@ INLINE float ObjetoJogo::get_distance(LPoint3f other){
 	return (get_pos() - other).length();
 }
 
+/*! Obtém a distância para um outro NodePath */
+INLINE float ObjetoJogo::get_distance_squared(const NodePath &other){
+	return get_distance_squared(other.get_pos());
+}
+
+/* Obtém a distância para um determinado ponto */
+INLINE float ObjetoJogo::get_distance_squared(LPoint3f other){
+	return (get_pos() - other).length_squared();
+}
+
+
 INLINE void ObjetoJogo::look_at(const NodePath &other){
 	NodePath::look_at(other);
 	if(is_inverted() == -1) set_h(*this, 180);

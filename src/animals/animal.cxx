@@ -45,9 +45,10 @@ void Animal::load_animals(){
 }
 
 /*! Exclui e remove do grafo de cena todos os animais, liberando memória. */
+//TODO: Descarregar outros tipos de animais aqui?
 void Animal::unload_animals(){
 	for (int cont = 0; cont < Terrain::MAX_SETORES; cont++){
-		World::get_default_world()->get_terrain()->get_setor(cont)->remove_animals();
+		World::get_default_world()->get_terrain()->get_setor(cont)->preys()->clear();
 	}
 
 	animals_placeholder.remove_node();
@@ -108,18 +109,22 @@ int Animal::stay_quiet(){
 //	//set_acting(setor->is_player_neighbor());
 //}
 
-/*! Sobreescreve a ação de mudança de setor, pois precisa-se colocar os "animais" no
- * respectivo vetor. Classes derivadas devem sobreescrever este comportamento. */
-void Animal::change_sector(PT(Setor) new_sector){
-	this->get_setor()->remove_animal(this);
-	Setor::add_animal(this, new_sector);
-}
+///*! Sobreescreve a ação de mudança de setor, pois precisa-se colocar os "animais" no
+// * respectivo vetor. Classes derivadas devem sobreescrever este comportamento. */
+////TODO: Fazer pure virtual, já que coloquei preys() e talz.
+//void Animal::change_sector(PT(Setor) new_sector){
+//	this->get_setor()->preys()->remove(this);
+//	new_sector->preys()->push_back(this);
+//
+////	this->get_setor()->remove_animal(this);
+////	Setor::add_animal(this, new_sector);
+//}
 
 
 /*! Redistribui os animais em setores mais próximos do player. */
 void Animal::redistribute_animals(){
 	#if(DEBUG_ANIMAL)
-		cout << endl << "Redistribuindo Animais";
+		nout << endl << "Redistribuindo Animais";
 	#endif
 
 	PT(Player) player = Player::get_instance();
@@ -144,9 +149,10 @@ void Animal::redistribute_animals(){
 		/* Se o setor não for considerado vizinho do player, os animais são realocados */
 		if(!sector->is_player_neighbor() && sector->get_indice() != player->get_setor()->get_indice()){
 			/* Tem que fazer com todos os vetores de animais. */
+			//TODO: Após mudança para listas, precisa-se atualizar isso aqui.
 //			Prey::migrate_prey((vector<PT(ObjetoJogo)>*) sector->get_animals(), sector, all_neighbors);
-			Animal::migrate_animals((vector<PT(ObjetoJogo)>*) sector->get_lizards(), sector, all_neighbors);
-			//Animal::migrate_animals((vector<PT(ObjetoJogo)>*) sector->get_predators(), sector, all_neighbors);
+//			Animal::migrate_animals((vector<PT(ObjetoJogo)>*) sector->get_lizards(), sector, all_neighbors);
+//			Animal::migrate_animals((list<PT(ObjetoJogo)>*) sector->predators(), sector, all_neighbors);
 		}
 	}
 }

@@ -123,8 +123,12 @@ public:
 
 	bool is_in_toca();
 	void set_in_toca(bool is_in_toca);
-	int get_toca_index();
-	void set_toca_index(int toca_index);
+
+	PT(ObjetoJogo) get_toca(){ return _toca; };
+	void set_toca(PT(ObjetoJogo) toca){ _toca = toca; };
+private:
+	PT(ObjetoJogo) _toca;
+public:
 
 	//recebe o tamanho do lagarto que mordeu, e calcula um gasto de energia e hidrataçao proporcionalmente
 	void mordida_recebida(int tamanho_lagarto_base);
@@ -278,8 +282,6 @@ private:
 
 	//Informa se o lagarto está na toca ou não
 	bool in_toca;
-	/*?*/
-	int toca_index;
 
 
 	/*ORDEM: 1 - Tempera interna ideal, 2 - Quantidade de horas sem se alimentar,

@@ -76,8 +76,8 @@ void Session::init_session(){
 	PT(Terrain) terrain = World::get_default_world()->get_terrain();
 	for(int i = 0; i < terrain->MAX_SETORES; i++){
 		PT(Setor) sector = terrain->get_setor(i);
-		vector<PT(Vegetal)>::iterator it = sector->get_vegetals()->begin();
-		while(it != sector->get_vegetals()->end()){
+		SectorItems<PT(Vegetal)>::iterator it = sector->vegetals()->begin();
+		while(it != sector->vegetals()->end()){
 			NodePath vcopy = (*it)->copy_to(NodePath("Vegetal_copy"));
 			//(*it)->reparent_to(sector->_vegetals);
 			vcopy.reparent_to(sector->_vegetals);

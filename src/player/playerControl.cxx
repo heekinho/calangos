@@ -142,55 +142,31 @@ void PlayerControl::unset_key(const Event *theEvent, void *data) {
 void PlayerControl::calc_closest_object(){
 	PT(Player) player = Player::get_instance();
 	PT(Setor) player_sector = player->get_setor();
+	if(!player_sector) return;
 
-	if(player_sector == NULL) return;
+	/* Coloca os objetos em uma lista para comparar distâncias depois */
+	list<PT(ObjetoJogo)> action_objects;
+	action_objects.push_back((PT(ObjetoJogo))player_sector->preys()->get_closest_to(player->get_pos()));
+	action_objects.push_back((PT(ObjetoJogo))player_sector->edible_vegetals()->get_closest_to(player->get_pos()));
+	action_objects.push_back((PT(ObjetoJogo))player_sector->lizards()->get_closest_to(player->get_pos()));
 
-	vector<PT(ObjetoJogo)> action_objects;
-	vector<int> action_objects_index;
-
-	if(player_sector->get_animals()->size() > 0){
-		int closest_prey_index = player_sector->get_closest_object_index_to(player->get_pos(), (vector<PT(ObjetoJogo)>*) player_sector->get_animals());
-		action_objects.push_back((PT(ObjetoJogo)) player_sector->get_animals()->at(closest_prey_index));
-		action_objects_index.push_back(closest_prey_index);
-	}
-
-	if(player_sector->get_edible_vegetals()->size() > 0){
-		int closest_vegetal_index = player_sector->get_closest_object_index_to(player->get_pos(), (vector<PT(ObjetoJogo)>*) player_sector->get_edible_vegetals());
-		action_objects.push_back((PT(ObjetoJogo)) player_sector->get_edible_vegetals()->at(closest_vegetal_index));
-		action_objects_index.push_back(closest_vegetal_index);
-	}
-
-	if(player_sector->get_lizards()->size() > 0){
-		int closest_lizard_index = player_sector->get_closest_object_index_to(player->get_pos(), (vector<PT(ObjetoJogo)>*) player_sector->get_lizards());
-		action_objects.push_back((PT(ObjetoJogo)) player_sector->get_lizards()->at(closest_lizard_index));
-		action_objects_index.push_back(closest_lizard_index);
-	}
-
-	if(player_sector->get_predators()->size() > 0){
-		int closest_predator_index = player_sector->get_closest_object_index_to(player->get_pos(), (vector<PT(ObjetoJogo)>*) player_sector->get_predators());
-		action_objects.push_back((PT(ObjetoJogo)) player_sector->get_predators()->at(closest_predator_index));
-		action_objects_index.push_back(closest_predator_index);
-	}
-
-	PT(ObjetoJogo) closest = action_objects.at(0);
-	for(int i = 1; i < action_objects.size(); i++){
-		PT(ObjetoJogo) current = action_objects.at(i);
-		if(current != NULL){
-			if(current->get_distance(player->get_pos()) < closest->get_distance(player->get_pos()) || closest == NULL){
+	/* Compara as distâncias */
+	PT(ObjetoJogo) closest = NULL;
+	list<PT(ObjetoJogo)>::iterator it;
+	for(it = action_objects.begin(); it != action_objects.end(); ++it){
+		PT(ObjetoJogo) current = *it;
+		if(current && closest){
+			LPoint3f ppos = player->get_pos();
+			if(current->get_distance_squared(ppos) < closest->get_distance_squared(ppos)){
 				closest = current;
 			}
 		}
+		if(!closest && current) closest = current;
 	}
 
+	/* Define o atributo para acesso futuro */
 	this->closest_object = closest;
 }
-
-
-LineSegs line = LineSegs();
-NodePath lineNP = NodePath();
-#include "spotlight.h"
-#include "boundingVolume.h"
-#include "boundingSphere.h"
 
 /*! Chamado a cada ciclo, verifica se tem tecla ativa no map, e executa a a��o
  * associada. Basicamente realiza movimento */
@@ -289,6 +265,11 @@ void PlayerControl::move(float velocity){
 	}
 }
 
+struct EdibleInfo {
+	PT(ObjetoJogo) object;
+	int type;
+	PT(Setor) sector; /* Necessário pois o player se move por um tempo */
+};
 
 /*! Efetua acao de comer. Verifica se tem algum npc em volta e come */
 void PlayerControl::eat(const Event*, void *data){
@@ -317,47 +298,19 @@ void PlayerControl::eat(const Event*, void *data){
 	if(mwatcher->has_mouse() && mwatcher->get_mouse_x() < 0.57 && !TimeControl::get_instance()->get_stop_time()){
 
 
-		vector<PT(ObjetoJogo)> action_objects;
-		vector<int> action_objects_index;
-
-		if(player_sector->get_animals()->size() > 0){
-			int closest_prey_index = player_sector->get_closest_object_index_to(player->get_pos(), (vector<PT(ObjetoJogo)>*) player_sector->get_animals());
-			action_objects.push_back((PT(ObjetoJogo)) player_sector->get_animals()->at(closest_prey_index));
-			action_objects_index.push_back(closest_prey_index);
-		}
-		else {
-			action_objects_index.push_back(-1);
-			action_objects.push_back(NULL);
-		}
-
-		if(player_sector->get_edible_vegetals()->size() > 0){
-			int closest_vegetal_index = player_sector->get_closest_object_index_to(player->get_pos(), (vector<PT(ObjetoJogo)>*) player_sector->get_edible_vegetals());
-			action_objects.push_back((PT(ObjetoJogo)) player_sector->get_edible_vegetals()->at(closest_vegetal_index));
-			action_objects_index.push_back(closest_vegetal_index);
-		}
-		else {
-			action_objects_index.push_back(-1);
-			action_objects.push_back(NULL);
-		}
-
-		if(player_sector->get_lizards()->size() > 0){
-			int closest_lizard_index = player_sector->get_closest_object_index_to(player->get_pos(), (vector<PT(ObjetoJogo)>*) player_sector->get_lizards());
-			action_objects.push_back((PT(ObjetoJogo)) player_sector->get_lizards()->at(closest_lizard_index));
-			action_objects_index.push_back(closest_lizard_index);
-		}
-		else {
-			action_objects_index.push_back(-1);
-			action_objects.push_back(NULL);
-		}
-
 		/* 0: prey; 1: vegetal; 2: lizard */
-		int type_of_closest = player_sector->get_closest_object_index_to(player->get_pos(), &action_objects);
-		int index_of_closest = action_objects_index.at(type_of_closest);
+		int type_of_closest = -1;
 
-		if(index_of_closest == -1) return;
+		/*! HACK para obter o tipo de objeto de closest */
+		PT(ObjetoJogo) closest = this_control->closest_object;
+		if(closest){
+			if(dynamic_cast<Prey*>((ObjetoJogo*) closest)) type_of_closest = 0;
+			if(dynamic_cast<EdibleVegetal*>((ObjetoJogo*) closest)) type_of_closest = 1;
+			if(dynamic_cast<Lizard*>((ObjetoJogo*) closest)) type_of_closest = 2;
+		}
 
-		PT(ObjetoJogo) target = action_objects.at(type_of_closest);
-		if (target == NULL) return; //REVER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		/* Se o tipo não for reconhecido, cai fora. Era pra fazer if, mas... */
+		if(type_of_closest == -1) return;
 
 		/* Configuração de distância. Quando os objetos estaram no raio de ação do player.*/
 		float act_dist_thr = 0.20 * player->get_sx() * 1350;
@@ -368,9 +321,8 @@ void PlayerControl::eat(const Event*, void *data){
 		player_y_versor.normalize();
 
 		/* Obtem distancia para o npc */
-		//LVector3f player_to_target = player->get_pos() - target->get_pos();
 		/* HACK para consertar um offset maluco dos frutos */
-		LVector3f player_to_target = LPoint3f(player->get_x(), player->get_y(), 0) - LPoint3f(target->get_x(), target->get_y(), 0);
+		LVector3f player_to_target = LPoint3f(player->get_x(), player->get_y(), 0) - LPoint3f(closest->get_x(), closest->get_y(), 0);
 		float dist_to_target = player_to_target.length();
 
 		/* Obtem angulo para o npc */
@@ -383,8 +335,9 @@ void PlayerControl::eat(const Event*, void *data){
 
 			/* Fazendo as presas fugirem no ataque do player */
 			if(type_of_closest == 0){
-				for(int i = 0; i < player_sector->get_animals()->size(); i++){
-					PT(Prey) prey = (PT(Prey))(Prey*)(Animal*) player_sector->get_animals()->at(i);
+				SectorItems<PT(Prey)>::iterator it;
+				for(it = player_sector->preys()->begin(); it != player_sector->preys()->end(); ++it){
+					PT(Prey) prey = *it;
 					if(prey != NULL){
 						if((prey->get_pos() - player->get_pos()).length() < act_dist_thr * 3){
 							prey->set_fleing(true);
@@ -395,7 +348,7 @@ void PlayerControl::eat(const Event*, void *data){
 			}
 
 
-			Edible* food = dynamic_cast<Edible*>((ObjetoJogo*)target);
+			Edible* food = dynamic_cast<Edible*>((ObjetoJogo*) closest);
 			/* Verifica se o ângulo esta dentro do limiar estabelecido, evitando os "já comidos" */
 			if (dist_to_target < act_dist_thr && angle_to_npc < direction_eat_thr && food->get_nutritional_value() > 0) {
 
@@ -410,18 +363,24 @@ void PlayerControl::eat(const Event*, void *data){
 					food->set_hydration_value(0);
 				}
 
-				LVecBase3f *mydata = new LVecBase3f(index_of_closest, player->get_setor()->get_indice(), type_of_closest);
+				/* Monta a informação do objeto comestível */
+				EdibleInfo* info = new EdibleInfo();
+				info->object = closest;
+				info->type = type_of_closest;
+				info->sector = player->get_setor();
+
+				//LVecBase3f *mydata = new LVecBase3f(index_of_closest, player->get_setor()->get_indice(), type_of_closest);
 				//TimeControl::get_instance()->notify_after_n_frames(40, really_eat, (void*) mydata);
 
 				this_control->last_eating_frame = 0;
-				Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, eating, (void *) mydata);
+				Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, eating, (void *) info);
 
 				eatsuccess = true;
 			}
 		}
 		/* Morder outro lagarto */
 		if (type_of_closest == 2) {
-			Lizard* lizard = (Lizard*) (ObjetoJogo*) target;
+			Lizard* lizard = dynamic_cast<Lizard*>((ObjetoJogo*) closest);
 			if (lizard->get_gender() == LizardGender::male) {
 				MaleLizard* male_lizard = (MaleLizard*) lizard;
 
@@ -464,29 +423,22 @@ void PlayerControl::eating(const Event* evt, void *data){
 //consolide_eating();
 #include "groupPrey.h"
 void PlayerControl::really_eat(const Event*, void *data){
-	LVecBase3f* the_data = (LVecBase3f*) data;
+	EdibleInfo* the_data = (EdibleInfo*) data;
 
-	/* Quebra os dados em partes */
-	int index = the_data->get_x();
-	PT(Setor) sector = World::get_default_world()->get_terrain()->get_setor(the_data->get_y());
-	int type = the_data->get_z();
-
-	/* Seleciona o tipo de objeto e respectivo vector */
-	vector<PT(ObjetoJogo)> *objects;
-	if(type == 0) objects = (vector<PT(ObjetoJogo)>*) sector->get_animals();
-	else if(type == 1) objects = (vector<PT(ObjetoJogo)>*) sector->get_edible_vegetals();
-	else return;
 	/* Exclui de fato o "objeto" comido */
-
-	if(type == 0) {
-		PT(Prey) cprey = (PT(Prey))(Prey*)(ObjetoJogo*) objects->at(index);
+	if(the_data->type == 0) {
+		PT(Prey) cprey = dynamic_cast<Prey*>((ObjetoJogo*) the_data->object);
 		//if(cprey->group != NULL) cprey->group->remove_prey(cprey);
 		World::get_default_world()->get_terrain()->realoc_prey(cprey, Player::get_instance()->get_pos());
 	}
-	else {
-		objects->at(index) = NULL;
-		objects->erase(objects->begin() + index);
+	else if(the_data->type == 1) {
+		PT(EdibleVegetal) vegetal = dynamic_cast<EdibleVegetal*>((ObjetoJogo*) the_data->object);
+		the_data->object->get_setor()->edible_vegetals()->remove(vegetal);
+//		objects->at(index) = NULL;
+//		objects->erase(objects->begin() + index);
 	}
+
+	delete the_data;
 }
 
 
@@ -532,32 +484,28 @@ void PlayerControl::toca_control(const Event*, void *data){
 	float dist_toca = 0.3;
 	PT(Player) player = Player::get_instance();
 
-	if (!player->is_in_toca())
-	{
+	if (!player->is_in_toca()){
 		// Pede ao setor, o vetor que guarda as tocas.
-		vector<PT(ObjetoJogo)> *sector_tocas = player->get_setor()->get_tocas();
-
-		for(int i = 0; i < sector_tocas->size(); i++){
-			PT(ObjetoJogo) toca = sector_tocas->at(i);
+		SectorItems<PT(ObjetoJogo)>* sector_tocas = player->get_setor()->tocas();
+		SectorItems<PT(ObjetoJogo)>::iterator it;
+		for(it = sector_tocas->begin(); it != sector_tocas->end(); ++it){
+			PT(ObjetoJogo) toca = *it;
 			LVector3f player_to_toca = player->get_pos() - toca->get_pos();
 			if(player_to_toca.length() < dist_toca){
 				toca->hide();
 				player->set_in_toca(true);
-				player->set_toca_index(i);
+				player->set_toca(toca);
 				Simdunas::get_evt_queue()->queue_event(new Event(PlayerControl::EV_player_enter_toca));
 				Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_pass_frame, update, this_control);
 				return;
 			}
 		}
 	}
-	else
-	{
-		int toca_index = player->get_toca_index();
-		if (toca_index != -1)
-			player->get_setor()->get_tocas()->at(toca_index)->show();
+	else {
+		if(player->get_toca()) player->get_toca()->show();
 
 		player->set_in_toca(false);
-		player->set_toca_index(-1);
+		player->set_toca(NULL);
 		Simdunas::get_evt_queue()->queue_event(new Event(PlayerControl::EV_player_outof_toca));
 		Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, update, this_control);
 	}
@@ -588,11 +536,11 @@ void PlayerControl::morder(){
 void PlayerControl::event_female_next(const Event *, void *data){
 	PT(Player) player = Player::get_instance();
 
-	if(Player::get_instance()->get_estado_reprodutivo()){
-		vector<PT(Lizard)> *sector_lizards = Player::get_instance()->get_setor()->get_lizards();
-
-		for (int i = 0; i < sector_lizards->size(); i++) {
-			PT(Lizard) npcf = sector_lizards->at(i);
+	if (Player::get_instance()->get_estado_reprodutivo()) {
+		SectorItems<PT(Lizard)>* lizards = player->get_setor()->lizards();
+		SectorItems<PT(Lizard)>::iterator it;
+		for (it = lizards->begin(); it != lizards->end(); ++it) {
+			PT(Lizard) npcf = *it;
 			// e for fêmea e estiver próxima
 			if((npcf->get_gender() == LizardGender::female) && (npcf->get_distance(player->get_pos()) < DISTANCE_FEMALE)){
 				PT(FemaleLizard) female = (PT(FemaleLizard))((FemaleLizard*)(Lizard*) npcf);

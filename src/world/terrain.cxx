@@ -31,32 +31,35 @@ Terrain::Terrain(const string &name) : GeoMipTerrain (name) {
 
 
 void Terrain::add_lizard(PT(Lizard) lizard){
-	Setor::add_lizard(lizard, get_setor_from_pos(lizard->get_x(), lizard->get_y()) );
+	get_setor_from_pos(lizard->get_x(), lizard->get_y())->lizards()->push_back(lizard);
 }
 
 /*! Adiciona um animal ao seu respectivo setor */
-void Terrain::add_animal(PT(Animal) animal){
-	Setor::add_animal(animal, get_setor_from_pos(animal->get_x(), animal->get_y()) );
-}
+//TODO
+//void Terrain::add_animal(PT(Animal) animal){
+//	//Setor::add_animal(animal, get_setor_from_pos(animal->get_x(), animal->get_y()) );
+//	//get_setor_from_pos(animal->get_x(), animal->get_y())->preys()->push_back(animal);
+//}
 
 void Terrain::add_predator(PT(Predator) predator){
-	Setor::add_predator(predator, get_setor_from_pos(predator->get_x(), predator->get_y()) );
+	get_setor_from_pos(predator->get_x(), predator->get_y())->predators()->push_back(predator);
 }
 
 
 /*! Adiciona um vegetal ao seu respectivo setor */
 void Terrain::add_vegetal(PT(Vegetal) vegetal){
-	Setor::add_vegetal(vegetal, get_setor_from_pos(vegetal->get_x(), vegetal->get_y()));
+	get_setor_from_pos(vegetal->get_x(), vegetal->get_y())->vegetals()->push_back(vegetal);
 }
 
 void Terrain::add_edible_vegetal(PT(EdibleVegetal) vegetal){
-	Setor::add_edible_vegetal(vegetal, get_setor_from_pos( LPoint2d(vegetal->get_x(), vegetal->get_y()) ));
+//	Setor::add_edible_vegetal(vegetal, get_setor_from_pos(vegetal->get_x(), vegetal->get_y()));
+	get_setor_from_pos(vegetal->get_x(), vegetal->get_y())->edible_vegetals()->push_back(vegetal);
 }
 
 void Terrain::remove_all_edible_vegetals(){
 	vector<PT(Setor)>::iterator setor = _setores.begin();
 	while( setor != _setores.end()) {
-		(*setor)->remove_edible_vegetals();
+		(*setor)->edible_vegetals()->clear();
 		setor++;
 	}
 }
@@ -314,10 +317,11 @@ void Terrain::load_tocas(){
 
 	for (int i = 0; i < MAX_SETORES; i++){
   		PT(Setor) setor = get_setor(i);
-  		vector<PT(Vegetal)>* vegetal_list = setor->get_vegetals();
-  		vector<PT(ObjetoJogo)>* toca_list = setor->get_tocas();
-  		for (unsigned int j = 0; j < vegetal_list->size(); j++){
-			PT(Vegetal) vegetal = vegetal_list->at(j);
+  		SectorItems<PT(Vegetal)>* vegetal_list = setor->vegetals();
+  		SectorItems<PT(ObjetoJogo)>* toca_list = setor->tocas();
+  		SectorItems<PT(Vegetal)>::iterator it;
+  		for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it){
+			PT(Vegetal) vegetal = (*it);
 			double x = vegetal->get_x();
 			double y = vegetal->get_y();
 			double elevation  = get_elevation(x,y);
@@ -436,7 +440,7 @@ void Terrain::unload_vectors(){
 	casas.clear();
 	cercas.clear();
 	for (unsigned int cont = 0; cont < _setores.size(); cont++){
-		_setores.at(cont)->remove_tocas();
+		_setores.at(cont)->tocas()->clear();
 		_setores.at(cont)->unload_sector();
 	}
 	neighborhood.clear();
@@ -461,13 +465,9 @@ LPoint3f Terrain::get_random_point(){
 }
 
 
-
-
-
-
-
 void Terrain::add_prey(PT(Prey) prey){
 	list_prey.push_back(prey);
+	get_setor_from_pos(prey->get_x(), prey->get_y())->preys()->push_back(prey);
 }
 
 

@@ -26,10 +26,10 @@ void Predator::act(){
 		}
 		else{
 			PT(Setor) setor = World::get_default_world()->get_terrain()->get_setor_from_pos(player->get_x(), player->get_y());
-			vector<PT(Vegetal)>* vegetal_list = setor->get_vegetals();
-
-			for (unsigned int i = 0; i < vegetal_list->size(); i++){
-				PT(Vegetal) vegetal = vegetal_list->at(i);
+			SectorItems<PT(Vegetal)>* vegetal_list = setor->vegetals();
+			SectorItems<PT(Vegetal)>::iterator it;
+			for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it){
+				PT(Vegetal) vegetal = *it;
 				LVector3f player_to_vegetal = player->get_pos() - vegetal->get_pos();
 				if (player_to_vegetal.length() < 3.5 || player->is_in_toca()){
 					if(!this->get_anim_control()->is_playing("comer") && !get_anim_control()->is_playing("andar"))
@@ -49,8 +49,8 @@ void Predator::act(){
 }
 
 void Predator::change_sector(PT(Setor) new_sector){
-	this->get_setor()->remove_predator(this);
-	Setor::add_predator(this, new_sector);
+	get_setor()->predators()->remove(this);
+	new_sector->predators()->push_back(this);
 }
 
 

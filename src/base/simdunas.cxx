@@ -20,6 +20,8 @@ EventHandler* Simdunas::evt_handler = NULL;
 
 #include "objetoJogo.h"
 #include "animal.h"
+#include "sectorItems.h"
+
 int main(int argc, char *argv[]) {
 	/* Carrega o arquivo de configuração do jogo */
 	#if DEBUG
@@ -28,8 +30,7 @@ int main(int argc, char *argv[]) {
 		load_prc_file("myConfig-Calangos-distribute.prc");
 	#endif
 
-
-	//PStatClient::connect();
+//	//PStatClient::connect();
 
 	Simdunas::init_types();
 

@@ -51,7 +51,7 @@ void Spider::load_spiders(int qtd){
 		/* Atribui Posição, adiciona no terreno e define uma árvore. */
 		npc->set_pos(random_pos);
 		npc->set_h(rand()%360);
-		terrain->add_animal((PT(Animal)) npc);
+		terrain->add_prey((PT(Prey)) npc);
 
 		if(rand() % 100 < 20){
 			npc->set_has_living_tree(true);

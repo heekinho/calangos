@@ -10,12 +10,7 @@ bool GroupPrey::is_master_leader(PT(Prey) prey){
 
 /*! Remove uma presa do grupo */
 void GroupPrey::remove_prey(PT(Prey) prey){
-	for (list<PT(Prey)>::iterator it = group.begin(); it != group.end(); ++it){
-		if((*it) == prey) {
-			group.erase(it);
-			break;
-		}
-	}
+	group.remove(prey);
 	calc_leaders();
 }
 

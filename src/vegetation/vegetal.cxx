@@ -357,8 +357,8 @@ void Vegetal::unload_vegetals() {
 	// Removendo os vegetais dos setores
 	// O Garbage do Panda (PT) já cuida de deletar
 	for (int cont = 0; cont < Terrain::MAX_SETORES; cont++){
-		World::get_default_world()->get_terrain()->get_setor(cont)->remove_vegetals();
-		World::get_default_world()->get_terrain()->get_setor(cont)->remove_edible_vegetals();
+		World::get_default_world()->get_terrain()->get_setor(cont)->vegetals()->clear();
+		World::get_default_world()->get_terrain()->get_setor(cont)->edible_vegetals()->clear();
 	}
 	models.clear();
 
@@ -381,13 +381,12 @@ void Vegetal::change_season(Season::SeasonType season){
 	World::get_default_world()->get_terrain()->remove_all_edible_vegetals();
 
 	for (int cont = 0; cont < Terrain::MAX_SETORES; cont++){
-		vector<PT(Vegetal)>* vegetals = World::get_default_world()->
-				get_terrain()->get_setor(cont)->get_vegetals();
-	
-		for( unsigned int item = 0; item < vegetals->size(); item++)
-		{
+		SectorItems<PT(Vegetal)>* vegetals = World::get_default_world()->
+				get_terrain()->get_setor(cont)->vegetals();
+		SectorItems<PT(Vegetal)>::iterator it;
+		for(it = vegetals->begin(); it != vegetals->end(); ++it){
 			//busca por modelo a partir do nome e estacao
-			string model_name = vegetals->at(item)->get_vegetal_name();
+			string model_name = (*it)->get_vegetal_name();
 			model_name += seasons[current_season];
 			
 			//sorteia chance do vegetal mudar na estacao
@@ -395,14 +394,14 @@ void Vegetal::change_season(Season::SeasonType season){
 			{
 				PT(Vegetal) new_vegetal =  new Vegetal( models[model_name] );
 
-				new_vegetal->configure_position( vegetals->at(item) );
-				new_vegetal->configure_vegetal( vegetals->at(item) );
+				new_vegetal->configure_position(*it);
+				new_vegetal->configure_vegetal(*it);
 
-				vegetals->at(item) = NULL;
-				vegetals->at(item) = new_vegetal;
+				*it = NULL;
+				*it = new_vegetal;
 				
 				//sorteia frutos 
-				vegetals->at(item)->load_edible_vegetals(new_vegetal->get_vegetal_name(), season);
+				(*it)->load_edible_vegetals(new_vegetal->get_vegetal_name(), season);
 			}
 		}
 	}
@@ -431,31 +430,6 @@ void Vegetal::update_show_hide(){
 /*! configura eventos de show and hide dos setores*/
 void Vegetal::configure_show_hide_event(){
 	update_show_hide();
-
-//	PT(Terrain) terrain = World::get_default_world()->get_terrain();
-//	int max_sectors = terrain->MAX_SETORES;
-//
-//	for (int i = 0; i < max_sectors; ++i){
-//		PT(Setor) sector = terrain->get_setor(i);
-//
-//		//event show hide
-//		Simdunas::get_evt_handler()->add_hook(sector->EV_player_next, hook_show, sector);
-//		Simdunas::get_evt_handler()->add_hook(sector->EV_player_not_next, hook_hide, sector);
-//
-//	}
-
-}
-
-void Vegetal::hook_show(const Event* evt, void *data){
-	Setor * sector = ( Setor *) data;
-//	sector->_vegetals.show();
-	//(sector)->show_vegetals();
-}
-
-void Vegetal::hook_hide(const Event* evt, void *data){
-	Setor * sector = ( Setor *) data;
-//	sector->_vegetals.hide();
-	//(sector)->hide_vegetals();
 }
 
 /*! escolhe quais e quantos frutos/flores serão sorteados e carrega*/
@@ -836,30 +810,25 @@ Area::AreaType Vegetal::get_area(){
 }
 
 /*! Define em qual area o vegetal se encontra */
-void Vegetal::set_area(Area::AreaType area){
+void Vegetal::set_area(Area::AreaType area) {
 	this->area = area;
 }
 
-void Vegetal::set_vegetal_name(string name)
-{
+void Vegetal::set_vegetal_name(string name) {
 	vegetal_name = name;
 }
 
-string Vegetal::get_vegetal_name()
-{
+string Vegetal::get_vegetal_name() {
 	return vegetal_name;
 }
 
-void Vegetal::set_vegetal_season(Season::SeasonType type)
-{
+void Vegetal::set_vegetal_season(Season::SeasonType type) {
 	season_type = type;
 }
-Season::SeasonType Vegetal::get_vegetal_season()
-{
+Season::SeasonType Vegetal::get_vegetal_season() {
 	return season_type;
 }
 
-Season::SeasonType Vegetal::get_season()
-{
+Season::SeasonType Vegetal::get_season() {
 	return current_season;
 }

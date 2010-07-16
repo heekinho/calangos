@@ -46,6 +46,9 @@ public:
 	INLINE void look_at(const NodePath &other);
 	INLINE float get_distance(const NodePath &other);
 	INLINE float get_distance(LPoint3f other);
+	INLINE float get_distance_squared(const NodePath &other);
+	INLINE float get_distance_squared(LPoint3f other);
+
 
 	/* Sobreescreveu-se para informar ao código de maneira fácil o movimento. */
 	INLINE void set_pos(float x, float y, float z);

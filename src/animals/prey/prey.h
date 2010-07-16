@@ -27,7 +27,7 @@ public:
 	bool get_fleing(){ return this->fleing; };
 	static void stop_flee(const Event *theEvent, void *data);
 
-	//virtual void change_sector(PT(Setor) new_sector);
+	virtual void change_sector(PT(Setor) new_sector);
 	virtual void was_redistributed();
 
 	static void migrate_prey(vector<PT(ObjetoJogo)>* vect, PT(Setor) sector_from, vector<PT(Setor)> *sectors_to);

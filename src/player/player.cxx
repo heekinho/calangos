@@ -14,7 +14,7 @@ Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_anim
 	Player::get_specie_name(Player::lizard_specie) + "/" +
 	Player::get_gender_name(lizard_gender))){
 	in_toca = false;
-	toca_index = -1;
+	_toca = NULL;
 	female_around = false;
 
 	//int especie = Menu::get_instance()->get_especie();
@@ -139,13 +139,6 @@ void Player::set_in_toca(bool in_toca){
 	this->in_toca = in_toca;
 }
 
-int Player::get_toca_index(){
-	return toca_index;
-}
-void Player::set_toca_index(int toca_index){
-	this->toca_index = toca_index;
-}
-
 void Player::unload_player(){
 
 	Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_segundo_real, event_gasto_energia, Player::get_instance());
@@ -165,9 +158,10 @@ bool Player::has_female_around(){
 void Player::update_female_around(){
 	float dist_thr = 5.0;
 
-	vector<PT(Lizard)>* lizards = this->get_setor()->get_lizards();
-	for(int i = 0; i < lizards->size(); i++){
-		Lizard* lizard = lizards->at(i);
+	SectorItems<PT(Lizard)>* lizards = get_setor()->lizards();
+	SectorItems<PT(Lizard)>::iterator it;
+	for (it = lizards->begin(); it != lizards->end(); ++it) {
+		PT(Lizard) lizard = *it;
 		if(lizard->get_gender() == LizardGender::female){
 			float distance_player_to_female = (lizard->get_pos() - get_pos()).length();
 			if(distance_player_to_female < dist_thr){

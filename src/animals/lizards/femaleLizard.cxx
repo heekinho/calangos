@@ -40,10 +40,13 @@ void FemaleLizard::reproduzir(const Event *theEvent, void *data){
         FemaleLizard* this_female = (FemaleLizard*) data;
         if (!this_female->reproduziu) {
             if ((this_female->get_pos() - Player::get_instance()->get_pos()).length() < 1) {
-                vector < PT(Lizard)>* lizards = Player::get_instance()->get_setor()->get_lizards();
-                for (int i = 0; i < lizards->size(); i++) {
-                    if (lizards->at(i)->get_gender() == LizardGender::male) {
-                        PT(Lizard) male = lizards->at(i);
+            	//TODO: E se estiver na borda do setor???
+            	SectorItems<PT(Lizard)>* lizards = this_female->get_setor()->lizards();
+            	SectorItems<PT(Lizard)>::iterator it;
+            	for(it = lizards->begin(); it != lizards->end(); ++it){
+            		PT(Lizard) clizard = *it;
+                    if (clizard->get_gender() == LizardGender::male) {
+                        PT(Lizard) male = clizard;
                         if ((this_female->get_pos() - male->get_pos()).length() < 2) return;
                     }
                 }

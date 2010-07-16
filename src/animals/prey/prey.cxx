@@ -66,7 +66,7 @@ void Prey::configure_prey(const string name, int living_tree_prob, float nutrici
 	set_h(rand()%360);
 
 	/* Adiciona os animais ao mundo. */
-	World::get_default_world()->get_terrain()->add_animal((PT(Animal)) this);
+	World::get_default_world()->get_terrain()->add_prey((PT(Prey)) this);
 
 	/* Dependendo da caracteristica, atribui ou não uma árvore para o npc */
 	if((rand() % 100) <= living_tree_prob){
@@ -87,7 +87,7 @@ void Prey::load_prey_specie(const string name, int qtd, double scale, int living
 		/* Cria nova instância de cada Presa. */
 		PT(Prey) npc = new Prey(NodePath("Prey PlaceHolder"));
 		npc->configure_prey(name, living_tree_prob, nutricional, hidratacao);
-		World::get_default_world()->get_terrain()->add_prey(npc);
+
 		//=====================================================//
 //		if(comp_group){
 //			npc->group = new GroupPrey();
@@ -151,10 +151,11 @@ void Prey::load_prey_specie(const string name, int qtd, double scale, int living
 //}
 
 
-//void Prey::change_sector(PT(Setor) new_sector){
-//	Animal::change_sector(new_sector);
-//	set_random_living_tree();
-//}
+void Prey::change_sector(PT(Setor) new_sector){
+	get_setor()->preys()->remove(this);
+	new_sector->preys()->push_back(this);
+	//set_random_living_tree();
+}
 
 /*! É chamado quando uma redistribuição aconteceu. Assim, é possível
  * por exemplo, definir um novo vegetal para a presa */
@@ -238,8 +239,8 @@ void Prey::set_random_living_tree(){
  * à um vegetal */
 PT(Vegetal) Prey::chose_new_living_tree(){
 	PT(Player) player = Player::get_instance();
-	vector<PT(Vegetal)>* vegetal_list = get_setor()->get_vegetals();
-	vector<PT(Vegetal)>::iterator it;
+	SectorItems<PT(Vegetal)>* vegetal_list = get_setor()->vegetals();
+	SectorItems<PT(Vegetal)>::iterator it;
 	for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it) {
 		float dist_to_player = (*it)->get_distance(*player);
 		float dist_to_prey = (*it)->get_distance(*this);
