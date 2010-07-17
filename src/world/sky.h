@@ -45,14 +45,14 @@ private:
     static PT(Sky) sky;
     static TypeHandle _type_handle;
 
-	static bool flag_sol;//flag para ajudar a controlar o aparecimento do sol
-	static int hora_atual;//hora_atual e hora_anterior v�o ajudar no fade das texturas
+	static bool flag_sol;				//flag para ajudar a controlar o aparecimento do sol
+	static int hora_atual;				//hora_atual e hora_anterior vão ajudar no fade das texturas
 	static int hora_anterior;
-        static int minuto_atual;//ajudar a controlar o deslocamento do sol pelo ceu
-        static int minuto_anterior;
-		static float limite;
-		 static int minuto_atual_sombra;//ajudar a controlar a sombra
-        static int minuto_anterior_sombra;
+	static int minuto_atual;			//ajudar a controlar o deslocamento do sol pelo ceu
+	static int minuto_anterior;
+	static float limite;
+	static int minuto_atual_sombra;		//ajudar a controlar a sombra
+	static int minuto_anterior_sombra;
 		
 
     

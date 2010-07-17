@@ -29,9 +29,7 @@ public:
 	static PT(Terrain) create_default_terrain();
 	~Terrain();
 
-	//void add_object(ObjetoJogo *object);
 	void add_lizard(PT(Lizard) lizard);
-//	void add_animal(PT(Animal) animal);
 	void add_predator(PT(Predator) predator);
 	void add_vegetal(PT(Vegetal) vegetal);
 	void add_edible_vegetal(PT(EdibleVegetal) vegetal);
