@@ -1,18 +1,15 @@
-#ifndef TOCACAMERA_H_
-#define TOCACAMERA_H_
+#ifndef TOCACAMERA_H
+#define TOCACAMERA_H
 
 #include "cameraNode.h"
 
-/*! Camera em primeira pessoa (Point of View) */
+/*! Camera para as tocas. */
 class TocaCamera : public CameraNode {
 public:
 	TocaCamera(PT(Camera) camera);
 
 	virtual void activate();
 	virtual void deactivate();
-
-private:
-	NodePath *dummy;
 };
 
-#endif /* TOCACAMERA_H_ */
+#endif

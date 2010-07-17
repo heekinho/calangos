@@ -98,7 +98,7 @@ PNMImage* ShadowCard::get_shadows_channel(){
 
 
 void ShadowCard::update_active_shadows(){
-	PT(Terrain) terrain = World::get_default_world()->get_terrain();
+	PT(Terrain) terrain = World::get_world()->get_terrain();
 	vector<PT(Setor)>* sectors = terrain->get_adjacent_sectors();
 
 	int sector_width  = terrain->get_x_size()/terrain->NUM_SECTORS_X;

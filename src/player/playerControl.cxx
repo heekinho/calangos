@@ -113,7 +113,7 @@ void PlayerControl::special_control(const Event *theEvent, void *data){
 		me->event_pmonth(NULL, me);
 
 	if(strcmp(str,"info")==0){
-		World::get_default_world()->get_terrain()->remove_all_edible_vegetals();
+		World::get_world()->get_terrain()->remove_all_edible_vegetals();
 //		Vegetal::vegetals_placeholder.flatten_strong();
 //		Simdunas::get_window()->get_render().analyze();
 	}
@@ -176,7 +176,7 @@ void PlayerControl::update(const Event*, void *data){
 	PT(Player) p = Player::get_instance();
 
 	/* Test */
-	World::get_default_world()->get_terrain()->update_prey();
+	World::get_world()->get_terrain()->update_prey();
 
 	/* Verifica se tem femeas por perto */
 	p->update_female_around();
@@ -429,7 +429,7 @@ void PlayerControl::really_eat(const Event*, void *data){
 	if(the_data->type == 0) {
 		PT(Prey) cprey = dynamic_cast<Prey*>((ObjetoJogo*) the_data->object);
 		//if(cprey->group != NULL) cprey->group->remove_prey(cprey);
-		World::get_default_world()->get_terrain()->realoc_prey(cprey, Player::get_instance()->get_pos());
+		World::get_world()->get_terrain()->realoc_prey(cprey, Player::get_instance()->get_pos());
 	}
 	else if(the_data->type == 1) {
 		PT(EdibleVegetal) vegetal = dynamic_cast<EdibleVegetal*>((ObjetoJogo*) the_data->object);

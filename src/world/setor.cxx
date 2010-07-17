@@ -50,7 +50,7 @@ Setor::~Setor() {}
 /*! Atualiza o setor do objeto, se este mudou de setor */
 void Setor::update_object_sector(PT(ObjetoJogo) object){
 	LPoint2d pos = LPoint2d((int)object->get_x(), (int)object->get_y());
-	Setor *new_sector = World::get_default_world()->get_terrain()->get_setor_from_pos(pos);
+	Setor *new_sector = World::get_world()->get_terrain()->get_setor_from_pos(pos);
 
 	if(object->get_setor() == NULL) object->change_sector(new_sector);
 	else if(object->get_setor()->get_indice() != new_sector->get_indice()) object->change_sector(new_sector);
@@ -112,35 +112,12 @@ LPoint2d Setor::get_pos_end(){
 }
 
 /*! Obtém uma posição aleatória dentro do setor */
+// TODO: Esta posição deveria ser float, e não int.
 LPoint2d Setor::get_random_pos_inside(){
 	double x = (rand() % (int)(_pos_end.get_x() - _pos_start.get_x())) + _pos_start.get_x();
 	double y = (rand() % (int)(_pos_end.get_y() - _pos_start.get_y())) + _pos_start.get_y();
 	return LPoint2d(x, y);
 }
-
-
-PT(ObjetoJogo) Setor::get_closest_object_to(LPoint3f ref_point, vector<PT(ObjetoJogo)> *ref_vector){
-	return ref_vector->at(get_closest_object_index_to(ref_point, ref_vector));
-}
-
-int Setor::get_closest_object_index_to(LPoint3f ref_point, vector<PT(ObjetoJogo)> *ref_vector){
-	int index = -1;
-	if(ref_vector->size() > 0){
-		float dist = INT_MAX;//(*ref_vector->begin())->get_distance(ref_point);
-
-		for (int i = 0; i < ref_vector->size(); i++) {
-			if(ref_vector->at(i)){
-				float new_dist = ref_vector->at(i)->get_distance(ref_point);
-				if(new_dist < dist) {
-					dist = new_dist;
-					index = i;
-				}
-			}
-		}
-	}
-	return index;
-}
-
 
 void Setor::unload_sector(){
 	Simdunas::get_evt_handler()->remove_hooks_with(this);

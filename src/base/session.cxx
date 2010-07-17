@@ -43,7 +43,7 @@ void Session::init_session(){
 	/* Cria um controle de tempo e um mundo padrão... */
 	//this->time_control = TimeControl::get_instance();
 	nout << "Criando Mundo..." << endl;
-	World::get_default_world();
+	World::get_world();
 	World::load_enviroment();
 
 	/* inicializa clima e microclima */
@@ -73,7 +73,7 @@ void Session::init_session(){
 	 * 	de flatten, esta informação é perdida.
 	 * Por enquanto, estou criando uma cópia (sic) e colocando para renderizar.
 	 */
-	PT(Terrain) terrain = World::get_default_world()->get_terrain();
+	PT(Terrain) terrain = World::get_world()->get_terrain();
 	for(int i = 0; i < terrain->MAX_SETORES; i++){
 		PT(Setor) sector = terrain->get_setor(i);
 		SectorItems<PT(Vegetal)>::iterator it = sector->vegetals()->begin();
@@ -90,7 +90,7 @@ void Session::init_session(){
 	//Redistribui animais para setores próximos ao player
 	//Animal::redistribute_animals();
 	Player::get_instance()->change_sector(Player::get_instance()->get_setor());
-	World::get_default_world()->get_terrain()->do_initial_distribution();
+	World::get_world()->get_terrain()->do_initial_distribution();
 }
 
 /*! MainLoop. O loop principal da session */
@@ -178,7 +178,7 @@ void Session::end_session(){
 	World::unload_enviroment();
 
 	nout << "Destruindo ""mundo""..." << endl;
-	World::unload_default_world();
+	World::unload_world();
 
 	nout << "Destruindo vetores..." << endl;
 	Vetores::unload_vetores();

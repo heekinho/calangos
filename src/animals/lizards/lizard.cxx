@@ -64,7 +64,7 @@ void Lizard::load_lizards(){
 	int qtd = 100;
 
 	for(int i = 0; i < qtd; i++){
-		LPoint3f point = World::get_default_world()->get_terrain()->get_random_point();
+		LPoint3f point = World::get_world()->get_terrain()->get_random_point();
 
 		/* Pronto... para criar instancias separadas, sem instancing... */
 	
@@ -123,7 +123,7 @@ void Lizard::load_lizards(){
 		//lizard->set_hpr(180,0,0);
 		lizard->set_velocity(500);
 
-		World::get_default_world()->get_terrain()->add_lizard(lizard);
+		World::get_world()->get_terrain()->add_lizard(lizard);
 		lizard->get_anim_control()->find_anim("walk")->loop(true);
 
 		lizard->reparent_to(Simdunas::get_window()->get_render());
@@ -141,7 +141,7 @@ void Lizard::check_temp(const Event *theEvent, void *data){
 
 	float temp_solo_thr = 45;
 	double temp_solo = ClimaTempo::get_instance()->get_temp_solo();
-	bool in_shadow = World::get_default_world()->get_terrain()->get_shadows()->is_in_shadow(*this_lizard);
+	bool in_shadow = World::get_world()->get_terrain()->get_shadows()->is_in_shadow(*this_lizard);
 
 	if(in_shadow){ this_lizard->tempo_na_sombra++; this_lizard->tempo_no_sol = 0; }
 	else if(temp_solo > temp_solo_thr) { this_lizard->tempo_no_sol++; this_lizard->tempo_na_sombra = 0; }
@@ -155,7 +155,7 @@ void Lizard::check_temp(const Event *theEvent, void *data){
 
 void Lizard::act(){
 	if(ficar_na_sombra && (arvore_da_sombra != NULL)){
-		if(! World::get_default_world()->get_terrain()->get_shadows()->is_in_shadow(*this)){
+		if(! World::get_world()->get_terrain()->get_shadows()->is_in_shadow(*this)){
 			look_at(*arvore_da_sombra);
 			move(get_velocity()*1.5);
 			return;

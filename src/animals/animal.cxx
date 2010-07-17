@@ -48,7 +48,7 @@ void Animal::load_animals(){
 //TODO: Descarregar outros tipos de animais aqui?
 void Animal::unload_animals(){
 	for (int cont = 0; cont < Terrain::MAX_SETORES; cont++){
-		World::get_default_world()->get_terrain()->get_setor(cont)->preys()->clear();
+		World::get_world()->get_terrain()->get_setor(cont)->preys()->clear();
 	}
 
 	animals_placeholder.remove_node();
@@ -128,7 +128,7 @@ void Animal::redistribute_animals(){
 	#endif
 
 	PT(Player) player = Player::get_instance();
-	PT(Terrain) terrain = World::get_default_world()->get_terrain();
+	PT(Terrain) terrain = World::get_world()->get_terrain();
 	int max_sectors = terrain->MAX_SETORES;
 
 	/* Obtém os setores adjacentes (player_sector exclusive) */

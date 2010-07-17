@@ -95,14 +95,14 @@ void ObjetoJogo::blink(const Event*, void *data){
 /*! O objeto moveu. Dessa maneira, algumas verificações e atualizações são feitas */
 void ObjetoJogo::has_moved(){
 	if(prev_pos.compare_to(get_pos()) != 0){
-		if(World::get_default_world()){
-			if(World::get_default_world()->get_terrain()){
+		if(World::get_world()){
+			if(World::get_world()->get_terrain()){
 				if (parent_sector != NULL){
 					parent_sector->update_object_sector((PT(ObjetoJogo)) this);
 				}
 
 				//WARNING: Não utilizar "update_object_z()" dentro desta classe.
-				World::get_default_world()->get_terrain()->update_object_z((PT(ObjetoJogo)) this);
+				World::get_world()->get_terrain()->update_object_z((PT(ObjetoJogo)) this);
 			}
 		}
 
@@ -121,18 +121,18 @@ void ObjetoJogo::move(float velocity) {
 	LVecBase3f desloc = this->get_pos() + is_inverted()*forward * (this->get_scale().get_x() * velocity * elapsed *0.2);
 
 	// Se o movimento for valido, o faça!
-	if(World::get_default_world()->get_terrain()->has_inside(desloc)) this->set_pos(desloc);
+	if(World::get_world()->get_terrain()->has_inside(desloc)) this->set_pos(desloc);
 }
 
 
 /*! Atualiza a inclinação do objeto */
 void ObjetoJogo::update_pr(){
-	World::get_default_world()->get_terrain()->update_object_z((PT(ObjetoJogo)) this);
-	NodePath root = World::get_default_world()->get_terrain()->get_root();
+	World::get_world()->get_terrain()->update_object_z((PT(ObjetoJogo)) this);
+	NodePath root = World::get_world()->get_terrain()->get_root();
 
 	/* Obtendo o vetor normal do terreno */
-	int terrain_size = World::get_default_world()->get_terrain()->get_x_size();
- 	LVector3f normal (World::get_default_world()->get_terrain()->get_normal(this->get_x(), terrain_size-this->get_y()));
+	int terrain_size = World::get_world()->get_terrain()->get_x_size();
+ 	LVector3f normal (World::get_world()->get_terrain()->get_normal(this->get_x(), terrain_size-this->get_y()));
 	normal.set(normal.get_x() / root.get_sx(), normal.get_y() / root.get_sy(), normal.get_z() / root.get_sz());
 	normal.normalize();
 
@@ -157,5 +157,5 @@ void ObjetoJogo::update_pr(){
 //TODO: O ajuste do set_z deveria ser feito para movimento também.
 void ObjetoJogo::set_offset_z(double offset){
 	this->offset_z = offset;
-	set_z(World::get_default_world()->get_terrain()->get_elevation(get_x(), get_y()) + offset);
+	set_z(World::get_world()->get_terrain()->get_elevation(get_x(), get_y()) + offset);
 }

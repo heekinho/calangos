@@ -22,7 +22,7 @@ PovCamera::PovCamera(PT(Camera) camera) : CameraNode(camera){
 
 	dummy->set_pos(*object, 0, -50 * 5, 0);
 	dummy->set_scale(0.05);
-	World::get_default_world()->get_terrain()->update_node_z(*dummy);
+	World::get_world()->get_terrain()->update_node_z(*dummy);
 }
 
 void PovCamera::activate(){
@@ -64,7 +64,7 @@ void PovCamera::update() {
 
 	/* O lagarto só deve movimentar a cabeça se o botão do meio do mouse estiver pressionado */
 	if(mwatcher->is_button_down(MouseButton::three())){
-		World::get_default_world()->get_terrain()->update_node_z(*dummy);
+		World::get_world()->get_terrain()->update_node_z(*dummy);
 		dummy->set_pos(*object, mouse_x * -50*5, -50*5, dummy->get_z() + mouse_y * 50*5);
 		look_at(*dummy);
 	}

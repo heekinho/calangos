@@ -25,8 +25,8 @@ void RedLegged::load_redleggeds(int qtd){
 	RedLegged::redleggeds_placeholder = Animal::animals_placeholder.attach_new_node("RedLeggeds Placeholder");
 
 	// Tamanho do terreno para delimitar a area
-	int terrain_x_size = World::get_default_world()->get_terrain()->get_x_size();
-	int terrain_y_size = World::get_default_world()->get_terrain()->get_y_size();
+	int terrain_x_size = World::get_world()->get_terrain()->get_x_size();
+	int terrain_y_size = World::get_world()->get_terrain()->get_y_size();
 
 	ModelRepository::get_instance()->get_animated_model("siriema")->set_scale(0.03);
 
@@ -41,7 +41,7 @@ void RedLegged::load_redleggeds(int qtd){
 
 		npc->set_pos(x, y, 0);
 		npc->set_h(rand()%360);
-		World::get_default_world()->get_terrain()->add_predator((PT(Predator)) npc);
+		World::get_world()->get_terrain()->add_predator((PT(Predator)) npc);
 		npc->get_anim_control()->loop("andar", false);
 		npc->reparent_to(Simdunas::get_window()->get_render());
 	}

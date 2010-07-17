@@ -8,14 +8,11 @@
 TypeHandle CameraNode::_type_handle;
 
 /*! Constrói um CameraNode */
-//TODO: Verificar necessidade desse CameraControl
 CameraNode::CameraNode(PT(Camera) camera) : NodePath(camera){
 	this->camera = camera;
-	this->object = Player::get_instance();//CameraControl::get_instance()->get_object();
+	this->object = Player::get_instance();
 
-
-	// Define algumas configuracoes de camera (gerais)
-	//World::get_default_world()->get_skybox()->wrt_reparent_to(*this);
+	/* Define algumas configuracoes de camera (gerais) */
 	this->camera->get_lens()->set_near_far(0.1, 2000.0);
 
 	Simdunas::get_evt_handler()->add_hook("window-event", update_configs, this);
@@ -57,27 +54,24 @@ void CameraNode::set_hooks(){
 	Simdunas::get_evt_handler()->add_hook(PlayerControl::EV_player_move, update, this);
 }
 
+/*! É chamado para remover os eventos de update da camera que estavam sendo ouvidos */
 void CameraNode::unset_hooks(){
 	Simdunas::get_evt_handler()->remove_hook(PlayerControl::EV_player_move, update, this);
 }
-
 
 /*! É chamado pelos eventos cadastrados para assim chamar o update da camera */
 void CameraNode::update(const Event* evt, void *data){
 	((PT(CameraNode))(CameraNode*) data)->update();
 }
 
-
 /* É chamado para que ocorra a atualização da camera */
 void CameraNode::update(){}
-
 
 /* Ao ativar a camera, este método é chamado */
 void CameraNode::activate(){
 	this->update();
 	this->set_hooks();
 }
-
 
 /* Ao desativa a camera pode ser necessário fazer algumas operações */
 void CameraNode::deactivate(){

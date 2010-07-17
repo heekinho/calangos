@@ -35,7 +35,7 @@ void Spider::load_spiders(int qtd){
 	ModelRepository::get_instance()->get_animated_model("aranha")->set_scale(0.0003);
 	ModelRepository::get_instance()->get_model("aranha")->set_scale(0.0003);
 
-	PT(Terrain) terrain = World::get_default_world()->get_terrain();
+	PT(Terrain) terrain = World::get_world()->get_terrain();
 
 	for (int i = 0; i < qtd; i++) {
 		/* Sorteia uma posição aleatória */

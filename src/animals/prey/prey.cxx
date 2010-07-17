@@ -61,12 +61,12 @@ void Prey::configure_prey(const string name, int living_tree_prob, float nutrici
 
 
 	/* Gera localização aleatória. */
-	LPoint3f point = World::get_default_world()->get_terrain()->get_random_point();
+	LPoint3f point = World::get_world()->get_terrain()->get_random_point();
 	set_pos(point);
 	set_h(rand()%360);
 
 	/* Adiciona os animais ao mundo. */
-	World::get_default_world()->get_terrain()->add_prey((PT(Prey)) this);
+	World::get_world()->get_terrain()->add_prey((PT(Prey)) this);
 
 	/* Dependendo da caracteristica, atribui ou não uma árvore para o npc */
 	if((rand() % 100) <= living_tree_prob){

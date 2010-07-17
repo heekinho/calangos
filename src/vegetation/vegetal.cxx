@@ -323,8 +323,8 @@ void Vegetal::load_vegetals(int density) {
 	//Vegetal::vegetals_placeholder.reparent_to(Simdunas::get_window()->get_render());
 	Vegetal::visible_vegetals_placeholder.reparent_to(Simdunas::get_window()->get_render());
 
-	int terrain_x_size = (int) World::get_default_world()->get_terrain()->get_x_size();
-	int terrain_y_size = (int) World::get_default_world()->get_terrain()->get_y_size();
+	int terrain_x_size = (int) World::get_world()->get_terrain()->get_x_size();
+	int terrain_y_size = (int) World::get_world()->get_terrain()->get_y_size();
 	
 	point_max = LPoint2d(terrain_x_size, terrain_y_size);
 
@@ -357,8 +357,8 @@ void Vegetal::unload_vegetals() {
 	// Removendo os vegetais dos setores
 	// O Garbage do Panda (PT) já cuida de deletar
 	for (int cont = 0; cont < Terrain::MAX_SETORES; cont++){
-		World::get_default_world()->get_terrain()->get_setor(cont)->vegetals()->clear();
-		World::get_default_world()->get_terrain()->get_setor(cont)->edible_vegetals()->clear();
+		World::get_world()->get_terrain()->get_setor(cont)->vegetals()->clear();
+		World::get_world()->get_terrain()->get_setor(cont)->edible_vegetals()->clear();
 	}
 	models.clear();
 
@@ -378,10 +378,10 @@ void Vegetal::hook_change_season(const Event* evt, void *data){
 
 void Vegetal::change_season(Season::SeasonType season){
 	current_season = season;
-	World::get_default_world()->get_terrain()->remove_all_edible_vegetals();
+	World::get_world()->get_terrain()->remove_all_edible_vegetals();
 
 	for (int cont = 0; cont < Terrain::MAX_SETORES; cont++){
-		SectorItems<PT(Vegetal)>* vegetals = World::get_default_world()->
+		SectorItems<PT(Vegetal)>* vegetals = World::get_world()->
 				get_terrain()->get_setor(cont)->vegetals();
 		SectorItems<PT(Vegetal)>::iterator it;
 		for(it = vegetals->begin(); it != vegetals->end(); ++it){
@@ -409,7 +409,7 @@ void Vegetal::change_season(Season::SeasonType season){
 
 /*!atualiza setores visiveis e invisiveis de acordo com o player*/
 void Vegetal::update_show_hide(){
-	PT(Terrain) terrain = World::get_default_world()->get_terrain();
+	PT(Terrain) terrain = World::get_world()->get_terrain();
 	int max_sectors = terrain->MAX_SETORES;
 
 	for (int i = 0; i < max_sectors; ++i){
@@ -424,7 +424,7 @@ void Vegetal::update_show_hide(){
 		if(sector->is_player_neighbor()) sector->_vegetals.show();
 		else sector->_vegetals.hide();
 	}
-	World::get_default_world()->get_terrain()->get_shadows()->update_active_shadows();
+	World::get_world()->get_terrain()->get_shadows()->update_active_shadows();
 }
 
 /*! configura eventos de show and hide dos setores*/
@@ -509,9 +509,9 @@ void Vegetal::load_edible_vegetal_model(string name, int quant_flower, int quant
 			vegetal->set_x(new_x);
 			vegetal->set_y(new_y);
 
-			vegetal->set_z(World::get_default_world()->get_terrain()->get_elevation(new_x,new_y)+vegetal->get_offset_z()+2);
+			vegetal->set_z(World::get_world()->get_terrain()->get_elevation(new_x,new_y)+vegetal->get_offset_z()+2);
 			vegetal->set_h(rand()%360);
-			World::get_default_world()->get_terrain()->add_edible_vegetal(vegetal);
+			World::get_world()->get_terrain()->add_edible_vegetal(vegetal);
 		}
 	}
 
@@ -621,7 +621,7 @@ void Vegetal::build_forest(){
 											centers[i].get_y() + center_distance);
 
 		//definindo area do centro
-		int current_z = (int)( World::get_default_world()->get_terrain()->get_elevation(centers[i].get_x(), centers[i].get_y()));
+		int current_z = (int)( World::get_world()->get_terrain()->get_elevation(centers[i].get_x(), centers[i].get_y()));
 		Area::AreaType area = Area::MID;
 		
 		if(current_z <= LOW_TERRAIN_DIVISION) area = Area::LOW;
@@ -692,8 +692,8 @@ void Vegetal::build_forest(){
 				shadow_image.read("models/sombra.png");
 
 				//Criar as sombras da árvore.
-				World::get_default_world()->get_terrain()->get_shadows()->create_shadow(shadow_image, *vegetal);
-				World::get_default_world()->get_terrain()->add_vegetal(vegetal);
+				World::get_world()->get_terrain()->get_shadows()->create_shadow(shadow_image, *vegetal);
+				World::get_world()->get_terrain()->add_vegetal(vegetal);
 				cont_tree++;
 			}
 			else
@@ -725,9 +725,9 @@ void Vegetal::build_forest(){
 	cout << "quantidade de arvores geradas: " << quantidade_arv << endl;
 
 	// Adiciona um pouco de transparencia ao canal das sombras.
-	World::get_default_world()->get_terrain()->get_shadows()->add_transparency_to_shadows(0.5);
+	World::get_world()->get_terrain()->get_shadows()->add_transparency_to_shadows(0.5);
 	// De fato mostra as sombras. É como se tivesse fazendo antes um offscreen buffer.
-	World::get_default_world()->get_terrain()->get_shadows()->update_shadows();
+	World::get_world()->get_terrain()->get_shadows()->update_shadows();
 }
 
 
@@ -760,7 +760,7 @@ vector<LVecBase3f> Vegetal::generate_elements(LPoint2d start, LPoint2d end, int 
 
 		// Verifica se é uma posição válida e instancia um vegetal seguindo os padrões de area etc.
 		if(verify_distance(&generate_elements_buffer, random_point, distance + model_radius)
-		     && World::get_default_world()->get_terrain()->has_inside(random_point)){
+		     && World::get_world()->get_terrain()->has_inside(random_point)){
 			// Mantém controle sobre os pontos (até sair do escopo) e gera o vegetal.
 			generate_elements_buffer.push_back(random_point);
 			current_qtd++;

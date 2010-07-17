@@ -25,7 +25,7 @@ void Predator::act(){
 			bite();
 		}
 		else{
-			PT(Setor) setor = World::get_default_world()->get_terrain()->get_setor_from_pos(player->get_x(), player->get_y());
+			PT(Setor) setor = World::get_world()->get_terrain()->get_setor_from_pos(player->get_x(), player->get_y());
 			SectorItems<PT(Vegetal)>* vegetal_list = setor->vegetals();
 			SectorItems<PT(Vegetal)>::iterator it;
 			for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it){

@@ -28,7 +28,7 @@ void NearCamera::update() {
 	// Manter a camera a um pé acima do terreno,
 	// ou dois pés acima do objeto, o que for maior.
 	normalizacao *= 0.1;
-	World::get_default_world()->get_terrain()->update_node_z(*this);
+	World::get_world()->get_terrain()->update_node_z(*this);
 	if((object->get_z() + normalizacao) > (this->get_z() + (normalizacao/2))) this->set_z(object->get_z() + (normalizacao));
 	else this->set_z(this->get_z() + normalizacao);
 

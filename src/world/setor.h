@@ -10,19 +10,17 @@
 #include "prey.h"
 
 #include "referenceCount.h"
-#include <list>
-#include <vector>
 
 #include "sectorItems.h"
 
-class Setor : public TypedReferenceCount{
+class Setor : public TypedReferenceCount {
 public:
 	Setor(LPoint2d inicio, LPoint2d fim, int indice);
 
 	~Setor();
 	void unload_sector();
 
-	static void npc_moving(const Event* evt, void *data);
+//	static void npc_moving(const Event* evt, void *data);
 	void update_object_sector(PT(ObjetoJogo) object);
 
 	/*! Caracteristicas do setor */
@@ -45,10 +43,6 @@ public:
 
 	void hide_vegetals();
 	void show_vegetals();
-
-	int get_closest_object_index_to(LPoint3f ref_point, vector<PT(ObjetoJogo)> *ref_vector);
-	PT(ObjetoJogo) get_closest_object_to(LPoint3f ref_point, vector<PT(ObjetoJogo)> *ref_vector);
-
 
 	static TypeHandle get_class_type() { return _type_handle; }
 	static void init_type() { register_type(_type_handle, "Setor"); }

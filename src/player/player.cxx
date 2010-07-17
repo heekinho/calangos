@@ -96,9 +96,9 @@ void Player::load_player(){
 	Player::get_instance()->set_pos(255,255, 0);
 
 	/* Posicionamento inicial do Player */
-	PT(Setor) setor = World::get_default_world()->get_terrain()->get_setor_from_pos(LPoint2d(256.0, 256.0));
+	PT(Setor) setor = World::get_world()->get_terrain()->get_setor_from_pos(LPoint2d(256.0, 256.0));
 	Player::get_instance()->set_setor(setor);
-	World::get_default_world()->get_terrain()->update_adjacent_sectors(setor);
+	World::get_world()->get_terrain()->update_adjacent_sectors(setor);
 
 	/* Configuracoes das Animacoees */
 	Player::get_instance()->set_blend(true, true, PartBundle::BT_normalized_linear);
@@ -115,7 +115,7 @@ void Player::load_player(){
 /*! Muda de setor alem de atualizar os setores adjacentes */
 void Player::change_sector(PT(Setor) new_sector){
 	this->ObjetoJogo::change_sector(new_sector);
-	World::get_default_world()->get_terrain()->update_adjacent_sectors(new_sector);
+	World::get_world()->get_terrain()->update_adjacent_sectors(new_sector);
 
 	/* Quando o player muda de setor é necessário uma redistribuição dos npcs. */
 	Animal::redistribute_animals();
@@ -124,7 +124,7 @@ void Player::change_sector(PT(Setor) new_sector){
 	Vegetal::update_show_hide();
 
  	//Vegetal::show_player_next_sector_vegetation();
- 	//World::get_default_world()->get_terrain()->get_shadows()->update_active_shadows(new_sector);
+ 	//World::get_world()->get_terrain()->get_shadows()->update_active_shadows(new_sector);
 }
 
 void Player::has_moved(){
