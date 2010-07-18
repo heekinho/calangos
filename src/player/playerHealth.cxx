@@ -278,13 +278,10 @@ void Player::event_pmonth(const Event*, void *data){
 	if(player->idade ==IDADE_REPRODUTIVA){
 		GuiManager::get_instance()->liga_led_estado_reprodutivo();
 
-
-		player->clear_texture();
-		//Player::get_instance()->get_texture
 		PT(TextureStage) ts = player->find_all_texture_stages().get_texture_stage(0);
-		ts->set_mode(TextureStage::M_replace);
+		ts->set_mode(TextureStage::M_modulate);
 		PT(Texture) t = TexturePool::load_texture("models/lizards/" + player->get_specie_name(player->lizard_specie) + "/male/texture.jpg");
-		player->set_texture(ts, t, 1);
+		player->set_texture(ts, t, 2);
 
 		player->lizard_gender = Player::male;
 	}
