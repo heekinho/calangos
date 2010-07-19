@@ -90,8 +90,8 @@ void Prey::load_prey_specie(const string name, int qtd, double scale, int living
 
 		//=====================================================//
 //		if(comp_group){
-//			npc->group = new GroupPrey();
-//			npc->group->add_prey(npc);
+//			npc->_group = new GroupPrey();
+//			npc->_group->add_prey(npc);
 //
 //			PT(Prey) last_leader = npc; // Começa com o líder!
 //
@@ -103,14 +103,14 @@ void Prey::load_prey_specie(const string name, int qtd, double scale, int living
 //				c_npc->look_at(*last_leader);
 //
 //				last_leader = c_npc;
-//				npc->group->add_prey(c_npc);
-//				c_npc->group = npc->group;
+//				npc->_group->add_prey(c_npc);
+//				c_npc->_group = npc->_group;
 //			}
-//			npc->group->calc_leaders();
+//			npc->_group->calc_leaders();
 //		}
 //		else
 		{
-			npc->group = NULL;
+			npc->_group = NULL;
 		}
 		//=====================================================//
 	}
@@ -130,7 +130,7 @@ void Prey::load_prey_specie(const string name, int qtd, double scale, int living
 //void Prey::migrate_prey(PT(ObjetoJogo) theanimal, PT(Setor) sector_to){
 //	PT(Prey) theprey = (PT(Prey))(Prey*)(ObjetoJogo*) theanimal;
 //
-//	if(theprey->group == NULL) {
+//	if(theprey->_group == NULL) {
 //		Animal::migrate_animal(theanimal, sector_to);
 //		return;
 //	}
@@ -141,7 +141,7 @@ void Prey::load_prey_specie(const string name, int qtd, double scale, int living
 //		theprey->set_pos(random_pos.get_x(), random_pos.get_y(), 0);
 //
 //		PT(Prey) last_leader = theprey;
-//		for (list<PT(Prey)>::iterator it = theprey->group->get_array()->begin(); it != theprey->group->get_array()->end(); ++it){
+//		for (list<PT(Prey)>::iterator it = theprey->_group->get_array()->begin(); it != theprey->_group->get_array()->end(); ++it){
 //			(*it)->set_pos(last_leader->get_x(), last_leader->get_y()+0.1, 0);
 //			(*it)->look_at(*last_leader);
 //			last_leader = *it;
