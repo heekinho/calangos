@@ -7,6 +7,7 @@
 #include "clockObject.h"
 #include "eventParameter.h"
 #include "menu.h"
+#include "collision.h"
 
 
 #include <iostream>
@@ -84,6 +85,9 @@ void TimeControl::event_pframe_gui_options(const Event *, void *data){
 
 void TimeControl::event_pframe(const Event *, void *data){
 	PT(TimeControl) time = (PT(TimeControl))(TimeControl*)data;
+
+        //VERIFICA SE HOUVE COLISÃO A CADA FRAME
+        collision::get_instance()->detectaColisao();
 	//cout << "\n passed an frame"  << "\nelapsed_time: " << time->especial_count << endl;
 
 	/* Como diria o Angra: "Tempo que passou, não vai mais voltar, tudo que se foi..."
@@ -98,7 +102,7 @@ void TimeControl::event_pframe(const Event *, void *data){
 }
 
 void TimeControl::event_psegundo_real(const Event *, void *data){
-	#if(DEBUG_TCONTROL)
+#if(DEBUG_TCONTROL)
 		cout << "\n passed an real second" << endl;
 	#endif
 }

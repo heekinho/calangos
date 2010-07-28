@@ -8,6 +8,8 @@
 #include "maleLizard.h"
 #include "youngLizard.h"
 
+#include "collision.h"
+
 #define VEL_WALK 1000.0
 #define VEL_RUN 5000.0
 
@@ -18,6 +20,8 @@
 Lizard::Lizard(NodePath node) : Animal(node){
 	bind_anims(this->node());
 	init();
+        //adiciona solido de colisão aos NPCs
+        collision::get_instance()->npcCollision(&node, 0, 0, 0, 100.0);
 }
 
 Lizard::~Lizard(){

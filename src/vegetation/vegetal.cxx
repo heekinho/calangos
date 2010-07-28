@@ -6,7 +6,7 @@
 #include "terrain.h"
 #include "simdunas.h"
 #include "nodePath.h"
-
+#include "collision.h"
 #include "edibleVegetal.h"
 
 map<string,PT(Vegetal)> Vegetal::models;
@@ -33,7 +33,9 @@ NodePath Vegetal::visible_vegetals_placeholder = NodePath("Vegetals Placeholder"
 
 Vegetal::Vegetal(){}
 Vegetal::Vegetal(const string &model) : ObjetoJogo(model){}
-Vegetal::Vegetal(NodePath node) : ObjetoJogo(node) {}
+Vegetal::Vegetal(NodePath node) : ObjetoJogo(node) {
+
+}
 
 Vegetal::Vegetal(PT(ObjetoJogo) base_object) : ObjetoJogo(vegetals_placeholder.attach_new_node("VegetalPlaceholder")){
 	base_object->instance_to(*this);
@@ -277,6 +279,9 @@ void Vegetal::add_vegetal_model(const string &name, float radius, float scale, f
 		const string &map_name = name + posfix;
 		PT(Vegetal) especie = new Vegetal(*ModelRepository::get_instance()->get_model(map_name));
 
+                //ADICIONA NÓ DE COLISÃO A TODOS OS VEGETAIS CARREGADOS
+                //esses valores de raios não estão perfeitos ainda
+                collision::get_instance()->vegetalCollision(especie, 0, 0, 1, 4*radius);
 		//especie->set_area(area);
 		especie->set_radius(radius);
 		especie->set_scale(scale);

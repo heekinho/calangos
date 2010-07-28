@@ -1,7 +1,7 @@
 #include "player.h"
 #include "menu.h"
 #include "modelRepository.h"
-
+# include "collision.h"
 #define DEBUG_PLAYER 0
 
 bool Player::instanceFlag = false;
@@ -91,6 +91,9 @@ void Player::load_player(){
 
 	/* [ATENCAO] Esta sendo chamado o primeiro Player::get_instance em ModelRepository */
 	//Player::get_instance((PT(AnimatedObjetoJogo)) ModelRepository::get_instance()->get_animated_model("tropidurus/female"));
+
+        //CRIA NÓ DE COLISÃO PARA O PLAYER
+        collision::get_instance()->playerCollision(Player::get_instance());
 
 	Player::get_instance()->set_scale(Player::get_instance()->tamanho_lagarto_real);
 	Player::get_instance()->set_pos(255,255, 0);
