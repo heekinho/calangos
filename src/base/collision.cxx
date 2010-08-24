@@ -82,7 +82,7 @@ void collision::vegetalCollision(NodePath* node, float x, float y, float z, floa
      // cNode->add_solid(new CollisionTube(0, -3, 0, 0, -10, 5, 20));
       cNode->add_solid(new CollisionSphere(x, y, z, raio));
       NodePath vegetal = node->attach_new_node(cNode);
-      vegetal.show();
+      //vegetal.show();
   }
 
 

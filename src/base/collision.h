@@ -20,7 +20,8 @@ public:
     collision(const collision& orig);
     virtual ~collision();
 
-    void npcCollision(NodePath* no, float x, float y, float z, float raio);
+    void collisionNpcFast(NodePath* no, float x, float y, float z, float raio);
+    void collisionNpcSlow(NodePath* no, float x, float y, float z, float raio);
 
     void vegetalCollision(NodePath* no, float x, float y, float z, float raio);
 
@@ -29,14 +30,13 @@ public:
     //SingleTon
     static collision* get_instance();
 
-    void detectaColisao();
-    
+    void detectaColisaoFps();
+     void detectaColisaoSeg();
 
 
 private:
     static bool instanceFlag;
     static collision *single;
-
 };
 
 #endif	/* _COLLISION_H */

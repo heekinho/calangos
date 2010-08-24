@@ -76,21 +76,22 @@ void Vegetal::load_default_model_and_data()
 	seasons[Season::RAINY] = string("-chuvoso");
 
 	//configura vegetais
+        //(String, radius, scale, offset_z, multiplicador, x,y, z)
 	add_vegetal_model("mimosa", 1.5, 0.2);
-	add_vegetal_model("quipa", 1, 0.09);
-	add_vegetal_model("eugenia", 5, 0.20, -0.15);
-	add_vegetal_model("mandacaru", 5, 0.22,-0.2);
-	add_vegetal_model("colher", 5, 0.20,-0.2);
-	add_vegetal_model("bromelia", 2, 0.20, -0.1);
-	add_vegetal_model("xique_xique", 3, 0.2, -0.20);
-	add_vegetal_model("murici", 2, 0.15, -0.15);
-	add_vegetal_model("simaba", 4, 0.20, -0.15);
-	add_vegetal_model("bocoa", 4, 0.20,-0.2);
-	add_vegetal_model("chamaecrista", 4, 0.20, -0.15);
-	add_vegetal_model("copaifera", 6, 0.20,-0.2);
-	add_vegetal_model("croton", 4, 0.20,-0.2);
-	add_vegetal_model("harpochilus", 3, 0.20, -0.2);
-	add_vegetal_model("jatropha", 6, 0.20, -0.25);
+	add_vegetal_model("quipa", 1, 0.09,0, 45); //ok
+        add_vegetal_model("eugenia", 5, 0.20, -0.15, 4);//ok
+	add_vegetal_model("mandacaru", 5, 0.22,-0.2, 4); // OK
+	add_vegetal_model("colher", 5, 0.20,-0.2, 2);//ok
+	add_vegetal_model("bromelia", 2, 0.20, -0.1, 4); //ok
+	add_vegetal_model("xique_xique", 3, 0.2, -0.20, 4); // ok
+	add_vegetal_model("murici", 2, 0.15, -0.15, 4);//ok
+	add_vegetal_model("simaba", 4, 0.20, -0.15, 5);//ok
+	add_vegetal_model("bocoa", 4, 0.20,-0.2, 8, -4);//mexendo
+	add_vegetal_model("chamaecrista", 4, 0.20, -0.15, 4, 0, 0, 10);//ok
+	add_vegetal_model("copaifera", 6, 0.20,-0.2, 4);
+	add_vegetal_model("croton", 4, 0.20,-0.2, 8, 5, 11);//ok
+	add_vegetal_model("harpochilus", 3, 0.20, -0.2, 7, 5);//ok
+	add_vegetal_model("jatropha", 6, 0.20, -0.25, 5);//ok
 
 	//mudança de estação
 	
@@ -268,7 +269,7 @@ void Vegetal::configure_edible_vegetal_flower(string model_name, int percent_dry
  * @param radius - raio do modelo
  * @param scale - escala do modelo
  * @param offset_z - deslocamento do modelo no eixo z*/
-void Vegetal::add_vegetal_model(const string &name, float radius, float scale, float offset_z)
+void Vegetal::add_vegetal_model(const string &name, float radius, float scale, float offset_z, float multiplicador, float x, float y, float z)
 {
 	vegetals_name.push_back(name);
 	
@@ -281,7 +282,7 @@ void Vegetal::add_vegetal_model(const string &name, float radius, float scale, f
 
                 //ADICIONA NÓ DE COLISÃO A TODOS OS VEGETAIS CARREGADOS
                 //esses valores de raios não estão perfeitos ainda
-                collision::get_instance()->vegetalCollision(especie, 0, 0, 1, 4*radius);
+                collision::get_instance()->vegetalCollision(especie, x, y, z, multiplicador*radius);
 		//especie->set_area(area);
 		especie->set_radius(radius);
 		especie->set_scale(scale);
@@ -304,7 +305,8 @@ void Vegetal::add_vegetal_model(const string &map_name, const string &reposit_na
 {
 	PT(Vegetal) especie = new Vegetal(*ModelRepository::get_instance()->get_model(reposit_name));
 
-	especie->set_area(area);
+
+        especie->set_area(area);
 	especie->set_radius(radius);
 	especie->set_scale(scale);
 	especie->set_offset_z(offset_z);

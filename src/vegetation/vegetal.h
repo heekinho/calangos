@@ -40,8 +40,8 @@ public:
 	void configure_vegetal(PT(Vegetal) base_vegetal);
 	void configure_position( PT(Vegetal) base_vegetal);	
 
-	static void add_vegetal_model(const string &name,
-	            float radius = 1.0, float scale = 1.0, float offset_z  = 0.0);
+	static void add_vegetal_model(const string &name, float radius = 1.0, float scale = 1.0,
+                        float offset_z  = 0.0, float multiplicador = 4.0, float x = 0, float y = 0, float z = 5);
 	static void add_vegetal_model(const string &map_name, const string &reposit_name, const string &veg_name,
 	            Area::AreaType area, float radius = 1.0, float scale = 1.0, float offset_z  = 0.0);
 
