@@ -21,7 +21,7 @@ Lizard::Lizard(NodePath node) : Animal(node){
 	bind_anims(this->node());
 	init();
         //adiciona solido de colisão aos NPCs
-        collision::get_instance()->npcCollision(&node, 0, 0, 0, 100.0);
+       collision::get_instance()->collisionNpcSlow(&node, 0, 0, 0, 100.0);
 }
 
 Lizard::~Lizard(){

@@ -8,7 +8,7 @@
 Predator::Predator(NodePath node) : Animal(node){
 	set_velocity(200.0);
             //adiciona solido de colisão aos predadores (ficou legal esses valores para altura e raio)
-        collision::get_instance()->npcCollision(&node, 0, 0, 20, 10);
+        collision::get_instance()->collisionNpcFast(&node, 0, 0, 20, 10);
 }
 
 Predator::~Predator(){}
