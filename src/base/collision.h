@@ -23,7 +23,7 @@ public:
     void collisionNpcFast(NodePath* no, float x, float y, float z, float raio);
     void collisionNpcSlow(NodePath* no, float x, float y, float z, float raio);
 
-    void vegetalCollision(NodePath* no, float x, float y, float z, float raio);
+    void esferaCollision(NodePath* no, float x, float y, float z, float raio);
 
     NodePath* playerCollision(NodePath* no);
 

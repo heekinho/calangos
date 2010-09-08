@@ -21,8 +21,8 @@ CollisionTraverser* collTravSlow;
       
 
 collision::collision() {
-     collTravPlayer = new CollisionTraverser();
-     collTravSlow  = new CollisionTraverser();
+     collTravPlayer = new CollisionTraverser();  //tratamento de colisões para o jogador e a siriema
+     collTravSlow  = new CollisionTraverser();  //tratamento de colisões para animais lentos como os lizards
 }
 
 collision::collision(const collision& orig) {
@@ -39,10 +39,11 @@ NodePath* collision::playerCollision(NodePath* node){
   
         cNode->add_solid(new CollisionSphere(0, 0, -20, 180.0)); //cria solido colisão (esfera) e add ao nó de colisão
         NodePath player = node->attach_new_node(cNode);
-        //player.show();
+       // player.show();
         pusher.add_collider(player, *node);
         collTravPlayer->add_collider(player , &pusher);
 }
+
 
 collision* collision::get_instance() {
 	if(!instanceFlag) {
@@ -51,15 +52,16 @@ collision* collision::get_instance() {
     }
     return single;
 }
+
   //ADICIONA NÓS DE COLISÃO AOS NPCs
   //sendo usado na classe predator no método construtor.
-  //exemplo de como usar o método: --> collision::get_instance()->npcCollision(&node, 0, 0, 0, 10.0);
+  //exemplo de como usar o método: --> collision::get_instance()->collisionNpcFast(&node, 0, 0, 0, 10.0);
 void collision::collisionNpcFast(NodePath* node, float x, float y, float z, float raio){
          
       CollisionNode* cNode = new CollisionNode("NPC");      
       cNode->add_solid(new CollisionSphere(x, y, z, raio));
       NodePath npc = node->attach_new_node(cNode);
-    //  npc.show();
+    // npc.show();
      pusher.add_collider(npc, *node);
     collTravPlayer->add_collider(npc , &pusher);
   }
@@ -69,14 +71,14 @@ void collision::collisionNpcSlow(NodePath* node, float x, float y, float z, floa
       CollisionNode* cNode = new CollisionNode("NPC");
       cNode->add_solid(new CollisionSphere(x, y, z, raio));
       NodePath npc = node->attach_new_node(cNode);
-    //  npc.show();
-     pusher.add_collider(npc, *node);
-     collTravSlow->add_collider(npc , &pusher);
+     // npc.show();
+      pusher.add_collider(npc, *node);
+      collTravSlow->add_collider(npc , &pusher);
   }
 
 //Adiciona sólido de colisão aos vegetais, sendo usado na classe vegetal
-//Exemplo de como usar esse método: collision::get_instance()->vegetalCollision(&node);
-void collision::vegetalCollision(NodePath* node, float x, float y, float z, float raio){
+//Exemplo de como usar esse método: collision::get_instance()->esferaCollision(&node,x,y,z,raio);
+void collision::esferaCollision(NodePath* node, float x, float y, float z, float raio){
 
       CollisionNode* cNode = new CollisionNode("vegetal");
      // cNode->add_solid(new CollisionTube(0, -3, 0, 0, -10, 5, 20));

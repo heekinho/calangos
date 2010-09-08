@@ -282,7 +282,7 @@ void Vegetal::add_vegetal_model(const string &name, float radius, float scale, f
 
                 //ADICIONA NÓ DE COLISÃO A TODOS OS VEGETAIS CARREGADOS
                 //esses valores de raios não estão perfeitos ainda
-                collision::get_instance()->vegetalCollision(especie, x, y, z, multiplicador*radius);
+                collision::get_instance()->esferaCollision(especie, x, y, z, multiplicador*radius);
 		//especie->set_area(area);
 		especie->set_radius(radius);
 		especie->set_scale(scale);

@@ -1,5 +1,5 @@
 #include "prey.h"
-
+#include "collision.h"
 #include "groupPrey.h"
 #include "spider.h"
 #include "world.h"
@@ -12,6 +12,8 @@ Prey::Prey(NodePath node) : Animal(node) {
 	this->radius_thr = 1.5;
 	this->fleing = false;
 	set_velocity(0.085);
+ 
+        
 };
 
 /*! Realiza o carremento das presas */
@@ -44,6 +46,8 @@ void Prey::configure_prey_model(const string name, double scale){
 	ModelRepository::get_instance()->get_animated_model(name)->get_anim_control()->loop("character", false);
 	ModelRepository::get_instance()->get_animated_model(name)->set_scale(scale);
 	ModelRepository::get_instance()->get_model(name)->set_scale(scale);
+        collision::get_instance()->esferaCollision(ModelRepository::get_instance()->get_animated_model(name), 0, 0, 0, 10000*scale);
+        collision::get_instance()->esferaCollision(ModelRepository::get_instance()->get_model(name), 0, 0, 0, 10000*scale);
 }
 
 /*! Configura a presa de acordo com os valores passados */
@@ -85,9 +89,9 @@ void Prey::load_prey_specie(const string name, int qtd, double scale, int living
 	Prey::configure_prey_model(name, scale);
 	for(int i = 0; i < qtd; i++){
 		/* Cria nova instância de cada Presa. */
-		PT(Prey) npc = new Prey(NodePath("Prey PlaceHolder"));
+		PT(Prey) npc = new Prey(NodePath("Prey PlaceHolder"));               
 		npc->configure_prey(name, living_tree_prob, nutricional, hidratacao);
-
+                  
 		//=====================================================//
 //		if(comp_group){
 //			npc->_group = new GroupPrey();
@@ -260,5 +264,6 @@ void Prey::pause_animation(){
 /*! Continua a animação, neste caso fazendo o link com o modelo animado */
 void Prey::continue_animation(){
 	node()->remove_all_children();
+        
 	ModelRepository::get_instance()->get_animated_model(get_tag("model_name"))->instance_to(*this);
 }

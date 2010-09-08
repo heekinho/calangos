@@ -107,6 +107,7 @@ void TimeControl::event_psegundo_real(const Event *, void *data){
 	#endif
                 //A cada segundo verifica se houve colisão dos Lagartos NPCs com os demais objetos
                  collision::get_instance()->detectaColisaoSeg();
+                 //cout << "\n PASSOU 1 SEGUNDO" << endl;
 
 }
 
