@@ -7,6 +7,7 @@
 /* Animais a serem carregados */
 #include "prey.h"
 #include "spider.h"
+#include "frog.h"
 #include "redLegged.h"
 #include "lizard.h"
 
@@ -42,6 +43,7 @@ void Animal::load_animals(){
 	Prey::load_prey();
 	Predator::load_predators();
 	Lizard::load_lizards();
+	Frog::load_frogs();
 }
 
 /*! Exclui e remove do grafo de cena todos os animais, liberando memória. */

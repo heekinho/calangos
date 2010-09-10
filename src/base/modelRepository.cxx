@@ -54,6 +54,11 @@ void ModelRepository::load_models(){
 
 	// Animais
 	nout << endl << "Carregando NPCs" << endl;
+
+	/* Outros Animais */
+	add_model("sapo", "models/npcs/sapo");
+
+
 	/* Presas */
 	//TODO: Criar método para criar um conjunto: (aranha, besouro, cupim...)
 	add_model("aranha", "models/npcs/aranha_anim");
@@ -134,7 +139,7 @@ void ModelRepository::load_models(){
 	add_model("murici-flor","models/vegetation/Murici/murici_flor_sep");
 	add_model("murici-fruto","models/vegetation/Murici/murici_fruto");
 	add_model("xique_xique-fruto","models/vegetation/Xique_xique/xique_fruto");
-	
+
 	//nao cometiveis
 	//add_model("quipa-fruto","models/vegetation/Quipa/fruto_quipa");
 	//add_model("eugenia-fruto","models/vegetation/Eugenia/eugenia_fruto");
