@@ -10,7 +10,7 @@
 #include "collisionHandlerPusher.h"
 #include "collisionNode.h"
 #include "collisionSphere.h"
-
+#include "menu.h"
 
 
 class collision {
@@ -32,6 +32,7 @@ public:
 
     void detectaColisaoFps();
      void detectaColisaoSeg();
+
 
 
 private:

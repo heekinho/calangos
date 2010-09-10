@@ -31,7 +31,8 @@ bool Menu::controle = false;
 bool Menu::showing_creditos = false;
 char* Menu::tecla = NULL;
 Menu * Menu::instance = NULL;
-
+//para desativar a colisão no jogo basta colocar false neste variável:
+bool Menu::colisao =true;
 
 //mudei de lugar
 NodePath Menu::button_sair = NULL;
@@ -1397,6 +1398,11 @@ void Menu::graph(const Event*, void* data) {
 
     session->receive_answer(tecla);
     //return tecla;
+}
+
+
+bool Menu::get_colisao() {
+    return colisao;
 }
 
 Menu* Menu::get_instance() {
