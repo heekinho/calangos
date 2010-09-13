@@ -150,6 +150,8 @@ int Terrain::get_escala(){
 void Terrain::add_setor(PT(Setor) setor){
 	if(_setores.size() < MAX_SETORES){
 		_setores.push_back(setor);
+                
+                
 	}
 }
 
@@ -253,17 +255,30 @@ void Terrain::init_sectors(){
 	int width = x_size/NUM_SECTORS_X;
 	int height = y_size/NUM_SECTORS_Y;
 
+        no_setores=new NodePath[MAX_SETORES];//64 setores 
+        
+       // no_setores=Simdunas::get_window()->get_render().attach_new_node("setor");
+
+    std::string s;
+    std::stringstream out;
+
 	for(double x = 0; x < x_size; x = x + width) {
 		for (double y = 0; y < y_size; y = y + height) {
 			LPoint2d pos_inicio = LPoint2d(x, y);
 			LPoint2d pos_fim = LPoint2d( x+(width-1), y+(height-1) );
 
 			PT(Setor) novoSetor = new Setor(pos_inicio, pos_fim, index);
-			terrain->add_setor(novoSetor);
+                        out << index;
+                        s = out.str();
+                        no_setores[index]=Simdunas::get_window()->get_render().attach_new_node("setor"+s);
+                        terrain->add_setor(novoSetor);
 			index++;
+
+
+                        
 		}
 	}
-
+        
 }
 
 /*! Para Debug */

@@ -13,7 +13,7 @@
 
 #include "sectorItems.h"
 
-class Setor : public TypedReferenceCount {
+class Setor : public TypedReferenceCount,public NodePath {
 public:
 	Setor(LPoint2d inicio, LPoint2d fim, int indice);
 

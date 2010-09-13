@@ -1,3 +1,6 @@
+
+#include <list>
+
 #include "prey.h"
 #include "collision.h"
 #include "groupPrey.h"
@@ -80,7 +83,12 @@ void Prey::configure_prey(const string name, int living_tree_prob, float nutrici
 	else set_has_living_tree(false);
 
 	/* Finalmente o torna disponível pra visualização. */
-	reparent_to(Simdunas::get_window()->get_render());
+	//reparent_to(Terrain::create_default_terrain()->get_setor_from_pos(get_x(),get_y())->node());
+       
+       
+        wrt_reparent_to(Terrain::create_default_terrain()->no_setores[Terrain::create_default_terrain()->get_setor_from_pos(get_x(),get_y())->get_indice()].node());
+       // reparent_to(Simdunas::get_window()->get_render());
+        
 	continue_animation();
 }
 
@@ -91,7 +99,7 @@ void Prey::load_prey_specie(const string name, int qtd, double scale, int living
 		/* Cria nova instância de cada Presa. */
 		PT(Prey) npc = new Prey(NodePath("Prey PlaceHolder"));               
 		npc->configure_prey(name, living_tree_prob, nutricional, hidratacao);
-                  
+                
 		//=====================================================//
 //		if(comp_group){
 //			npc->_group = new GroupPrey();
@@ -159,6 +167,12 @@ void Prey::change_sector(PT(Setor) new_sector){
 	get_setor()->preys()->remove(this);
 	new_sector->preys()->push_back(this);
 	//set_random_living_tree();
+        SectorItems<PT(Prey)>::iterator it;//MUDANDO OS PREYS PARA O NÓ DO SETOR 
+        for(it=get_setor()->preys()->begin();it!=get_setor()->preys()->end();it++){
+           PT(Prey) tem= *it;
+           tem->reparent_to(Terrain::create_default_terrain()->no_setores[new_sector->get_indice()].node());
+          
+        }
 }
 
 /*! É chamado quando uma redistribuição aconteceu. Assim, é possível

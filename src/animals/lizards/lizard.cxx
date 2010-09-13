@@ -130,7 +130,8 @@ void Lizard::load_lizards(){
 		World::get_world()->get_terrain()->add_lizard(lizard);
 		lizard->get_anim_control()->find_anim("walk")->loop(true);
 
-		lizard->reparent_to(Simdunas::get_window()->get_render());
+lizard->wrt_reparent_to(Terrain::create_default_terrain()->no_setores[Terrain::create_default_terrain()->get_setor_from_pos(lizard->get_x(),lizard->get_y())->get_indice()].node());
+                //lizard->reparent_to(Simdunas::get_window()->get_render());
 
 		//lizard->tamanho = ClimaTempo::get_instance()->random_normal(60, 20);
 		//lizard->energia = ClimaTempo::get_instance()->random_normal(60, 20);
@@ -188,6 +189,13 @@ void Lizard::flee(){
 void Lizard::change_sector(PT(Setor) new_sector){
 	get_setor()->lizards()->remove(this);
 	new_sector->lizards()->push_back(this);
+
+        SectorItems<PT(Lizard)>::iterator it;//MUDANDO OS PREYS PARA O NÓ DO SETOR
+        for(it=get_setor()->lizards()->begin();it!=get_setor()->lizards()->end();it++){
+           PT(Lizard) tem= *it;
+           tem->reparent_to(Terrain::create_default_terrain()->no_setores[new_sector->get_indice()].node());
+
+        }
 }
 
 

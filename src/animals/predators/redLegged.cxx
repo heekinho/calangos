@@ -43,7 +43,8 @@ void RedLegged::load_redleggeds(int qtd){
 		npc->set_h(rand()%360);
 		World::get_world()->get_terrain()->add_predator((PT(Predator)) npc);
 		npc->get_anim_control()->loop("andar", false);
-		npc->reparent_to(Simdunas::get_window()->get_render());
+		//npc->reparent_to(Simdunas::get_window()->get_render());
+npc->wrt_reparent_to(Terrain::create_default_terrain()->no_setores[Terrain::create_default_terrain()->get_setor_from_pos(npc->get_x(),npc->get_y())->get_indice()].node());
 	}
 }
 
