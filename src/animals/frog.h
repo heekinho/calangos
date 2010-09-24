@@ -9,7 +9,14 @@ public:
 
 	void change_sector(PT(Setor) new_sector);
 	static void load_frogs();
-	//virtual void act();
+	virtual void act();
+
+	virtual void pause_animation();
+	virtual void continue_animation();
+
+private:
+	int jumps;
+	bool jumping;
 };
 
 #endif
