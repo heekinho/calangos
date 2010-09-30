@@ -151,6 +151,23 @@ void ObjetoJogo::update_pr(){
 	LVector3f vroll = LVector3f(-sin_h, cos_h, 0);
 	float roll = 90 - normal.angle_deg(vroll);
 	set_r(roll);
+	
+//	/* Terreno */
+//	PT(Terrain) terrain = World::get_world()->get_terrain();
+//	NodePath root = terrain->get_root();
+//
+//	/* Obtém um ponto logo à frente do objeto */
+//	LPoint3f forward = Simdunas::get_window()->get_render().get_relative_point(*this, LPoint3f(0,1,0));
+//
+//	/* Obtem a normal do terreno */
+//	LVector3f normal = terrain->get_normal(get_x(), get_y());
+//	normal.set(-normal.get_x()/root.get_sx(), -normal.get_y()/root.get_sy(), normal.get_z()/root.get_sz());
+//	normal.normalize();
+//
+//	/* Corrige a normal do objeto */
+//	float h = get_h(); 					// Para corrigir um bug de propagação de erros.
+//	heads_up(forward, normal);			// Warning: Produz erros do heading.
+//	set_h(h);		   					// Corrige  o erro introduzido na chamada acima.
 }
 
 /*! Define um valor de deslocamento do objeto no eixo Z, para ajustes */
