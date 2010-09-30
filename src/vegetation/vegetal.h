@@ -36,6 +36,7 @@ public:
 	static void load_vegetals(int density = 100);
 	static void unload_vegetals();
 	static void load_default_model_and_data();
+	static void flatten_vegetals();
 
 	void configure_vegetal(PT(Vegetal) base_vegetal);
 	void configure_position( PT(Vegetal) base_vegetal);	

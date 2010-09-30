@@ -40,6 +40,8 @@ void World::load_enviroment(){
 	/* Carrega vegetais. */
 	nout << "Distribuindo Vegetacao..." << endl;
 	Vegetal::load_vegetals();
+	nout << "Juntando vegetação..." << endl;
+	Vegetal::flatten_vegetals();
 	nout << endl;
 
 	/* Carrega os NPCs. */

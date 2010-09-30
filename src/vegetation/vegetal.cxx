@@ -372,6 +372,31 @@ void Vegetal::unload_vegetals() {
 	vegetals_placeholder.remove_node();
 }
 
+/*! Dá flatten no animais por setores. */
+void Vegetal::flatten_vegetals(){
+	/* Patch para dar flatten na vegetação */
+	/* Problemas no Patch:
+	 * 	- Em alguns trechos do código, utiliza-se get_pos(). Com a operação
+	 * 	de flatten, esta informação é perdida.
+	 * Por enquanto, estou criando uma cópia (sic) e colocando para renderizar.
+	 * */
+	PT(Terrain) terrain = World::get_world()->get_terrain();
+
+	for(int i = 0; i < terrain->MAX_SETORES; i++){
+		PT(Setor) sector = terrain->get_setor(i);
+		SectorItems<PT(Vegetal)>::iterator it = sector->vegetals()->begin();
+		while(it != sector->vegetals()->end()){
+			//NodePath vcopy = (*it)->copy_to(NodePath("Vegetal_copy"));
+			//NodePath vcopy = (*it)->instance_to(NodePath("Vegetal_copy"));
+			//(*it)->reparent_to(sector->_vegetals);
+			//vcopy.reparent_to(sector->_vegetals);
+			it++;
+		}
+		sector->_vegetals.clear_model_nodes();
+		sector->_vegetals.flatten_strong();
+	}
+}
+
 void Vegetal::configure_change_season_event(){
 	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_month, hook_change_season, NULL);
 }
@@ -615,22 +640,21 @@ bool Vegetal::is_vegetal_group(PT(Vegetal) vegetal)
 /*! Realiza a distribuição das árvores */
 void Vegetal::build_forest(){
 
-
 	vector<LVecBase3f> centers = generate_elements(LPoint2d(0, 0), point_max, center_points, center_distance, center_edge);
 	generate_elements_buffer.clear();
 
 	int quantidade_arv = 0;
 	// Para cada centro, gera as árvores.
 	for( unsigned int i = 0; i < centers.size(); i++){
-		LPoint2d start = LPoint2d(centers[i].get_x() - center_distance, 
+		LPoint2d start = LPoint2d(centers[i].get_x() - center_distance,
 											centers[i].get_y() - center_distance);
-		LPoint2d end = LPoint2d(centers[i].get_x() + center_distance, 
+		LPoint2d end = LPoint2d(centers[i].get_x() + center_distance,
 											centers[i].get_y() + center_distance);
 
 		//definindo area do centro
 		int current_z = (int)( World::get_world()->get_terrain()->get_elevation(centers[i].get_x(), centers[i].get_y()));
 		Area::AreaType area = Area::MID;
-		
+
 		if(current_z <= LOW_TERRAIN_DIVISION) area = Area::LOW;
 		else if (current_z > HIGH_TERRAIN_DIVISION) area = Area::HIGH;
 
@@ -640,7 +664,7 @@ void Vegetal::build_forest(){
 		int cont_conjunt = 0;
 		string veg_name;
 		LPoint2d group_start, group_end;
-		
+
 		//porcentagem de vegetais na area
 		int new_tree_points = tree_points;
 		if(area == Area::LOW) new_tree_points = tree_points * VEGETAL_PERCENT_LOW_AREA / 100;
@@ -653,7 +677,7 @@ void Vegetal::build_forest(){
 			Area::AreaType area_tree = randomize_area(area);
 			PT(Vegetal) vegetal;
 			unsigned int old_cont = vegetals.size();
-			
+
 			//sorteia a posicao do vegetal no centro
 			//separa sorteio por vegetais de grupo ou normal
 			//vegetais de grupo so sao achados em conjunto com outros da mesma especie
@@ -678,7 +702,7 @@ void Vegetal::build_forest(){
 				vegetals = generate_elements(group_start, group_end, 1, tree_distance, vegetal->get_radius());
 				cont_conjunt--;
 			}
-			
+
 			//verifica se foi possivel acrescentar a arvore
 			if( vegetals.size() > old_cont )
 			{
@@ -688,7 +712,7 @@ void Vegetal::build_forest(){
 				vegetal->set_h(rand() % 360);
 				//vegetal->load_edible_vegetal_model("eugenia",0,3);
 				vegetal->load_edible_vegetals(vegetal->get_vegetal_name(), current_season);
-				
+
 				// adicionar pequenas variações no tamanho, largura etc.
 
 				// Sombras
@@ -710,7 +734,7 @@ void Vegetal::build_forest(){
 			}
 		}
 
-		/* 
+		/*
 		//mostra apenas (distancia x, distancia y, distancia necessaria) entre vegetais
 		for( int i = 0; i < generate_elements_buffer.size() - 1; i++)
 			for( int j = i + 1; j < generate_elements_buffer.size(); j++)
@@ -719,7 +743,7 @@ void Vegetal::build_forest(){
 				float y = fabs( generate_elements_buffer[i].get_y() - generate_elements_buffer[j].get_y() );
 				int radius = tree_distance + generate_elements_buffer[i].get_z() + generate_elements_buffer[j].get_z();
 				nout << "(" << x << "," << y << "," << radius << ") ";
-			} 
+			}
 			nout << endl << endl;
 		*/
 
