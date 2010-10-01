@@ -155,13 +155,14 @@ void Animal::redistribute_animals(){
 //			Prey::migrate_prey((vector<PT(ObjetoJogo)>*) sector->get_animals(), sector, all_neighbors);
 //			Animal::migrate_animals((vector<PT(ObjetoJogo)>*) sector->get_lizards(), sector, all_neighbors);
 //			Animal::migrate_animals((list<PT(ObjetoJogo)>*) sector->predators(), sector, all_neighbors);
+			Animal::migrate_animals((list<PT(ObjetoJogo)>*) sector->animals(), sector, all_neighbors);
 		}
 	}
 }
 
 
 /*! Migra animais de um setor para outro */
-void Animal::migrate_animals(vector<PT(ObjetoJogo)>* vect, PT(Setor) sector_from, vector<PT(Setor)> *sectors_to){
+void Animal::migrate_animals(list<PT(ObjetoJogo)>* vect, PT(Setor) sector_from, vector<PT(Setor)> *sectors_to){
 	while(vect->size() > 0){
 		int to = rand() % sectors_to->size();
 		Animal::migrate_animal(vect->back(), sectors_to->at(to));

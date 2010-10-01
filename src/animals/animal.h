@@ -17,7 +17,7 @@ public:
 	//virtual void has_moved();
 	virtual void change_sector(PT(Setor) new_sector) = 0;
 	static void redistribute_animals();
-	static void migrate_animals(vector<PT(ObjetoJogo)>* vect, PT(Setor) sector_from, vector<PT(Setor)> *sectors_to);
+	static void migrate_animals(list<PT(ObjetoJogo)>* vect, PT(Setor) sector_from, vector<PT(Setor)> *sectors_to);
 	static void migrate_animal(PT(ObjetoJogo) theanimal, PT(Setor) to);
 
 	/* Ações relacionadas ao movimento */
