@@ -94,7 +94,7 @@ void Vegetal::load_default_model_and_data()
 	add_vegetal_model("jatropha", 6, 0.20, -0.25, 4, 0, -9);//ok
 
 	//mudança de estação
-	
+
 	add_data("mimosa-seco",50);
 	add_data("mimosa-chuvoso",50);
 
@@ -137,11 +137,11 @@ void Vegetal::load_default_model_and_data()
 
 	add_data("harpochilus-seco",50);
 	add_data("harpochilus-chuvoso",50);
-	
+
 	add_data("jatropha-seco",50);//50
 	add_data("jatropha-chuvoso",50);//50
-	
-	
+
+
 	//densidades
 	add_data("mimosa-low-density",20);
 	add_data("quipa-low-density",119);
@@ -207,8 +207,8 @@ void Vegetal::load_default_model_and_data()
 	add_data("jatropha-shadow-radius",2);
 	add_data("chamaecrista-shadow-radius",0);
 	add_data("harpochilus-shadow-radius",0);
-	
-	
+
+
 	//configuração de frutos e flores por estação
 	//bocoa chamaecrista copaifera croton harpochilus jatropha
 	configure_edible_vegetal_fruit("mimosa",0,0,0,0);
@@ -272,7 +272,7 @@ void Vegetal::configure_edible_vegetal_flower(string model_name, int percent_dry
 void Vegetal::add_vegetal_model(const string &name, float radius, float scale, float offset_z, float multiplicador, float x, float y, float z)
 {
 	vegetals_name.push_back(name);
-	
+
 	map<Season::SeasonType,string>::iterator current;
 	for(current = seasons.begin(); current != seasons.end(); current++)
 	{
@@ -325,14 +325,14 @@ void Vegetal::add_data(const string &map_name, int value)
 void Vegetal::load_vegetals(int density) {
 
 	load_default_model_and_data();
-	
+
 	//Vegetal::vegetals_placeholder = Simdunas::get_window()->get_render().attach_new_node("Vegetals Placeholder");
 	//Vegetal::vegetals_placeholder.reparent_to(Simdunas::get_window()->get_render());
 	Vegetal::visible_vegetals_placeholder.reparent_to(Simdunas::get_window()->get_render());
 
 	int terrain_x_size = (int) World::get_world()->get_terrain()->get_x_size();
 	int terrain_y_size = (int) World::get_world()->get_terrain()->get_y_size();
-	
+
 	point_max = LPoint2d(terrain_x_size, terrain_y_size);
 
 	// Distâncias de configuração entre árvores e entre centros.
@@ -387,9 +387,9 @@ void Vegetal::flatten_vegetals(){
 		SectorItems<PT(Vegetal)>::iterator it = sector->vegetals()->begin();
 		while(it != sector->vegetals()->end()){
 			//NodePath vcopy = (*it)->copy_to(NodePath("Vegetal_copy"));
-			//NodePath vcopy = (*it)->instance_to(NodePath("Vegetal_copy"));
+			NodePath vcopy = (*it)->instance_to(NodePath("Vegetal_copy"));
 			//(*it)->reparent_to(sector->_vegetals);
-			//vcopy.reparent_to(sector->_vegetals);
+			vcopy.reparent_to(sector->_vegetals);
 			it++;
 		}
 		sector->_vegetals.clear_model_nodes();
@@ -420,7 +420,7 @@ void Vegetal::change_season(Season::SeasonType season){
 			//busca por modelo a partir do nome e estacao
 			string model_name = (*it)->get_vegetal_name();
 			model_name += seasons[current_season];
-			
+
 			//sorteia chance do vegetal mudar na estacao
 			if( rand() % 100 < datas[model_name] )
 			{
@@ -431,8 +431,8 @@ void Vegetal::change_season(Season::SeasonType season){
 
 				*it = NULL;
 				*it = new_vegetal;
-				
-				//sorteia frutos 
+
+				//sorteia frutos
 				(*it)->load_edible_vegetals(new_vegetal->get_vegetal_name(), season);
 			}
 		}
@@ -475,7 +475,7 @@ void Vegetal::load_edible_vegetals(string veg_name, Season::SeasonType type) {
 
 	int quant_flower = datas[season_vegetal+"-fruto"];
 	int quant_fruit = datas[season_vegetal+"-flor"];
-	
+
 	load_edible_vegetal_model(veg_name, quant_flower, quant_fruit);
 }
 
@@ -490,7 +490,7 @@ void Vegetal::load_edible_vegetal_model(string name, int quant_flower, int quant
 
 	//qunatidade de frutos
 	int quant = 0;
-	if(max_edible_per_tree > 0) 
+	if(max_edible_per_tree > 0)
 		quant = rand() % max_edible_per_tree;
 	//pequena variacao para n parecer padronizado
 	param += rand() % 360;
@@ -501,7 +501,7 @@ void Vegetal::load_edible_vegetal_model(string name, int quant_flower, int quant
 	*/
 	for(int c = 0; c < quant; param+=(360.0/quant), c++ )
 	{
-		
+
 		//sorteia posicao mais perto ou mais longe da arvore
 		radius_size = static_cast<int>(get_radius());
 		float radius = (rand()%radius_size) + 1;
@@ -514,7 +514,7 @@ void Vegetal::load_edible_vegetal_model(string name, int quant_flower, int quant
 		float new_x = get_x() + result*radius;
 		result = sin (param*3.14/180);
 		float new_y = get_y() + result*radius;
-		
+
 		//escolhe fruto ou flor
 		if(quant_flower == 0) {
 			type = EdibleT::FRUIT;
@@ -532,7 +532,7 @@ void Vegetal::load_edible_vegetal_model(string name, int quant_flower, int quant
 			else {
 				type = EdibleT::FRUIT;
 				--quant_fruit;
-			}	
+			}
 		}
 
 		// configura vegetal comestivel
@@ -574,7 +574,7 @@ PT(Vegetal) Vegetal::get_random_vegetal(Area::AreaType area) {
 	unsigned int index;
 	vector<PT(Vegetal)> * vegetals;
 	vegetals = &low_area;
-	
+
 	index = get_random_vegetal_index_by_density(vegetals, area);
 	return new Vegetal( vegetals->at(index) );
 
@@ -591,7 +591,7 @@ int Vegetal::get_random_vegetal_index_by_density( vector<PT(Vegetal)> *vegetals,
 		name_density = vegetals->at(index++)->get_vegetal_name() + get_name_area(area) + "-density";
 		max += datas[ name_density ];
 	}
-	
+
 	int random = (rand() % max) + 1;
 	index = 0;
 	max = 0;
@@ -602,7 +602,7 @@ int Vegetal::get_random_vegetal_index_by_density( vector<PT(Vegetal)> *vegetals,
 			return index;
 		index++;
 	}
-	
+
 	return 0;
 }
 
@@ -621,7 +621,7 @@ string Vegetal::get_name_area(Area::AreaType area)
 	default:
 		cout << "Erro em get_name_area() na classe Center" << endl;
 		exit(1);
-	}	
+	}
 }
 
 /*! verifica se o vegetal eh distribuido em conjuntos*/
@@ -781,7 +781,7 @@ vector<LVecBase3f> Vegetal::generate_elements(LPoint2d start, LPoint2d end, int 
 		/* A área tem um ponto de inicio e de fim.
 		 * Então, sorteia-se um ponto dentro dessa area levando em consideração que ele tem um raio (distance).
 		 * rand_x = rand() % (TAMANHO_DA_AREA_LEVANDO_EM_CONTA_O_RAIO) + (POSICIONANDO_NO_PERIMETRO_CERTO).
-		 * O TAMANHO_DE_AREA considera de 0 ao tamanho máximo mas desconsidera que esse bloco de area pode 
+		 * O TAMANHO_DE_AREA considera de 0 ao tamanho máximo mas desconsidera que esse bloco de area pode
 		 * estar localizado em outro ponto de um terreno maior, portanto soma-se + inicio.get_"V"().
 		 * A soma + distance em POSICIONAMENTO serve para centralizar. */
 
@@ -804,7 +804,7 @@ vector<LVecBase3f> Vegetal::generate_elements(LPoint2d start, LPoint2d end, int 
 
 
 
-/*! Confere com todos os pontos já distribuidos, se o ponto + distancia é uma posicão válida e 
+/*! Confere com todos os pontos já distribuidos, se o ponto + distancia é uma posicão válida e
  * se esta dentro da area total permitida
  */
 
@@ -813,7 +813,7 @@ bool Vegetal::verify_distance(vector<LVecBase3f>* points, LVecBase3f point, floa
 	for( unsigned int i = 0; i < points->size(); i++){
 		float x = fabs( points->at(i).get_x() - point.get_x() );
 		float y = fabs( points->at(i).get_y() - point.get_y() );
-		
+
 		if( x < distance + (*points)[i].get_z() && y < distance + (*points)[i].get_z() ) return false;
 
 		if(point.get_x() + distance >= point_max.get_x() || point.get_y() + distance >= point_max.get_y()
