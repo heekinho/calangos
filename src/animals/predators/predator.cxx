@@ -1,33 +1,66 @@
 #include "predator.h"
 #include "player.h"
 
+#include "modelRepository.h"
 #include "redLegged.h"
 #include "fox.h"
 
 #include "collision.h"
 
+/*! Constrói um Predador */
 Predator::Predator(NodePath node) : Animal(node){
 	set_velocity(200.0);
-            //adiciona solido de colisão aos predadores (ficou legal esses valores para altura e raio)
-        collision::get_instance()->collisionNpcFast(&node, 0, 0, 20, 10);
+	//adiciona solido de colisão aos predadores (ficou legal esses valores para altura e raio)
+	collision::get_instance()->collisionNpcFast(&node, 0, 0, 20, 10);
 }
 
 Predator::~Predator(){}
 
-
+/*! Carrega todos os predadores do jogo */
 void Predator::load_predators(){
 	RedLegged::load_redleggeds(30);
-	Fox::load_foxes(1);
+	//Fox::load_foxes(1);
+	Predator::load_predator("raposa", 40, 0.01, -1);
 }
 
 
+/*! Carrega uma quantidade de predadores com comportamento padrão, de determinado tipo */
+void Predator::load_predator(const string &model, int qtd, float scale, int orientation){
+	ModelRepository::get_instance()->get_animated_model(model)->set_scale(scale);
+
+	PT(Terrain) terrain = World::get_world()->get_terrain();
+	for(int i = 0; i < qtd; i++){
+		/* Carrega e cria uma cópia (deep) do modelo */
+		NodePath base_predator = ModelRepository::get_instance()->get_animated_model(model)->copy_to(NodePath());
+		PT(Predator) predator = new Predator(base_predator);
+		predator->bind_anims(predator->node());
+
+		/* Define localização e orientação aleatórias */
+		predator->set_h(rand()%360);
+		predator->set_pos(terrain->get_random_point());
+		predator->set_orientation(orientation);
+
+		/* Adiciona o predator ao terreno e ao render */
+		terrain->add_predator(predator);
+		predator->reparent_to(Simdunas::get_window()->get_render());
+
+		/* Roda a animação */
+		predator->get_anim_control()->loop("andar", false);
+	}
+}
+
+
+/*! Roda o comportamento de ações do predador.
+ * O predador basicamente perambula, e ao encontrar o lagarto dentro de uma
+ * certa distância ele parte para o ataque */
 void Predator::act(){
 	float distance = 10;
 	PT(Player) player = Player::get_instance();
 	LVector3f predator_to_player = this->get_pos() - player->get_pos();
 
 	if(predator_to_player.length() < distance){
-		if (predator_to_player.length() < 0.1){
+		nout << predator_to_player.length() << endl;
+		if (predator_to_player.length() < 0.3){
 			bite();
 		}
 		else{
@@ -62,7 +95,7 @@ void Predator::change_sector(PT(Setor) new_sector){
         this->reparent_to(Terrain::create_default_terrain()->no_setores[new_sector->get_indice()]);
 }
 
-
+/*! Roda comportamento de perseguição */
 void Predator::pursuit(){
 	if(!this->get_anim_control()->is_playing("comer")){
 		if(!get_anim_control()->is_playing("andar")) get_anim_control()->play("andar");
@@ -74,7 +107,7 @@ void Predator::pursuit(){
 	}
 }
 
-
+/*! Roda comportamento de mordida/comer */
 void Predator::bite(){
 	if(!this->get_anim_control()->is_playing("comer")){
 		get_anim_control()->stop_all();
@@ -87,11 +120,13 @@ void Predator::bite(){
 	}
 }
 
+/*! Pausa a nimação */
 void Predator::pause_animation(){
 	get_anim_control()->stop_all();
 	get_anim_control()->pose("andar", 7);
 }
 
+/*! Retoma a animação */
 void Predator::continue_animation(){
 	if(!get_anim_control()->is_playing("andar")) get_anim_control()->play("andar");
 }

@@ -37,7 +37,9 @@ public:
 
 	INLINE double get_offset_z();
 	void set_offset_z(double offset);
-	virtual int is_inverted(){ return 1; };
+
+	void set_orientation(int orientation){ this->orientation = orientation; };
+	virtual int is_inverted(){ return orientation; };
 
 	virtual void move(float velocity);
 	void update_pr();
@@ -64,6 +66,7 @@ private:
 	virtual void init();
 	AnimControlCollection anims;
 protected:
+	int orientation;
 	LPoint3f prev_pos;
 	double offset_z;
 	PT(Setor) parent_sector;

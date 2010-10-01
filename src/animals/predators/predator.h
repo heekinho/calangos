@@ -10,6 +10,7 @@ public:
 	~Predator();
 
 	static void load_predators();
+	static void load_predator(const string &model, int qtd, float scale, int orientation = -1);
 
 	virtual void act();
 	virtual void pause_animation();

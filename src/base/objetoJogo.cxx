@@ -40,6 +40,7 @@ void ObjetoJogo::init(){
 	parent_sector = NULL;
 	offset_z = 0.0;
 	prev_pos = LPoint3f(this->NodePath::get_pos());
+	orientation = 1;
 }
 
 /* Destrói o ObjetoJogo */

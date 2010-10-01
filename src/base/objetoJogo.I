@@ -24,7 +24,6 @@ INLINE float ObjetoJogo::get_distance_squared(LPoint3f other){
 	return (get_pos() - other).length_squared();
 }
 
-
 INLINE void ObjetoJogo::look_at(const NodePath &other){
 	NodePath::look_at(other);
 	if(is_inverted() == -1) set_h(*this, 180);
