@@ -9,30 +9,42 @@ Frog::Frog(NodePath node) : Animal(node){
 	jumping = false;
 }
 
-PT(Frog) frog;
-
 /*! Carrega todos os sapos */
 void Frog::load_frogs(){
+	ModelRepository::get_instance()->get_model("sapo")->set_scale(0.0005);
 
-	ModelRepository::get_instance()->get_model("sapo")->set_scale(0.001);
+	PT(Terrain) terrain = World::get_world()->get_terrain();
 
+	int qtd = 10;
+	for(int i = 0; i < qtd; i++){
+		/* Cria nova instancia do sapo */
+		PT(Frog) frog = new Frog((*ModelRepository::get_instance()->get_model("sapo")).copy_to(NodePath()));
 
-	frog = new Frog(NodePath("Prey PlaceHolder"));
-	frog->reparent_to(Simdunas::get_window()->get_render());
-	frog->set_pos(256, 256, 0);
-	ModelRepository::get_instance()->get_model("sapo")->instance_to(*frog);
+		/* Define a posição e orientação aleatória, além da velocidade */
+		frog->set_pos(terrain->get_random_point());
+		frog->set_h(rand()%360);
+		frog->set_velocity(2300);
 
-	frog->set_velocity(5);
-	frog->bind_anims(ModelRepository::get_instance()->get_model("sapo")->node());
-	//frog->get_anim_control()->loop("character", false);
+		/* Conclui a referencia com o modelo e animação */
+		//ModelRepository::get_instance()->get_model("sapo")->instance_to(*frog);
+		frog->bind_anims(frog->node());
+
+		/* Adiciona na lista de animais e o coloca para renderização */
+		terrain->add_animal((PT(Animal)) frog);
+		frog->reparent_to(Simdunas::get_window()->get_render());
+	}
 }
 
 /*! Realiza mudança de setores */
 void Frog::change_sector(PT(Setor) new_sector){
-//	get_setor()->preys()->remove(dynamic_cast<Prey*>(this));
-//	new_sector->preys()->push_back(dynamic_cast<Prey*>(this));
+	get_setor()->preys()->remove(dynamic_cast<Prey*>(this));
+	new_sector->preys()->push_back(dynamic_cast<Prey*>(this));
 }
 
+/*! O comportamento do sapo se resume a:
+ *  1 - Ficar parado.
+ *  2 - De vez em quando dá n saltos seguidos, mudando-se trajetória aleatóriamente.
+ *  Ainda não há interação com os demais animais. */
 void Frog::act(){
 	int frame = get_anim_control()->get_frame("character");
 
@@ -52,10 +64,12 @@ void Frog::act(){
 	}
 }
 
+/*! Para a animação - quando o sapo fica estático */
 void Frog::pause_animation(){
 	get_anim_control()->stop_all();
 }
 
+/*! Roda a animação do salto */
 void Frog::continue_animation(){
-	frog->get_anim_control()->loop("character", false);
+	get_anim_control()->loop("character", false);
 }

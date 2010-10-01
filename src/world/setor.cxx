@@ -28,7 +28,7 @@ Setor::Setor(LPoint2d inicio, LPoint2d fim, int indice){
 	EV_player_not_next = sector_event_name.str();
 
 
-
+	_animal_list = SectorItems<PT(Animal)>(this);
 	_prey_list = SectorItems<PT(Prey)>(this);
 	_predator_list = SectorItems<PT(Predator)>(this);
 	_vegetal_list = SectorItems<PT(Vegetal)>(this);

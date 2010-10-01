@@ -35,11 +35,9 @@ void Terrain::add_lizard(PT(Lizard) lizard){
 }
 
 /*! Adiciona um animal ao seu respectivo setor */
-//TODO
-//void Terrain::add_animal(PT(Animal) animal){
-//	//Setor::add_animal(animal, get_setor_from_pos(animal->get_x(), animal->get_y()) );
-//	//get_setor_from_pos(animal->get_x(), animal->get_y())->preys()->push_back(animal);
-//}
+void Terrain::add_animal(PT(Animal) animal){
+	get_setor_from_pos(animal->get_x(), animal->get_y())->animals()->push_back(animal);
+}
 
 void Terrain::add_predator(PT(Predator) predator){
 	get_setor_from_pos(predator->get_x(), predator->get_y())->predators()->push_back(predator);

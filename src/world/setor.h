@@ -47,6 +47,7 @@ public:
 	static TypeHandle get_class_type() { return _type_handle; }
 	static void init_type() { register_type(_type_handle, "Setor"); }
 
+	SectorItems<PT(Animal)>* animals(){ return &_animal_list; };
 	SectorItems<PT(Prey)>* preys(){ return &_prey_list; };
 	SectorItems<PT(Predator)>* predators(){ return &_predator_list; };
 	SectorItems<PT(Vegetal)>* vegetals(){ return &_vegetal_list; };
@@ -54,6 +55,7 @@ public:
 	SectorItems<PT(Lizard)>* lizards(){ return &_lizard_list; };
 	SectorItems<PT(ObjetoJogo)>* tocas(){ return &_toca_list; };
 private:
+	SectorItems<PT(Animal)> _animal_list;
 	SectorItems<PT(Prey)> _prey_list;
 	SectorItems<PT(Predator)> _predator_list;
 	SectorItems<PT(Vegetal)> _vegetal_list;
