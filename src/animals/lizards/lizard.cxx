@@ -190,12 +190,8 @@ void Lizard::change_sector(PT(Setor) new_sector){
 	get_setor()->lizards()->remove(this);
 	new_sector->lizards()->push_back(this);
 
-        SectorItems<PT(Lizard)>::iterator it;//MUDANDO OS PREYS PARA O NÓ DO SETOR
-        for(it=get_setor()->lizards()->begin();it!=get_setor()->lizards()->end();it++){
-           PT(Lizard) tem= *it;
-           tem->reparent_to(Terrain::create_default_terrain()->no_setores[new_sector->get_indice()].node());
-
-        }
+         //mudando de nodepath
+        this->reparent_to(Terrain::create_default_terrain()->no_setores[new_sector->get_indice()]);
 }
 
 

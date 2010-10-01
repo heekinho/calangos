@@ -56,12 +56,8 @@ void Predator::change_sector(PT(Setor) new_sector){
 	get_setor()->predators()->remove(this);
 	new_sector->predators()->push_back(this);
 
-        SectorItems<PT(Predator)>::iterator it;//MUDANDO OS PREYS PARA O NÓ DO SETOR
-        for(it=get_setor()->predators()->begin();it!=get_setor()->predators()->end();it++){
-           PT(Predator) tem= *it;
-           tem->reparent_to(Terrain::create_default_terrain()->no_setores[new_sector->get_indice()].node());
-
-        }
+        //mudando de nodepath
+        this->reparent_to(Terrain::create_default_terrain()->no_setores[new_sector->get_indice()]);a
 }
 
 
