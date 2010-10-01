@@ -37,8 +37,8 @@ void Frog::load_frogs(){
 
 /*! Realiza mudança de setores */
 void Frog::change_sector(PT(Setor) new_sector){
-	get_setor()->preys()->remove(dynamic_cast<Prey*>(this));
-	new_sector->preys()->push_back(dynamic_cast<Prey*>(this));
+	get_setor()->animals()->remove(dynamic_cast<Animal*>(this));
+	new_sector->animals()->push_back(dynamic_cast<Animal*>(this));
 }
 
 /*! O comportamento do sapo se resume a:
