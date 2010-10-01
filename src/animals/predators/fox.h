@@ -8,6 +8,7 @@ public:
 	Fox(NodePath node);
 
 	static void load_foxes(int qtd);
+	virtual int is_inverted(){ return -1; };
 };
 
 #endif

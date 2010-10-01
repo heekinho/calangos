@@ -2,6 +2,7 @@
 #include "player.h"
 
 #include "redLegged.h"
+#include "fox.h"
 
 #include "collision.h"
 
@@ -16,6 +17,7 @@ Predator::~Predator(){}
 
 void Predator::load_predators(){
 	RedLegged::load_redleggeds(30);
+	Fox::load_foxes(1);
 }
 
 

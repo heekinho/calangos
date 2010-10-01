@@ -83,6 +83,8 @@ void ModelRepository::load_models(){
 	string siriema_anims[] = {"siriema_andar", "siriema_comer", "siriema_correr", "siriema_stand"};
 	add_animated_model("siriema", "models/npcs/siriema/", "siriema_model", "", 4, siriema_anims);
 
+	string raposa_anims[] = {"raposa_andar", "raposa_comer", "raposa_stand", "raposa_stand2"};
+	add_animated_model("raposa", "models/npcs/raposa/", "raposa_model", "", 4, raposa_anims);
 
 	// Vegetais
 	nout << endl << "Carregando Vegetais" << endl;
