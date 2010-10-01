@@ -167,12 +167,10 @@ void Prey::change_sector(PT(Setor) new_sector){
 	get_setor()->preys()->remove(this);
 	new_sector->preys()->push_back(this);
 	//set_random_living_tree();
-        SectorItems<PT(Prey)>::iterator it;//MUDANDO OS PREYS PARA O NÓ DO SETOR 
-        for(it=get_setor()->preys()->begin();it!=get_setor()->preys()->end();it++){
-           PT(Prey) tem= *it;
-           tem->reparent_to(Terrain::create_default_terrain()->no_setores[new_sector->get_indice()].node());
+     //mudando de nodepath
+        this->reparent_to(Terrain::create_default_terrain()->no_setores[new_sector->get_indice()]);
           
-        }
+        
 }
 
 /*! É chamado quando uma redistribuição aconteceu. Assim, é possível
