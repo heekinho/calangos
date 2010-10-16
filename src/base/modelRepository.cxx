@@ -81,10 +81,13 @@ void ModelRepository::load_models(){
 
 	/* Predadores */
 	string siriema_anims[] = {"siriema_andar", "siriema_comer", "siriema_correr", "siriema_stand"};
-	add_animated_model("siriema", "models/npcs/siriema/", "siriema_model", "", 4, siriema_anims);
+	add_animated_model("siriema", "models/npcs/predators/siriema/", "siriema_model", "", 4, siriema_anims);
 
 	string raposa_anims[] = {"raposa_andar", "raposa_comer", "raposa_stand", "raposa_stand2"};
-	add_animated_model("raposa", "models/npcs/raposa/", "raposa_model", "", 4, raposa_anims);
+	add_animated_model("raposa", "models/npcs/predators/raposa/", "raposa_model", "", 4, raposa_anims);
+
+	string gato_anims[] = {"gato_andar", "gato_comer", "gato_comer2", "gato_stand"};
+	add_animated_model("gato", "models/npcs/predators/gato/", "gato_model", "", 4, gato_anims);
 
 	// Vegetais
 	nout << endl << "Carregando Vegetais" << endl;

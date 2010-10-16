@@ -21,6 +21,7 @@ void Predator::load_predators(){
 	RedLegged::load_redleggeds(30);
 	//Fox::load_foxes(1);
 	Predator::load_predator("raposa", 40, 0.01, -1);
+	Predator::load_predator("gato", 200, 0.01, -1);
 }
 
 
@@ -59,7 +60,7 @@ void Predator::act(){
 	LVector3f predator_to_player = this->get_pos() - player->get_pos();
 
 	if(predator_to_player.length() < distance){
-		nout << predator_to_player.length() << endl;
+		//nout << predator_to_player.length() << endl;
 		if (predator_to_player.length() < 0.3){
 			bite();
 		}
@@ -87,12 +88,13 @@ void Predator::act(){
 
 }
 
+/*! Muda o Predador de setor */
 void Predator::change_sector(PT(Setor) new_sector){
 	get_setor()->predators()->remove(this);
 	new_sector->predators()->push_back(this);
 
-        //mudando de nodepath
-        this->reparent_to(Terrain::create_default_terrain()->no_setores[new_sector->get_indice()]);
+	//mudando de nodepath
+	this->reparent_to(Terrain::create_default_terrain()->no_setores[new_sector->get_indice()]);
 }
 
 /*! Roda comportamento de perseguição */
@@ -123,7 +125,8 @@ void Predator::bite(){
 /*! Pausa a nimação */
 void Predator::pause_animation(){
 	get_anim_control()->stop_all();
-	get_anim_control()->pose("andar", 7);
+	//get_anim_control()->pose("andar", 7);
+	get_anim_control()->loop("stand", false);
 }
 
 /*! Retoma a animação */
