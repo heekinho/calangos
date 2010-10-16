@@ -15,7 +15,8 @@ Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_anim
 	Player::get_gender_name(lizard_gender))){
 	in_toca = false;
 	_toca = NULL;
-	female_around = false;
+
+	_courted_female = NULL;
 
 	//int especie = Menu::get_instance()->get_especie();
 	load_health(Menu::get_instance()->get_especie());
@@ -135,6 +136,31 @@ void Player::has_moved(){
 	update_pr();
 }
 
+/*! Obtém o raio de ação do player: a partir de onde os objetos tornam-se passíveis de serem comidos */
+float Player::get_eat_radius_thr(){
+	return get_sx() * 270;
+}
+
+/*! Verifica se o objeto passado é alcançavel pelo player (ex.: para comer ou morder) */
+bool Player::reaches(PT(ObjetoJogo) object){
+	PT(Player) player = Player::get_instance();
+	if(!object || !player->get_setor()) return false;
+
+	/* Obtem os vetores para fazer as comparações de distância e angulo */
+	LVector3f player_to_target = LPoint3f(player->get_x(), player->get_y(), 0) - LPoint3f(object->get_x(), object->get_y(), 0);
+	player_to_target.normalize();
+	LVector3f player_y_versor = player->get_net_transform()->get_mat().get_row3(1);
+	player_y_versor.normalize();
+
+	/* Flags que definem se o objeto é alcançável tanto pela distância quanto pelo ângulo */
+	bool is_reachable = is_reachable = object->get_distance(*player) < player->get_eat_radius_thr();
+	bool is_ang_reachable = fabs(player_to_target.angle_deg(player_y_versor)) < 45;
+
+	if(is_reachable && is_ang_reachable) return true;
+	return false;
+}
+
+
 bool Player::is_in_toca(){
 	return in_toca;
 }
@@ -155,24 +181,26 @@ void Player::unload_player(){
 }
 
 bool Player::has_female_around(){
-	return female_around;
+	return _courted_female != NULL;
+}
+
+PT(FemaleLizard) Player::get_courted_female(){
+	return _courted_female;
 }
 
 void Player::update_female_around(){
-	float dist_thr = 5.0;
-
 	SectorItems<PT(Lizard)>* lizards = get_setor()->lizards();
 	SectorItems<PT(Lizard)>::iterator it;
 	for (it = lizards->begin(); it != lizards->end(); ++it) {
 		PT(Lizard) lizard = *it;
 		if(lizard->get_gender() == LizardGender::female){
 			float distance_player_to_female = (lizard->get_pos() - get_pos()).length();
-			if(distance_player_to_female < dist_thr){
-				this->female_around = true;
+			if(distance_player_to_female < get_female_thr()){
+				_courted_female = dynamic_cast<FemaleLizard*>((Lizard*) lizard);
 				return;
 			}
 		}
 	}
 
-	this->female_around = false;
+	_courted_female = NULL;
 }

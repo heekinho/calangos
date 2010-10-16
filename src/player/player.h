@@ -9,7 +9,7 @@
 #include "setor.h"
 #include "microClima.h"
 #include "vetores.h"
-
+#include "femaleLizard.h"
 #include "edible.h"
 
 // Forward Declaration
@@ -34,6 +34,13 @@ public:
 
 	static void load_player();
 
+
+	//static const float BITE_THR = 3.0;
+	float get_eat_radius_thr();
+	float get_toca_thr(){ return 0.3; };
+	float get_female_thr(){ return 5.0; };
+
+	bool reaches(PT(ObjetoJogo) object);
 
 	/* PlayerHealth - (playerHealth.cxx)
 	 * Relacionado com as variáveis de saúde do lagarto.
@@ -389,8 +396,10 @@ public:
 	//Procura fêmeas em um raio próximo
 	bool has_female_around();
 	void update_female_around();
+	PT(FemaleLizard) get_courted_female();
 private:
-	bool female_around;
+	//bool female_around;
+	PT(FemaleLizard) _courted_female;
 };
 
 #endif
