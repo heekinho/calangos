@@ -38,14 +38,24 @@ PlayerControl::~PlayerControl() {
 	instanceFlag = false;
 }
 
+
 PlayerControl::PlayerControl() {
+	_closest_biteable = NULL;
+	_closest_female = NULL;
+	_closest_toca = NULL;
+
 	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, update, this);
 	Simdunas::get_evt_handler()->add_hook(TimeControl::get_instance()->EV_segundo_real, event_female_next, this);
 
     indicator = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), "models/indicator.png");
-    indicator.set_scale(0.0005);
     indicator.set_billboard_point_eye(0);
 
+    _female_indicator = indicator.copy_to(Simdunas::get_window()->get_render());
+    _toca_indicator = indicator.copy_to(Simdunas::get_window()->get_render());
+
+    indicator.set_scale(0.0005);
+    _toca_indicator.set_scale(0.003);
+    _female_indicator.set_scale(0.0005);
 
 	// Define a flag de movimento do PC, e define o set de teclas a usar para movimento.
 	key_map_player["left"] = false;
@@ -98,9 +108,7 @@ PlayerControl::PlayerControl() {
 	action = "die";			Simdunas::get_framework()->define_key("control-m", "Easter Egg1", special_control, action);
 	action = "grow-old";	Simdunas::get_framework()->define_key("control-o", "Easter Egg2", special_control, action);
 	action = "info";		Simdunas::get_framework()->define_key("control-i", "Print Info", special_control, action);
-
 }
-
 
 void PlayerControl::special_control(const Event *theEvent, void *data){
 	char *str=(char *)data;
@@ -139,12 +147,29 @@ void PlayerControl::unset_key(const Event *theEvent, void *data) {
 }
 
 
-void PlayerControl::calc_closest_object(){
+/*! Verifica os objetos mais próximos do player */
+void PlayerControl::calc_closest_objects(){
+	/* Obtém as referencias do player e de seu setor */
 	PT(Player) player = Player::get_instance();
 	PT(Setor) player_sector = player->get_setor();
 	if(!player_sector) return;
 
+	/* Obtém o objeto "mordível" mais próximo */
+	_closest_biteable = get_closest_biteable();
+	_closest_toca = player_sector->tocas()->get_closest_to(player->get_pos());
+	_closest_female = player->get_courted_female();
+}
+
+//PT(ObjetoJogo) PlayerControl::get_closest_f
+
+PT(ObjetoJogo) PlayerControl::get_closest_biteable(){
+	/* Obtém as referencias do player e de seu setor */
+	PT(Player) player = Player::get_instance();
+	PT(Setor) player_sector = player->get_setor();
+	if(!player_sector) return NULL;
+
 	/* Coloca os objetos em uma lista para comparar distâncias depois */
+	/* TODO: Deveria iterar entre os setores vizinhos também, mas... */
 	list<PT(ObjetoJogo)> action_objects;
 	action_objects.push_back((PT(ObjetoJogo))player_sector->preys()->get_closest_to(player->get_pos()));
 	action_objects.push_back((PT(ObjetoJogo))player_sector->edible_vegetals()->get_closest_to(player->get_pos()));
@@ -157,22 +182,25 @@ void PlayerControl::calc_closest_object(){
 		PT(ObjetoJogo) current = *it;
 		if(current && closest){
 			LPoint3f ppos = player->get_pos();
-			if(current->get_distance_squared(ppos) < closest->get_distance_squared(ppos)){
+			if(player->reaches(current) && current->get_distance_squared(ppos) < closest->get_distance_squared(ppos)){
 				closest = current;
 			}
 		}
-		if(!closest && current) closest = current;
+		if(!closest && current && player->reaches(current)) closest = current;
 	}
 
-	/* Define o atributo para acesso futuro */
-	this->closest_object = closest;
+	return closest;
 }
 
-/*! Chamado a cada ciclo, verifica se tem tecla ativa no map, e executa a a��o
- * associada. Basicamente realiza movimento */
-void PlayerControl::update(const Event*, void *data){
-	PlayerControl* this_control = (PlayerControl*)data;
 
+/*! Apenas recebe o evento e encaminha para o método update (que não é estático) */
+void PlayerControl::update(const Event*, void *data){
+	((PlayerControl*)data)->update();
+}
+
+/*! Chamado a cada ciclo, verifica se tem tecla ativa no map, e executa a ação
+ * associada. Basicamente realiza movimento */
+void PlayerControl::update(){
 	PT(Player) p = Player::get_instance();
 
 	/* Test */
@@ -181,9 +209,9 @@ void PlayerControl::update(const Event*, void *data){
 	/* Verifica se tem femeas por perto */
 	p->update_female_around();
 
-	bool fastturn = this_control->key_map_player["fastleft"] || this_control->key_map_player["fastright"] || this_control->key_map_player["shift"];
-	bool rotatingleft  = this_control->key_map_player["left"] || this_control->key_map_player["fastleft"];
-	bool rotatingright = this_control->key_map_player["right"] || this_control->key_map_player["fastright"];
+	bool fastturn = key_map_player["fastleft"] || key_map_player["fastright"] || key_map_player["shift"];
+	bool rotatingleft  = key_map_player["left"] || key_map_player["fastleft"];
+	bool rotatingright = key_map_player["right"] || key_map_player["fastright"];
 	bool rotating = rotatingleft || rotatingright;
 
 	/* Verifica as rotações do lagarto */
@@ -198,27 +226,27 @@ void PlayerControl::update(const Event*, void *data){
 		p->set_h(p->get_h() + 2 * NORANG * direction * (fastturn?2:1));
 
 		/* FIX: Conserta giro sobre o próprio eixo */
-		if(!this_control->key_map_player["forward"]){
-			if(fastturn) this_control->move(VEL_WALK / 2);
-			else this_control->move(VEL_WALK / 4);
+		if(!key_map_player["forward"]){
+			if(fastturn) move(VEL_WALK / 2);
+			else move(VEL_WALK / 4);
 		}
 	}
 
 	/* Concretiza movimentos e roda animações */
-	if(this_control->key_map_player["fastforward"] || this_control->key_map_player["shift"]){
-		this_control->move(VEL_RUN);
+	if(key_map_player["fastforward"] || key_map_player["shift"]){
+		move(VEL_RUN);
 		if(!p->get_anim_control()->is_playing("run")) p->get_anim_control()->loop("run", false);
 		p->set_lagarto_correndo();
 	}
-	else if(this_control->key_map_player["forward"]){
+	else if(key_map_player["forward"]){
 		// Se for soh caminhando
-		this_control->move(VEL_WALK);
+		move(VEL_WALK);
 		p->get_anim_control()->stop("run");
 
 		p->set_lagarto_andando();
 	}
 	else if(rotating){
-		this_control->move(0); //Gambi para rodar a animação
+		move(0); //Gambi para rodar a animação
 	}
 	else {
 		/* Lagarto est� parado */
@@ -230,17 +258,39 @@ void PlayerControl::update(const Event*, void *data){
 	}
 
 
-
-	this_control->calc_closest_object();
-	if(this_control->closest_object != NULL){
-		this_control->indicator.set_pos(this_control->closest_object->get_pos());
+	//if(ClockObject::get_global_clock()->get_frame_count()%10 == 0)
+	calc_closest_objects();
+	if(_closest_biteable){
+		indicator.set_pos(_closest_biteable->get_pos());
 		LPoint3f max, min;
 		/* TODO: NÃO É PRA CALCULAR TODA HORA!!! É PRA ARMAZENAR ESSA INFORMAÇÃO! */
-		this_control->closest_object->calc_tight_bounds(min, max);
-		this_control->indicator.set_z(max.get_z()+0.01);
+		//closest_object->calc_tight_bounds(min, max);
+		_closest_biteable->calc_tight_bounds(min, max);
+		indicator.set_z(max.get_z() + 0.01);
+		indicator.show();
 	}
-}
+	else indicator.hide();
 
+	/* Condição deveria estar em um método comum com entrar na toca, mas... */
+	if(_closest_toca && p->get_distance(*_closest_toca) < p->get_toca_thr()){
+		_toca_indicator.show();
+		_toca_indicator.set_pos(_closest_toca->get_pos());
+		_toca_indicator.set_z(_toca_indicator.get_z() + 0.15);
+	}
+	else _toca_indicator.hide();
+
+
+	if(_closest_female){
+		_female_indicator.set_pos(_closest_female->get_pos());
+		LPoint3f max, min;
+		/* TODO: NÃO É PRA CALCULAR TODA HORA!!! É PRA ARMAZENAR ESSA INFORMAÇÃO! */
+		//closest_object->calc_tight_bounds(min, max);
+		_closest_female->calc_tight_bounds(min, max);
+		_female_indicator.set_z(max.get_z() + 0.01);
+		_female_indicator.show();
+	}
+	else _female_indicator.hide();
+}
 
 void PlayerControl::move(float velocity){
 	Player *p = Player::get_instance();
@@ -302,7 +352,8 @@ void PlayerControl::eat(const Event*, void *data){
 		int type_of_closest = -1;
 
 		/*! HACK para obter o tipo de objeto de closest */
-		PT(ObjetoJogo) closest = this_control->closest_object;
+		//PT(ObjetoJogo) closest = this_control->closest_object;
+		PT(ObjetoJogo) closest = this_control->_closest_biteable;
 		if(closest){
 			if(dynamic_cast<Prey*>((ObjetoJogo*) closest)) type_of_closest = 0;
 			if(dynamic_cast<EdibleVegetal*>((ObjetoJogo*) closest)) type_of_closest = 1;
@@ -313,7 +364,7 @@ void PlayerControl::eat(const Event*, void *data){
 		if(type_of_closest == -1) return;
 
 		/* Configuração de distância. Quando os objetos estaram no raio de ação do player.*/
-		float act_dist_thr = 0.20 * player->get_sx() * 1350;
+		float act_dist_thr = player->get_eat_radius_thr();
 		int direction_eat_thr = 45;
 
 		/* Obtem o "versor y" do player */
@@ -327,7 +378,7 @@ void PlayerControl::eat(const Event*, void *data){
 
 		/* Obtem angulo para o npc */
 		player_to_target.normalize();
-		float angle_to_npc = player_to_target.angle_deg(player_y_versor);
+		float angle_to_npc = fabs(player_to_target.angle_deg(player_y_versor));
 
 		/* Ação de comer! */
 		bool eatsuccess = false;
@@ -428,7 +479,7 @@ void PlayerControl::really_eat(const Event*, void *data){
 	/* Exclui de fato o "objeto" comido */
 	if(the_data->type == 0) {
 		PT(Prey) cprey = dynamic_cast<Prey*>((ObjetoJogo*) the_data->object);
-		//if(cprey->group != NULL) cprey->group->remove_prey(cprey);
+		//if(cprey->_group != NULL) cprey->_group->remove_prey(cprey);
 		World::get_world()->get_terrain()->realoc_prey(cprey, Player::get_instance()->get_pos());
 	}
 	else if(the_data->type == 1) {
@@ -481,7 +532,6 @@ void PlayerControl::toca_control(const Event*, void *data){
 
 
 	PlayerControl* this_control = (PlayerControl*)data;
-	float dist_toca = 0.3;
 	PT(Player) player = Player::get_instance();
 
 	if (!player->is_in_toca()){
@@ -491,7 +541,7 @@ void PlayerControl::toca_control(const Event*, void *data){
 		for(it = sector_tocas->begin(); it != sector_tocas->end(); ++it){
 			PT(ObjetoJogo) toca = *it;
 			LVector3f player_to_toca = player->get_pos() - toca->get_pos();
-			if(player_to_toca.length() < dist_toca){
+			if(player_to_toca.length() < player->get_toca_thr()){
 				toca->hide();
 				player->set_in_toca(true);
 				player->set_toca(toca);

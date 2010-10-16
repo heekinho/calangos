@@ -608,6 +608,8 @@ void Player::set_hidratacao_alimento(double nova_hidratacao_alimento){
 
 /*! Define o valor de hidratação do lagarto */
 void Player::set_hidratacao(double nova_hidratacao){
+	if(nova_hidratacao > 100) hidratacao = 100;
+	if(nova_hidratacao < 0) hidratacao = 0;
 	this->hidratacao = nova_hidratacao;
 }
 
