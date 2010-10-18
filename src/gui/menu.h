@@ -41,6 +41,8 @@ public:
     static void tropidurus_funcao(const Event*, void *data); //escolha da especie TROPIDURUS
     static void eurolophosaurus_funcao(const Event*, void *data); //escolha da especie EUROLOPHOSAURUS
     static void cnemidophorus_funcao(const Event*, void *data); //escolha da especie CNEMIDOPHORUS
+    static void personalizar_funcao(const Event*, void *data); //escolha Personalizar Especie
+    static void colisao_funcao(const Event*, void *data); //ativar/desativar colisão no jogo
     static void chama_pause_game(const Event*, void *data);
     static void instrucoes_teclas(const Event*, void *data);
     static void creditos(const Event*, void *data);
@@ -79,6 +81,7 @@ public:
     void show_tela_over();
     void show_tela_pause();
     void show_tela_principal();
+    void show_tela_personalizar();
     void show_tela_configuracao();
     void show_tela_instrucoes();
     void show_tela_marcadores();
@@ -99,14 +102,14 @@ private:
     PandaFramework *_framework;
     PGButton *botao_iniciar, *botao_sair, *botao_restart, *botao_graph,
     *botao_configuracoes, *botao_ok, *botao_voltar, *botao_mais,
-    *botao_menos, *botao_voltar_jogo, *botao_instrucao, *botao_next, *botao_back,*botao_creditos; //botoes
-    PGButton *botao_tropidurus, *botao_eurolophosaurus, *botao_cnemidophorus; //botoes de escolha das espécies
+    *botao_menos, *botao_voltar_jogo, *botao_instrucao, *botao_next, *botao_back,*botao_creditos, *botao_colisao; //botoes
+    PGButton *botao_tropidurus, *botao_eurolophosaurus, *botao_cnemidophorus, *botao_personalizar; //botoes de escolha das espécies
     PGButton *lagartos, *predadores, *presas, *habitat, *variacao_clima; //botoes dos videos
-    NodePath button_np, nod_sair, nod_config_egg, nod_botao_ok,
+    NodePath button_np, nod_sair, nod_config_egg, nod_botao_ok,nod_bot_colisao,
     nod_botao_voltar, nod_mais, nod_menos, nod_noid, nod_botao_voltar_jogo, nod_botao_instrucao, nod_botao_next, nod_botao_back, nod_botao_creditos; //nodepaths dos botoes
-    NodePath nod_bot_tropidurus, nod_bot_eurolophosaurus, nod_bot_cnemidophorus; //nodepaths dos botoes de escolha das especies
-    NodePath marcador, credit; //nodepath do marcador da especie escolhida
-    NodePath lagarto, tropidurus, eurolophosasurus, cnemidophorus; //lagarto andando
+    NodePath nod_bot_tropidurus, nod_bot_eurolophosaurus, nod_bot_cnemidophorus, nod_bot_personalizar ; //nodepaths dos botoes de escolha das especies
+    NodePath colisaoVerdade, colisaoFalso,marcador, credit; //nodepath do marcador da especie escolhida
+    NodePath lagarto,lagartoPersonalizado, tropidurus, eurolophosasurus, cnemidophorus; //lagarto andando
     NodePath config_egg, videos; //imagem para o botão de configurações
     NodePath title_config, escolha_especie, tempo, relogio_frase, indica_morte; //imagem com o título e frases que vão ser usados no menu de configurações
     NodePath nod_bot_lagartos, nod_bot_predadores, nod_bot_presas, nod_bot_habitat, nod_bot_variacao_clima;

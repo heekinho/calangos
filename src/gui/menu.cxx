@@ -32,7 +32,7 @@ bool Menu::showing_creditos = false;
 char* Menu::tecla = NULL;
 Menu * Menu::instance = NULL;
 //para desativar a colisão no jogo basta colocar false neste variável:
-bool Menu::colisao =true;
+bool Menu::colisao = true;
 
 //mudei de lugar
 NodePath Menu::button_sair = NULL;
@@ -120,6 +120,18 @@ void Menu::start_Menu() {
     anims.loop_all(false);
     cnemidophorus.hide();
 
+    //      Lagarto Personalizado
+    lagartoPersonalizado = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), "models/lizards/personalizar/male/model");
+    lagartoPersonalizado.set_scale(0.08, 0.08, 0.08);
+    lagartoPersonalizado.set_pos(0, 35, -2);
+    lagartoPersonalizado.set_h(45);
+    lagartoPersonalizado.set_p(20);
+
+    //		/* Animação */
+    Simdunas::get_window()->load_model(lagartoPersonalizado, "models/lizards/personalizar/male/walk");
+    auto_bind(lagartoPersonalizado.node(), anims, PartGroup::HMF_ok_part_extra |
+    PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
+    anims.loop_all(false);
 
 
     ///imagem do logo
@@ -691,6 +703,43 @@ void Menu::configure(const Event*, void *data) {
 
         Simdunas::get_evt_handler()->add_hook(config->botao_cnemidophorus->get_click_event(MouseButton::one()), cnemidophorus_funcao, config);
 
+            ///////TASSALON COLOCANDO UM BOTÃO PERSONALIZAR //////////////////////////
+        NodePath personalizar = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/personalizar");
+        personalizar.detach_node();
+        config->botao_personalizar = new PGButton("Personalizar");
+        config->botao_personalizar->setup(personalizar);
+        config->nod_bot_personalizar = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao_personalizar);
+        config->nod_bot_personalizar.set_scale(0.6, 0.1, 0.18);
+        config->nod_bot_personalizar.set_pos(-0.8, 0.0, -0.55);
+        config->botao_personalizar->set_frame(-0.4, 0.4, -0.4, 0.4);
+
+        Simdunas::get_evt_handler()->add_hook(config->botao_personalizar->get_click_event(MouseButton::one()), personalizar_funcao, config);
+
+         ///////TASSALON COLOCANDO UM BOTÃO COLISAO PARA ATIVAR/DESATIVAR COLISAO  //////////////////////////
+
+         NodePath colisao = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/colisao");
+        colisao.detach_node();
+        config->botao_colisao = new PGButton("colisao");
+        config->botao_colisao->setup(colisao);
+        config->nod_bot_colisao = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao_colisao);
+        config->nod_bot_colisao.set_scale(0.6, 0.1, 0.18);
+        config->nod_bot_colisao.set_pos(0.6, 0.0, 0.03);
+        config->botao_colisao->set_frame(-0.4, 0.4, -0.4, 0.4);
+
+        Simdunas::get_evt_handler()->add_hook(config->botao_colisao->get_click_event(MouseButton::one()), colisao_funcao, config);
+
+        //carregando botão V (de ativar colisão)
+        config->colisaoVerdade = Simdunas::get_window()->load_model(config->escolha_especie, "models/buttons/v.png");
+        config->colisaoVerdade.set_scale(0.2, 0.0, 0.2);
+        config->colisaoVerdade.set_pos(28.0, 0.0, 0.0);
+
+         //carregando botão x (de desativar colisão)
+        config->colisaoFalso = Simdunas::get_window()->load_model(config->escolha_especie, "models/buttons/x.png");
+        config->colisaoFalso.set_scale(0.2, 0.0, 0.2);
+        config->colisaoFalso.set_pos(28.0, 0.0, 0.0);
+        config->colisaoFalso.hide();
+
+
         Simdunas::get_evt_handler()->add_hook(config->slid->get_adjust_event(), slide, config);
         //o lagarto default é o eurolophosaurus
         eurolophosaurus_funcao(NULL, config);
@@ -752,11 +801,8 @@ void Menu::eurolophosaurus_funcao(const Event*, void* data) {
             break;
     }
 
-
-
     especie = Player::eurolophosaurus;
     e->eurolophosasurus.show();
-
 
 }
 
@@ -785,6 +831,31 @@ void Menu::cnemidophorus_funcao(const Event*, void* data) {
     c->cnemidophorus.show();
 
 
+}
+
+void Menu::personalizar_funcao(const Event*, void* data) {
+    Menu * c = (Menu*) data;
+
+    c->marcador.set_pos(4.0, 0.0, -9.5); //movendo o marcador
+   //limpa o menu de configuração
+    c->hide_tela_configuracao();
+    //apresenta o menu de personalização do lagarto
+    c->show_tela_personalizar();
+}
+
+void Menu::colisao_funcao(const Event*, void* data) {
+    Menu * c = (Menu*) data;
+
+    if(colisao){
+        c->colisaoVerdade.hide();
+        c->colisaoFalso.show();
+        colisao = false;
+    }else
+    {
+        c->colisaoVerdade.show();
+        c->colisaoFalso.hide();
+        colisao = true;
+    }
 }
 
 void Menu::slide(const Event*, void* data) {
@@ -1166,7 +1237,8 @@ void Menu::hide_tela_configuracao() {
     nod_bot_tropidurus.hide();
     nod_bot_eurolophosaurus.hide();
     nod_bot_cnemidophorus.hide();
-
+    nod_bot_personalizar.hide();
+    nod_bot_colisao.hide();
     nod_botao_voltar.hide();
 
     switch (especie) {
@@ -1211,6 +1283,7 @@ void Menu::remove_tela_menu() {
     nod_botao_creditos.remove_node();
     nod_sair.hide(); //este não eh removido pois será utilizado em caso de pausa ou morte do calango
     lagarto.remove_node();
+    
     logo.remove_node();
     nod_config_egg.remove_node();
     title_config.remove_node();
@@ -1222,13 +1295,17 @@ void Menu::remove_tela_menu() {
     relogio_frase.remove_node();
     title_config.remove_node();
     escolha_especie.remove_node();
+
     nod_bot_tropidurus.remove_node();
     nod_bot_eurolophosaurus.remove_node();
     nod_bot_cnemidophorus.remove_node();
+    nod_bot_personalizar.remove_node();
+    nod_bot_colisao.remove_node();
     nod_botao_voltar.remove_node();
     tropidurus.remove_node();
     eurolophosasurus.remove_node();
     cnemidophorus.remove_node();
+    lagartoPersonalizado.remove_node();
     nod_botao_instrucao.remove_node();
     ///removendo telas de instruções para não ficarem comendo memória
     background_instrucoes.remove_node();
@@ -1261,7 +1338,7 @@ void Menu::show_tela_pause() {
 }
 
 void Menu::show_tela_principal() {
-
+    lagartoPersonalizado.hide();
     button_np.show();
     nod_botao_creditos.show();
     button_np.set_pos(-0.3, 0.4, -0.55); //colocando o botão (Iniciar) novamente em seu lugar na tela principal
@@ -1270,6 +1347,20 @@ void Menu::show_tela_principal() {
     nod_config_egg.show();
     lagarto.show();
     nod_botao_instrucao.show();
+}
+
+void Menu::show_tela_personalizar() {
+        //carregando animação inicial da Tela principal
+
+    //BOTÃO CONFIGURAÇÃO
+   // nod_config_egg.show();
+
+   //APRESENTA O LAGARTO DO MENU PRINCIPAL - TEM QUE MUDAR ISSO
+    lagartoPersonalizado.show();
+
+    //APRESENTA OS BOTÕES VOLTAR E JOGAR
+    button_np.show();
+    nod_botao_voltar.show();
 }
 
 void Menu::show_tela_instrucoes() {
@@ -1313,7 +1404,9 @@ void Menu::show_tela_configuracao() {
     escolha_especie.show();
     nod_bot_tropidurus.show();
     nod_bot_eurolophosaurus.show();
+    nod_bot_personalizar.show();
     nod_bot_cnemidophorus.show();
+    nod_bot_colisao.show();
     button_np.show();
     button_np.set_pos(0.0, 0.0, -0.8); //colocando o botão (Iniciar) novamente em seu lugar na tela principal
     nod_botao_voltar.show();
@@ -1326,9 +1419,7 @@ void Menu::show_tela_configuracao() {
     std::string st(letra.str());
     informa_segundos(st);
 
-
-
-
+    lagartoPersonalizado.hide();
     lagarto.hide(); //escondendo o lagarto da tela principal
 
     switch (especie) {//mostrando especie q tava selecionada
@@ -1343,6 +1434,7 @@ void Menu::show_tela_configuracao() {
         case Player::cnemidophorus :
                     cnemidophorus.show();
             break;
+                // O QUE É Player::lagartoPersonalizado:
 
         default:
             break;
