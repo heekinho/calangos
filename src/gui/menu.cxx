@@ -121,14 +121,14 @@ void Menu::start_Menu() {
     cnemidophorus.hide();
 
     //      Lagarto Personalizado
-    lagartoPersonalizado = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), "models/lizards/personalizar/male/model");
+    lagartoPersonalizado = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), "models/lizards/cnemidophorus/male/model");
     lagartoPersonalizado.set_scale(0.08, 0.08, 0.08);
     lagartoPersonalizado.set_pos(0, 35, -2);
     lagartoPersonalizado.set_h(45);
     lagartoPersonalizado.set_p(20);
 
     //		/* Animação */
-    Simdunas::get_window()->load_model(lagartoPersonalizado, "models/lizards/personalizar/male/walk");
+    Simdunas::get_window()->load_model(lagartoPersonalizado, "models/lizards/cnemidophorus/male/walk");
     auto_bind(lagartoPersonalizado.node(), anims, PartGroup::HMF_ok_part_extra |
     PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
     anims.loop_all(false);
