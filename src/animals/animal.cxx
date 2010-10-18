@@ -29,10 +29,6 @@ Animal::Animal(NodePath node) : AnimatedObjetoJogo(node) {
 
 /*! Destroi o Animal */
 Animal::~Animal(){
-//	if(parent_sector != NULL){
-//		Simdunas::get_evt_handler()->remove_hook(parent_sector->EV_player_next, start_acting, this);
-//		Simdunas::get_evt_handler()->remove_hook(parent_sector->EV_player_not_next, stop_acting, this);
-//	}
 	Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_pass_frame, act, this);
 }
 
@@ -94,33 +90,6 @@ int Animal::stay_quiet(){
 
 	return stay_x_frame_stoped;
 }
-
-///*! Define o setor no qual o animal está inserido
-// * Sobrescreve set_setor de objeto jogo, para adicionar o esquema de evento. */
-////@overhide
-//void Animal::set_setor(PT(Setor) setor){
-//	if(parent_sector != NULL){
-//		// Remove a escuta dos "eventos de borda" da proximidade do player do setor antigo
-//		Simdunas::get_evt_handler()->remove_hook(parent_sector->EV_player_next, start_acting, this);
-//		Simdunas::get_evt_handler()->remove_hook(parent_sector->EV_player_not_next, stop_acting, this);
-//	}
-//	parent_sector = setor;
-//	// Adiciona a escuta dos "eventos de borda" de proximidade do player do setor atual
-//	Simdunas::get_evt_handler()->add_hook(parent_sector->EV_player_next, start_acting, this);
-//	Simdunas::get_evt_handler()->add_hook(parent_sector->EV_player_not_next, stop_acting, this);
-//	//set_acting(setor->is_player_neighbor());
-//}
-
-///*! Sobreescreve a ação de mudança de setor, pois precisa-se colocar os "animais" no
-// * respectivo vetor. Classes derivadas devem sobreescrever este comportamento. */
-////TODO: Fazer pure virtual, já que coloquei preys() e talz.
-//void Animal::change_sector(PT(Setor) new_sector){
-//	this->get_setor()->preys()->remove(this);
-//	new_sector->preys()->push_back(this);
-//
-////	this->get_setor()->remove_animal(this);
-////	Setor::add_animal(this, new_sector);
-//}
 
 
 /*! Redistribui os animais em setores mais próximos do player. */
