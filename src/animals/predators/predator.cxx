@@ -18,10 +18,9 @@ Predator::~Predator(){}
 
 /*! Carrega todos os predadores do jogo */
 void Predator::load_predators(){
-	RedLegged::load_redleggeds(30);
-	//Fox::load_foxes(1);
-	Predator::load_predator("raposa", 40, 0.01, -1);
-	Predator::load_predator("gato", 200, 0.01, -1);
+	RedLegged::load_redleggeds(7);
+	Predator::load_predator("raposa", 8, 0.01, -1);
+	Predator::load_predator("gato", 10, 0.01, -1);
 }
 
 
