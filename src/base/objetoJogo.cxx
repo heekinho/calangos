@@ -79,9 +79,7 @@ void ObjetoJogo::calc_size_from_bounds(){
 
 /*! Define as dimensões "reais" do objeto em metros (1m = 1u do panda) */
 void ObjetoJogo::set_size(float width, float length, float height){
-	_size[0] = width;
-	_size[1] = length;
-	_size[2] = height;
+	_size.set(width, length, height);
 	set_scale(width/_osize[0], length/_osize[1], height/_osize[2]);
 }
 
