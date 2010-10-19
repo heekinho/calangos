@@ -64,6 +64,49 @@ void ObjetoJogo::change_sector(PT(Setor) new_sector) {
 };
 
 
+/*! Obtém o tamanho real do objeto a partir do tight_bounds dele */
+void ObjetoJogo::calc_size_from_bounds(){
+	LPoint3f min, max;
+	calc_tight_bounds(min, max);
+	_osize = LVecBase3f(max - min);
+	_size = LVecBase3f(_osize);
+
+	/* Faz o pivotamento central. Pivot fica no meio do plano inferior de bounds. */
+	NodePath::set_pos(*this, -0.5*(_osize) - min);
+	NodePath::set_z(*this, 0.5*_osize.get_z());
+	flatten_light();
+}
+
+/*! Define as dimensões "reais" do objeto em metros (1m = 1u do panda) */
+void ObjetoJogo::set_size(float width, float length, float height){
+	_size[0] = width;
+	_size[1] = length;
+	_size[2] = height;
+	set_scale(width/_osize[0], length/_osize[1], height/_osize[2]);
+}
+
+/*! Define a largura "real" do objeto em metros (1m = 1u do panda) */
+void ObjetoJogo::set_width(float width, bool proportional){
+	float factor = width / _size[0];
+	if(proportional) set_size(width, _size[1]*factor, _size[2]*factor);
+	else set_size(width, _size[1], _size[2]);
+}
+
+/*! Define o comprimento "real" do objeto em metros (1m = 1u do panda) */
+void ObjetoJogo::set_length(float length, bool proportional){
+	float factor = length / _size[1];
+	if(proportional) set_size(_size[0]*factor, length, _size[2]*factor);
+	else set_size(_size[0], length, _size[2]);
+}
+
+/*! Define a altura "real" do objeto em metros (1m = 1u do panda) */
+void ObjetoJogo::set_height(float height, bool proportional){
+	float factor = height / _size[2];
+	if(proportional) set_size(_size[0]*factor, _size[1]*factor, height);
+	else set_size(_size[0], _size[1], height);
+}
+
+
 void ObjetoJogo::be_bited(){
 	bite_blink_counter = 10;
 	TimeControl::get_instance()->notify_after_n_frames(1, blink, (void*) this);

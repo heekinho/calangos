@@ -44,6 +44,24 @@ public:
 	virtual void move(float velocity);
 	void update_pr();
 
+
+	/* Tratamento melhor sobre o "tamanho" do objeto.
+	 * Métodos relacionados com o tamanho real (e não scale) do objeto*/
+	void calc_size_from_bounds();
+	INLINE LVecBase3f get_size() const;
+	INLINE float get_width() const;
+	INLINE float get_length() const;
+	INLINE float get_height() const;
+
+	INLINE void set_size(const LVecBase3f &size);
+	void set_size(float width, float length, float height);
+	void set_width(float width, bool proportional = true);
+	void set_length(float length, bool proportional = true);
+	void set_height(float height, bool proportional = true);
+
+	INLINE void reset_size();
+
+
 	/* Sobreescreveu-se para realizar pequenas correções */
 	INLINE void look_at(const NodePath &other);
 	INLINE float get_distance(const NodePath &other);
@@ -70,6 +88,8 @@ protected:
 	LPoint3f prev_pos;
 	double offset_z;
 	PT(Setor) parent_sector;
+
+	LVecBase3f _osize, _size;
 
 
 

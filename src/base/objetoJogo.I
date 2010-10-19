@@ -1,3 +1,34 @@
+/*! Obtém o tamanho "real" em metros (1m = 1u do panda) do objeto */
+INLINE LVecBase3f ObjetoJogo::get_size() const {
+	return _size * get_sy(); /* Era pra ser uniform, mas funciona como obter comprimento */
+}
+
+/*! Obtém a largura "real" em metros (1m = 1u do panda) do objeto */
+INLINE float ObjetoJogo::get_width() const {
+	return _size[0] * get_sx();
+}
+
+/*! Obtém o comprimento "real" em metros (1m = 1u do panda) do objeto */
+INLINE float ObjetoJogo::get_length() const {
+	return _size[1] * get_sy();
+}
+
+/*! Obtém a altura "real" em metros (1m = 1u do panda) do objeto */
+INLINE float ObjetoJogo::get_height() const {
+	return _size[2] * get_sz();
+}
+
+/*! Define as dimensões "reais" do objeto em metros (1m = 1u do panda) */
+INLINE void ObjetoJogo::set_size(const LVecBase3f &size){
+	set_size(size[0], size[1], size[2]);
+}
+
+/*! Redefine o tamanho do objeto para o tamanho original da geometria */
+INLINE void ObjetoJogo::reset_size() {
+	set_size(_osize);
+}
+
+
 /*! Retorna um valor de deslocamento do objeto no eixo Z, para ajustes */
 INLINE double ObjetoJogo::get_offset_z(){
 	return this->offset_z;
