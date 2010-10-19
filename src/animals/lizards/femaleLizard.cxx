@@ -17,8 +17,7 @@ void FemaleLizard::init() {
     //Lizard::isFemale();
 	away_from_player = false;
 
-    femaleSymbol = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/lizards/symbols/female.png");
-    femaleSymbol.reparent_to(*this);
+    femaleSymbol = Simdunas::get_window()->load_model(*this, "models/lizards/symbols/female.png");
     femaleSymbol.set_scale(2.0);
     float posZ = femaleSymbol.get_z();
     femaleSymbol.set_z(posZ + 100);

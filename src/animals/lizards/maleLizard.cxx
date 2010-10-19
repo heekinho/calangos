@@ -26,8 +26,7 @@ void MaleLizard::init() {
     PT(AnimControl) ac = get_anim_control()->find_anim("fast_bite");
     if(ac != NULL) ac->set_play_rate(1.5);
 
-    maleSymbol = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/lizards/symbols/male.png");
-    maleSymbol.reparent_to(*this);
+    maleSymbol = Simdunas::get_window()->load_model(*this, "models/lizards/symbols/male.png");
     maleSymbol.set_scale(2.0);
     float posZ = maleSymbol.get_z();
     maleSymbol.set_z(posZ + 100);

@@ -95,7 +95,7 @@ int Animal::stay_quiet(){
 /*! Redistribui os animais em setores mais próximos do player. */
 void Animal::redistribute_animals(){
 	#if(DEBUG_ANIMAL)
-		nout << endl << "Redistribuindo Animais";
+		nout << "Redistribuindo Animais" << endl;
 	#endif
 
 	PT(Player) player = Player::get_instance();
