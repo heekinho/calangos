@@ -80,7 +80,8 @@ void CameraNode::update(const Event* evt, void *data){
 		PT(CameraNode) cn = CameraControl::get_instance()->get_cameras()->at(0);
 		int flag = cn->is_in_view(vegetal);
 		if(flag){
-			vegetal.reparent_to(Simdunas::get_window()->get_render());
+			//vegetal.reparent_to(Simdunas::get_window()->get_render());
+			vegetal.wrt_reparent_to(terrain->no_setores[i].node());
 		}
 		else {
 			vegetal.detach_node();

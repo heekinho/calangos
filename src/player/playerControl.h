@@ -53,6 +53,10 @@ public:
 	NodePath indicator;
 	PT(ObjetoJogo) get_closest_biteable();
 	void calc_closest_objects();
+
+	NodePath line_indicator;
+	NodePath draw_indicator(int steps, float radius);
+	NodePath draw_custom_terrain_wireframe();
 private:
 	PT(ObjetoJogo) _closest_biteable;
 
