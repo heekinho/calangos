@@ -25,49 +25,49 @@
 /*! Carrega os atributos iniciais relacionados à saúde do lagarto*/
 
 //Parâmetros da espécie Tropidurus
-const int Player::temperatura_interna_ideal_trop = 38;
-const int Player::qnt_h_sem_alimento_trop = 168;
-const int Player::qnt_h_baixa_hidrat_trop = 48;
-const int Player::umidade_afeta_hidrat_trop = 40;
-const int Player::umidade_param_trop = 10;
-const int Player::temp_interna_max_trop = 50;
-const int Player::temp_interna_min_trop = 15;
-const int Player::hidrat_min_trop = 45;
-const int Player::energia_min_trop = 5;
-const int Player::faixa_tolerancia_tem_interna_trop = 2;
-const int Player::gasto_baixa_temp_trop = 0.05;
-const int Player::gasto_alta_temp_trop = 0.05;
-const int Player::vel_equi_termico_trop = 0.1;
+const float Player::temperatura_interna_ideal_trop = 38;
+const float Player::qnt_h_sem_alimento_trop = 168;
+const float Player::qnt_h_baixa_hidrat_trop = 48;
+const float Player::umidade_afeta_hidrat_trop = 40;
+const float Player::umidade_param_trop = 10;
+const float Player::temp_interna_max_trop = 50;
+const float Player::temp_interna_min_trop = 15;
+const float Player::hidrat_min_trop = 45;
+const float Player::energia_min_trop = 5;
+const float Player::faixa_tolerancia_tem_interna_trop = 2;
+const float Player::gasto_baixa_temp_trop = 0.05;
+const float Player::gasto_alta_temp_trop = 0.05;
+const float Player::vel_equi_termico_trop = 0.1;
 
 //Parâmetros da espécie Eurolophosaurus
-const int Player::temperatura_interna_ideal_euro = 36;
-const int Player::qnt_h_sem_alimento_euro = 190;
-const int Player::qnt_h_baixa_hidrat_euro = 48;
-const int Player::umidade_afeta_hidrat_euro = 40;
-const int Player::umidade_param_euro = 10;
-const int Player::temp_interna_max_euro = 45;
-const int Player::temp_interna_min_euro = 13;
-const int Player::hidrat_min_euro = 40;
-const int Player::energia_min_euro = 3;
-const int Player::faixa_tolerancia_tem_interna_euro = 1.5;
-const int Player::gasto_baixa_temp_euro = 0.06;
-const int Player::gasto_alta_temp_euro = 0.08;
-const int Player::vel_equi_termico_euro = 0.1;
+const float Player::temperatura_interna_ideal_euro = 36;
+const float Player::qnt_h_sem_alimento_euro = 190;
+const float Player::qnt_h_baixa_hidrat_euro = 48;
+const float Player::umidade_afeta_hidrat_euro = 40;
+const float Player::umidade_param_euro = 10;
+const float Player::temp_interna_max_euro = 45;
+const float Player::temp_interna_min_euro = 13;
+const float Player::hidrat_min_euro = 40;
+const float Player::energia_min_euro = 3;
+const float Player::faixa_tolerancia_tem_interna_euro = 1.5;
+const float Player::gasto_baixa_temp_euro = 0.06;
+const float Player::gasto_alta_temp_euro = 0.08;
+const float Player::vel_equi_termico_euro = 0.1;
 
 //Parâmetros da espécie Cnemidophorus
-const int Player::temperatura_interna_ideal_cnem = 40;
-const int Player::qnt_h_sem_alimento_cnem = 168;
-const int Player::qnt_h_baixa_hidrat_cnem = 48;
-const int Player::umidade_afeta_hidrat_cnem = 40;
-const int Player::umidade_param_cnem = 10;
-const int Player::temp_interna_max_cnem = 50;
-const int Player::temp_interna_min_cnem = 15;
-const int Player::hidrat_min_cnem = 45;
-const int Player::energia_min_cnem = 5;
-const int Player::faixa_tolerancia_tem_interna_cnem = 2;
-const int Player::gasto_baixa_temp_cnem = 0.06;
-const int Player::gasto_alta_temp_cnem = 0.06;
-const int Player::vel_equi_termico_cnem = 0.1;
+const float Player::temperatura_interna_ideal_cnem = 40;
+const float Player::qnt_h_sem_alimento_cnem = 168;
+const float Player::qnt_h_baixa_hidrat_cnem = 48;
+const float Player::umidade_afeta_hidrat_cnem = 40;
+const float Player::umidade_param_cnem = 10;
+const float Player::temp_interna_max_cnem = 50;
+const float Player::temp_interna_min_cnem = 15;
+const float Player::hidrat_min_cnem = 45;
+const float Player::energia_min_cnem = 5;
+const float Player::faixa_tolerancia_tem_interna_cnem = 2;
+const float Player::gasto_baixa_temp_cnem = 0.06;
+const float Player::gasto_alta_temp_cnem = 0.06;
+const float Player::vel_equi_termico_cnem = 0.1;
 
 //Carrega os valores inicias para a espécie Tropiduros
 float Player::arrayTropidurus[13] = {temperatura_interna_ideal_trop, qnt_h_sem_alimento_trop, qnt_h_baixa_hidrat_trop, 
@@ -348,9 +348,13 @@ void Player::calc_temp_interna(){
 
 	if(in_toca){
 		this->temp_interna = this->temp_interna + this->equi_term_atual*(MicroClima::get_instance()->get_temp_toca_sector() - this->temp_interna);
+                
 	}else{
 		this->temp_interna = this->temp_interna + this->equi_term_atual*(MicroClima::get_instance()->get_temp_solo_sector() - this->temp_interna);
+                
 	}
+        
+      
 }
 
 

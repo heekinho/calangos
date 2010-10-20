@@ -24,6 +24,8 @@ Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_anim
 	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_segundo_real, event_gasto_energia, this);
 	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_day, event_pday, this);
 	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_month, event_pmonth, this);
+
+        
 }
 
 /*! Obtem a instancia atual da classe Player. Observe que a classe ja deve ter
