@@ -57,6 +57,20 @@ void Animal::unload_animals(){
 void Animal::act(const Event*, void *data){
 	Animal* this_animal = (Animal*)data;
 	this_animal->act();
+
+	PT(CameraNode) cn = CameraControl::get_instance()->get_cameras()->at(0);
+	int flag = cn->is_in_view(*this_animal);
+
+	/* Tá desligando a animação aqui, mas provávelmente alguém tá ligando de novo nos métodos
+	 * TODO: Elaborar um sistema que não permita essa reativação - simples flag */
+	if(flag){
+		this_animal->continue_animation();
+		this_animal->reparent_to(Simdunas::get_window()->get_render());
+	}
+	else {
+		this_animal->pause_animation();
+		this_animal->detach_node();
+	}
 }
 
 /*! Onde as ações de comportamento dos animais realmente se encontram */

@@ -1,9 +1,10 @@
 #include "cameraNode.h"
 
-
 #include "cameraControl.h"
 #include "simdunas.h"
 #include "player.h"
+
+#include "geometricBoundingVolume.h"
 
 TypeHandle CameraNode::_type_handle;
 
@@ -19,6 +20,16 @@ CameraNode::CameraNode(PT(Camera) camera) : NodePath(camera){
 	update_configs(NULL, this);
 }
 
+/*! Verifica se um objeto está visível na tela, mesmo parcialmente */
+bool CameraNode::is_in_view(const NodePath& object){
+	/* Teste */
+	PT(CameraNode) cn = CameraControl::get_instance()->get_cameras()->at(0);
+	PT(BoundingVolume) lens_bounds = cn->get_real_camera()->get_lens()->make_bounds();
+	PT(GeometricBoundingVolume) bounds = DCAST(GeometricBoundingVolume, object.get_bounds());
+
+	bounds->xform(object.get_parent().get_mat(*cn));
+	return lens_bounds->contains(bounds);
+}
 
 /*! Recebe notificação da janela (no evento "window-event") para que se possa atualizar
  * o aspect2D */
@@ -62,6 +73,19 @@ void CameraNode::unset_hooks(){
 /*! É chamado pelos eventos cadastrados para assim chamar o update da camera */
 void CameraNode::update(const Event* evt, void *data){
 	((PT(CameraNode))(CameraNode*) data)->update();
+
+	PT(Terrain) terrain = World::get_world()->get_terrain();
+	for (int i = 0; i < terrain->MAX_SETORES; i++) {
+		NodePath vegetal = terrain->get_setor(i)->_vegetals;
+		PT(CameraNode) cn = CameraControl::get_instance()->get_cameras()->at(0);
+		int flag = cn->is_in_view(vegetal);
+		if(flag){
+			vegetal.reparent_to(Simdunas::get_window()->get_render());
+		}
+		else {
+			vegetal.detach_node();
+		}
+	}
 }
 
 /* É chamado para que ocorra a atualização da camera */

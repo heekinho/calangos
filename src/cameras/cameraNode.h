@@ -28,6 +28,8 @@ public:
 
 	PT(Camera) get_real_camera(){ return camera; };
 
+	bool is_in_view(const NodePath& object);
+
 	// Typed Object
 	static TypeHandle get_class_type() { return _type_handle; }
 	static void init_type() { register_type(_type_handle, "CameraNode"); }
