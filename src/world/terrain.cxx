@@ -363,24 +363,30 @@ void Terrain::load_terrain_limit(){
 	int terrain_y_size = terrain->get_y_size();
 	double limit = terrain_x_size - 0.5;
 
+	NodePath left_fence_set = NodePath("Conjunto de cercas da Esquerda");
+	NodePath top_fence_set = NodePath("Conjunto de cercas do Topo");
+	NodePath down_fence_set = NodePath("Conjunto de cercas de Baixo");
+	NodePath right_fence_set = NodePath("Conjunto de cercas da Direita");
+
 	for(int i = 0; i < terrain_x_size; i+=5){
 		pos = i;
+
 		cercas.push_back( ModelRepository::get_instance()->get_model_instance("cerca") );
-		cercas.back()->reparent_to(Simdunas::get_window()->get_render());
+		cercas.back()->reparent_to(right_fence_set);
 		cercas.back()->set_pos(limit, pos, 0);
 		cercas.back()->set_scale(0.05);
 
 		cercas.push_back( ModelRepository::get_instance()->get_model_instance("cerca") );
-		cercas.back()->reparent_to(Simdunas::get_window()->get_render());
+		cercas.back()->reparent_to(top_fence_set);
 		cercas.back()->set_pos(pos, limit, 0);
 		cercas.back()->set_scale(0.05);
-		cercas.back()->set_h( *cercas.back(), -270);
+		cercas.back()->set_h(*cercas.back(), -270);
 	}
 
 	for(int i = 130; i < terrain_y_size; i+=5){
 		pos = i;
 		cercas.push_back( ModelRepository::get_instance()->get_model_instance("cerca") );
-		cercas.back()->reparent_to(Simdunas::get_window()->get_render());
+		cercas.back()->reparent_to(down_fence_set);
 		cercas.back()->set_pos(pos, 0.5, 0);
 		cercas.back()->set_scale(0.05);
 		cercas.back()->set_h(*cercas.back(), -270);
@@ -389,10 +395,21 @@ void Terrain::load_terrain_limit(){
 	for(int i = 302; i < terrain_y_size; i+=5){
 		pos = i;
 		cercas.push_back( ModelRepository::get_instance()->get_model_instance("cerca") );
-		cercas.back()->reparent_to(Simdunas::get_window()->get_render());
+		cercas.back()->reparent_to(left_fence_set);
         cercas.back()->set_pos(0.5, pos, 0);
 		cercas.back()->set_scale(0.05);
 	}
+
+	top_fence_set.flatten_strong();
+	right_fence_set.flatten_strong();
+	left_fence_set.flatten_strong();
+	down_fence_set.flatten_strong();
+
+	top_fence_set.reparent_to(Simdunas::get_window()->get_render());
+	right_fence_set.reparent_to(Simdunas::get_window()->get_render());
+	left_fence_set.reparent_to(Simdunas::get_window()->get_render());
+	down_fence_set.reparent_to(Simdunas::get_window()->get_render());
+
 
 	string casa_model[6] = { "casa1", "casa2", "casa3", "casa2", "casa1", "casa3" };
 
