@@ -23,6 +23,8 @@ PovCamera::PovCamera(PT(Camera) camera) : CameraNode(camera){
 	dummy->set_pos(*object, 0, -50 * 5, 0);
 	dummy->set_scale(0.05);
 	World::get_world()->get_terrain()->update_node_z(*dummy);
+
+	camera->show_frustum();
 }
 
 void PovCamera::activate(){
