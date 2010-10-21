@@ -24,6 +24,11 @@ public:
 
 	virtual void was_redistributed(){};
 
+	virtual void occult();
+	virtual void reveal();
+	virtual void update_screen_status(bool show);
+	void set_screen_status_enabled(bool enabled);
+
 	PT(Setor) get_setor();
 	void set_setor(PT(Setor) setor);
 
@@ -83,6 +88,8 @@ public:
 private:
 	virtual void init();
 	AnimControlCollection anims;
+
+	bool _screen_status_enabled;
 protected:
 	int orientation;
 	LPoint3f prev_pos;

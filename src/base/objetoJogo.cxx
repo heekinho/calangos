@@ -41,6 +41,7 @@ void ObjetoJogo::init(){
 	offset_z = 0.0;
 	prev_pos = LPoint3f(this->NodePath::get_pos());
 	orientation = 1;
+	_screen_status_enabled = true;
 }
 
 /* Destrói o ObjetoJogo */
@@ -63,6 +64,29 @@ void ObjetoJogo::change_sector(PT(Setor) new_sector) {
 	parent_sector = new_sector;
 };
 
+/*! Implementação padrão para esconder o elemento e tirar do grafo de cena */
+void ObjetoJogo::occult(){
+	detach_node();
+}
+
+/*! Implementação padrão para colocar o elemento de volta no grafo e mostrar. */
+void ObjetoJogo::reveal(){
+	if(parent_sector) reparent_to(parent_sector->get_root());
+	else reparent_to(Simdunas::get_window()->get_render());
+}
+
+/*! Atualiza o estado de visibilidade do elemento */
+void ObjetoJogo::update_screen_status(bool show){
+	if(_screen_status_enabled){
+		if(show) reveal();
+		else occult();
+	}
+}
+
+/*! Ativa ou desativa a alteração no estado de visibilidade do elemento */
+void ObjetoJogo::set_screen_status_enabled(bool enabled){
+	_screen_status_enabled = enabled;
+}
 
 /*! Obtém o tamanho real do objeto a partir do tight_bounds dele */
 void ObjetoJogo::calc_size_from_bounds(){
