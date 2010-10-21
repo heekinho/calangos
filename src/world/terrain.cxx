@@ -253,9 +253,9 @@ void Terrain::init_sectors(){
 	int width = x_size/NUM_SECTORS_X;
 	int height = y_size/NUM_SECTORS_Y;
 
-        no_setores=new NodePath[MAX_SETORES];//64 setores 
+    //no_setores=new NodePath[MAX_SETORES];//64 setores
         
-       // no_setores=Simdunas::get_window()->get_render().attach_new_node("setor");
+    //// no_setores=Simdunas::get_window()->get_render().attach_new_node("setor");
 
     std::string s;
     std::stringstream out;
@@ -265,11 +265,11 @@ void Terrain::init_sectors(){
 			LPoint2d pos_inicio = LPoint2d(x, y);
 			LPoint2d pos_fim = LPoint2d( x+(width-1), y+(height-1) );
 
-			PT(Setor) novoSetor = new Setor(pos_inicio, pos_fim, index);
-                        out << index;
-                        s = out.str();
-                        no_setores[index]=Simdunas::get_window()->get_render().attach_new_node("setor"+s);
-                        terrain->add_setor(novoSetor);
+			PT(Setor) setor = new Setor(pos_inicio, pos_fim, index);
+                        //out << index;
+                        //s = out.str();
+                        //no_setores[index]=Simdunas::get_window()->get_render().attach_new_node("setor"+s);
+			terrain->add_setor(setor);
 			index++;
 
 
@@ -339,13 +339,16 @@ void Terrain::load_tocas(){
 			double y = vegetal->get_y();
 			double elevation  = get_elevation(x,y);
 			double elevation_toca = get_elevation(x+1,y+1);
+
 			if (elevation < 1 && elevation_toca < 1){
 				toca_list->push_back( ModelRepository::get_instance()->get_model_instance("toca") );
 				toca_list->back()->reparent_to(Simdunas::get_window()->get_render());
 				toca_list->back()->set_pos(x+1, y+1, 0);
 				toca_list->back()->set_scale(0.001);
-				if (toca_list->size() > 10)
+				if (toca_list->size() > 10){
 					break;
+				}
+
 			}
 		}
 	}

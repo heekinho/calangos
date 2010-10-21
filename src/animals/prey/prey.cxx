@@ -84,11 +84,8 @@ void Prey::configure_prey(const string name, int living_tree_prob, float nutrici
 
 	/* Finalmente o torna disponível pra visualização. */
 	//reparent_to(Terrain::create_default_terrain()->get_setor_from_pos(get_x(),get_y())->node());
-       
-       
-        wrt_reparent_to(Terrain::create_default_terrain()->no_setores[Terrain::create_default_terrain()->get_setor_from_pos(get_x(),get_y())->get_indice()].node());
-       // reparent_to(Simdunas::get_window()->get_render());
-        
+    //wrt_reparent_to(Terrain::create_default_terrain()->no_setores[Terrain::create_default_terrain()->get_setor_from_pos(get_x(),get_y())->get_indice()].node());
+	reparent_to(get_setor()->get_root());
 	continue_animation();
 }
 
@@ -168,8 +165,8 @@ void Prey::change_sector(PT(Setor) new_sector){
 	new_sector->preys()->push_back(this);
 	//set_random_living_tree();
      //mudando de nodepath
-        this->reparent_to(Terrain::create_default_terrain()->no_setores[new_sector->get_indice()]);
-          
+	//this->reparent_to(Terrain::create_default_terrain()->no_setores[new_sector->get_indice()]);
+	reparent_to(get_setor()->get_root());
         
 }
 

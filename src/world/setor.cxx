@@ -27,6 +27,7 @@ Setor::Setor(LPoint2d inicio, LPoint2d fim, int indice){
 	not_next_event_name << "ev_player_not_next_to_sector_" << indice;
 	EV_player_not_next = sector_event_name.str();
 
+	_root = Simdunas::get_window()->get_render().attach_new_node("Sector Root NodePath");
 
 	_animal_list = SectorItems<PT(Animal)>(this);
 	_prey_list = SectorItems<PT(Prey)>(this);
@@ -46,6 +47,9 @@ Setor::~Setor() {}
 //	Animal *obj = (Animal*) evt->get_receiver();
 //	//this_sector->update_object_sector( (PT(ObjetoJogo)) obj);
 //}
+NodePath Setor::get_root(){
+	return _root;
+}
 
 /*! Atualiza o setor do objeto, se este mudou de setor */
 void Setor::update_object_sector(PT(ObjetoJogo) object){

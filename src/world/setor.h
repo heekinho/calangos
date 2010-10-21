@@ -44,6 +44,8 @@ public:
 	void hide_vegetals();
 	void show_vegetals();
 
+	NodePath get_root();
+
 	static TypeHandle get_class_type() { return _type_handle; }
 	static void init_type() { register_type(_type_handle, "Setor"); }
 
@@ -62,6 +64,8 @@ private:
 	SectorItems<PT(EdibleVegetal)> _edible_vegetal_list;
 	SectorItems<PT(Lizard)> _lizard_list;
 	SectorItems<PT(ObjetoJogo)> _toca_list;
+
+	NodePath _root;
 
 	LPoint2d _pos_start;
 	LPoint2d _pos_end;

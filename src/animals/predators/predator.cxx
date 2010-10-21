@@ -93,7 +93,8 @@ void Predator::change_sector(PT(Setor) new_sector){
 	new_sector->predators()->push_back(this);
 
 	//mudando de nodepath
-	this->reparent_to(Terrain::create_default_terrain()->no_setores[new_sector->get_indice()]);
+	//this->reparent_to(Terrain::create_default_terrain()->no_setores[new_sector->get_indice()]);
+	reparent_to(get_setor()->get_root());
 }
 
 /*! Roda comportamento de perseguição */

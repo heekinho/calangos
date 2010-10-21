@@ -104,7 +104,7 @@ public:
 	float random(float lower, float higher);
 	void do_initial_distribution();
 
-        NodePath *no_setores ;//será um vetor de nodepaths para representar cada setor
+	//NodePath *no_setores ;//será um vetor de nodepaths para representar cada setor
 
 private:
 
