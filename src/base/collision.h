@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   collision.h
  * Author: tassalon
  *
@@ -25,7 +25,7 @@ public:
 
     void esferaCollision(NodePath* no, float x, float y, float z, float raio);
 
-    NodePath* playerCollision(NodePath* no);
+    void playerCollision(NodePath* no);
 
     //SingleTon
     static collision* get_instance();

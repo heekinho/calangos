@@ -1,7 +1,7 @@
-/* 
+/*
  * File:   collision.cxx
  * Author: tassalon
- * 
+ *
  * Created on 11 de Junho de 2010, 15:04
  */
 
@@ -20,7 +20,7 @@ collision* collision::single = NULL;
 CollisionHandlerPusher pusher;
 CollisionTraverser* collTravPlayer;
 CollisionTraverser* collTravSlow;
-      
+
 
 collision::collision() {
      collTravPlayer = new CollisionTraverser();  //tratamento de colisões para o jogador e a siriema
@@ -30,14 +30,14 @@ collision::collision() {
 collision::collision(const collision& orig) {
 
 }
- 
+
 collision::~collision() {
 
 }
 
 //ADICIONA NÓ DE COLISÃO AO JOGADOR, UM HANDLER E UM TRAVERSER PARA TRATAR AS COLISÕES
 //ESSE MÉTODO ESTÁ SENDO USADO NA CLASSE player DENTRO DO MÉTODO load_player().
-NodePath* collision::playerCollision(NodePath* node){
+void collision::playerCollision(NodePath* node){
     if(Menu::get_instance()->get_colisao()){
 
         CollisionNode* cNode = new CollisionNode("Player"); //cria nó de colisão
@@ -83,13 +83,13 @@ void collision::collisionNpcSlow(NodePath* node, float x, float y, float z, floa
       pusher.add_collider(npc, *node);
       collTravSlow->add_collider(npc , &pusher);
 
-    }    
+    }
   }
 
 //Adiciona sólido de colisão aos vegetais, sendo usado na classe vegetal
 //Exemplo de como usar esse método: collision::get_instance()->esferaCollision(&node,x,y,z,raio);
 void collision::esferaCollision(NodePath* node, float x, float y, float z, float raio){
-   if(Menu::get_instance()->get_colisao()){//verifica se a colisão foi ativada pelo jogador   
+   if(Menu::get_instance()->get_colisao()){//verifica se a colisão foi ativada pelo jogador
 
        CollisionNode* cNode = new CollisionNode("no");
       cNode->add_solid(new CollisionSphere(x, y, z, raio));
