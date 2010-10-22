@@ -524,6 +524,7 @@ void Terrain::do_initial_distribution(){
 	}
 }
 
+#include "groupPrey.h"
 int r[] = {1, -1};
 void Terrain::realoc_prey(PT(Prey) prey, LPoint3f ref){
 //	int i = rand()%2;
@@ -544,6 +545,16 @@ void Terrain::realoc_prey(PT(Prey) prey, LPoint3f ref){
 
 	prey->set_pos(ref.get_x()+x, ref.get_y()+y, 0);
 	prey->was_redistributed();
+
+	if(!prey->_group) return;
+	if(prey->is_master_leader()){
+		PT(Prey) last_leader = prey;
+		for (list<PT(Prey)>::iterator it = prey->_group->get_array()->begin(); it != prey->_group->get_array()->end(); ++it){
+			(*it)->set_pos(last_leader->get_x(), last_leader->get_y()+0.1, 0);
+			(*it)->look_at(*last_leader);
+			last_leader = *it;
+		}
+	}
 }
 
 float Terrain::random(float lower, float higher){

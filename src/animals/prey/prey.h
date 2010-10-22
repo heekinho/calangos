@@ -53,7 +53,7 @@ protected:
 	PT(Vegetal) living_tree;
 	float radius_thr;
 	bool has_living_tree;
-
+public:
 	GroupPrey* _group;
 	PT(Prey) leader;
 };

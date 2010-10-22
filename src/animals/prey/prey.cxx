@@ -31,17 +31,17 @@ void Prey::load_prey(){
 	load_prey_specie("besouro", 14, 2*factor, 70, 4, 4.5);
 
 	nout << "Carregando Cupins..." << endl;
-	load_prey_specie("cupim", 13, 1*factor, 100, 5, 2.5, true, 10);
+	load_prey_specie("cupim", /*13*/1, 1*factor, 100, 5, 2.5, true, 10);
 
 	nout << "Carregando Formigas..." << endl;
 	//load_prey_specie("formiga", 150, 0.0002, 80, 2, 2.5);
-	load_prey_specie("formiga", 15, 2*factor, 80, 2, 2.5, true, 12);
+	load_prey_specie("formiga", /*15*/2, 2*factor, 80, 2, 2.5, true, 12);
 
 	nout << "Carregando Grilo..." << endl;
 	load_prey_specie("grilo", 6, 2*factor, 60, 3, 4);
 
 	nout << "Carregando Larvas..." << endl;
-	load_prey_specie("larva", 8, 2*factor, 100, 7, 5.5, true, 5);
+	load_prey_specie("larva", /*8*/1, 2*factor, 100, 7, 5.5, true, 5);
 }
 
 /*! Configura o modelo base da espécie de presa */
@@ -98,26 +98,26 @@ void Prey::load_prey_specie(const string name, int qtd, double scale, int living
 		npc->configure_prey(name, living_tree_prob, nutricional, hidratacao);
                 
 		//=====================================================//
-//		if(comp_group){
-//			npc->_group = new GroupPrey();
-//			npc->_group->add_prey(npc);
-//
-//			PT(Prey) last_leader = npc; // Começa com o líder!
-//
-//			for(int j = 0; j < n; j++){
-//				PT(Prey) c_npc = new Prey(NodePath("Prey PlaceHolder"));
-//
-//				c_npc->configure_prey(name, 0, nutricional, hidratacao);
-//				c_npc->set_pos(last_leader->get_x(), last_leader->get_y()+ 0.1, 0);
-//				c_npc->look_at(*last_leader);
-//
-//				last_leader = c_npc;
-//				npc->_group->add_prey(c_npc);
-//				c_npc->_group = npc->_group;
-//			}
-//			npc->_group->calc_leaders();
-//		}
-//		else
+		if(comp_group){
+			npc->_group = new GroupPrey();
+			npc->_group->add_prey(npc);
+
+			PT(Prey) last_leader = npc; // Começa com o líder!
+
+			for(int j = 0; j < n; j++){
+				PT(Prey) c_npc = new Prey(NodePath("Prey PlaceHolder"));
+
+				c_npc->configure_prey(name, 0, nutricional, hidratacao);
+				c_npc->set_pos(last_leader->get_x(), last_leader->get_y()+ 0.1, 0);
+				c_npc->look_at(*last_leader);
+
+				last_leader = c_npc;
+				npc->_group->add_prey(c_npc);
+				c_npc->_group = npc->_group;
+			}
+			npc->_group->calc_leaders();
+		}
+		else
 		{
 			npc->_group = NULL;
 		}
@@ -155,7 +155,6 @@ void Prey::load_prey_specie(const string name, int qtd, double scale, int living
 //			(*it)->look_at(*last_leader);
 //			last_leader = *it;
 //		}
-//
 //	}
 //}
 
