@@ -62,13 +62,14 @@ void Animal::act(const Event*, void *data){
 	int flag = cn->is_in_view(*this_animal);
 
 	/* Tá desligando a animação aqui, mas provávelmente alguém tá ligando de novo nos métodos
-	 * TODO: Elaborar um sistema que não permita essa reativação - simples flag */
+	 * TODO: Elaborar um sistema que não permita essa reativação - simples flag
+	 * E ainda por cima tá atrapalhando a parada de Animal::act() */
 	if(flag){
-		this_animal->continue_animation();
+		//this_animal->continue_animation();
 		this_animal->reparent_to(Simdunas::get_window()->get_render());
 	}
 	else {
-		this_animal->pause_animation();
+		//this_animal->pause_animation();
 		this_animal->detach_node();
 	}
 }
