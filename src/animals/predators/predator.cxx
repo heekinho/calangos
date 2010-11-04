@@ -131,7 +131,9 @@ void Predator::pause_animation(){
 
 /*! Retoma a animação */
 void Predator::continue_animation(){
-	if(!get_anim_control()->is_playing("andar")) get_anim_control()->play("andar");
+	if(Simdunas::get_window()->get_render().is_ancestor_of(*this)){
+		if(!get_anim_control()->is_playing("andar")) get_anim_control()->play("andar");
+	}
 }
 
 

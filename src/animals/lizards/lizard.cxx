@@ -71,7 +71,7 @@ void Lizard::load_lizards(){
 		LPoint3f point = World::get_world()->get_terrain()->get_random_point();
 
 		/* Pronto... para criar instancias separadas, sem instancing... */
-	
+
 		PT(Lizard) lizard;
 		string gender_name;
 		int gender = rand()%3;
@@ -118,7 +118,7 @@ void Lizard::load_lizards(){
 			lizard->set_tamanho_base(Player::get_instance()->calc_tamanho_base(lizard->get_tamanho_real()));
 			//lizard->scale = ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.00001);
 		}
-		
+
 		//cout << "Scale: " << lizard->tamanho_real << endl;
 		lizard->set_pos(point);
 		lizard->set_h(rand()%360);
@@ -137,7 +137,7 @@ void Lizard::load_lizards(){
 
 		//lizard->tamanho = ClimaTempo::get_instance()->random_normal(60, 20);
 		//lizard->energia = ClimaTempo::get_instance()->random_normal(60, 20);
-                
+
 		lizard->set_action("walk");
 	}
 }
@@ -284,6 +284,8 @@ void Lizard::pause_animation(){
 }
 
 void Lizard::continue_animation(){
-	set_action("walk", true);
-	if(!get_anim_control()->is_playing("walk")) get_anim_control()->play("walk");
+	if(Simdunas::get_window()->get_render().is_ancestor_of(*this)){
+		set_action("walk", true);
+		if(!get_anim_control()->is_playing("walk")) get_anim_control()->play("walk");
+	}
 }
