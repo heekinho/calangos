@@ -400,6 +400,7 @@ void Terrain::load_terrain_limit(){
 		cercas.back()->set_scale(0.05);
 	}
 
+	ModelRepository::get_instance()->get_model("cerca")->clear_model_nodes();
 	top_fence_set.flatten_strong();
 	right_fence_set.flatten_strong();
 	left_fence_set.flatten_strong();
@@ -412,12 +413,13 @@ void Terrain::load_terrain_limit(){
 
 
 	string casa_model[6] = { "casa1", "casa2", "casa3", "casa2", "casa1", "casa3" };
+	NodePath houses = NodePath("Conjuntos de casas");
 
 	int index_casa = 0;
 	double distancia = 11.5;
 	for (double pos = 10.5; pos <= 130.0; pos += distancia) {
 		casas.push_back( ModelRepository::get_instance()->get_model_instance( casa_model[index_casa] ) );
-		casas.back()->reparent_to(Simdunas::get_window()->get_render());
+		casas.back()->reparent_to(houses);
         casas.back()->set_x(terrain_x_size - pos);
         casas.back()->set_y(terrain_y_size);
 		casas.back()->set_scale(0.05);
@@ -431,13 +433,18 @@ void Terrain::load_terrain_limit(){
 		}
 
 		casas.push_back( ModelRepository::get_instance()->get_model_instance( casa_model[index_casa+3] ));
-		casas.back()->reparent_to(Simdunas::get_window()->get_render());
+		casas.back()->reparent_to(houses);
         casas.back()->set_x(terrain_x_size);
         casas.back()->set_y(terrain_y_size - pos);
 		casas.back()->set_scale(0.05);
 	}
 
+	ModelRepository::get_instance()->get_model("casa1")->clear_model_nodes();
+	ModelRepository::get_instance()->get_model("casa2")->clear_model_nodes();
+	ModelRepository::get_instance()->get_model("casa3")->clear_model_nodes();
 
+	houses.flatten_strong();
+	houses.reparent_to(Simdunas::get_window()->get_render());
 }
 
 /*! Carrega o rio*/
