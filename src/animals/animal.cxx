@@ -8,7 +8,6 @@
 #include "prey.h"
 #include "spider.h"
 #include "frog.h"
-#include "redLegged.h"
 #include "lizard.h"
 
 #define MAXDEGREE 100

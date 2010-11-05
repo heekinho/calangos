@@ -2,14 +2,12 @@
 #include "player.h"
 
 #include "modelRepository.h"
-#include "redLegged.h"
-#include "fox.h"
 
 #include "collision.h"
 
 /*! Constrói um Predador */
 Predator::Predator(NodePath node) : Animal(node){
-	set_velocity(200.0);
+	set_velocity(350.0);
 	//adiciona solido de colisão aos predadores (ficou legal esses valores para altura e raio)
 	collision::get_instance()->collisionNpcFast(&node, 0, 0, 20, 10);
 }
@@ -18,9 +16,9 @@ Predator::~Predator(){}
 
 /*! Carrega todos os predadores do jogo */
 void Predator::load_predators(){
-	RedLegged::load_redleggeds(7);
-	Predator::load_predator("raposa", 8, 0.01, -1);
-	Predator::load_predator("gato", 10, 0.01, -1);
+	Predator::load_predator("siriema", 7, 0.3, -1);
+	Predator::load_predator("raposa", 6, 0.01, -1);
+	Predator::load_predator("gato", 9, 0.01, -1);
 }
 
 
@@ -92,8 +90,6 @@ void Predator::change_sector(PT(Setor) new_sector){
 	get_setor()->predators()->remove(this);
 	new_sector->predators()->push_back(this);
 
-	//mudando de nodepath
-	//this->reparent_to(Terrain::create_default_terrain()->no_setores[new_sector->get_indice()]);
 	reparent_to(get_setor()->get_root());
 }
 
