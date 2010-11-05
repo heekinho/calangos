@@ -89,6 +89,9 @@ void ModelRepository::load_models(){
 	string gato_anims[] = {"gato_andar", "gato_comer", "gato_comer2", "gato_stand"};
 	add_animated_model("gato", "models/npcs/predators/gato/", "gato_model", "", 4, gato_anims);
 
+	string teiu_anims[] = {"teiu_andar", "teiu_comer", "teiu_comer2"};
+	add_animated_model("teiu", "models/npcs/predators/teiu/", "teiu_model", "", 3, teiu_anims);
+
 	// Vegetais
 	nout << endl << "Carregando Vegetais" << endl;
 

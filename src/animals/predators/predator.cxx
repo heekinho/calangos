@@ -16,9 +16,12 @@ Predator::~Predator(){}
 
 /*! Carrega todos os predadores do jogo */
 void Predator::load_predators(){
-	Predator::load_predator("siriema", 7, 0.3, -1);
+	Predator::load_predator("teiu", 7, 0.004, -1);
+	Predator::load_predator("siriema", 7, 0.03, -1);
 	Predator::load_predator("raposa", 6, 0.01, -1);
 	Predator::load_predator("gato", 9, 0.01, -1);
+
+
 }
 
 
