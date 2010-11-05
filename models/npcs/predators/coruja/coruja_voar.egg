@@ -1,7 +1,7 @@
 <CoordinateSystem> { Z-Up }
 
 <Table> {
-  <Bundle> character {
+  <Bundle> voar {
     <Table> "<skeleton>" {
       <Table> Bip01 {
         <Xfm$Anim_S$> xform {
