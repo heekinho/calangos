@@ -8,10 +8,12 @@
 
 PT(Terrain)  Terrain::terrain = NULL;
 TypeHandle Terrain::_type_handle;
+float Terrain::dist_min = 5;
+float Terrain::dist_mid = 6;
+float Terrain::dist_max = 10;
 
 // Constroi um novo terreno com o nome especificado
 Terrain::Terrain(const string &name) : GeoMipTerrain (name) {
-
 	nout << "Criando Terreno..." << endl;
 	escala = 1;
 

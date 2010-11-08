@@ -93,9 +93,9 @@ public:
 
 
 	//Test
-	static const float dist_min = 5;
-	static const float dist_mid = 6;
-	static const float dist_max = 10;
+	static float dist_min;
+	static float dist_mid ;
+	static float dist_max ;
 	list<PT(Prey)> list_prey;
 
 	void add_prey(PT(Prey) prey);
