@@ -33,4 +33,5 @@ PT(Prey) GroupPrey::get_leader(PT(Prey) prey){
 		if((*it) == prey) return last_leader;
 		last_leader = (*it);
 	}
+	return NULL;
 }
