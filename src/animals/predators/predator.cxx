@@ -20,7 +20,8 @@ void Predator::load_predators(){
 	Predator::load_predator("siriema", 7, 0.03, -1);
 	Predator::load_predator("raposa", 6, 0.01, -1);
 	Predator::load_predator("gato", 9, 0.01, -1);
-
+//	Predator::load_predator("jararaca", 50, 0.01, -1);
+//	Predator::load_predator("colubridae", 50, 0.01, -1);
 
 }
 

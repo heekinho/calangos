@@ -89,8 +89,14 @@ void ModelRepository::load_models(){
 	string gato_anims[] = {"gato_andar", "gato_comer", "gato_comer2", "gato_stand"};
 	add_animated_model("gato", "models/npcs/predators/gato/", "gato_model", "", 4, gato_anims);
 
-	string teiu_anims[] = {"teiu_andar", "teiu_comer", "teiu_comer2"};
+	string teiu_anims[] = {"teiu_andar", "teiu_morder", "teiu_morder2"};
 	add_animated_model("teiu", "models/npcs/predators/teiu/", "teiu_model", "", 3, teiu_anims);
+
+	string jararaca_anims[] = {"jararaca_rastejar", "jararaca_eating", "jararaca_stand"};
+	add_animated_model("jararaca", "models/npcs/predators/jararaca/", "jararaca_model", "", 3, jararaca_anims);
+
+	string colubridae_anims[] = {"colubridae_andar", "colubridae_morder", "colubridae_stand"};
+	add_animated_model("colubridae", "models/npcs/predators/colubridae/", "colubridae_model", "", 3, colubridae_anims);
 
 	// Vegetais
 	nout << endl << "Carregando Vegetais" << endl;
