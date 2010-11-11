@@ -64,12 +64,13 @@ void Animal::act(const Event*, void *data){
 	 * TODO: Elaborar um sistema que não permita essa reativação - simples flag
 	 * E ainda por cima tá atrapalhando a parada de Animal::act() */
 	if(flag){
-		this_animal->reparent_to(Simdunas::get_window()->get_render());
-		this_animal->continue_animation();
+		//this_animal->reparent_to(Simdunas::get_window()->get_render());
+		this_animal->reparent_to(this_animal->get_setor()->get_root());
+		//this_animal->continue_animation();
 	}
 	else {
 		this_animal->detach_node();
-		this_animal->pause_animation();
+		//this_animal->pause_animation();
 	}
 }
 
