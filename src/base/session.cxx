@@ -3,6 +3,7 @@
 #include "guiManager.h"
 
 #include "modelRepository.h"
+#include "imageRepository.h"
 #include "menu.h"
 #include "spider.h"
 
@@ -36,6 +37,9 @@ void Session::init_session(){
 	/* Sistema de Repositório de Modelos */
 	nout << "Criando Repositorio de Modelos..." << endl;
 	ModelRepository::get_instance();
+
+	nout << "Criando Repositorio de Imagens..." << endl;
+	ImageRepository::get_instance();
 
 	nout << "Criando Controle de Tempo..." << endl;
 	TimeControl::get_instance();

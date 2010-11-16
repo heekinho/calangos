@@ -15,10 +15,13 @@
 #include "graphics.h"
 #include "mouseWatcher.h"
 #include "mouseWatcherGroup.h"
-#include "vetores.h"
+//#include "vetores.h"
+#include "gameStatusBar.h"
+#include "graphicsMenu.h"
 
 class Player;
-class Graphics;
+class GraphicsMenu;
+//class Graphics;
 
 class GuiManager : public TypedReferenceCount {
 public:
@@ -32,6 +35,8 @@ public:
     static void init_type() {
         register_type(_type_handle, "GuiManager");
     }
+
+    void make_frame();
      void piscar_life();//método que ira controlar o calango piscante..
     static void verifica_conta(const Event*, void *data);
 	void remove_hooks();//remove todos os hooks.......
@@ -42,29 +47,8 @@ public:
     static void esconde_moldura_toca(const Event*, void *data);
     static void unload_gui();
 	void notifyGameOver();
-    void build_options();
-    void esconde_mostradores();
-    void mostra_mostradores();
-    void mostra_opcoes_dos_graficos();
-    void esconde_opcoes_dos_graficos();
-    void mostra_painel_grafico_tempo();
-    void esconde_painel_grafico_tempo();
-    void mostra_painel_grafico_variavel();
-    void esconde_painel_grafico_variavel();
-    void inicia_graficos();
-    void esconde_graficos();
-    void desliga_leds_painel_tempo();
-    void desliga_leds_painel_variavel();
     void liga_led_estado_reprodutivo();
     void desliga_led_estado_reprodutivo();
-    void novo_grafico1_TempInterna();
-    void novo_grafico2_Hidratacao();
-    void novo_grafico3_TempAr();
-    void novo_grafico4_Umidade();
-    void novo_grafico5_TempSolo();
-    void novo_grafico6_Alimentacao();
-    void novo_grafico7_Energia();
-    void novo_grafico8_GastoEnergetico();
     void hide_frameNode();
     void show_frameNode();
     static void click_event_botao_grafico(const Event*, void *data);
@@ -93,94 +77,31 @@ private:
     static PT(GuiManager) instance;
     static bool instanceFlag;
     WindowFramework* window;
-    PGVirtualFrame* testeFrame;
-    NodePath frameNode;
-    NodePath molduraToca;
-    PGVirtualFrame* optionFrame;
-    NodePath optionFrameNode;
-    PGVirtualFrame* graficoVariavelFrame;
-    NodePath graficoVariavelFrameNode;
-    ImageBar life_bar;
-    ScrollBar hidratacao_scrollBar;
-    ScrollBar temperatura_scrollBar;
-    ScrollBar tempAmbiente_scrollBar;
-    ScrollBar umidade_scrollBar;
-    TextNode* labelDamage;
-    TextNode* labelCountEgg;
-    TextNode* labelIdade;
-    TextNode* labelIdadeNumero;
-    TextNode* labelHidratacao;
-    TextNode* labelTemperatura;
-    TextNode* labelTemperaturaAmb;
-    TextNode* labelUmidade;
-    NodePath relogioDiaNoite;
-    NodePath labelCountEgg_np;
-    NodePath labelIdade_np;
-    NodePath labelIdadeNumero_np;
-    NodePath labelHidratacao_np;
-    NodePath labelTemperatura_np;
-    NodePath labelTemperaturaAmb_np;
-    NodePath labelUmidade_np;
-    NodePath estadoReprodutivo;
-    NodePath led;
-    NodePath egg;
-    NodePath ledTemperatura;
-    NodePath ledHidratacao;
-    NodePath ledTempAmbiente;
-    NodePath ledUmidade;
-    NodePath botaoGrafico_np;
-    NodePath ledTemperaturaAtivo;
-    NodePath ledHidratacaoAtivo;
-    NodePath ledTempAmbienteAtivo;
-    NodePath ledUmidadeAtivo;
-    NodePath botaoGrafico2;
-    PGButton* botaoGrafico;
-    //NodePath botaoGrafico_np;
+    GameStatusBar* game_status_bar;
+    GraphicsMenu* graphics_menu;
+    PGVirtualFrame* menu_frame;
+    NodePath menu_frame_np;
+    NodePath moldura_toca;
 
-   static NodePath piscar;//variável que será o nodepath da figura
    static bool flag_piscar;
    static int conta;
    /*static float controle_tempo_piscando;variável vai controlar o tempo que o calango vai ficar piscando, sem esse controle
                                          quando o tempo virtual demorar mais de passar vai ficar muito tempo piscando
                                          */
 
-
-    PGButton* button;
-    NodePath button_np;
-    PGButton* button2;
-    NodePath button2_np;
-    PGButton* button3;
-    NodePath button3_np;
-    PGButton* button4;
-    NodePath button4_np;
-    //NodePath ledGray;
-    //NodePath ledGreen;
-    char stringHidratacao[10];
-    char stringTemperatura[10];
-    char stringTemperaturaAmb[10];
-    char stringUmidade[10];
-    char stringVida[10];
-    char stringCountEgg[10];
-    char stringIdadeNumero[10];
+    char string_hidratacao[10];
+    char string_temperatura[10];
+    char string_temp_amb[10];
+    char string_umidade[10];
+    char string_vida[10];
+    char string_count_egg[10];
+    char string_idade_numero[10];
     double cont_relogio;
     double cont_gui_options;
     //A flag gui_options_flag verifica se a janela de opções está aberta ou não.
     //gui_options_flag funciona com false pra fechado e true para aberto
     bool gui_options_flag;
     bool gui_options_flag2;
-    bool ledTemperaturaON;
-    bool ledHidratacaoON;
-    bool ledTempAmbienteON;
-    bool ledUmidadeON;
-    PT(Graphics) graphic;
-    PT(Graphics) graphic2;
-    PT(Graphics) graphic3;
-    PT(Graphics) graphic4;
-    PT(Graphics) graphic5;
-    PT(Graphics) graphic6;
-    PT(Graphics) graphic7;
-    PT(Graphics) graphic8;
-    PT(Graphics) graphicVariavel;
     bool graficoPosicao1;
     bool graficoPosicao2;
     bool grafico1Cima;
@@ -199,8 +120,6 @@ private:
     bool grafico7Baixo;
     bool grafico8Cima;
     bool grafico8Baixo;
-    Vetores* vector;
-    //NodePath graphic_np;
 
 };
 
