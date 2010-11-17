@@ -14,7 +14,7 @@
 #include "eventQueue.h"
 #include "guiManager.h"
 #include "audioManager.h"
-
+#include "textureStageCollection.h"
 
 
 
@@ -29,6 +29,7 @@ NodePath Menu::background_icones = NULL;
 bool Menu::rodar = false;
 bool Menu::controle = false;
 bool Menu::showing_creditos = false;
+bool Menu::showing_custom = false;
 char* Menu::tecla = NULL;
 Menu * Menu::instance = NULL;
 //para desativar a colisão no jogo basta colocar false neste variável:
@@ -39,21 +40,21 @@ NodePath Menu::button_sair = NULL;
 NodePath Menu::button_restart = NULL;
 NodePath Menu::button_grafico = NULL;
 
+
 NodePath Menu::logo = NULL;
 Player::lizardEpecie Menu::especie = Player::eurolophosaurus; //a especie dfault
+
 
 Menu::Menu(WindowFramework *window) {
     this->_framework = window->get_panda_framework();
     this->minuto_dia_virtual = 0;
     this->flag_stop_time_pause = false;
-
     Simdunas::get_framework()->define_key("escape", "Stop_Movie", stop_movie, this);
-
-		
 }
 
 #include "auto_bind.h"
 #include "animatedObjetoJogo.h"
+#include "player/player.h"
 
 void Menu::start_Menu() {
 
@@ -120,18 +121,20 @@ void Menu::start_Menu() {
     anims.loop_all(false);
     cnemidophorus.hide();
 
+
     //      Lagarto Personalizado
-    lagartoPersonalizado = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), "models/lizards/cnemidophorus/male/model");
+    lagartoPersonalizado = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), "models/lizards/custom/male/model");
     lagartoPersonalizado.set_scale(0.08, 0.08, 0.08);
     lagartoPersonalizado.set_pos(0, 35, -2);
     lagartoPersonalizado.set_h(45);
     lagartoPersonalizado.set_p(20);
 
-    //		/* Animação */
-    Simdunas::get_window()->load_model(lagartoPersonalizado, "models/lizards/cnemidophorus/male/walk");
+    //		 Animação 
+    Simdunas::get_window()->load_model(lagartoPersonalizado, "models/lizards/custom/male/walk");
     auto_bind(lagartoPersonalizado.node(), anims, PartGroup::HMF_ok_part_extra |
     PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
     anims.loop_all(false);
+    lagartoPersonalizado.hide();
 
 
     ///imagem do logo
@@ -222,6 +225,7 @@ void Menu::start_Menu() {
     nod_botao_instrucao.set_scale(0.68, 0.32, 0.32);
     nod_botao_instrucao.set_pos(-0.5, 0.4, -0.25);
     botao_instrucao->set_frame(-0.4, 0.4, -0.4, 0.4);
+
 
 
 
@@ -703,7 +707,7 @@ void Menu::configure(const Event*, void *data) {
 
         Simdunas::get_evt_handler()->add_hook(config->botao_cnemidophorus->get_click_event(MouseButton::one()), cnemidophorus_funcao, config);
 
-            ///////TASSALON COLOCANDO UM BOTÃO PERSONALIZAR //////////////////////////
+            // Botão PERSONALIZAR (Leva o jogador para o editor de lagartos)
         NodePath personalizar = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/personalizar");
         personalizar.detach_node();
         config->botao_personalizar = new PGButton("Personalizar");
@@ -715,8 +719,7 @@ void Menu::configure(const Event*, void *data) {
 
         Simdunas::get_evt_handler()->add_hook(config->botao_personalizar->get_click_event(MouseButton::one()), personalizar_funcao, config);
 
-         ///////TASSALON COLOCANDO UM BOTÃO COLISAO PARA ATIVAR/DESATIVAR COLISAO  //////////////////////////
-
+        //botão de ativar/desativar colisão
          NodePath colisao = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/colisao");
         colisao.detach_node();
         config->botao_colisao = new PGButton("colisao");
@@ -751,12 +754,219 @@ void Menu::configure(const Event*, void *data) {
 
 }
 
+void Menu::Paleta_cores( void *data) {
+   Menu * config = (Menu*) data;
+
+     ///carregando titulo do editor de cores
+        config->title_color = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/editorcores");
+        config->title_color.set_scale(1, 2 ,0.4);
+        config->title_color.set_pos(0, 0, 0.8);
+        config->title_color.show();
+   //linha 1
+   //paleta vermelha
+        config->botao_red = new PGButton("Red");
+        config->botao_red->setup("");
+        config->botao_red_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao_red);
+        config->botao_red_np.set_scale(0.1, 0.2, 0.1);
+        config->botao_red_np.set_pos(-1.2, 0.0, 0.6);
+        config->botao_red->set_frame(-0.4, 0.4, -0.4, 0.4);
+        config->botao_red_np.set_color(0.69,0.64,0.61,100,1);
+        //evento ao clicar...
+        Simdunas::get_evt_handler()->add_hook(config->botao_red->get_click_event(MouseButton::one()),  print_red2, config);
+
+
+         //paleta verde
+        config->botao_green = new PGButton("Green");
+        config->botao_green->setup("");
+        config->botao_green_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao_green);
+        config->botao_green_np.set_scale(0.1, 0.2, 0.1);
+        config->botao_green_np.set_pos(-1.2, 0.0, 0.5);
+        config->botao_green->set_frame(-0.4, 0.4, -0.4, 0.4);
+        config->botao_green_np.set_color(0.4,0.49,0.46,100,1);
+        //evento ao clicar...
+        Simdunas::get_evt_handler()->add_hook(config->botao_green->get_click_event(MouseButton::one()), print_green, config);
+
+
+        //linha 2
+         //paleta vermelha2
+        config->botao_blue = new PGButton("red2");
+        config->botao_blue->setup("");
+        config->botao_blue_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao_blue);
+        config->botao_blue_np.set_scale(0.1, 0.2, 0.1);
+        config->botao_blue_np.set_pos(-1.2, 0.0, 0.4);
+        config->botao_blue->set_frame(-0.4, 0.4, -0.4, 0.4);
+        config->botao_blue_np.set_color(0.64,0.11,0.1,100,1);
+        //evento ao clicar...
+        Simdunas::get_evt_handler()->add_hook(config->botao_blue->get_click_event(MouseButton::one()), print_red, config);
+
+
+         //paleta branca
+        config->botao_white = new PGButton("white");
+        config->botao_white->setup("");
+        config->botao_white_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao_white);
+        config->botao_white_np.set_scale(0.1, 0.2, 0.1);
+        config->botao_white_np.set_pos(-1.2, 0.0, 0.3);
+        config->botao_white->set_frame(-0.4, 0.4, -0.4, 0.4);
+        config->botao_white_np.set_color(1,1,1,100,1);
+        //evento ao clicar...
+       Simdunas::get_evt_handler()->add_hook(config->botao_white->get_click_event(MouseButton::one()),print_white, config);
+
+         //linha 3
+         //paleta amarela
+        config->botao_yellow = new PGButton("yellow");
+        config->botao_yellow->setup("");
+        config->botao_yellow_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao_yellow);
+        config->botao_yellow_np.set_scale(0.1, 0.2, 0.1);
+        config->botao_yellow_np.set_pos(-1.2, 0.0, 0.2);
+        config->botao_yellow->set_frame(-0.4, 0.4, -0.4, 0.4);
+        config->botao_yellow_np.set_color(0.96,0.81,0.52,100,1);
+        //evento ao clicar...
+       
+        Simdunas::get_evt_handler()->add_hook(config->botao_yellow->get_click_event(MouseButton::one()), print_yellow, config);
+
+         //paleta verde2
+        config->botao_green2 = new PGButton("green2");
+        config->botao_green2->setup("");
+        config->botao_green2_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao_green2);
+        config->botao_green2_np.set_scale(0.1, 0.2, 0.1);
+        config->botao_green2_np.set_pos(-1.2, 0.0, 0.1);
+        config->botao_green2->set_frame(-0.4, 0.4, -0.4, 0.4);
+        config->botao_green2_np.set_color(0.23,0.39,0.32,100,1);
+        //evento ao clicar...
+       
+    Simdunas::get_evt_handler()->add_hook(config->botao_green2->get_click_event(MouseButton::one()), print_green2, config);
+
+        //linha 4
+         //paleta marrom
+        config->botao_brown = new PGButton("brown");
+        config->botao_brown->setup("");
+        config->botao_brown_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao_brown);
+        config->botao_brown_np.set_scale(0.1, 0.2, 0.1);
+        config->botao_brown_np.set_pos(-1.2, 0.0, 0.0);
+        config->botao_brown->set_frame(-0.4, 0.4, -0.4, 0.4);
+        config->botao_brown_np.set_color(0.3,0.23,0.16,100,1);
+        //evento ao clicar...
+     
+     Simdunas::get_evt_handler()->add_hook(config->botao_brown->get_click_event(MouseButton::one()), print_brown, config);
+
+         //paleta preto
+        config->botao_black = new PGButton("black");
+        config->botao_black->setup("");
+        config->botao_black_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao_black);
+        config->botao_black_np.set_scale(0.1, 0.2, 0.1);
+        config->botao_black_np.set_pos(-1.2, 0.0, -0.1);
+        config->botao_black->set_frame(-0.4, 0.4, -0.4, 0.4);
+        config->botao_black_np.set_color(0.15,0.15,0.11,100,1);
+        //evento ao clicar...
+ 
+   Simdunas::get_evt_handler()->add_hook(config->botao_black->get_click_event(MouseButton::one()), print_black, config);
+
+
+                     // PALETA COLUNA 2
+
+    //linha 1
+   //paleta vermelha
+        config->botao2_red = new PGButton("Red");
+        config->botao2_red->setup("");
+        config->botao2_red_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao2_red);
+        config->botao2_red_np.set_scale(0.1, 0.2, 0.1);
+        config->botao2_red_np.set_pos(-1.05, 0.0, 0.6);
+        config->botao2_red->set_frame(-0.4, 0.4, -0.4, 0.4);
+        config->botao2_red_np.set_color(0.69,0.64,0.61,100,1);
+        //evento ao clicar...
+     Simdunas::get_evt_handler()->add_hook(config->botao2_red->get_click_event(MouseButton::one()),  print2_red2, config);
+
+
+         //paleta verde
+        config->botao2_green = new PGButton("Green");
+        config->botao2_green->setup("");
+        config->botao2_green_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao2_green);
+        config->botao2_green_np.set_scale(0.1, 0.2, 0.1);
+        config->botao2_green_np.set_pos(-1.05, 0.0, 0.5);
+        config->botao2_green->set_frame(-0.4, 0.4, -0.4, 0.4);
+        config->botao2_green_np.set_color(0.4,0.49,0.46,100,1);
+        //evento ao clicar...
+        Simdunas::get_evt_handler()->add_hook(config->botao2_green->get_click_event(MouseButton::one()), print2_green, config);
+
+
+        //linha 2
+         //paleta vermelha2
+        config->botao2_blue = new PGButton("red2");
+        config->botao2_blue->setup("");
+        config->botao2_blue_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao2_blue);
+        config->botao2_blue_np.set_scale(0.1, 0.2, 0.1);
+        config->botao2_blue_np.set_pos(-1.05, 0.0, 0.4);
+        config->botao2_blue->set_frame(-0.4, 0.4, -0.4, 0.4);
+        config->botao2_blue_np.set_color(0.64,0.11,0.1,100,1);
+        //evento ao clicar...
+  Simdunas::get_evt_handler()->add_hook(config->botao2_blue->get_click_event(MouseButton::one()), print2_red, config);
+
+
+         //paleta branca
+        config->botao2_white = new PGButton("white");
+        config->botao2_white->setup("");
+        config->botao2_white_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao2_white);
+        config->botao2_white_np.set_scale(0.1, 0.2, 0.1);
+        config->botao2_white_np.set_pos(-1.05, 0.0, 0.3);
+        config->botao2_white->set_frame(-0.4, 0.4, -0.4, 0.4);
+        config->botao2_white_np.set_color(1,1,1,100,1);
+        //evento ao clicar...
+       Simdunas::get_evt_handler()->add_hook(config->botao2_white->get_click_event(MouseButton::one()),print2_white, config);
+
+         //linha 3
+         //paleta amarela
+        config->botao2_yellow = new PGButton("yellow");
+        config->botao2_yellow->setup("");
+        config->botao2_yellow_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao2_yellow);
+        config->botao2_yellow_np.set_scale(0.1, 0.2, 0.1);
+        config->botao2_yellow_np.set_pos(-1.05, 0.0, 0.2);
+        config->botao2_yellow->set_frame(-0.4, 0.4, -0.4, 0.4);
+        config->botao2_yellow_np.set_color(0.96,0.81,0.52,100,1);
+        //evento ao clicar...
+
+        Simdunas::get_evt_handler()->add_hook(config->botao2_yellow->get_click_event(MouseButton::one()), print2_yellow, config);
+
+         //paleta verde2
+        config->botao2_green2 = new PGButton("green2");
+        config->botao2_green2->setup("");
+        config->botao2_green2_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao2_green2);
+        config->botao2_green2_np.set_scale(0.1, 0.2, 0.1);
+        config->botao2_green2_np.set_pos(-1.05, 0.0, 0.1);
+        config->botao2_green2->set_frame(-0.4, 0.4, -0.4, 0.4);
+        config->botao2_green2_np.set_color(0.23,0.39,0.32,100,1);
+        //evento ao clicar...
+
+    Simdunas::get_evt_handler()->add_hook(config->botao2_green2->get_click_event(MouseButton::one()), print2_green2, config);
+
+        //linha 4
+         //paleta marrom
+        config->botao2_brown = new PGButton("brown");
+        config->botao2_brown->setup("");
+        config->botao2_brown_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao2_brown);
+        config->botao2_brown_np.set_scale(0.1, 0.2, 0.1);
+        config->botao2_brown_np.set_pos(-1.05, 0.0, 0.0);
+        config->botao2_brown->set_frame(-0.4, 0.4, -0.4, 0.4);
+        config->botao2_brown_np.set_color(0.3,0.23,0.16,100,1);
+        //evento ao clicar...
+
+     Simdunas::get_evt_handler()->add_hook(config->botao2_brown->get_click_event(MouseButton::one()), print2_brown, config);
+
+         //paleta preto
+        config->botao2_black = new PGButton("black");
+        config->botao2_black->setup("");
+        config->botao2_black_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao2_black);
+        config->botao2_black_np.set_scale(0.1, 0.2, 0.1);
+        config->botao2_black_np.set_pos(-1.05, 0.0, -0.1);
+        config->botao2_black->set_frame(-0.4, 0.4, -0.4, 0.4);
+        config->botao2_black_np.set_color(0.15,0.15,0.11,100,1);
+        //evento ao clicar...
+
+   Simdunas::get_evt_handler()->add_hook(config->botao2_black->get_click_event(MouseButton::one()), print2_black, config);
+}
+
+
 void Menu::tropidurus_funcao(const Event*, void *data) {
     Menu * t = (Menu*) data;
-
-
-    t->marcador.set_pos(4.0, 0.0, -2.2); //movendo o marcador
-
 
     switch (especie) {
 
@@ -773,16 +983,23 @@ void Menu::tropidurus_funcao(const Event*, void *data) {
             break;
     }
     especie = Player::tropidurus;
-    t->tropidurus.show();
+  
 
+    if(!showing_custom){
+            t->marcador.set_pos(4.0, 0.0, -2.2); //movendo o marcador
+            t->tropidurus.set_scale(0.04, 0.04, 0.04);
+            t->tropidurus.set_pos(4, 35, -2);
 
+    }else{ //se estiver na janela do editor de cores...
+              t->tropidurus.set_scale(0.08, 0.08, 0.08);
+              t->tropidurus.set_pos(0, 35, -2);
+    }
+
+      t->tropidurus.show();
 }
 
 void Menu::eurolophosaurus_funcao(const Event*, void* data) {
     Menu * e = (Menu*) data;
-
-
-    e->marcador.set_pos(4.0, 0.0, -4.7); //movendo o marcador
 
     e->lagarto.hide();
 
@@ -802,6 +1019,18 @@ void Menu::eurolophosaurus_funcao(const Event*, void* data) {
     }
 
     especie = Player::eurolophosaurus;
+
+    if(!showing_custom){
+
+            e->marcador.set_pos(4.0, 0.0, -4.7); //movendo o marcador
+            e->eurolophosasurus.set_scale(0.04, 0.04, 0.04);
+            e->eurolophosasurus.set_pos(4, 35, -2);
+    
+    }else{ //se estiver na janela do editor de cores...
+              e->eurolophosasurus.set_scale(0.08, 0.08, 0.08);
+              e->eurolophosasurus.set_pos(0, 35, -2);
+    }
+
     e->eurolophosasurus.show();
 
 }
@@ -809,8 +1038,7 @@ void Menu::eurolophosaurus_funcao(const Event*, void* data) {
 void Menu::cnemidophorus_funcao(const Event*, void* data) {
     Menu * c = (Menu*) data;
 
-
-    c->marcador.set_pos(4.0, 0.0, -7.2); //movendo o marcador
+ 
 
     switch (especie) {
 
@@ -828,19 +1056,53 @@ void Menu::cnemidophorus_funcao(const Event*, void* data) {
     }
 
     especie = Player::cnemidophorus;
+      if(!showing_custom){
+
+            c->marcador.set_pos(4.0, 0.0, -7.2); //movendo o marcador
+            c->cnemidophorus.set_scale(0.04, 0.04, 0.04);
+            c->cnemidophorus.set_pos(4, 35, -2);
+    
+    }else{ //se estiver na janela do editor de cores...
+              c->cnemidophorus.set_scale(0.08, 0.08, 0.08);
+              c->cnemidophorus.set_pos(0, 35, -2);
+    }
+
     c->cnemidophorus.show();
-
-
+  
 }
 
 void Menu::personalizar_funcao(const Event*, void* data) {
     Menu * c = (Menu*) data;
-
+    
     c->marcador.set_pos(4.0, 0.0, -9.5); //movendo o marcador
-   //limpa o menu de configuração
-    c->hide_tela_configuracao();
-    //apresenta o menu de personalização do lagarto
-    c->show_tela_personalizar();
+
+    switch (especie) {
+
+        case Player::tropidurus :
+                    c->tropidurus.hide();
+            break;
+
+        case Player::eurolophosaurus :
+                    c->eurolophosasurus.hide();
+            break;
+
+       case Player::cnemidophorus :
+                    c->cnemidophorus.hide();
+            break;
+
+        default:
+            break;
+    }
+
+    //especie = Player::cnemidophorus ;
+   // c->cnemidophorus.show();
+    
+   c->show_tela_personalizar(c); //apresenta o menu de personalização do lagarto
+
+
+
+    // criar botoes
+     
 }
 
 void Menu::colisao_funcao(const Event*, void* data) {
@@ -934,21 +1196,23 @@ void Menu::event_voltar_funcao(const Event*, void* data) {
         voltar->showing_creditos=false;//escondendo tela de créditos
     }
 
+    else if(voltar->showing_custom) { //se a tela exibida é a de personalizar o lagarto
 
+        voltar->hide_tela_personalizado();  //esconde a tela
+        voltar->show_tela_configuracao();  //apresenta a tela de configuração
+        return; //encerra a execução deste método
+      }
+// 
     else if (voltar->title_config.is_empty() || !voltar->showing_conf) {//ta voltando da tela de instruções
 
         voltar->hide_tela_instrucoes();
 
-
-    } else {
-
-
+    }else{
         voltar->hide_tela_configuracao();
-
 
     }
 
-    voltar->show_tela_principal();
+    voltar->show_tela_principal();   //carrega a tela do menu principal
 }
 
 int Menu::get_minuto_dia_virtual() {
@@ -1215,11 +1479,17 @@ void Menu::hide_tela_instrucoes() {
     nod_botao_next.hide();
 
 }
+void Menu::hide_tela_personalizado(){
+    lagartoPersonalizado.hide();
+    showing_custom = false;
+    hide_paleta_cores();
+}
 
 void Menu::hide_tela_marcadores() {
 
     background_icones.hide();
     nod_botao_back.hide();
+    nod_bot_personalizar.hide();
 }
 
 void Menu::hide_tela_configuracao() {
@@ -1240,7 +1510,7 @@ void Menu::hide_tela_configuracao() {
     nod_bot_personalizar.hide();
     nod_bot_colisao.hide();
     nod_botao_voltar.hide();
-
+   
     switch (especie) {
 
         case Player::tropidurus :
@@ -1270,8 +1540,28 @@ void Menu::hide_tela_pause() {
     nod_bot_predadores.hide();
     nod_bot_presas.hide();
     nod_bot_variacao_clima.hide();
+}
 
-
+void Menu::hide_paleta_cores(){
+    if(!botao_red_np.is_empty()){
+    botao_red_np.remove_node();
+    botao_blue_np.remove_node();
+    botao_green_np.remove_node();
+    botao_yellow_np.remove_node();
+    botao_white_np.remove_node();
+    botao_black_np.remove_node();
+    botao_brown_np.remove_node();
+    botao_green2_np.remove_node();
+    botao2_red_np.remove_node();
+    botao2_blue_np.remove_node();
+    botao2_green_np.remove_node();
+    botao2_yellow_np.remove_node();
+    botao2_white_np.remove_node();
+    botao2_black_np.remove_node();
+    botao2_brown_np.remove_node();
+    botao2_green2_np.remove_node();
+    title_color.remove_node();
+    }
 }
 
 ////////////remove todos os componentes(botões tútulos e etc.) de menu para que o jogo se inicie
@@ -1312,6 +1602,16 @@ void Menu::remove_tela_menu() {
     background_icones.remove_node();
     nod_botao_back.remove_node();
     nod_botao_next.remove_node();
+
+    botao_red_np.remove_node();
+    botao_blue_np.remove_node();
+    botao_green_np.remove_node();
+    botao_yellow_np.remove_node();
+    botao_white_np.remove_node();
+    botao_black_np.remove_node();
+    botao_brown_np.remove_node();
+    botao_green2_np.remove_node();
+
 }
 
 void Menu::show_tela_over() {
@@ -1338,7 +1638,7 @@ void Menu::show_tela_pause() {
 }
 
 void Menu::show_tela_principal() {
-    lagartoPersonalizado.hide();
+    
     button_np.show();
     nod_botao_creditos.show();
     button_np.set_pos(-0.3, 0.4, -0.55); //colocando o botão (Iniciar) novamente em seu lugar na tela principal
@@ -1349,18 +1649,16 @@ void Menu::show_tela_principal() {
     nod_botao_instrucao.show();
 }
 
-void Menu::show_tela_personalizar() {
-        //carregando animação inicial da Tela principal
-
-    //BOTÃO CONFIGURAÇÃO
-   // nod_config_egg.show();
-
-   //APRESENTA O LAGARTO DO MENU PRINCIPAL - TEM QUE MUDAR ISSO
-    lagartoPersonalizado.show();
-
-    //APRESENTA OS BOTÕES VOLTAR E JOGAR
-    button_np.show();
+void Menu::show_tela_personalizar(void *data) {
+    Menu *c = (Menu*) data;
+   
+    c->hide_tela_configuracao();  //limpa o menu de configuração
+    c->Paleta_cores(c); //carrega a paleta de cores
+    lagartoPersonalizado.show();  //mostra o lagarto personalizado
+    button_np.show();    //apresenta os botões jogar e voltar
     nod_botao_voltar.show();
+    showing_custom = true; //indica que a tela de personalizar lagarto está sendo exibida
+
 }
 
 void Menu::show_tela_instrucoes() {
@@ -1419,7 +1717,7 @@ void Menu::show_tela_configuracao() {
     std::string st(letra.str());
     informa_segundos(st);
 
-    lagartoPersonalizado.hide();
+
     lagarto.hide(); //escondendo o lagarto da tela principal
 
     switch (especie) {//mostrando especie q tava selecionada
@@ -1511,4 +1809,126 @@ Menu* Menu::get_instance() {
 
 }
 
+
+//métodos que pintam a area cinza da mascara
+void Menu::print_green(const Event*, void *data) {
+    RGBColord cor = RGBColord(0.4,0.49,0.46);
+    change_texture(data, cor,1);
+}
+void Menu::print_green2(const Event*, void *data) {
+    RGBColord cor = RGBColord(0.23,0.39,0.32);
+    change_texture(data, cor, 1);
+}
+void Menu::print_red2(const Event*, void *data) {
+    RGBColord cor = RGBColord(0.69,0.64,0.61);
+    change_texture(data, cor,1);
+}
+void Menu::print_red(const Event*, void *data) {
+    RGBColord cor = RGBColord(0.64,0.3,0.3);
+    change_texture(data, cor, 1);
+}
+void Menu::print_white(const Event*, void *data) {
+    RGBColord cor = RGBColord(1,1,1);
+    change_texture(data, cor,1);
+}
+void Menu::print_brown(const Event*, void *data) {
+    RGBColord cor = RGBColord(0.3,0.23,0.16);
+    change_texture(data, cor,1);
+}
+void Menu::print_black(const Event*, void *data) {
+    RGBColord cor = RGBColord(0.15,0.15,0.11);
+    change_texture(data, cor, 1);
+}
+void Menu::print_yellow(const Event*, void *data) {
+    RGBColord cor = RGBColord(0.96,0.81,0.52);
+    change_texture(data, cor, 1);
+}
+
+
+//métodos que pintam a area branca da mascara
+void Menu::print2_green(const Event*, void *data) {
+    RGBColord cor = RGBColord(0.4,0.49,0.46);
+    change_texture(data, cor, 2);
+}
+void Menu::print2_green2(const Event*, void *data) {
+    RGBColord cor = RGBColord(0.23,0.39,0.32);
+    change_texture(data, cor, 2);
+}
+void Menu::print2_red2(const Event*, void *data) {
+    RGBColord cor = RGBColord(0.69,0.64,0.61);
+    change_texture(data, cor, 2);
+}
+void Menu::print2_red(const Event*, void *data) {
+    RGBColord cor = RGBColord(0.64,0.3,0.3);
+    change_texture(data, cor, 2);
+}
+void Menu::print2_white(const Event*, void *data) {
+    RGBColord cor = RGBColord(1,1,1);
+    change_texture(data, cor, 2);
+}
+void Menu::print2_brown(const Event*, void *data) {
+    RGBColord cor = RGBColord(0.3,0.23,0.16);
+    change_texture(data, cor, 2);
+}
+void Menu::print2_black(const Event*, void *data) {
+    RGBColord cor = RGBColord(0.15,0.15,0.11);
+    change_texture(data, cor, 2);
+}
+void Menu::print2_yellow(const Event*, void *data) {
+    RGBColord cor = RGBColord(0.96,0.81,0.52);
+    change_texture(data, cor, 2);
+}
+
+void Menu::change_texture(void *data, RGBColord cor, int mask_x) {
+    int print_mask = mask_x;
+    Menu *config = (Menu*) data;
+ /* Aqui começa o teste */
+ // RGBColord c = RGBColord(1,0,0);
+    
+    string path = "models/lizards/custom/male/";
+    nout << "Aqui começa o teste" << endl;
+    PNMImage image = PNMImage(path + "texture.jpg");   //textura original
+    PNMImage mask = PNMImage(path + "mascara.jpg");    //mascara da textura
+    PNMImage custom = PNMImage(path + "custom.jpg");    //textura personalizada anteriormente
+
+    int x = image.get_x_size();  //tamanho da textura na horizontal
+    int y = image.get_y_size();  //tamanho da textura na vertical
+
+    PNMImage result_image = PNMImage(x, y);  //criando nova textura com o mesmo tamanho da original
+
+    for(int i = 0; i < x; i++){  //percorre pixels na horizontal
+    	for(int j = 0; j < y; j++){//percorre pixels na vertical
+    		float bright = mask.get_bright(i, j); //pega o brilho da mascara a cada pixel
+
+                if(bright > 0.1 && bright <= 0.85 && print_mask == 1){  //se for cinza claro
+    			//RGBColord c = RGBColord(0, 0, 1);
+    			result_image.set_xel(i, j, RGBColord(cor.get_x()*image.get_red(i, j),
+											   cor.get_y()*image.get_green(i, j),
+											   cor.get_z()*image.get_blue(i, j)));
+    		}
+                else if(bright > 0.85 && print_mask == 2){
+                    result_image.set_xel(i, j, RGBColord(cor.get_x()*image.get_red(i, j),
+											   cor.get_y()*image.get_green(i, j),
+											   cor.get_z()*image.get_blue(i, j)));
+
+                }
+    		else{
+    			result_image.set_xel(i, j, custom.get_xel(i, j));
+										 
+    		}
+            }
+
+        }
+                result_image.write(path + "custom.jpg");
+
+                //troca textura, entre 2 texturas diferentes
+               PT(TextureStage) ts = config->lagartoPersonalizado.find_all_texture_stages().get_texture_stage(0);
+		ts->set_mode(TextureStage::M_modulate);
+          
+		PT(Texture) t = TexturePool::load_texture(path + "custom.jpg");
+		config->lagartoPersonalizado.set_texture(ts, t, 1);
+                config->lagartoPersonalizado.get_texture()->reload();
+                 nout << "Aqui termina o teste" << endl;
+
+}
 
