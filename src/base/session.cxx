@@ -5,7 +5,6 @@
 #include "modelRepository.h"
 #include "imageRepository.h"
 #include "menu.h"
-#include "spider.h"
 
 #include "stdio.h"
 

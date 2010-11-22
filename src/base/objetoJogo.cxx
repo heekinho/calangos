@@ -41,7 +41,9 @@ void ObjetoJogo::init(){
 	offset_z = 0.0;
 	prev_pos = LPoint3f(this->NodePath::get_pos());
 	orientation = 1;
+	//calc_size_from_bounds();
 	_screen_status_enabled = true;
+	//Simdunas::get_evt_handler()->add_hook(PlayerControl::get_instance()->EV_player_move, update_screen_status, this);
 }
 
 /* Destrói o ObjetoJogo */
@@ -66,13 +68,12 @@ void ObjetoJogo::change_sector(PT(Setor) new_sector) {
 
 /*! Implementação padrão para esconder o elemento e tirar do grafo de cena */
 void ObjetoJogo::occult(){
-	detach_node();
+	//stash();
 }
 
 /*! Implementação padrão para colocar o elemento de volta no grafo e mostrar. */
 void ObjetoJogo::reveal(){
-	if(parent_sector) reparent_to(parent_sector->get_root());
-	else reparent_to(Simdunas::get_window()->get_render());
+	//unstash();
 }
 
 /*! Atualiza o estado de visibilidade do elemento */
@@ -83,11 +84,26 @@ void ObjetoJogo::update_screen_status(bool show){
 	}
 }
 
+
+//#include "cameraNode.h"
+///*! Recebe evento informando que se deve atualizar o status de visibilidade */
+//void ObjetoJogo::update_screen_status(const Event*, void *data){
+//	ObjetoJogo* this_object = ((ObjetoJogo*)data);
+//	if(this_object != NULL && !this_object->is_empty() && this_object->get_error_type() == NodePath::ET_ok){
+//		PT(CameraNode) cn = CameraControl::get_instance()->get_cameras()->at(0);
+//		nout << cn->is_in_view(*this_object) << endl;
+//		//this_object->update_screen_status(/*cn->is_in_view(*this_object)*/true);
+//	}
+//}
+
+
 /*! Ativa ou desativa a alteração no estado de visibilidade do elemento */
 void ObjetoJogo::set_screen_status_enabled(bool enabled){
 	_screen_status_enabled = enabled;
 }
 
+#include "accumulatedAttribs.h"
+#include "sceneGraphReducer.h"
 /*! Obtém o tamanho real do objeto a partir do tight_bounds dele */
 void ObjetoJogo::calc_size_from_bounds(){
 	LPoint3f min, max;
@@ -96,9 +112,12 @@ void ObjetoJogo::calc_size_from_bounds(){
 	_size = LVecBase3f(_osize);
 
 	/* Faz o pivotamento central. Pivot fica no meio do plano inferior de bounds. */
-	NodePath::set_pos(*this, -0.5*(_osize) - min);
-	NodePath::set_z(*this, 0.5*_osize.get_z());
-	flatten_light();
+	for(int i = 0; i < get_num_children(); i++){
+		if(!get_child(i).is_empty()){
+			get_child(i).set_pos(get_child(i), -0.5*(_osize) - min);
+			get_child(i).set_z(get_child(i), 0.5*_osize.get_z());
+		}
+	}
 }
 
 /*! Define as dimensões "reais" do objeto em metros (1m = 1u do panda) */

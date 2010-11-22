@@ -44,10 +44,14 @@ void Prey::load_prey(){
 /*! Configura o modelo base da espécie de presa */
 void Prey::configure_prey_model(const string name, double scale){
 	ModelRepository::get_instance()->get_animated_model(name)->get_anim_control()->loop("character", false);
-	ModelRepository::get_instance()->get_animated_model(name)->set_scale(scale);
-	ModelRepository::get_instance()->get_model(name)->set_scale(scale);
-    //collision::get_instance()->esferaCollision(ModelRepository::get_instance()->get_animated_model(name), 0, 0, 0, 10000*scale);
-    //collision::get_instance()->esferaCollision(ModelRepository::get_instance()->get_model(name), 0, 0, 0, 10000*scale);
+	ModelRepository::get_instance()->get_animated_model(name)->calc_size_from_bounds();
+	ModelRepository::get_instance()->get_animated_model(name)->set_length(0.03, true);
+	ModelRepository::get_instance()->get_model(name)->calc_size_from_bounds();
+	ModelRepository::get_instance()->get_model(name)->set_length(0.03, true);
+
+	//ModelRepository::get_instance()->get_animated_model(name)->set_scale(scale);
+	//ModelRepository::get_instance()->get_model(name)->set_scale(scale);
+	scale = ModelRepository::get_instance()->get_model(name)->get_length()/2;
 }
 
 /*! Configura a presa de acordo com os valores passados */
@@ -89,7 +93,7 @@ void Prey::load_prey_specie(const string name, int qtd, double scale, int living
 		/* Cria nova instância de cada Presa. */
 		PT(Prey) npc = new Prey(NodePath("Prey PlaceHolder"));
 		npc->configure_prey(name, living_tree_prob, nutricional, hidratacao);
-
+		
 		//=====================================================//
 		if(comp_group){
 			npc->_group = new GroupPrey();
@@ -157,6 +161,7 @@ void Prey::change_sector(PT(Setor) new_sector){
 	new_sector->preys()->push_back(this);
 	//set_random_living_tree();
 	reparent_to(get_setor()->get_root());
+        
 }
 
 /*! É chamado quando uma redistribuição aconteceu. Assim, é possível
@@ -262,6 +267,5 @@ void Prey::pause_animation(){
 /*! Continua a animação, neste caso fazendo o link com o modelo animado */
 void Prey::continue_animation(){
 	node()->remove_all_children();
-
 	ModelRepository::get_instance()->get_animated_model(get_tag("model_name"))->instance_to(*this);
 }

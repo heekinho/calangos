@@ -28,6 +28,7 @@ public:
 	virtual void reveal();
 	virtual void update_screen_status(bool show);
 	void set_screen_status_enabled(bool enabled);
+	//static void update_screen_status(const Event*, void *data);
 
 	PT(Setor) get_setor();
 	void set_setor(PT(Setor) setor);

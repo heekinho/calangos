@@ -1,6 +1,7 @@
 #include "predator.h"
 #include "player.h"
 
+#include "flyingPredator.h"
 #include "modelRepository.h"
 
 #include "collision.h"
@@ -23,6 +24,7 @@ void Predator::load_predators(){
 //	Predator::load_predator("jararaca", 50, 0.01, -1);
 //	Predator::load_predator("colubridae", 50, 0.01, -1);
 
+//	FlyingPredator::load_predators();
 }
 
 
@@ -58,13 +60,9 @@ void Predator::load_predator(const string &model, int qtd, float scale, int orie
 void Predator::act(){
 	float distance = 10;
 	PT(Player) player = Player::get_instance();
-	LVector3f predator_to_player = this->get_pos() - player->get_pos();
 
-	if(predator_to_player.length() < distance){
-		//nout << predator_to_player.length() << endl;
-		if (predator_to_player.length() < 0.3){
-			bite();
-		}
+	if(get_distance(*player) < distance){
+		if (get_distance(*player) < 0.3) bite();
 		else{
 			PT(Setor) setor = World::get_world()->get_terrain()->get_setor_from_pos(player->get_x(), player->get_y());
 			SectorItems<PT(Vegetal)>* vegetal_list = setor->vegetals();

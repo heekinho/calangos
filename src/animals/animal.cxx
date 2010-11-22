@@ -6,7 +6,6 @@
 
 /* Animais a serem carregados */
 #include "prey.h"
-#include "spider.h"
 #include "frog.h"
 #include "lizard.h"
 
