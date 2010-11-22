@@ -4,7 +4,6 @@
 #include "prey.h"
 #include "collision.h"
 #include "groupPrey.h"
-#include "spider.h"
 #include "world.h"
 #include "terrain.h"
 #include "modelRepository.h"
@@ -15,8 +14,6 @@ Prey::Prey(NodePath node) : Animal(node) {
 	this->radius_thr = 1.5;
 	this->fleing = false;
 	set_velocity(0.085);
-
-
 };
 
 /*! Realiza o carremento das presas */
