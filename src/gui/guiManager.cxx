@@ -541,7 +541,7 @@ void GuiManager::click_event_botao_grafico_variavel(const Event*, void* data) {
 		_this->graphics_menu->set_limite_inferior_y(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vetor_x()));
 		_this->graphics_menu->set_legenda_x((string) "Temp ar");
 		_this->graphics_menu->set_legenda_y((string) "Temp ar");
-		_this->graphics_menu->set_graphic_variavel(new Graphics(&(_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
 				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
 				_this->graphics_menu->get_limite_superior_y(), _this->graphics_menu->get_limite_inferior_y(), false));
 		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
@@ -604,7 +604,7 @@ void GuiManager::click_event_botao1_grafico_TempInterna(const Event*, void *data
 		_this->graphics_menu->set_legenda_y((string) "Temp interna");
 		_this->graphics_menu->set_limite_inferior_y(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vetor_y()));
 		_this->graphics_menu->set_limite_superior_y(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vetor_y()));
-		_this->graphics_menu->set_graphic_variavel(new Graphics(&(_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
 				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
 				_this->graphics_menu->get_limite_superior_y(), _this->graphics_menu->get_limite_inferior_y(), false));
 		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
@@ -667,7 +667,7 @@ void GuiManager::click_event_botao2_grafico_Hidratacao(const Event*, void* data)
 		_this->graphics_menu->set_legenda_y((string) "Hidratacao");
 		_this->graphics_menu->set_limite_inferior_y(0);
 		_this->graphics_menu->set_limite_superior_y(100);
-		_this->graphics_menu->set_graphic_variavel(new Graphics(&(_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
 				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
 				_this->graphics_menu->get_limite_superior_y(), _this->graphics_menu->get_limite_inferior_y(), false));
 		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
@@ -729,7 +729,7 @@ void GuiManager::click_event_botao3_grafico_TempAr(const Event*, void* data) {
 		_this->graphics_menu->set_legenda_y((string) "Temp do ar");
 		_this->graphics_menu->set_limite_inferior_y(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vetor_y()));//9;
 		_this->graphics_menu->set_limite_superior_y(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vetor_y()));//45;
-		_this->graphics_menu->set_graphic_variavel(new Graphics(&(_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
 				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
 				_this->graphics_menu->get_limite_superior_y(), _this->graphics_menu->get_limite_inferior_y(), false));
 		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
@@ -792,7 +792,7 @@ void GuiManager::click_event_botao4_grafico_Umidade(const Event*, void* data) {
 		_this->graphics_menu->set_legenda_y((string) "Umidade");
 		_this->graphics_menu->set_limite_inferior_y(0);
 		_this->graphics_menu->set_limite_superior_y(100);
-		_this->graphics_menu->set_graphic_variavel(new Graphics(&(_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
 				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
 				_this->graphics_menu->get_limite_superior_y(),	_this->graphics_menu->get_limite_inferior_y(), false));
 		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
@@ -854,7 +854,7 @@ void GuiManager::click_event_botao5_grafico_TempSolo(const Event*, void* data) {
 		_this->graphics_menu->set_legenda_y((string) "Temp do solo");
 		_this->graphics_menu->set_limite_inferior_y(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vetor_y()));
 		_this->graphics_menu->set_limite_superior_y(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vetor_y()));
-		_this->graphics_menu->set_graphic_variavel(new Graphics(&(_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
 				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
 				_this->graphics_menu->get_limite_superior_y(),	_this->graphics_menu->get_limite_inferior_y(), false));
 		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
@@ -914,7 +914,7 @@ void GuiManager::click_event_botao6_grafico_Alimentacao(const Event*, void* data
 		_this->graphics_menu->set_legenda_y((string) "Alimentacao");
 		_this->graphics_menu->set_limite_inferior_y(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vector()->getVectorAlimentacao()));
 		_this->graphics_menu->set_limite_superior_y(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vector()->getVectorAlimentacao()));
-		_this->graphics_menu->set_graphic_variavel(new Graphics(&(_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
 				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
 				_this->graphics_menu->get_limite_superior_y(),	_this->graphics_menu->get_limite_inferior_y(), false));
 		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
@@ -976,7 +976,7 @@ void GuiManager::click_event_botao7_grafico_Energia(const Event*, void* data) {
 		_this->graphics_menu->set_legenda_y((string) "Energia");
 		_this->graphics_menu->set_limite_inferior_y(0);
 		_this->graphics_menu->set_limite_superior_y(100);
-		_this->graphics_menu->set_graphic_variavel(new Graphics(&(_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
 				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
 				_this->graphics_menu->get_limite_superior_y(),	_this->graphics_menu->get_limite_inferior_y(), false));
 		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
@@ -1038,7 +1038,7 @@ void GuiManager::click_event_botao8_grafico_GastoEnergetico(const Event*, void* 
 		_this->graphics_menu->set_legenda_y((string) "Gasto energetico");
 		_this->graphics_menu->set_limite_inferior_y(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vector()->getVectorGastoEnergeticoTotal()));//0;
 		_this->graphics_menu->set_limite_superior_y(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vector()->getVectorGastoEnergeticoTotal()));//0.4;
-		_this->graphics_menu->set_graphic_variavel(new Graphics(&(_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
 				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
 				_this->graphics_menu->get_limite_superior_y(),	_this->graphics_menu->get_limite_inferior_y(), false));
 		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
@@ -1064,7 +1064,7 @@ void GuiManager::click_event_vBotao1_grafico_TempInterna(const Event*, void *dat
 	//legendaY = (string) "Temp do ar";
 	_this->graphics_menu->set_limite_inferior_x(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vetor_x()));
 	_this->graphics_menu->set_limite_superior_x(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vetor_x()));
-	_this->graphics_menu->set_graphic_variavel(new Graphics(&(_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+	_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
 			_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
 			_this->graphics_menu->get_limite_superior_y(),	_this->graphics_menu->get_limite_inferior_y(), false));
 	_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
@@ -1089,7 +1089,7 @@ void GuiManager::click_event_vBotao2_grafico_Hidratacao(const Event*, void* data
 	_this->graphics_menu->set_legenda_x((string) "Hidratacao");
 	_this->graphics_menu->set_limite_inferior_x(0);
 	_this->graphics_menu->set_limite_superior_x(100);
-	_this->graphics_menu->set_graphic_variavel(new Graphics(&(_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+	_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
 			_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
 			_this->graphics_menu->get_limite_superior_y(),	_this->graphics_menu->get_limite_inferior_y(), false));
 	_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
@@ -1114,7 +1114,7 @@ void GuiManager::click_event_vBotao3_grafico_TempAr(const Event*, void* data) {
 	_this->graphics_menu->set_legenda_x((string) "Temp do ar");
 	_this->graphics_menu->set_limite_inferior_x(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vetor_x()));//9;
 	_this->graphics_menu->set_limite_superior_x(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vetor_x()));//45;
-	_this->graphics_menu->set_graphic_variavel(new Graphics(&(_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+	_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
 			_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
 			_this->graphics_menu->get_limite_superior_y(),	_this->graphics_menu->get_limite_inferior_y(), false));
 	_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
@@ -1139,7 +1139,7 @@ void GuiManager::click_event_vBotao4_grafico_Umidade(const Event*, void* data) {
 	_this->graphics_menu->set_legenda_x((string) "Umidade");
 	_this->graphics_menu->set_limite_inferior_x(0);
 	_this->graphics_menu->set_limite_superior_x(100);
-	_this->graphics_menu->set_graphic_variavel(new Graphics(&(_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+	_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
 			_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
 			_this->graphics_menu->get_limite_superior_y(), _this->graphics_menu->get_limite_inferior_y(), false));
 	_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
@@ -1164,7 +1164,7 @@ void GuiManager::click_event_vBotao5_grafico_TempSolo(const Event*, void* data) 
 	_this->graphics_menu->set_legenda_x((string) "Temp do solo");
 	_this->graphics_menu->set_limite_inferior_x(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vetor_x()));
 	_this->graphics_menu->set_limite_superior_x(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vetor_x()));
-	_this->graphics_menu->set_graphic_variavel(new Graphics(&(_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+	_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
 			_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
 			_this->graphics_menu->get_limite_superior_y(),	_this->graphics_menu->get_limite_inferior_y(), false));
 	_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
@@ -1189,7 +1189,7 @@ void GuiManager::click_event_vBotao6_grafico_Alimentacao(const Event*, void* dat
 	_this->graphics_menu->set_legenda_x((string) "Alimentacao");
 	_this->graphics_menu->set_limite_inferior_x(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vector()->getVectorAlimentacao()));
 	_this->graphics_menu->set_limite_superior_x(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vector()->getVectorAlimentacao()));
-	_this->graphics_menu->set_graphic_variavel(new Graphics(&(_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+	_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
 			_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
 			_this->graphics_menu->get_limite_superior_y(),	_this->graphics_menu->get_limite_inferior_y(), false));
 	_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
@@ -1214,7 +1214,7 @@ void GuiManager::click_event_vBotao7_grafico_Energia(const Event*, void* data) {
 	_this->graphics_menu->set_legenda_x((string) "Energia");
 	_this->graphics_menu->set_limite_inferior_x(0);
 	_this->graphics_menu->set_limite_superior_x(100);
-	_this->graphics_menu->set_graphic_variavel(new Graphics(&(_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+	_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
 			_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
 			_this->graphics_menu->get_limite_superior_y(),	_this->graphics_menu->get_limite_inferior_y(), false));
 	_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
@@ -1239,7 +1239,7 @@ void GuiManager::click_event_vBotao8_grafico_GastoEnergetico(const Event*, void*
 	_this->graphics_menu->set_legenda_x((string) "Gasto energetico");
 	_this->graphics_menu->set_limite_inferior_x(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vector()->getVectorGastoEnergeticoTotal()));
 	_this->graphics_menu->set_limite_superior_x(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vector()->getVectorGastoEnergeticoTotal()));
-	_this->graphics_menu->set_graphic_variavel(new Graphics(&(_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+	_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
 			_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
 			_this->graphics_menu->get_limite_superior_y(),	_this->graphics_menu->get_limite_inferior_y(), false));
 	_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);

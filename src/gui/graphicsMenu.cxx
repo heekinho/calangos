@@ -37,7 +37,7 @@ GraphicsMenu::GraphicsMenu(NodePath menu_frame_np) {
 	set_tamanho_vetor_x(vector->getSizeVectorTemperaturaAr());
 	set_tamanho_vetor_y(vector->getSizeVectorTemperaturaAr());
 
-	set_graphic_variavel(new Graphics(&(get_option_frame_np()), vetor_x, vetor_y, limite_superior_x, limite_inferior_x, limite_superior_y, limite_inferior_y, false));
+	set_graphic_variavel(new Graphics((get_option_frame_np()), vetor_x, vetor_y, limite_superior_x, limite_inferior_x, limite_superior_y, limite_inferior_y, false));
 	graphicVariavel->set_Position_Graphic(0.2, 0.6);
 	graphicVariavel->set_scale(1.2);
 	graphicVariavel->hide();
@@ -1077,7 +1077,7 @@ void GraphicsMenu::init_graphics() {
 
 //Constroi o grafico de temperatura interna X tempo.
 void GraphicsMenu::novo_grafico1_TempInterna() {
-	graphic = new Graphics(&(option_frame_np), vector->getVectorTempo(), vector->getVectorTemperaturaLagarto(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaLagarto()), vector->getSmallestElement(vector->getVectorTemperaturaLagarto()), true);
+	graphic = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorTemperaturaLagarto(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaLagarto()), vector->getSmallestElement(vector->getVectorTemperaturaLagarto()), true);
 	graphic->set_Position_Graphic(0.4, 1.0);
 	graphic->set_scale(0.86);
 	graphic->set_Titulo_Grafico("Temperatura Interna");
@@ -1088,7 +1088,7 @@ void GraphicsMenu::novo_grafico1_TempInterna() {
 
 //Constroi o grafico de hidratacao X tempo.
 void GraphicsMenu::novo_grafico2_Hidratacao() {
-	graphic2 = new Graphics(&(option_frame_np), vector->getVectorTempo(), vector->getVectorHidratacaoLagarto(), 0, 0, 100, 0, true);
+	graphic2 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorHidratacaoLagarto(), 0, 0, 100, 0, true);
 	graphic2->set_Position_Graphic(0.4, 1.0);
 	graphic2->set_scale(0.86);
 	graphic2->set_Titulo_Grafico("Hidratacao do lagarto");
@@ -1099,7 +1099,7 @@ void GraphicsMenu::novo_grafico2_Hidratacao() {
 
 //Constroi o grafico de temperatura do ar X tempo.
 void GraphicsMenu::novo_grafico3_TempAr() {
-	graphic3 = new Graphics(&(option_frame_np), vector->getVectorTempo(), vector->getVectorTemperaturaAr(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaAr()), vector->getSmallestElement(vector->getVectorTemperaturaAr()), true);
+	graphic3 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorTemperaturaAr(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaAr()), vector->getSmallestElement(vector->getVectorTemperaturaAr()), true);
 	graphic3->set_Position_Graphic(0.4, 1.0);
 	graphic3->set_scale(0.86);
 	graphic3->set_Titulo_Grafico("Temperatura do ar.");
@@ -1110,7 +1110,7 @@ void GraphicsMenu::novo_grafico3_TempAr() {
 
 //Constroi o grafico de umidade X tempo.
 void GraphicsMenu::novo_grafico4_Umidade() {
-	graphic4 = new Graphics(&(option_frame_np), vector->getVectorTempo(), vector->getVectorUmidadeAmbiente(), 0, 0, 100, 0, true);
+	graphic4 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorUmidadeAmbiente(), 0, 0, 100, 0, true);
 	graphic4->set_Position_Graphic(0.4, 1.0);
 	graphic4->set_scale(0.86);
 	graphic4->set_Titulo_Grafico("Umidade do ar.");
@@ -1121,7 +1121,7 @@ void GraphicsMenu::novo_grafico4_Umidade() {
 
 //Constroi o grafico de temperatura do solo X tempo.
 void GraphicsMenu::novo_grafico5_TempSolo() {
-	graphic5 = new Graphics(&(option_frame_np), vector->getVectorTempo(), vector->getVectorTemperaturaSolo(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaSolo()), vector->getSmallestElement(vector->getVectorTemperaturaSolo()), true);
+	graphic5 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorTemperaturaSolo(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaSolo()), vector->getSmallestElement(vector->getVectorTemperaturaSolo()), true);
 	graphic5->set_Position_Graphic(0.4, 1.0);
 	graphic5->set_scale(0.86);
 	graphic5->set_Titulo_Grafico("Temperatura do Solo");
@@ -1132,7 +1132,7 @@ void GraphicsMenu::novo_grafico5_TempSolo() {
 
 //Constroi o grafico de alimentacao X tempo.
 void GraphicsMenu::novo_grafico6_Alimentacao() {
-	graphic6 = new Graphics(&(option_frame_np), vector->getVectorTempo(), vector->getVectorAlimentacao(), 0, 0, vector->getLargestElement(vector->getVectorAlimentacao()), vector->getSmallestElement(vector->getVectorAlimentacao()), true);
+	graphic6 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorAlimentacao(), 0, 0, vector->getLargestElement(vector->getVectorAlimentacao()), vector->getSmallestElement(vector->getVectorAlimentacao()), true);
 	graphic6->set_Position_Graphic(0.4, 1.0);
 	graphic6->set_scale(0.86);
 	graphic6->set_Titulo_Grafico("Alimentacao");
@@ -1143,7 +1143,7 @@ void GraphicsMenu::novo_grafico6_Alimentacao() {
 
 //Constroi o grafico de energia X tempo.
 void GraphicsMenu::novo_grafico7_Energia() {
-	graphic7 = new Graphics(&(option_frame_np), vector->getVectorTempo(), vector->getVectorEnergia(), 0, 0, 100, 0, true);
+	graphic7 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorEnergia(), 0, 0, 100, 0, true);
 	graphic7->set_Position_Graphic(0.4, 1.0);
 	graphic7->set_scale(0.86);
 	graphic7->set_Titulo_Grafico("Energia");
@@ -1155,7 +1155,7 @@ void GraphicsMenu::novo_grafico7_Energia() {
 
 //Constroi o grafico de gasto energetico X tempo.
 void GraphicsMenu::novo_grafico8_GastoEnergetico() {
-	graphic8 = new Graphics(&(option_frame_np), vector->getVectorTempo(), vector->getVectorGastoEnergeticoTotal(), 0, 0, vector->getLargestElement(vector->getVectorGastoEnergeticoTotal()), vector->getSmallestElement(vector->getVectorGastoEnergeticoTotal()), true);
+	graphic8 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorGastoEnergeticoTotal(), 0, 0, vector->getLargestElement(vector->getVectorGastoEnergeticoTotal()), vector->getSmallestElement(vector->getVectorGastoEnergeticoTotal()), true);
 	graphic8->set_Position_Graphic(0.4, 1.0);
 	graphic8->set_scale(0.86);
 	graphic8->set_Titulo_Grafico("Gasto energetico");

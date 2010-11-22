@@ -12,7 +12,7 @@ class Vetores;
 
 class Graphics : public TypedReferenceCount {
 public:
-    Graphics(NodePath* pai, queue<double> vetorXtmp, queue<double> vetorYtmp, double limiteSuperiorXTmp, double limiteInferiorXTmp, double limiteSuperiorYTmp, double limiteInferiorYTmp, bool tipoTempoTmp);
+    Graphics(NodePath pai, queue<double> vetorXtmp, queue<double> vetorYtmp, double limiteSuperiorXTmp, double limiteInferiorXTmp, double limiteSuperiorYTmp, double limiteInferiorYTmp, bool tipoTempoTmp);
     ~Graphics();
     void create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp);
     void set_Position_Graphic(float x, float y);
@@ -62,7 +62,7 @@ private:
     char stringMarcacaoX3[8];
     char stringMarcacaoX4[8];
     char stringMarcacaoX5[8];
-    
+
 
 };
 

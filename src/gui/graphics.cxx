@@ -67,7 +67,7 @@ Graphics::~Graphics() {
     }
     if (&eixoY2 != NULL) {
         delete eixoY2;
-		
+
 		    }
 }
 
@@ -80,7 +80,7 @@ Graphics::~Graphics() {
 //double limiteSuperiorYTmp: Valor maximo do eixo Y.
 //double limiteInferiorYTmp: Valor minimo do eixo Y.
 //bool tipoTempoTmp: Indica se é grafico de tempo (tipoTempoTmp = true) ou se é do tipo variavel por variavel (tipoTempoTmp = false).
-Graphics::Graphics(NodePath* paiNode, queue<double> vetorXtmp, queue<double> vetorYtmp,  double limiteSuperiorXTmp, double limiteInferiorXTmp, double limiteSuperiorYTmp, double limiteInferiorYTmp, bool tipoTempoTmp){
+Graphics::Graphics(NodePath paiNode, queue<double> vetorXtmp, queue<double> vetorYtmp,  double limiteSuperiorXTmp, double limiteInferiorXTmp, double limiteSuperiorYTmp, double limiteInferiorYTmp, bool tipoTempoTmp){
 
     vetorX = vetorXtmp;
     vetorY = vetorYtmp;
@@ -99,7 +99,7 @@ Graphics::Graphics(NodePath* paiNode, queue<double> vetorXtmp, queue<double> vet
     style.set_type(PGFrameStyle::T_flat);
     style.clear_texture();
     graphic_frame->set_frame_style(graphic_frame->get_state(), style);
-    graphic_np = paiNode->attach_new_node(graphic_frame);
+    graphic_np = paiNode.attach_new_node(graphic_frame);
     graphic_np.set_color(1.0, 1.0, 1.0);
 
     //Inicia as linhas utilizadas nos desenhos dos eixos.
@@ -184,7 +184,7 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
     }
     //Calcula a escala em y.
     escalaY = (0.63) / (limiteSuperiorY - limiteInferiorY);
-    
+
     //Se o vetor Y não for vazio ele coloca a linha do grafico na posição inicial.
 	if (tamanhoVetorY > 0) {
         posicaoY = vetorY.front();
@@ -274,7 +274,7 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
             }
         }
     }
-	
+
 	//Faz o attach do grafico na tela.
     linha_grafico_np = graphic_np.attach_new_node(linha_grafico->create(true));
     linha_grafico_np.set_pos(0.15, 0.0, 0.15);
@@ -300,13 +300,13 @@ void Graphics::desenha_eixoX() {
     eixoX->draw_to(0.68, 0.0, 0.0);
     eixoX_np = graphic_np.attach_new_node(eixoX->create());
     eixoX_np.set_pos(0.10, 0.0, 0.15);
-    
+
     eixoX2->set_color(0.0, 0.0, 1);
     eixoX2->draw_to(0.0, 0.0, 0.0);
-    eixoX2->draw_to(0.68, 0.0, 0.0);    
+    eixoX2->draw_to(0.68, 0.0, 0.0);
     eixoX2_np = graphic_np.attach_new_node(eixoX2->create());
     eixoX2_np.set_pos(0.10, 0.0, 0.149);
-    
+
 }
 
 void Graphics::desenha_eixoY() {
@@ -321,7 +321,7 @@ void Graphics::desenha_eixoY() {
     eixoY2->draw_to(0.0, 0.0, 0.68);
     eixoY2_np = graphic_np.attach_new_node(eixoY2->create());
     eixoY2_np.set_pos(0.149, 0.0, 0.10);
-    
+
 }
 
 void Graphics::desenha_marcacao_eixoX(){
@@ -420,7 +420,7 @@ void Graphics::desenha_marcacao_eixoY() {
     posicao_marcacaoY2 = ((posicao_marcacaoY5 - posicao_marcacaoY1) / 4) + posicao_marcacaoY1;
     posicao_marcacaoY3 = (2 * (posicao_marcacaoY5 - posicao_marcacaoY1) / 4) + posicao_marcacaoY1;
     posicao_marcacaoY4 = (3 * (posicao_marcacaoY5 - posicao_marcacaoY1) / 4) + posicao_marcacaoY1;
-    
+
     LineSegs* marcacaoY1 = new LineSegs("my1");
     marcacaoY1->set_color(0.0, 0.0, 1.0);
     marcacaoY1->draw_to(0.0, 0.0, 0.0);
