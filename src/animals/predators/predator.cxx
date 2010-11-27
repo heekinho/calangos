@@ -49,7 +49,7 @@ void Predator::load_predator(const string &model, int qtd, float scale, int orie
 		predator->reparent_to(Simdunas::get_window()->get_render());
 
 		/* Roda a animação */
-		predator->get_anim_control()->loop("andar", false);
+		predator->loop_anim("andar");
 	}
 }
 
@@ -72,7 +72,7 @@ void Predator::act(){
 				LVector3f player_to_vegetal = player->get_pos() - vegetal->get_pos();
 				if (player_to_vegetal.length() < 3.5 || player->is_in_toca()){
 					if(!this->get_anim_control()->is_playing("comer") && !get_anim_control()->is_playing("andar"))
-						get_anim_control()->play("andar");
+						play_anim("andar");
 					Animal::act();
 					return;
 				}
@@ -81,7 +81,7 @@ void Predator::act(){
 		}
 	}
 	else {
-		if(!get_anim_control()->is_playing("andar")) get_anim_control()->play("andar");
+		play_anim("andar");
 		Animal::act();
 	}
 
@@ -98,7 +98,7 @@ void Predator::change_sector(PT(Setor) new_sector){
 /*! Roda comportamento de perseguição */
 void Predator::pursuit(){
 	if(!this->get_anim_control()->is_playing("comer")){
-		if(!get_anim_control()->is_playing("andar")) get_anim_control()->play("andar");
+		play_anim("andar");
 
 		PT(Player) player = Player::get_instance();
 		look_at(*player);
@@ -111,7 +111,7 @@ void Predator::pursuit(){
 void Predator::bite(){
 	if(!this->get_anim_control()->is_playing("comer")){
 		get_anim_control()->stop_all();
-		this->get_anim_control()->play("comer");
+		play_anim("comer");
 
 		/* Diminui energia do player */
 		Player::get_instance()->be_bited();
@@ -123,15 +123,15 @@ void Predator::bite(){
 /*! Pausa a nimação */
 void Predator::pause_animation(){
 	get_anim_control()->stop_all();
-	//get_anim_control()->pose("andar", 7);
-	get_anim_control()->loop("stand", false);
+	get_anim_control()->pose("andar", 7);
+
+	/* Apenas o teiu não tem stand */
+	//play_anim("stand");
 }
 
 /*! Retoma a animação */
 void Predator::continue_animation(){
-	if(Simdunas::get_window()->get_render().is_ancestor_of(*this)){
-		if(!get_anim_control()->is_playing("andar")) get_anim_control()->play("andar");
-	}
+	if(Simdunas::get_window()->get_render().is_ancestor_of(*this)) play_anim("andar");
 }
 
 

@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
 		load_prc_file("myConfig-Calangos-distribute.prc");
 	#endif
 
-//	//PStatClient::connect();
+	PStatClient::connect("localhost", 5185);
 
 	Simdunas::init_types();
 

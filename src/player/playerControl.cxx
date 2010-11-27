@@ -124,6 +124,7 @@ void PlayerControl::special_control(const Event *theEvent, void *data){
 		World::get_world()->get_terrain()->remove_all_edible_vegetals();
 //		Vegetal::vegetals_placeholder.flatten_strong();
 //		Simdunas::get_window()->get_render().analyze();
+		me->get_anim_control()->write(cout);
 	}
 
 	if(strcmp(str,"shift")==0) PlayerControl::get_instance()->key_map_player["shift"] = true;
@@ -235,25 +236,19 @@ void PlayerControl::update(){
 	/* Concretiza movimentos e roda animações */
 	if(key_map_player["fastforward"] || key_map_player["shift"]){
 		move(VEL_RUN);
-		if(!p->get_anim_control()->is_playing("run")) p->get_anim_control()->loop("run", false);
 		p->set_lagarto_correndo();
 	}
 	else if(key_map_player["forward"]){
 		// Se for soh caminhando
 		move(VEL_WALK);
-		p->get_anim_control()->stop("run");
-
 		p->set_lagarto_andando();
 	}
 	else if(rotating){
-		move(0); //Gambi para rodar a animação
+		move(0); /* Gambi para rodar a animação */
 	}
 	else {
-		/* Lagarto est� parado */
-		p->get_anim_control()->stop("run");
+		/* Lagarto está parado */
 		p->get_anim_control()->stop("walk");
-		//p->get_anim_control()->stop_all();
-
 		p->set_lagarto_parado();
 	}
 
@@ -333,13 +328,10 @@ void PlayerControl::move(float velocity){
 	Player *p = Player::get_instance();
 
 	if(!p->get_anim_control()->is_playing("fast_bite")){
-		if(!p->get_anim_control()->is_playing("walk")) p->get_anim_control()->loop("walk", false);
-		p->set_control_effect("walk", 1.0);
-		p->set_control_effect("fast_bite", 0);
-		p->set_control_effect("bobbing", 0);
-
 		if(velocity <= VEL_WALK) p->get_anim_control()->find_anim("walk")->set_play_rate(1.0);
 		else if(velocity > VEL_WALK) p->get_anim_control()->find_anim("walk")->set_play_rate(4.0);
+
+		p->loop_anim("walk");
 
 		/* A Letargia influencia na velocidade (decidiu-se por influenciar linearmente */
 		velocity = velocity * (1 - p->get_letargia());
@@ -482,10 +474,7 @@ void PlayerControl::eat(const Event*, void *data){
 
 		/* Animação roda independente de comer ou não */
 		if(!player->get_anim_control()->is_playing("fast_bite")){
-			player->get_anim_control()->play("fast_bite");
-			player->set_control_effect("walk", 0);
-			player->set_control_effect("bobbing", 0);
-			player->set_control_effect("fast_bite", 1.0);
+			player->play_anim("fast_bite");
 
 			/* Se for uma mordida sem sucesso: -0.1 de energia */
 			if(!eatsuccess) Player::get_instance()->add_energia_alimento(-0.1);
@@ -603,12 +592,7 @@ void PlayerControl::bobbing(const Event*, void *data){
 	PT(Player) player = Player::get_instance();
 
 	/* Roda animação Bobbing */
-	if(!player->get_anim_control()->is_playing("bobbing")){
-		player->get_anim_control()->play("bobbing");
-		player->set_control_effect("walk", 0);
-		player->set_control_effect("fast_bite", 0);
-		player->set_control_effect("bobbing", 1.0);
-	}
+	player->play_anim("bobbing");
 }
 
 void PlayerControl::chama_pause(const Event*, void* data){

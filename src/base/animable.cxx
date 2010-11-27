@@ -1,5 +1,8 @@
 #include "animable.h"
 
+Animable::Animable(){
+	activated = true;
+}
 
 /*! Responsável pela identificação e bind correto das animações. */
 void Animable::bind_anims(PandaNode* node){
@@ -40,4 +43,38 @@ void Animable::clear_blends(){
 	for(int i = 0; i < anims.get_num_anims(); i++){
 		anims.get_anim(i)->get_part()->clear_control_effects();
 	}
+}
+
+/*! Método utilizado para tocar uma determinada animação */
+void Animable::play_anim(const string &anim_name){
+	if(!activated) return;
+
+	PT(AnimControl) anim = anims.find_anim(anim_name);
+	if(!anim) nout << "Animação " << anim_name << " não existe." << endl;
+	if(anim && !anim->is_playing()) anim->play();
+}
+
+/*! Método utilizado para tocar uma determinada animação */
+void Animable::loop_anim(const string &anim_name, bool restart){
+	if(!activated) return;
+
+	PT(AnimControl) anim = anims.find_anim(anim_name);
+	if(!anim) nout << "Animação " << anim_name << " não existe." << endl;
+	if(anim && !anim->is_playing()) anim->loop(restart);
+}
+
+/*! Aciona a utilização de animações */
+void Animable::activate_anims(){
+	this->activated = true;
+}
+
+/*! Desabilita a utilização de animações */
+void Animable::deactivate_anims(){
+	this->activated = false;
+	anims.stop_all();
+}
+
+/*! Verifica se o uso de animações está ativado */
+bool Animable::is_activated(){
+	return activated;
 }

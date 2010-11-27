@@ -54,7 +54,7 @@ void Frog::act(){
 		if(frame == 0) jumping = false;
 	}
 	else if(jumps > 0){
-		get_anim_control()->play("character", 1, 31);
+		if(is_activated()) get_anim_control()->play("character", 1, 31);
 		jumps--;
 		jumping = true;
 		set_h(*this, rand()%80-40);

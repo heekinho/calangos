@@ -43,7 +43,7 @@ void Prey::load_prey(){
 
 /*! Configura o modelo base da espécie de presa */
 void Prey::configure_prey_model(const string name, double scale){
-	ModelRepository::get_instance()->get_animated_model(name)->get_anim_control()->loop("character", false);
+	ModelRepository::get_instance()->get_animated_model(name)->loop_anim("character");
 	ModelRepository::get_instance()->get_animated_model(name)->calc_size_from_bounds();
 	ModelRepository::get_instance()->get_animated_model(name)->set_length(0.03, true);
 	ModelRepository::get_instance()->get_model(name)->calc_size_from_bounds();

@@ -267,7 +267,7 @@ void Lizard::play_action_anims(bool loop){
 		/* Sem "blend gradiente" ainda */
 		if(ac != NULL && !get_anim_control()->is_playing()){
 			if(it->second){
-				if(!ac->is_playing()){
+				if(!ac->is_playing() && is_activated()){
 					if(loop) ac->loop(false);
 					else ac->play();
 				}

@@ -151,10 +151,7 @@ void MaleLizard::be_bited(){
 void MaleLizard::bite(){
 	/* Manter simples por enquanto */
 	if(!get_anim_control()->is_playing("fast_bite")){
-		//set_action("fast_bite");
-		//play_action_anims();
-		//get_anim_control()->stop_all();
-		get_anim_control()->play("fast_bite");
+		play_anim("fast_bite");
 
 		Player::get_instance()->be_bited();
         Player::get_instance()->mordida_recebida(this->get_tamanho_base());

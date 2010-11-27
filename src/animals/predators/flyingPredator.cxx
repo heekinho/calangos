@@ -39,7 +39,7 @@ void FlyingPredator::load_predator(const string &model, int qtd, float scale, in
 		predator->reparent_to(Simdunas::get_window()->get_render());
 
 		/* Roda a animação */
-		predator->get_anim_control()->loop("voar", false);
+		predator->loop_anim("voar");
 	}
 }
 
@@ -51,7 +51,7 @@ void FlyingPredator::act(){
 	PT(Player) player = Player::get_instance();
 	float dt = ClockObject::get_global_clock()->get_dt();
 
-	if(!get_anim_control()->is_playing("voar")) get_anim_control()->loop("voar", false);
+	loop_anim("voar");
 	if(rand()%120 == 34) set_h(*this, rand()%80 - (80/2));
 
 	move(get_velocity());
