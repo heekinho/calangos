@@ -116,7 +116,7 @@ void MaleLizard::player_did_bobbing(const Event *theEvent, void *data){
 void MaleLizard::bob(){
 	//set_action("bobbing");
 	//play_action_anims();
-	if(!get_anim_control()->is_playing("bobbing")) get_anim_control()->play("bobbing");
+	play_anim("bobbing");
 }
 
 void MaleLizard::wander(){
@@ -133,12 +133,7 @@ void MaleLizard::chase(){
 	float distance = (player->get_pos() - get_pos()).length();
 
 	if(!has_other_anim_active("walk")){
-
-		if(!get_anim_control()->is_playing("walk")){
-			//set_action("walk");
-			//play_action_anims();
-			get_anim_control()->play("walk");
-		}
+		play_anim("walk");
 
 		/* Comportamento */
 		look_at(*player);  //TODO: Corrigir depois para não permitir muito giro.

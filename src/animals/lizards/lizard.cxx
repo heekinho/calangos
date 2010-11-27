@@ -128,7 +128,7 @@ void Lizard::load_lizards(){
 		lizard->set_velocity(500);
 
 		World::get_world()->get_terrain()->add_lizard(lizard);
-		lizard->get_anim_control()->find_anim("walk")->loop(true);
+		lizard->loop_anim("walk", true);
 
 		//lizard->wrt_reparent_to(Terrain::create_default_terrain()->no_setores[->get_setor_from_pos(lizard->get_x(),lizard->get_y())->get_indice()].node());
                 //lizard->reparent_to(Simdunas::get_window()->get_render());
@@ -176,7 +176,7 @@ void Lizard::flee(){
 	PT(Player) player = Player::get_instance();
 
 	if(!has_other_anim_active("walk")){
-		if(!get_anim_control()->is_playing("walk")) get_anim_control()->play("walk");
+		play_anim("walk");
 
 		/* Comportamento */
 		look_at(*player);  //TODO: Corrigir depois para não permitir muito giro.
@@ -286,6 +286,6 @@ void Lizard::pause_animation(){
 void Lizard::continue_animation(){
 	if(Simdunas::get_window()->get_render().is_ancestor_of(*this)){
 		set_action("walk", true);
-		if(!get_anim_control()->is_playing("walk")) get_anim_control()->play("walk");
+		play_anim("walk");
 	}
 }

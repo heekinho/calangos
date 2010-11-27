@@ -66,10 +66,10 @@ void Frog::act(){
 
 /*! Para a animação - quando o sapo fica estático */
 void Frog::pause_animation(){
-	get_anim_control()->stop_all();
+	deactivate_anims();
 }
 
 /*! Roda a animação do salto */
 void Frog::continue_animation(){
-	get_anim_control()->loop("character", false);
+	activate_anims();
 }
