@@ -364,6 +364,7 @@ struct EdibleInfo {
 
 /*! Efetua acao de comer. Verifica se tem algum npc em volta e come */
 void PlayerControl::eat(const Event*, void *data){
+	PlayerControl* this_control = (PlayerControl*) data;
 	PT(Player) player = Player::get_instance();
 	PT(Setor) player_sector = player->get_setor();
 
@@ -481,12 +482,9 @@ void PlayerControl::eat(const Event*, void *data){
 		}
 	}
 
-	nout << "Testando animação" << endl;
 	/* Animação roda independente de comer ou não */
 	if(!player->get_anim_control()->is_playing("fast_bite")){
-		nout << "Entrou na condição" << endl;
-		//player->play_anim("fast_bite");
-		player->get_anim_control()->find_anim("fast_bite")->play();
+		player->play_anim("fast_bite");
 
 		/* Se for uma mordida sem sucesso: -0.1 de energia */
 		if(!eatsuccess) Player::get_instance()->add_energia_alimento(-0.1);
