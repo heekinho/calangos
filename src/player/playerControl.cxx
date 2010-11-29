@@ -11,6 +11,7 @@
 #include "maleLizard.h"
 #include "lizard.h"
 #include "prey.h"
+#include "pStatTimer.h"
 
 
 #define VEL_WALK 20.0
@@ -204,6 +205,11 @@ void PlayerControl::update(const Event*, void *data){
 void PlayerControl::update(){
 	PT(Player) p = Player::get_instance();
 
+ #ifdef PSTATS
+    PStatCollector ps=PStatCollector("Update_Play");
+    PStatTimer t =PStatTimer(ps);
+#endif
+            
 	/* Test */
 	World::get_world()->get_terrain()->update_prey();
 
@@ -285,7 +291,13 @@ void PlayerControl::update(){
 		_female_indicator.set_z(max.get_z() + 0.01);
 		_female_indicator.show();
 	}
+        
 	else _female_indicator.hide();
+
+#ifdef PSTATS
+        t.~PStatTimer();
+#endif
+       
 }
 
 /*! Desenha um circulo indicador do tamanho especificado */

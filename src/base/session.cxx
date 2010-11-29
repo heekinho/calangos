@@ -14,6 +14,8 @@ Session* Session::singleSession = NULL;
 #include "memoryUsage.h"
 #include "memoryUsagePointers.h"
 
+
+
 /*! Constroi uma session default.*/
 //Session::Session(WindowFramework *window) {
 Session::Session() {
@@ -89,6 +91,12 @@ void Session::run(){
 	Session::get_instance()->game_over = false;
 	//Menu::get_instance()->hide_tela_over();
 	nout << "Iniciando Jogo..." << endl;
+
+        #ifdef PSTATS
+            if (!PStatClient::is_connected())
+                    PStatClient::connect();
+        #endif
+        
 	while(Simdunas::get_framework()->do_frame(Thread::get_current_thread()) && !Session::get_instance()->game_over) {
 		/* O controle de tempo precisa saber o quanto de tempo se passou.
 		 * Assim, todos os elementos de jogo que precisam ser atualizados, passam a escutar

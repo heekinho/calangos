@@ -1,6 +1,8 @@
 #ifndef SESSION_H
 #define SESSION_H
 
+//#define PSTATS  //se quiser rodar o pstats é só descomentar aqui
+
 #include "world.h"
 #include "guiManager.h"
 #include "timeControl.h"
@@ -60,5 +62,7 @@ private:
 	int causa_mortis;
 	void end_session();
 };
+
+
 
 #endif

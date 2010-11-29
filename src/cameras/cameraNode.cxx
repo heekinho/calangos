@@ -3,6 +3,7 @@
 #include "cameraControl.h"
 #include "simdunas.h"
 #include "player.h"
+#include"pStatTimer.h"
 
 #include "geometricBoundingVolume.h"
 
@@ -23,12 +24,19 @@ CameraNode::CameraNode(PT(Camera) camera) : NodePath(camera){
 /*! Verifica se um objeto está visível na tela, mesmo parcialmente */
 bool CameraNode::is_in_view(const NodePath& object){
 	/* Teste */
-	PT(CameraNode) cn = this;//CameraControl::get_instance()->get_current_camera();
+#ifdef PSTATS
+    PStatCollector ps=PStatCollector("inView");
+    PStatTimer t =PStatTimer(ps);
+#endif
+	PT(CameraNode) cn = CameraControl::get_instance()->get_current_camera();
 	PT(BoundingVolume) lens_bounds = cn->get_real_camera()->get_lens()->make_bounds();
 	PT(GeometricBoundingVolume) bounds = DCAST(GeometricBoundingVolume, object.get_bounds());
 
 	bounds->xform(object.get_parent().get_mat(*cn));
 	return lens_bounds->contains(bounds);
+#ifdef PSTATS
+        t.~PStatTimer();
+#endif
 }
 
 /*! Recebe notificação da janela (no evento "window-event") para que se possa atualizar

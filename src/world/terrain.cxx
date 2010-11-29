@@ -6,6 +6,7 @@
 #include "typedReferenceCount.h"
 
 
+
 PT(Terrain)  Terrain::terrain = NULL;
 TypeHandle Terrain::_type_handle;
 float Terrain::dist_min = 5;
@@ -196,6 +197,8 @@ vector<PT(Setor)> *Terrain::get_adjacent_sectors(){
 /*! Obtem os setores vizinhos dado um setor de referencia */
 void Terrain::update_adjacent_sectors(PT(Setor) s){
 	// Tira todo mundo da vizinha
+     
+
 	for(unsigned int i = 0; i < neighborhood.size(); i++){
 		neighborhood.at(i)->set_player_neighbor(false);
 	}
@@ -216,7 +219,7 @@ void Terrain::update_adjacent_sectors(PT(Setor) s){
 		flagx = -1;
 		flagy++;
 	}
-
+       
 //	nout << "neighbors(" << Player::get_instance()->get_setor()->get_indice() << "): ";
 //	for(int i = 0; i < neighborhood.size(); i++){
 //		nout << neighborhood.at(i)->get_indice() << " ";
