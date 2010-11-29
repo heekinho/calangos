@@ -352,7 +352,6 @@ struct EdibleInfo {
 
 /*! Efetua acao de comer. Verifica se tem algum npc em volta e come */
 void PlayerControl::eat(const Event*, void *data){
-	PlayerControl* this_control = (PlayerControl*) data;
 	PT(Player) player = Player::get_instance();
 	PT(Setor) player_sector = player->get_setor();
 
@@ -371,114 +370,114 @@ void PlayerControl::eat(const Event*, void *data){
 	}
 	/* ----------------------------------------- */
 
-
 	/* Verifica a posição do mouse... Se estiver sobre a interface não executa a ação de comer */
 	MouseWatcher *mwatcher = DCAST(MouseWatcher, Simdunas::get_window()->get_mouse().node());
-	if(mwatcher->has_mouse() && mwatcher->get_mouse_x() < 0.57 && !TimeControl::get_instance()->get_stop_time()){
+	if(!(mwatcher->has_mouse() && mwatcher->get_mouse_x() < 0.57 && !TimeControl::get_instance()->get_stop_time())) return;
 
 
-		/* 0: prey; 1: vegetal; 2: lizard */
-		int type_of_closest = -1;
+	/* 0: prey; 1: vegetal; 2: lizard */
+	int type_of_closest = -1;
 
-		/*! HACK para obter o tipo de objeto de closest */
-		//PT(ObjetoJogo) closest = this_control->closest_object;
-		PT(ObjetoJogo) closest = this_control->_closest_biteable;
-		if(closest){
-			if(dynamic_cast<Prey*>((ObjetoJogo*) closest)) type_of_closest = 0;
-			if(dynamic_cast<EdibleVegetal*>((ObjetoJogo*) closest)) type_of_closest = 1;
-			if(dynamic_cast<Lizard*>((ObjetoJogo*) closest)) type_of_closest = 2;
-		}
+	/*! HACK para obter o tipo de objeto de closest */
+	//PT(ObjetoJogo) closest = this_control->closest_object;
+	PT(ObjetoJogo) closest = this_control->_closest_biteable;
+	if(closest){
+		if(dynamic_cast<Prey*>((ObjetoJogo*) closest)) type_of_closest = 0;
+		if(dynamic_cast<EdibleVegetal*>((ObjetoJogo*) closest)) type_of_closest = 1;
+		if(dynamic_cast<Lizard*>((ObjetoJogo*) closest)) type_of_closest = 2;
+	}
 
-		/* Se o tipo não for reconhecido, cai fora. Era pra fazer if, mas... */
-		if(type_of_closest == -1) return;
+	/* Se o tipo não for reconhecido, cai fora. Era pra fazer if, mas... */
+	if(type_of_closest == -1) return;
 
-		/* Configuração de distância. Quando os objetos estaram no raio de ação do player.*/
-		float act_dist_thr = player->get_eat_radius_thr();
-		int direction_eat_thr = 45;
+	/* Configuração de distância. Quando os objetos estaram no raio de ação do player.*/
+	float act_dist_thr = player->get_eat_radius_thr();
+	int direction_eat_thr = 45;
 
-		/* Obtem o "versor y" do player */
-		LVector3f player_y_versor = player->get_net_transform()->get_mat().get_row3(1);
-		player_y_versor.normalize();
+	/* Obtem o "versor y" do player */
+	LVector3f player_y_versor = player->get_net_transform()->get_mat().get_row3(1);
+	player_y_versor.normalize();
 
-		/* Obtem distancia para o npc */
-		/* HACK para consertar um offset maluco dos frutos */
-		LVector3f player_to_target = LPoint3f(player->get_x(), player->get_y(), 0) - LPoint3f(closest->get_x(), closest->get_y(), 0);
-		float dist_to_target = player_to_target.length();
+	/* Obtem distancia para o npc */
+	/* HACK para consertar um offset maluco dos frutos */
+	LVector3f player_to_target = LPoint3f(player->get_x(), player->get_y(), 0) - LPoint3f(closest->get_x(), closest->get_y(), 0);
+	float dist_to_target = player_to_target.length();
 
-		/* Obtem angulo para o npc */
-		player_to_target.normalize();
-		float angle_to_npc = fabs(player_to_target.angle_deg(player_y_versor));
+	/* Obtem angulo para o npc */
+	player_to_target.normalize();
+	float angle_to_npc = fabs(player_to_target.angle_deg(player_y_versor));
 
-		/* Ação de comer! */
-		bool eatsuccess = false;
-		if (type_of_closest == 0 || type_of_closest == 1) {
+	/* Ação de comer! */
+	bool eatsuccess = false;
+	if (type_of_closest == 0 || type_of_closest == 1) {
 
-			/* Fazendo as presas fugirem no ataque do player */
-			if(type_of_closest == 0){
-				SectorItems<PT(Prey)>::iterator it;
-				for(it = player_sector->preys()->begin(); it != player_sector->preys()->end(); ++it){
-					PT(Prey) prey = *it;
-					if(prey != NULL){
-						if((prey->get_pos() - player->get_pos()).length() < act_dist_thr * 3){
-							prey->set_fleing(true);
-							TimeControl::get_instance()->notify_after_n_vminutes(50, Prey::stop_flee, prey);
-						}
+		/* Fazendo as presas fugirem no ataque do player */
+		if(type_of_closest == 0){
+			SectorItems<PT(Prey)>::iterator it;
+			for(it = player_sector->preys()->begin(); it != player_sector->preys()->end(); ++it){
+				PT(Prey) prey = *it;
+				if(prey != NULL){
+					if((prey->get_pos() - player->get_pos()).length() < act_dist_thr * 3){
+						prey->set_fleing(true);
+						TimeControl::get_instance()->notify_after_n_vminutes(50, Prey::stop_flee, prey);
 					}
 				}
 			}
+		}
 
 
-			Edible* food = dynamic_cast<Edible*>((ObjetoJogo*) closest);
-			/* Verifica se o ângulo esta dentro do limiar estabelecido, evitando os "já comidos" */
-			if (dist_to_target < act_dist_thr && angle_to_npc < direction_eat_thr && food->get_nutritional_value() > 0) {
+		Edible* food = dynamic_cast<Edible*>((ObjetoJogo*) closest);
+		/* Verifica se o ângulo esta dentro do limiar estabelecido, evitando os "já comidos" */
+		if (dist_to_target < act_dist_thr && angle_to_npc < direction_eat_thr && food->get_nutritional_value() > 0) {
 
-				// Pisca life indicando que obteve sucesso!!
-				GuiManager::get_instance()->piscar_life();
+			// Pisca life indicando que obteve sucesso!!
+			GuiManager::get_instance()->piscar_life();
 
-				/* Come o alvo saúde */
-				player->eat(food);
-				/* Com a redistribuição dos animais não pode zera-los */
-				if(type_of_closest == 1){
-					food->set_nutritional_value(0);
-					food->set_hydration_value(0);
-				}
+			/* Come o alvo saúde */
+			player->eat(food);
+			/* Com a redistribuição dos animais não pode zera-los */
+			if(type_of_closest == 1){
+				food->set_nutritional_value(0);
+				food->set_hydration_value(0);
+			}
 
-				/* Monta a informação do objeto comestível */
-				EdibleInfo* info = new EdibleInfo();
-				info->object = closest;
-				info->type = type_of_closest;
-				info->sector = player->get_setor();
+			/* Monta a informação do objeto comestível */
+			EdibleInfo* info = new EdibleInfo();
+			info->object = closest;
+			info->type = type_of_closest;
+			info->sector = player->get_setor();
 
-				//LVecBase3f *mydata = new LVecBase3f(index_of_closest, player->get_setor()->get_indice(), type_of_closest);
-				//TimeControl::get_instance()->notify_after_n_frames(40, really_eat, (void*) mydata);
+			//LVecBase3f *mydata = new LVecBase3f(index_of_closest, player->get_setor()->get_indice(), type_of_closest);
+			//TimeControl::get_instance()->notify_after_n_frames(40, really_eat, (void*) mydata);
 
-				this_control->last_eating_frame = 0;
-				Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, eating, (void *) info);
+			this_control->last_eating_frame = 0;
+			Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, eating, (void *) info);
 
-				eatsuccess = true;
+			eatsuccess = true;
+		}
+	}
+	/* Morder outro lagarto */
+	if (type_of_closest == 2) {
+		Lizard* lizard = dynamic_cast<Lizard*>((ObjetoJogo*) closest);
+		if (lizard->get_gender() == LizardGender::male) {
+			MaleLizard* male_lizard = (MaleLizard*) lizard;
+
+			if (dist_to_target < act_dist_thr) {
+				male_lizard->be_bited();
+				male_lizard->set_energia(male_lizard->get_energia() - 10);
 			}
 		}
-		/* Morder outro lagarto */
-		if (type_of_closest == 2) {
-			Lizard* lizard = dynamic_cast<Lizard*>((ObjetoJogo*) closest);
-			if (lizard->get_gender() == LizardGender::male) {
-				MaleLizard* male_lizard = (MaleLizard*) lizard;
+	}
 
-				if (dist_to_target < act_dist_thr) {
-					male_lizard->be_bited();
-					male_lizard->set_energia(male_lizard->get_energia() - 10);
-				}
-			}
-		}
+	nout << "Testando animação" << endl;
+	/* Animação roda independente de comer ou não */
+	if(!player->get_anim_control()->is_playing("fast_bite")){
+		nout << "Entrou na condição" << endl;
+		//player->play_anim("fast_bite");
+		player->get_anim_control()->find_anim("fast_bite")->play();
 
-
-		/* Animação roda independente de comer ou não */
-		if(!player->get_anim_control()->is_playing("fast_bite")){
-			player->play_anim("fast_bite");
-
-			/* Se for uma mordida sem sucesso: -0.1 de energia */
-			if(!eatsuccess) Player::get_instance()->add_energia_alimento(-0.1);
-		}
+		/* Se for uma mordida sem sucesso: -0.1 de energia */
+		if(!eatsuccess) Player::get_instance()->add_energia_alimento(-0.1);
 	}
 }
 

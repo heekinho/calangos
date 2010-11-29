@@ -25,7 +25,7 @@ Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_anim
 	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_day, event_pday, this);
 	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_month, event_pmonth, this);
 
-        
+
 }
 
 /*! Obtem a instancia atual da classe Player. Observe que a classe ja deve ter
@@ -88,15 +88,8 @@ void Player::display(PT(Player) player){
 
 /** Carrega o Player */
 void Player::load_player(){
-	/* Configurações do PC */
-	//Player::get_instance("models/lizards/tropidurus/female/model.egg");
-	//Player::get_instance(new Player(ModelRepository::get_instance()->get_animated_model("tropidurus/female"));
-
-	/* [ATENCAO] Esta sendo chamado o primeiro Player::get_instance em ModelRepository */
-	//Player::get_instance((PT(AnimatedObjetoJogo)) ModelRepository::get_instance()->get_animated_model("tropidurus/female"));
-
-        //CRIA NÓ DE COLISÃO PARA O PLAYER
-        collision::get_instance()->playerCollision(Player::get_instance());
+	//CRIA NÓ DE COLISÃO PARA O PLAYER
+	collision::get_instance()->playerCollision(Player::get_instance());
 
 	Player::get_instance()->set_scale(Player::get_instance()->tamanho_lagarto_real);
 	Player::get_instance()->set_pos(255,255, 0);
@@ -107,11 +100,8 @@ void Player::load_player(){
 	World::get_world()->get_terrain()->update_adjacent_sectors(setor);
 
 	/* Configuracoes das Animacoees */
-	Player::get_instance()->set_blend(true, true, PartBundle::BT_normalized_linear);
 	Player::get_instance()->set_control_effect("walk", 1.0);
 	Player::get_instance()->get_anim_control()->get_anim(0)->set_play_rate(2.5);
-	Player::get_instance()->set_control_effect("bobbing", 0);
-	Player::get_instance()->set_control_effect("fast_bite", 0);
 	PT(AnimControl) ac = Player::get_instance()->get_anim_control()->find_anim("fast_bite");
 	if(ac != NULL) ac->set_play_rate(2);
 
@@ -125,7 +115,7 @@ void Player::change_sector(PT(Setor) new_sector){
 
 	/* Quando o player muda de setor é necessário uma redistribuição dos npcs. */
 	Animal::redistribute_animals();
-	
+
  	/* Quando o player muda de setor é necessário esconder alguns vegetais e mostrar outros*/
 	Vegetal::update_show_hide();
 
