@@ -109,7 +109,7 @@ void Predator::pursuit(){
 
 /*! Roda comportamento de mordida/comer */
 void Predator::bite(){
-	if(!this->get_anim_control()->is_playing("comer")){
+	if(!this->get_anim_control()->is_playing("comer") && !Player::get_instance()->being_bited()){
 		get_anim_control()->stop_all();
 		play_anim("comer");
 
