@@ -149,31 +149,42 @@ void ObjetoJogo::set_height(float height, bool proportional){
 
 
 void ObjetoJogo::be_bited(){
-	bite_blink_counter = 8;
-	TimeControl::get_instance()->notify_after_n_frames(1, blink, (void*) this);
+	bite_blink_counter = 10;
+	/* O delay inicial varia de predator e deve ser ajustado posteriormente */
+	TimeControl::get_instance()->notify("blink object", blink, this, 0.5);
 }
 
-void ObjetoJogo::blink(const Event*, void *data){
-	ObjetoJogo* object = (ObjetoJogo*) data;
+AsyncTask::DoneStatus ObjetoJogo::blink(GenericAsyncTask* task, void* data){
+	ObjetoJogo* me = (ObjetoJogo*)data;
 
-	if(object->is_hidden()) {
-		object->show();
-		object->set_color_scale(1.0, 0.6, 0.6, 1.0);
+	/* Passa a ter o delay do piscar */
+	task->set_delay(0.1);
+
+	/* Executa o método piscar propriamente dito */
+	me->blink();
+
+	/* Já piscou demais. Hora de parar */
+	if(--me->bite_blink_counter == 0){
+		me->show();
+		me->set_color_scale(LVecBase4f(1.0));
+
+		return AsyncTask::DS_done;
+	}
+
+	/* Executa a tarefa de novo, executando o delay (DS_again) */
+	return AsyncTask::DS_again;
+}
+
+/*! Pisca o objeto, alternando para um cor avermelhada */
+void ObjetoJogo::blink(){
+	if(is_hidden()) {
+		show();
+		set_color_scale(1.0, 0.6, 0.6, 1.0);
 	}
 	else {
-		object->hide();
-		object->set_color_scale(1.0, 1.0, 1.0, 1.0);
+		hide();
+		set_color_scale(LVecBase4f(1.0));
 	}
-
-	if(object->bite_blink_counter <= 0) {
-		object->show();
-		object->set_color_scale(1.0, 1.0, 1.0, 1.0);
-	}
-	else if(object->bite_blink_counter > 0) {
-		TimeControl::get_instance()->notify_after_n_frames(5, blink, (void *) object);
-	}
-
-	object->bite_blink_counter--;
 }
 
 

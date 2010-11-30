@@ -5,6 +5,7 @@
 #include "animControlCollection.h"
 #include "eventReceiver.h"
 #include "typedReferenceCount.h"
+#include "genericAsyncTask.h"
 
 #include "typeHandle.h"
 class Setor;
@@ -20,6 +21,7 @@ public:
 
 	~ObjetoJogo();
 
+
 	static const string EV_object_move;
 
 	virtual void was_redistributed(){};
@@ -34,8 +36,10 @@ public:
 	void set_setor(PT(Setor) setor);
 
 	virtual void be_bited();
-	static void blink(const Event*, void *data);
+	static AsyncTask::DoneStatus blink(GenericAsyncTask* task, void* data);
+	virtual void blink();
 	int bite_blink_counter;
+	bool being_bited(){ return bite_blink_counter > 0; };
 
 
 	virtual void has_moved();
