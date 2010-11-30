@@ -109,12 +109,6 @@ void TimeControl::event_psegundo_real(const Event *evt, void *data){
 	//A cada segundo verifica se houve colisão dos Lagartos NPCs com os demais objetos
 	collision::get_instance()->detectaColisaoSeg();
 	//cout << "\n PASSOU 1 SEGUNDO" << endl;
-
-	std::stringstream this_second;
-	this_second << EV_segundo_real << "_" << time->last_second - 1;
-	time->p_handler->remove_hooks(this_second.str());
-
-	nout << ClockObject::get_global_clock()->get_long_time() << endl;
 }
 
 void TimeControl::event_pminute(const Event *, void *data){
@@ -251,7 +245,7 @@ void TimeControl::update_time_control(float elapsed_time){
 void TimeControl::update_real_seconds(){
 	int current_second = (int)ClockObject::get_global_clock()->get_long_time();
 	if(current_second >= last_second + 1){
-		throw_real_second_event(current_second);
+		p_queue->queue_event(new Event(EV_segundo_real));
 		last_second = current_second;
 	}
 }
@@ -331,40 +325,19 @@ void TimeControl::set_habilita_event_frame_gui(bool habilita_event_frame_gui){
 }
 
 
-void TimeControl::throw_real_second_event(int second) {
-	p_queue->queue_event(new Event(EV_segundo_real));
-
-	std::stringstream numbered_event;
-	numbered_event << EV_segundo_real << "_" << second;
-	p_queue->queue_event(new Event(numbered_event.str()));
-}
-
 /*! Agenda uma notificação para a quantidade de tempo indicada */
 void TimeControl::notify(float time_after, EventCallbackFunction *function, void *data, PeriodType period_type){
 	if(period_type == PT_frame) notify_after_n_frames(time_after, function, data);
 	if(period_type == PT_virtual_minute) notify_after_n_vminutes(time_after, function, data);
 	if(period_type == PT_virtual_hour) notify_after_n_vminutes(time_after*60, function, data);
 	if(period_type == PT_virtual_day) notify_after_n_vminutes(time_after*1440, function, data);
-	if(period_type == PT_real_second) notify_real_time(time_after, function, data);
 }
 
-/*! Escuta segundos reais por eficiência e o resto (parte fracionária) é lançada então chamando notify_frame() */
-void TimeControl::notify_real_time(float time_after, EventCallbackFunction *function, void *data){
-	float target_second = ClockObject::get_global_clock()->get_long_time() + time_after;
-	float remaining_seconds = target_second - int(target_second);
-
-	std::stringstream listen_second;
-	listen_second << EV_segundo_real << "_" << int(target_second);
-
-	if(int(time_after) == 0){
-		int frames = remaining_seconds * ClockObject::get_global_clock()->get_average_frame_rate();
-		nout << "Frames: " << frames << endl;
-		notify_after_n_frames(frames, function, data);
-	}
-	else {
-		DataTraveller *c = new DataTraveller(data, function, remaining_seconds);
-		p_handler->add_hook(listen_second.str(), event_pframe_gui_options, c);
-	}
+/*! Chama a função como notificação após a passagem do tempo especificado */
+void TimeControl::notify(const string &task_name, GenericAsyncTask::TaskFunc *function, void* data, int delay){
+	PT(GenericAsyncTask) task = new GenericAsyncTask(task_name, function, data);
+	task->set_delay(delay);
+	AsyncTaskManager::get_global_ptr()->add(task);
 }
 
 //IMPORTANTE: Não esquecer de retirar SEMPRE os hooks com frame_numbered.

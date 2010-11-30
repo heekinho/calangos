@@ -5,28 +5,12 @@
 #include "eventQueue.h"
 #include "eventHandler.h"
 
+#include "genericAsyncTask.h"
+
 typedef void EventCallbackFunction(const Event *, void *);
 
-class DataTraveller {
-public:
-	DataTraveller(void* data, EventCallbackFunction* function, float seconds){
-		this->data = data;
-		this->function = function;
-		this->seconds = seconds;
-	}
-
-	void* data;
-	EventCallbackFunction* function;
-	float seconds;
-};
-
 class TimeControl : public TypedReferenceCount{
-
-  //char* return_month(int month);
-  //void ShowInformation();
 public:
-	~TimeControl();
-
 	/*! Tipo de período de tempo */
 	enum PeriodType {
 		PT_frame,
@@ -39,9 +23,11 @@ public:
 
 	//Singleton
 	static PT(TimeControl) get_instance();
+	static void unload_timeControl();
+	~TimeControl();
 
-	/*M�todo que faz o controle da rela��o entre a passagem do tempo real e o tempo virtual,
-	gerando eventos sempre a ocorre aluma mudan�a*/
+	/* Método que faz o controle da relação entre a passagem do tempo real e o tempo virtual,
+	 * gerando eventos sempre a ocorre aluma mudança */
 	void update_time_control(float elapsed_time);
 
 	int get_minuto();
@@ -63,9 +49,9 @@ public:
 	void set_habilita_event_frame_gui(bool habilita_event_frame_gui);
 
 	void update_real_seconds();
-
 	float get_vminute_count();
 
+	void notify(const string &task_name, GenericAsyncTask::TaskFunc *function, void* data, int delay = 0.0);
 	void notify_after_n_frames(int after_n_frames, EventCallbackFunction *function, void *data);
 	void notify_after_n_vminutes(int after_n_vmins, EventCallbackFunction *function, void *data);
 	void notify(float time_after, EventCallbackFunction *function, void *data, PeriodType period_type);
@@ -96,12 +82,6 @@ public:
 
 	float get_elapsed_time();
 
-	static void unload_timeControl();
-
-	// Typed Object
-	static TypeHandle get_class_type() { return _type_handle; }
-	static void init_type() { register_type(_type_handle, "TimeControl"); }
-
 	static float virtualTime;
 
 private:
@@ -110,34 +90,33 @@ private:
 	static PT(TimeControl) single;
 
     TimeControl();
-	//TimeControl(float pass_time, float virtual_time_hour, float virtual_time_month, int hour_p, int month_p);
 
 	// Tempo decorrido entre o frame atual e o anterior
 	float _elapsed_time;
-	// Fator de divis�o do elapsed_time
+	// Fator de divisão do elapsed_time
 	float passTime;
 	// Soma dos elapsed_time's;
 	float count_et;
-	// Quantos minutos reais valer�o um dia
+	// Quantos minutos reais valerão um dia
 	int virtualTimeHour;
-	// Com quantos dias passados mudar� o m�s
+	// Com quantos dias passados mudará o mês
 	int virtualTimeMonth;
 	// Hora do dia
 	int hour;
-	// Armazena o m�s do ano
+	// Armazena o mês do ano
 	int month;
-	/* V�ri�veis de controle de tempo virtual */
+	/* Variáveis de controle de tempo virtual */
 	int minute;
-	// Armazena o dia do m�s
+	// Armazena o dia do mês
 	int day;
-	// Armazena o ano desde o come�o do jogo
+	// Armazena o ano desde o começo do jogo
 	// Pode ser os anos de vida do lagarto por exemplo
 	int year;
-	// Faz o controle da chamada da fun��o AmbientControl()
+	// Faz o controle da chamada da função AmbientControl()
 	int ambientControl;
-	//Vari�vel que controla a parada do tempo
+	//Variável que controla a parada do tempo
 	bool stop_time;
-	//Vari�vel que habilita o evento event_pframe_gui_options
+	//Variável que habilita o evento event_pframe_gui_options
 	bool habilita_event_frame_gui;
 	//quantos segundos reais equivalem a 1 minuto virtual
 	float seconds_min;
@@ -146,13 +125,17 @@ private:
 
 	float last_second;
 
-	/* Gera��o e controle de eventos */
+	/* Geração e controle de eventos */
 	// Ponteiro para a fila de eventos
 	EventQueue *p_queue;
 	// Ponteiro para o processador de eventos
 	EventHandler* p_handler;
 
 
+public:
+	static TypeHandle get_class_type() { return _type_handle; }
+	static void init_type() { register_type(_type_handle, "TimeControl"); }
+private:
 	static TypeHandle _type_handle;
 };
 
