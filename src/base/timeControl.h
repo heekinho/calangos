@@ -5,12 +5,37 @@
 #include "eventQueue.h"
 #include "eventHandler.h"
 
+typedef void EventCallbackFunction(const Event *, void *);
+
+class DataTraveller {
+public:
+	DataTraveller(void* data, EventCallbackFunction* function, float seconds){
+		this->data = data;
+		this->function = function;
+		this->seconds = seconds;
+	}
+
+	void* data;
+	EventCallbackFunction* function;
+	float seconds;
+};
+
 class TimeControl : public TypedReferenceCount{
 
   //char* return_month(int month);
   //void ShowInformation();
 public:
 	~TimeControl();
+
+	/*! Tipo de período de tempo */
+	enum PeriodType {
+		PT_frame,
+		PT_real_second,
+		PT_real_minute,
+		PT_virtual_minute,
+		PT_virtual_hour,
+		PT_virtual_day
+	};
 
 	//Singleton
 	static PT(TimeControl) get_instance();
@@ -37,12 +62,18 @@ public:
 	void set_stop_time(bool stop_time);
 	void set_habilita_event_frame_gui(bool habilita_event_frame_gui);
 
+	void update_real_seconds();
+
 	float get_vminute_count();
-	typedef void EventCallbackFunction(const Event *, void *);
+
 	void notify_after_n_frames(int after_n_frames, EventCallbackFunction *function, void *data);
 	void notify_after_n_vminutes(int after_n_vmins, EventCallbackFunction *function, void *data);
+	void notify(float time_after, EventCallbackFunction *function, void *data, PeriodType period_type);
+	void notify_real_time(float time_after, EventCallbackFunction *function, void *data);
 
-	// Bloco de m�todos que processam os eventos relacionados a passagem do tempo virtual
+	void throw_real_second_event(int second);
+
+	// Bloco de métodos que processam os eventos relacionados a passagem do tempo virtual
 	static void event_pframe_gui_options(const Event *, void *data);
 	static void event_pframe(const Event *, void *data);
 	static void event_psegundo_real(const Event *, void *data);
@@ -63,8 +94,6 @@ public:
 	static const string EV_segundo_real;
 	static const string EV_pass_vminute;
 
-	// M�todo Auxiliar para partes do c�digo que desejarem obter informa��es sobre
-	// o tempo decorrido entre um frame e outro.
 	float get_elapsed_time();
 
 	static void unload_timeControl();
@@ -113,16 +142,16 @@ private:
 	//quantos segundos reais equivalem a 1 minuto virtual
 	float seconds_min;
 
-	float count_second;
-
-
 	float vminute_count;
+
+	float last_second;
 
 	/* Gera��o e controle de eventos */
 	// Ponteiro para a fila de eventos
 	EventQueue *p_queue;
 	// Ponteiro para o processador de eventos
-	EventHandler *p_handler;
+	EventHandler* p_handler;
+
 
 	static TypeHandle _type_handle;
 };

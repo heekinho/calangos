@@ -149,7 +149,7 @@ void ObjetoJogo::set_height(float height, bool proportional){
 
 
 void ObjetoJogo::be_bited(){
-	bite_blink_counter = 10;
+	bite_blink_counter = 8;
 	TimeControl::get_instance()->notify_after_n_frames(1, blink, (void*) this);
 }
 
@@ -170,7 +170,7 @@ void ObjetoJogo::blink(const Event*, void *data){
 		object->set_color_scale(1.0, 1.0, 1.0, 1.0);
 	}
 	else if(object->bite_blink_counter > 0) {
-		TimeControl::get_instance()->notify_after_n_frames(1, blink, (void *) object);
+		TimeControl::get_instance()->notify_after_n_frames(5, blink, (void *) object);
 	}
 
 	object->bite_blink_counter--;
