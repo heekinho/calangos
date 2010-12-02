@@ -208,62 +208,63 @@ void ObjetoJogo::has_moved(){
 
 /*! Move o objeto para frente com a velocidade especificada */
 void ObjetoJogo::move(float velocity) {
-	LVecBase3f forward (get_net_transform()->get_mat().get_row3(1));
-	forward.set_z(0);
-	forward.normalize();
-
-	float elapsed = TimeControl::get_instance()->get_elapsed_time();
-
-	LPoint3f desloc = this->get_pos() + is_inverted()*forward * (this->get_scale().get_x() * velocity * elapsed *0.2);
-
-	// Se o movimento for valido, o faça!
+	/* Verifica posição e se o movimento for valido, o faça! */
+	LPoint3f desloc = calculate_pos(velocity, true);
 	if(World::get_world()->get_terrain()->has_inside(desloc)) this->set_pos(desloc);
 }
 
+/*! Calcula a posição onde o objeto estará caso se mova com a velocidade indicada */
+LPoint3f ObjetoJogo::calculate_pos(float velocity, bool use_z){
+	float elapsed = TimeControl::get_instance()->get_elapsed_time();
+	float dy = this->get_scale().get_x() * velocity * elapsed * 0.2;
+
+	return (this->get_pos() + get_orientation(use_z) * dy);
+}
+
+/*! Obtém a orientação do objeto (versor que aponta para frente) */
+LVecBase3f ObjetoJogo::get_orientation(bool use_z){
+	LVecBase3f orientation = get_net_transform()->get_quat().get_forward();
+	if(!use_z) orientation.set_z(0);
+	return (is_inverted() * orientation);
+}
 
 /*! Atualiza a inclinação do objeto */
 void ObjetoJogo::update_pr(){
-	World::get_world()->get_terrain()->update_object_z((PT(ObjetoJogo)) this);
-	NodePath root = World::get_world()->get_terrain()->get_root();
+	/* Por conveniência */
+	NodePath render = Simdunas::get_window()->get_render();
+	PT(Terrain) terrain = World::get_world()->get_terrain();
 
-	/* Obtendo o vetor normal do terreno */
-	int terrain_size = World::get_world()->get_terrain()->get_x_size();
- 	LVector3f normal (World::get_world()->get_terrain()->get_normal(this->get_x(), terrain_size-this->get_y()));
-	normal.set(normal.get_x() / root.get_sx(), normal.get_y() / root.get_sy(), normal.get_z() / root.get_sz());
-	normal.normalize();
+	/* Deseja-se saber a normal do terreno no ponto: */
+	LVector3f point = get_pos(render);
+	/* Verifica-se a altura aqui para evitar erros de cima */
+	point[2] = terrain->get_elevation(point[0], point[1]);
 
-	/* Baseado na normal, traça-se dois vetores ortonormais
-	 * para obter os ângulos necessários. */
-	double heading = get_h();
-	double sin_h = sin(deg_2_rad(heading));
-	double cos_h = cos(deg_2_rad(heading));
+	/* Resolução da normal */
+	float res = 0.01; //TODO: Deixar do tamanho do objeto.
 
-	/* Ajusta o heading */
-	LVector3f vpitch = LVector3f(sin_h, cos_h, 0);
-	float pitch = normal.angle_deg(vpitch) - 90;
-	set_p(pitch);
+	/* Pega um ponto à frente */
+	LPoint3f front = point + LPoint3f(0, -res, 0);
+	front[2] = terrain->get_elevation(front[0], front[1]);
 
-	/* Ajusta o roll */
-	LVector3f vroll = LVector3f(-sin_h, cos_h, 0);
-	float roll = 90 - normal.angle_deg(vroll);
-	set_r(roll);
-	
-//	/* Terreno */
-//	PT(Terrain) terrain = World::get_world()->get_terrain();
-//	NodePath root = terrain->get_root();
-//
-//	/* Obtém um ponto logo à frente do objeto */
-//	LPoint3f forward = Simdunas::get_window()->get_render().get_relative_point(*this, LPoint3f(0,1,0));
-//
-//	/* Obtem a normal do terreno */
-//	LVector3f normal = terrain->get_normal(get_x(), get_y());
-//	normal.set(-normal.get_x()/root.get_sx(), -normal.get_y()/root.get_sy(), normal.get_z()/root.get_sz());
-//	normal.normalize();
-//
-//	/* Corrige a normal do objeto */
-//	float h = get_h(); 					// Para corrigir um bug de propagação de erros.
-//	heads_up(forward, normal);			// Warning: Produz erros do heading.
-//	set_h(h);		   					// Corrige  o erro introduzido na chamada acima.
+	/* Pega um ponto ao lado */
+	LPoint3f right = point + LPoint3f(res, 0, 0);
+	right[2] = terrain->get_elevation(right[0], right[1]);
+
+	/* Obtendo os vetores correspondentes */
+	LVector3f vfront = front - point;
+	LVector3f vright = right - point;
+
+	/* Normalizando os vetores */
+	vfront.normalize();
+	vright.normalize();
+
+	/* A normal é o produto vetorial dos vetores */
+	LVector3f normal = vfront.cross(vright);
+
+	/* Por um erro de propagação de erros, guarda-se o h */
+	float h = get_h();
+	heads_up(*this, LVector3f(0, 1, 0), normal);
+	set_h(h);
 }
 
 /*! Define um valor de deslocamento do objeto no eixo Z, para ajustes */

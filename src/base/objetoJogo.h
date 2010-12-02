@@ -51,6 +51,8 @@ public:
 	void set_orientation(int orientation){ this->orientation = orientation; };
 	virtual int is_inverted(){ return orientation; };
 
+	LVecBase3f get_orientation(bool use_z = false);
+	LPoint3f calculate_pos(float velocity, bool use_z = false);
 	virtual void move(float velocity);
 	void update_pr();
 
