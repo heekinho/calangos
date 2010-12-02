@@ -22,7 +22,7 @@ public:
 	PT(ObjetoJogo) get_object(){ return object; }
 	void set_object(PT(ObjetoJogo) object){ this->object = object; }
 
-	PT(CameraNode) get_current_camera(){ return cameras[current_camera]; };
+	PT(CameraNode) get_current_camera();
 
     vector<PT(CameraNode)>* get_cameras(){ return &cameras; };
 protected:

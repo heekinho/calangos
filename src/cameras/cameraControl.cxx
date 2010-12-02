@@ -17,6 +17,8 @@
 #include "povCamera.h"
 #include "topCamera.h"
 #include "tocaCamera.h"
+#include "freeCamera.h"
+
 
 /* Controle Singleton */
 PT(CameraControl) CameraControl::single = NULL;
@@ -97,7 +99,12 @@ void CameraControl::create_cameras(){
 	this->cameras.push_back(new CloseCamera(new Camera("close_camera")));
 	this->cameras.push_back(new FarCamera(new Camera("far_camera")));
 	this->cameras.push_back(new TopCamera(new Camera("top_camera")));
+	this->cameras.push_back(new FreeCamera(Simdunas::get_window()->get_camera(0)));
 	this->cameras.push_back(new TocaCamera(new Camera("toca_camera")));
+}
+
+PT(CameraNode) CameraControl::get_current_camera(){
+	return cameras[current_camera];
 }
 
 /*! Recebe o evento do teclado (numeros) e converte isso para uma determinada camera */
