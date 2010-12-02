@@ -2,9 +2,14 @@
 
 #include "modelRepository.h"
 
+#include "character.h"
+#include "world.h"
+
 /*! Constrói um predador voador */
 FlyingPredator::FlyingPredator(NodePath node) : Predator(node){
-
+	find("**/+CollisionNode").remove_node();
+	_player_captured = false;
+	set_two_sided(true);
 }
 
 /*! Destrutor de predador voador */
@@ -13,7 +18,7 @@ FlyingPredator::~FlyingPredator(){}
 
 /*! Carrega todos os predadores voadores do jogo */
 void FlyingPredator::load_predators(){
-	//FlyingPredator::load_predator("coruja", 20, 0.3, -1);
+	FlyingPredator::load_predator("coruja", 20, 0.03, -1);
 }
 
 
@@ -48,17 +53,77 @@ void FlyingPredator::load_predator(const string &model, int qtd, float scale, in
  * O predador basicamente perambula, e ao encontrar o lagarto dentro de uma
  * certa distância ele parte para o ataque */
 void FlyingPredator::act(){
+	if(_player_captured) { attack(); return; }
+
 	PT(Player) player = Player::get_instance();
 	float dt = ClockObject::get_global_clock()->get_dt();
+
+	float dist = get_distance(*player);
+	float dist_xy = (get_pos().get_xy() - player->get_pos().get_xy()).length();
 
 	loop_anim("voar");
 	if(rand()%120 == 34) set_h(*this, rand()%80 - (80/2));
 
-	move(get_velocity());
-
-	if((get_pos().get_xy() - player->get_pos().get_xy()).length() < 10){
+	if(!player->was_captured() && dist_xy < 5){
 		look_at(*player);
+		move(get_velocity()*2);
+		int z = World::get_world()->get_terrain()->get_elevation(get_x(), get_y());
+		if(get_z() < z) set_z(z);
 
-		if(get_z() - player->get_z() > 1) set_offset_z(-1*dt);
+		if(dist < 1) capture_player();
+	}
+	else {
+		move(get_velocity());
 	}
 }
+
+void FlyingPredator::capture_player(){
+	PT(Player) player = Player::get_instance();
+	NodePath render = Simdunas::get_window()->get_render();
+
+	_player_captured = true;
+	player->be_captured();
+
+	/* Este será o ponto controlado pela junta da animação */
+	_beak = attach_new_node("bico");
+
+	/* Precisa ser regulado */
+	player->wrt_reparent_to(_beak);
+	player->NodePath::set_pos(0.5, -0.75, 0);
+	player->NodePath::set_hpr(0, 90, -135);
+
+	/* Obtém a junta e dispara atualizações da matriz */
+	PT(Character) character = DCAST(Character, find("character").node());
+	_joint = character->find_joint("Bip01 Ponytail1Nub");
+
+	_joint->add_net_transform(_beak.node());
+}
+
+/*! Ação de ataque. O player já foi capturado e está sendo levado */
+void FlyingPredator::attack(){
+	float cruising_altitude = 50;
+	if(get_z() < cruising_altitude){
+		set_p(-65);
+		move(get_velocity()*5);
+	}
+	else {
+		if(get_p() > 0) set_p(get_p() - get_velocity());
+		if(get_p() < 0) set_p(0);
+
+		/* Por enquanto o predador fica passeando com o player.
+		 * Vai ter mais de um ataque? Poderia chamar game over? */
+		_player_captured = false;
+		//player->set_captured(false);
+	}
+}
+
+
+/*! O movimento dos objetos voadores não tem influência do get_elevation do terreno */
+void FlyingPredator::move(float velocity){
+	LPoint3f desloc = calculate_pos(velocity, true);
+	if(World::get_world()->get_terrain()->has_inside(desloc)) NodePath::set_pos(desloc);
+	else set_h(*this, 20);
+}
+
+
+

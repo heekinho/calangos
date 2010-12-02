@@ -24,7 +24,7 @@ void Predator::load_predators(){
 //	Predator::load_predator("jararaca", 50, 0.01, -1);
 //	Predator::load_predator("colubridae", 50, 0.01, -1);
 
-//	FlyingPredator::load_predators();
+	FlyingPredator::load_predators();
 }
 
 
