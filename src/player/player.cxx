@@ -18,14 +18,14 @@ Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_anim
 
 	_courted_female = NULL;
 
+	_captured = false;
+
 	//int especie = Menu::get_instance()->get_especie();
 	load_health(Menu::get_instance()->get_especie());
 
 	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_segundo_real, event_gasto_energia, this);
 	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_day, event_pday, this);
 	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_month, event_pmonth, this);
-
-
 }
 
 /*! Obtem a instancia atual da classe Player. Observe que a classe ja deve ter
@@ -152,6 +152,17 @@ bool Player::reaches(PT(ObjetoJogo) object){
 	return false;
 }
 
+/*! Retorna se o player foi capturado por algum predador */
+bool Player::was_captured(){
+	return _captured;
+}
+
+/*! Ação executada quando o player é capturado por um predador */
+void Player::be_captured(){
+	_captured = true;
+	get_anim_control()->stop_all();
+	nout << "Player foi capturado" << endl;
+}
 
 bool Player::is_in_toca(){
 	return in_toca;

@@ -42,6 +42,9 @@ public:
 
 	bool reaches(PT(ObjetoJogo) object);
 
+	bool was_captured();
+	void be_captured();
+
 	/* PlayerHealth - (playerHealth.cxx)
 	 * Relacionado com as variáveis de saúde do lagarto.
 	 * ------------------------------------------------------------------------- */
@@ -191,7 +194,7 @@ private:
 	static bool instanceFlag;
 	static PT(Player) single;
 
-	/* Variaveis relacionadas a acoes do lagarto */
+	bool _captured;
 
 	//Velocidade do lagarto
 	double velocity;
