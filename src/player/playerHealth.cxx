@@ -269,7 +269,7 @@ void Player::event_pmonth(const Event*, void *data){
 	* durante o mês que passou.*/
 	player->calc_tamanho_lagarto_real(player->media_energia_mes);
 	//Ajusta o novo tamanho do personagem
-	player->set_scale(player->tamanho_lagarto_real);
+	player->set_scale(Simdunas::get_window()->get_render(), player->tamanho_lagarto_real);
 
 	//Aumenta a idade do lagarto
 	player->idade++;

@@ -111,6 +111,13 @@ PlayerControl::PlayerControl() {
 	action = "info";		Simdunas::get_framework()->define_key("control-i", "Print Info", special_control, action);
 }
 
+void PlayerControl::keep_player_healthy(){
+	PT(Player) player = Player::get_instance();
+	player->set_temp_interna(40.0);
+	player->set_energia(100.0);
+	player->set_hidratacao(100.0);
+}
+
 void PlayerControl::special_control(const Event *theEvent, void *data){
 	char *str=(char *)data;
 	PT(Player) me=Player::get_instance();
@@ -209,12 +216,18 @@ void PlayerControl::update(){
     PStatCollector ps=PStatCollector("Update_Play");
     PStatTimer t =PStatTimer(ps);
 #endif
-            
+
 	/* Test */
 	World::get_world()->get_terrain()->update_prey();
 
 	/* Verifica se tem femeas por perto */
 	p->update_female_around();
+
+	/* Facilita os testes por não deixar o calango morrer das mortes chatas */
+	//keep_player_healthy();
+
+	/* Se o player foi capturado por algum animal não o deixa executar ações */
+	if(p->was_captured()) return;
 
 	bool fastturn = key_map_player["fastleft"] || key_map_player["fastright"] || key_map_player["shift"];
 	bool rotatingleft  = key_map_player["left"] || key_map_player["fastleft"];

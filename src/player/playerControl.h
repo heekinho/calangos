@@ -43,6 +43,8 @@ public:
     static void bobbing(const Event*, void *data);
     static void reproducao(const Event*, void *data);
 
+    void keep_player_healthy();
+
     int last_eating_frame;
     static void eating(const Event*, void *data);
 	void move(float vel);
