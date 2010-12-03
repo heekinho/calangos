@@ -2,9 +2,10 @@
 
 <Texture> Tex1 {
   folhas_eugenia.png
+  <Scalar> alpha { binary }
   <Scalar> format { rgba }
-  <Scalar> wrapu { repeat }
-  <Scalar> wrapv { repeat }
+  <Scalar> wrapu { clamp }
+  <Scalar> wrapv { clamp }
   <Scalar> minfilter { linear_mipmap_linear }
   <Scalar> magfilter { linear }
   <Scalar> envtype { modulate }
