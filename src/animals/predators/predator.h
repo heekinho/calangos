@@ -19,6 +19,9 @@ public:
 private:
 	void pursuit();
 	void bite();
+
+        PT(AudioManager) AM;
+        PT(AudioSound) sound;
 };
 
 

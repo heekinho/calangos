@@ -11,6 +11,9 @@ Predator::Predator(NodePath node) : Animal(node){
 	set_velocity(350.0);
 	//adiciona solido de colisão aos predadores (ficou legal esses valores para altura e raio)
 	collision::get_instance()->collisionNpcFast(&node, 0, 0, 20, 10);
+
+       AM = AudioManager::create_AudioManager();
+       sound = AM->get_sound("models/sounds/pc_apanhando.wav") ;
 }
 
 Predator::~Predator(){}
@@ -113,10 +116,15 @@ void Predator::bite(){
 		get_anim_control()->stop_all();
 		play_anim("comer");
 
+                sound->play();
+
 		/* Diminui energia do player */
 		Player::get_instance()->be_bited();
 		Player::get_instance()->add_energia_alimento(-1.0);
 		GuiManager::get_instance()->piscar_life();
+
+                 
+                
 	}
 }
 
