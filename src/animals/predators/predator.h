@@ -20,6 +20,7 @@ private:
 	void pursuit();
 	void bite();
 
+        //testando som
         PT(AudioManager) AM;
         PT(AudioSound) sound;
 };

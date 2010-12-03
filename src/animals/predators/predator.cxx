@@ -116,7 +116,7 @@ void Predator::bite(){
 		get_anim_control()->stop_all();
 		play_anim("comer");
 
-                sound->play();
+                sound->play();//testando som
 
 		/* Diminui energia do player */
 		Player::get_instance()->be_bited();
