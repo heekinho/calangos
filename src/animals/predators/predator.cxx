@@ -12,6 +12,7 @@ Predator::Predator(NodePath node) : Animal(node){
 	//adiciona solido de colisão aos predadores (ficou legal esses valores para altura e raio)
 	collision::get_instance()->collisionNpcFast(&node, 0, 0, 20, 10);
 
+        //testando som
        AM = AudioManager::create_AudioManager();
        sound = AM->get_sound("models/sounds/pc_apanhando.wav") ;
 }
