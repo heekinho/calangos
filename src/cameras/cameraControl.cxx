@@ -131,16 +131,23 @@ void CameraControl::set_active_camera(int icamera){
 	 * Se não for possível, saí do método sem definir uma nova. */
 	if(!cameras.at(current_camera)->deactivate()) return;
 
-	bool new_camera_found = false;
-	while(!new_camera_found){
+	PT(CameraNode) selected_camera;
+	bool camera_activated = false;
+	while(!camera_activated){
 		/* Define a camera atual a partir do evento em questão,
 		 * fazendo % cameras.size() por segurança. */
 		current_camera = icamera % cameras.size();
 
 		/* Define e ativa a camera */
-		display_region->set_camera(*cameras.at(current_camera));
-		new_camera_found = cameras.at(current_camera)->activate();
+		selected_camera = cameras.at(current_camera);
+		if(selected_camera->activate()){
+			display_region->set_camera(*selected_camera);
+			camera_activated = true;
+		}
+
+		icamera++;
 	}
+
 }
 
 
