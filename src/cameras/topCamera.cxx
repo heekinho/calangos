@@ -26,14 +26,16 @@ TopCamera::~TopCamera(){
 	this->arrow.remove_node();
 }
 
-void TopCamera::activate(){
+bool TopCamera::activate(){
 	CameraNode::activate();
 	this->arrow.show();
+	return true;
 }
 
-void TopCamera::deactivate(){
+bool TopCamera::deactivate(){
 	CameraNode::deactivate();
 	this->arrow.hide();
+	return true;
 }
 
 void TopCamera::set_hooks(){

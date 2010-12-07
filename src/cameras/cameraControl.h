@@ -13,11 +13,17 @@ public:
 	~CameraControl();
 
 	void create_cameras();
+
 	static void change_camera(const Event* evt, void *data);
-	static void toca_camera(const Event* evt, void *data);
-	static void return_camera(const Event* evt, void *data);
 	static void set_active_camera(const Event* evt, void *data);
 	void set_active_camera(int icamera);
+	void set_active_camera(PT(CameraNode) camera);
+
+	void enable_user_input();
+	void disable_user_input();
+	bool is_user_input_enabled();
+	void configure_user_input();
+
 
 	PT(ObjetoJogo) get_object(){ return object; }
 	void set_object(PT(ObjetoJogo) object){ this->object = object; }
@@ -31,6 +37,7 @@ protected:
 	PT(ObjetoJogo) object;
 
 	int current_camera;
+	bool accept_user_input;
 
 
 /* Controle Singleton */

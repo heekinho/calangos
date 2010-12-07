@@ -23,8 +23,8 @@ public:
 	static void update(const Event* evt, void *data);
 
 	virtual void update();
-	virtual void activate();
-	virtual void deactivate();
+	virtual bool activate();
+	virtual bool deactivate();
 
 	PT(Camera) get_real_camera(){ return camera; };
 

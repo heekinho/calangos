@@ -101,13 +101,19 @@ void CameraNode::update(const Event* evt, void *data){
 /* É chamado para que ocorra a atualização da camera */
 void CameraNode::update(){}
 
-/* Ao ativar a camera, este método é chamado */
-void CameraNode::activate(){
+/* Ao ativar a camera, este método é chamado.
+ * Este método deve retornar verdadeiro se aceita a ativação da camera.
+ * A implementação padrão (esta) roda uma vez o update como forma de setup */
+bool CameraNode::activate(){
 	this->update();
 	this->set_hooks();
+
+	return true;
 }
 
-/* Ao desativa a camera pode ser necessário fazer algumas operações */
-void CameraNode::deactivate(){
+/* Ao desativa a camera pode ser necessário fazer algumas operações
+ * Este método deve retornar verdadeiro se aceita a desativação da camera. */
+bool CameraNode::deactivate(){
 	this->unset_hooks();
+	return true;
 }

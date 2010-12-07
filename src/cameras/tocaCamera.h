@@ -8,8 +8,15 @@ class TocaCamera : public CameraNode {
 public:
 	TocaCamera(PT(Camera) camera);
 
-	virtual void activate();
-	virtual void deactivate();
+	virtual bool activate();
+	virtual bool deactivate();
+
+	static void enable_camera(const Event* evt, void *data);
+	static void disable_camera(const Event* evt, void *data);
+
+private:
+	bool _enabled;
+	PT(CameraNode) _last_camera;
 };
 
 #endif

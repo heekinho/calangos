@@ -27,16 +27,18 @@ PovCamera::PovCamera(PT(Camera) camera) : CameraNode(camera){
 	//camera->show_frustum();
 }
 
-void PovCamera::activate(){
+bool PovCamera::activate(){
 	this->CameraNode::activate();
 	//this->object->set_alpha_scale(0);
+	return true;
 }
 
-void PovCamera::deactivate(){
+bool PovCamera::deactivate(){
 	this->CameraNode::deactivate();
 	this->object->set_alpha_scale(1);
 	this->old_x = 0;
 	this->old_y = 0;
+	return true;
 }
 
 

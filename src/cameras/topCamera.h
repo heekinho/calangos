@@ -12,8 +12,8 @@ public:
 	~TopCamera();
 
 	virtual void update();
-	virtual void activate();
-	virtual void deactivate();
+	virtual bool activate();
+	virtual bool deactivate();
 
 	virtual void set_hooks();
 

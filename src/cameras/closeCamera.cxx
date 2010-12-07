@@ -20,16 +20,20 @@ void CloseCamera::unset_hooks(){
 	Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_pass_frame, this->CameraNode::update, this);
 }
 
-void CloseCamera::activate(){
+bool CloseCamera::activate(){
 	this->CameraNode::activate();
 	set_pos(start_point);
 	look_at(*object);
 	set_p(0.3);
+
+	return true;
 }
 
-void CloseCamera::deactivate(){
+bool CloseCamera::deactivate(){
 	this->old_x = 0;
 	this->old_y = 0;
+
+	return true;
 }
 
 void CloseCamera::update() {

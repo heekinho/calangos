@@ -10,10 +10,12 @@ FarCamera::FarCamera(PT(Camera) camera) : CameraNode(camera){
 };
 
 
-void FarCamera::activate(){
+bool FarCamera::activate(){
 	this->CameraNode::activate();
 	set_pos(*this->object, 300, 300, 200);
 	this->update();
+
+	return true;
 }
 
 
