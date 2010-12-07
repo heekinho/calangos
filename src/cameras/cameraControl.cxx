@@ -135,7 +135,7 @@ void CameraControl::set_active_camera(int icamera){
 	while(!new_camera_found){
 		/* Define a camera atual a partir do evento em questão,
 		 * fazendo % cameras.size() por segurança. */
-		current_camera = icamera % (cameras.size() - 1);
+		current_camera = icamera % cameras.size();
 
 		/* Define e ativa a camera */
 		display_region->set_camera(*cameras.at(current_camera));
