@@ -45,6 +45,11 @@ void Session::init_session(){
 	nout << "Criando Controle de Tempo..." << endl;
 	TimeControl::get_instance();
 
+	/* Cria um player padrão... */
+	//this->create_default_player();
+	nout << "Carregando Jogador..." << endl;
+	Player::load_player();
+
 	/* Cria um controle de tempo e um mundo padrão... */
 	//this->time_control = TimeControl::get_instance();
 	nout << "Criando Mundo..." << endl;
@@ -55,11 +60,6 @@ void Session::init_session(){
 	nout << "Inicializando Clima e Microclima..." << endl;
 	ClimaTempo::get_instance();
 	MicroClima::get_instance();
-
-	/* Cria um player padrão... */
-	//this->create_default_player();
-	nout << "Carregando Jogador..." << endl;
-	Player::load_player();
 
 	nout << "Criando Controle do Jogador..." << endl;
 	PlayerControl::get_instance();

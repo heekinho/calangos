@@ -60,6 +60,8 @@ int main(int argc, char *argv[]) {
 		//Simdunas::get_window()->setup_trackball();
 		//Simdunas::get_framework()->enable_default_keys();
 
+		//Simdunas::get_window()->get_render().set_antialias(AntialiasAttrib::M_multisample);
+
 		nout << "Carregando Tela de Abertura..." << endl;
 
 		/* Inicia o Menu */
