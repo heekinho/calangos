@@ -5,10 +5,16 @@
 #include "character.h"
 #include "world.h"
 
+#include "cameraControl.h"
+#include "flyingPredatorCamera.h"
+
+PT(FlyingPredatorCamera) FlyingPredator::flying_predator_camera;
+
 /*! Constrói um predador voador */
 FlyingPredator::FlyingPredator(NodePath node) : Predator(node){
 	find("**/+CollisionNode").remove_node();
 	_player_captured = false;
+	_chasing_player = false;
 	set_two_sided(true);
 }
 
@@ -18,6 +24,10 @@ FlyingPredator::~FlyingPredator(){}
 
 /*! Carrega todos os predadores voadores do jogo */
 void FlyingPredator::load_predators(){
+	/* Cria uma nova camera e adiciona ao controle de cameras */
+	flying_predator_camera = new FlyingPredatorCamera(new Camera("Flying Predator Camera"));
+	CameraControl::get_instance()->get_cameras()->push_back((PT(CameraNode)) flying_predator_camera);
+
 	FlyingPredator::load_predator("coruja", 20, 0.03, -1);
 }
 
@@ -53,41 +63,68 @@ void FlyingPredator::load_predator(const string &model, int qtd, float scale, in
  * O predador basicamente perambula, e ao encontrar o lagarto dentro de uma
  * certa distância ele parte para o ataque */
 void FlyingPredator::act(){
+	PT(Player) player = Player::get_instance();
+
+	/* Se o player foi capturado por este predator, roda attack() */
 	if(_player_captured) { attack(); return; }
 
-	PT(Player) player = Player::get_instance();
-	float dt = ClockObject::get_global_clock()->get_dt();
+	/* Se este predador estiver atrás do player, verifica se um outro predador
+	 * mais esperto não o já capturou, e caso contrário rode chase() */
+	if(_chasing_player) {
+		if(player->was_captured()) _chasing_player = false;
+		chase();
+		return;
+	}
 
+	/* Se o predador não está caçando ou já capturou o player, ele vai rodar o
+	 * comportamento de voar, fazendo testes para entrar nas outras condições. */
+	loop_anim("voar");
+
+	/* Calcula distância e coloca algumas variações de heading */
 	float dist = get_distance(*player);
 	float dist_xy = (get_pos().get_xy() - player->get_pos().get_xy()).length();
-
-	loop_anim("voar");
 	if(rand()%120 == 34) set_h(*this, rand()%80 - (80/2));
 
-	if(!player->was_captured() && dist_xy < 5){
-		look_at(*player);
-		move(get_velocity()*2);
-		int z = World::get_world()->get_terrain()->get_elevation(get_x(), get_y());
-		if(get_z() < z) set_z(z);
-
-		if(dist < 1) capture_player();
-	}
-	else {
-		move(get_velocity());
-	}
+	/* Ou começa a caçar ou apenas se move (voa) */
+	if(!player->was_captured() && dist_xy < 5) start_chasing();
+	else move(get_velocity());
 }
 
+/*! Método de transição (em uma FSM) */
+void FlyingPredator::start_chasing(){
+	_chasing_player = true;
+	chase();
+
+	/* Faz o setup da camera de acordo */
+	flying_predator_camera->activate(this);
+}
+
+/*! Inicia a captura, indo de encontro ao player para o capturar */
+void FlyingPredator::chase(){
+	PT(Player) player = Player::get_instance();
+	look_at(*player);
+	move(get_velocity()*2);
+	int z = World::get_world()->get_terrain()->get_elevation(get_x(), get_y());
+	if(get_z() < z) set_z(z);
+
+	/* Distância da qual se pode agarrar o player */
+	if(get_distance(*player) < 1) capture_player();
+}
+
+/* Ação de captura do predador */
 void FlyingPredator::capture_player(){
 	PT(Player) player = Player::get_instance();
 	NodePath render = Simdunas::get_window()->get_render();
 
+	/* Define as flags de comportamento */
+	_chasing_player = false;
 	_player_captured = true;
 	player->be_captured();
 
 	/* Este será o ponto controlado pela junta da animação */
 	_beak = attach_new_node("bico");
 
-	/* Precisa ser regulado */
+	/* TODO: Precisa ser regulado */
 	player->wrt_reparent_to(_beak);
 	player->NodePath::set_pos(0.5, -0.75, 0);
 	player->NodePath::set_hpr(0, 90, -135);
@@ -124,6 +161,3 @@ void FlyingPredator::move(float velocity){
 	if(World::get_world()->get_terrain()->has_inside(desloc)) NodePath::set_pos(desloc);
 	else set_h(*this, 20);
 }
-
-
-

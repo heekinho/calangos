@@ -5,6 +5,8 @@
 #include "predator.h"
 #include "characterJoint.h"
 
+class FlyingPredatorCamera;
+
 class FlyingPredator : public Predator {
 public:
 	FlyingPredator(NodePath node);
@@ -16,10 +18,15 @@ public:
 	virtual void move(float velocity);
 	virtual void act();
 
+	void start_chasing();
+	void chase();
+
 	virtual void capture_player();
 	virtual void attack();
 
+	static PT(FlyingPredatorCamera) flying_predator_camera;
 private:
+	bool _chasing_player;
 	bool _player_captured;
 	NodePath _beak;
 	PT(CharacterJoint) _joint;
