@@ -30,17 +30,15 @@ public:
 
 	bool is_in_view(const NodePath& object);
 
-	// Typed Object
+	/* Typed Object */
 	static TypeHandle get_class_type() { return _type_handle; }
 	static void init_type() { register_type(_type_handle, "CameraNode"); }
 protected:
 
 	static TypeHandle _type_handle;
 
-	//NodePath view_point;
 	PT(ObjetoJogo) object;
 	PT(Camera) camera;
-
 };
 
 

@@ -14,17 +14,10 @@ PovCamera::PovCamera(PT(Camera) camera) : CameraNode(camera){
 
 	this->camera->get_lens()->set_near_far(0.005, 2000);
 
-	dummy = new NodePath("DummyNode");
-	// Debug ----------------------------------------------------//
-	//dummy = new ObjetoJogo("models/broccoli.egg");
-	//dummy->reparent_to(Simdunas::get_window()->get_render());
-	// Debug ----------------------------------------------------//
-
-	dummy->set_pos(*object, 0, -50 * 5, 0);
-	dummy->set_scale(0.05);
-	World::get_world()->get_terrain()->update_node_z(*dummy);
-
-	//camera->show_frustum();
+	dummy = NodePath("DummyNode");
+	dummy.set_pos(*object, 0, -50 * 5, 0);
+	dummy.set_scale(0.05);
+	World::get_world()->get_terrain()->update_node_z(dummy);
 }
 
 bool PovCamera::activate(){
@@ -68,9 +61,9 @@ void PovCamera::update() {
 
 	/* O lagarto só deve movimentar a cabeça se o botão do meio do mouse estiver pressionado */
 	if(mwatcher->is_button_down(MouseButton::three())){
-		World::get_world()->get_terrain()->update_node_z(*dummy);
-		dummy->set_pos(*object, mouse_x * -50*5, -50*5, dummy->get_z() + mouse_y * 50*5);
-		look_at(*dummy);
+		World::get_world()->get_terrain()->update_node_z(dummy);
+		dummy.set_pos(*object, mouse_x * -50*5, -50*5, dummy.get_z() + mouse_y * 50*5);
+		look_at(dummy);
 	}
 }
 

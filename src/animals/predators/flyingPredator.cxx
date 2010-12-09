@@ -103,7 +103,7 @@ void FlyingPredator::start_chasing(){
 void FlyingPredator::chase(){
 	PT(Player) player = Player::get_instance();
 	look_at(*player);
-	move(get_velocity()*2);
+	move(get_velocity()*4);
 	int z = World::get_world()->get_terrain()->get_elevation(get_x(), get_y());
 	if(get_z() < z) set_z(z);
 

@@ -40,9 +40,7 @@ bool CameraNode::is_in_view(const NodePath& object){
 }
 
 /*! Recebe notificação da janela (no evento "window-event") para que se possa atualizar
- * o aspect2D */
-/* TODO: Corrigir e colocar a parte que cuida do redimensionamento da interface gráfica
-em seu respectivo local */
+ * o aspect ratio da camera. */
 void CameraNode::update_configs(const Event*, void *data){
 	CameraNode* this_node = (CameraNode*) data;
 
@@ -52,9 +50,6 @@ void CameraNode::update_configs(const Event*, void *data){
 	/* Atualizando o Aspect Ratio */
 	float new_aspect_ratio = (float) x_size / y_size;
 	this_node->camera->get_lens()->set_aspect_ratio(new_aspect_ratio);
-
-	// Bingo!
-	Session::get_instance()->dummy.set_x((new_aspect_ratio - 1)*Session::get_instance()->dummy.get_sx());
 }
 
 

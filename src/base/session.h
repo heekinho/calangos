@@ -29,13 +29,6 @@ public:
 
 	static void stop_movie(const Event*, void *data);
 
-	//TODO: Corrigir. A interface que usa isso para consertar o aspect2D.
-	NodePath dummy;
-//	GuiManager* get_gui_manager();
-//	TimeControl* get_time_control();
-//	ClimaTempo* get_clima_tempo();
-//	MicroClima* get_micro_clima();
-
 	void receive_answer(char *ans);
 	int get_causa_mortis();
 

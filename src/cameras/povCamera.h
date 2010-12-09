@@ -16,7 +16,7 @@ public:
 	virtual bool deactivate();
 private:
 	float old_x, old_y;
-	NodePath *dummy;
+	NodePath dummy;
 };
 
 #endif

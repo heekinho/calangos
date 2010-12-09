@@ -24,17 +24,6 @@ Session::Session() {
 
 /*! Inicia os controles da sessao e tals... */
 void Session::init_session(){
-	/* For some reason, although position transforms will work, scale transforms
-	 * do not have any effect when used on render2d, aspect2d, or any child of
-	 * aspect2d. But we CAN scale a child node that we attach to render2d. Go figure!
-	 * So what we do is attach 'dummy' to render2d and reparent aspect2d to dummy, so
-	 * we have positioned dummy between the default nodes render2d and aspect2d. Now
-	 * if we scale dummy the whole 2D scene graph scales! */
-
-        /* Transformar em GUI */
-	dummy = Simdunas::get_window()->get_render_2d().attach_new_node("GUI");
-        //Simdunas::get_window()->get_aspect_2d().wrt_reparent_to(dummy);
-
 	/* Sistema de Repositório de Modelos */
 	nout << "Criando Repositorio de Modelos..." << endl;
 	ModelRepository::get_instance();
@@ -46,12 +35,10 @@ void Session::init_session(){
 	TimeControl::get_instance();
 
 	/* Cria um player padrão... */
-	//this->create_default_player();
 	nout << "Carregando Jogador..." << endl;
 	Player::load_player();
 
 	/* Cria um controle de tempo e um mundo padrão... */
-	//this->time_control = TimeControl::get_instance();
 	nout << "Criando Mundo..." << endl;
 	World::get_world();
 	World::load_enviroment();
@@ -67,13 +54,12 @@ void Session::init_session(){
 	nout << "Criando Controle de Camera..." << endl;
 	CameraControl::get_instance();
 
-	// Cria a Interface Grafica
+	/* Cria a Interface Grafica */
 	nout << "Criando Interface..." << endl;
 	GuiManager::get_instance();
 	causa_mortis = -1;
 
-	//Redistribui animais para setores próximos ao player
-	//Animal::redistribute_animals();
+	/* Redistribui animais para setores próximos ao player */
 	Player::get_instance()->change_sector(Player::get_instance()->get_setor());
 	World::get_world()->get_terrain()->do_initial_distribution();
 }
@@ -106,11 +92,10 @@ void Session::run(){
 	if(Session::get_instance()->game_over){
 		cout<<" Reiniciando o Jogo..." << endl;
 		this->end_session();
-		//Simdunas::get_window()->get_render().ls();
-		//system("pause");
 
-			////////////colocando o evento para parar os vídeos das vinhetas (ta aqui pq se não quando renicia não funciona mais)
-			Simdunas::get_framework()->define_key("escape", "Stop_Movie", stop_movie, this);
+		/* Colocando o evento para parar os vídeos das vinhetas
+		 * (ta aqui pq se não quando renicia não funciona mais) */
+		Simdunas::get_framework()->define_key("escape", "Stop_Movie", stop_movie, this);
 	
 		this->run();
 	}
@@ -129,14 +114,16 @@ void Session::player_death(int causa_mortis){
 
 	//cout << endl << "Morreu!" << endl;
 	this->causa_mortis = causa_mortis;
+
+	/* TODO: Deveria ser feito por evento */
 	GuiManager::get_instance()->notifyGameOver();
-	//para o tempo
+
+	/* Pára o tempo */
 	TimeControl::get_instance()->set_stop_time(true);
 	Menu::get_instance()->tela_over(this);
 }
 
 void Session::receive_answer(char *ans){
-
 	if(strcmp(ans, "r") == 0){
 		//cout << "Pressionao Botão de Restar" << endl;
 		Session::get_instance()->game_over = true;
@@ -196,7 +183,7 @@ Session* Session::get_instance() {
 
 
 void Session::stop_movie(const Event*, void* data){
-	///apenas chama o stop_movie de menu que vai parar os vídeos efetivamente
+	/* Apenas chama o stop_movie de menu que vai parar os vídeos efetivamente */
 	Menu::get_instance()->stop_movie(NULL,Menu::get_instance());
 
 	
