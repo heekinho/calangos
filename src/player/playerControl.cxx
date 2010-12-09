@@ -381,7 +381,9 @@ void PlayerControl::eat(const Event*, void *data){
 	PT(Player) player = Player::get_instance();
 	PT(Setor) player_sector = player->get_setor();
 
-	if(player->get_anim_control()->is_playing("fast_bite")) return;
+	/* Animação roda independente de comer ou não */
+	if(!player->get_anim_control()->is_playing("fast_bite")) player->play_anim("fast_bite");
+	else return;
 
 	/* Falha na ação comer por baixa temperatura */
 	bool eat_fail = false;
@@ -392,6 +394,7 @@ void PlayerControl::eat(const Event*, void *data){
 	if(sorteio > player->get_temp_interna()) {
 		nout << "Temperatura baixa - falha na ação de comer..." << endl;
 		eat_fail = true;
+		Player::get_instance()->add_energia_alimento(-0.1);
 		return;
 	}
 	/* ----------------------------------------- */
@@ -495,13 +498,8 @@ void PlayerControl::eat(const Event*, void *data){
 		}
 	}
 
-	/* Animação roda independente de comer ou não */
-	if(!player->get_anim_control()->is_playing("fast_bite")){
-		player->play_anim("fast_bite");
-
-		/* Se for uma mordida sem sucesso: -0.1 de energia */
-		if(!eatsuccess) Player::get_instance()->add_energia_alimento(-0.1);
-	}
+	/* Se for uma mordida sem sucesso: -0.1 de energia */
+	if(!eatsuccess) Player::get_instance()->add_energia_alimento(-0.1);
 }
 
 /*! Fica esperando o frame certo para comer */
