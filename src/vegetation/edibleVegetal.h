@@ -20,15 +20,12 @@ public:
 
 	void configure_vegetal(PT(EdibleVegetal) base_vegetal);
 	static PT(EdibleVegetal) configure_edible_vegetal(const string name, float scale = 1.0, float offset_z = 0.0, float nutritional_value = 2, float hidratacao = 3);
-	static void configure_default_edible_vegetal();
+	static void configure_edible_vegetables();
 
 	static NodePath vegetals_food_placeholder;
 	
 private:
-	EdibleVegetal();
-	EdibleVegetal(const string &model);
-	EdibleVegetal(NodePath node);
-	EdibleVegetal(PT(ObjetoJogo) vegetal);
+	EdibleVegetal(const NodePath &node);
 	EdibleVegetal(PT(EdibleVegetal) vegetal);
 
 	static map<string, PT(EdibleVegetal)> vegetals;

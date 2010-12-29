@@ -1,23 +1,29 @@
 #include "edibleVegetal.h"
 
 #include "modelRepository.h"
+#include "lodNode.h"
 
 NodePath EdibleVegetal::vegetals_food_placeholder = NodePath("Edible Vegetals Placeholder");
 map<string, PT(EdibleVegetal)> EdibleVegetal::vegetals;
 
-EdibleVegetal::EdibleVegetal(){}
-EdibleVegetal::EdibleVegetal(const string &model) : ObjetoJogo(model){}
-EdibleVegetal::EdibleVegetal(NodePath node) : ObjetoJogo(node) {}
+EdibleVegetal::EdibleVegetal(const NodePath &node) : ObjetoJogo(node) {}
 
-EdibleVegetal::EdibleVegetal(PT(ObjetoJogo) base_object) : ObjetoJogo(vegetals_food_placeholder.attach_new_node("EdibleVegetalPlaceholder")) {
-	base_object->instance_to(*this);
-}
-
-EdibleVegetal::EdibleVegetal(PT(EdibleVegetal) base_vegetal) : ObjetoJogo(vegetals_food_placeholder.attach_new_node("EdibleVegetalPlaceholder")) {
+EdibleVegetal::EdibleVegetal(PT(EdibleVegetal) base_vegetal)
+: ObjetoJogo(NodePath(new LODNode("LOD Placeholder"))){
+	/* Adiciona um switch com o vegetal. Só visível de perto */
 	base_vegetal->instance_to(*this);
+	((LODNode*) node())->add_switch(8, 0);
+
+	/* Coloca no grafo de cena */
+	reparent_to(vegetals_food_placeholder);
+
+	/* Realiza configuração do vegetal de acordo com o vegetal base */
 	configure_vegetal(base_vegetal);
 }
 
+EdibleVegetal::~EdibleVegetal(){}
+
+/*! Configura o vegetal de acordo com o modelo de vegetal passado */
 void EdibleVegetal::configure_vegetal(PT(EdibleVegetal) base_vegetal){
 	set_nutritional_value(base_vegetal->get_nutritional_value());
 	set_hydration_value(base_vegetal->get_hydration_value());
@@ -26,8 +32,8 @@ void EdibleVegetal::configure_vegetal(PT(EdibleVegetal) base_vegetal){
 	set_offset_z(base_vegetal->get_offset_z());
 }
 
+/*! Configura e retorna um EdibleVegetal com as características informadas */
 PT(EdibleVegetal) EdibleVegetal::configure_edible_vegetal(const string name, float scale, float offset_z, float nutritional_value, float hidratacao){
-
 	PT(EdibleVegetal) especie = new EdibleVegetal(*ModelRepository::get_instance()->get_model(name));
 	especie->set_nutritional_value(nutritional_value);
 	especie->set_hydration_value(hidratacao);
@@ -37,12 +43,11 @@ PT(EdibleVegetal) EdibleVegetal::configure_edible_vegetal(const string name, flo
 	return especie;
 }
 
-void EdibleVegetal::configure_default_edible_vegetal(){
-	
-	if(vegetals.size() == 0)
-	{
+/*! Faz a configuração padrão dos vegetais, para base dos vegetais a serem criados */
+void EdibleVegetal::configure_edible_vegetables(){
+	if(vegetals.size() == 0){ /* Sério? */
 		EdibleVegetal::vegetals_food_placeholder = Simdunas::get_window()->get_render().attach_new_node("Edible Vegetals Placeholder");
-		
+
 		float fl_nut = 2, fl_hid = 6.5;
 		float fr_nut = 5, fr_hid = 8;
 		
@@ -60,20 +65,20 @@ void EdibleVegetal::configure_default_edible_vegetal(){
 		//vegetals["eugenia-fruto"] = configure_edible_vegetal("eugenia-fruto",1,0.1,-2);
 		//vegetals["mandacaru-fruto"] = configure_edible_vegetal("mandacaru-fruto",1,0.1,-1.0);
 
+		map<string, PT(EdibleVegetal)>::iterator it = vegetals.begin();
+		while(it != vegetals.end()){
+			(*it).second->flatten_light();
+			it++;
+		}
 	}
 }
 
-EdibleVegetal::~EdibleVegetal(){}
-
+/*! Retorna um EdibleVegetal configurado, acessível através do nome */
 PT(EdibleVegetal) EdibleVegetal::get_edible_vegetal(string name, EdibleT::EdibleType type){
-	if(type == EdibleT::FLOWER)
-		name += "-flor";
-	else
-		name += "-fruto";
+	if(type == EdibleT::FLOWER) name += "-flor";
+	else name += "-fruto";
 
-	configure_default_edible_vegetal();
-	if( vegetals.find(name) != vegetals.end() )
-		return new EdibleVegetal( vegetals[name] );
-	else
-		return NULL;
+	configure_edible_vegetables();
+	if(vegetals.find(name) != vegetals.end()) return new EdibleVegetal(vegetals[name]);
+	else return NULL;
 }
