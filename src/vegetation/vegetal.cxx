@@ -46,6 +46,18 @@ Vegetal::Vegetal(PT(Vegetal) base_vegetal) : ObjetoJogo(vegetals_placeholder.att
 	configure_vegetal(base_vegetal);
 }
 
+//#include "fadeLodNode.h"
+//Vegetal::Vegetal(PT(Vegetal) base_vegetal)
+//: ObjetoJogo(NodePath(new FadeLODNode("LOD Placeholder"))){
+//	reparent_to(vegetals_placeholder);
+//
+//	/* Adiciona um nível de detalhe. Modelo só é visível à distância especificada */
+//	base_vegetal->instance_to(*this);
+//	((FadeLODNode*) node())->add_switch(100, 0);
+//
+//	configure_vegetal(base_vegetal);
+//}
+
 Vegetal::~Vegetal(){
 }
 
@@ -281,9 +293,10 @@ void Vegetal::add_vegetal_model(const string &name, float radius, float scale, f
 		const string &map_name = name + posfix;
 		PT(Vegetal) especie = new Vegetal(*ModelRepository::get_instance()->get_model(map_name));
 
-                //ADICIONA NÓ DE COLISÃO A TODOS OS VEGETAIS CARREGADOS
-                //esses valores de raios não estão perfeitos ainda
-                collision::get_instance()->esferaCollision(especie, x, y, z, multiplicador*radius);
+		/* Adiciona colisão a todos os vegetais */
+		/* TODO: esses valores de raios não estão perfeitos ainda */
+		collision::get_instance()->esferaCollision(especie, x, y, z, multiplicador*radius);
+
 		//especie->set_area(area);
 		especie->set_radius(radius);
 		especie->set_scale(scale);
@@ -317,8 +330,7 @@ void Vegetal::add_vegetal_model(const string &map_name, const string &reposit_na
 }
 
 //handler para carregar a lista de dados gerais de vegetal
-void Vegetal::add_data(const string &map_name, int value)
-{
+void Vegetal::add_data(const string &map_name, int value){
 	datas[map_name] = value;
 }
 
@@ -366,6 +378,7 @@ void Vegetal::unload_vegetals() {
 	// O Garbage do Panda (PT) já cuida de deletar
 	for (int cont = 0; cont < Terrain::MAX_SETORES; cont++){
 		World::get_world()->get_terrain()->get_setor(cont)->vegetals()->clear();
+		World::get_world()->get_terrain()->get_setor(cont)->_vegetals.remove_node();
 		World::get_world()->get_terrain()->get_setor(cont)->edible_vegetals()->clear();
 	}
 	models.clear();
@@ -387,10 +400,9 @@ void Vegetal::flatten_vegetals(){
 		PT(Setor) sector = terrain->get_setor(i);
 		SectorItems<PT(Vegetal)>::iterator it = sector->vegetals()->begin();
 		while(it != sector->vegetals()->end()){
-			//NodePath vcopy = (*it)->copy_to(NodePath("Vegetal_copy"));
-			NodePath vcopy = (*it)->instance_to(NodePath("Vegetal_copy"));
-			//(*it)->reparent_to(sector->_vegetals);
-			vcopy.reparent_to(sector->_vegetals);
+			(*it)->detach_node();
+			NodePath vegetal = (*it)->instance_to(NodePath("Vegetal Copy"));
+			vegetal.reparent_to(sector->_vegetals);
 			it++;
 		}
 		sector->_vegetals.clear_model_nodes();

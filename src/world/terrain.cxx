@@ -18,17 +18,12 @@ Terrain::Terrain(const string &name) : GeoMipTerrain (name) {
 	nout << "Criando Terreno..." << endl;
 	escala = 1;
 
-	// Configuraes Padrao do terreno:
-	//this->get_root().set_sz(100);
-//	this->set_block_size(32);   // Se houver muito lag, aumentar o tamanho
-	//this->set_min_level(0); // Quanto menos, melhor a qualidade
-	//this->set_factor(100);
 	//Simdunas::get_window()->set_wireframe(true);
 
 	shadows = new ShadowCard(LPoint2f(512, 512), LPoint2f(512, 512));
 	this->get_root().set_texture(shadows->get_stage(), shadows->get_texture());
 
-//	Simdunas::get_evt_handler()->add_hook(PlayerControl::EV_player_move, update_terrain, this);
+	//Simdunas::get_evt_handler()->add_hook(PlayerControl::EV_player_move, update_terrain, this);
 //	get_root().hide();
 }
 
@@ -78,35 +73,40 @@ PT(Terrain) Terrain::create_default_terrain(){
 		PT(Texture) terrain_tex_near = TexturePool::load_texture("models/terrain/tile_near.jpg");
 		terrain_tex_near->set_wrap_u(Texture::WM_repeat);
 		terrain_tex_near->set_wrap_v(Texture::WM_repeat);
-		terrain_tex_near->set_minfilter(Texture::FT_nearest_mipmap_nearest);
+		terrain_tex_near->set_minfilter(Texture::FT_linear_mipmap_linear);
 
 		PT(TextureStage) stage_near = new TextureStage("stage_near");
 		terrain->get_root().set_texture(stage_near, terrain_tex_near);
-		terrain->get_root().set_tex_scale(stage_near, 2000);
+		terrain->get_root().set_tex_scale(stage_near, 2048);
 
 		// Configuracoes de textura para longe
 		PT(Texture) terrain_tex_far = TexturePool::load_texture("models/terrain/tile_far.jpg");
 		terrain_tex_far->set_wrap_u(Texture::WM_repeat);
 		terrain_tex_far->set_wrap_v(Texture::WM_repeat);
+		terrain_tex_far->set_minfilter(Texture::FT_linear_mipmap_linear);
 
 		PT(TextureStage) stage_far = new TextureStage("stage_far");
 		terrain->get_root().set_texture(stage_far, terrain_tex_far);
 		terrain->get_root().set_tex_scale(stage_far, 20);
 
-		// Gera o Terreno
-//		terrain->generate();
 		terrain->get_root().reparent_to(Simdunas::get_window()->get_render());
 		terrain->set_focal_point(LPoint2d(256, 256));
-//		terrain->update();
 
+
+		// Com Bruteforce: (Configuração legal: min_level: 2, 3, 4, block: 64)
 		terrain->set_bruteforce(true);
 		terrain->set_min_level(0);
 		terrain->set_block_size(256);
 		terrain->generate();
+//		terrain->set_auto_flatten(GeoMipTerrain::AFM_strong);
+
+//		// Gera o Terreno, sem bruteforce.
+//		terrain->set_min_level(0);
+//		terrain->set_block_size(64);
+//		terrain->generate();
 
 
 		// Configuracoes do terreno
-		terrain->get_root().set_pos(terrain->get_root(), 0, 0, 0);
 		terrain->set_escala(1);
 		terrain->get_root().set_sz(16);
 		terrain->init_sectors();
