@@ -77,20 +77,21 @@ void CameraNode::unset_hooks(){
 void CameraNode::update(const Event* evt, void *data){
 	((PT(CameraNode))(CameraNode*) data)->update();
 
-	PT(Terrain) terrain = World::get_world()->get_terrain();
-	for (int i = 0; i < terrain->MAX_SETORES; i++) {
-		NodePath vegetal = terrain->get_setor(i)->_vegetals;
-		PT(CameraNode) cn = CameraControl::get_instance()->get_cameras()->at(0);
-		int flag = cn->is_in_view(vegetal);
-		if(flag){
-			//vegetal.reparent_to(Simdunas::get_window()->get_render());
-			//vegetal.wrt_reparent_to(terrain->no_setores[i].node());
-			vegetal.reparent_to(terrain->get_setor(i)->get_root());
-		}
-		else {
-			vegetal.detach_node();
-		}
-	}
+	/* Parece não precisar disso. É como fazer o culling de novo */
+//	PT(Terrain) terrain = World::get_world()->get_terrain();
+//	for (int i = 0; i < terrain->MAX_SETORES; i++) {
+//		NodePath vegetal = terrain->get_setor(i)->_vegetals;
+//		PT(CameraNode) cn = CameraControl::get_instance()->get_cameras()->at(0);
+//		int flag = cn->is_in_view(vegetal);
+//		if(flag){
+//			//vegetal.reparent_to(Simdunas::get_window()->get_render());
+//			//vegetal.wrt_reparent_to(terrain->no_setores[i].node());
+//			vegetal.reparent_to(terrain->get_setor(i)->get_root());
+//		}
+//		else {
+//			vegetal.detach_node();
+//		}
+//	}
 }
 
 /* É chamado para que ocorra a atualização da camera */

@@ -336,7 +336,6 @@ void Vegetal::add_data(const string &map_name, int value){
 
 /*! Carrega todos os vegetais do jogo */
 void Vegetal::load_vegetals(int density) {
-
 	load_default_model_and_data();
 
 	//Vegetal::vegetals_placeholder = Simdunas::get_window()->get_render().attach_new_node("Vegetals Placeholder");
@@ -716,17 +715,14 @@ void Vegetal::build_forest(){
 				cont_conjunt--;
 			}
 
-			//verifica se foi possivel acrescentar a arvore
-			if( vegetals.size() > old_cont )
-			{
+			// verifica se foi possivel acrescentar a arvore
+			if( vegetals.size() > old_cont ){
 				quantidade_arv++;
 				//configura arvore
 				vegetal->set_pos(vegetals[old_cont].get_x(), vegetals[old_cont].get_y(), 0);
 				vegetal->set_h(rand() % 360);
-				//vegetal->load_edible_vegetal_model("eugenia",0,3);
-				vegetal->load_edible_vegetals(vegetal->get_vegetal_name(), current_season);
 
-				// adicionar pequenas variações no tamanho, largura etc.
+				vegetal->load_edible_vegetals(vegetal->get_vegetal_name(), current_season);
 
 				// Sombras
 				PNMImage shadow_image = PNMImage();

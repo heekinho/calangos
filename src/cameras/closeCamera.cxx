@@ -30,6 +30,7 @@ bool CloseCamera::activate(){
 }
 
 bool CloseCamera::deactivate(){
+	this->CameraNode::deactivate();
 	this->old_x = 0;
 	this->old_y = 0;
 
