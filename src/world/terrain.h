@@ -15,9 +15,11 @@
 #include "referenceCount.h"
 #include "typedReferenceCount.h"
 
-#include "shadowCard.h"
 #include "predator.h"
 #include "prey.h"
+
+class ShadowCard;
+#include "shadowCard.h"
 
 /*! A classe Terrain, é compostas por setores, que são divisões lógicas do mesmo.
  * Classe que conta com o auxilio do GeoMipTerrain para gerar os terrenos a partir de um
@@ -30,6 +32,7 @@ public:
 	~Terrain();
 
 	void add_animal(PT(Animal) animal);
+	void add_prey(PT(Prey) prey);
 	void add_lizard(PT(Lizard) lizard);
 	void add_predator(PT(Predator) predator);
 	void add_vegetal(PT(Vegetal) vegetal);
@@ -90,22 +93,7 @@ public:
 	LPoint3f get_random_point();
 
 
-
-
-	//Test
-	static float dist_min;
-	static float dist_mid ;
-	static float dist_max ;
 	list<PT(Prey)> list_prey;
-
-	void add_prey(PT(Prey) prey);
-	void update_prey();
-	void realoc_prey(PT(Prey) prey, LPoint3f ref);
-	float random(float lower, float higher);
-	void do_initial_distribution();
-
-	//NodePath *no_setores ;//será um vetor de nodepaths para representar cada setor
-
 private:
 
 	void init_sectors();

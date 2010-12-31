@@ -9,9 +9,6 @@
 
 PT(Terrain)  Terrain::terrain = NULL;
 TypeHandle Terrain::_type_handle;
-float Terrain::dist_min = 5;
-float Terrain::dist_mid = 6;
-float Terrain::dist_max = 10;
 
 // Constroi um novo terreno com o nome especificado
 Terrain::Terrain(const string &name) : GeoMipTerrain (name) {
@@ -28,19 +25,26 @@ Terrain::Terrain(const string &name) : GeoMipTerrain (name) {
 }
 
 
+/*! Adiciona um lagarto no setor correspondente à sua posição */
 void Terrain::add_lizard(PT(Lizard) lizard){
 	get_setor_from_pos(lizard->get_x(), lizard->get_y())->lizards()->push_back(lizard);
 }
 
-/*! Adiciona um animal ao seu respectivo setor */
+/*! Adiciona um animal no setor correspondente à sua posição */
 void Terrain::add_animal(PT(Animal) animal){
 	get_setor_from_pos(animal->get_x(), animal->get_y())->animals()->push_back(animal);
 }
 
+/*! Adiciona uma presa no setor correspondente à sua posição */
+void Terrain::add_prey(PT(Prey) prey){
+	list_prey.push_back(prey);
+	get_setor_from_pos(prey->get_x(), prey->get_y())->preys()->push_back(prey);
+}
+
+/*! Adiciona um predador no setor correspondente à sua posição */
 void Terrain::add_predator(PT(Predator) predator){
 	get_setor_from_pos(predator->get_x(), predator->get_y())->predators()->push_back(predator);
 }
-
 
 /*! Adiciona um vegetal ao seu respectivo setor */
 void Terrain::add_vegetal(PT(Vegetal) vegetal){
@@ -500,7 +504,7 @@ void Terrain::unload_terrain(){
 	terrain = NULL;
 }
 
-
+/*! Retorna um ponto aleatório do terreno */
 LPoint3f Terrain::get_random_point(){
 	int x = rand() % get_x_size();
 	int y = rand() % get_y_size();
@@ -508,70 +512,3 @@ LPoint3f Terrain::get_random_point(){
 
 	return LPoint3f(x, y, z);
 }
-
-
-void Terrain::add_prey(PT(Prey) prey){
-	list_prey.push_back(prey);
-	get_setor_from_pos(prey->get_x(), prey->get_y())->preys()->push_back(prey);
-}
-
-
-void Terrain::update_prey(){
-	PT(Player) player = Player::get_instance();
-	list<PT(Prey)>::iterator it = list_prey.begin();
-	while(it != list_prey.end()){
-		if((*it)->get_distance(*player) > dist_max) realoc_prey(*it, player->get_pos());
-		it++;
-	}
-}
-
-
-void Terrain::do_initial_distribution(){
-	PT(Player) player = Player::get_instance();
-	list<PT(Prey)>::iterator it = list_prey.begin();
-	while(it != list_prey.end()){
-		(*it)->set_pos(player->get_x()+random(-dist_mid, dist_mid), player->get_y()+random(-dist_mid, dist_mid), 0);
-		(*it)->was_redistributed();
-		it++;
-	}
-}
-
-#include "groupPrey.h"
-int r[] = {1, -1};
-void Terrain::realoc_prey(PT(Prey) prey, LPoint3f ref){
-//	int i = rand()%2;
-//	float x = random(-dist_mid/2, dist_mid/2)+r[i]*dist_min;
-//	float y = random(-dist_mid/2, dist_mid/2)+r[i]*dist_min;
-
-	float x, y;
-
-	int quadrante = rand()%2;
-	if(quadrante == 1){
-		x = r[rand()%2]*random(dist_min, dist_mid);
-		y = random(-dist_mid, dist_mid);
-	} else {
-		y = r[rand()%2]*random(dist_min, dist_mid);
-		x = random(-dist_mid, dist_mid);
-	}
-
-
-	prey->set_pos(ref.get_x()+x, ref.get_y()+y, 0);
-	prey->was_redistributed();
-
-	if(!prey->_group) return;
-	if(prey->is_master_leader()){
-		PT(Prey) last_leader = prey;
-		for (list<PT(Prey)>::iterator it = prey->_group->get_array()->begin(); it != prey->_group->get_array()->end(); ++it){
-			(*it)->set_pos(last_leader->get_x(), last_leader->get_y()+0.1, 0);
-			(*it)->look_at(*last_leader);
-			last_leader = *it;
-		}
-	}
-}
-
-float Terrain::random(float lower, float higher){
-	return lower + (higher-lower)*(float(rand())/RAND_MAX);
-}
-
-
-

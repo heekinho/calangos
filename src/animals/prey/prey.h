@@ -6,6 +6,9 @@
 #include "edible.h"
 
 class GroupPrey;
+class Prey;
+class PreyRedistributer;
+#include "preyRedistributer.h"
 
 class Prey : public Animal, public Edible {
 public:
@@ -47,6 +50,10 @@ public:
 	void set_leader(PT(Prey) leader){ this->leader = leader; };
 	PT(Prey) get_leader(){ return this->leader; };
 	void group_behavior();
+
+	/*! Relacionado ao novo sistema de redistribuição */
+	static PreyRedistributer* redistributer;
+
 protected:
 	bool fleing;
 
@@ -57,7 +64,6 @@ public:
 	GroupPrey* _group;
 	PT(Prey) leader;
 };
-
 
 #endif
 

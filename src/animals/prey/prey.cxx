@@ -4,9 +4,13 @@
 #include "prey.h"
 #include "collision.h"
 #include "groupPrey.h"
+#include "preyRedistributer.h"
 #include "world.h"
 #include "terrain.h"
 #include "modelRepository.h"
+
+
+PreyRedistributer* Prey::redistributer = NULL;
 
 /*! Representa as presas do lagarto */
 Prey::Prey(NodePath node) : Animal(node) {
@@ -39,6 +43,9 @@ void Prey::load_prey(){
 
 	nout << "Carregando Larvas..." << endl;
 	load_prey_specie("larva", /*8*/1, 2*factor, 100, 7, 5.5, true, 5);
+
+	PT(Terrain) terrain = World::get_world()->get_terrain();
+	redistributer = new PreyRedistributer(terrain->list_prey);
 }
 
 /*! Configura o modelo base da espécie de presa */
@@ -245,13 +252,16 @@ void Prey::set_random_living_tree(){
 /* TODO: É preciso verificar a probabilidade de determinada presa ser associada
  * à um vegetal */
 PT(Vegetal) Prey::chose_new_living_tree(){
+	float prey_to_vegetal_max_dist = 8.0;
+	float prey_to_player_min_dist = 5.0;
+
 	PT(Player) player = Player::get_instance();
 	SectorItems<PT(Vegetal)>* vegetal_list = get_setor()->vegetals();
 	SectorItems<PT(Vegetal)>::iterator it;
 	for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it) {
 		float dist_to_player = (*it)->get_distance(*player);
 		float dist_to_prey = (*it)->get_distance(*this);
-		if(dist_to_player > Terrain::dist_min && dist_to_prey < 8.0){
+		if(dist_to_player > prey_to_player_min_dist && dist_to_prey < prey_to_vegetal_max_dist){
 			return *it;
 		}
 	}
