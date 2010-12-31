@@ -39,8 +39,6 @@ PT(TimeControl) TimeControl::single = NULL;
 float TimeControl::virtualTime = 3;
 
 TimeControl::TimeControl() {
-	hint = NULL;
-
 	passTime = 1;
 	vminute_count = 0;
 	count_et = 0;
