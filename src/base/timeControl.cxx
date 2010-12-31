@@ -26,6 +26,7 @@ TypeHandle TimeControl::_type_handle;
 const string TimeControl::EV_pass_frame_gui_options = "EV_PASSFRAME_GUIOPTIONS";
 const string TimeControl::EV_pass_frame = "EV_PASSFRAME";
 const string TimeControl::EV_segundo_real = "EV_SEGUNDO_REAL";
+const string TimeControl::EV_pass_second = "EV_PASSSECOND";
 const string TimeControl::EV_pass_minute = "EV_PASSMINUTE";
 const string TimeControl::EV_pass_hour = "EV_PASSHOUR";
 const string TimeControl::EV_pass_day = "EV_PASSDAY";
@@ -38,6 +39,7 @@ PT(TimeControl) TimeControl::single = NULL;
 float TimeControl::virtualTime = 3;
 
 TimeControl::TimeControl() {
+	hint = NULL;
 
 	passTime = 1;
 	vminute_count = 0;
@@ -247,6 +249,11 @@ void TimeControl::update_real_seconds(){
 	if(current_second >= last_second + 1){
 		p_queue->queue_event(new Event(EV_segundo_real));
 		last_second = current_second;
+		/* --------------------------------------------------------------------------- */
+		std::stringstream pass_sec_numbered;
+		pass_sec_numbered << EV_pass_second << "_" << current_second;
+		(*p_queue).queue_event(new Event(pass_sec_numbered.str()));
+		/* --------------------------------------------------------------------------- */
 	}
 }
 
@@ -292,6 +299,10 @@ bool TimeControl::get_habilita_event_frame_gui(){
 
 float TimeControl::get_seconds_min(){
 	return this->seconds_min;
+}
+
+EventHandler* TimeControl::get_p_handler() {
+	return p_handler;
 }
 
 void TimeControl::set_virtual_time_hour(float timeHour){
@@ -350,6 +361,15 @@ void TimeControl::notify_after_n_frames(int after_n_frames, EventCallbackFunctio
 	p_handler->add_hook(listen_frame.str(), function, data);
 }
 
+
+void TimeControl::notify_after_n_seconds(int after_n_secs, EventCallbackFunction *function, void *data) {
+	int target_second = (int)ClockObject::get_global_clock()->get_long_time() + after_n_secs;
+
+	std::stringstream listen_second;
+	listen_second << EV_pass_second << "_" << target_second;
+
+	p_handler->add_hook(listen_second.str(), function, data);
+}
 
 //IMPORTANTE: Não esquecer de retirar SEMPRE os hooks com frame_numbered.
 void TimeControl::notify_after_n_vminutes(int after_n_vmins, EventCallbackFunction *function, void *data) {

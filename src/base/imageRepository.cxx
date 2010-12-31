@@ -51,6 +51,7 @@ void ImageRepository::load_images(){
 	add_image("modeloNutricional", "models/gui/modeloNutricional.png");
 	add_image("modeloEnergia", "models/gui/modeloEnergia.png");
 	add_image("modeloGatoEnergetico", "models/gui/modeloGatoEnergetico.png");
+	add_image("calendar", "models/gui/calendar.png");
 }
 
 

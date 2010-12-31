@@ -6,6 +6,7 @@
 #include "eventHandler.h"
 
 #include "genericAsyncTask.h"
+#include "hint.h"
 
 typedef void EventCallbackFunction(const Event *, void *);
 
@@ -39,6 +40,7 @@ public:
 	bool get_stop_time();
 	bool get_habilita_event_frame_gui();
 	float get_seconds_min();
+	EventHandler* get_p_handler();
 
 	void set_virtual_time_hour(float timeHour);
 	void set_virtual_time_month(int timeMonth);
@@ -53,6 +55,7 @@ public:
 
 	void notify(const string &task_name, GenericAsyncTask::TaskFunc *function, void* data, int delay = 0.0);
 	void notify_after_n_frames(int after_n_frames, EventCallbackFunction *function, void *data);
+	void notify_after_n_seconds(int after_n_secs, EventCallbackFunction *function, void *data);
 	void notify_after_n_vminutes(int after_n_vmins, EventCallbackFunction *function, void *data);
 	void notify(float time_after, EventCallbackFunction *function, void *data, PeriodType period_type);
 	void notify_real_time(float time_after, EventCallbackFunction *function, void *data);
@@ -72,6 +75,7 @@ public:
 	// Inicializados no cxx por ser non-integral
 	static const string EV_pass_frame_gui_options;
 	static const string EV_pass_frame;
+	static const string EV_pass_second;
 	static const string EV_pass_minute;
 	static const string EV_pass_hour;
 	static const string EV_pass_day;
@@ -83,6 +87,8 @@ public:
 	float get_elapsed_time();
 
 	static float virtualTime;
+
+	Hint* hint;
 
 private:
 	// Controle do singleton
