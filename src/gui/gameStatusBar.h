@@ -12,6 +12,9 @@
 #include "pgVirtualFrame.h"
 #include "scrollBar.h"
 #include "imageBar.h"
+#include "hint.h"
+
+class Hint;
 
 class GameStatusBar {
 public:
@@ -32,6 +35,7 @@ public:
 	PT(TextNode) get_label_umidade();
 	PT(TextNode) get_label_egg_count();
 	NodePath get_led_estado_reprodutivo();
+	PT(TextNode) get_label_idade();
 	PT(TextNode) get_label_idade_numero();
 	PT(PGButton) get_btn_grafico();
 
@@ -92,9 +96,13 @@ private:
 	NodePath np_label_idade;
 	PT(TextNode) label_idade_numero;
 	NodePath np_label_idade_numero;
+	NodePath img_calendar;
 	PT(PGButton) btn_grafico;
 	NodePath np_btn_grafico;
 	NodePath img_btn_grafico;
+
+	Hint* hint;
+	Hint* hint2;
 };
 
 #endif /* GAMESTATUSBAR_H */

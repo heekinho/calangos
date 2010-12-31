@@ -342,6 +342,10 @@ void GuiManager::update_gui(const Event*, void *data) {
 		sprintf(_this->string_idade_numero, "%d", Player::get_instance()->get_idade());
 
 		game_status_bar->get_label_idade_numero()->set_text(_this->string_idade_numero);
+
+		if (Player::get_instance()->get_idade() > 1) {
+			game_status_bar->get_label_idade()->set_text("meses");
+		}
 	}
 
 	//Controla o relogio.
