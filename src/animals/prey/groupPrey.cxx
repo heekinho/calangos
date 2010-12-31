@@ -11,6 +11,7 @@ bool GroupPrey::is_master_leader(PT(Prey) prey){
 /*! Remove uma presa do grupo */
 void GroupPrey::remove_prey(PT(Prey) prey){
 	group.remove(prey);
+	prey->_group = NULL;
 	calc_leaders();
 }
 

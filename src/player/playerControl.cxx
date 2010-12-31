@@ -218,9 +218,6 @@ void PlayerControl::update(){
     PStatTimer t =PStatTimer(ps);
 #endif
 
-	/* Test */
-	World::get_world()->get_terrain()->update_prey();
-
 	/* Verifica se tem femeas por perto */
 	p->update_female_around();
 
@@ -525,8 +522,8 @@ void PlayerControl::really_eat(const Event*, void *data){
 	/* Exclui de fato o "objeto" comido */
 	if(the_data->type == 0) {
 		PT(Prey) cprey = dynamic_cast<Prey*>((ObjetoJogo*) the_data->object);
-		//if(cprey->_group != NULL) cprey->_group->remove_prey(cprey);
-		World::get_world()->get_terrain()->realoc_prey(cprey, Player::get_instance()->get_pos());
+		if(cprey->_group) cprey->_group->remove_prey(cprey);
+		Prey::redistributer->realoc_prey(cprey, Player::get_instance()->get_pos());
 	}
 	else if(the_data->type == 1) {
 		PT(EdibleVegetal) vegetal = dynamic_cast<EdibleVegetal*>((ObjetoJogo*) the_data->object);
