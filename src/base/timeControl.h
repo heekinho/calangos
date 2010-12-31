@@ -6,7 +6,6 @@
 #include "eventHandler.h"
 
 #include "genericAsyncTask.h"
-#include "hint.h"
 
 typedef void EventCallbackFunction(const Event *, void *);
 
@@ -87,8 +86,6 @@ public:
 	float get_elapsed_time();
 
 	static float virtualTime;
-
-	Hint* hint;
 
 private:
 	// Controle do singleton
