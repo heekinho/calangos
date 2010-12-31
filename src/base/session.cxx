@@ -61,7 +61,6 @@ void Session::init_session(){
 
 	/* Redistribui animais para setores próximos ao player */
 	Player::get_instance()->change_sector(Player::get_instance()->get_setor());
-	World::get_world()->get_terrain()->do_initial_distribution();
 }
 
 /*! MainLoop. O loop principal da session */
