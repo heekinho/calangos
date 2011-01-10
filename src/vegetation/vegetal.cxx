@@ -399,7 +399,7 @@ void Vegetal::flatten_vegetals(){
 		PT(Setor) sector = terrain->get_setor(i);
 		SectorItems<PT(Vegetal)>::iterator it = sector->vegetals()->begin();
 		while(it != sector->vegetals()->end()){
-			(*it)->detach_node();
+			//(*it)->detach_node(); // Não fazer isso!!
 			NodePath vegetal = (*it)->instance_to(NodePath("Vegetal Copy"));
 			vegetal.reparent_to(sector->_vegetals);
 			it++;
