@@ -46,6 +46,7 @@ void Animal::unload_animals(){
 	for (int cont = 0; cont < Terrain::MAX_SETORES; cont++){
 		World::get_world()->get_terrain()->get_setor(cont)->preys()->clear();
 	}
+	delete Prey::redistributer;
 
 	animals_placeholder.remove_node();
 }
@@ -56,21 +57,21 @@ void Animal::act(const Event*, void *data){
 	Animal* this_animal = (Animal*)data;
 	this_animal->act();
 
-	PT(CameraNode) cn = CameraControl::get_instance()->get_current_camera();
-	int flag = cn->is_in_view(*this_animal);
-
-	/* Tá desligando a animação aqui, mas provávelmente alguém tá ligando de novo nos métodos
-	 * TODO: Elaborar um sistema que não permita essa reativação - simples flag
-	 * E ainda por cima tá atrapalhando a parada de Animal::act() */
-	if(flag){
-		//this_animal->reparent_to(Simdunas::get_window()->get_render());
-		this_animal->reparent_to(this_animal->get_setor()->get_root());
-		//this_animal->continue_animation();
-	}
-	else {
-		this_animal->detach_node();
-		//this_animal->pause_animation();
-	}
+//	PT(CameraNode) cn = CameraControl::get_instance()->get_current_camera();
+//	int flag = cn->is_in_view(*this_animal);
+//
+//	/* Tá desligando a animação aqui, mas provávelmente alguém tá ligando de novo nos métodos
+//	 * TODO: Elaborar um sistema que não permita essa reativação - simples flag
+//	 * E ainda por cima tá atrapalhando a parada de Animal::act() */
+//	if(flag){
+//		//this_animal->reparent_to(Simdunas::get_window()->get_render());
+//		this_animal->reparent_to(this_animal->get_setor()->get_root());
+//		//this_animal->continue_animation();
+//	}
+//	else {
+//		this_animal->detach_node();
+//		//this_animal->pause_animation();
+//	}
 }
 
 /*! Onde as ações de comportamento dos animais realmente se encontram */
