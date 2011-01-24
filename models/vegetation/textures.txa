@@ -1,0 +1,8 @@
+:palette 4096 4096
+:group main dir textures
+:imagetype .png
+
+*/*.egg : main
+
+*.png : 100% force-rgba binary
+*.jpg : 100% force-rgba binary
