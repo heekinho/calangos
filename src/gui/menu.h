@@ -66,6 +66,12 @@ public:
     static void print2_black(const Event*, void *data);
     static void print2_white(const Event*, void *data);
     static void print2_yellow(const Event*, void *data);
+    static void set_textura1(const Event*, void *data);
+    static void set_textura2(const Event*, void *data);
+    static void set_textura3(const Event*, void *data);
+    static void set_textura4(const Event*, void *data);
+    static void swap_texture(void *data);
+    static void print_null(void *data);
     ///////////eventos dos botoes dos videos
 
     static void lagartos_play(const Event*, void *data);
@@ -84,6 +90,8 @@ public:
     static void out(const Event*, void *data);
     static void graph(const Event*, void *data);
     static void Paleta_cores( void *data);
+    static void mudar_marcador(float a,float b,float c,void *data);
+    static void mudar_marcador2(float a,float b,float c,void *data);
     static Menu* get_instance();
     bool get_colisao();
 
@@ -118,7 +126,8 @@ private:
 
 
     PandaFramework *_framework;
-    PGButton *botao_iniciar, *botao_sair, *botao_restart, *botao_graph,
+    PGButton *botao_iniciar, *botao_sair, *botao_restart, *botao_graph,*botao_padrao_textura_1,*botao_padrao_textura_2,
+    *botao_padrao_textura_3,*botao_padrao_textura_4,
     *botao_configuracoes, *botao_ok, *botao_voltar, *botao_mais,
     *botao_menos, *botao_voltar_jogo, *botao_instrucao, *botao_next, *botao_back,*botao_creditos, *botao_colisao; //botoes
     PGButton *botao_tropidurus, *botao_eurolophosaurus, *botao_cnemidophorus, *botao_personalizar, *botao_red, 
@@ -129,15 +138,22 @@ private:
     NodePath button_np, nod_sair, nod_config_egg, nod_botao_ok,nod_bot_colisao,
     nod_botao_voltar, nod_mais, nod_menos, nod_noid, nod_botao_voltar_jogo, nod_botao_instrucao, nod_botao_next, nod_botao_back, nod_botao_creditos; //nodepaths dos botoes
     NodePath nod_bot_tropidurus, nod_bot_eurolophosaurus, nod_bot_cnemidophorus, nod_bot_personalizar, botao_red_np, botao_green_np,
+    nod_bot_padrao_textura_1,nod_bot_padrao_textura_2,nod_bot_padrao_textura_3,nod_bot_padrao_textura_4,
     botao_blue_np, botao_white_np, botao_green2_np, botao_yellow_np, botao_brown_np, botao_black_np, //nodepaths dos botoes de escolha das especies
     botao2_red_np, botao2_green_np, botao2_blue_np, botao2_white_np, botao2_green2_np, botao2_yellow_np, botao2_brown_np, botao2_black_np;
    
-    NodePath colisaoVerdade, colisaoFalso,marcador, credit; //nodepath do marcador da especie escolhida
+    NodePath colisaoVerdade, colisaoFalso,marcador,marcador_camada1, marcador_camada2, credit; //nodepath do marcador da especie escolhida
     NodePath lagarto,lagartoPersonalizado, tropidurus, eurolophosasurus, cnemidophorus; //lagarto andando
     NodePath config_egg, videos; //imagem para o botão de configurações
     NodePath title_config, escolha_especie, tempo, relogio_frase, indica_morte, title_color; //imagem com o título e frases que vão ser usados no menu de configurações
     NodePath nod_bot_lagartos, nod_bot_predadores, nod_bot_presas, nod_bot_habitat, nod_bot_variacao_clima;
     int minuto_dia_virtual; //indica quantos minutos (REAL) será um dia virtual no jogo
+
+        //caminhos para definir uma textura incial para edição.
+    static string path_textura_original;
+    static string path_mascara;
+     static string  path_textura_personalizada;
+
 
     PGSliderBar *slid;
     float ratio;
@@ -178,7 +194,7 @@ private:
     bool showing_conf; //flag para saber qual tela ta sendo mostrada (Configurações ou Instruções)
     bool playing_movio; //flag para saber se o vídeio esta sendo tocado
     static bool showing_creditos;//flag para controlar a volta da tela de créditos
-    static bool showing_custom;
+    static bool showing_custom; //controlar a volta da tela de edição de cores (personalizar o lagarto)
 };
 
 #endif
