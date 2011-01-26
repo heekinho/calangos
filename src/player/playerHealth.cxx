@@ -278,13 +278,14 @@ void Player::event_pmonth(const Event*, void *data){
 	if(player->idade ==IDADE_REPRODUTIVA){
 		GuiManager::get_instance()->liga_led_estado_reprodutivo();
 
+                if( player->get_specie_name(player->lizard_specie) != "custom" ){ //caso seja o lagarto personalizado não trocar a textura
 		PT(TextureStage) ts = player->find_all_texture_stages().get_texture_stage(0);
 		ts->set_mode(TextureStage::M_modulate);
 		PT(Texture) t = TexturePool::load_texture("models/lizards/" + player->get_specie_name(player->lizard_specie) + "/male/texture.jpg");
 		player->set_texture(ts, t, 2);
-
+                }
 		player->lizard_gender = Player::male;
-	}
+                }
 	//Verifica se o personagem chegou na idade máxima
 	if(player->idade>=IDADE_MORTE){
 		Session::get_instance()->player_death(5);

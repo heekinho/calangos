@@ -49,6 +49,7 @@ string Player::get_specie_name(Player::lizardEpecie specie){
 		case(Player::tropidurus): return "tropidurus";
 		case(Player::eurolophosaurus): return "eurolophosaurus";
 		case(Player::cnemidophorus): return "cnemidophorus";
+                case(Player::custom): return "custom";
 	}
 	return NULL;
 }

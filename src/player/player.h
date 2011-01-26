@@ -150,7 +150,8 @@ public:
 	enum lizardEpecie {
 		tropidurus,
 		eurolophosaurus,
-		cnemidophorus
+		cnemidophorus,
+                custom
 	};
 
 	/*Enum que corresponde as grandezas armazenadas no vetor de variáveis de saúde dos lagartos*/
