@@ -16,9 +16,12 @@
 
 #define VEL_WALK 20.0
 #define VEL_RUN 200.0
-#define MAX_VEL_PLAYRATE 40.0
 
-#define NORANG 1
+/*! Define velocidade de rotação do player em Graus/Segundos.
+ * NOTA: Quando em modo turbo (w), efetua o dobro do giro. */
+#define ROTATIONSPEED 180
+
+#define MAX_VEL_PLAYRATE 40.0
 
 #define DISTANCE_FEMALE 0.3
 #define DISTANCE_MALE 0.2
@@ -134,6 +137,7 @@ void PlayerControl::special_control(const Event *theEvent, void *data){
 //		Simdunas::get_window()->get_render().analyze();
 //		Simdunas::get_window()->get_render().ls();
 		me->get_anim_control()->write(cout);
+		Simdunas::get_window()->get_render().ls();
 	}
 
 	if(strcmp(str,"shift")==0) PlayerControl::get_instance()->key_map_player["shift"] = true;
@@ -212,8 +216,9 @@ void PlayerControl::update(const Event*, void *data){
  * associada. Basicamente realiza movimento */
 void PlayerControl::update(){
 	PT(Player) p = Player::get_instance();
+	float dt = ClockObject::get_global_clock()->get_dt();
 
- #ifdef PSTATS
+#ifdef PSTATS
     PStatCollector ps=PStatCollector("Update_Play");
     PStatTimer t =PStatTimer(ps);
 #endif
@@ -234,14 +239,14 @@ void PlayerControl::update(){
 
 	/* Verifica as rotações do lagarto */
 	int direction = 0;
-	if(rotating){
+	if(rotating && !p->get_anim_control()->is_playing("fast_bite")){
 		/* Define a direção do giro */
 		if(rotatingleft) direction = 1;
 		else if(rotatingright) direction = -1;
 		else direction = 0;
 
 		/* Efetua o Giro */
-		p->set_h(p->get_h() + 2 * NORANG * direction * (fastturn?2:1));
+		p->set_h(p->get_h() + direction*(dt * ROTATIONSPEED * (fastturn?2:1)));
 
 		/* FIX: Conserta giro sobre o próprio eixo */
 		if(!key_map_player["forward"]){
