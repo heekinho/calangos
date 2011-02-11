@@ -21,7 +21,7 @@ Terrain::Terrain(const string &name) : GeoMipTerrain (name) {
 	this->get_root().set_texture(shadows->get_stage(), shadows->get_texture());
 
 	//Simdunas::get_evt_handler()->add_hook(PlayerControl::EV_player_move, update_terrain, this);
-//	get_root().hide();
+	//get_root().hide();
 }
 
 
@@ -81,7 +81,7 @@ PT(Terrain) Terrain::create_default_terrain(){
 
 		PT(TextureStage) stage_near = new TextureStage("stage_near");
 		terrain->get_root().set_texture(stage_near, terrain_tex_near);
-		terrain->get_root().set_tex_scale(stage_near, 2048);
+		terrain->get_root().set_tex_scale(stage_near, 4096);
 
 		// Configuracoes de textura para longe
 		PT(Texture) terrain_tex_far = TexturePool::load_texture("models/terrain/tile_far.jpg");
@@ -99,15 +99,18 @@ PT(Terrain) Terrain::create_default_terrain(){
 
 		// Com Bruteforce: (Configuração legal: min_level: 2, 3, 4, block: 64)
 		terrain->set_bruteforce(true);
-		terrain->set_min_level(0);
-		terrain->set_block_size(256);
+		terrain->set_min_level(0);		/* Pode-se deixar configurável, mas precisa-se implementar o get_height de mipmap */
+		terrain->set_block_size(128);	/* 128 parece oferecer o melhor trade-off. FPS melhor e mais estável */
 		terrain->generate();
-//		terrain->set_auto_flatten(GeoMipTerrain::AFM_strong);
+
 
 //		// Gera o Terreno, sem bruteforce.
-//		terrain->set_min_level(0);
-//		terrain->set_block_size(64);
+//		//terrain->set_min_level(0);
+//		terrain->set_block_size(32);
+//		terrain->set_near_far(40, 100);
 //		terrain->generate();
+//		terrain->set_focal_point(*Player::get_instance());
+////		terrain->set_auto_flatten(GeoMipTerrain::AFM_strong);
 
 
 		// Configuracoes do terreno
@@ -121,6 +124,13 @@ PT(Terrain) Terrain::create_default_terrain(){
 	{
 		return terrain;
 	}
+}
+
+/*! Necessário para atualizar o ponto focal para o LOD do terreno */
+//TODO: Mudar nome para update_terrain...
+void Terrain::update_terrain(const Event*, void *data){
+	//terrain->set_focal_point(Player::get_instance()->get_pos());
+	terrain->update();
 }
 
 Terrain::~Terrain(){
@@ -155,8 +165,6 @@ int Terrain::get_escala(){
 void Terrain::add_setor(PT(Setor) setor){
 	if(_setores.size() < MAX_SETORES){
 		_setores.push_back(setor);
-                
-                
 	}
 }
 
@@ -229,13 +237,6 @@ void Terrain::update_adjacent_sectors(PT(Setor) s){
 //		nout << neighborhood.at(i)->get_indice() << " ";
 //	}
 //	nout << endl;
-}
-
-/*! Necessário para atualizar o ponto focal para o LOD do terreno */
-//TODO: Mudar nome para update_terrain...
-void Terrain::update_terrain(const Event*, void *data){
-	terrain->set_focal_point(Player::get_instance()->get_pos());
-	terrain->update();
 }
 
 /*! Atualiza a posição Z do objeto. Como parametro opcional, um offset,
