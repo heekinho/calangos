@@ -70,19 +70,20 @@ int main(int argc, char *argv[]) {
 		// Segura o jogo no menu até que este libere o início do jogo
 		Thread *current_thread = Thread::get_current_thread();
 		while (Simdunas::get_framework()->do_frame(current_thread)
-                && Menu::get_instance()->get_rodar() == false) {
+				&& Menu::get_instance()->get_rodar() == false) {
 
-                    if(Menu::get_instance()->get_playing_movie()){//verifica se a vinheta ta sendo tocada
-                                if (Menu::get_instance()->get_sound()->get_time() <= 62) {//verifica se o video chegou ao fim(DEPOIS PROCURAR UMA OUTRA FORMA DE FAZER)
-                                    Menu::get_instance()->get_audioManager()->update(); //é necessário atualizar a cada frame
-                                }
-                                else {
-                                    Menu::get_instance()->stop_movie(NULL,Menu::get_instance());//quando chegar chama o método que para
-                                    
-                                }
-                    }
-               }
+			if (Menu::get_instance()->get_playing_movie()) {//verifica se a vinheta ta sendo tocada
+				if (Menu::get_instance()->get_sound()->get_time() <= 62) {//verifica se o video chegou ao fim(DEPOIS PROCURAR UMA OUTRA FORMA DE FAZER)
+					Menu::get_instance()->get_audioManager()->update(); //é necessário atualizar a cada frame
+				}
+				else {
+					Menu::get_instance()->stop_movie(NULL, Menu::get_instance());//quando chegar chama o método que para
+				}
+			}
+		}
 
+		/* FIX: Se o usuário já fechou a janela, não executar mais nada do jogo */
+		if(!Simdunas::get_window()->get_graphics_window()->get_properties().get_open()) return 0;
 
 		TimeControl::virtualTime = Menu::get_instance()->get_minuto_dia_virtual();
 
