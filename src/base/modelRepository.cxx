@@ -3,6 +3,7 @@
 #include "simdunas.h"
 #include "menu.h"
 
+#define PALETTIZE_VEGETABLES 0
 
 /* Singleton */
 bool ModelRepository::instanceFlag = false;
@@ -58,7 +59,6 @@ void ModelRepository::load_models(){
 	/* Outros Animais */
 	add_model("sapo", "models/npcs/sapo");
 
-
 	/* Presas */
 	//TODO: Criar método para criar um conjunto: (aranha, besouro, cupim...)
 	add_model("aranha", "models/npcs/aranha_anim");
@@ -92,7 +92,6 @@ void ModelRepository::load_models(){
 	string teiu_anims[] = {"teiu_andar", "teiu_morder", "teiu_morder2"};
 	add_animated_model("teiu", "models/npcs/predators/teiu/", "teiu_model", "", 3, teiu_anims);
 
-	
 	string jararaca_anims[] = {"jararaca_rastejar", "jararaca_eating", "jararaca_stand"};
 	add_animated_model("jararaca", "models/npcs/predators/jararaca/", "jararaca_model", "", 3, jararaca_anims);
 
@@ -103,69 +102,13 @@ void ModelRepository::load_models(){
 	string coruja_anims[] = {"coruja_voar", "coruja_comer", "coruja_stand"};
 	add_animated_model("coruja", "models/npcs/predators/coruja/", "coruja_model", "", 3, coruja_anims);
 
-	// Vegetais
+
+	/* Vegetais */
 	nout << endl << "Carregando Vegetais" << endl;
-
-	add_model("bromelia-seco", "models/vegetation/Bromelia/bromelia2");
-	add_model("colher-seco","models/vegetation/Colher/colher");
-	add_model("eugenia-seco","models/vegetation/Eugenia/eugenia_model");
-	add_model("mandacaru-seco","models/vegetation/Mandacaru/mandacaru");
-	add_model("mimosa-seco", "models/vegetation/Mimosa/mimosa");
-	add_model("murici-seco","models/vegetation/Murici/murici_rasteiro");
-	add_model("quipa-seco","models/vegetation/Quipa/quipa_model");
-	add_model("simaba-seco","models/vegetation/Simaba/simaba_model");
-	add_model("xique_xique-seco", "models/vegetation/Xique_xique/xique_model");
-	add_model("bocoa-seco","models/vegetation/Bocoa/bocoa");
-	add_model("chamaecrista-seco","models/vegetation/Chamaecrista/chamaecrista");
-	add_model("copaifera-seco","models/vegetation/Copaifera/copaifera_model");
-	add_model("croton-seco","models/vegetation/Croton/croton_model");
-	add_model("harpochilus-seco","models/vegetation/Harpochilus/harpochilus_model");
-	add_model("jatropha-seco","models/vegetation/Jatropha/jatropha_model");
-
-	add_model("bromelia-chuvoso", "models/vegetation/Bromelia/bromelia");
-	add_model("colher-chuvoso","models/vegetation/Colher/colher");
-	add_model("eugenia-chuvoso","models/vegetation/Eugenia/eugenia_model_flor");
-	add_model("mandacaru-chuvoso","models/vegetation/Mandacaru/mandacaru_model_florefruto");
-	add_model("mimosa-chuvoso", "models/vegetation/Mimosa/mimosa");
-	add_model("murici-chuvoso","models/vegetation/Murici/murici_flor");
-	add_model("quipa-chuvoso","models/vegetation/Quipa/quipa_model_florfruto");
-	add_model("simaba-chuvoso","models/vegetation/Simaba/simaba_model_flor");
-	add_model("xique_xique-chuvoso", "models/vegetation/Xique_xique/xique_florefruto");
-	add_model("bocoa-chuvoso","models/vegetation/Bocoa/bocoa_frutos");
-	add_model("chamaecrista-chuvoso","models/vegetation/Chamaecrista/chamaecrista_flor_fruto");
-	add_model("copaifera-chuvoso","models/vegetation/Copaifera/copaifera_flores_frutos");
-	add_model("croton-chuvoso","models/vegetation/Croton/croton_folhas_flores_frutos");
-	add_model("harpochilus-chuvoso","models/vegetation/Harpochilus/harpochilus_model");
-	add_model("jatropha-chuvoso","models/vegetation/Jatropha/jatropha_flores_frutos");
-
-	// Vegetais Comestiveis
-	//(OK) Sapucaia-flor
-	//(OK) Pinhao-flor
-	//(OK) Eugenia-flor
-	//(FALTA) Simaba-flor
-	//(OK) Colher-flor
-	//(OK) Colher-fruto
-	//(OK) Murici-flor
-	//(OK) Murici-fruto
-	//(OK) xique-xique-fruto
-
-	nout << endl << "Carregando Vegetais Comestiveis" << endl;
-	add_model("copaifera-flor","models/vegetation/Copaifera/flor_copaifera");
-	add_model("jatropha-flor","models/vegetation/Jatropha/flor_jatropha");
-	add_model("eugenia-flor","models/vegetation/Eugenia/eugenia_flor");
-	add_model("colher-flor","models/vegetation/Colher/flor_colher");
-	add_model("colher-fruto","models/vegetation/Colher/fruto_colher");
-	add_model("murici-flor","models/vegetation/Murici/murici_flor_sep");
-	add_model("murici-fruto","models/vegetation/Murici/murici_fruto");
-	add_model("xique_xique-fruto","models/vegetation/Xique_xique/xique_fruto");
-
-	//nao cometiveis
-	//add_model("quipa-fruto","models/vegetation/Quipa/fruto_quipa");
-	//add_model("eugenia-fruto","models/vegetation/Eugenia/eugenia_fruto");
-	//add_model("mandacaru-fruto","models/vegetation/Mandacaru/mandacaru_fruto");
+	load_vegetals();
 
 
-	// Objects
+	/* Objects */
 	nout << endl << "Carregando Objetos" << endl;
 	add_model("cerca", "models/objects/cerca");
 	add_model("casa1", "models/objects/casa1");
@@ -174,6 +117,116 @@ void ModelRepository::load_models(){
 	add_model("toca", "models/objects/toca");
 }
 
+void ModelRepository::load_vegetals(){
+	/* Para testar vegetais com apenas uma textura */
+	if(PALETTIZE_VEGETABLES) palettize_mod();
+	else {
+		add_model("bromelia-seco", "models/vegetation/Bromelia/bromelia2");
+		add_model("colher-seco","models/vegetation/Colher/colher");
+		add_model("eugenia-seco","models/vegetation/Eugenia/eugenia_model");
+		add_model("mandacaru-seco","models/vegetation/Mandacaru/mandacaru");
+		add_model("mimosa-seco", "models/vegetation/Mimosa/mimosa");
+		add_model("murici-seco","models/vegetation/Murici/murici_rasteiro");
+		add_model("quipa-seco","models/vegetation/Quipa/quipa_model");
+		add_model("simaba-seco","models/vegetation/Simaba/simaba_model");
+		add_model("xique_xique-seco", "models/vegetation/Xique_xique/xique_model");
+		add_model("bocoa-seco","models/vegetation/Bocoa/bocoa");
+		add_model("chamaecrista-seco","models/vegetation/Chamaecrista/chamaecrista");
+		add_model("copaifera-seco","models/vegetation/Copaifera/copaifera_model");
+		add_model("croton-seco","models/vegetation/Croton/croton_model");
+		add_model("harpochilus-seco","models/vegetation/Harpochilus/harpochilus_model");
+		add_model("jatropha-seco","models/vegetation/Jatropha/jatropha_model");
+
+		add_model("bromelia-chuvoso", "models/vegetation/Bromelia/bromelia");
+		add_model("colher-chuvoso","models/vegetation/Colher/colher");
+		add_model("eugenia-chuvoso","models/vegetation/Eugenia/eugenia_model_flor");
+		add_model("mandacaru-chuvoso","models/vegetation/Mandacaru/mandacaru_model_florefruto");
+		add_model("mimosa-chuvoso", "models/vegetation/Mimosa/mimosa");
+		add_model("murici-chuvoso","models/vegetation/Murici/murici_flor");
+		add_model("quipa-chuvoso","models/vegetation/Quipa/quipa_model_florfruto");
+		add_model("simaba-chuvoso","models/vegetation/Simaba/simaba_model_flor");
+		add_model("xique_xique-chuvoso", "models/vegetation/Xique_xique/xique_florefruto");
+		add_model("bocoa-chuvoso","models/vegetation/Bocoa/bocoa_frutos");
+		add_model("chamaecrista-chuvoso","models/vegetation/Chamaecrista/chamaecrista_flor_fruto");
+		add_model("copaifera-chuvoso","models/vegetation/Copaifera/copaifera_flores_frutos");
+		add_model("croton-chuvoso","models/vegetation/Croton/croton_folhas_flores_frutos");
+		add_model("harpochilus-chuvoso","models/vegetation/Harpochilus/harpochilus_model");
+		add_model("jatropha-chuvoso","models/vegetation/Jatropha/jatropha_flores_frutos");
+
+		// Vegetais Comestiveis
+		//(OK) Sapucaia-flor
+		//(OK) Pinhao-flor
+		//(OK) Eugenia-flor
+		//(FALTA) Simaba-flor
+		//(OK) Colher-flor
+		//(OK) Colher-fruto
+		//(OK) Murici-flor
+		//(OK) Murici-fruto
+		//(OK) xique-xique-fruto
+
+		nout << endl << "Carregando Vegetais Comestiveis" << endl;
+		add_model("copaifera-flor","models/vegetation/Copaifera/flor_copaifera");
+		add_model("jatropha-flor","models/vegetation/Jatropha/flor_jatropha");
+		add_model("eugenia-flor","models/vegetation/Eugenia/eugenia_flor");
+		add_model("colher-flor","models/vegetation/Colher/flor_colher");
+		add_model("colher-fruto","models/vegetation/Colher/fruto_colher");
+		add_model("murici-flor","models/vegetation/Murici/murici_flor_sep");
+		add_model("murici-fruto","models/vegetation/Murici/murici_fruto");
+		add_model("xique_xique-fruto","models/vegetation/Xique_xique/xique_fruto");
+
+		//nao cometiveis
+		//add_model("quipa-fruto","models/vegetation/Quipa/fruto_quipa");
+		//add_model("eugenia-fruto","models/vegetation/Eugenia/eugenia_fruto");
+		//add_model("mandacaru-fruto","models/vegetation/Mandacaru/mandacaru_fruto");
+	}
+}
+
+/* Para usar, tente rodar o script egg-palettize.sh na pasta dos vegetais e
+ * setar PALETTIZE_VEGETABLES para 1 */
+void ModelRepository::palettize_mod(){
+	const string path = "models/vegetation/result/";
+	add_model("bromelia-seco", path + "bromelia2");
+	add_model("colher-seco", path + "colher");
+	add_model("eugenia-seco", path + "eugenia_model");
+	add_model("mandacaru-seco", path + "mandacaru");
+	add_model("mimosa-seco", path + "mimosa");
+	add_model("murici-seco", path + "murici_rasteiro");
+	add_model("quipa-seco", path + "quipa_model");
+	add_model("simaba-seco", path + "simaba_model");
+	add_model("xique_xique-seco",  path + "xique_model");
+	add_model("bocoa-seco", path + "bocoa");
+	add_model("chamaecrista-seco", path + "chamaecrista");
+	add_model("copaifera-seco", path + "copaifera_model");
+	add_model("croton-seco", path + "croton_model");
+	add_model("harpochilus-seco", path + "harpochilus_model");
+	add_model("jatropha-seco", path + "jatropha_model");
+
+	add_model("bromelia-chuvoso",  path + "bromelia");
+	add_model("colher-chuvoso", path + "colher");
+	add_model("eugenia-chuvoso", path + "eugenia_model_flor");
+	add_model("mandacaru-chuvoso", path + "mandacaru_model_florefruto");
+	add_model("mimosa-chuvoso",  path + "mimosa");
+	add_model("murici-chuvoso", path + "murici_flor");
+	add_model("quipa-chuvoso", path + "quipa_model_florfruto");
+	add_model("simaba-chuvoso", path + "simaba_model_flor");
+	add_model("xique_xique-chuvoso",  path + "xique_florefruto");
+	add_model("bocoa-chuvoso", path + "bocoa_frutos");
+	add_model("chamaecrista-chuvoso", path + "chamaecrista_flor_fruto");
+	add_model("copaifera-chuvoso", path + "copaifera_flores_frutos");
+	add_model("croton-chuvoso", path + "croton_folhas_flores_frutos");
+	add_model("harpochilus-chuvoso", path + "harpochilus_model");
+	add_model("jatropha-chuvoso", path + "jatropha_flores_frutos");
+
+	nout << endl << "Carregando Vegetais Comestiveis" << endl;
+	add_model("copaifera-flor", path + "flor_copaifera");
+	add_model("jatropha-flor", path + "flor_jatropha");
+	add_model("eugenia-flor", path + "eugenia_flor");
+	add_model("colher-flor", path + "flor_colher");
+	add_model("colher-fruto", path + "fruto_colher");
+	add_model("murici-flor", path + "murici_flor_sep");
+	add_model("murici-fruto", path + "murici_fruto");
+	add_model("xique_xique-fruto", path + "xique_fruto");
+}
 
 /*! Carrega o modelo dos lagartos. Este método bem poderia ser migrado para a classe Player */
 void ModelRepository::load_player_models(const string &lizard_name){

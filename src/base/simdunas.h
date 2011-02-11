@@ -35,4 +35,22 @@ private:
 	static EventHandler *evt_handler;
 };
 
+
+/*! Classe com algumas utilidades para acelerar o desenvolvimento.
+ * 	Apenas teste, sairá daqui depois */
+class Util {
+public:
+	/* Retorna o ponto dentro do range especificado. (Utiliza min como piso e max como teto) */
+	static LPoint2f in_range(LPoint2f point, float min, float max){
+		return LPoint2f(in_range(point[0], min, max), in_range(point[1], min, max));
+	}
+
+	/* Retorna o valor dentro do range especificado. (Utiliza min como piso e max como teto) */
+	static float in_range(float value, float min, float max){
+		if(value < min) return min;
+		if(value > max) return max;
+		return value;
+	}
+};
+
 #endif

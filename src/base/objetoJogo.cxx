@@ -115,6 +115,7 @@ void ObjetoJogo::calc_size_from_bounds(){
 	for(int i = 0; i < get_num_children(); i++){
 		if(!get_child(i).is_empty()){
 			get_child(i).set_pos(get_child(i), -0.5*(_osize) - min);
+			//TODO: Verificar isso aqui.
 			get_child(i).set_z(get_child(i), 0.5*_osize.get_z());
 		}
 	}

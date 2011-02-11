@@ -38,6 +38,9 @@ private:
 	static ModelRepository *single;
 
 	ModelRepository();
+	
+	void load_vegetals();
+	void palettize_mod();
 
 	map<string, PT(ObjetoJogo)> models;
 	map<string, PT(AnimatedObjetoJogo)> animated_models;
