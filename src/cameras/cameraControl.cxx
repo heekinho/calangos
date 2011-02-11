@@ -127,6 +127,8 @@ void CameraControl::set_active_camera(PT(CameraNode) camera){
 
 /*! Define qual camera será posta em uso. */
 void CameraControl::set_active_camera(int icamera){
+	int previous_camera = current_camera;
+
 	/* Antes de tudo, executa a desativação da camera anterior.
 	 * Se não for possível, saí do método sem definir uma nova. */
 	if(!cameras.at(current_camera)->deactivate()) return;
@@ -148,6 +150,8 @@ void CameraControl::set_active_camera(int icamera){
 		icamera++;
 	}
 
+	/* Ao mudar de camera, lança-se um evento */
+	if(current_camera != previous_camera) Simdunas::get_evt_queue()->queue_event(new Event("camera-change"));
 }
 
 
