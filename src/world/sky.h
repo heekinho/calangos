@@ -18,6 +18,8 @@ public:
 		AMANHECER, TARDE, ENTARDECER, NOITE, NUBLADO, CHUVOSO
 	};
 
+	static void update_transform(const Event* evt, void* data);
+
 	static void update_sol(const Event*, void *data);
 	void anda_sol(double);
 	void change_sky(int new_sky, int next_sky);

@@ -38,12 +38,9 @@ int Sky::hora_anterior=0;
 TypeHandle Sky::_type_handle;
 Sky::Sky(const string &model) :
 NodePath(Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), model)) {
-
-
 	set_bin("background", 10);
 	set_depth_write(false);
 	set_depth_test(false);
-
 	set_light_off();
 
 	next_sky_stage = new TextureStage("next_sky_stage");
@@ -59,43 +56,35 @@ NodePath(Simdunas::get_window()->load_model(Simdunas::get_window()->get_render()
 	this->skies->add_texture(TexturePool::load_texture("models/skies/nublado.jpg"));
 	this->skies->add_texture(TexturePool::load_texture("models/skies/chuvoso.jpg"));
 
-        // Configuracao inicial do ceu/////////////////////
+	/* Configuração Inicial */
+	int hora = TimeControl::get_instance()->get_hora();
+	if ((hora >= 19 && hora <= 23) || (hora >= 0 && hora < 6)) {
+		if (ClimaTempo::get_instance()->get_chuva_today() != 0) //verificando se o dia vai ser chovoso
+		change_sky(CHUVOSO, NOITE);
+		else change_sky(AMANHECER, NOITE);
+	}
+	else if (hora >= 6 && hora < 8) {
+		if (ClimaTempo::get_instance()->get_chuva_today() != 0) {//verificando se o dia vai ser chovoso
+			change_sky(CHUVOSO, NOITE);//se o dia for chuvoso o dia amanhece 7 horas
+		}
+		else change_sky(TARDE, AMANHECER);
+	}
+	else if (hora >= 8 && hora <= 17) {
 
-        int hora=TimeControl::get_instance()->get_hora();
-        if((hora>=19&&hora<=23)||(hora>=0&&hora<6)){
-			if(ClimaTempo::get_instance()->get_chuva_today()!=0)//verificando se o dia vai ser chovoso
-				change_sky(CHUVOSO,NOITE);
-			else
-			    change_sky(AMANHECER,NOITE);
-        }
+		if (ClimaTempo::get_instance()->get_chuva_today() != 0) //verificando se o dia vai ser chovoso
+		change_sky(NOITE, CHUVOSO);
+		else if (hora == 17) //caso especial da tarde
+		change_sky(NOITE, ENTARDECER);
+		else
 
-        else if(hora>=6&&hora<8){
-			if(ClimaTempo::get_instance()->get_chuva_today()!=0){//verificando se o dia vai ser chovoso
-				change_sky(CHUVOSO,NOITE);//se o dia for chuvoso o dia amanhece 7 horas
-			}
-			else
-                change_sky(TARDE,AMANHECER);
-        }
-        else if(hora>=8&&hora<=17){
+		change_sky(ENTARDECER, TARDE);
+	}
+	else if (hora >= 18 && hora < 19) {
 
-				if(ClimaTempo::get_instance()->get_chuva_today()!=0)//verificando se o dia vai ser chovoso
-					change_sky(NOITE,CHUVOSO);
-				else if(hora==17)//caso especial da tarde
-					change_sky(NOITE, ENTARDECER);
-				else
-
-					change_sky(ENTARDECER,TARDE);
-        }
-          else if(hora>=18&&hora<19){
-
-			  if(ClimaTempo::get_instance()->get_chuva_today()!=0)//verificando se o dia vai ser chovoso
-						change_sky(NOITE,CHUVOSO);
-			  else
-					change_sky(NOITE,ENTARDECER);
-        }
-
-
-
+		if (ClimaTempo::get_instance()->get_chuva_today() != 0) //verificando se o dia vai ser chovoso
+		change_sky(NOITE, CHUVOSO);
+		else change_sky(NOITE, ENTARDECER);
+	}
 
 	//modo de combinação das texturas (interpolate)
 	next_sky_stage->set_combine_rgb(TextureStage::CM_interpolate,
@@ -110,48 +99,54 @@ NodePath(Simdunas::get_window()->load_model(Simdunas::get_window()->get_render()
 	y = 0;
 
 	sol = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), "models/skies/sol.png");
-        sol.set_scale(1, 1, 1);
+	sol.set_scale(1, 1, 1);
 	sol.set_pos(x, y, z);
-        sol.set_billboard_point_eye(0);
+	sol.set_billboard_point_eye(0);
 	sol.hide();
 
 	//iluminação do sol
-	AmbientLight *amb = new AmbientLight("sol");
-	amb->set_color(LVecBase4f(1, 0.8, 0, 1));
-	sol.set_light(amb);
+	//AmbientLight *amb = new AmbientLight("sol");
+	//amb->set_color(LVecBase4f(1, 0.8, 0, 1));
+	//sol.set_light(amb); /* Que é isso? Atribuindo iluminação só ao sol? */
 
 	//condição inicial do ambiente (noite)
 	//aplicando a luz na raiz da cena (todos os objetos da cena serão atingidos)
 	this->noite = new AmbientLight("noite");
 	Simdunas::get_window()->get_render().set_light(this->noite);
 
-        //verificando se a hora de início é dia ou noite para setar a luz do ambiente
-        if((hora>=19&&hora<=23)||(hora>=0&&hora<6)){
-
-	this->noite->set_color(LVecBase4f(0, 0.18, 0.25, 1));
-        }
-        else if(hora>=6&&hora<19){
-			if(ClimaTempo::get_instance()->get_chuva_today()!=0){//se for chuvoso
-					if(hora<=7){//se o dia for chuvoso até 7 horas ainda vai ta tudo escuro
-						this->noite->set_color(LVecBase4f(0, 0.18, 0.25, 1));
-					}
-					else
-						this->noite->set_color(LVecBase4f(0.5, 0.68, 0.75, 1));
+	//verificando se a hora de início é dia ou noite para setar a luz do ambiente
+	if ((hora >= 19 && hora <= 23) || (hora >= 0 && hora < 6)) {
+		this->noite->set_color(LVecBase4f(0, 0.18, 0.25, 1));
+	}
+	else if (hora >= 6 && hora < 19) {
+		if (ClimaTempo::get_instance()->get_chuva_today() != 0) {//se for chuvoso
+			if (hora <= 7) {//se o dia for chuvoso até 7 horas ainda vai ta tudo escuro
+				this->noite->set_color(LVecBase4f(0, 0.18, 0.25, 1));
 			}
-			else
-            this->noite->set_color(LVecBase4f(1, 1, 1, 1));
-        }
+			else this->noite->set_color(LVecBase4f(0.5, 0.68, 0.75, 1));
+		}
+		else this->noite->set_color(LVecBase4f(1, 1, 1, 1));
+	}
 
-	this->set_scale(1024);
-        
- }
+	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, update_transform, this);
+}
+
+/*! Atualiza a posição do skybox em relação à camera */
+void Sky::update_transform(const Event* evt, void* data){
+	PT(Sky) this_sky = ((PT(Sky))(Sky*)data);
+	PT(CameraNode) camera = CameraControl::get_instance()->get_current_camera();
+
+	/* Com reparent_to e compass dá quase certo, mais assim funciona totalmente */
+	this_sky->set_pos(camera->get_pos(Simdunas::get_window()->get_render()));
+	this_sky->set_z(-50);
+}
 
 PT(Sky) Sky::get_default_sky(){
     if(sky==NULL){
 		nout << "Criando Ceu..." << endl;
 		sky = new Sky("models/skybox");
 		sky->set_scale(512);
-        sky->set_pos(256.0,256.0,-300.0);
+        //sky->set_pos(256.0,256.0,-300.0);
         return sky;
     }
     else
@@ -356,15 +351,11 @@ void Sky::fade(int minuto, int hora) {
         next_sky_stage->set_color(LVecBase4f(0, 0, 0, seta));
 
     }
-
-
-
-
 }
 
 
 void Sky::unload_skybox(){
-    sky=NULL;
+    sky = NULL;
 }
 
  Sky::~Sky(){
