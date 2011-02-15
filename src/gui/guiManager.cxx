@@ -139,7 +139,6 @@ GuiManager::GuiManager() {
 	flag_botao_energia = false;
 	flag_botao_gasto_energetico = false;
 
-	graphics_menu->build_options();
 	gui_options_flag = false;
 	gui_options_flag2 = false;
 

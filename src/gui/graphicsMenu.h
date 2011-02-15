@@ -146,15 +146,15 @@ public:
 	void make_btn_energia(NodePath menu_frame_np);
 	void make_btn_gasto_energetico(NodePath menu_frame_np);
 
-	void make_menu_graf_variavel(NodePath menu_frame_np);
-	void make_btn_temp_interna_v(NodePath menu_frame_np);
-	void make_btn_hidratacao_v(NodePath menu_frame_np);
-	void make_btn_temp_ar_v(NodePath menu_frame_np);
-	void make_btn_umidade_v(NodePath menu_frame_np);
-	void make_btn_temp_solo_v(NodePath menu_frame_np);
-	void make_btn_alimentacao_v(NodePath menu_frame_np);
-	void make_btn_energia_v(NodePath menu_frame_np);
-	void make_btn_gasto_energetico_v(NodePath menu_frame_np);
+	void make_menu_graf_variavel();
+	void make_btn_temp_interna_v();
+	void make_btn_hidratacao_v();
+	void make_btn_temp_ar_v();
+	void make_btn_umidade_v();
+	void make_btn_temp_solo_v();
+	void make_btn_alimentacao_v();
+	void make_btn_energia_v();
+	void make_btn_gasto_energetico_v();
 
 	void hide_all_option_graphics();
 	void hide_menu_graf_tempo();

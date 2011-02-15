@@ -20,7 +20,8 @@ GraphicsMenu::GraphicsMenu(NodePath menu_frame_np) {
 
 	make_menu_graf_tempo(menu_frame_np);
 
-	make_menu_graf_variavel(menu_frame_np);
+	build_options();
+	make_menu_graf_variavel();
 
 	set_vetor_x(vector->getVectorTemperaturaAr());
 	set_vetor_y(vector->getVectorTemperaturaAr());
@@ -684,25 +685,25 @@ void GraphicsMenu::make_btn_gasto_energetico(NodePath menu_frame_np) {
 	btn_gasto_energetico->set_frame(-1.3 , 1.3 , -2.8, 2.8);
 }
 
-void GraphicsMenu::make_menu_graf_variavel(NodePath menu_frame_np) {
-	make_btn_temp_interna_v(menu_frame_np);
+void GraphicsMenu::make_menu_graf_variavel() {
+	make_btn_temp_interna_v();
 
-	make_btn_hidratacao_v(menu_frame_np);
+	make_btn_hidratacao_v();
 
-	make_btn_temp_ar_v(menu_frame_np);
+	make_btn_temp_ar_v();
 
-	make_btn_umidade_v(menu_frame_np);
+	make_btn_umidade_v();
 
-	make_btn_temp_solo_v(menu_frame_np);
+	make_btn_temp_solo_v();
 
-	make_btn_alimentacao_v(menu_frame_np);
+	make_btn_alimentacao_v();
 
-	make_btn_energia_v(menu_frame_np);
+	make_btn_energia_v();
 
-	make_btn_gasto_energetico_v(menu_frame_np);
+	make_btn_gasto_energetico_v();
 }
 
-void GraphicsMenu::make_btn_temp_interna_v(NodePath menu_frame_np) {
+void GraphicsMenu::make_btn_temp_interna_v() {
 	btn_temp_interna_v = new PGButton("btn_temp_interna_v");
 	btn_temp_interna_v->setup("", 0.1);
 	np_btn_temp_interna_v = grafico_variavel_frame_np.attach_new_node(btn_temp_interna_v);
@@ -728,7 +729,7 @@ void GraphicsMenu::make_btn_temp_interna_v(NodePath menu_frame_np) {
 	btn_temp_interna_v->set_frame(-5.0 , 5.0 , -10.0, 10.0);
 }
 
-void GraphicsMenu::make_btn_hidratacao_v(NodePath menu_frame_np) {
+void GraphicsMenu::make_btn_hidratacao_v() {
 	btn_hidratacao_v = new PGButton("btn_hidratacao_v");
 	btn_hidratacao_v->setup("", 0.1);
 	np_btn_hidratacao_v = grafico_variavel_frame_np.attach_new_node(btn_hidratacao_v);
@@ -754,7 +755,7 @@ void GraphicsMenu::make_btn_hidratacao_v(NodePath menu_frame_np) {
 	btn_hidratacao_v->set_frame(-5.0, 5.0, -10.0, 10.0);
 }
 
-void GraphicsMenu::make_btn_temp_ar_v(NodePath menu_frame_np) {
+void GraphicsMenu::make_btn_temp_ar_v() {
 	btn_temp_ar_v = new PGButton("btn_temp_ar_v");
 	btn_temp_ar_v->setup("", 0.1);
 	np_btn_temp_ar_v = grafico_variavel_frame_np.attach_new_node(btn_temp_ar_v);
@@ -780,7 +781,7 @@ void GraphicsMenu::make_btn_temp_ar_v(NodePath menu_frame_np) {
 	btn_temp_ar_v->set_frame(-8.1 , 8.1 , -10.0, 10.0);
 }
 
-void GraphicsMenu::make_btn_umidade_v(NodePath menu_frame_np) {
+void GraphicsMenu::make_btn_umidade_v() {
 	btn_umidade_v = new PGButton("btn_umidade_v");
 	btn_umidade_v->setup("", 0.1);
 	np_btn_umidade_v = grafico_variavel_frame_np.attach_new_node(btn_umidade_v);
@@ -806,7 +807,7 @@ void GraphicsMenu::make_btn_umidade_v(NodePath menu_frame_np) {
 	btn_umidade_v->set_frame(-8.8 , 8.8 , -10.0, 10.0);
 }
 
-void GraphicsMenu::make_btn_temp_solo_v(NodePath menu_frame_np) {
+void GraphicsMenu::make_btn_temp_solo_v() {
 	btn_temp_solo_v = new PGButton("btn_temp_solo_v");
 	btn_temp_solo_v->setup("", 0.1);
 	np_btn_temp_solo_v = grafico_variavel_frame_np.attach_new_node(btn_temp_solo_v);
@@ -832,7 +833,7 @@ void GraphicsMenu::make_btn_temp_solo_v(NodePath menu_frame_np) {
 	btn_temp_solo_v->set_frame(-8.1 , 8.1 , -10.0, 10.0);
 }
 
-void GraphicsMenu::make_btn_alimentacao_v(NodePath menu_frame_np) {
+void GraphicsMenu::make_btn_alimentacao_v() {
 	btn_alimentacao_v = new PGButton("btn_alimentacao_v");
 	btn_alimentacao_v->setup("", 0.1);
 	np_btn_alimentacao_v = grafico_variavel_frame_np.attach_new_node(btn_alimentacao_v);
@@ -858,7 +859,7 @@ void GraphicsMenu::make_btn_alimentacao_v(NodePath menu_frame_np) {
 	btn_alimentacao_v->set_frame(-5.0 , 5.0, -10.0, 10.0);
 }
 
-void GraphicsMenu::make_btn_energia_v(NodePath menu_frame_np) {
+void GraphicsMenu::make_btn_energia_v() {
 	btn_energia_v = new PGButton("btn_energia_v");
 	btn_energia_v->setup("", 0.1);
 	np_btn_energia_v = grafico_variavel_frame_np.attach_new_node(btn_energia_v);
@@ -884,7 +885,7 @@ void GraphicsMenu::make_btn_energia_v(NodePath menu_frame_np) {
 	btn_energia_v->set_frame(-5.0 , 5.0 , -10.0, 10.0);
 }
 
-void GraphicsMenu::make_btn_gasto_energetico_v(NodePath menu_frame_np) {
+void GraphicsMenu::make_btn_gasto_energetico_v() {
 	btn_gasto_energetico_v = new PGButton("btn_gasto_energetico_v");
 	btn_gasto_energetico_v->setup("", 0.1);
 	np_btn_gasto_energetico_v = grafico_variavel_frame_np.attach_new_node(btn_gasto_energetico_v);
