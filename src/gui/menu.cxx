@@ -39,9 +39,13 @@ bool Menu::colisao = true;
 NodePath Menu::button_sair = NULL;
 NodePath Menu::button_restart = NULL;
 NodePath Menu::button_grafico = NULL;
+
+/* ################################################################################
 string Menu::path_textura_personalizada = "models/lizards/custom/young/custom.jpg";
 string Menu::path_mascara = "models/lizards/custom/young/teiu_mask.jpg";
 string Menu::path_textura_original = "models/lizards/custom/young/teiu.jpg";
+*/
+
 
 NodePath Menu::logo = NULL;
 Player::lizardEpecie Menu::especie = Player::eurolophosaurus; //a especie dfault
@@ -57,6 +61,7 @@ Menu::Menu(WindowFramework *window) {
 #include "auto_bind.h"
 #include "animatedObjetoJogo.h"
 #include "player/player.h"
+#include "editorTexture.h"
 
 void Menu::start_Menu() {
 
@@ -124,8 +129,8 @@ void Menu::start_Menu() {
     cnemidophorus.hide();
 
 
-    //      Lagarto Personalizado
-    lagartoPersonalizado = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), "models/lizards/custom/male/model");
+    // ############################################# Lagarto Personalizado#########################################
+   /* lagartoPersonalizado = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), "models/lizards/custom/young/model");
     lagartoPersonalizado.set_scale(0.08, 0.08, 0.08);
     lagartoPersonalizado.set_pos(0, 35, -2);
     lagartoPersonalizado.set_h(45);
@@ -137,7 +142,7 @@ void Menu::start_Menu() {
     PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
     anims.loop_all(false);
     lagartoPersonalizado.hide();
-
+*/
 
     ///imagem do logo
     logo = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/calangos.png");
@@ -711,7 +716,7 @@ void Menu::configure(const Event*, void *data) {
 
         Simdunas::get_evt_handler()->add_hook(config->botao_cnemidophorus->get_click_event(MouseButton::one()), cnemidophorus_funcao, config);
 
-            // Botão PERSONALIZAR (Leva o jogador para o editor de cores de lagartos)
+   // ###########  Botão PERSONALIZAR (Leva o jogador para o editor de cores de lagartos) ##############################
         NodePath personalizar = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/personalizar");
         personalizar.detach_node();
         config->botao_personalizar = new PGButton("Personalizar");
@@ -778,15 +783,10 @@ void Menu::tropidurus_funcao(const Event*, void *data) {
     especie = Player::tropidurus;
   
 
-   // if(!showing_custom){
             t->marcador.set_pos(4.0, 0.0, -2.2); //movendo o marcador
             t->tropidurus.set_scale(0.04, 0.04, 0.04);
             t->tropidurus.set_pos(4, 35, -2);
 
-//    }else{ //se estiver na janela do editor de cores...
-//              t->tropidurus.set_scale(0.08, 0.08, 0.08);
-//              t->tropidurus.set_pos(0, 35, -2);
-//    }
 
       t->tropidurus.show();
 }
@@ -813,16 +813,13 @@ void Menu::eurolophosaurus_funcao(const Event*, void* data) {
 
     especie = Player::eurolophosaurus;
 
-//    if(!showing_custom){
+
 
             e->marcador.set_pos(4.0, 0.0, -4.7); //movendo o marcador
             e->eurolophosasurus.set_scale(0.04, 0.04, 0.04);
             e->eurolophosasurus.set_pos(4, 35, -2);
     
-//    }else{ //se estiver na janela do editor de cores...
-//              e->eurolophosasurus.set_scale(0.08, 0.08, 0.08);
-//              e->eurolophosasurus.set_pos(0, 35, -2);
-//    }
+
 
     e->eurolophosasurus.show();
 
@@ -850,39 +847,18 @@ void Menu::cnemidophorus_funcao(const Event*, void* data) {
 
     especie = Player::cnemidophorus;
 
-//      if(!showing_custom){
+
+
 
             c->marcador.set_pos(4.0, 0.0, -7.2); //movendo o marcador
             c->cnemidophorus.set_scale(0.04, 0.04, 0.04);
             c->cnemidophorus.set_pos(4, 35, -2);
-    
-//    }else{ //se estiver na janela do editor de cores...
-//              c->cnemidophorus.set_scale(0.08, 0.08, 0.08);
-//              c->cnemidophorus.set_pos(0, 35, -2);
-//    }
 
     c->cnemidophorus.show();
   
 }
 
-void Menu::personalizar_funcao(const Event*, void* data) {
-    Menu * c = (Menu*) data;
 
-
-    c->marcador.set_pos(4.0, 0.0, -9.5); //movendo o marcador
-
-    c->hide_tela_configuracao();  //limpa o menu de configuração
-   
- 
-    especie = Player::custom;  //determina que o jogador irá jogar com o lagarto personalizado
-    
-   c->show_tela_personalizar(c); //apresenta o menu de edição de cores do lagarto
-
-
-
-    // criar botoes
-     
-}
 
 void Menu::colisao_funcao(const Event*, void* data) {
     Menu * c = (Menu*) data;
@@ -974,14 +950,16 @@ void Menu::event_voltar_funcao(const Event*, void* data) {
         voltar->nod_botao_voltar.hide();
         voltar->showing_creditos=false;//escondendo tela de créditos
     }
-
+//##################################################################################################3
     else if(voltar->showing_custom) { //se a tela exibida é a de personalizar o lagarto
-
-        voltar->hide_tela_personalizado();  //esconde a tela
+        //tem que ter um método de sair da tela de personalizar na classe editorTexture
+      //  voltar->hide_tela_personalizado();  //esconde a tela
+        editorTexture::get_instance()->hide_screen();
+        voltar->showing_custom = false;
         voltar->show_tela_configuracao();  //apresenta a tela de configuração
         return; //encerra a execução deste método
       }
-// 
+// ##########################################################################################
     else if (voltar->title_config.is_empty() || !voltar->showing_conf) {//ta voltando da tela de instruções
 
         voltar->hide_tela_instrucoes();
@@ -1256,21 +1234,6 @@ void Menu::hide_tela_instrucoes() {
     node_texto.hide();
     nod_botao_next.hide();
 }
-void Menu::hide_tela_personalizado(){
-    lagartoPersonalizado.hide();
-    marcador_camada1.hide();
-    marcador_camada2.hide();
-   // nod_bot_cnemidophorus.hide();
-  //  nod_bot_eurolophosaurus.hide();
-  //  nod_bot_tropidurus.hide();
-    showing_custom = false;
-    hide_paleta_cores();
-    title_color.remove_node();
-    nod_bot_padrao_textura_1.remove_node();
-    nod_bot_padrao_textura_2.remove_node();
-    nod_bot_padrao_textura_3.remove_node();
-    nod_bot_padrao_textura_4.remove_node();
-}
 
 void Menu::hide_tela_marcadores() {
 
@@ -1294,9 +1257,9 @@ void Menu::hide_tela_configuracao() {
     nod_bot_tropidurus.hide();
     nod_bot_eurolophosaurus.hide();
     nod_bot_cnemidophorus.hide();
-    nod_bot_personalizar.hide();
+    nod_bot_personalizar.hide();  
     nod_bot_colisao.hide();
-    nod_botao_voltar.hide();
+  //  nod_botao_voltar.hide();
    
     switch (especie) {
 
@@ -1329,26 +1292,6 @@ void Menu::hide_tela_pause() {
     nod_bot_variacao_clima.hide();
 }
 
-void Menu::hide_paleta_cores(){ //remove todos os botões da paleta de cores
-    if(!botao_red_np.is_empty()){
-    botao_red_np.remove_node();
-    botao_blue_np.remove_node();
-    botao_green_np.remove_node();
-    botao_yellow_np.remove_node();
-    botao_white_np.remove_node();
-    botao_black_np.remove_node();
-    botao_brown_np.remove_node();
-    botao_green2_np.remove_node();
-    botao2_red_np.remove_node();
-    botao2_blue_np.remove_node();
-    botao2_green_np.remove_node();
-    botao2_yellow_np.remove_node();
-    botao2_white_np.remove_node();
-    botao2_black_np.remove_node();
-    botao2_brown_np.remove_node();
-    botao2_green2_np.remove_node();
-    }
-}
 
 ////////////remove todos os componentes(botões tútulos e etc.) de menu para que o jogo se inicie
 
@@ -1375,20 +1318,30 @@ void Menu::remove_tela_menu() {
     nod_bot_tropidurus.remove_node();
     nod_bot_eurolophosaurus.remove_node();
     nod_bot_cnemidophorus.remove_node();
-    nod_bot_personalizar.remove_node();
+
     nod_bot_colisao.remove_node();
     nod_botao_voltar.remove_node();
     tropidurus.remove_node();
     eurolophosasurus.remove_node();
     cnemidophorus.remove_node();
-    lagartoPersonalizado.remove_node();
+
     nod_botao_instrucao.remove_node();
     ///removendo telas de instruções para não ficarem comendo memória
     background_instrucoes.remove_node();
     background_icones.remove_node();
     nod_botao_back.remove_node();
     nod_botao_next.remove_node();
+    nod_bot_personalizar.remove_node();
+
+    editorTexture::get_instance()->unload_screen();
+    //objetos da tela personalizar_lagarto ####################################################################
+    /* acho que isso pode ser retirado sem problemas
+    lagartoPersonalizado.remove_node();
     title_color.remove_node();
+    nod_bot_padrao_textura_1.remove_node();
+    nod_bot_padrao_textura_2.remove_node();
+    nod_bot_padrao_textura_3.remove_node();
+    nod_bot_padrao_textura_4.remove_node();
 
     botao_red_np.remove_node();
     botao_blue_np.remove_node();
@@ -1401,7 +1354,7 @@ void Menu::remove_tela_menu() {
 
     marcador_camada1.remove_node();
     marcador_camada2.remove_node();
-
+*/
 }
 
 void Menu::show_tela_over() {
@@ -1439,83 +1392,7 @@ void Menu::show_tela_principal() {
     nod_botao_instrucao.show();
 }
 
-void Menu::show_tela_personalizar(void *data) {
-    Menu *c = (Menu*) data;
-            //carregando o quadro (marcador) de cor selecionada da primeira coluna da paleta de cores/////////
-        c->marcador_camada1 = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/quadro");
-        c->marcador_camada1.set_scale(0.17, 0.0, 0.17);
-        c->marcador_camada1.hide();
-      //  c->marcador_camada1.set_pos(4.0, 0.0, -4.7);
 
-        c->marcador_camada2 = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/quadro");
-        c->marcador_camada2.set_scale(0.17, 0.0, 0.17);
-        c->marcador_camada2.hide();
-     //   c->marcador_camada2.set_pos(4.0, 0.0, -4.7);
-    ///carregando titulo do editor de cores
-        c->title_color = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/editorcores");
-        c->title_color.set_scale(1, 2 ,0.4);
-        c->title_color.set_pos(0, 0, 0.8);
-        c->title_color.show();
-
-
-       // Botão da textura 1 para o jogador poder editar a cor dessa textura
-        NodePath padrao_textura_1 = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/textura1");
-        padrao_textura_1.detach_node();
-        c->botao_padrao_textura_1 = new PGButton("textura1");
-        c->botao_padrao_textura_1->setup(padrao_textura_1);
-        c->nod_bot_padrao_textura_1 = Simdunas::get_window()->get_aspect_2d().attach_new_node(c->botao_padrao_textura_1);
-        c->nod_bot_padrao_textura_1.set_scale(0.6, 0.1, 0.18);
-        c->nod_bot_padrao_textura_1.set_pos(-0.8, 0.0, 0.6);
-        c->botao_padrao_textura_1->set_frame(-0.4, 0.4, -0.4, 0.4);
-
-        Simdunas::get_evt_handler()->add_hook(c->botao_padrao_textura_1->get_click_event(MouseButton::one()), set_textura1, c); //fazer metodo   padra_textura_1_funcao
-
-         // Botão da textura2 para o jogador poder editar a cor dessa textura
-        NodePath padrao_textura_2 = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/textura2");
-        padrao_textura_2.detach_node();
-        c->botao_padrao_textura_2 = new PGButton("textura2");
-        c->botao_padrao_textura_2->setup(padrao_textura_2);
-        c->nod_bot_padrao_textura_2 = Simdunas::get_window()->get_aspect_2d().attach_new_node(c->botao_padrao_textura_2);
-        c->nod_bot_padrao_textura_2.set_scale(0.6, 0.1, 0.18);
-        c->nod_bot_padrao_textura_2.set_pos(-0.2, 0.0, 0.6);
-        c->botao_padrao_textura_2->set_frame(-0.4, 0.4, -0.4, 0.4);
-
-        Simdunas::get_evt_handler()->add_hook(c->botao_padrao_textura_2->get_click_event(MouseButton::one()), set_textura2, c); //fazer metodo   padra_textura_1_funcao
-
-         // Botão da textura 3 para o jogador poder editar a cor dessa textura
-        NodePath padrao_textura_3 = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/textura3");
-        padrao_textura_3.detach_node();
-        c->botao_padrao_textura_3 = new PGButton("textura3");
-        c->botao_padrao_textura_3->setup(padrao_textura_3);
-        c->nod_bot_padrao_textura_3 = Simdunas::get_window()->get_aspect_2d().attach_new_node(c->botao_padrao_textura_3);
-        c->nod_bot_padrao_textura_3.set_scale(0.6, 0.1, 0.18);
-        c->nod_bot_padrao_textura_3.set_pos(0.4, 0.0, 0.6);
-        c->botao_padrao_textura_3->set_frame(-0.4, 0.4, -0.4, 0.4);
-
-        Simdunas::get_evt_handler()->add_hook(c->botao_padrao_textura_3->get_click_event(MouseButton::one()), set_textura3, c); //fazer metodo   padra_textura_1_funcao
-
-         // Botão da textura 4 para o jogador poder editar a cor dessa textura
-        NodePath padrao_textura_4 = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/textura4");
-        padrao_textura_4.detach_node();
-        c->botao_padrao_textura_4 = new PGButton("textura4");
-        c->botao_padrao_textura_4->setup(padrao_textura_4);
-        c->nod_bot_padrao_textura_4 = Simdunas::get_window()->get_aspect_2d().attach_new_node(c->botao_padrao_textura_4);
-        c->nod_bot_padrao_textura_4.set_scale(0.6, 0.1, 0.18);
-        c->nod_bot_padrao_textura_4.set_pos(1.0, 0.0, 0.6);
-        c->botao_padrao_textura_4->set_frame(-0.4, 0.4, -0.4, 0.4);
-
-        Simdunas::get_evt_handler()->add_hook(c->botao_padrao_textura_4->get_click_event(MouseButton::one()), set_textura4, c); //fazer metodo   padra_textura_1_funcao
-
-    
-
-    c->Paleta_cores(c); //carrega a paleta de cores
-    lagartoPersonalizado.show();  //mostra o lagarto personalizado
-      //apresenta os botões jogar e voltar
-    nod_botao_voltar.show();
-    button_np.show();  
-    showing_custom = true; //indica que a tela de personalizar lagarto está sendo exibida
-
-}
 
 void Menu::show_tela_instrucoes() {
     background_instrucoes.show();
@@ -1669,6 +1546,141 @@ Menu* Menu::get_instance() {
 
 
 // MÉTODOS PARA EDIÇÃO DE CORES DE LAGARTOS
+
+void Menu::personalizar_funcao(const Event*, void* data) {
+    Menu * c = (Menu*) data;
+
+    c->marcador.set_pos(4.0, 0.0, -9.5); //movendo o marcador
+
+    c->hide_tela_configuracao();  //limpa o menu de configuração
+
+    especie = Player::custom;  //determina que o jogador irá jogar com o lagarto personalizado
+
+  // c->show_tela_personalizar(c); //apresenta o menu de edição de cores do lagarto
+   //apresenta os botões jogar e voltar
+     c->showing_custom = true;
+   editorTexture::get_instance()->load_screen();
+  
+
+
+}
+
+/*#############################################################################################
+void Menu::hide_paleta_cores(){ //remove todos os botões da paleta de cores
+    if(!botao_red_np.is_empty()){
+    botao_red_np.remove_node();
+    botao_blue_np.remove_node();
+    botao_green_np.remove_node();
+    botao_yellow_np.remove_node();
+    botao_white_np.remove_node();
+    botao_black_np.remove_node();
+    botao_brown_np.remove_node();
+    botao_green2_np.remove_node();
+    botao2_red_np.remove_node();
+    botao2_blue_np.remove_node();
+    botao2_green_np.remove_node();
+    botao2_yellow_np.remove_node();
+    botao2_white_np.remove_node();
+    botao2_black_np.remove_node();
+    botao2_brown_np.remove_node();
+    botao2_green2_np.remove_node();
+    }
+}
+
+void Menu::hide_tela_personalizado(){
+    lagartoPersonalizado.hide();
+    marcador_camada1.hide();
+    marcador_camada2.hide();
+   // nod_bot_cnemidophorus.hide();
+  //  nod_bot_eurolophosaurus.hide();
+  //  nod_bot_tropidurus.hide();
+    showing_custom = false;
+    hide_paleta_cores();
+    title_color.remove_node();
+    nod_bot_padrao_textura_1.remove_node();
+    nod_bot_padrao_textura_2.remove_node();
+    nod_bot_padrao_textura_3.remove_node();
+    nod_bot_padrao_textura_4.remove_node();
+}
+
+
+void Menu::show_tela_personalizar(void *data) {
+    Menu *c = (Menu*) data;
+            //carregando o quadro (marcador) de cor selecionada da primeira coluna da paleta de cores/////////
+        c->marcador_camada1 = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/quadro");
+        c->marcador_camada1.set_scale(0.17, 0.0, 0.17);
+        c->marcador_camada1.hide();
+      //  c->marcador_camada1.set_pos(4.0, 0.0, -4.7);
+
+        c->marcador_camada2 = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/quadro");
+        c->marcador_camada2.set_scale(0.17, 0.0, 0.17);
+        c->marcador_camada2.hide();
+     //   c->marcador_camada2.set_pos(4.0, 0.0, -4.7);
+    ///carregando titulo do editor de cores
+        c->title_color = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/editorcores");
+        c->title_color.set_scale(1, 2 ,0.4);
+        c->title_color.set_pos(0, 0, 0.8);
+        c->title_color.show();
+
+
+       // Botão da textura 1 para o jogador poder editar a cor dessa textura
+        NodePath padrao_textura_1 = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/textura1");
+        padrao_textura_1.detach_node();
+        c->botao_padrao_textura_1 = new PGButton("textura1");
+        c->botao_padrao_textura_1->setup(padrao_textura_1);
+        c->nod_bot_padrao_textura_1 = Simdunas::get_window()->get_aspect_2d().attach_new_node(c->botao_padrao_textura_1);
+        c->nod_bot_padrao_textura_1.set_scale(0.6, 0.1, 0.18);
+        c->nod_bot_padrao_textura_1.set_pos(-0.8, 0.0, 0.6);
+        c->botao_padrao_textura_1->set_frame(-0.4, 0.4, -0.4, 0.4);
+
+        Simdunas::get_evt_handler()->add_hook(c->botao_padrao_textura_1->get_click_event(MouseButton::one()), set_textura1, c); //fazer metodo   padra_textura_1_funcao
+
+         // Botão da textura2 para o jogador poder editar a cor dessa textura
+        NodePath padrao_textura_2 = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/textura2");
+        padrao_textura_2.detach_node();
+        c->botao_padrao_textura_2 = new PGButton("textura2");
+        c->botao_padrao_textura_2->setup(padrao_textura_2);
+        c->nod_bot_padrao_textura_2 = Simdunas::get_window()->get_aspect_2d().attach_new_node(c->botao_padrao_textura_2);
+        c->nod_bot_padrao_textura_2.set_scale(0.6, 0.1, 0.18);
+        c->nod_bot_padrao_textura_2.set_pos(-0.2, 0.0, 0.6);
+        c->botao_padrao_textura_2->set_frame(-0.4, 0.4, -0.4, 0.4);
+
+        Simdunas::get_evt_handler()->add_hook(c->botao_padrao_textura_2->get_click_event(MouseButton::one()), set_textura2, c); //fazer metodo   padra_textura_1_funcao
+
+         // Botão da textura 3 para o jogador poder editar a cor dessa textura
+        NodePath padrao_textura_3 = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/textura3");
+        padrao_textura_3.detach_node();
+        c->botao_padrao_textura_3 = new PGButton("textura3");
+        c->botao_padrao_textura_3->setup(padrao_textura_3);
+        c->nod_bot_padrao_textura_3 = Simdunas::get_window()->get_aspect_2d().attach_new_node(c->botao_padrao_textura_3);
+        c->nod_bot_padrao_textura_3.set_scale(0.6, 0.1, 0.18);
+        c->nod_bot_padrao_textura_3.set_pos(0.4, 0.0, 0.6);
+        c->botao_padrao_textura_3->set_frame(-0.4, 0.4, -0.4, 0.4);
+
+        Simdunas::get_evt_handler()->add_hook(c->botao_padrao_textura_3->get_click_event(MouseButton::one()), set_textura3, c); //fazer metodo   padra_textura_1_funcao
+
+         // Botão da textura 4 para o jogador poder editar a cor dessa textura
+        NodePath padrao_textura_4 = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/textura4");
+        padrao_textura_4.detach_node();
+        c->botao_padrao_textura_4 = new PGButton("textura4");
+        c->botao_padrao_textura_4->setup(padrao_textura_4);
+        c->nod_bot_padrao_textura_4 = Simdunas::get_window()->get_aspect_2d().attach_new_node(c->botao_padrao_textura_4);
+        c->nod_bot_padrao_textura_4.set_scale(0.6, 0.1, 0.18);
+        c->nod_bot_padrao_textura_4.set_pos(1.0, 0.0, 0.6);
+        c->botao_padrao_textura_4->set_frame(-0.4, 0.4, -0.4, 0.4);
+
+        Simdunas::get_evt_handler()->add_hook(c->botao_padrao_textura_4->get_click_event(MouseButton::one()), set_textura4, c); //fazer metodo   padra_textura_1_funcao
+
+
+
+    c->Paleta_cores(c); //carrega a paleta de cores
+    lagartoPersonalizado.show();  //mostra o lagarto personalizado
+
+    nod_botao_voltar.show();
+    button_np.show();
+    showing_custom = true; //indica que a tela de personalizar lagarto está sendo exibida
+    
+}
 
 void Menu::set_textura1(const Event*, void *data) {
     path_textura_original = "models/lizards/custom/young/teiu.jpg";
@@ -2014,7 +2026,7 @@ void Menu::print_null(void *data) {
 void Menu::change_texture(void *data, RGBColord cor, int mask_x) {
     int print_mask = mask_x; //esse int representa a parte da mascara que o jogador deseja pintar (1 = cinza e 2 = branca)
    // Menu *config = (Menu*) data;
- /* Aqui começa o teste */
+
 // RGBColord c = RGBColord(1,0,0);
 
     //string path = "models/lizards/custom/young/";
@@ -2075,4 +2087,5 @@ void Menu::swap_texture(void *data) {//recarregar a textura personalizada do lag
 
             //     nout << "Aqui termina o teste" << endl;
 }
+ */
 
