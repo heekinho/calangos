@@ -4,9 +4,11 @@
 
 #include "modelRepository.h"
 #include "imageRepository.h"
+#include "audioRepository.h"
 #include "menu.h"
 
 #include "stdio.h"
+#include "audioRepository.h"
 
 bool Session::instanceFlag = false;
 Session* Session::singleSession = NULL;
@@ -30,6 +32,9 @@ void Session::init_session(){
 
 	nout << "Criando Repositorio de Imagens..." << endl;
 	ImageRepository::get_instance();
+
+        nout <<"Criando Repositodio de Sons..." << endl;
+        audioRepository::get_instance();
 
 	nout << "Criando Controle de Tempo..." << endl;
 	TimeControl::get_instance();

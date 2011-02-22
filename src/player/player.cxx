@@ -2,6 +2,7 @@
 #include "menu.h"
 #include "modelRepository.h"
 # include "collision.h"
+#include "audioRepository.h"
 #define DEBUG_PLAYER 0
 
 bool Player::instanceFlag = false;
@@ -67,6 +68,11 @@ string Player::get_gender_name(Player::lizardGender gender){
 void Player::eat(Edible* food){
 	add_energia_alimento(food->get_nutritional_value());
 	add_hidratacao_alimento(food->get_hydration_value());
+        cout<< "Testando >>>>Comeu!!!!"<< endl;
+        audioRepository::get_instance()->get_sound("mordida")->play();
+        
+
+
 }
 
 double Player::get_velocity(){
