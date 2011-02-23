@@ -21,7 +21,7 @@ public:
     static audioRepository* get_instance();
     void load_audio();
     void add_audio(const string &name, const string &path);
-    PT(AudioSound) get_sound(const string &name);
+    static void play_sound(const string &name);
     PT(AudioManager) get_audioManager();
 
     virtual ~audioRepository();

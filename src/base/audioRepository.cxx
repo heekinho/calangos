@@ -6,6 +6,7 @@
 
 audioRepository* audioRepository::instance = NULL;
 
+
 audioRepository::audioRepository() {
     
     AM= AudioManager::create_AudioManager();
@@ -26,6 +27,7 @@ audioRepository * audioRepository::get_instance(){
 
  void audioRepository::load_audio(){
 
+     //para adicionar mais sons é só inserir aqui
      add_audio("mordida","models/sounds/teste.mp3");
 
 }
@@ -36,9 +38,10 @@ audioRepository * audioRepository::get_instance(){
 
  }
 
- PT(AudioSound) audioRepository::get_sound(const string& name){
+ //quando quiser tocar um som é só chamar este método passando o nome
+  void audioRepository::play_sound(const string& name){
 
-     return audio[name];
+     instance->audio[name]->play();
  }
 
  PT(AudioManager) audioRepository::get_audioManager(){

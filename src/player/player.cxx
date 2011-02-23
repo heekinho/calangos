@@ -68,8 +68,9 @@ string Player::get_gender_name(Player::lizardGender gender){
 void Player::eat(Edible* food){
 	add_energia_alimento(food->get_nutritional_value());
 	add_hidratacao_alimento(food->get_hydration_value());
+        //TESTANDO TOCAR SOM QUANDO COME
         cout<< "Testando som <<<< Comeu!!!!"<< endl;
-        audioRepository::get_instance()->get_sound("mordida")->play();
+        audioRepository::play_sound("mordida");
         
 
 
