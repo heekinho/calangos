@@ -22,6 +22,10 @@ EventHandler* Simdunas::evt_handler = NULL;
 #include "animal.h"
 #include "sectorItems.h"
 
+#include "screen.h"
+#include "screenManager.h"
+#include "calangosMenuManager.h"
+
 int main(int argc, char *argv[]) {
 	/* Carrega o arquivo de configuração do jogo */
 	#if DEBUG
@@ -29,8 +33,6 @@ int main(int argc, char *argv[]) {
 	#else
 		load_prc_file("myConfig-Calangos-distribute.prc");
 	#endif
-
-	
 
 	Simdunas::init_types();
 
@@ -62,11 +64,17 @@ int main(int argc, char *argv[]) {
 
 		//Simdunas::get_window()->get_render().set_antialias(AntialiasAttrib::M_multisample);
 
+
+//		/* Novo sistema de menu começa aqui, descomente para testar */
+//		PT(ScreenManager) manager = new CalangosMenuManager();
+//		while(Simdunas::get_framework()->do_frame(Thread::get_current_thread())){}
+//		/* Novo sistema de menu termina aqui */
+
 		nout << "Carregando Tela de Abertura..." << endl;
 
 		/* Inicia o Menu */
 		Menu::get_instance()->start_Menu();
-               
+
 		// Segura o jogo no menu até que este libere o início do jogo
 		Thread *current_thread = Thread::get_current_thread();
 		while (Simdunas::get_framework()->do_frame(current_thread)
