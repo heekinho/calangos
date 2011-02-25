@@ -395,7 +395,7 @@ void Vegetal::flatten_vegetals(){
 	 * */
 	PT(Terrain) terrain = World::get_world()->get_terrain();
 
-	for(int i = 0; i < terrain->MAX_SETORES; i++){
+	for(int i = 0; i < Terrain::MAX_SETORES; i++){
 		PT(Setor) sector = terrain->get_setor(i);
 		SectorItems<PT(Vegetal)>::iterator it = sector->vegetals()->begin();
 		while(it != sector->vegetals()->end()){
@@ -454,7 +454,7 @@ void Vegetal::change_season(Season::SeasonType season){
 /*!atualiza setores visiveis e invisiveis de acordo com o player*/
 void Vegetal::update_show_hide(){
 	PT(Terrain) terrain = World::get_world()->get_terrain();
-	int max_sectors = terrain->MAX_SETORES;
+	int max_sectors = Terrain::MAX_SETORES;
 
 	for (int i = 0; i < max_sectors; ++i){
 		PT(Setor) sector = terrain->get_setor(i);

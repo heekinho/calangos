@@ -10,7 +10,6 @@
 
 #include "groupPrey.h"
 
-
 /*! Cria e inicialiaza o método de redistribuição de presas */
 PreyRedistributer::PreyRedistributer(list<PT(Prey)> preys){
 	this->_preys = preys;
@@ -65,9 +64,9 @@ LPoint2f PreyRedistributer::generate_distribution_point(){
 	/* Poderia ser feita de maneira circular */
 	if(rand()%2 == 1){
 		x = (rand()%2?1:-1) * random(dist_min, dist_mid);
-		y = random(-dist_mid, dist_mid);
+		y = random(-1.0*dist_mid, dist_mid);
 	} else {
-		x = random(-dist_mid, dist_mid);
+		x = random(-1.0*dist_mid, dist_mid);
 		y = (rand()%2?1:-1) * random(dist_min, dist_mid);
 	}
 

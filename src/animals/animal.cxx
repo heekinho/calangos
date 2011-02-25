@@ -115,7 +115,7 @@ void Animal::redistribute_animals(){
 
 	PT(Player) player = Player::get_instance();
 	PT(Terrain) terrain = World::get_world()->get_terrain();
-	int max_sectors = terrain->MAX_SETORES;
+	int max_sectors = Terrain::MAX_SETORES;
 
 	/* Obtém os setores adjacentes (player_sector exclusive) */
 	vector<PT(Setor)> *all_neighbors = terrain->get_adjacent_sectors();
