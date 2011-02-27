@@ -15,6 +15,7 @@
 #include "guiManager.h"
 #include "audioManager.h"
 #include "textureStageCollection.h"
+#include "editorTexture.h"  //testando esse include
 
 
 
