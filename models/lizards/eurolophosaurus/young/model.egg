@@ -1,7 +1,7 @@
 <CoordinateSystem> { Z-Up }
 
 <Texture> Tex1 {
-  custom.jpg
+  texture.jpg
   <Scalar> format { rgb }
   <Scalar> wrapu { repeat }
   <Scalar> wrapv { repeat }
