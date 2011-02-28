@@ -64,6 +64,8 @@ void editorTexture::hide_paleta_cores(){ //remove todos os botões da paleta de 
     botao_black_np.remove_node();
     botao_brown_np.remove_node();
     botao_green2_np.remove_node();
+    }
+       if(!botao2_red_np.is_empty()){
     botao2_red_np.remove_node();
     botao2_blue_np.remove_node();
     botao2_green_np.remove_node();
@@ -72,6 +74,16 @@ void editorTexture::hide_paleta_cores(){ //remove todos os botões da paleta de 
     botao2_black_np.remove_node();
     botao2_brown_np.remove_node();
     botao2_green2_np.remove_node();
+    }
+       if(!botao3_red_np.is_empty()){
+    botao3_red_np.remove_node();
+    botao3_blue_np.remove_node();
+    botao3_green_np.remove_node();
+    botao3_yellow_np.remove_node();
+    botao3_white_np.remove_node();
+    botao3_black_np.remove_node();
+    botao3_brown_np.remove_node();
+    botao3_green2_np.remove_node();
     }
 }
 
@@ -119,6 +131,11 @@ void editorTexture::show_tela_personalizar(void *data) {
         c->marcador_camada2.set_scale(0.17, 0.0, 0.17);
         c->marcador_camada2.hide();
      //   c->marcador_camada2.set_pos(4.0, 0.0, -4.7);
+
+        c->marcador_camada3 = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/quadro");
+        c->marcador_camada3.set_scale(0.17, 0.0, 0.17);
+        c->marcador_camada3.hide();
+        
     ///carregando titulo do editor de cores
         c->title_color = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/editorcores");
         c->title_color.set_scale(1, 2 ,0.4);
@@ -176,7 +193,7 @@ void editorTexture::show_tela_personalizar(void *data) {
 
 
 
-    c->Paleta_cores(c); //carrega a paleta de cores
+ //   c->Paleta_cores(c); //carrega a paleta de cores
     lagartoPersonalizado.show();  //mostra o lagarto personalizado
 
   //  nod_botao_voltar.show();
@@ -186,29 +203,41 @@ void editorTexture::show_tela_personalizar(void *data) {
 }
 
 void editorTexture::set_textura1(const Event*, void *data) {
+    editorTexture *c = (editorTexture*) data;
+    c->hide_paleta_cores();
+     c->Paleta_cores(c, 2);  //o numero é a quantidade de colunas que terá a paleta de cores
     path_textura_original = "models/lizards/custom/young/teiu.jpg";
     path_mascara = "models/lizards/custom/young/teiu_mask.jpg";
-     print_null(data);  // faz com que textura original = textura personalizada
+     print_standard(data);  // faz com que textura original = textura personalizada
 }
 void editorTexture::set_textura2(const Event*, void *data) {
+     editorTexture *c = (editorTexture*) data;
+     c->hide_paleta_cores();
+     c->Paleta_cores(c, 3);  //o numero é a quantidade de colunas que terá a paleta de cores
     path_textura_original = "models/lizards/custom/young/eurolophosaurus.jpg";
     path_mascara = "models/lizards/custom/young/eurolophosaurus_mask.jpg";
-     print_null(data); // faz com que textura original = textura personalizada
+     print_standard(data); // faz com que textura original = textura personalizada
 }
 void editorTexture::set_textura3(const Event*, void *data) {
+     editorTexture *c = (editorTexture*) data;
+     c->hide_paleta_cores();
+     c->Paleta_cores(c, 1);  //o numero é a quantidade de colunas que terá a paleta de cores
     path_textura_original = "models/lizards/custom/young/cnemidophorus.jpg";
     path_mascara = "models/lizards/custom/young/cnemidophorus_mask.jpg";
-     print_null(data); // faz com que textura original = textura personalizada
+     print_standard(data); // faz com que textura original = textura personalizada
 }
 void editorTexture::set_textura4(const Event*, void *data) {
+     editorTexture *c = (editorTexture*) data;
+     c->hide_paleta_cores();
+     c->Paleta_cores(c, 1);  //o numero é a quantidade de colunas que terá a paleta de cores
     path_textura_original = "models/lizards/custom/young/tropidurus.jpg";
     path_mascara = "models/lizards/custom/young/tropidurus_mask.jpg";
-    print_null(data); // faz com que textura original = textura personalizada
+    print_standard(data); // faz com que textura original = textura personalizada
 }
 
 
 
-void editorTexture::Paleta_cores( void *data) {
+void editorTexture::Paleta_cores( void *data, int  qtde_coluna) {
    editorTexture * config = (editorTexture*) data;
 
    //linha 1
@@ -312,7 +341,7 @@ void editorTexture::Paleta_cores( void *data) {
 
 
                      // PALETA COLUNA 2
-
+        if(qtde_coluna > 1){
     //linha 1
    //paleta vermelha
         config->botao2_red = new PGButton("Red");
@@ -410,51 +439,156 @@ void editorTexture::Paleta_cores( void *data) {
         config->botao2_black_np.set_color(0.15,0.15,0.11,100,1);
 
         //evento ao clicar...
-
         Simdunas::get_evt_handler()->add_hook(config->botao2_black->get_click_event(MouseButton::one()), print2_black, config);
+}//fim do if(qtde_coluna > 1)
+
+
+        //botões da coluna 3
+        if(qtde_coluna > 2){
+             //paleta vermelha
+        config->botao3_red = new PGButton("Red");
+        config->botao3_red->setup("");
+        config->botao3_red_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao3_red);
+        config->botao3_red_np.set_scale(0.1, 0.2, 0.1);
+        config->botao3_red_np.set_pos(-0.9, 0.0, 0.5);
+        config->botao3_red->set_frame(-0.4, 0.4, -0.4, 0.4);
+        config->botao3_red_np.set_color(0.69,0.64,0.61,100,1);
+        //evento ao clicar...
+         Simdunas::get_evt_handler()->add_hook(config->botao3_red->get_click_event(MouseButton::one()),  print3_red2, config);
+
+
+         //paleta verde
+        config->botao3_green = new PGButton("Green");
+        config->botao3_green->setup("");
+        config->botao3_green_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao3_green);
+        config->botao3_green_np.set_scale(0.1, 0.2, 0.1);
+        config->botao3_green_np.set_pos(-0.9, 0.0, 0.4);
+        config->botao3_green->set_frame(-0.4, 0.4, -0.4, 0.4);
+        config->botao3_green_np.set_color(0.4,0.49,0.46,100,1);
+        //evento ao clicar...
+        Simdunas::get_evt_handler()->add_hook(config->botao3_green->get_click_event(MouseButton::one()), print3_green, config);
+
+
+        //linha 2
+         //paleta vermelha2
+        config->botao3_blue = new PGButton("red2");
+        config->botao3_blue->setup("");
+        config->botao3_blue_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao3_blue);
+        config->botao3_blue_np.set_scale(0.1, 0.2, 0.1);
+        config->botao3_blue_np.set_pos(-0.9, 0.0, 0.3);
+        config->botao3_blue->set_frame(-0.4, 0.4, -0.4, 0.4);
+        config->botao3_blue_np.set_color(0.64,0.11,0.1,100,1);
+        //evento ao clicar...
+        Simdunas::get_evt_handler()->add_hook(config->botao3_blue->get_click_event(MouseButton::one()), print3_red, config);
+
+
+         //paleta branca
+        config->botao3_white = new PGButton("white");
+        config->botao3_white->setup("");
+        config->botao3_white_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao3_white);
+        config->botao3_white_np.set_scale(0.1, 0.2, 0.1);
+        config->botao3_white_np.set_pos(-0.9, 0.0, 0.2);
+        config->botao3_white->set_frame(-0.4, 0.4, -0.4, 0.4);
+        config->botao3_white_np.set_color(1,1,1,100,1);
+        //evento ao clicar...
+       Simdunas::get_evt_handler()->add_hook(config->botao3_white->get_click_event(MouseButton::one()),print3_white, config);
+
+         //linha 3
+         //paleta amarela
+        config->botao3_yellow = new PGButton("yellow");
+        config->botao3_yellow->setup("");
+        config->botao3_yellow_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao3_yellow);
+        config->botao3_yellow_np.set_scale(0.1, 0.2, 0.1);
+        config->botao3_yellow_np.set_pos(-0.9, 0.0, 0.1);
+        config->botao3_yellow->set_frame(-0.4, 0.4, -0.4, 0.4);
+        config->botao3_yellow_np.set_color(0.96,0.81,0.52,100,1);
+        //evento ao clicar...
+
+        Simdunas::get_evt_handler()->add_hook(config->botao3_yellow->get_click_event(MouseButton::one()), print3_yellow, config);
+
+         //paleta verde2
+        config->botao3_green2 = new PGButton("green2");
+        config->botao3_green2->setup("");
+        config->botao3_green2_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao3_green2);
+        config->botao3_green2_np.set_scale(0.1, 0.2, 0.1);
+        config->botao3_green2_np.set_pos(-0.9, 0.0, 0.0);
+        config->botao3_green2->set_frame(-0.4, 0.4, -0.4, 0.4);
+        config->botao3_green2_np.set_color(0.23,0.39,0.32,100,1);
+        //evento ao clicar...
+
+        Simdunas::get_evt_handler()->add_hook(config->botao3_green2->get_click_event(MouseButton::one()), print3_green2, config);
+
+        //linha 4
+         //paleta marrom
+        config->botao3_brown = new PGButton("brown");
+        config->botao3_brown->setup("");
+        config->botao3_brown_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao3_brown);
+        config->botao3_brown_np.set_scale(0.1, 0.2, 0.1);
+        config->botao3_brown_np.set_pos(-0.9, 0.0, -0.1);
+        config->botao3_brown->set_frame(-0.4, 0.4, -0.4, 0.4);
+        config->botao3_brown_np.set_color(0.3,0.23,0.16,100,1);
+        //evento ao clicar...
+
+        Simdunas::get_evt_handler()->add_hook(config->botao3_brown->get_click_event(MouseButton::one()), print3_brown, config);
+
+         //paleta preto
+        config->botao3_black = new PGButton("black");
+        config->botao3_black->setup("");
+        config->botao3_black_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao3_black);
+        config->botao3_black_np.set_scale(0.1, 0.2, 0.1);
+        config->botao3_black_np.set_pos(-0.9, 0.0, -0.2);
+        config->botao3_black->set_frame(-0.4, 0.4, -0.4, 0.4);
+        config->botao3_black_np.set_color(0.15,0.15,0.11,100,1);
+
+        //evento ao clicar...
+        Simdunas::get_evt_handler()->add_hook(config->botao3_black->get_click_event(MouseButton::one()), print3_black, config);
+            
+        }
+
+
 }
 
 
-//métodos que pintam a area cinza da mascara
+//métodos que pintam a area branca da mascara
 void editorTexture::print_green(const Event*, void *data) {
 
     RGBColord cor = RGBColord(0.4,0.49,0.46);
-    change_texture(data, cor,1);
+    change_texture(data, cor,2);
     mudar_marcador(-1.2, 0.0, 0.4, data);
 }
 void editorTexture::print_green2(const Event*, void *data) {
     RGBColord cor = RGBColord(0.23,0.39,0.32);
-    change_texture(data, cor, 1);
+    change_texture(data, cor, 2);
     mudar_marcador(-1.2, 0.0, 0.0, data);
 }
 void editorTexture::print_red2(const Event*, void *data) {
     RGBColord cor = RGBColord(0.69,0.64,0.61);
-    change_texture(data, cor,1);
+    change_texture(data, cor,2);
     mudar_marcador(-1.2, 0.0, 0.5, data);
 }
 void editorTexture::print_red(const Event*, void *data) {
     RGBColord cor = RGBColord(0.64,0.11,0.1);
-    change_texture(data, cor, 1);
+    change_texture(data, cor, 2);
     mudar_marcador(-1.2, 0.0, 0.3, data);
 }
 void editorTexture::print_white(const Event*, void *data) {
     RGBColord cor = RGBColord(1,1,1);
-    change_texture(data, cor,1);
+    change_texture(data, cor,2);
     mudar_marcador(-1.2, 0.0, 0.2, data);
 }
 void editorTexture::print_brown(const Event*, void *data) {
     RGBColord cor = RGBColord(0.3,0.23,0.16);
-    change_texture(data, cor,1);
+    change_texture(data, cor,2);
     mudar_marcador(-1.2, 0.0, -0.1, data);
 }
 void editorTexture::print_black(const Event*, void *data) {
     RGBColord cor = RGBColord(0.15,0.15,0.11);
-    change_texture(data, cor, 1);
+    change_texture(data, cor, 2);
     mudar_marcador(-1.2, 0.0, -0.2, data);
 }
 void editorTexture::print_yellow(const Event*, void *data) {
     RGBColord cor = RGBColord(0.96,0.81,0.52);
-    change_texture(data, cor, 1);
+    change_texture(data, cor, 2);
     mudar_marcador(-1.2, 0.0, 0.1, data); //posição que deverá ficar o marcador
 }
 
@@ -471,69 +605,118 @@ void editorTexture::mudar_marcador2(float a,float b,float c,void *data){
  config->marcador_camada2.set_pos(a -0.005, b, c  -0.005);
  config->marcador_camada2.show();
 }
+void editorTexture::mudar_marcador3(float a,float b,float c,void *data){
+ editorTexture * config = (editorTexture*) data;
+ config->marcador_camada3.set_pos(a -0.005, b, c  -0.005);
+ config->marcador_camada3.show();
+}
 
 
-//métodos que pintam a area branca da mascara
+//métodos que pintam a area cinza da mascara
 void editorTexture::print2_green(const Event*, void *data) {
     RGBColord cor = RGBColord(0.4,0.49,0.46);
-    change_texture(data, cor, 2);
+    change_texture(data, cor, 1);
      mudar_marcador2(-1.05, 0.0, 0.4, data);
 }
 void editorTexture::print2_green2(const Event*, void *data) {
     RGBColord cor = RGBColord(0.23,0.39,0.32);
-    change_texture(data, cor, 2);
+    change_texture(data, cor, 1);
      mudar_marcador2(-1.05, 0.0, 0.0, data);
 }
 void editorTexture::print2_red2(const Event*, void *data) {
     RGBColord cor = RGBColord(0.69,0.64,0.61);
-    change_texture(data, cor, 2);
+    change_texture(data, cor, 1);
      mudar_marcador2(-1.05, 0.0, 0.5, data);
 }
 void editorTexture::print2_red(const Event*, void *data) {
     RGBColord cor = RGBColord(0.64,0.11,0.1);
-    change_texture(data, cor, 2);
+    change_texture(data, cor, 1);
      mudar_marcador2(-1.05, 0.0, 0.3, data);
 }
 void editorTexture::print2_white(const Event*, void *data) {
     RGBColord cor = RGBColord(1,1,1);
-    change_texture(data, cor, 2);
+    change_texture(data, cor, 1);
      mudar_marcador2(-1.05, 0.0, 0.2, data);
 }
 void editorTexture::print2_brown(const Event*, void *data) {
     RGBColord cor = RGBColord(0.3,0.23,0.16);
-    change_texture(data, cor, 2);
+    change_texture(data, cor, 1);
      mudar_marcador2(-1.05, 0.0, -0.1, data);
 }
 void editorTexture::print2_black(const Event*, void *data) {
     RGBColord cor = RGBColord(0.15,0.15,0.11);
-    change_texture(data, cor, 2);
+    change_texture(data, cor, 1);
      mudar_marcador2(-1.05, 0.0, -0.2, data);
 }
 void editorTexture::print2_yellow(const Event*, void *data) {
     RGBColord cor = RGBColord(0.96,0.81,0.52);
-    change_texture(data, cor, 2);
+    change_texture(data, cor, 1);
      mudar_marcador2(-1.05, 0.0, 0.1, data);
 }
 
+
+//métodos que pintam a area cinza escuro da mascara (botões da terceira coluna da palata de cores)
+void editorTexture::print3_green(const Event*, void *data) {
+    RGBColord cor = RGBColord(0.4,0.49,0.46);
+    change_texture(data, cor, 3);
+     mudar_marcador3(-1.05, 0.0, 0.4, data);
+}
+void editorTexture::print3_green2(const Event*, void *data) {
+    RGBColord cor = RGBColord(0.23,0.39,0.32);
+    change_texture(data, cor, 3);
+     mudar_marcador3(-0.9, 0.0, 0.0, data);
+}
+void editorTexture::print3_red2(const Event*, void *data) {
+    RGBColord cor = RGBColord(0.69,0.64,0.61);
+    change_texture(data, cor, 3);
+     mudar_marcador3(-0.9, 0.0, 0.5, data);
+}
+void editorTexture::print3_red(const Event*, void *data) {
+    RGBColord cor = RGBColord(0.64,0.11,0.1);
+    change_texture(data, cor, 3);
+     mudar_marcador3(-0.9, 0.0, 0.3, data);
+}
+void editorTexture::print3_white(const Event*, void *data) {
+    RGBColord cor = RGBColord(1,1,1);
+    change_texture(data, cor, 3);
+     mudar_marcador3(-0.9, 0.0, 0.2, data);
+}
+void editorTexture::print3_brown(const Event*, void *data) {
+    RGBColord cor = RGBColord(0.3,0.23,0.16);
+    change_texture(data, cor, 3);
+     mudar_marcador3(-0.9, 0.0, -0.1, data);
+}
+void editorTexture::print3_black(const Event*, void *data) {
+    RGBColord cor = RGBColord(0.15,0.15,0.11);
+    change_texture(data, cor, 3);
+     mudar_marcador3(-0.9, 0.0, -0.2, data);
+}
+void editorTexture::print3_yellow(const Event*, void *data) {
+    RGBColord cor = RGBColord(0.96,0.81,0.52);
+    change_texture(data, cor, 3);
+     mudar_marcador3(-0.9, 0.0, 0.1, data);
+}
+
+
 //Esse método não faz nenhuma alteração na textura original. É utilizado quando o padrão de textura é alterado
-void editorTexture::print_null(void *data) {
+void editorTexture::print_standard(void *data) {
         editorTexture * config = (editorTexture*) data;
         //apaga os marcadores da paleta de cores
        config->marcador_camada1.hide();
        config->marcador_camada2.hide();
+       config->marcador_camada3.hide();
      // faz com que textura original = textura personalizada.
-    RGBColord cor = RGBColord(0.0,0.0,0.0);
+    RGBColord cor = RGBColord(0.23,0.39,0.32);
     change_texture(data, cor, 0);
+   // change_texture(data, cor, 2);
+   // change_texture(data, cor, 3);
 }
 
-void editorTexture::change_texture(void *data, RGBColord cor, int mask_x) {
-    int print_mask = mask_x; //esse int representa a parte da mascara que o jogador deseja pintar (1 = cinza e 2 = branca)
-   // Menu *config = (Menu*) data;
- /* Aqui começa o teste */
-// RGBColord c = RGBColord(1,0,0);
 
-    //string path = "models/lizards/custom/young/";
-  //  nout << "Aqui começa o teste" << endl;
+void editorTexture::change_texture(void *data, RGBColord cor, int mask_x) {
+    int print_mask = mask_x; //esse int representa a parte da mascara que o jogador deseja pintar (1 = cinza, 2 = branca, 3 = cinza escuro, 0 = branco a cinza escuro)
+   // Menu *config = (Menu*) data;
+
     PNMImage image = PNMImage(path_textura_original);   //textura original
     PNMImage mask = PNMImage(path_mascara);    //mascara da textura
     PNMImage custom = PNMImage(path_textura_personalizada);    //textura personalizada
@@ -547,7 +730,12 @@ void editorTexture::change_texture(void *data, RGBColord cor, int mask_x) {
     	for(int j = 0; j < y; j++){//percorre pixels na vertical
     		float bright = mask.get_bright(i, j); //pega o brilho da mascara a cada pixel
 
-                if(bright > 0.1 && bright <= 0.85 && print_mask == 1){  //se for cinza claro
+                if(print_mask == 0){ //se for pra pintar todo o lagarto...
+                    result_image.set_xel(i, j, RGBColord(cor.get_x()*image.get_red(i, j),
+											   cor.get_y()*image.get_green(i, j) ,
+											   cor.get_z()*image.get_blue(i, j)));
+                }
+               else if(bright > 0.6 && bright <= 0.85 && print_mask == 1){  //se for cinza claro
     			//RGBColord c = RGBColord(0, 0, 1);
     			result_image.set_xel(i, j, RGBColord(cor.get_x()*image.get_red(i, j),
 											   cor.get_y()*image.get_green(i, j) ,
@@ -559,11 +747,20 @@ void editorTexture::change_texture(void *data, RGBColord cor, int mask_x) {
 											   cor.get_z()*image.get_blue(i, j)));
 
                 }
-                else if(bright > 0.1 && bright <= 0.85 && print_mask == 2){ //matém a textura personalizada
+                else if(bright > 0.1 && bright <= 0.6 && print_mask == 3){ //se for cinza escuro
+                    result_image.set_xel(i, j, RGBColord(cor.get_x()*image.get_red(i, j),
+											   cor.get_y()*image.get_green(i, j),
+											   cor.get_z()*image.get_blue(i, j)));
+
+                }
+                else if(bright > 0.6 && bright <= 0.85 && print_mask != 1){ //matém a textura personalizada
     			result_image.set_xel(i, j, custom.get_xel(i, j));
 
     		}
-                 else if(bright > 0.85 && print_mask == 1){//matém a textura personalizada
+                 else if(bright > 0.85 && print_mask != 2){//matém a textura personalizada
+                     result_image.set_xel(i, j, custom.get_xel(i, j));
+                 }
+                 else if(bright > 0.1 && bright <= 0.6 && print_mask != 3){//matém a textura personalizada
                      result_image.set_xel(i, j, custom.get_xel(i, j));
                  }
                  else{ //coloca pixels da textura original
