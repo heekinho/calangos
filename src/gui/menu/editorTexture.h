@@ -28,7 +28,7 @@
 
 #include "player.h"
 
-class editorTexture {
+class editorTexture{
 public:
 
     AnimControlCollection anims2;

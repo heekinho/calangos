@@ -24,7 +24,8 @@ string editorTexture::path_mascara = "models/lizards/custom/young/teiu_mask.jpg"
 string editorTexture::path_textura_original = "models/lizards/custom/young/teiu.jpg";
 
 
-editorTexture::editorTexture() {
+editorTexture::editorTexture() {//construtor
+
     lagartoPersonalizado = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), "models/lizards/custom/young/model");
     lagartoPersonalizado.set_scale(0.08, 0.08, 0.08);
     lagartoPersonalizado.set_pos(0, 35, -2);
@@ -100,7 +101,7 @@ void editorTexture::hide_tela_personalizado(){
 
 }
 
-//implementa método abstrato
+//implementa método abstrato que serão herdados da classe screen (ver como vai ser feito isso ainda)
 void editorTexture::hide_screen(){
     hide_tela_personalizado();
 }
@@ -115,7 +116,7 @@ void editorTexture::load_screen(){
 
 void editorTexture::unload_screen(){
     hide_tela_personalizado();
-     lagartoPersonalizado.remove_node();
+    lagartoPersonalizado.remove_node();
 }
 
 void editorTexture::show_tela_personalizar(void *data) {
@@ -191,24 +192,18 @@ void editorTexture::show_tela_personalizar(void *data) {
 
         Simdunas::get_evt_handler()->add_hook(c->botao_padrao_textura_4->get_click_event(MouseButton::one()), set_textura4, c); //fazer metodo   padra_textura_1_funcao
 
-
-
  //   c->Paleta_cores(c); //carrega a paleta de cores
     lagartoPersonalizado.show();  //mostra o lagarto personalizado
-
-  //  nod_botao_voltar.show();
-  //  button_np.show();
-  //  showing_custom = true; //indica que a tela de personalizar lagarto está sendo exibida
 
 }
 
 void editorTexture::set_textura1(const Event*, void *data) {
     editorTexture *c = (editorTexture*) data;
     c->hide_paleta_cores();
-     c->Paleta_cores(c, 2);  //o numero é a quantidade de colunas que terá a paleta de cores
+    c->Paleta_cores(c, 2);  //o numero é a quantidade de colunas que terá a paleta de cores
     path_textura_original = "models/lizards/custom/young/teiu.jpg";
     path_mascara = "models/lizards/custom/young/teiu_mask.jpg";
-     print_standard(data);  // faz com que textura original = textura personalizada
+     print_standard(data);  
 }
 void editorTexture::set_textura2(const Event*, void *data) {
      editorTexture *c = (editorTexture*) data;
@@ -216,7 +211,7 @@ void editorTexture::set_textura2(const Event*, void *data) {
      c->Paleta_cores(c, 3);  //o numero é a quantidade de colunas que terá a paleta de cores
     path_textura_original = "models/lizards/custom/young/eurolophosaurus.jpg";
     path_mascara = "models/lizards/custom/young/eurolophosaurus_mask.jpg";
-     print_standard(data); // faz com que textura original = textura personalizada
+     print_standard(data);
 }
 void editorTexture::set_textura3(const Event*, void *data) {
      editorTexture *c = (editorTexture*) data;
@@ -224,7 +219,7 @@ void editorTexture::set_textura3(const Event*, void *data) {
      c->Paleta_cores(c, 1);  //o numero é a quantidade de colunas que terá a paleta de cores
     path_textura_original = "models/lizards/custom/young/cnemidophorus.jpg";
     path_mascara = "models/lizards/custom/young/cnemidophorus_mask.jpg";
-     print_standard(data); // faz com que textura original = textura personalizada
+     print_standard(data); 
 }
 void editorTexture::set_textura4(const Event*, void *data) {
      editorTexture *c = (editorTexture*) data;
@@ -232,7 +227,7 @@ void editorTexture::set_textura4(const Event*, void *data) {
      c->Paleta_cores(c, 1);  //o numero é a quantidade de colunas que terá a paleta de cores
     path_textura_original = "models/lizards/custom/young/tropidurus.jpg";
     path_mascara = "models/lizards/custom/young/tropidurus_mask.jpg";
-    print_standard(data); // faz com que textura original = textura personalizada
+    print_standard(data);
 }
 
 
@@ -544,10 +539,7 @@ void editorTexture::Paleta_cores( void *data, int  qtde_coluna) {
         Simdunas::get_evt_handler()->add_hook(config->botao3_black->get_click_event(MouseButton::one()), print3_black, config);
             
         }
-
-
 }
-
 
 //métodos que pintam a area branca da mascara
 void editorTexture::print_green(const Event*, void *data) {
@@ -592,26 +584,6 @@ void editorTexture::print_yellow(const Event*, void *data) {
     mudar_marcador(-1.2, 0.0, 0.1, data); //posição que deverá ficar o marcador
 }
 
-//muda a posição do marcador da primeira coluna da paleta de cores
-void editorTexture::mudar_marcador(float a,float b,float c,void *data){
- editorTexture * config = (editorTexture*) data;
- config->marcador_camada1.set_pos(a-0.005, b, c-0.005);
- config->marcador_camada1.show();
-}
-
-//muda a posição do marcador da segunda coluna da paleta de cores
-void editorTexture::mudar_marcador2(float a,float b,float c,void *data){
- editorTexture * config = (editorTexture*) data;
- config->marcador_camada2.set_pos(a -0.005, b, c  -0.005);
- config->marcador_camada2.show();
-}
-void editorTexture::mudar_marcador3(float a,float b,float c,void *data){
- editorTexture * config = (editorTexture*) data;
- config->marcador_camada3.set_pos(a -0.005, b, c  -0.005);
- config->marcador_camada3.show();
-}
-
-
 //métodos que pintam a area cinza da mascara
 void editorTexture::print2_green(const Event*, void *data) {
     RGBColord cor = RGBColord(0.4,0.49,0.46);
@@ -654,12 +626,11 @@ void editorTexture::print2_yellow(const Event*, void *data) {
      mudar_marcador2(-1.05, 0.0, 0.1, data);
 }
 
-
 //métodos que pintam a area cinza escuro da mascara (botões da terceira coluna da palata de cores)
 void editorTexture::print3_green(const Event*, void *data) {
     RGBColord cor = RGBColord(0.4,0.49,0.46);
     change_texture(data, cor, 3);
-     mudar_marcador3(-1.05, 0.0, 0.4, data);
+     mudar_marcador3(-0.9, 0.0, 0.4, data);
 }
 void editorTexture::print3_green2(const Event*, void *data) {
     RGBColord cor = RGBColord(0.23,0.39,0.32);
@@ -697,21 +668,35 @@ void editorTexture::print3_yellow(const Event*, void *data) {
      mudar_marcador3(-0.9, 0.0, 0.1, data);
 }
 
-
-//Esse método não faz nenhuma alteração na textura original. É utilizado quando o padrão de textura é alterado
+//Esse método coloca uma cor padrão (vermelho) na textura. É utilizado quando o padrão de textura é alterado
 void editorTexture::print_standard(void *data) {
         editorTexture * config = (editorTexture*) data;
         //apaga os marcadores da paleta de cores
        config->marcador_camada1.hide();
        config->marcador_camada2.hide();
        config->marcador_camada3.hide();
-     // faz com que textura original = textura personalizada.
-    RGBColord cor = RGBColord(0.23,0.39,0.32);
-    change_texture(data, cor, 0);
-   // change_texture(data, cor, 2);
-   // change_texture(data, cor, 3);
+    RGBColord cor = RGBColord(0.23,0.39,0.32);//forma a cor vermelha
+    change_texture(data, cor, 0); //pinta toda a textura inicialmente de vermelha
 }
 
+//muda a posição do marcador da primeira coluna da paleta de cores
+void editorTexture::mudar_marcador(float a,float b,float c,void *data){
+ editorTexture * config = (editorTexture*) data;
+ config->marcador_camada1.set_pos(a-0.005, b, c-0.005);
+ config->marcador_camada1.show();
+}
+
+//muda a posição do marcador da segunda coluna da paleta de cores
+void editorTexture::mudar_marcador2(float a,float b,float c,void *data){
+ editorTexture * config = (editorTexture*) data;
+ config->marcador_camada2.set_pos(a -0.005, b, c  -0.005);
+ config->marcador_camada2.show();
+}
+void editorTexture::mudar_marcador3(float a,float b,float c,void *data){
+ editorTexture * config = (editorTexture*) data;
+ config->marcador_camada3.set_pos(a -0.005, b, c  -0.005);
+ config->marcador_camada3.show();
+}
 
 void editorTexture::change_texture(void *data, RGBColord cor, int mask_x) {
     int print_mask = mask_x; //esse int representa a parte da mascara que o jogador deseja pintar (1 = cinza, 2 = branca, 3 = cinza escuro, 0 = branco a cinza escuro)
@@ -770,8 +755,22 @@ void editorTexture::change_texture(void *data, RGBColord cor, int mask_x) {
 
         }
                 //sobrescreve textura personalizada com o resultado da edição
-                result_image.write(path_textura_personalizada);
-                swap_texture(data); //faz a mudança da textura
+               result_image.write(path_textura_personalizada);
+               // swap_texture(data); //faz a mudança da textura
+                
+                
+                editorTexture *config = (editorTexture*) data;
+                //troca textura, entre 2 texturas diferentes
+               PT(TextureStage) ts = config->lagartoPersonalizado.find_all_texture_stages().get_texture_stage(0);
+		ts->set_mode(TextureStage::M_modulate);
+
+               //deixar tudo na memória mesmo????????????????????
+                PT(Texture) t = new Texture();
+                t->load(result_image);
+		//PT(Texture) t = TexturePool::load_texture(text);
+		config->lagartoPersonalizado.set_texture(ts, t, 1);
+                config->lagartoPersonalizado.get_texture()->reload();
+              
 
 }
 
