@@ -32,12 +32,14 @@ public:
 
     void detectaColisaoFps();
      void detectaColisaoSeg();
-
+     bool get_colisao();
+      void set_colisao(bool c);
 
 
 private:
     static bool instanceFlag;
     static collision *single;
+    static bool colisao;
 };
 
 #endif	/* _COLLISION_H */

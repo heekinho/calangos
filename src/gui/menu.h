@@ -102,7 +102,7 @@ public:
     static void graph(const Event*, void *data);
    
     static Menu* get_instance();
-    bool get_colisao();
+   
 
     void tela_over(Session *nsession);
     void pause_game();
@@ -161,7 +161,7 @@ private:
     static NodePath node_texto, background_over, background_instrucoes, background_icones,node_tex_obj,frameNode;
     static bool rodar;
     static bool controle;
-    static bool colisao;
+   
 
     //mudei de lugar
     static NodePath button_sair;
