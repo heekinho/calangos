@@ -337,7 +337,7 @@ void GameStatusBar::make_idade(NodePath menu_frame_np) {
 //	img_calendar.set_alpha_scale(0.6);
 
 	label_idade = new TextNode("Idade");
-	label_idade->set_text("mês");
+	label_idade->set_text("mÃªs");
 
 	np_label_idade = menu_frame_np.attach_new_node(label_idade);
 	np_label_idade.set_pos(0.23, 0.0, 0.45);
