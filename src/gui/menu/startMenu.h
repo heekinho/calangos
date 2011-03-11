@@ -37,16 +37,26 @@ public:
 
 	void load();
 	void unload(){};
+	void show();
+	void hide();
 
 	void default_button_config(PT(Button) button, NodePath &np,
 			const string &text, float z, EventCallbackFunction *action);
 
+	NodePath get_np_options();
+	NodePath get_np_play();
+
 private:
+	NodePath np_lagarto;
+	AnimControlCollection anims;
+	NodePath np_logo;
+
 	/* Componentes do Menu */
-	PT(Button) btn_play; 		NodePath np_play;		 ACTION(play_action);
-	PT(Button) btn_options; 	NodePath np_options;	 ACTION(options_action);
-	PT(Button) btn_credits; 	NodePath np_credits;	 ACTION(credits_action);
-	PT(Button) btn_exit; 		NodePath np_exit;		 ACTION(exit_action);
+	PT(Button) btn_play; 			NodePath np_play;		 	ACTION(play_action);
+	PT(Button) btn_options; 		NodePath np_options;		ACTION(options_action);
+	PT(Button) btn_instructions; 	NodePath np_instructions;	ACTION(instructions_action);
+	PT(Button) btn_credits; 		NodePath np_credits;	 	ACTION(credits_action);
+	PT(Button) btn_exit; 			NodePath np_exit;		 	ACTION(exit_action);
 };
 
 #undef ACTION

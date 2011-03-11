@@ -21,57 +21,97 @@ Session* Session::singleSession = NULL;
 /*! Constroi uma session default.*/
 //Session::Session(WindowFramework *window) {
 Session::Session() {
+	finished_loading = false;
+	stage_info.push_back("Criando Repositorio de Modelos...");
+	stage_info.push_back("Criando Repositorio de Imagens...");
+	stage_info.push_back("Criando Repositorio de Sons...");
+	stage_info.push_back("Criando Controle de Tempo...");
+	stage_info.push_back("Carregando Jogador...");
+	stage_info.push_back("Criando Mundo...");
+	stage_info.push_back("Inicializando Clima e Microclima...");
+	stage_info.push_back("Criando Controle do Jogador...");
+	stage_info.push_back("Criando Controle de Camera...");
+	stage_info.push_back("Criando Interface...");
+	stage_info.push_back("Distribuindo animais...");
 }
 
 
 /*! Inicia os controles da sessao e tals... */
-void Session::init_session(){
-	/* Sistema de Repositório de Modelos */
-	nout << "Criando Repositorio de Modelos..." << endl;
-	ModelRepository::get_instance();
-
-	nout << "Criando Repositorio de Imagens..." << endl;
-	ImageRepository::get_instance();
-
-        nout <<"Criando Repositodio de Sons..." << endl;
-        audioRepository::get_instance();
-
-	nout << "Criando Controle de Tempo..." << endl;
-	TimeControl::get_instance();
-
-	/* Cria um player padrão... */
-	nout << "Carregando Jogador..." << endl;
-	Player::load_player();
-
-	/* Cria um controle de tempo e um mundo padrão... */
-	nout << "Criando Mundo..." << endl;
-	World::get_world();
-	World::load_enviroment();
-
-	/* inicializa clima e microclima */
-	nout << "Inicializando Clima e Microclima..." << endl;
-	ClimaTempo::get_instance();
-	MicroClima::get_instance();
-
-	nout << "Criando Controle do Jogador..." << endl;
-	PlayerControl::get_instance();
-
-	nout << "Criando Controle de Camera..." << endl;
-	CameraControl::get_instance();
-
-	/* Cria a Interface Grafica */
-	nout << "Criando Interface..." << endl;
-	GuiManager::get_instance();
-	causa_mortis = -1;
-
-	/* Redistribui animais para setores próximos ao player */
-	Player::get_instance()->change_sector(Player::get_instance()->get_setor());
+void Session::init_session(int process_stage){
+	switch (process_stage) {
+		case 0:
+			/* Sistema de Repositório de Modelos */
+			nout << "Criando Repositorio de Modelos..." << endl;
+			ModelRepository::get_instance();
+			break;
+		case 1:
+			nout << "Criando Repositorio de Imagens..." << endl;
+			ImageRepository::get_instance();
+			break;
+		case 2:
+			nout <<"Criando Repositodio de Sons..." << endl;
+			audioRepository::get_instance();
+			break;
+		case 3:
+			nout << "Criando Controle de Tempo..." << endl;
+			TimeControl::get_instance();
+			break;
+		case 4:
+			/* Cria um player padrão... */
+			nout << "Carregando Jogador..." << endl;
+			Player::load_player();
+			break;
+		case 5:
+			/* Cria um controle de tempo e um mundo padrão... */
+			nout << "Criando Mundo..." << endl;
+			World::get_world();
+			World::load_enviroment();
+			break;
+		case 6:
+			/* inicializa clima e microclima */
+			nout << "Inicializando Clima e Microclima..." << endl;
+			ClimaTempo::get_instance();
+			MicroClima::get_instance();
+			break;
+		case 7:
+			nout << "Criando Controle do Jogador..." << endl;
+			PlayerControl::get_instance();
+			break;
+		case 8:
+			nout << "Criando Controle de Camera..." << endl;
+			CameraControl::get_instance();
+			break;
+		case 9:
+			/* Cria a Interface Grafica */
+			nout << "Criando Interface..." << endl;
+			GuiManager::get_instance();
+			GuiManager::get_instance()->hide_frameNode();
+			causa_mortis = -1;
+			break;
+		case 10:
+			/* Redistribui animais para setores próximos ao player */
+			nout << "Distribuindo animais..." << endl;
+			Player::get_instance()->change_sector(Player::get_instance()->get_setor());
+			finished_loading = true;
+			break;
+	}
 }
 
 /*! MainLoop. O loop principal da session */
 void Session::run(){
-	/* Inicializa de fato a sessao, para então rodar o loop principal */
-	init_session();
+//	/* Inicializa de fato a sessao, para então rodar o loop principal */
+//	init_session();
+//
+//	GuiManager::get_instance()->hide_frameNode();
+//
+//	LoadScreenStage1::get_instance()->loading_completed();
+
+//	while (!start) {
+//		Simdunas::get_framework()->do_frame(Thread::get_current_thread());
+//	}
+
+	GuiManager::get_instance()->show_frameNode();
+
 	causa_mortis = -1;
 	
 	Simdunas::get_framework()->do_frame(Thread::get_current_thread());
@@ -183,6 +223,14 @@ Session* Session::get_instance() {
         instanceFlag = true;
     }
     return singleSession;
+}
+
+vector<string> Session::get_stage_info() {
+	return stage_info;
+}
+
+bool Session::is_finished_loading() {
+	return finished_loading;
 }
 
 

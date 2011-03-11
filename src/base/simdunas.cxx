@@ -9,6 +9,7 @@
 #include "audioSound.h"
 
 #include "pStatClient.h"
+#include "gameOptionsScreen.h"
 
 //TODO: Colocar constants: modelpath, soundpath, imagepath, texturepath.
 
@@ -17,6 +18,7 @@ PandaFramework* Simdunas::framework = NULL;
 WindowFramework* Simdunas::window = NULL;
 EventQueue* Simdunas::evt_queue = NULL;
 EventHandler* Simdunas::evt_handler = NULL;
+bool Simdunas::play_clicked = false;
 
 #include "objetoJogo.h"
 #include "animal.h"
@@ -28,12 +30,13 @@ EventHandler* Simdunas::evt_handler = NULL;
 
 int main(int argc, char *argv[]) {
 	/* Carrega o arquivo de configuração do jogo */
-	#if DEBUG
-		load_prc_file("myConfig-Calangos-develop.prc");
-	#else
-		load_prc_file("myConfig-Calangos-distribute.prc");
-	#endif
+#if DEBUG
+	load_prc_file("myConfig-Calangos-develop.prc");
+#else
+	load_prc_file("myConfig-Calangos-distribute.prc");
+#endif
 
+	TextNode::set_default_encoding(TextNode::E_utf8);
 	Simdunas::init_types();
 
 	PandaFramework framework;
@@ -65,30 +68,44 @@ int main(int argc, char *argv[]) {
 		//Simdunas::get_window()->get_render().set_antialias(AntialiasAttrib::M_multisample);
 
 
-//		/* Novo sistema de menu começa aqui, descomente para testar */
-//		PT(ScreenManager) manager = new CalangosMenuManager();
-//		while(Simdunas::get_framework()->do_frame(Thread::get_current_thread())){}
-//		/* Novo sistema de menu termina aqui */
-
-		nout << "Carregando Tela de Abertura..." << endl;
-
-		/* Inicia o Menu */
-		Menu::get_instance()->start_Menu();
-
-		// Segura o jogo no menu até que este libere o início do jogo
+		/* Novo sistema de menu começa aqui, descomente para testar */
+		PT(CalangosMenuManager) menu_manager = new CalangosMenuManager();
 		Thread *current_thread = Thread::get_current_thread();
-		while (Simdunas::get_framework()->do_frame(current_thread)
-				&& Menu::get_instance()->get_rodar() == false) {
-
-			if (Menu::get_instance()->get_playing_movie()) {//verifica se a vinheta ta sendo tocada
-				if (Menu::get_instance()->get_sound()->get_time() <= 62) {//verifica se o video chegou ao fim(DEPOIS PROCURAR UMA OUTRA FORMA DE FAZER)
-					Menu::get_instance()->get_audioManager()->update(); //é necessário atualizar a cada frame
+		while(Simdunas::get_framework()->do_frame(current_thread) && !Simdunas::is_play_clicked()){
+			Simdunas::get_framework()->do_frame(current_thread);
+			if(menu_manager->is_playing_movie()){//verifica se a vinheta ta sendo tocada
+				if (menu_manager->get_sound()->get_time() <= 62) {//verifica se o video chegou ao fim(DEPOIS PROCURAR UMA OUTRA FORMA DE FAZER)
+					menu_manager->get_audio_manager()->update(); //é necessário atualizar a cada frame
 				}
 				else {
-					Menu::get_instance()->stop_movie(NULL, Menu::get_instance());//quando chegar chama o método que para
+					menu_manager->stop_movie(NULL,menu_manager);//quando chegar chama o método que para
+
 				}
 			}
 		}
+		/* Novo sistema de menu termina aqui */
+
+		//		nout << "Carregando Tela de Abertura..." << endl;
+		//
+		//		/* Inicia o Menu */
+		//		Menu::get_instance()->start_Menu();
+		//
+		//		// Segura o jogo no menu até que este libere o início do jogo
+		////		Thread *current_thread = Thread::get_current_thread();
+		//		while (!Simdunas::is_play_clicked()) {
+		//			Simdunas::get_framework()->do_frame(current_thread);
+		//			if(Menu::get_instance()->get_playing_movie()){//verifica se a vinheta ta sendo tocada
+		//				if (Menu::get_instance()->get_sound()->get_time() <= 62) {//verifica se o video chegou ao fim(DEPOIS PROCURAR UMA OUTRA FORMA DE FAZER)
+		//					Menu::get_instance()->get_audioManager()->update(); //é necessário atualizar a cada frame
+		//				}
+		//				else {
+		//					Menu::get_instance()->stop_movie(NULL,Menu::get_instance());//quando chegar chama o método que para
+		//
+		//				}
+		//			}
+		//		}
+
+		Simdunas::get_framework()->do_frame(current_thread);
 
 		/* FIX: Se o usuário já fechou a janela, não executar mais nada do jogo */
 		if(!Simdunas::get_window()->get_graphics_window()->get_properties().get_open()) return 0;
@@ -96,11 +113,14 @@ int main(int argc, char *argv[]) {
 		TimeControl::virtualTime = Menu::get_instance()->get_minuto_dia_virtual();
 
 		/* Como só chama o Menu uma vez: */
-		Player::lizard_specie = Menu::get_instance()->get_especie();
+//		Player::lizard_specie = Menu::get_instance()->get_especie();
+		Player::lizard_specie = ((GameOptionsScreen*) menu_manager->get_game_options_screen().p())->get_especie();
 		Player::lizard_gender = Player::young;
 
-		/* Inicia uma sessão padrão */
-		Session::get_instance()->run();
+		//		/* Inicia uma sessão padrão */
+		//		Session::get_instance()->run();
+		LoadingScreen* loading_screen = (LoadingScreen*) menu_manager->get_loading_screen().p();
+		loading_screen->loading_process();
 	} else {
 		nout << "Nao foi possivel carregar a janela" << endl;
 	}
@@ -146,5 +166,13 @@ EventQueue* Simdunas::get_evt_queue(){
 
 void Simdunas::set_evt_queue(EventQueue *evt_queue){
 	Simdunas::evt_queue = evt_queue;
+}
+
+bool Simdunas::is_play_clicked() {
+	return Simdunas::play_clicked;
+}
+
+void Simdunas::set_play_clicked(bool flag) {
+	Simdunas::play_clicked = flag;
 }
 

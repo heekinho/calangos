@@ -19,6 +19,7 @@
 #include "movieTexture.h"
 
 #include "player.h"
+#include "loadingScreen.h"
 
 
 class Menu {
@@ -94,6 +95,7 @@ public:
     static void slide(const Event*, void* data);
 
     int get_minuto_dia_virtual();
+    void set_minuto_dia_virtual(int value);
     Player::lizardEpecie get_especie();
     bool get_rodar();
     bool get_flag_stop_time_pause();
@@ -125,6 +127,8 @@ public:
     AudioManager * get_audioManager();
     AudioSound * get_sound();
     bool get_playing_movie();
+
+    LoadingScreen* get_loading_screen();
 
 private:
 
@@ -216,6 +220,8 @@ private:
    
      
      */
+
+     LoadingScreen* loading_screen;
 };
 
 #endif

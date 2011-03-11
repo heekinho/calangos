@@ -28,11 +28,15 @@ public:
 
 	static void init_types();
 
+	static bool is_play_clicked();
+	static void set_play_clicked(bool flag);
+
 private:
 	static PandaFramework *framework;
 	static WindowFramework *window;
 	static EventQueue *evt_queue;
 	static EventHandler *evt_handler;
+	static bool play_clicked;
 };
 
 

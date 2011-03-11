@@ -34,14 +34,17 @@ public:
 
 	void stop_animations();
 
+	bool is_finished_loading();
+	void init_session(int process_stage);
+
+	vector<string> get_stage_info();
+
 	bool game_over;
 private:
 
 	Session();
 	static bool instanceFlag;
 	static Session *singleSession;
-
-	void init_session();
 
 	//PT(GuiManager) gui;
 	//TimeControl *time_control;
@@ -53,6 +56,8 @@ private:
 	//PlayerControl *player_control;
 
 	int causa_mortis;
+	vector<string> stage_info; // informações sobre as etapas de carregamento.
+	bool finished_loading;
 	void end_session();
 };
 
