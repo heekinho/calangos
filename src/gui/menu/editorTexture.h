@@ -83,15 +83,20 @@ public:
     void unload_screen();
     void show_screen();
     void hide_screen();
+    
     //SingleTon
     static editorTexture* get_instance();
 
 private:
 
       //caminhos para definir uma textura incial para edição.
-    static string path_textura_original;
-    static string path_mascara;
-    static string  path_textura_personalizada;
+   // static string path_textura_original;
+   // static string path_mascara;
+   // static string  path_textura_personalizada;
+
+    static PNMImage textura_original;
+    static PNMImage mascara;
+    static PNMImage textura_personalizada;
 
     NodePath  marcador_camada1, marcador_camada2,marcador_camada3,lagartoPersonalizado, nod_bot_personalizar, botao_red_np, botao_green_np,
     nod_bot_padrao_textura_1,nod_bot_padrao_textura_2,nod_bot_padrao_textura_3,nod_bot_padrao_textura_4,

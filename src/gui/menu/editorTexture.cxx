@@ -19,10 +19,13 @@
 
 bool editorTexture::instanceFlag = false;
 editorTexture* editorTexture::single = NULL;
-string editorTexture::path_textura_personalizada = "models/lizards/custom/young/custom.jpg";
-string editorTexture::path_mascara = "models/lizards/custom/young/teiu_mask.jpg";
-string editorTexture::path_textura_original = "models/lizards/custom/young/teiu.jpg";
 
+  PNMImage editorTexture::textura_personalizada = PNMImage("models/lizards/custom/young/teiu.jpg");
+  PNMImage editorTexture::mascara = PNMImage("models/lizards/custom/young/teiu_mask.jpg");
+  PNMImage editorTexture::textura_original = PNMImage("models/lizards/custom/young/teiu.jpg");
+ // String editorTexture::path_textura_personalizada = "models/lizards/custom/young/custom.jpg";
+ // String editorTexture::path_mascara = "models/lizards/custom/young/teiu_mask.jpg";
+ // String editorTexture::path_textura_original = "models/lizards/custom/young/teiu.jpg";
 
 editorTexture::editorTexture() {//construtor
 
@@ -201,32 +204,32 @@ void editorTexture::set_textura1(const Event*, void *data) {
     editorTexture *c = (editorTexture*) data;
     c->hide_paleta_cores();
     c->Paleta_cores(c, 2);  //o numero é a quantidade de colunas que terá a paleta de cores
-    path_textura_original = "models/lizards/custom/young/teiu.jpg";
-    path_mascara = "models/lizards/custom/young/teiu_mask.jpg";
+    textura_original = PNMImage("models/lizards/custom/young/teiu.jpg");
+    mascara = PNMImage("models/lizards/custom/young/teiu_mask.jpg");
      print_standard(data);  
 }
 void editorTexture::set_textura2(const Event*, void *data) {
      editorTexture *c = (editorTexture*) data;
      c->hide_paleta_cores();
      c->Paleta_cores(c, 3);  //o numero é a quantidade de colunas que terá a paleta de cores
-    path_textura_original = "models/lizards/custom/young/eurolophosaurus.jpg";
-    path_mascara = "models/lizards/custom/young/eurolophosaurus_mask.jpg";
+     textura_original = PNMImage("models/lizards/custom/young/eurolophosaurus.jpg");
+     mascara = PNMImage("models/lizards/custom/young/eurolophosaurus_mask.jpg");
      print_standard(data);
 }
 void editorTexture::set_textura3(const Event*, void *data) {
      editorTexture *c = (editorTexture*) data;
      c->hide_paleta_cores();
      c->Paleta_cores(c, 1);  //o numero é a quantidade de colunas que terá a paleta de cores
-    path_textura_original = "models/lizards/custom/young/cnemidophorus.jpg";
-    path_mascara = "models/lizards/custom/young/cnemidophorus_mask.jpg";
+    textura_original = PNMImage("models/lizards/custom/young/cnemidophorus.jpg");
+    mascara = PNMImage("models/lizards/custom/young/cnemidophorus_mask.jpg");
      print_standard(data); 
 }
 void editorTexture::set_textura4(const Event*, void *data) {
      editorTexture *c = (editorTexture*) data;
      c->hide_paleta_cores();
      c->Paleta_cores(c, 1);  //o numero é a quantidade de colunas que terá a paleta de cores
-    path_textura_original = "models/lizards/custom/young/tropidurus.jpg";
-    path_mascara = "models/lizards/custom/young/tropidurus_mask.jpg";
+    textura_original = PNMImage("models/lizards/custom/young/tropidurus.jpg");
+    mascara = PNMImage("models/lizards/custom/young/tropidurus_mask.jpg");
     print_standard(data);
 }
 
@@ -699,12 +702,19 @@ void editorTexture::mudar_marcador3(float a,float b,float c,void *data){
 }
 
 void editorTexture::change_texture(void *data, RGBColord cor, int mask_x) {
-    int print_mask = mask_x; //esse int representa a parte da mascara que o jogador deseja pintar (1 = cinza, 2 = branca, 3 = cinza escuro, 0 = branco a cinza escuro)
    // Menu *config = (Menu*) data;
+  //  PNMImage image = PNMImage(path_textura_original);   //textura original
+  //  PNMImage mask = PNMImage(path_mascara);    //mascara da textura
+  //  PNMImage custom = PNMImage(path_textura_personalizada);    //textura personalizada
 
-    PNMImage image = PNMImage(path_textura_original);   //textura original
-    PNMImage mask = PNMImage(path_mascara);    //mascara da textura
-    PNMImage custom = PNMImage(path_textura_personalizada);    //textura personalizada
+
+      //esse int representa a parte da mascara que o jogador deseja pintar (1 = cinza,
+      //2 = branca, 3 = cinza escuro, 0 = branco a cinza escuro)
+    int print_mask = mask_x;
+
+    PNMImage image = textura_original;
+    PNMImage mask = mascara;
+    PNMImage custom = textura_personalizada;
 
     int x = image.get_x_size();  //tamanho da textura na horizontal
     int y = image.get_y_size();  //tamanho da textura na vertical
@@ -754,38 +764,37 @@ void editorTexture::change_texture(void *data, RGBColord cor, int mask_x) {
             }
 
         }
-                //sobrescreve textura personalizada com o resultado da edição
-               result_image.write(path_textura_personalizada);
+                //sobrescreve textura personalizada com o resultado da edição (EM ARQUIVO)
+               //  result_image.write(path_textura_personalizada);
                // swap_texture(data); //faz a mudança da textura
-                
-                
-                editorTexture *config = (editorTexture*) data;
+                textura_personalizada = result_image;
+                swap_texture(data); //faz a mudança da textura
+
+         //       editorTexture *config = (editorTexture*) data;
                 //troca textura, entre 2 texturas diferentes
-               PT(TextureStage) ts = config->lagartoPersonalizado.find_all_texture_stages().get_texture_stage(0);
-		ts->set_mode(TextureStage::M_modulate);
-
-               //deixar tudo na memória mesmo????????????????????
-                PT(Texture) t = new Texture();
-                t->load(result_image);
-		//PT(Texture) t = TexturePool::load_texture(text);
-		config->lagartoPersonalizado.set_texture(ts, t, 1);
-                config->lagartoPersonalizado.get_texture()->reload();
+              // PT(TextureStage) ts = config->lagartoPersonalizado.find_all_texture_stages().get_texture_stage(0);
+	//	ts->set_mode(TextureStage::M_modulate);
+         //       PT(Texture) t = new Texture();//instancia um Texture
+          //      t->load(result_image); //cria um textura a partir de um PNMImage
+//		config->lagartoPersonalizado.set_texture(ts, t, 1);
+ //               config->lagartoPersonalizado.get_texture()->reload();
               
-
 }
 
 void editorTexture::swap_texture(void *data) {//recarregar a textura personalizada do lagarto
                 editorTexture *config = (editorTexture*) data;
-                //troca textura, entre 2 texturas diferentes
+                 //troca textura, entre 2 texturas diferentes
                PT(TextureStage) ts = config->lagartoPersonalizado.find_all_texture_stages().get_texture_stage(0);
 		ts->set_mode(TextureStage::M_modulate);
-
-		PT(Texture) t = TexturePool::load_texture(path_textura_personalizada);
+                PT(Texture) t = new Texture();//instancia um Texture
+                t->load(textura_personalizada); //cria um textura a partir de um PNMImage		
 		config->lagartoPersonalizado.set_texture(ts, t, 1);
                 config->lagartoPersonalizado.get_texture()->reload();
 
-            //     nout << "Aqui termina o teste" << endl;
+
 }
+
+
 
 
 
