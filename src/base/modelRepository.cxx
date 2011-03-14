@@ -11,7 +11,7 @@ ModelRepository* ModelRepository::single = NULL;
 
 /*! Constrói o repositório de modelos */
 ModelRepository::ModelRepository(){
-	load_models();
+
 }
 
 /*! Retorna/constrói o repositório de modelos */

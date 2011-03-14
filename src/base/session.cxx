@@ -42,7 +42,7 @@ void Session::init_session(int process_stage){
 		case 0:
 			/* Sistema de Repositório de Modelos */
 			nout << "Criando Repositorio de Modelos..." << endl;
-			ModelRepository::get_instance();
+			ModelRepository::get_instance()->load_models();
 			break;
 		case 1:
 			nout << "Criando Repositorio de Imagens..." << endl;

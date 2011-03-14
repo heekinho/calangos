@@ -31,7 +31,7 @@ public:
 
 
 	void load_player_models(const string &lizard_name);
-
+        void load_models();
 private:
 	/* Controle do Singleton */
 	static bool instanceFlag;
@@ -45,7 +45,7 @@ private:
 	map<string, PT(ObjetoJogo)> models;
 	map<string, PT(AnimatedObjetoJogo)> animated_models;
 
-	void load_models();
+	
 };
 
 #endif
