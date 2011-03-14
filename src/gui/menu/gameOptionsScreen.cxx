@@ -11,7 +11,7 @@
 #include "calangosMenuManager.h"
 #include "menu.h"
 #include "fontPool.h"
-#include "editorTexture.h"
+#include "editorTextureScreen.h"
 #include "collision.h"
 
 Player::lizardEpecie GameOptionsScreen::especie = Player::eurolophosaurus; //a especie default
@@ -203,19 +203,12 @@ void GameOptionsScreen::load() {
 	img_colisao_ativada = Simdunas::get_window()->load_model(img_escolha_especie, "models/buttons/v.png");
 	img_colisao_ativada.set_scale(0.2, 0.0, 0.2);
 	img_colisao_ativada.set_pos(28.0, 0.0, 0.0);
-        img_colisao_ativada.hide();
+     
 	//carregando botão x (de desativar colisão)
 	img_colisao_desativada = Simdunas::get_window()->load_model(img_escolha_especie, "models/buttons/x.png");
 	img_colisao_desativada.set_scale(0.2, 0.0, 0.2);
 	img_colisao_desativada.set_pos(28.0, 0.0, 0.0);
-	img_colisao_desativada.hide();
-        
-        //verifica configuração inicial da colisão
-       if(collision::get_instance()->get_colisao()){
-          img_colisao_ativada.show();
-        }else{
-            img_colisao_desativada.show();
-        }
+	
 
 	Simdunas::get_evt_handler()->add_hook(slide->get_adjust_event(), slide_action, this);
 	//o lagarto default é o eurolophosaurus
@@ -510,7 +503,10 @@ void GameOptionsScreen::personalizar_action() {
 	// show_tela_personalizar(c); //apresenta o menu de edição de cores do lagarto
 	//apresenta os botões jogar e voltar
 	showing_custom = true;
-	editorTexture::get_instance()->load_screen();
+	//editorTextureScreen::get_instance()->load_screen();
+        manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_editor_texture_screen());
+
+
 }
 
 void GameOptionsScreen::jogar_action() {

@@ -27,7 +27,7 @@ public:
 	PT(Screen) get_key_instructions_screen();
 	PT(Screen) get_indicators_screen();
 	PT(Screen) get_game_options_screen();
-
+        PT(Screen) get_editor_texture_screen();
 	void create_menus();
 	PT(TextFont) get_default_font();
 	PT(AudioSound) get_sound();
@@ -47,6 +47,7 @@ private:
 	PT(Screen) key_instructions_screen;
 	PT(Screen) indicators_screen;
 	PT(Screen) game_options_screen;
+        PT(Screen) texture_screen;
     PT(MovieTexture) mov;
     CardMaker *cm;
     NodePath node_card;

@@ -15,6 +15,7 @@
 #include "indicatorsScreen.h"
 #include "gameOptionsScreen.h"
 #include "fontPool.h"
+#include "editorTextureScreen.h"
 
 CalangosMenuManager::CalangosMenuManager() : ScreenManager() {
 	play_movie("models/videos/vinheta_opcao_1_mpeg4.avi");
@@ -35,6 +36,7 @@ void CalangosMenuManager::create_menus(){
 	key_instructions_screen = new KeyInstructionsScreen(this);
 	indicators_screen = new IndicatorsScreen(this);
 	game_options_screen = new GameOptionsScreen(this);
+        texture_screen = new editorTextureScreen(this);
 	//	main_menu->load();
 }
 
@@ -75,6 +77,10 @@ PT(Screen) CalangosMenuManager::get_indicators_screen() {
 
 PT(Screen) CalangosMenuManager::get_game_options_screen() {
 	return game_options_screen;
+}
+
+PT(Screen) CalangosMenuManager::get_editor_texture_screen() {
+	return texture_screen;
 }
 
 PT(AudioSound) CalangosMenuManager::get_sound() {
