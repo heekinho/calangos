@@ -17,7 +17,7 @@
 #include "textureStageCollection.h"
 #include "imageRepository.h"
 #include "loadingScreen.h"
-#include "editorTexture.h"  //testando esse include
+#include "editorTextureScreen.h"  //testando esse include
 
 
 
@@ -57,13 +57,13 @@ Menu::Menu(WindowFramework *window) {
     this->_framework = window->get_panda_framework();
     this->minuto_dia_virtual = 0;
     this->flag_stop_time_pause = false;
-    Simdunas::get_framework()->define_key("escape", "Stop_Movie", stop_movie, this);
+//    Simdunas::get_framework()->define_key("escape", "Stop_Movie", stop_movie, this);
 }
 
 #include "auto_bind.h"
 #include "animatedObjetoJogo.h"
 #include "player/player.h"
-#include "editorTexture.h"
+#include "editorTextureScreen.h"
 #include "base/collision.h"
 
 void Menu::start_Menu() {
