@@ -17,6 +17,8 @@
 #include "screenManager.h"
 #include "screen.h"
 #include "modelRepository.h"
+#include "calangosMenuManager.h"
+#include "menu.h"
 
 
 
@@ -84,6 +86,8 @@ void editorTextureScreen::hide_paleta_cores(){ //remove todos os botões da pale
 }
 
 void editorTextureScreen::hide_tela_personalizado(){
+    npJogar.hide();
+    npVoltar.hide();
     lagartoPersonalizado.hide();
     marcador_camada1.remove_node();
     marcador_camada2.remove_node();
@@ -120,29 +124,24 @@ void editorTextureScreen::load(){
     anims2.loop_all(false);
     lagartoPersonalizado.hide();
 
-
-
-
+    default_button_config(buttonJogar, npJogar, " Jogar ", -0.8, jogo_action);
+    npJogar.hide();
+    
+   default_button_config(buttonVoltar, npVoltar, "<< Voltar", -0.9, voltar_action);
+   npVoltar.set_x(-0.9);
+   npVoltar.hide();
+   
 }
 
 void editorTextureScreen::unload(){
     hide_tela_personalizado();
     lagartoPersonalizado.remove_node();
+    npJogar.remove_node();
+    npVoltar.remove_node();
 }
 
 void editorTextureScreen::show_tela_personalizar(void *data) {
     editorTextureScreen *c = (editorTextureScreen*) data;
-
-    //botão jogar e botão voltar
-   // PT(TextFont) font = manager->get_default_font();
-
-	/////////////////////Mostrando botão jogar////////////////////////
-//	default_button_config(buttonJogar, npJogar, "Jogar", -0.8, jogo_action);
-
-	// Mostrando botão voltar
-	//default_button_config(buttonVoltar, npVoltar, "<< Voltar", -0.9, voltar_action);
-	//npVoltar.set_x(-0.9);
-
 
     //carregando o quadro (marcador) de cor selecionada da primeira coluna da paleta de cores/////////
 
@@ -217,6 +216,8 @@ void editorTextureScreen::show_tela_personalizar(void *data) {
 
  //   c->Paleta_cores(c); //carrega a paleta de cores
     lagartoPersonalizado.show();  //mostra o lagarto personalizado
+    npJogar.show();
+    npVoltar.show();
 
 }
 
@@ -816,29 +817,37 @@ void editorTextureScreen::swap_texture(void *data) {//recarregar a textura perso
 }
 
 /*! Configura um botão dado os parametros para este menu */
-/*
-void GameOptionsScreen::default_button_config(PT(Button) button, NodePath &np,
+
+void editorTextureScreen::default_button_config(PT(Button) button, NodePath &np,
 		const string &text, float z, EventCallbackFunction *action) {
 
-
-	button = new Button(text + "-button", text, manager->get_default_font());
+	PT(TextFont) font = manager->get_default_font();
+	button = new Button(text + "-button", text, font);
 	np = get_root().attach_new_node(button);
 	np.set_z(z);
 
-
 	string event_name = button->get_click_event(MouseButton::one());
 	manager->get_event_handler()->add_hook(event_name, action, this);
+	
 }
 
-void OptionsScreen::jogo_action(){
-	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_game_options_screen());
+void editorTextureScreen::jogo_action(){
+	nout << "Carregando Jogo..." << endl;
+
+	if (Menu::get_instance()->get_minuto_dia_virtual() == 0) {
+		Menu::get_instance()->set_minuto_dia_virtual(TimeControl::virtualTime);
+	}
+
+	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_loading_screen());
+
+	Simdunas::set_play_clicked(true);
 }
 
-void OptionsScreen::voltar_action(){
-	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_main_menu());
+void editorTextureScreen::voltar_action(){
+	CalangosMenuManager* menu_manager = (CalangosMenuManager*) manager.p();
+	menu_manager->open_screen(menu_manager->get_game_options_screen());
 }
 
-*/
 
 
 

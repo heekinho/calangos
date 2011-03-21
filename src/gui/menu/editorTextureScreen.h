@@ -29,10 +29,10 @@
 #include "button.h"
 #include "player.h"
 
-/*
+
 #define ACTION(mn) void mn(); \
 static void mn(const Event*, void* d){ ((PT(editorTextureScreen))(editorTextureScreen*)d)->mn(); }
-*/
+
 
 class editorTextureScreen : public Screen{
 public:
@@ -123,17 +123,17 @@ private:
      //BOTÕES DA PALETA DE CORES coluna 2
     *botao2_red, *botao2_green, *botao2_blue, *botao2_white, *botao2_green2, *botao2_yellow, *botao2_brown, *botao2_black,
     //BOTÕES DA PALETA DE CORES coluna 3
-    *botao3_red, *botao3_green, *botao3_blue, *botao3_white, *botao3_green2, *botao3_yellow, *botao3_brown, *botao3_black,
+    *botao3_red, *botao3_green, *botao3_blue, *botao3_white, *botao3_green2, *botao3_yellow, *botao3_brown, *botao3_black;
     //botão voltar e jogar
-    *buttonJogar, *buttonVoltar;
+    Button *buttonJogar, *buttonVoltar;
 
      static bool instanceFlag;
     static editorTextureScreen *single;
 
- //   ACTION(voltar_action);
- //   ACTION(jogo_action);
+    ACTION(voltar_action);
+    ACTION(jogo_action);
 };
 
-//#undef ACTION
+#undef ACTION
 #endif	/* _editorTextureScreen_H */
 
