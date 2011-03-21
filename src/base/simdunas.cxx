@@ -18,6 +18,7 @@ PandaFramework* Simdunas::framework = NULL;
 WindowFramework* Simdunas::window = NULL;
 EventQueue* Simdunas::evt_queue = NULL;
 EventHandler* Simdunas::evt_handler = NULL;
+GuiLayer* Simdunas::pixel2d = NULL;
 bool Simdunas::play_clicked = false;
 
 #include "objetoJogo.h"
@@ -61,6 +62,7 @@ int main(int argc, char *argv[]) {
 
 	// Verifica se a janela abriu direitin :)
 	if (Simdunas::get_window() != (WindowFramework *) NULL) {
+		Simdunas::set_pixel_2d(new GuiLayer(Simdunas::get_window()));
 		Simdunas::get_window()->enable_keyboard();
 		//Simdunas::get_window()->setup_trackball();
 		//Simdunas::get_framework()->enable_default_keys();

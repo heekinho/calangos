@@ -6,9 +6,12 @@
 
 #include "characterEditor.h"
 #include "mouseButton.h"
+#include "guiManager.h"
+
+#include "simdunas.h"
 
 CharacterEditor::CharacterEditor(PT(ScreenManager) manager) : Screen(manager){
-	gui = new GuiLayer(Simdunas::get_window());
+	gui = Simdunas::get_pixel_2d();
 }
 
 CharacterEditor::~CharacterEditor(){

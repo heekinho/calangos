@@ -9,6 +9,7 @@ using namespace std;
 
 #include "pandaFramework.h"
 #include "session.h"
+#include "guiLayer.h"
 
 class Session;
 
@@ -26,12 +27,16 @@ public:
 	static EventQueue* get_evt_queue();
 	static void set_evt_queue(EventQueue *evt_queue);
 
+	static GuiLayer* get_pixel_2d(){ return pixel2d; }
+	static void set_pixel_2d(GuiLayer* pixel2d){ Simdunas::pixel2d = pixel2d; }
+
 	static void init_types();
 
 	static bool is_play_clicked();
 	static void set_play_clicked(bool flag);
 
 private:
+	static GuiLayer* pixel2d;
 	static PandaFramework *framework;
 	static WindowFramework *window;
 	static EventQueue *evt_queue;
