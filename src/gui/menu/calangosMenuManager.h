@@ -49,7 +49,7 @@ private:
 	PT(Screen) key_instructions_screen;
 	PT(Screen) indicators_screen;
 	PT(Screen) game_options_screen;
-        PT(Screen) texture_screen;
+    PT(Screen) texture_screen;
     PT(MovieTexture) mov;
     CardMaker *cm;
     NodePath node_card;

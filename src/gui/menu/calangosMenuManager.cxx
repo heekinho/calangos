@@ -120,8 +120,7 @@ void CalangosMenuManager::play_movie(string file) {
 	ASound = AM->get_sound(file, true, 1);
 
 	mov->synchronize_to(ASound);
-
-	ASound->play();
+	//ASound->play();
 	playing_movie = true;
 }
 

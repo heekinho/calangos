@@ -70,6 +70,7 @@ int main(int argc, char *argv[]) {
 
 		/* Novo sistema de menu começa aqui, descomente para testar */
 		PT(CalangosMenuManager) menu_manager = new CalangosMenuManager();
+		menu_manager->get_sound()->play();
 		Thread *current_thread = Thread::get_current_thread();
 		while(Simdunas::get_framework()->do_frame(current_thread) && !Simdunas::is_play_clicked()){
 			Simdunas::get_framework()->do_frame(current_thread);
