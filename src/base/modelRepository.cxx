@@ -8,6 +8,7 @@
 /* Singleton */
 bool ModelRepository::instanceFlag = false;
 ModelRepository* ModelRepository::single = NULL;
+//NodePath ModelRepository::lagartoPersonalizado;
 
 /*! Constrói o repositório de modelos */
 ModelRepository::ModelRepository(){
@@ -303,4 +304,8 @@ void ModelRepository::add_animated_model(const string &name, const string &path,
 	object->bind_anims(object->node());
 
 	animated_models[name] = object;
+}
+
+void ModelRepository::set_lagarto_personalizado(NodePath custom){
+    lagartoPersonalizado = custom;
 }
