@@ -26,9 +26,13 @@
 //#include "audioManager.h"
 //#include "audioSound.h"
 #include "movieTexture.h"
-
+#include "button.h"
 #include "player.h"
 
+/*
+#define ACTION(mn) void mn(); \
+static void mn(const Event*, void* d){ ((PT(editorTextureScreen))(editorTextureScreen*)d)->mn(); }
+*/
 
 class editorTextureScreen : public Screen{
 public:
@@ -85,9 +89,13 @@ public:
     void unload();
     void show();
     void hide();
-    
+    /*
     //SingleTon
     static editorTextureScreen* get_instance();
+     */
+void default_button_config(PT(Button) button, NodePath &np,
+			const string &text, float z, EventCallbackFunction *action);
+
 
 private:
 
@@ -104,7 +112,7 @@ private:
     nod_bot_padrao_textura_1,nod_bot_padrao_textura_2,nod_bot_padrao_textura_3,nod_bot_padrao_textura_4,
     botao_blue_np, botao_white_np, botao_green2_np, botao_yellow_np, botao_brown_np, botao_black_np,
     botao2_red_np, botao2_green_np, botao2_blue_np, botao2_white_np, botao2_green2_np, botao2_yellow_np, botao2_brown_np,
-    botao2_black_np, title_color,
+    botao2_black_np, title_color,npJogar, npVoltar,
     //NodePaths da terceira coluna da paleta de cores
     botao3_red_np, botao3_green_np, botao3_blue_np, botao3_white_np, botao3_green2_np, botao3_yellow_np, botao3_brown_np,
     botao3_black_np;
@@ -115,11 +123,17 @@ private:
      //BOTÕES DA PALETA DE CORES coluna 2
     *botao2_red, *botao2_green, *botao2_blue, *botao2_white, *botao2_green2, *botao2_yellow, *botao2_brown, *botao2_black,
     //BOTÕES DA PALETA DE CORES coluna 3
-    *botao3_red, *botao3_green, *botao3_blue, *botao3_white, *botao3_green2, *botao3_yellow, *botao3_brown, *botao3_black;
+    *botao3_red, *botao3_green, *botao3_blue, *botao3_white, *botao3_green2, *botao3_yellow, *botao3_brown, *botao3_black,
+    //botão voltar e jogar
+    *buttonJogar, *buttonVoltar;
 
      static bool instanceFlag;
     static editorTextureScreen *single;
+
+ //   ACTION(voltar_action);
+ //   ACTION(jogo_action);
 };
 
+//#undef ACTION
 #endif	/* _editorTextureScreen_H */
 

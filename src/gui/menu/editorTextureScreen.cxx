@@ -16,6 +16,9 @@
 #include "textureStageCollection.h"
 #include "screenManager.h"
 #include "screen.h"
+#include "modelRepository.h"
+
+
 
 bool editorTextureScreen::instanceFlag = false;
 editorTextureScreen* editorTextureScreen::single = NULL;
@@ -27,27 +30,17 @@ editorTextureScreen* editorTextureScreen::single = NULL;
  // String editorTexture::path_mascara = "models/lizards/custom/young/teiu_mask.jpg";
  // String editorTexture::path_textura_original = "models/lizards/custom/young/teiu.jpg";
 
+
 editorTextureScreen::editorTextureScreen(PT(ScreenManager) manager) : Screen(manager){//construtor
-
-    lagartoPersonalizado = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), "models/lizards/custom/young/model");
-    lagartoPersonalizado.set_scale(0.08, 0.08, 0.08);
-    lagartoPersonalizado.set_pos(0, 35, -2);
-    lagartoPersonalizado.set_h(45);
-    lagartoPersonalizado.set_p(20);
-
-    //		 Animação
-    Simdunas::get_window()->load_model(lagartoPersonalizado, "models/lizards/custom/young/walk");
-    auto_bind(lagartoPersonalizado.node(), anims2, PartGroup::HMF_ok_part_extra |
-    PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
-    anims2.loop_all(false);
-    lagartoPersonalizado.hide();
-
+    load();
 }
 
 
 
 editorTextureScreen::~editorTextureScreen() {
 }
+
+/*
 //singleTon
 editorTextureScreen* editorTextureScreen::get_instance() {
 //	if(!instanceFlag) {
@@ -55,7 +48,7 @@ editorTextureScreen* editorTextureScreen::get_instance() {
  //       instanceFlag = true;
   //  }
     return single;
-}
+}*/
 
 void editorTextureScreen::hide_paleta_cores(){ //remove todos os botões da paleta de cores
     if(!botao_red_np.is_empty()){
@@ -109,11 +102,27 @@ void editorTextureScreen::hide(){
 }
 
 void editorTextureScreen::show(){
-    show_tela_personalizar(this);
+   show_tela_personalizar(this);
 }
 
 void editorTextureScreen::load(){
-      show_tela_personalizar(this);
+
+    lagartoPersonalizado = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), "models/lizards/custom/young/model");
+    lagartoPersonalizado.set_scale(0.08, 0.08, 0.08);
+    lagartoPersonalizado.set_pos(0, 35, -2);
+    lagartoPersonalizado.set_h(45);
+    lagartoPersonalizado.set_p(20);
+
+    //		 Animação
+    Simdunas::get_window()->load_model(lagartoPersonalizado, "models/lizards/custom/young/walk");
+    auto_bind(lagartoPersonalizado.node(), anims2, PartGroup::HMF_ok_part_extra |
+    PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
+    anims2.loop_all(false);
+    lagartoPersonalizado.hide();
+
+
+
+
 }
 
 void editorTextureScreen::unload(){
@@ -123,7 +132,19 @@ void editorTextureScreen::unload(){
 
 void editorTextureScreen::show_tela_personalizar(void *data) {
     editorTextureScreen *c = (editorTextureScreen*) data;
-            //carregando o quadro (marcador) de cor selecionada da primeira coluna da paleta de cores/////////
+
+    //botão jogar e botão voltar
+   // PT(TextFont) font = manager->get_default_font();
+
+	/////////////////////Mostrando botão jogar////////////////////////
+//	default_button_config(buttonJogar, npJogar, "Jogar", -0.8, jogo_action);
+
+	// Mostrando botão voltar
+	//default_button_config(buttonVoltar, npVoltar, "<< Voltar", -0.9, voltar_action);
+	//npVoltar.set_x(-0.9);
+
+
+    //carregando o quadro (marcador) de cor selecionada da primeira coluna da paleta de cores/////////
 
         c->marcador_camada1 = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/quadro");
         c->marcador_camada1.set_scale(0.17, 0.0, 0.17);
@@ -789,11 +810,35 @@ void editorTextureScreen::swap_texture(void *data) {//recarregar a textura perso
                 t->load(textura_personalizada); //cria um textura a partir de um PNMImage		
 		config->lagartoPersonalizado.set_texture(ts, t, 1);
                 config->lagartoPersonalizado.get_texture()->reload();
+		ModelRepository::get_instance()->set_lagarto_personalizado(config->lagartoPersonalizado);
 
 
 }
 
+/*! Configura um botão dado os parametros para este menu */
+/*
+void GameOptionsScreen::default_button_config(PT(Button) button, NodePath &np,
+		const string &text, float z, EventCallbackFunction *action) {
 
+
+	button = new Button(text + "-button", text, manager->get_default_font());
+	np = get_root().attach_new_node(button);
+	np.set_z(z);
+
+
+	string event_name = button->get_click_event(MouseButton::one());
+	manager->get_event_handler()->add_hook(event_name, action, this);
+}
+
+void OptionsScreen::jogo_action(){
+	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_game_options_screen());
+}
+
+void OptionsScreen::voltar_action(){
+	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_main_menu());
+}
+
+*/
 
 
 
