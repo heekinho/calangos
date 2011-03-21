@@ -46,7 +46,7 @@ LDFLAGS 		= 	$(LIBPANDA)
 # Simdunas main program build rules
 SUBDIRS = src src/animals src/animals/predators src/animals/prey src/animals/lizards \
 		  src/base src/cameras src/gui src/gui/menu src/gui/hint src/gui/widgets src/vegetation \
-		  src/weather src/world src/player \
+		  src/weather src/world src/player src/gui/editor \
 
 INCFLAGS += $(patsubst %,-I%,$(SUBDIRS))
 

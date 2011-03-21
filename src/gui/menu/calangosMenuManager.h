@@ -27,7 +27,8 @@ public:
 	PT(Screen) get_key_instructions_screen();
 	PT(Screen) get_indicators_screen();
 	PT(Screen) get_game_options_screen();
-        PT(Screen) get_editor_texture_screen();
+	PT(Screen) get_editor_texture_screen();
+	PT(Screen) get_character_editor();
 	void create_menus();
 	PT(TextFont) get_default_font();
 	PT(AudioSound) get_sound();
@@ -39,6 +40,7 @@ public:
 
 private:
 	PT(TextFont) default_menu_font;
+	PT(Screen) character_editor;
 	PT(Screen) main_menu;
 	PT(Screen) loading_screen;
 	PT(Screen) credits_screen;

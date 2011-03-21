@@ -16,6 +16,7 @@
 #include "gameOptionsScreen.h"
 #include "fontPool.h"
 #include "editorTextureScreen.h"
+#include "characterEditor.h"
 
 CalangosMenuManager::CalangosMenuManager() : ScreenManager() {
 	play_movie("models/videos/vinheta_opcao_1_mpeg4.avi");
@@ -25,6 +26,7 @@ CalangosMenuManager::CalangosMenuManager() : ScreenManager() {
 	default_menu_font = FontPool::load_font("models/gui/fonts/suplexcomic-large.egg");
 	create_menus();
 //	open_screen(main_menu);
+//	open_screen(character_editor);
 }
 
 void CalangosMenuManager::create_menus(){
@@ -36,8 +38,11 @@ void CalangosMenuManager::create_menus(){
 	key_instructions_screen = new KeyInstructionsScreen(this);
 	indicators_screen = new IndicatorsScreen(this);
 	game_options_screen = new GameOptionsScreen(this);
-        texture_screen = new editorTextureScreen(this);
+	texture_screen = new editorTextureScreen(this);
+	character_editor = new CharacterEditor(this);
+
 	//	main_menu->load();
+
 }
 
 
@@ -81,6 +86,10 @@ PT(Screen) CalangosMenuManager::get_game_options_screen() {
 
 PT(Screen) CalangosMenuManager::get_editor_texture_screen() {
 	return texture_screen;
+}
+
+PT(Screen) CalangosMenuManager::get_character_editor() {
+	return character_editor;
 }
 
 PT(AudioSound) CalangosMenuManager::get_sound() {
