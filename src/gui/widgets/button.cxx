@@ -12,6 +12,7 @@ Button::Button(const string &name, const string &text, PT(TextFont) font) : PGBu
 	tnode->set_font(font);
 	tnode->set_encoding(TextNode::E_utf8);
 	tnode->set_text(text);
+	tnode->set_align(TextNode::A_boxed_center);
 
 	/* Adicionando sombra ao texto */
 	tnode->set_shadow(0.05, 0.05);
