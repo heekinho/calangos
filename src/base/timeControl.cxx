@@ -71,7 +71,7 @@ TimeControl::TimeControl() {
 	p_handler->add_hook(EV_pass_year, event_pyear, this);
 
 	const Event *ev_hour = new Event(EV_pass_hour);
-	(*p_queue).queue_event(ev_hour);
+	(*p_queue).queue_event(ev_hour); 
 }
 
 TimeControl::~TimeControl() {
@@ -85,8 +85,7 @@ void TimeControl::event_pframe_gui_options(const Event *, void *data){
 void TimeControl::event_pframe(const Event *, void *data){
 	PT(TimeControl) time = (PT(TimeControl))(TimeControl*)data;
 
-	// A cada frame verifica se houve colisão do jogador e a siriema com os demais objetos
-	collision::get_instance()->detectaColisaoFps();
+	
 	//cout << "\n passed an frame"  << "\nelapsed_time: " << time->especial_count << endl;
 
 	/* Como diria o Angra: "Tempo que passou, não vai mais voltar, tudo que se foi..."
@@ -107,7 +106,8 @@ void TimeControl::event_psegundo_real(const Event *evt, void *data){
 		cout << "\n passed an real second" << endl;
 	#endif
 	//A cada segundo verifica se houve colisão dos Lagartos NPCs com os demais objetos
-	collision::get_instance()->detectaColisaoSeg();
+	
+                
 	//cout << "\n PASSOU 1 SEGUNDO" << endl;
 }
 
