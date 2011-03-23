@@ -71,10 +71,11 @@ public:
     static void print3_white(const Event*, void *data);
     static void print3_yellow(const Event*, void *data);
 
-    static void set_textura1(const Event*, void *data);
-    static void set_textura2(const Event*, void *data);
-    static void set_textura3(const Event*, void *data);
-    static void set_textura4(const Event*, void *data);
+   // static void set_textura1(const Event*, void *data);
+   // static void set_textura2(const Event*, void *data);
+   // static void set_textura3(const Event*, void *data);
+  //  static void set_textura4(const Event*, void *data);
+    void marca_textura(int textura);
     static void swap_texture(void *data);//faz a troca da textura atual pela personalizada
     static void print_standard(void *data); //definindo um cor inicial para as texturas a serem modificadas
     static void Paleta_cores( void *data, int qtde_coluna);
@@ -83,16 +84,14 @@ public:
     static void mudar_marcador3(float a,float b,float c,void *data);
     void hide_paleta_cores();
     void hide_tela_personalizado();
-    void show_tela_personalizar(void *data);
-    //métodos virtuais que serão usados para implementar os métodos abstratos da classe screen
+    void show_tela_personalizar();
+
+    //métodos que serão implementados classe abstrata screen
     void load();
     void unload();
     void show();
     void hide();
-    /*
-    //SingleTon
-    static editorTextureScreen* get_instance();
-     */
+  
 void default_button_config(PT(Button) button, NodePath &np,
 			const string &text, float z, EventCallbackFunction *action);
 
@@ -117,21 +116,27 @@ private:
     botao3_red_np, botao3_green_np, botao3_blue_np, botao3_white_np, botao3_green2_np, botao3_yellow_np, botao3_brown_np,
     botao3_black_np;
 
-     PGButton *botao_padrao_textura_1,*botao_padrao_textura_2, *botao_padrao_textura_3,*botao_padrao_textura_4, *botao_personalizar,
+     PGButton  *botao_personalizar,
      //BOTÕES DA PALETA DE CORES coluna 1
      *botao_red,*botao_green, *botao_blue, *botao_white, *botao_green2, *botao_yellow, *botao_brown, *botao_black,
      //BOTÕES DA PALETA DE CORES coluna 2
     *botao2_red, *botao2_green, *botao2_blue, *botao2_white, *botao2_green2, *botao2_yellow, *botao2_brown, *botao2_black,
     //BOTÕES DA PALETA DE CORES coluna 3
     *botao3_red, *botao3_green, *botao3_blue, *botao3_white, *botao3_green2, *botao3_yellow, *botao3_brown, *botao3_black;
-    //botão voltar e jogar
-    Button *buttonJogar, *buttonVoltar;
 
-     static bool instanceFlag;
+     //botão voltar e jogar
+    Button *buttonJogar, *buttonVoltar,*botao_padrao_textura_1,*botao_padrao_textura_2,
+    *botao_padrao_textura_3,*botao_padrao_textura_4;
+
+    static bool instanceFlag;
     static editorTextureScreen *single;
 
     ACTION(voltar_action);
     ACTION(jogo_action);
+    ACTION(set_textura1);
+    ACTION(set_textura2);
+    ACTION(set_textura3);
+    ACTION(set_textura4);
 };
 
 #undef ACTION
