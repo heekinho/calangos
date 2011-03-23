@@ -21,27 +21,41 @@ CollisionHandlerPusher pusher;
 CollisionTraverser* collTravPlayer;
 CollisionTraverser* collTravSlow;
 //para desativar a colisão no jogo basta colocar false neste variável:
-bool collision::colisao = true;
+bool collision::colisao = false;
 
 
 collision::collision() {
+   
      collTravPlayer = new CollisionTraverser();  //tratamento de colisões para o jogador e a siriema
      collTravSlow  = new CollisionTraverser();  //tratamento de colisões para animais lentos como os lizards
+
+    Simdunas::get_evt_handler()->add_hook("EV_SEGUNDO_REAL", event_psegundo_collison, this);
+    Simdunas::get_evt_handler()->add_hook("EV_PASSFRAME", event_pframe_collision, this);
+   
 }
 
+ void collision::event_pframe_collision(const Event *, void *data){
+       get_instance()->detectaColisaoFps();
+}
+
+
+ void collision::event_psegundo_collison(const Event *, void *data){
+         get_instance()->detectaColisaoSeg();
+        }
+ 
 collision::collision(const collision& orig) {
 
 }
 
 collision::~collision() {
-
+       Simdunas::get_evt_handler()->remove_hooks_with(this);
 }
 
 //ADICIONA NÓ DE COLISÃO AO JOGADOR, UM HANDLER E UM TRAVERSER PARA TRATAR AS COLISÕES
 //ESSE MÉTODO ESTÁ SENDO USADO NA CLASSE player DENTRO DO MÉTODO load_player().
 void collision::playerCollision(NodePath* node){
     if(get_colisao()){
-
+          
         CollisionNode* cNode = new CollisionNode("Player"); //cria nó de colisão
         cNode->add_solid(new CollisionSphere(0, 0, -20, 180.0)); //cria solido colisão (esfera) e add ao nó de colisão
         NodePath player = node->attach_new_node(cNode);
@@ -104,14 +118,14 @@ void collision::esferaCollision(NodePath* node, float x, float y, float z, float
 //ele é responsável por realizar o tratamento de colisões do jogador e da Sirema (animais rápidos)
 //devendo, por tanto, ser utilizado a cada frame.
 void collision::detectaColisaoFps(){
-    if(get_colisao()){//verifica se a colisão foi ativada pelo jogador
+    if(get_colisao() &&   collTravPlayer->get_num_colliders() > 1  ){//verifica se a colisão foi ativada pelo jogador
     collTravPlayer->traverse(Simdunas::get_window()->get_render());
     }
 }
 //ESSE MÉTODO ESTÁ SENDO USADO NA CLASSE timeControl NO MÉTODO event_psegundo_real()
 //ele é responsável por realizar o tratamento de colisões dos lagartos NPCs. (animais lentos)
 void collision::detectaColisaoSeg(){
-    if(get_colisao()){//verifica se a colisão foi ativada pelo jogador
+    if(get_colisao() &&   collTravSlow->get_num_colliders() > 1){//verifica se a colisão foi ativada pelo jogador
     collTravSlow->traverse(Simdunas::get_window()->get_render());
     }
 }

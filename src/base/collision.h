@@ -11,6 +11,11 @@
 #include "collisionNode.h"
 #include "collisionSphere.h"
 #include "menu.h"
+/* NOVOS INCLUDES*/
+#include "pandaFramework.h"
+#include "eventQueue.h"
+#include "eventHandler.h"
+#include "timeControl.h"
 
 
 class collision {
@@ -35,11 +40,19 @@ public:
      bool get_colisao();
       void set_colisao(bool c);
 
+      static void event_pframe_collision(const Event *, void *data);
+    static void event_psegundo_collison(const Event *, void *data);
+
 
 private:
     static bool instanceFlag;
     static collision *single;
     static bool colisao;
+    
+   /*
+    EventQueue *p_queue;
+    EventHandler* p_handler;
+    * */
 };
 
 #endif	/* _COLLISION_H */
