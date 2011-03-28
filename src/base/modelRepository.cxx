@@ -12,7 +12,7 @@ ModelRepository* ModelRepository::single = NULL;
 
 /*! Constrói o repositório de modelos */
 ModelRepository::ModelRepository(){
-
+	lagartoPersonalizado = NULL;
 }
 
 /*! Retorna/constrói o repositório de modelos */
@@ -310,6 +310,6 @@ void ModelRepository::set_lagarto_personalizado(PT(Texture) custom){
     lagartoPersonalizado = custom;
 }
 
-PT(Texture) ModelRepository::set_lagarto_personalizado(){
+PT(Texture) ModelRepository::get_lagarto_personalizado(){
     return lagartoPersonalizado;
 }

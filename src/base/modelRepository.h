@@ -34,7 +34,7 @@ public:
         void load_models();
 
 	void set_lagarto_personalizado(PT(Texture) custom);
-	PT(Texture) set_lagarto_personalizado();
+	PT(Texture) get_lagarto_personalizado();
 
 private:
 	/* Controle do Singleton */
