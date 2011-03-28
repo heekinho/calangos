@@ -33,14 +33,15 @@ public:
 	void load_player_models(const string &lizard_name);
         void load_models();
 
-	void set_lagarto_personalizado(NodePath custom);
+	void set_lagarto_personalizado(PT(Texture) custom);
+	PT(Texture) set_lagarto_personalizado();
 
 private:
 	/* Controle do Singleton */
 	static bool instanceFlag;
 	static ModelRepository *single;
 
-	NodePath lagartoPersonalizado;
+	PT(Texture) lagartoPersonalizado;
 
 	ModelRepository();
 	

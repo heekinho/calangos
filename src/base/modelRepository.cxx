@@ -306,6 +306,10 @@ void ModelRepository::add_animated_model(const string &name, const string &path,
 	animated_models[name] = object;
 }
 
-void ModelRepository::set_lagarto_personalizado(NodePath custom){
+void ModelRepository::set_lagarto_personalizado(PT(Texture) custom){
     lagartoPersonalizado = custom;
+}
+
+PT(Texture) ModelRepository::set_lagarto_personalizado(){
+    return lagartoPersonalizado;
 }
