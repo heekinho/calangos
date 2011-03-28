@@ -252,508 +252,530 @@ void editorTextureScreen::marca_textura(int botao){
 void editorTextureScreen::set_textura1() {
     marca_textura(1);
     hide_paleta_cores();
-    Paleta_cores(this, 2);  //o numero é a quantidade de colunas que terá a paleta de cores
+    Paleta_cores(2);  //o numero é a quantidade de colunas que terá a paleta de cores
     textura_original = PNMImage("models/lizards/custom/young/teiu.jpg");
     mascara = PNMImage("models/lizards/custom/young/teiu_mask.jpg");
-    print_standard(this);
+    print_standard();
 }
 void editorTextureScreen::set_textura2() {
   
      marca_textura(2);
      hide_paleta_cores();
-     Paleta_cores(this, 3);  //o numero é a quantidade de colunas que terá a paleta de cores
+     Paleta_cores(3);  //o numero é a quantidade de colunas que terá a paleta de cores
      textura_original = PNMImage("models/lizards/custom/young/eurolophosaurus.jpg");
      mascara = PNMImage("models/lizards/custom/young/eurolophosaurus_mask.jpg");
-     print_standard(this);
+     print_standard();
 }
 void editorTextureScreen::set_textura3() {
-     ;
+     
      marca_textura(3);
      hide_paleta_cores();
-     Paleta_cores(this, 1);  //o numero é a quantidade de colunas que terá a paleta de cores
+     Paleta_cores(1);  //o numero é a quantidade de colunas que terá a paleta de cores
     textura_original = PNMImage("models/lizards/custom/young/cnemidophorus.jpg");
     mascara = PNMImage("models/lizards/custom/young/cnemidophorus_mask.jpg");
-    print_standard(this);
+    print_standard();
 }
 void editorTextureScreen::set_textura4() {
      
      marca_textura(4);
      hide_paleta_cores();
-     Paleta_cores(this, 1);  //o numero é a quantidade de colunas que terá a paleta de cores
+     Paleta_cores(1);  //o numero é a quantidade de colunas que terá a paleta de cores
     textura_original = PNMImage("models/lizards/custom/young/tropidurus.jpg");
     mascara = PNMImage("models/lizards/custom/young/tropidurus_mask.jpg");
-    print_standard(this);
+    print_standard();
 }
 
 
 
-void editorTextureScreen::Paleta_cores( void *data, int  qtde_coluna) {
-   editorTextureScreen * config = (editorTextureScreen*) data;
+void editorTextureScreen::Paleta_cores( int  qtde_coluna) {
+  // editorTextureScreen * config = (editorTextureScreen*) data;
 
    //linha 1
    //paleta vermelha
-        config->botao_red = new PGButton("Red");
-        config->botao_red->setup("");
-        config->botao_red_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao_red);
-        config->botao_red_np.set_scale(0.1, 0.2, 0.1);
-        config->botao_red_np.set_pos(-1.2, 0.0, 0.5);
-        config->botao_red->set_frame(-0.4, 0.4, -0.4, 0.4);
-        config->botao_red_np.set_color(0.69,0.64,0.61,100,1);
+        botao_red = new PGButton("Red");
+        botao_red->setup("");
+        botao_red_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(botao_red);
+        botao_red_np.set_scale(0.1, 0.2, 0.1);
+        botao_red_np.set_pos(-1.2, 0.0, 0.5);
+        botao_red->set_frame(-0.4, 0.4, -0.4, 0.4);
+        botao_red_np.set_color(0.69,0.64,0.61,100,1);
         //evento ao clicar...
-        Simdunas::get_evt_handler()->add_hook(config->botao_red->get_click_event(MouseButton::one()),  print_red2, config);
+        Simdunas::get_evt_handler()->add_hook(botao_red->get_click_event(MouseButton::one()),  print_red2, this);
 
 
          //paleta verde
-        config->botao_green = new PGButton("Green");
-        config->botao_green->setup("");
-        config->botao_green_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao_green);
-        config->botao_green_np.set_scale(0.1, 0.2, 0.1);
-        config->botao_green_np.set_pos(-1.2, 0.0, 0.4);
-        config->botao_green->set_frame(-0.4, 0.4, -0.4, 0.4);
-        config->botao_green_np.set_color(0.4,0.49,0.46,100,1);
+        botao_green = new PGButton("Green");
+        botao_green->setup("");
+        botao_green_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(botao_green);
+        botao_green_np.set_scale(0.1, 0.2, 0.1);
+        botao_green_np.set_pos(-1.2, 0.0, 0.4);
+        botao_green->set_frame(-0.4, 0.4, -0.4, 0.4);
+        botao_green_np.set_color(0.4,0.49,0.46,100,1);
         //evento ao clicar...
-        Simdunas::get_evt_handler()->add_hook(config->botao_green->get_click_event(MouseButton::one()), print_green, config);
+        Simdunas::get_evt_handler()->add_hook(botao_green->get_click_event(MouseButton::one()), print_green, this);
 
 
         //linha 2
          //paleta vermelha2
-        config->botao_blue = new PGButton("red2");
-        config->botao_blue->setup("");
-        config->botao_blue_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao_blue);
-        config->botao_blue_np.set_scale(0.1, 0.2, 0.1);
-        config->botao_blue_np.set_pos(-1.2, 0.0, 0.3);
-        config->botao_blue->set_frame(-0.4, 0.4, -0.4, 0.4);
-        config->botao_blue_np.set_color(0.64,0.11,0.1,100,1);
+        botao_blue = new PGButton("red2");
+        botao_blue->setup("");
+        botao_blue_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(botao_blue);
+        botao_blue_np.set_scale(0.1, 0.2, 0.1);
+        botao_blue_np.set_pos(-1.2, 0.0, 0.3);
+        botao_blue->set_frame(-0.4, 0.4, -0.4, 0.4);
+        botao_blue_np.set_color(0.64,0.11,0.1,100,1);
         //evento ao clicar...
-        Simdunas::get_evt_handler()->add_hook(config->botao_blue->get_click_event(MouseButton::one()), print_red, config);
+        Simdunas::get_evt_handler()->add_hook(botao_blue->get_click_event(MouseButton::one()), print_red, this);
 
 
          //paleta branca
-        config->botao_white = new PGButton("white");
-        config->botao_white->setup("");
-        config->botao_white_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao_white);
-        config->botao_white_np.set_scale(0.1, 0.2, 0.1);
-        config->botao_white_np.set_pos(-1.2, 0.0, 0.2);
-        config->botao_white->set_frame(-0.4, 0.4, -0.4, 0.4);
-        config->botao_white_np.set_color(1,1,1,100,1);
+        botao_white = new PGButton("white");
+        botao_white->setup("");
+        botao_white_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(botao_white);
+        botao_white_np.set_scale(0.1, 0.2, 0.1);
+        botao_white_np.set_pos(-1.2, 0.0, 0.2);
+        botao_white->set_frame(-0.4, 0.4, -0.4, 0.4);
+        botao_white_np.set_color(1,1,1,100,1);
         //evento ao clicar...
-       Simdunas::get_evt_handler()->add_hook(config->botao_white->get_click_event(MouseButton::one()),print_white, config);
+       Simdunas::get_evt_handler()->add_hook(botao_white->get_click_event(MouseButton::one()),print_white, this);
 
          //linha 3
          //paleta amarela
-        config->botao_yellow = new PGButton("yellow");
-        config->botao_yellow->setup("");
-        config->botao_yellow_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao_yellow);
-        config->botao_yellow_np.set_scale(0.1, 0.2, 0.1);
-        config->botao_yellow_np.set_pos(-1.2, 0.0, 0.1);
-        config->botao_yellow->set_frame(-0.4, 0.4, -0.4, 0.4);
-        config->botao_yellow_np.set_color(0.96,0.81,0.52,100,1);
+        botao_yellow = new PGButton("yellow");
+        botao_yellow->setup("");
+        botao_yellow_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(botao_yellow);
+	botao_yellow_np.set_scale(0.1, 0.2, 0.1);
+        botao_yellow_np.set_pos(-1.2, 0.0, 0.1);
+        botao_yellow->set_frame(-0.4, 0.4, -0.4, 0.4);
+        botao_yellow_np.set_color(0.96,0.81,0.52,100,1);
         //evento ao clicar...
 
-        Simdunas::get_evt_handler()->add_hook(config->botao_yellow->get_click_event(MouseButton::one()), print_yellow, config);
+        Simdunas::get_evt_handler()->add_hook(botao_yellow->get_click_event(MouseButton::one()), print_yellow,this);
 
          //paleta verde2
-        config->botao_green2 = new PGButton("green2");
-        config->botao_green2->setup("");
-        config->botao_green2_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao_green2);
-        config->botao_green2_np.set_scale(0.1, 0.2, 0.1);
-        config->botao_green2_np.set_pos(-1.2, 0.0, 0.0);
-        config->botao_green2->set_frame(-0.4, 0.4, -0.4, 0.4);
-        config->botao_green2_np.set_color(0.23,0.39,0.32,100,1);
+        botao_green2 = new PGButton("green2");
+        botao_green2->setup("");
+        botao_green2_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(botao_green2);
+        botao_green2_np.set_scale(0.1, 0.2, 0.1);
+        botao_green2_np.set_pos(-1.2, 0.0, 0.0);
+        botao_green2->set_frame(-0.4, 0.4, -0.4, 0.4);
+        botao_green2_np.set_color(0.23,0.39,0.32,100,1);
         //evento ao clicar...
 
-        Simdunas::get_evt_handler()->add_hook(config->botao_green2->get_click_event(MouseButton::one()), print_green2, config);
+        Simdunas::get_evt_handler()->add_hook(botao_green2->get_click_event(MouseButton::one()), print_green2, this);
 
         //linha 4
          //paleta marrom
-        config->botao_brown = new PGButton("brown");
-        config->botao_brown->setup("");
-        config->botao_brown_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao_brown);
-        config->botao_brown_np.set_scale(0.1, 0.2, 0.1);
-        config->botao_brown_np.set_pos(-1.2, 0.0, -0.1);
-        config->botao_brown->set_frame(-0.4, 0.4, -0.4, 0.4);
-        config->botao_brown_np.set_color(0.3,0.23,0.16,100,1);
+        botao_brown = new PGButton("brown");
+        botao_brown->setup("");
+        botao_brown_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(botao_brown);
+        botao_brown_np.set_scale(0.1, 0.2, 0.1);
+        botao_brown_np.set_pos(-1.2, 0.0, -0.1);
+        botao_brown->set_frame(-0.4, 0.4, -0.4, 0.4);
+        botao_brown_np.set_color(0.3,0.23,0.16,100,1);
         //evento ao clicar...
 
-        Simdunas::get_evt_handler()->add_hook(config->botao_brown->get_click_event(MouseButton::one()), print_brown, config);
+        Simdunas::get_evt_handler()->add_hook(botao_brown->get_click_event(MouseButton::one()), print_brown, this);
 
          //paleta preto
-        config->botao_black = new PGButton("black");
-        config->botao_black->setup("");
-        config->botao_black_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao_black);
-        config->botao_black_np.set_scale(0.1, 0.2, 0.1);
-        config->botao_black_np.set_pos(-1.2, 0.0, -0.2);
-        config->botao_black->set_frame(-0.4, 0.4, -0.4, 0.4);
-        config->botao_black_np.set_color(0.15,0.15,0.11,100,1);
+        botao_black = new PGButton("black");
+        botao_black->setup("");
+        botao_black_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(botao_black);
+        botao_black_np.set_scale(0.1, 0.2, 0.1);
+        botao_black_np.set_pos(-1.2, 0.0, -0.2);
+        botao_black->set_frame(-0.4, 0.4, -0.4, 0.4);
+        botao_black_np.set_color(0.15,0.15,0.11,100,1);
         //evento ao clicar...
 
-        Simdunas::get_evt_handler()->add_hook(config->botao_black->get_click_event(MouseButton::one()), print_black, config);
+        Simdunas::get_evt_handler()->add_hook(botao_black->get_click_event(MouseButton::one()), print_black, this);
 
 
                      // PALETA COLUNA 2
         if(qtde_coluna > 1){
     //linha 1
    //paleta vermelha
-        config->botao2_red = new PGButton("Red");
-        config->botao2_red->setup("");
-        config->botao2_red_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao2_red);
-        config->botao2_red_np.set_scale(0.1, 0.2, 0.1);
-        config->botao2_red_np.set_pos(-1.05, 0.0, 0.5);
-        config->botao2_red->set_frame(-0.4, 0.4, -0.4, 0.4);
-        config->botao2_red_np.set_color(0.69,0.64,0.61,100,1);
+        botao2_red = new PGButton("Red");
+        botao2_red->setup("");
+        botao2_red_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(botao2_red);
+        botao2_red_np.set_scale(0.1, 0.2, 0.1);
+        botao2_red_np.set_pos(-1.05, 0.0, 0.5);
+        botao2_red->set_frame(-0.4, 0.4, -0.4, 0.4);
+        botao2_red_np.set_color(0.69,0.64,0.61,100,1);
         //evento ao clicar...
-         Simdunas::get_evt_handler()->add_hook(config->botao2_red->get_click_event(MouseButton::one()),  print2_red2, config);
+         Simdunas::get_evt_handler()->add_hook(botao2_red->get_click_event(MouseButton::one()),  print2_red2, this);
 
 
          //paleta verde
-        config->botao2_green = new PGButton("Green");
-        config->botao2_green->setup("");
-        config->botao2_green_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao2_green);
-        config->botao2_green_np.set_scale(0.1, 0.2, 0.1);
-        config->botao2_green_np.set_pos(-1.05, 0.0, 0.4);
-        config->botao2_green->set_frame(-0.4, 0.4, -0.4, 0.4);
-        config->botao2_green_np.set_color(0.4,0.49,0.46,100,1);
+        botao2_green = new PGButton("Green");
+        botao2_green->setup("");
+        botao2_green_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(botao2_green);
+        botao2_green_np.set_scale(0.1, 0.2, 0.1);
+        botao2_green_np.set_pos(-1.05, 0.0, 0.4);
+        botao2_green->set_frame(-0.4, 0.4, -0.4, 0.4);
+        botao2_green_np.set_color(0.4,0.49,0.46,100,1);
         //evento ao clicar...
-        Simdunas::get_evt_handler()->add_hook(config->botao2_green->get_click_event(MouseButton::one()), print2_green, config);
+        Simdunas::get_evt_handler()->add_hook(botao2_green->get_click_event(MouseButton::one()), print2_green, this);
 
 
         //linha 2
          //paleta vermelha2
-        config->botao2_blue = new PGButton("red2");
-        config->botao2_blue->setup("");
-        config->botao2_blue_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao2_blue);
-        config->botao2_blue_np.set_scale(0.1, 0.2, 0.1);
-        config->botao2_blue_np.set_pos(-1.05, 0.0, 0.3);
-        config->botao2_blue->set_frame(-0.4, 0.4, -0.4, 0.4);
-        config->botao2_blue_np.set_color(0.64,0.11,0.1,100,1);
+        botao2_blue = new PGButton("red2");
+        botao2_blue->setup("");
+        botao2_blue_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(botao2_blue);
+        botao2_blue_np.set_scale(0.1, 0.2, 0.1);
+        botao2_blue_np.set_pos(-1.05, 0.0, 0.3);
+        botao2_blue->set_frame(-0.4, 0.4, -0.4, 0.4);
+        botao2_blue_np.set_color(0.64,0.11,0.1,100,1);
         //evento ao clicar...
-        Simdunas::get_evt_handler()->add_hook(config->botao2_blue->get_click_event(MouseButton::one()), print2_red, config);
+        Simdunas::get_evt_handler()->add_hook(botao2_blue->get_click_event(MouseButton::one()), print2_red, this);
 
 
          //paleta branca
-        config->botao2_white = new PGButton("white");
-        config->botao2_white->setup("");
-        config->botao2_white_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao2_white);
-        config->botao2_white_np.set_scale(0.1, 0.2, 0.1);
-        config->botao2_white_np.set_pos(-1.05, 0.0, 0.2);
-        config->botao2_white->set_frame(-0.4, 0.4, -0.4, 0.4);
-        config->botao2_white_np.set_color(1,1,1,100,1);
+        botao2_white = new PGButton("white");
+        botao2_white->setup("");
+        botao2_white_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(botao2_white);
+        botao2_white_np.set_scale(0.1, 0.2, 0.1);
+        botao2_white_np.set_pos(-1.05, 0.0, 0.2);
+        botao2_white->set_frame(-0.4, 0.4, -0.4, 0.4);
+        botao2_white_np.set_color(1,1,1,100,1);
         //evento ao clicar...
-       Simdunas::get_evt_handler()->add_hook(config->botao2_white->get_click_event(MouseButton::one()),print2_white, config);
+       Simdunas::get_evt_handler()->add_hook(botao2_white->get_click_event(MouseButton::one()),print2_white, this);
 
          //linha 3
          //paleta amarela
-        config->botao2_yellow = new PGButton("yellow");
-        config->botao2_yellow->setup("");
-        config->botao2_yellow_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao2_yellow);
-        config->botao2_yellow_np.set_scale(0.1, 0.2, 0.1);
-        config->botao2_yellow_np.set_pos(-1.05, 0.0, 0.1);
-        config->botao2_yellow->set_frame(-0.4, 0.4, -0.4, 0.4);
-        config->botao2_yellow_np.set_color(0.96,0.81,0.52,100,1);
+        botao2_yellow = new PGButton("yellow");
+        botao2_yellow->setup("");
+        botao2_yellow_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(botao2_yellow);
+        botao2_yellow_np.set_scale(0.1, 0.2, 0.1);
+        botao2_yellow_np.set_pos(-1.05, 0.0, 0.1);
+        botao2_yellow->set_frame(-0.4, 0.4, -0.4, 0.4);
+        botao2_yellow_np.set_color(0.96,0.81,0.52,100,1);
         //evento ao clicar...
 
-        Simdunas::get_evt_handler()->add_hook(config->botao2_yellow->get_click_event(MouseButton::one()), print2_yellow, config);
+        Simdunas::get_evt_handler()->add_hook(botao2_yellow->get_click_event(MouseButton::one()), print2_yellow, this);
 
          //paleta verde2
-        config->botao2_green2 = new PGButton("green2");
-        config->botao2_green2->setup("");
-        config->botao2_green2_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao2_green2);
-        config->botao2_green2_np.set_scale(0.1, 0.2, 0.1);
-        config->botao2_green2_np.set_pos(-1.05, 0.0, 0.0);
-        config->botao2_green2->set_frame(-0.4, 0.4, -0.4, 0.4);
-        config->botao2_green2_np.set_color(0.23,0.39,0.32,100,1);
+        botao2_green2 = new PGButton("green2");
+        botao2_green2->setup("");
+        botao2_green2_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(botao2_green2);
+        botao2_green2_np.set_scale(0.1, 0.2, 0.1);
+        botao2_green2_np.set_pos(-1.05, 0.0, 0.0);
+        botao2_green2->set_frame(-0.4, 0.4, -0.4, 0.4);
+        botao2_green2_np.set_color(0.23,0.39,0.32,100,1);
         //evento ao clicar...
 
-        Simdunas::get_evt_handler()->add_hook(config->botao2_green2->get_click_event(MouseButton::one()), print2_green2, config);
+        Simdunas::get_evt_handler()->add_hook(botao2_green2->get_click_event(MouseButton::one()), print2_green2, this);
 
         //linha 4
          //paleta marrom
-        config->botao2_brown = new PGButton("brown");
-        config->botao2_brown->setup("");
-        config->botao2_brown_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao2_brown);
-        config->botao2_brown_np.set_scale(0.1, 0.2, 0.1);
-        config->botao2_brown_np.set_pos(-1.05, 0.0, -0.1);
-        config->botao2_brown->set_frame(-0.4, 0.4, -0.4, 0.4);
-        config->botao2_brown_np.set_color(0.3,0.23,0.16,100,1);
+        botao2_brown = new PGButton("brown");
+        botao2_brown->setup("");
+        botao2_brown_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(botao2_brown);
+        botao2_brown_np.set_scale(0.1, 0.2, 0.1);
+        botao2_brown_np.set_pos(-1.05, 0.0, -0.1);
+        botao2_brown->set_frame(-0.4, 0.4, -0.4, 0.4);
+        botao2_brown_np.set_color(0.3,0.23,0.16,100,1);
         //evento ao clicar...
 
-        Simdunas::get_evt_handler()->add_hook(config->botao2_brown->get_click_event(MouseButton::one()), print2_brown, config);
+        Simdunas::get_evt_handler()->add_hook(botao2_brown->get_click_event(MouseButton::one()), print2_brown, this);
 
          //paleta preto
-        config->botao2_black = new PGButton("black");
-        config->botao2_black->setup("");
-        config->botao2_black_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao2_black);
-        config->botao2_black_np.set_scale(0.1, 0.2, 0.1);
-        config->botao2_black_np.set_pos(-1.05, 0.0, -0.2);
-        config->botao2_black->set_frame(-0.4, 0.4, -0.4, 0.4);
-        config->botao2_black_np.set_color(0.15,0.15,0.11,100,1);
+        botao2_black = new PGButton("black");
+        botao2_black->setup("");
+        botao2_black_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(botao2_black);
+        botao2_black_np.set_scale(0.1, 0.2, 0.1);
+        botao2_black_np.set_pos(-1.05, 0.0, -0.2);
+        botao2_black->set_frame(-0.4, 0.4, -0.4, 0.4);
+        botao2_black_np.set_color(0.15,0.15,0.11,100,1);
 
         //evento ao clicar...
-        Simdunas::get_evt_handler()->add_hook(config->botao2_black->get_click_event(MouseButton::one()), print2_black, config);
+        Simdunas::get_evt_handler()->add_hook(botao2_black->get_click_event(MouseButton::one()), print2_black, this);
 }//fim do if(qtde_coluna > 1)
 
 
         //botões da coluna 3
         if(qtde_coluna > 2){
              //paleta vermelha
-        config->botao3_red = new PGButton("Red");
-        config->botao3_red->setup("");
-        config->botao3_red_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao3_red);
-        config->botao3_red_np.set_scale(0.1, 0.2, 0.1);
-        config->botao3_red_np.set_pos(-0.9, 0.0, 0.5);
-        config->botao3_red->set_frame(-0.4, 0.4, -0.4, 0.4);
-        config->botao3_red_np.set_color(0.69,0.64,0.61,100,1);
+        botao3_red = new PGButton("Red");
+        botao3_red->setup("");
+        botao3_red_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(botao3_red);
+        botao3_red_np.set_scale(0.1, 0.2, 0.1);
+        botao3_red_np.set_pos(-0.9, 0.0, 0.5);
+        botao3_red->set_frame(-0.4, 0.4, -0.4, 0.4);
+        botao3_red_np.set_color(0.69,0.64,0.61,100,1);
         //evento ao clicar...
-         Simdunas::get_evt_handler()->add_hook(config->botao3_red->get_click_event(MouseButton::one()),  print3_red2, config);
+         Simdunas::get_evt_handler()->add_hook(botao3_red->get_click_event(MouseButton::one()),  print3_red2, this);
 
 
          //paleta verde
-        config->botao3_green = new PGButton("Green");
-        config->botao3_green->setup("");
-        config->botao3_green_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao3_green);
-        config->botao3_green_np.set_scale(0.1, 0.2, 0.1);
-        config->botao3_green_np.set_pos(-0.9, 0.0, 0.4);
-        config->botao3_green->set_frame(-0.4, 0.4, -0.4, 0.4);
-        config->botao3_green_np.set_color(0.4,0.49,0.46,100,1);
+        botao3_green = new PGButton("Green");
+        botao3_green->setup("");
+        botao3_green_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(botao3_green);
+        botao3_green_np.set_scale(0.1, 0.2, 0.1);
+        botao3_green_np.set_pos(-0.9, 0.0, 0.4);
+        botao3_green->set_frame(-0.4, 0.4, -0.4, 0.4);
+        botao3_green_np.set_color(0.4,0.49,0.46,100,1);
         //evento ao clicar...
-        Simdunas::get_evt_handler()->add_hook(config->botao3_green->get_click_event(MouseButton::one()), print3_green, config);
+        Simdunas::get_evt_handler()->add_hook(botao3_green->get_click_event(MouseButton::one()), print3_green, this);
 
 
         //linha 2
          //paleta vermelha2
-        config->botao3_blue = new PGButton("red2");
-        config->botao3_blue->setup("");
-        config->botao3_blue_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao3_blue);
-        config->botao3_blue_np.set_scale(0.1, 0.2, 0.1);
-        config->botao3_blue_np.set_pos(-0.9, 0.0, 0.3);
-        config->botao3_blue->set_frame(-0.4, 0.4, -0.4, 0.4);
-        config->botao3_blue_np.set_color(0.64,0.11,0.1,100,1);
+        botao3_blue = new PGButton("red2");
+        botao3_blue->setup("");
+        botao3_blue_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(botao3_blue);
+        botao3_blue_np.set_scale(0.1, 0.2, 0.1);
+        botao3_blue_np.set_pos(-0.9, 0.0, 0.3);
+        botao3_blue->set_frame(-0.4, 0.4, -0.4, 0.4);
+        botao3_blue_np.set_color(0.64,0.11,0.1,100,1);
         //evento ao clicar...
-        Simdunas::get_evt_handler()->add_hook(config->botao3_blue->get_click_event(MouseButton::one()), print3_red, config);
+        Simdunas::get_evt_handler()->add_hook(botao3_blue->get_click_event(MouseButton::one()), print3_red, this);
 
 
          //paleta branca
-        config->botao3_white = new PGButton("white");
-        config->botao3_white->setup("");
-        config->botao3_white_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao3_white);
-        config->botao3_white_np.set_scale(0.1, 0.2, 0.1);
-        config->botao3_white_np.set_pos(-0.9, 0.0, 0.2);
-        config->botao3_white->set_frame(-0.4, 0.4, -0.4, 0.4);
-        config->botao3_white_np.set_color(1,1,1,100,1);
+        botao3_white = new PGButton("white");
+        botao3_white->setup("");
+        botao3_white_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(botao3_white);
+        botao3_white_np.set_scale(0.1, 0.2, 0.1);
+        botao3_white_np.set_pos(-0.9, 0.0, 0.2);
+        botao3_white->set_frame(-0.4, 0.4, -0.4, 0.4);
+        botao3_white_np.set_color(1,1,1,100,1);
         //evento ao clicar...
-       Simdunas::get_evt_handler()->add_hook(config->botao3_white->get_click_event(MouseButton::one()),print3_white, config);
+       Simdunas::get_evt_handler()->add_hook(botao3_white->get_click_event(MouseButton::one()),print3_white, this);
 
          //linha 3
          //paleta amarela
-        config->botao3_yellow = new PGButton("yellow");
-        config->botao3_yellow->setup("");
-        config->botao3_yellow_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao3_yellow);
-        config->botao3_yellow_np.set_scale(0.1, 0.2, 0.1);
-        config->botao3_yellow_np.set_pos(-0.9, 0.0, 0.1);
-        config->botao3_yellow->set_frame(-0.4, 0.4, -0.4, 0.4);
-        config->botao3_yellow_np.set_color(0.96,0.81,0.52,100,1);
+        botao3_yellow = new PGButton("yellow");
+        botao3_yellow->setup("");
+        botao3_yellow_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(botao3_yellow);
+        botao3_yellow_np.set_scale(0.1, 0.2, 0.1);
+        botao3_yellow_np.set_pos(-0.9, 0.0, 0.1);
+        botao3_yellow->set_frame(-0.4, 0.4, -0.4, 0.4);
+        botao3_yellow_np.set_color(0.96,0.81,0.52,100,1);
         //evento ao clicar...
 
-        Simdunas::get_evt_handler()->add_hook(config->botao3_yellow->get_click_event(MouseButton::one()), print3_yellow, config);
+        Simdunas::get_evt_handler()->add_hook(botao3_yellow->get_click_event(MouseButton::one()), print3_yellow, this);
 
          //paleta verde2
-        config->botao3_green2 = new PGButton("green2");
-        config->botao3_green2->setup("");
-        config->botao3_green2_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao3_green2);
-        config->botao3_green2_np.set_scale(0.1, 0.2, 0.1);
-        config->botao3_green2_np.set_pos(-0.9, 0.0, 0.0);
-        config->botao3_green2->set_frame(-0.4, 0.4, -0.4, 0.4);
-        config->botao3_green2_np.set_color(0.23,0.39,0.32,100,1);
+        botao3_green2 = new PGButton("green2");
+        botao3_green2->setup("");
+        botao3_green2_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(botao3_green2);
+        botao3_green2_np.set_scale(0.1, 0.2, 0.1);
+        botao3_green2_np.set_pos(-0.9, 0.0, 0.0);
+        botao3_green2->set_frame(-0.4, 0.4, -0.4, 0.4);
+        botao3_green2_np.set_color(0.23,0.39,0.32,100,1);
         //evento ao clicar...
 
-        Simdunas::get_evt_handler()->add_hook(config->botao3_green2->get_click_event(MouseButton::one()), print3_green2, config);
+        Simdunas::get_evt_handler()->add_hook(botao3_green2->get_click_event(MouseButton::one()), print3_green2, this);
 
         //linha 4
          //paleta marrom
-        config->botao3_brown = new PGButton("brown");
-        config->botao3_brown->setup("");
-        config->botao3_brown_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao3_brown);
-        config->botao3_brown_np.set_scale(0.1, 0.2, 0.1);
-        config->botao3_brown_np.set_pos(-0.9, 0.0, -0.1);
-        config->botao3_brown->set_frame(-0.4, 0.4, -0.4, 0.4);
-        config->botao3_brown_np.set_color(0.3,0.23,0.16,100,1);
+        botao3_brown = new PGButton("brown");
+        botao3_brown->setup("");
+        botao3_brown_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(botao3_brown);
+        botao3_brown_np.set_scale(0.1, 0.2, 0.1);
+        botao3_brown_np.set_pos(-0.9, 0.0, -0.1);
+        botao3_brown->set_frame(-0.4, 0.4, -0.4, 0.4);
+        botao3_brown_np.set_color(0.3,0.23,0.16,100,1);
         //evento ao clicar...
 
-        Simdunas::get_evt_handler()->add_hook(config->botao3_brown->get_click_event(MouseButton::one()), print3_brown, config);
+        Simdunas::get_evt_handler()->add_hook(botao3_brown->get_click_event(MouseButton::one()), print3_brown, this);
 
          //paleta preto
-        config->botao3_black = new PGButton("black");
-        config->botao3_black->setup("");
-        config->botao3_black_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(config->botao3_black);
-        config->botao3_black_np.set_scale(0.1, 0.2, 0.1);
-        config->botao3_black_np.set_pos(-0.9, 0.0, -0.2);
-        config->botao3_black->set_frame(-0.4, 0.4, -0.4, 0.4);
-        config->botao3_black_np.set_color(0.15,0.15,0.11,100,1);
+        botao3_black = new PGButton("black");
+        botao3_black->setup("");
+        botao3_black_np = Simdunas::get_window()->get_aspect_2d().attach_new_node(botao3_black);
+        botao3_black_np.set_scale(0.1, 0.2, 0.1);
+        botao3_black_np.set_pos(-0.9, 0.0, -0.2);
+        botao3_black->set_frame(-0.4, 0.4, -0.4, 0.4);
+        botao3_black_np.set_color(0.15,0.15,0.11,100,1);
 
         //evento ao clicar...
-        Simdunas::get_evt_handler()->add_hook(config->botao3_black->get_click_event(MouseButton::one()), print3_black, config);
+        Simdunas::get_evt_handler()->add_hook(botao3_black->get_click_event(MouseButton::one()), print3_black, this);
             
         }
 }
 
 //métodos que pintam a area branca da mascara
 void editorTextureScreen::print_green(const Event*, void *data) {
-
+    editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.4,0.49,0.46);
-    change_texture(data, cor,2);
-    mudar_marcador(-1.2, 0.0, 0.4, data);
+    config->change_texture(cor,2);
+    config->mudar_marcador(-1.2, 0.0, 0.4);
 }
 void editorTextureScreen::print_green2(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.23,0.39,0.32);
-    change_texture(data, cor, 2);
-    mudar_marcador(-1.2, 0.0, 0.0, data);
+    config->change_texture( cor, 2);
+    config->mudar_marcador(-1.2, 0.0, 0.0);
 }
 void editorTextureScreen::print_red2(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.69,0.64,0.61);
-    change_texture(data, cor,2);
-    mudar_marcador(-1.2, 0.0, 0.5, data);
+    config->change_texture( cor,2);
+    config->mudar_marcador(-1.2, 0.0, 0.5);
 }
 void editorTextureScreen::print_red(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.64,0.11,0.1);
-    change_texture(data, cor, 2);
-    mudar_marcador(-1.2, 0.0, 0.3, data);
+    config->change_texture( cor, 2);
+    config->mudar_marcador(-1.2, 0.0, 0.3);
 }
 void editorTextureScreen::print_white(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(1,1,1);
-    change_texture(data, cor,2);
-    mudar_marcador(-1.2, 0.0, 0.2, data);
+    config->change_texture( cor,2);
+    config->mudar_marcador(-1.2, 0.0, 0.2);
 }
 void editorTextureScreen::print_brown(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.3,0.23,0.16);
-    change_texture(data, cor,2);
-    mudar_marcador(-1.2, 0.0, -0.1, data);
+    config->change_texture( cor,2);
+    config->mudar_marcador(-1.2, 0.0, -0.1);
 }
 void editorTextureScreen::print_black(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.15,0.15,0.11);
-    change_texture(data, cor, 2);
-    mudar_marcador(-1.2, 0.0, -0.2, data);
+    config->change_texture( cor, 2);
+    config->mudar_marcador(-1.2, 0.0, -0.2);
 }
 void editorTextureScreen::print_yellow(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.96,0.81,0.52);
-    change_texture(data, cor, 2);
-    mudar_marcador(-1.2, 0.0, 0.1, data); //posição que deverá ficar o marcador
+    config->change_texture(cor, 2);
+    config->mudar_marcador(-1.2, 0.0, 0.1); //posição que deverá ficar o marcador
 }
 
 //métodos que pintam a area cinza da mascara
 void editorTextureScreen::print2_green(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.4,0.49,0.46);
-    change_texture(data, cor, 1);
-     mudar_marcador2(-1.05, 0.0, 0.4, data);
+    config->change_texture( cor, 1);
+    config->mudar_marcador2(-1.05, 0.0, 0.4);
 }
 void editorTextureScreen::print2_green2(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.23,0.39,0.32);
-    change_texture(data, cor, 1);
-     mudar_marcador2(-1.05, 0.0, 0.0, data);
+    config->change_texture(cor, 1);
+    config->mudar_marcador2(-1.05, 0.0, 0.0);
 }
 void editorTextureScreen::print2_red2(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.69,0.64,0.61);
-    change_texture(data, cor, 1);
-     mudar_marcador2(-1.05, 0.0, 0.5, data);
+    config->change_texture( cor, 1);
+    config->mudar_marcador2(-1.05, 0.0, 0.5);
 }
 void editorTextureScreen::print2_red(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.64,0.11,0.1);
-    change_texture(data, cor, 1);
-     mudar_marcador2(-1.05, 0.0, 0.3, data);
+    config->change_texture(cor, 1);
+    config->mudar_marcador2(-1.05, 0.0, 0.3);
 }
 void editorTextureScreen::print2_white(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(1,1,1);
-    change_texture(data, cor, 1);
-     mudar_marcador2(-1.05, 0.0, 0.2, data);
+    config->change_texture(cor, 1);
+    config->mudar_marcador2(-1.05, 0.0, 0.2);
 }
 void editorTextureScreen::print2_brown(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.3,0.23,0.16);
-    change_texture(data, cor, 1);
-     mudar_marcador2(-1.05, 0.0, -0.1, data);
+    config->change_texture(cor, 1);
+    config->mudar_marcador2(-1.05, 0.0, -0.1);
 }
 void editorTextureScreen::print2_black(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.15,0.15,0.11);
-    change_texture(data, cor, 1);
-     mudar_marcador2(-1.05, 0.0, -0.2, data);
+    config->change_texture( cor, 1);
+    config->mudar_marcador2(-1.05, 0.0, -0.2);
 }
 void editorTextureScreen::print2_yellow(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.96,0.81,0.52);
-    change_texture(data, cor, 1);
-     mudar_marcador2(-1.05, 0.0, 0.1, data);
+    config->change_texture( cor, 1);
+    config->mudar_marcador2(-1.05, 0.0, 0.1);
 }
 
 //métodos que pintam a area cinza escuro da mascara (botões da terceira coluna da palata de cores)
 void editorTextureScreen::print3_green(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.4,0.49,0.46);
-    change_texture(data, cor, 3);
-     mudar_marcador3(-0.9, 0.0, 0.4, data);
+    config->change_texture(cor, 3);
+    config->mudar_marcador3(-0.9, 0.0, 0.4);
 }
 void editorTextureScreen::print3_green2(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.23,0.39,0.32);
-    change_texture(data, cor, 3);
-     mudar_marcador3(-0.9, 0.0, 0.0, data);
+    config->change_texture(cor, 3);
+    config->mudar_marcador3(-0.9, 0.0, 0.0);
 }
 void editorTextureScreen::print3_red2(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.69,0.64,0.61);
-    change_texture(data, cor, 3);
-     mudar_marcador3(-0.9, 0.0, 0.5, data);
+    config->change_texture(cor, 3);
+    config->mudar_marcador3(-0.9, 0.0, 0.5);
 }
 void editorTextureScreen::print3_red(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.64,0.11,0.1);
-    change_texture(data, cor, 3);
-     mudar_marcador3(-0.9, 0.0, 0.3, data);
+    config->change_texture( cor, 3);
+     config->mudar_marcador3(-0.9, 0.0, 0.3);
 }
 void editorTextureScreen::print3_white(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(1,1,1);
-    change_texture(data, cor, 3);
-     mudar_marcador3(-0.9, 0.0, 0.2, data);
+    config->change_texture( cor, 3);
+    config->mudar_marcador3(-0.9, 0.0, 0.2);
 }
 void editorTextureScreen::print3_brown(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.3,0.23,0.16);
-    change_texture(data, cor, 3);
-     mudar_marcador3(-0.9, 0.0, -0.1, data);
+    config->change_texture( cor, 3);
+    config->mudar_marcador3(-0.9, 0.0, -0.1);
 }
 void editorTextureScreen::print3_black(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.15,0.15,0.11);
-    change_texture(data, cor, 3);
-     mudar_marcador3(-0.9, 0.0, -0.2, data);
+    config->change_texture(cor, 3);
+    config->mudar_marcador3(-0.9, 0.0, -0.2);
 }
 void editorTextureScreen::print3_yellow(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.96,0.81,0.52);
-    change_texture(data, cor, 3);
-     mudar_marcador3(-0.9, 0.0, 0.1, data);
+    config->change_texture(cor, 3);
+    config->mudar_marcador3(-0.9, 0.0, 0.1);
 }
 
 //Esse método coloca uma cor padrão (vermelho) na textura. É utilizado quando o padrão de textura é alterado
-void editorTextureScreen::print_standard(void *data) {
-        editorTextureScreen * config = (editorTextureScreen*) data;
+void editorTextureScreen::print_standard() {
+       
         //apaga os marcadores da paleta de cores
-       config->marcador_camada1.hide();
-       config->marcador_camada2.hide();
-       config->marcador_camada3.hide();
-    RGBColord cor = RGBColord(0.23,0.39,0.32);//forma a cor vermelha
-    change_texture(data, cor, 0); //pinta toda a textura inicialmente de vermelha
+       marcador_camada1.hide();
+       marcador_camada2.hide();
+       marcador_camada3.hide();
+	RGBColord cor = RGBColord(0.23,0.39,0.32);//forma a cor vermelha
+	change_texture(cor, 0); //pinta toda a textura inicialmente de vermelha
 }
 
 //muda a posição do marcador da primeira coluna da paleta de cores
-void editorTextureScreen::mudar_marcador(float a,float b,float c,void *data){
- editorTextureScreen * config = (editorTextureScreen*) data;
- config->marcador_camada1.set_pos(a-0.005, b, c-0.005);
- config->marcador_camada1.show();
+void editorTextureScreen::mudar_marcador(float a,float b,float c){
+ 
+ marcador_camada1.set_pos(a-0.005, b, c-0.005);
+ marcador_camada1.show();
 }
 
 //muda a posição do marcador da segunda coluna da paleta de cores
-void editorTextureScreen::mudar_marcador2(float a,float b,float c,void *data){
- editorTextureScreen * config = (editorTextureScreen*) data;
- config->marcador_camada2.set_pos(a -0.005, b, c  -0.005);
- config->marcador_camada2.show();
+void editorTextureScreen::mudar_marcador2(float a,float b,float c){
+
+ marcador_camada2.set_pos(a -0.005, b, c  -0.005);
+ marcador_camada2.show();
 }
-void editorTextureScreen::mudar_marcador3(float a,float b,float c,void *data){
- editorTextureScreen * config = (editorTextureScreen*) data;
- config->marcador_camada3.set_pos(a -0.005, b, c  -0.005);
- config->marcador_camada3.show();
+void editorTextureScreen::mudar_marcador3(float a,float b,float c){
+    marcador_camada3.set_pos(a -0.005, b, c  -0.005);
+    marcador_camada3.show();
 }
 
-void editorTextureScreen::change_texture(void *data, RGBColord cor, int mask_x) {
+void editorTextureScreen::change_texture(RGBColord cor, int mask_x) {
    // Menu *config = (Menu*) data;
   //  PNMImage image = PNMImage(path_textura_original);   //textura original
   //  PNMImage mask = PNMImage(path_mascara);    //mascara da textura
@@ -820,7 +842,7 @@ void editorTextureScreen::change_texture(void *data, RGBColord cor, int mask_x) 
                //  result_image.write(path_textura_personalizada);
                // swap_texture(data); //faz a mudança da textura
                 textura_personalizada = result_image;
-                swap_texture(data); //faz a mudança da textura
+                swap_texture(); //faz a mudança da textura
 
          //       editorTexture *config = (editorTexture*) data;
                 //troca textura, entre 2 texturas diferentes
@@ -833,15 +855,15 @@ void editorTextureScreen::change_texture(void *data, RGBColord cor, int mask_x) 
               
 }
 
-void editorTextureScreen::swap_texture(void *data) {//recarregar a textura personalizada do lagarto
-                editorTextureScreen *config = (editorTextureScreen*) data;
+void editorTextureScreen::swap_texture() {//recarregar a textura personalizada do lagarto
+                //editorTextureScreen *config = (editorTextureScreen*) data;
                  //troca textura, entre 2 texturas diferentes
-               PT(TextureStage) ts = config->lagartoPersonalizado.find_all_texture_stages().get_texture_stage(0);
+               PT(TextureStage) ts = lagartoPersonalizado.find_all_texture_stages().get_texture_stage(0);
 		ts->set_mode(TextureStage::M_modulate);
                 PT(Texture) t = new Texture();//instancia um Texture
                 t->load(textura_personalizada); //cria um textura a partir de um PNMImage		
-		config->lagartoPersonalizado.set_texture(ts, t, 1);
-                config->lagartoPersonalizado.get_texture()->reload();
+		lagartoPersonalizado.set_texture(ts, t, 1);
+                lagartoPersonalizado.get_texture()->reload();
 		ModelRepository::get_instance()->set_lagarto_personalizado(t);
 }
 

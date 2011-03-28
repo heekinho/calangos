@@ -42,7 +42,7 @@ public:
 
     virtual ~editorTextureScreen();
 
-    static void change_texture(void *data, RGBColord cor, int mask_x); //altera a textura inicial de um lagarto
+    void change_texture(RGBColord cor, int mask_x); //altera a textura inicial de um lagarto
     //eventos dos botões da primeira coluna da paleta de cores
     static void print_green(const Event*, void *data);
     static void print_green2(const Event*, void *data);
@@ -76,12 +76,12 @@ public:
    // static void set_textura3(const Event*, void *data);
   //  static void set_textura4(const Event*, void *data);
     void marca_textura(int textura);
-    static void swap_texture(void *data);//faz a troca da textura atual pela personalizada
-    static void print_standard(void *data); //definindo um cor inicial para as texturas a serem modificadas
-    static void Paleta_cores( void *data, int qtde_coluna);
-    static void mudar_marcador(float a,float b,float c,void *data);
-    static void mudar_marcador2(float a,float b,float c,void *data);
-    static void mudar_marcador3(float a,float b,float c,void *data);
+    void swap_texture();//faz a troca da textura atual pela personalizada
+    void print_standard(); //definindo um cor inicial para as texturas a serem modificadas
+    void Paleta_cores(int qtde_coluna);
+    void mudar_marcador(float a,float b,float c);
+    void mudar_marcador2(float a,float b,float c);
+    void mudar_marcador3(float a,float b,float c);
     void hide_paleta_cores();
     void hide_tela_personalizado();
     void show_tela_personalizar();
@@ -92,7 +92,7 @@ public:
     void show();
     void hide();
   
-void default_button_config(PT(Button) button, NodePath &np,
+    void default_button_config(PT(Button) button, NodePath &np,
 			const string &text, float z, EventCallbackFunction *action);
 
 
