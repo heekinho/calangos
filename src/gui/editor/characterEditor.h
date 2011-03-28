@@ -36,7 +36,9 @@ public:
 private:
 	void configure_toolbar();
 	void configure_buttons();
+	void configure_controls();
 	void configure_button_actions();
+	ACTION(update_layout);
 
 	GuiLayer* gui;
 	PT(PGVirtualFrame) toolbar;		NodePath np_toolbar;
@@ -47,6 +49,8 @@ private:
 	PT(Button) btn_pattern;			NodePath np_btn_pattern;		ACTION(pattern_action_performed);
 //	PT(Button) btn_density;			NodePath np_btn_density;
 //	PT(Button) btn_diet;			NodePath np_btn_diet;
+
+	PT(PGSliderBar) slide; NodePath np_slide;
 };
 
 #endif

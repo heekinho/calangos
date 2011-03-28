@@ -134,6 +134,8 @@ void CalangosMenuManager::stop_movie(const Event*, void* data) {
 		if (!start_menu->get_np_options().is_empty()) {//só mostra a tela principal quando for a vinheta que estiver tocando
 			_this->open_screen(_this->main_menu);
 
+			//_this->open_screen(_this->character_editor);
+			//_this->character_editor->load();
 		}
 //		else{//se não for a vinheta ele mostra o frame com os ícones do jogo
 //			GuiManager::get_instance()->show_frameNode();
