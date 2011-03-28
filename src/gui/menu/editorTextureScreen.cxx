@@ -134,17 +134,17 @@ void editorTextureScreen::show_tela_personalizar() {
     //carregando o quadro (marcador) de cor selecionada da primeira coluna da paleta de cores
 
         marcador_camada1 = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/quadro");
-        marcador_camada1.set_scale(0.17, 0.0, 0.17);
+        marcador_camada1.set_scale(0.17, 1.0, 0.17);
         marcador_camada1.hide();
       //  c->marcador_camada1.set_pos(4.0, 0.0, -4.7);
 
         marcador_camada2 = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/quadro");
-        marcador_camada2.set_scale(0.17, 0.0, 0.17);
+        marcador_camada2.set_scale(0.17, 1.0, 0.17);
         marcador_camada2.hide();
      //   c->marcador_camada2.set_pos(4.0, 0.0, -4.7);
 
         marcador_camada3 = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/quadro");
-        marcador_camada3.set_scale(0.17, 0.0, 0.17);
+        marcador_camada3.set_scale(0.17, 1.0, 0.17);
         marcador_camada3.hide();
         
     ///carregando titulo do editor de cores
@@ -156,22 +156,22 @@ void editorTextureScreen::show_tela_personalizar() {
 
 
 	default_button_config(botao_padrao_textura_1, nod_bot_padrao_textura_1, "Textura 1", -0.9, set_textura1);
-	nod_bot_padrao_textura_1.set_scale(0.8, 0.0, 0.8);
+	nod_bot_padrao_textura_1.set_scale(0.8, 1.0, 0.8);
         nod_bot_padrao_textura_1.set_pos(-0.8, 0.0, 0.6);
 	nod_bot_padrao_textura_1.set_alpha_scale(0.5);
 	
 	default_button_config(botao_padrao_textura_2, nod_bot_padrao_textura_2, "Textura 2", -0.9, set_textura2);
-	nod_bot_padrao_textura_2.set_scale(0.8, 0.0, 0.8);
+	nod_bot_padrao_textura_2.set_scale(0.8, 1.0, 0.8);
         nod_bot_padrao_textura_2.set_pos(-0.2, 0.0, 0.6);
 	nod_bot_padrao_textura_2.set_alpha_scale(0.5);
 
 	default_button_config(botao_padrao_textura_3, nod_bot_padrao_textura_3, "Textura 3", -0.9, set_textura3);
-	nod_bot_padrao_textura_3.set_scale(0.8, 0.0, 0.8);
+	nod_bot_padrao_textura_3.set_scale(0.8, 1.0, 0.8);
         nod_bot_padrao_textura_3.set_pos(0.4, 0.0, 0.6);
 	nod_bot_padrao_textura_3.set_alpha_scale(0.5);
 
 	default_button_config(botao_padrao_textura_4, nod_bot_padrao_textura_4, "Textura 4", -0.9, set_textura4);
-	nod_bot_padrao_textura_4.set_scale(0.8, 0.0, 0.8);
+	nod_bot_padrao_textura_4.set_scale(0.8, 1.0, 0.8);
         nod_bot_padrao_textura_4.set_pos(1.0, 0.0, 0.6);
 	nod_bot_padrao_textura_4.set_alpha_scale(0.5);
 
