@@ -11,6 +11,8 @@ PT(Player) Player::single = NULL;
 Player::lizardEpecie Player::lizard_specie = Player::eurolophosaurus;
 Player::lizardGender Player::lizard_gender = Player::young;
 
+#include "textureStageCollection.h"
+
 Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_animated_model(
 	Player::get_specie_name(Player::lizard_specie) + "/" +
 	Player::get_gender_name(lizard_gender))){
@@ -27,6 +29,15 @@ Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_anim
 	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_segundo_real, event_gasto_energia, this);
 	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_day, event_pday, this);
 	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_month, event_pmonth, this);
+
+	if(ModelRepository::get_instance()->get_lagarto_personalizado()){
+		nout << "teste" << endl;
+		PT(TextureStage) ts = find_all_texture_stages().get_texture_stage(0);
+		ts->set_mode(TextureStage::M_modulate);
+		set_texture(ts, ModelRepository::get_instance()->get_lagarto_personalizado(), 10);
+//		get_texture()->reload();
+	}
+
 }
 
 /*! Obtem a instancia atual da classe Player. Observe que a classe ja deve ter
