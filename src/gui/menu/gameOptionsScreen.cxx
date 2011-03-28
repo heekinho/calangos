@@ -286,7 +286,8 @@ void GameOptionsScreen::show() {
 	img_btn_menos.show();
 	img_btn_personalizar.show();
 	img_btn_tropidurus.show();
-	img_colisao_ativada.show();
+	//img_colisao_ativada.show();
+        img_colisao_desativada.show();  //por padrão a colisão virá desativada
 	img_escolha_especie.show();
 	img_frase_relogio.show();
 	img_tempo.show();
