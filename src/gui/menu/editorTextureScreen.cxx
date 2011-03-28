@@ -126,7 +126,6 @@ void editorTextureScreen::unload(){
 void editorTextureScreen::show_tela_personalizar() {
 	    //botões jogar e voltar ao menu anterior
 	default_button_config(buttonJogar, npJogar, " Jogar ", -0.8, jogo_action);
-	npJogar.hide();
 	npJogar.show();
 
 	default_button_config(buttonVoltar, npVoltar, "<< Voltar", -0.9, voltar_action);
@@ -251,7 +250,6 @@ void editorTextureScreen::marca_textura(int botao){
 }
 
 void editorTextureScreen::set_textura1() {
-   
     marca_textura(1);
     hide_paleta_cores();
     Paleta_cores(this, 2);  //o numero é a quantidade de colunas que terá a paleta de cores
@@ -844,7 +842,7 @@ void editorTextureScreen::swap_texture(void *data) {//recarregar a textura perso
                 t->load(textura_personalizada); //cria um textura a partir de um PNMImage		
 		config->lagartoPersonalizado.set_texture(ts, t, 1);
                 config->lagartoPersonalizado.get_texture()->reload();
-		ModelRepository::get_instance()->set_lagarto_personalizado(config->lagartoPersonalizado);
+		ModelRepository::get_instance()->set_lagarto_personalizado(t);
 }
 
 /*! Configura um botão dado os parametros para este menu */
