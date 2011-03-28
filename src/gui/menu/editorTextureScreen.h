@@ -116,20 +116,20 @@ private:
     botao3_red_np, botao3_green_np, botao3_blue_np, botao3_white_np, botao3_green2_np, botao3_yellow_np, botao3_brown_np,
     botao3_black_np;
 
-     PGButton  *botao_personalizar,
+     PT(PGButton)  botao_personalizar,
      //BOTÕES DA PALETA DE CORES coluna 1
-     *botao_red,*botao_green, *botao_blue, *botao_white, *botao_green2, *botao_yellow, *botao_brown, *botao_black,
+     botao_red,botao_green, botao_blue, botao_white, botao_green2, botao_yellow, botao_brown, botao_black,
      //BOTÕES DA PALETA DE CORES coluna 2
-    *botao2_red, *botao2_green, *botao2_blue, *botao2_white, *botao2_green2, *botao2_yellow, *botao2_brown, *botao2_black,
+    botao2_red, botao2_green, botao2_blue, botao2_white, botao2_green2, botao2_yellow, botao2_brown, botao2_black,
     //BOTÕES DA PALETA DE CORES coluna 3
-    *botao3_red, *botao3_green, *botao3_blue, *botao3_white, *botao3_green2, *botao3_yellow, *botao3_brown, *botao3_black;
+    botao3_red, botao3_green, botao3_blue, botao3_white, botao3_green2, botao3_yellow, botao3_brown, botao3_black;
 
      //botão voltar e jogar
-    Button *buttonJogar, *buttonVoltar,*botao_padrao_textura_1,*botao_padrao_textura_2,
-    *botao_padrao_textura_3,*botao_padrao_textura_4;
+    PT(Button) buttonJogar, buttonVoltar,botao_padrao_textura_1,botao_padrao_textura_2,
+    botao_padrao_textura_3,botao_padrao_textura_4;
 
     static bool instanceFlag;
-    static editorTextureScreen *single;
+    //static editorTextureScreen *single;
 
     ACTION(voltar_action);
     ACTION(jogo_action);

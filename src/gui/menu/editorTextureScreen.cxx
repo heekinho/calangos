@@ -23,7 +23,7 @@
 
 
 bool editorTextureScreen::instanceFlag = false;
-editorTextureScreen* editorTextureScreen::single = NULL;
+//editorTextureScreen* editorTextureScreen::single = NULL;
 
   PNMImage editorTextureScreen::textura_personalizada = PNMImage("models/lizards/custom/young/teiu.jpg");
   PNMImage editorTextureScreen::mascara = PNMImage("models/lizards/custom/young/teiu_mask.jpg");
@@ -113,14 +113,6 @@ void editorTextureScreen::load(){
     PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
     anims2.loop_all(false);
     lagartoPersonalizado.hide();
-
-    //botões jogar e voltar ao menu anterior
-    default_button_config(buttonJogar, npJogar, " Jogar ", -0.8, jogo_action);
-    npJogar.hide();
-    
-   default_button_config(buttonVoltar, npVoltar, "<< Voltar", -0.9, voltar_action);
-   npVoltar.set_x(-0.9);
-   npVoltar.hide();
    
 }
 
@@ -132,7 +124,14 @@ void editorTextureScreen::unload(){
 }
 
 void editorTextureScreen::show_tela_personalizar() {
-   
+	    //botões jogar e voltar ao menu anterior
+	default_button_config(buttonJogar, npJogar, " Jogar ", -0.8, jogo_action);
+	npJogar.hide();
+	npJogar.show();
+
+	default_button_config(buttonVoltar, npVoltar, "<< Voltar", -0.9, voltar_action);
+	npVoltar.set_x(-0.9);
+   	npVoltar.show();
     //carregando o quadro (marcador) de cor selecionada da primeira coluna da paleta de cores
 
         marcador_camada1 = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/quadro");
@@ -232,8 +231,7 @@ void editorTextureScreen::show_tela_personalizar() {
 
 	  */
 	lagartoPersonalizado.show();  //mostra o lagarto personalizado
-	npJogar.show();
-	npVoltar.show();
+	
 }
 
 void editorTextureScreen::marca_textura(int botao){
@@ -252,8 +250,8 @@ void editorTextureScreen::marca_textura(int botao){
     }
 }
 
-void editorTextureScreen::set_textura1(/*const Event*, void *data*/) {
-   // editorTextureScreen *c = (editorTextureScreen*) data;
+void editorTextureScreen::set_textura1() {
+   
     marca_textura(1);
     hide_paleta_cores();
     Paleta_cores(this, 2);  //o numero é a quantidade de colunas que terá a paleta de cores
@@ -262,7 +260,7 @@ void editorTextureScreen::set_textura1(/*const Event*, void *data*/) {
     print_standard(this);
 }
 void editorTextureScreen::set_textura2() {
-  //   editorTextureScreen *c = (editorTextureScreen*) data;
+  
      marca_textura(2);
      hide_paleta_cores();
      Paleta_cores(this, 3);  //o numero é a quantidade de colunas que terá a paleta de cores
@@ -271,7 +269,7 @@ void editorTextureScreen::set_textura2() {
      print_standard(this);
 }
 void editorTextureScreen::set_textura3() {
-     //editorTextureScreen *c = (editorTextureScreen*) data;
+     ;
      marca_textura(3);
      hide_paleta_cores();
      Paleta_cores(this, 1);  //o numero é a quantidade de colunas que terá a paleta de cores
@@ -280,7 +278,7 @@ void editorTextureScreen::set_textura3() {
     print_standard(this);
 }
 void editorTextureScreen::set_textura4() {
-     //editorTextureScreen *c = (editorTextureScreen*) data;
+     
      marca_textura(4);
      hide_paleta_cores();
      Paleta_cores(this, 1);  //o numero é a quantidade de colunas que terá a paleta de cores
