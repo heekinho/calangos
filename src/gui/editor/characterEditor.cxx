@@ -77,26 +77,17 @@ void CharacterEditor::configure_buttons(){
 	np_btn_pattern = np_toolbar.attach_new_node(btn_pattern);
 	np_btn_pattern.set_scale(150); np_btn_pattern.set_sz(-np_btn_pattern.get_sz());
 	np_btn_pattern.set_pos(100, 0, 190);
-
-	configure_controls();
 }
 
 
 void CharacterEditor::configure_controls(){
-//	slider = new PGSliderBar("Size Control");
-//	slider->set_range(3, 30);
-//	slider->setup_slider(false, 1.0, 0.06, 0.01);
-//	np_slider = Simdunas::get_window()->get_aspect_2d().attach_new_node(slider);
-//	np_slider.set_scale(0.5, 1.0, 1.0);
-//	np_slider.set_pos(-0.84, 0.0, 0.27);
-
-	slide = new PGSliderBar("slid");
-	slide->set_range(1, 60);
+	slide = new PGSliderBar("slide");
+	slide->set_range(0, 10);
 	slide->setup_slider(false, 1.0, 0.06, 0.01);
 	np_slide = Simdunas::get_window()->get_aspect_2d().attach_new_node(slide);
 	np_slide.set_scale(0.5, 1.0, 1.0);
 	np_slide.set_pos(-0.84, 0.0, 0.27);
-
+	np_slide.show();
 }
 
 /* Configura o mapeamento de ações dos botões da toolbar */
