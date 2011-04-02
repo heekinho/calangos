@@ -98,14 +98,9 @@ public:
 
 private:
 
-      //caminhos para definir uma textura incial para edição.
-   // static string path_textura_original;
-   // static string path_mascara;
-   // static string  path_textura_personalizada;
-
-    static PNMImage textura_original;
-    static PNMImage mascara;
-    static PNMImage textura_personalizada;
+static   PNMImage textura_original;
+static   PNMImage mascara;
+static   PNMImage textura_personalizada;
 
     NodePath  marcador_camada1, marcador_camada2,marcador_camada3,lagartoPersonalizado, nod_bot_personalizar, botao_red_np, botao_green_np,
     nod_bot_padrao_textura_1,nod_bot_padrao_textura_2,nod_bot_padrao_textura_3,nod_bot_padrao_textura_4,
@@ -127,9 +122,6 @@ private:
      //botão voltar e jogar
     PT(Button) buttonJogar, buttonVoltar,botao_padrao_textura_1,botao_padrao_textura_2,
     botao_padrao_textura_3,botao_padrao_textura_4;
-
-    static bool instanceFlag;
-    //static editorTextureScreen *single;
 
     ACTION(voltar_action);
     ACTION(jogo_action);
