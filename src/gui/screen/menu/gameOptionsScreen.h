@@ -53,9 +53,9 @@ private:
 	PT(PGButton) btn_tropidurus;		NodePath np_btn_tropidurus;			NodePath img_btn_tropidurus;		ACTION(tropidurus_action);
 	PT(PGButton) btn_eurolophosaurus;	NodePath np_btn_eurolophosaurus;	NodePath img_btn_eurolophosaurus;	ACTION(eurolophosaurus_action);
 	PT(PGButton) btn_cnemidophorus;		NodePath np_btn_cnemidophorus;		NodePath img_btn_cnemidophorus;		ACTION(cnemidophorus_action);
-	PT(PGButton) btn_personalizar;		NodePath np_btn_personalizar;		NodePath img_btn_personalizar;		ACTION(personalizar_action);
+//	PT(PGButton) btn_personalizar;		NodePath np_btn_personalizar;		NodePath img_btn_personalizar;		ACTION(personalizar_action);
 	PT(PGButton) btn_colisao;			NodePath np_btn_colisao;			NodePath img_btn_colisao;			ACTION(colisao_action);
-	PT(Button) btn_jogar;				NodePath np_btn_jogar;													ACTION(jogar_action);
+//	PT(Button) btn_jogar;				NodePath np_btn_jogar;													ACTION(jogar_action);
 	PT(Button) btn_voltar;				NodePath np_btn_voltar;													ACTION(voltar_action);
 };
 

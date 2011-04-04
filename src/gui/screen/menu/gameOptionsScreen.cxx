@@ -79,8 +79,8 @@ void GameOptionsScreen::load() {
 	img_frase_relogio.set_scale(1.8, 0.0, 0.2);
 	img_frase_relogio.set_pos(-0.1, 0.0, 0.4);
 
-	/////////////////////Mostrando botão jogar////////////////////////
-	default_button_config(btn_jogar, np_btn_jogar, "Jogar", -0.8, jogar_action);
+//	/////////////////////Mostrando botão jogar////////////////////////
+//	default_button_config(btn_jogar, np_btn_jogar, "Jogar", -0.8, jogar_action);
 
 	// Mostrando botão voltar
 	default_button_config(btn_voltar, np_btn_voltar, "<< Voltar", -0.9, voltar_action);
@@ -175,17 +175,17 @@ void GameOptionsScreen::load() {
 
 	Simdunas::get_evt_handler()->add_hook(btn_cnemidophorus->get_click_event(MouseButton::one()), cnemidophorus_action, this);
 
-	// ###########  Botão PERSONALIZAR (Leva o jogador para o editor de cores de lagartos) ##############################
-	img_btn_personalizar = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/personalizar");
-	img_btn_personalizar.detach_node();
-	btn_personalizar = new PGButton("Personalizar");
-	btn_personalizar->setup(img_btn_personalizar);
-	np_btn_personalizar = Simdunas::get_window()->get_aspect_2d().attach_new_node(btn_personalizar);
-	np_btn_personalizar.set_scale(0.6, 0.1, 0.18);
-	np_btn_personalizar.set_pos(-0.8, 0.0, -0.55);
-	btn_personalizar->set_frame(-0.4, 0.4, -0.4, 0.4);
-
-	Simdunas::get_evt_handler()->add_hook(btn_personalizar->get_click_event(MouseButton::one()), personalizar_action, this);
+//	// ###########  Botão PERSONALIZAR (Leva o jogador para o editor de cores de lagartos) ##############################
+//	img_btn_personalizar = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/personalizar");
+//	img_btn_personalizar.detach_node();
+//	btn_personalizar = new PGButton("Personalizar");
+//	btn_personalizar->setup(img_btn_personalizar);
+//	np_btn_personalizar = Simdunas::get_window()->get_aspect_2d().attach_new_node(btn_personalizar);
+//	np_btn_personalizar.set_scale(0.6, 0.1, 0.18);
+//	np_btn_personalizar.set_pos(-0.8, 0.0, -0.55);
+//	btn_personalizar->set_frame(-0.4, 0.4, -0.4, 0.4);
+//
+//	Simdunas::get_evt_handler()->add_hook(btn_personalizar->get_click_event(MouseButton::one()), personalizar_action, this);
 
 	//botão de ativar/desativar colisão
 	img_btn_colisao = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/colisao");
@@ -222,7 +222,7 @@ void GameOptionsScreen::unload() {
 	img_btn_eurolophosaurus.remove_node();
 	img_btn_mais.remove_node();
 	img_btn_menos.remove_node();
-	img_btn_personalizar.remove_node();
+//	img_btn_personalizar.remove_node();
 	img_btn_tropidurus.remove_node();
 	img_colisao_ativada.remove_node();
 	img_colisao_desativada.remove_node();
@@ -233,10 +233,10 @@ void GameOptionsScreen::unload() {
 	np_btn_cnemidophorus.remove_node();
 	np_btn_colisao.remove_node();
 	np_btn_eurolophosaurus.remove_node();
-	np_btn_jogar.remove_node();
+//	np_btn_jogar.remove_node();
 	np_btn_mais.remove_node();
 	np_btn_menos.remove_node();
-	np_btn_personalizar.remove_node();
+//	np_btn_personalizar.remove_node();
 	np_btn_tropidurus.remove_node();
 	np_btn_voltar.remove_node();
 	np_lb_num_minutos.remove_node();
@@ -251,10 +251,10 @@ void GameOptionsScreen::unload() {
 	btn_cnemidophorus = NULL;
 	btn_colisao = NULL;
 	btn_eurolophosaurus = NULL;
-	btn_jogar = NULL;
+//	btn_jogar = NULL;
 	btn_mais = NULL;
 	btn_menos = NULL;
-	btn_personalizar = NULL;
+//	btn_personalizar = NULL;
 	btn_tropidurus = NULL;
 	btn_voltar = NULL;
 }
@@ -277,7 +277,7 @@ void GameOptionsScreen::show() {
 	img_btn_eurolophosaurus.show();
 	img_btn_mais.show();
 	img_btn_menos.show();
-	img_btn_personalizar.show();
+//	img_btn_personalizar.show();
 	img_btn_tropidurus.show();
 	img_escolha_especie.show();
 	img_frase_relogio.show();
@@ -286,10 +286,10 @@ void GameOptionsScreen::show() {
 	np_btn_cnemidophorus.show();
 	np_btn_colisao.show();
 	np_btn_eurolophosaurus.show();
-	np_btn_jogar.show();
+//	np_btn_jogar.show();
 	np_btn_mais.show();
 	np_btn_menos.show();
-	np_btn_personalizar.show();
+//	np_btn_personalizar.show();
 	np_btn_tropidurus.show();
 	np_lb_num_minutos.show();
 	np_slide.show();
@@ -317,7 +317,7 @@ void GameOptionsScreen::hide() {
 	img_btn_eurolophosaurus.hide();
 	img_btn_mais.hide();
 	img_btn_menos.hide();
-	img_btn_personalizar.hide();
+//	img_btn_personalizar.hide();
 	img_btn_tropidurus.hide();
 	img_colisao_ativada.hide();
 	img_colisao_desativada.hide();
@@ -328,10 +328,10 @@ void GameOptionsScreen::hide() {
 	np_btn_cnemidophorus.hide();
 	np_btn_colisao.hide();
 	np_btn_eurolophosaurus.hide();
-	np_btn_jogar.hide();
+//	np_btn_jogar.hide();
 	np_btn_mais.hide();
 	np_btn_menos.hide();
-	np_btn_personalizar.hide();
+//	np_btn_personalizar.hide();
 	np_btn_tropidurus.hide();
 	np_lb_num_minutos.hide();
 	np_slide.hide();
@@ -486,29 +486,29 @@ void GameOptionsScreen::slide_action() {
     informa_segundos(st);
 }
 
-void GameOptionsScreen::personalizar_action() {
-	marcador.set_pos(4.0, 0.0, -9.5); //movendo o marcador
-
-	hide();  //limpa o menu de configuração
-
-	Player::lizard_specie = Player::custom;  //determina que o jogador irá jogar com o lagarto personalizado
-
-	// show_tela_personalizar(c); //apresenta o menu de edição de cores do lagarto
-	//apresenta os botões jogar e voltar
-	showing_custom = true;
-	//editorTextureScreen::get_instance()->load_screen();
-        manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_editor_texture_screen());
-
-
-}
-
-void GameOptionsScreen::jogar_action() {
-	nout << "Carregando Jogo..." << endl;
-
-	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_loading_screen());
-
-	Simdunas::set_play_clicked(true);
-}
+//void GameOptionsScreen::personalizar_action() {
+//	marcador.set_pos(4.0, 0.0, -9.5); //movendo o marcador
+//
+//	hide();  //limpa o menu de configuração
+//
+//	Player::lizard_specie = Player::custom;  //determina que o jogador irá jogar com o lagarto personalizado
+//
+//	// show_tela_personalizar(c); //apresenta o menu de edição de cores do lagarto
+//	//apresenta os botões jogar e voltar
+//	showing_custom = true;
+//	//editorTextureScreen::get_instance()->load_screen();
+//        manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_editor_texture_screen());
+//
+//
+//}
+//
+//void GameOptionsScreen::jogar_action() {
+//	nout << "Carregando Jogo..." << endl;
+//
+//	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_loading_screen());
+//
+//	Simdunas::set_play_clicked(true);
+//}
 
 void GameOptionsScreen::voltar_action() {
 	CalangosMenuManager* menu_manager = (CalangosMenuManager*) manager.p();
