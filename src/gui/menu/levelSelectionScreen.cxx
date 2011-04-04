@@ -36,7 +36,7 @@ void LevelSelectionScreen::level_one_action(){
 }
 
 void LevelSelectionScreen::level_two_action(){
-	nout << "Carregando Fase 2" << endl;
+	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_character_editor());
 }
 
 void LevelSelectionScreen::back_action(){

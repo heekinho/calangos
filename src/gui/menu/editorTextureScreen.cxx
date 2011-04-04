@@ -824,7 +824,8 @@ void editorTextureScreen::jogo_action(){
 
 void editorTextureScreen::voltar_action(){
 	CalangosMenuManager* menu_manager = (CalangosMenuManager*) manager.p();
-	menu_manager->open_screen(menu_manager->get_game_options_screen());
+//	menu_manager->open_screen(menu_manager->get_game_options_screen());
+	menu_manager->open_screen(menu_manager->get_character_editor());
 }
 
 
