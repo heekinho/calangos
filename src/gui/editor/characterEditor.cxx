@@ -9,12 +9,15 @@
 #include "guiManager.h"
 
 #include "simdunas.h"
+#include "calangosMenuManager.h"
 
 CharacterEditor::CharacterEditor(PT(ScreenManager) manager) : Screen(manager){
 	gui = Simdunas::get_pixel_2d();
 
 	/* Reorganiza os objetos na tela. Arranjar outra forma melhor para fazer depois */
 	Simdunas::get_evt_handler()->add_hook("window-event", update_layout, this);
+
+	load(); hide();
 }
 
 CharacterEditor::~CharacterEditor(){
@@ -28,10 +31,23 @@ void CharacterEditor::load(){
 	configure_buttons();
 	configure_controls();
 	configure_button_actions();
+
+	/* Configura botão voltar */
+	configure_default_back_button(((CalangosMenuManager*)(manager.p()))->get_level_selection_screen());
 }
 
 void CharacterEditor::unload(){
 	nout << "Descarregando Editor de Personagens" << endl;
+}
+
+void CharacterEditor::show(){
+	Screen::show();
+	np_toolbar.show();
+}
+
+void CharacterEditor::hide(){
+	Screen::hide();
+	np_toolbar.hide();
 }
 
 /*! Cria e configura a barra de ferramentas do editor */
@@ -81,13 +97,13 @@ void CharacterEditor::configure_buttons(){
 
 
 void CharacterEditor::configure_controls(){
-	slide = new PGSliderBar("slide");
-	slide->set_range(0, 10);
-	slide->setup_slider(false, 1.0, 0.06, 0.01);
-	np_slide = Simdunas::get_window()->get_aspect_2d().attach_new_node(slide);
-	np_slide.set_scale(0.5, 1.0, 1.0);
-	np_slide.set_pos(-0.84, 0.0, 0.27);
-	np_slide.show();
+//	slide = new PGSliderBar("slide");
+//	slide->set_range(0, 10);
+//	slide->setup_slider(false, 1.0, 0.06, 0.01);
+//	np_slide = Simdunas::get_window()->get_aspect_2d().attach_new_node(slide);
+//	np_slide.set_scale(0.5, 1.0, 1.0);
+//	np_slide.set_pos(-0.84, 0.0, 0.27);
+//	np_slide.show();
 }
 
 /* Configura o mapeamento de ações dos botões da toolbar */
@@ -108,4 +124,5 @@ void CharacterEditor::sizing_action_performed(){
 
 void CharacterEditor::pattern_action_performed(){
 	nout << "Loading Pattern Editor" << endl;
+	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_editor_texture_screen());
 }

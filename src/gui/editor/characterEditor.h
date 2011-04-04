@@ -32,6 +32,8 @@ public:
 
 	virtual void load();
 	virtual void unload();
+	void show();
+	void hide();
 
 private:
 	void configure_toolbar();
