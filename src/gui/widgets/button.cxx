@@ -6,10 +6,6 @@
 
 #include "button.h"
 
-Button::Button(const string &name, const string &text, PT(TextFont) font) : PGButton(name){
-	build(name, text, font, 0.126);
-}
-
 Button::Button(const string &name, const string &text, PT(TextFont) font, float scale) : PGButton(name){
 	build(name, text, font, scale);
 }

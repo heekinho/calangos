@@ -12,8 +12,7 @@
 
 class Button : public PGButton {
 public:
-	Button(const string &name, const string &text, PT(TextFont) font);
-	Button(const string &name, const string &text, PT(TextFont) font, float scale);
+	Button(const string &name, const string &text, PT(TextFont) font, float scale = 0.126);
 	~Button();
 
 	float get_text_width();
