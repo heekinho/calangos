@@ -53,4 +53,6 @@ private:
 	PT(PGSliderBar) slide; NodePath np_slide;
 };
 
+#undef ACTION
+
 #endif
