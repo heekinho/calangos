@@ -40,9 +40,19 @@ public:
 
 	void default_button_config(PT(Button) button, NodePath &np,
 			const string &text, float z, EventCallbackFunction *action);
+
+	PT(Screen)  get_previous_screen();
+	void set_previous_screen(PT(Screen) previous);
+	static void back_action(const Event*, void* data);
+	void configure_default_back_button(PT(Screen) previous);
+
 protected:
 	NodePath root;
 	PT(ScreenManager) manager;
+	PT(Screen) previous;
+
+	NodePath np_btn_back;
+	PT(Button) btn_back;
 };
 
 #endif

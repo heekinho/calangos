@@ -64,3 +64,26 @@ void Screen::default_button_config(PT(Button) button, NodePath &np,
 	string event_name = button->get_click_event(MouseButton::one());
 	manager->get_event_handler()->add_hook(event_name, action, this);
 }
+
+/*! Obtém a tela anterior (cadastrada manualmente por set_previous_screen) */
+PT(Screen) Screen::get_previous_screen(){
+	return previous;
+}
+
+/*! Define a tela principal para as ações de voltar */
+void Screen::set_previous_screen(PT(Screen) previous){
+	this->previous = previous;
+}
+
+/*! Ação de voltar */
+void Screen::back_action(const Event*, void* data){
+	((Screen*)data)->manager->open_screen(((Screen*)data)->previous);
+}
+
+/*! Configura um botão voltar padrão, sem necessidade de recriar em cada classe
+ *  Força a passagem do método para evitar esquecer de setar previous */
+void Screen::configure_default_back_button(PT(Screen) previous){
+	set_previous_screen(previous);
+	default_button_config(btn_back, np_btn_back, "<< Voltar", -0.9, back_action);
+	np_btn_back.set_x(-0.9);
+}
