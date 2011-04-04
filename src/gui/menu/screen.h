@@ -10,6 +10,11 @@
 #include "referenceCount.h"
 #include "pandaFramework.h"
 
+#include "mouseButton.h"
+#include "button.h"
+#include "event.h"
+
+typedef void EventCallbackFunction(const Event *, void *);
 
 class ScreenManager;
 
@@ -33,6 +38,8 @@ public:
 		const LVecBase3f &size = LVecBase3f(1), const LPoint3f &pos = LPoint3f(0),
 		const LVecBase3f &hpr = LVector3f(0), const Colorf &color = Colorf(1));
 
+	void default_button_config(PT(Button) button, NodePath &np,
+			const string &text, float z, EventCallbackFunction *action);
 protected:
 	NodePath root;
 	PT(ScreenManager) manager;
