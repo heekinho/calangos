@@ -17,6 +17,7 @@
 #include "fontPool.h"
 #include "editorTextureScreen.h"
 #include "characterEditor.h"
+#include "levelSelectionScreen.h"
 
 CalangosMenuManager::CalangosMenuManager() : ScreenManager() {
 	play_movie("models/videos/vinheta_opcao_1_mpeg4.avi");
@@ -26,7 +27,6 @@ CalangosMenuManager::CalangosMenuManager() : ScreenManager() {
 	default_menu_font = FontPool::load_font("models/gui/fonts/suplexcomic-large.egg");
 	create_menus();
 //	open_screen(main_menu);
-//	open_screen(character_editor);
 }
 
 void CalangosMenuManager::create_menus(){
@@ -40,6 +40,7 @@ void CalangosMenuManager::create_menus(){
 	game_options_screen = new GameOptionsScreen(this);
 	texture_screen = new editorTextureScreen(this);
 	character_editor = new CharacterEditor(this);
+    levels_screen = new LevelSelectionScreen(this);
 
 	//	main_menu->load();
 

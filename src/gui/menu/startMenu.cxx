@@ -94,9 +94,11 @@ void StartMenu::play_action(){
 		Menu::get_instance()->set_minuto_dia_virtual(TimeControl::virtualTime);
 	}
 
-	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_loading_screen());
+//	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_loading_screen());
+//	Simdunas::set_play_clicked(true);
 
-	Simdunas::set_play_clicked(true);
+	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_level_selection_screen());
+	//Simdunas::set_play_clicked(true);
 }
 
 /*! Carrega menu de opções */
