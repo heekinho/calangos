@@ -40,9 +40,6 @@ public:
 	void show();
 	void hide();
 
-	void default_button_config(PT(Button) button, NodePath &np,
-			const string &text, float z, EventCallbackFunction *action);
-
 	NodePath get_np_options();
 	NodePath get_np_play();
 

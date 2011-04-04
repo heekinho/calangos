@@ -808,20 +808,6 @@ void editorTextureScreen::swap_texture() {//recarregar a textura personalizada d
 		ModelRepository::get_instance()->set_lagarto_personalizado(t);
 }
 
-/*! Configura um botão dado os parametros para este menu */
-
-void editorTextureScreen::default_button_config(PT(Button) button, NodePath &np,
-		const string &text, float z, EventCallbackFunction *action) {
-
-	PT(TextFont) font = manager->get_default_font();
-	button = new Button(text + "-button", text, font);
-	np = get_root().attach_new_node(button);
-	np.set_z(z);
-
-	string event_name = button->get_click_event(MouseButton::one());
-	manager->get_event_handler()->add_hook(event_name, action, this);
-	
-}
 
 void editorTextureScreen::jogo_action(){
 

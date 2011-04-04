@@ -24,9 +24,6 @@ public:
 	void show();
 	void hide();
 
-	void default_button_config(PT(Button) button, NodePath &np,
-			const string &text, float z, EventCallbackFunction *action);
-
 private:
 
 	/* Componentes do Menu */

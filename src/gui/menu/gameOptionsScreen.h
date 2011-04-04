@@ -29,8 +29,6 @@ public:
 
 	Player::lizardEpecie get_especie();
 
-	void default_button_config(PT(Button) button, NodePath &np,
-				const string &text, float z, EventCallbackFunction *action);
 	void informa_segundos(string aviso);
 
 private:

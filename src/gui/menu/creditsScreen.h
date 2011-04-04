@@ -26,9 +26,6 @@ public:
 	void show();
 	void hide();
 
-	void default_button_config(PT(Button) button, NodePath &np,
-				const string &text, float z, EventCallbackFunction *action);
-
 private:
 	PT(Button) btn_voltar;	ACTION(voltar_action);
 	NodePath np_btn_voltar;

@@ -52,20 +52,6 @@ void StartMenu::load(){
 	default_button_config(btn_exit, np_exit, "Sair", -0.7, exit_action);
 }
 
-/*! Configura um botão dado os parametros para este menu principal */
-void StartMenu::default_button_config(PT(Button) button, NodePath &np,
-		const string &text, float z, EventCallbackFunction *action) {
-
-	/* Cria um botão padrão, coloca no nó root e define o z */
-	button = new Button(text + "-button", text, manager->get_default_font());
-	np = get_root().attach_new_node(button);
-	np.set_z(z);
-
-	/* Cadastrando o evento */
-	string event_name = button->get_click_event(MouseButton::one());
-	manager->get_event_handler()->add_hook(event_name, action, this);
-}
-
 void StartMenu::show() {
 	np_logo.show();
 	np_lagarto.show();
