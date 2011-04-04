@@ -38,9 +38,10 @@ void CalangosMenuManager::create_menus(){
 	key_instructions_screen = new KeyInstructionsScreen(this);
 	indicators_screen = new IndicatorsScreen(this);
 	game_options_screen = new GameOptionsScreen(this);
-	texture_screen = new editorTextureScreen(this);
-	character_editor = new CharacterEditor(this);
     levels_screen = new LevelSelectionScreen(this);
+	character_editor = new CharacterEditor(this);
+	texture_screen = new editorTextureScreen(this);
+
 
 	//	main_menu->load();
 
