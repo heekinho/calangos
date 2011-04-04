@@ -148,7 +148,7 @@ void LoadingScreen::loading_process() {
 
 void LoadingScreen::loading_completed() {
 	np_lb_carregando.hide();
-	lb_info_processo->set_text("Conluído.");
+	lb_info_processo->set_text("Concluído.");
 	np_btn_comecar = np_frame.attach_new_node(btn_comecar);
 	np_btn_comecar.set_pos(1, 0, 0.3);
 
