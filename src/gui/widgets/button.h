@@ -13,10 +13,13 @@
 class Button : public PGButton {
 public:
 	Button(const string &name, const string &text, PT(TextFont) font);
+	Button(const string &name, const string &text, PT(TextFont) font, float scale);
 	~Button();
 
 	float get_text_width();
 private:
+	void build(const string &name, const string &text, PT(TextFont) font, float scale);
+
 	PT(TextNode) tnode;
 };
 

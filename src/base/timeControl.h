@@ -30,6 +30,7 @@ public:
 	 * gerando eventos sempre a ocorre aluma mudança */
 	void update_time_control(float elapsed_time);
 
+	float get_virtual_time_hour();
 	int get_minuto();
 	int get_hora();
 	int get_dia();
@@ -84,8 +85,6 @@ public:
 	static const string EV_pass_vminute;
 
 	float get_elapsed_time();
-
-	static float virtualTime;
 
 private:
 	// Controle do singleton

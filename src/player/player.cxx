@@ -24,7 +24,7 @@ Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_anim
 	_captured = false;
 
 	//int especie = Menu::get_instance()->get_especie();
-	load_health(Menu::get_instance()->get_especie());
+	load_health(lizard_specie);
 
 	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_segundo_real, event_gasto_energia, this);
 	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_day, event_pday, this);

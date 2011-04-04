@@ -12,6 +12,8 @@
 #include "lizard.h"
 #include "prey.h"
 #include "pStatTimer.h"
+#include "screen.h"
+#include "inGameScreenManager.h"
 
 
 #define VEL_WALK 20.0
@@ -618,8 +620,8 @@ void PlayerControl::bobbing(const Event*, void *data){
 }
 
 void PlayerControl::chama_pause(const Event*, void* data){
-
-    Menu::get_instance()->pause_game();
+	PT(Screen) pause_screen = InGameScreenManager::get_instance()->get_pause_screen();
+    InGameScreenManager::get_instance()->open_screen(pause_screen);
 }
 
 void PlayerControl::morder(){

@@ -21,7 +21,14 @@ OptionsScreen::OptionsScreen(PT(ScreenManager) manager) : Screen(manager){
 OptionsScreen::~OptionsScreen(){}
 
 void OptionsScreen::load(){
-	PT(TextFont) font = manager->get_default_font();
+	lb_titulo = new TextNode("txt_titulo");
+	lb_titulo->set_text("Opções");
+	lb_titulo->set_font(manager->get_default_font());
+	np_lb_titulo = get_root().attach_new_node(lb_titulo);
+	np_lb_titulo.set_scale(0.2);
+	np_lb_titulo.set_x(-lb_titulo->get_width()*np_lb_titulo.get_sx()*0.5);
+	np_lb_titulo.set_z(0.7);
+	np_lb_titulo.set_color(0.87, 0.72, 0.52);
 
 	default_button_config(btn_video, np_btn_video, "Vídeo", 0.1, video_action);
 	default_button_config(btn_audio, np_btn_audio, "Áudio", -0.1, audio_action);
@@ -32,11 +39,13 @@ void OptionsScreen::load(){
 }
 
 void OptionsScreen::unload() {
+	np_lb_titulo.remove_node();
 	np_btn_audio.remove_node();
 	np_btn_controles.remove_node();
 	np_btn_jogo.remove_node();
 	np_btn_video.remove_node();
 	np_btn_voltar.remove_node();
+	lb_titulo = NULL;
 	btn_audio = NULL;
 	btn_controles = NULL;
 	btn_jogo = NULL;
@@ -45,6 +54,7 @@ void OptionsScreen::unload() {
 }
 
 void OptionsScreen::show() {
+	np_lb_titulo.show();
 	np_btn_video.show();
 	np_btn_audio.show();
 	np_btn_controles.show();
@@ -53,6 +63,7 @@ void OptionsScreen::show() {
 }
 
 void OptionsScreen::hide() {
+	np_lb_titulo.hide();
 	np_btn_video.hide();
 	np_btn_audio.hide();
 	np_btn_controles.hide();

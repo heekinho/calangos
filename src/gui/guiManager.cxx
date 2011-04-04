@@ -6,6 +6,8 @@
 #include "mouseButton.h"
 #include "vetores.h"
 #include "playerControl.h"
+#include "inGameScreenManager.h"
+#include "pauseScreen.h"
 
 #define ABS(a)		(((a) < 0) ? -(a) : (a))
 #define LIMITE_SUPERIOR_TEMP_LAGARTO 45.0
@@ -112,7 +114,7 @@ GuiManager::GuiManager() {
 	//    controle_tempo_piscando=(50/Menu::get_instance()->get_minuto_dia_virtual());
 
 	//Regula o aspect 2d.
-	Simdunas::get_window()->get_aspect_2d().set_scale(1.0);
+//	Simdunas::get_window()->get_aspect_2d().set_scale(1.0);
 	is_game_over = false;
 
 	//Toca
@@ -178,10 +180,10 @@ void GuiManager::make_frame() {
 	menu_frame->set_frame_style(menu_frame->get_state(), style);
 
 	menu_frame_np = NodePath(menu_frame);
-	menu_frame_np.reparent_to(Simdunas::get_window()->get_aspect_2d());
+	menu_frame_np.reparent_to(Simdunas::get_clickable_render_2d());
 	cont_gui_options = 0.58;
 	//Seta a posição do frame
-	menu_frame_np.set_pos(0.58, 0.0, -1.0);
+	menu_frame_np.set_pos(cont_gui_options, 0.0, -1.0);
 	//Seta a cor do frame
 	menu_frame_np.set_color(0.8, 0.8, 0.8);
 	//Seta a transparencia do frame.
@@ -204,8 +206,9 @@ void GuiManager::click_event_botao_grafico(const Event*, void *data) {
 
 	/*Aqui, antes de chamar os graficos é verificado se o jogo não está PAUSADO,
     caso esteja sera escondida a tela de pause*/
-	if (Menu::get_instance()->get_flag_stop_time_pause()) {
-		Menu::get_instance()->hide_tela_pause();
+	PauseScreen* pause_screen = (PauseScreen*) InGameScreenManager::get_instance()->get_pause_screen().p();
+	if (pause_screen->is_stopped_time()) {
+		pause_screen->pause_event();
 	}
 
 	//Caso as opções dos graficos esteja fechada.
@@ -389,11 +392,12 @@ void GuiManager::init_options(const Event *, void *data) {
 
 				Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_pass_frame_gui_options, init_options, _this);
 				if (!is_game_over) {
-					if(!Menu::get_instance()->get_flag_stop_time_pause()){//verifica se o jogo está pausado
+					PauseScreen* pause_screen = (PauseScreen*) InGameScreenManager::get_instance()->get_pause_screen().p();
+					if(!pause_screen->is_stopped_time()){//verifica se o jogo está pausado
 						TimeControl::get_instance()->set_stop_time(false);//caso esteja não libera o tempo virtual
 					}
 					else {
-						Menu::get_instance()->show_tela_pause();
+						InGameScreenManager::get_instance()->open_screen(InGameScreenManager::get_instance()->get_pause_screen());
 					}
 				} else {
 					Menu::get_instance()->show_tela_over();
@@ -1274,7 +1278,7 @@ void GuiManager::piscar_life() {
 		conta = 0;
 	} else {
 
-		game_status_bar->get_piscar_model().reparent_to(Simdunas::get_window()->get_aspect_2d());
+		game_status_bar->get_piscar_model().reparent_to(Simdunas::get_clickable_render_2d());
 		flag_piscar = true;
 		Simdunas::get_evt_handler()->add_hook(TimeControl::EV_segundo_real, verifica_conta, this);
 		Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame_gui_options, verifica_conta, this);

@@ -19,6 +19,9 @@
 #include "characterEditor.h"
 #include "levelSelectionScreen.h"
 
+bool CalangosMenuManager::playing_movie = false;
+PT(AudioManager) CalangosMenuManager::AM = NULL;
+
 CalangosMenuManager::CalangosMenuManager() : ScreenManager() {
 	play_movie("models/videos/vinheta_opcao_1_mpeg4.avi");
 	Simdunas::get_framework()->define_key("escape", "Stop_Movie", stop_movie, this);

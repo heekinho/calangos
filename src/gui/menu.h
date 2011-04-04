@@ -19,7 +19,6 @@
 #include "movieTexture.h"
 
 #include "player.h"
-#include "loadingScreen.h"
 
 
 class Menu {
@@ -128,8 +127,6 @@ public:
     AudioSound * get_sound();
     bool get_playing_movie();
 
-    LoadingScreen* get_loading_screen();
-
 private:
 
 
@@ -221,7 +218,6 @@ private:
      
      */
 
-     LoadingScreen* loading_screen;
 };
 
 #endif

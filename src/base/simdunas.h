@@ -30,15 +30,21 @@ public:
 	static GuiLayer* get_pixel_2d(){ return pixel2d; }
 	static void set_pixel_2d(GuiLayer* pixel2d){ Simdunas::pixel2d = pixel2d; }
 
+	static NodePath get_clickable_render_2d();
+	static void set_clickable_render_2d(NodePath node);
+
 	static void init_types();
 
 	static bool is_play_clicked();
 	static void set_play_clicked(bool flag);
 
+	static void setup_clickable_render_2d();
+
 private:
 	static GuiLayer* pixel2d;
 	static PandaFramework *framework;
 	static WindowFramework *window;
+	static NodePath clickable_render_2d;
 	static EventQueue *evt_queue;
 	static EventHandler *evt_handler;
 	static bool play_clicked;

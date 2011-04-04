@@ -14,7 +14,7 @@
 #include "editorTextureScreen.h"
 #include "collision.h"
 
-Player::lizardEpecie GameOptionsScreen::especie = Player::eurolophosaurus; //a especie default
+//Player::lizardEpecie GameOptionsScreen::especie = Player::eurolophosaurus; //a especie default
 
 GameOptionsScreen::GameOptionsScreen(PT(ScreenManager) manager) : Screen(manager) {
 	load();
@@ -106,14 +106,14 @@ void GameOptionsScreen::load() {
 	Simdunas::get_evt_handler()->add_hook(btn_mais->get_click_event(MouseButton::one()), slide_direita_action, this);
 
 	////////o default será três? minutos então ja começa como se tivesse dado três clicks no +
-	for (int i = 0; i < TimeControl::virtualTime; i++) {
-		//                            const Event *ev_direita = new Event(btn_mais->get_click_event(MouseButton::one()));
-		//                            Simdunas::get_evt_queue()->queue_event(ev_direita);
-		//  cout<<"Minuto dia virtual: "<<config->minuto_dia_virtual<<endl;
-
-		//melhor que ficar enfileirando eventos!!!
-		slide_direita_action();
-	}
+//	for (int i = 0; i < TimeControl::get_instance()->get_virtual_time_hour(); i++) {
+//		//                            const Event *ev_direita = new Event(btn_mais->get_click_event(MouseButton::one()));
+//		//                            Simdunas::get_evt_queue()->queue_event(ev_direita);
+//		//  cout<<"Minuto dia virtual: "<<config->minuto_dia_virtual<<endl;
+//
+//		//melhor que ficar enfileirando eventos!!!
+//		slide_direita_action();
+//	}
 
 	//criando o botão menos///////////////////////////////
 	img_btn_menos = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/menos");
@@ -261,9 +261,16 @@ void GameOptionsScreen::unload() {
 
 void GameOptionsScreen::show() {
 	ostringstream letra; //convertendo minuto dia virtual em string
-	letra << Menu::get_instance()->get_minuto_dia_virtual();
+	letra << TimeControl::get_instance()->get_virtual_time_hour();
 	std::string st(letra.str());
 	informa_segundos(st);
+
+	if (collision::get_instance()->get_colisao()) {
+		img_colisao_ativada.show();
+	}
+	else {
+		img_colisao_desativada.show();
+	}
 
 	img_btn_cnemidophorus.show();
 	img_btn_colisao.show();
@@ -272,8 +279,6 @@ void GameOptionsScreen::show() {
 	img_btn_menos.show();
 	img_btn_personalizar.show();
 	img_btn_tropidurus.show();
-	//img_colisao_ativada.show();
-        img_colisao_desativada.show();  //por padrão a colisão virá desativada
 	img_escolha_especie.show();
 	img_frase_relogio.show();
 	img_tempo.show();
@@ -292,7 +297,7 @@ void GameOptionsScreen::show() {
 	marcador.show();
 	np_btn_voltar.show();
 
-	switch (especie) {//mostrando especie q tava selecionada
+	switch (Player::lizard_specie) {//mostrando especie q tava selecionada
 		case Player::tropidurus :
 			tropidurus.show();
 			break;
@@ -315,6 +320,7 @@ void GameOptionsScreen::hide() {
 	img_btn_personalizar.hide();
 	img_btn_tropidurus.hide();
 	img_colisao_ativada.hide();
+	img_colisao_desativada.hide();
 	img_escolha_especie.hide();
 	img_frase_relogio.hide();
 	img_tempo.hide();
@@ -333,7 +339,7 @@ void GameOptionsScreen::hide() {
 	marcador.hide();
 	np_btn_voltar.hide();
 
-	switch (especie) {//mostrando especie q tava selecionada
+	switch (Player::lizard_specie) {//mostrando especie q tava selecionada
 		case Player::tropidurus :
 			tropidurus.hide();
 			break;
@@ -347,14 +353,14 @@ void GameOptionsScreen::hide() {
 	}
 }
 
-Player::lizardEpecie GameOptionsScreen::get_especie() {
-	return especie;
-}
+//Player::lizardEpecie GameOptionsScreen::get_especie() {
+//	return especie;
+//}
 
 void GameOptionsScreen::slide_direita_action() {
-	int minuto_dia_virtual = Menu::get_instance()->get_minuto_dia_virtual();
+	int minuto_dia_virtual = TimeControl::get_instance()->get_virtual_time_hour();
 	if (minuto_dia_virtual < 60) {
-		Menu::get_instance()->set_minuto_dia_virtual(++minuto_dia_virtual);
+		TimeControl::get_instance()->set_virtual_time_hour(++minuto_dia_virtual);
 
 		ostringstream letra; //convertendo float em string
 
@@ -373,9 +379,9 @@ void GameOptionsScreen::slide_direita_action() {
 }
 
 void GameOptionsScreen::slide_esquerda_action() {
-	int minuto_dia_virtual = Menu::get_instance()->get_minuto_dia_virtual();
+	int minuto_dia_virtual = TimeControl::get_instance()->get_virtual_time_hour();
 	if (minuto_dia_virtual > 1) {
-		Menu::get_instance()->set_minuto_dia_virtual(--minuto_dia_virtual);
+		TimeControl::get_instance()->set_virtual_time_hour(--minuto_dia_virtual);
 
 		ostringstream letra; //convertendo float em string
 
@@ -408,7 +414,7 @@ void GameOptionsScreen::informa_segundos(string aviso) {
 }
 
 void GameOptionsScreen::tropidurus_action() {
-	switch (especie) {
+	switch (Player::lizard_specie) {
 		case Player::cnemidophorus :
 			cnemidophorus.hide();
 			break;
@@ -416,7 +422,7 @@ void GameOptionsScreen::tropidurus_action() {
 			eurolophosasurus.hide();
 			break;
 	}
-	especie = Player::tropidurus;
+	Player::lizard_specie = Player::tropidurus;
 	marcador.set_pos(4.0, 0.0, -2.2); //movendo o marcador
 	tropidurus.set_scale(0.04, 0.04, 0.04);
 	tropidurus.set_pos(4, 35, -2);
@@ -424,7 +430,7 @@ void GameOptionsScreen::tropidurus_action() {
 }
 
 void GameOptionsScreen::eurolophosaurus_action() {
-	switch (especie) {
+	switch (Player::lizard_specie) {
 		case Player::tropidurus :
 			tropidurus.hide();
 			break;
@@ -433,7 +439,7 @@ void GameOptionsScreen::eurolophosaurus_action() {
 			break;
 	}
 
-	especie = Player::eurolophosaurus;
+	Player::lizard_specie = Player::eurolophosaurus;
 	marcador.set_pos(4.0, 0.0, -4.7); //movendo o marcador
 	eurolophosasurus.set_scale(0.04, 0.04, 0.04);
 	eurolophosasurus.set_pos(4, 35, -2);
@@ -441,7 +447,7 @@ void GameOptionsScreen::eurolophosaurus_action() {
 }
 
 void GameOptionsScreen::cnemidophorus_action() {
-	switch (especie) {
+	switch (Player::lizard_specie) {
 		case Player::tropidurus :
 			tropidurus.hide();
 			break;
@@ -449,7 +455,7 @@ void GameOptionsScreen::cnemidophorus_action() {
 			eurolophosasurus.hide();
 			break;
 	}
-	especie = Player::cnemidophorus;
+	Player::lizard_specie = Player::cnemidophorus;
 	marcador.set_pos(4.0, 0.0, -7.2); //movendo o marcador
 	cnemidophorus.set_scale(0.04, 0.04, 0.04);
 	cnemidophorus.set_pos(4, 35, -2);
@@ -472,7 +478,7 @@ void GameOptionsScreen::colisao_action() {
 
 void GameOptionsScreen::slide_action() {
     int minuto_dia_virtual = (int) slide->get_value();
-    Menu::get_instance()->set_minuto_dia_virtual(minuto_dia_virtual);
+    TimeControl::get_instance()->set_virtual_time_hour(minuto_dia_virtual);
     ostringstream letra; //convertendo float em string
     letra << minuto_dia_virtual;
     std::string st(letra.str());
@@ -485,7 +491,7 @@ void GameOptionsScreen::personalizar_action() {
 
 	hide();  //limpa o menu de configuração
 
-	especie = Player::custom;  //determina que o jogador irá jogar com o lagarto personalizado
+	Player::lizard_specie = Player::custom;  //determina que o jogador irá jogar com o lagarto personalizado
 
 	// show_tela_personalizar(c); //apresenta o menu de edição de cores do lagarto
 	//apresenta os botões jogar e voltar
@@ -498,10 +504,6 @@ void GameOptionsScreen::personalizar_action() {
 
 void GameOptionsScreen::jogar_action() {
 	nout << "Carregando Jogo..." << endl;
-
-	if (Menu::get_instance()->get_minuto_dia_virtual() == 0) {
-		Menu::get_instance()->set_minuto_dia_virtual(TimeControl::virtualTime);
-	}
 
 	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_loading_screen());
 

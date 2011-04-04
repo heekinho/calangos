@@ -8,6 +8,7 @@
 #include "eventParameter.h"
 #include "menu.h"
 #include "collision.h"
+#include "calangosMenuManager.h"
 
 
 #include <iostream>
@@ -36,7 +37,6 @@ const string TimeControl::EV_pass_vminute = "EV_PASSVMIN";
 
 bool TimeControl::instanceFlag = false;
 PT(TimeControl) TimeControl::single = NULL;
-float TimeControl::virtualTime = 3;
 
 TimeControl::TimeControl() {
 	passTime = 1;
@@ -44,7 +44,7 @@ TimeControl::TimeControl() {
 	count_et = 0;
 	last_second = (int) ClockObject::get_global_clock()->get_long_time();
 	//MUDAR DE NOME
-	virtualTimeHour = TimeControl::virtualTime;//Menu::get_instance()->get_minuto_dia_virtual();//
+	virtualTimeHour = 3;//Menu::get_instance()->get_minuto_dia_virtual();//
 	virtualTimeMonth = 1; //numero de dias por mes
 	minute = 0;
 	hour = INIT_HOUR;
@@ -150,8 +150,8 @@ void TimeControl::update_time_control(float elapsed_time){
 	_elapsed_time = elapsed_time;
 
 	/* Caso esteja tocando um vídeo será necessário atualizar a cada frame */
-	if(Menu::get_instance()->get_playing_movie()){
-		Menu::get_instance()->get_audioManager()->update();
+	if(CalangosMenuManager::is_playing_movie()){
+		CalangosMenuManager::get_audio_manager()->update();
 	}
 
 
@@ -253,6 +253,10 @@ void TimeControl::update_real_seconds(){
 		(*p_queue).queue_event(new Event(pass_sec_numbered.str()));
 		/* --------------------------------------------------------------------------- */
 	}
+}
+
+float TimeControl::get_virtual_time_hour() {
+	return virtualTimeHour;
 }
 
 int TimeControl::get_minuto(){

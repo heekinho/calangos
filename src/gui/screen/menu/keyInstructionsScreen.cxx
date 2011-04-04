@@ -40,7 +40,6 @@ void KeyInstructionsScreen::load(){
 	//np_lb_teclas.set_color(0.0, 0.0, 0.0);
 	//construindo o botão instruções
 
-	PT(TextFont) font = manager->get_default_font();
 	default_button_config(btn_voltar, np_btn_voltar, "<< Voltar", -0.9, voltar_action);
 	np_btn_voltar.set_x(-0.9);
 }

@@ -813,10 +813,6 @@ void editorTextureScreen::jogo_action(){
 
 	nout << "Carregando Jogo..." << endl;
 
-	if (Menu::get_instance()->get_minuto_dia_virtual() == 0) {
-		Menu::get_instance()->set_minuto_dia_virtual(TimeControl::virtualTime);
-	}
-
 	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_loading_screen());
 
 	Simdunas::set_play_clicked(true);

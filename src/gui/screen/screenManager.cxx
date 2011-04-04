@@ -6,7 +6,6 @@
 
 #include "screenManager.h"
 #include "screen.h"
-#include "startMenu.h"
 
 // TODO: Tirar essa depedencia. Talvez fazer aquela ideia de GameFramework.
 #include "simdunas.h"

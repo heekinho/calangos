@@ -27,6 +27,7 @@ public:
 private:
 
 	/* Componentes do Menu */
+	PT(TextNode) lb_titulo;		NodePath np_lb_titulo;
 	PT(Button) btn_video; 		NodePath np_btn_video;		 ACTION(video_action);
 	PT(Button) btn_audio; 		NodePath np_btn_audio;	 	 ACTION(audio_action);
 	PT(Button) btn_controles; 	NodePath np_btn_controles;	 ACTION(controles_action);

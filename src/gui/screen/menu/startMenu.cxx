@@ -43,8 +43,6 @@ void StartMenu::load(){
     np_logo.set_scale(0.1);
     np_logo.set_pos(0.0, 0, 0.6);
 
-	PT(TextFont) font = manager->get_default_font();
-
 	default_button_config(btn_play, np_play, "Jogar", 0.1, play_action);
 	default_button_config(btn_options, np_options, "Opções", -0.1, options_action);
 	default_button_config(btn_instructions, np_instructions, "Instruções", -0.3, instructions_action);
@@ -75,14 +73,6 @@ void StartMenu::hide() {
 /*! Ação do botão jogar */
 void StartMenu::play_action(){
 	nout << "Carregando Jogo..." << endl;
-
-	if (Menu::get_instance()->get_minuto_dia_virtual() == 0) {
-		Menu::get_instance()->set_minuto_dia_virtual(TimeControl::virtualTime);
-	}
-
-//	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_loading_screen());
-//	Simdunas::set_play_clicked(true);
-
 	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_level_selection_screen());
 	//Simdunas::set_play_clicked(true);
 }

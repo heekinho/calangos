@@ -12,6 +12,7 @@
 #include "pgVirtualFrame.h"
 #include "screen.h"
 #include "screenManager.h"
+#include "button.h"
 
 #define ACTION(mn) void mn(); \
 static void mn(const Event*, void* d){ ((PT(LoadingScreen))(LoadingScreen*)d)->mn(); }
@@ -51,10 +52,8 @@ private:
     NodePath np_lb_descricao_objetivo;
     PT(TextNode) lb_carregando;
     NodePath np_lb_carregando;
-    PT(PGButton) btn_comecar;	ACTION(start_game);
+    PT(Button) btn_comecar;	ACTION(start_game);
     NodePath np_btn_comecar;
-    PT(TextNode) lb_comecar;
-    NodePath np_lb_comecar;
     PT(TextNode) lb_processo;
     NodePath np_lb_processo;
     PT(TextNode) lb_info_processo;

@@ -29,7 +29,7 @@ LoadingScreen::~LoadingScreen() {
 // Carrega e configura os objetos
 void LoadingScreen::load() {
 	frame = new PGVirtualFrame("LoadingScreen");
-	frame->setup(2.0, 2.0);
+	frame->setup(2, 2);
 	PGFrameStyle style = frame->get_frame_style(frame->get_state());
 	style.set_type(PGFrameStyle::T_flat);
 	frame->set_frame_style(frame->get_state(), style);
@@ -37,23 +37,28 @@ void LoadingScreen::load() {
 
 	lb_objetivo = new TextNode("lb_objetivo");
 	lb_objetivo->set_text("Objetivo");
+	lb_objetivo->set_font(manager->get_default_font());
 
 	lb_descricao_objetivo = new TextNode("lb_descricao_objetivo");
-	lb_descricao_objetivo->set_text("Seu objetivo nesta primeira fase é sobreviver, desenvolver-se e reproduzir. "
+	lb_descricao_objetivo->set_text("   Seu objetivo nesta primeira fase é sobreviver, desenvolver-se e reproduzir. "
 			"Seu sucesso será medido pelo número de vezes que conseguiu se reproduzir. "
 			"Busque controlar o nível de energia e de hidratação, e também a temperatura interna. Seu lagarto vive até 36 meses.");
 	lb_descricao_objetivo->set_wordwrap(20);
+	lb_descricao_objetivo->set_font(manager->get_default_font());
 
 	lb_carregando = new TextNode("lb_carregando");
 	lb_carregando->set_text("Carregando...");
+	lb_carregando->set_font(manager->get_default_font());
 
 	lb_processo = new TextNode("lb_processo");
 	lb_processo->set_text("Processo:");
+	lb_processo->set_font(manager->get_default_font());
 
 	lb_info_processo = new TextNode("lb_info_processo");
 	lb_info_processo->set_text("");
+	lb_info_processo->set_font(manager->get_default_font());
 
-	btn_comecar = new PGButton("btn_comecar");
+	btn_comecar = new Button("btn_comecar", "Começar", manager->get_default_font(), 0.17);
 }
 
 
@@ -62,14 +67,12 @@ void LoadingScreen::unload() {
 	np_lb_objetivo.remove_node();
 	np_lb_descricao_objetivo.remove_node();
 	np_lb_carregando.remove_node();
-	np_lb_comecar.remove_node();
 	np_btn_comecar.remove_node();
 	np_lb_processo.remove_node();
 	np_lb_info_processo.remove_node();
 	lb_objetivo = NULL;
 	lb_descricao_objetivo = NULL;
 	lb_carregando = NULL;
-	lb_comecar = NULL;
 	btn_comecar = NULL;
 	lb_processo = NULL;
 	lb_info_processo = NULL;
@@ -80,14 +83,14 @@ void LoadingScreen::unload() {
 
 // Posiciona os objetos na tela.
 void LoadingScreen::attach_objects() {
-	np_frame.reparent_to(Simdunas::get_window()->get_aspect_2d());
+	np_frame.reparent_to(Simdunas::get_clickable_render_2d());
 	np_frame.set_pos(-1, 0, -1);
 	np_frame.set_color(0, 0, 0);
 
 	np_lb_objetivo = np_frame.attach_new_node(lb_objetivo);
 	np_lb_objetivo.set_pos(0.7, 0.0, 1.8);
 	np_lb_objetivo.set_scale(0.15);
-	np_lb_objetivo.set_color(1, 1, 1, 1, 0);
+	np_lb_objetivo.set_color(0.87, 0.72, 0.52);
 
 	np_lb_descricao_objetivo = np_frame.attach_new_node(lb_descricao_objetivo);
 	np_lb_descricao_objetivo.set_pos(0.05, 0.0, 1.6);
@@ -96,7 +99,7 @@ void LoadingScreen::attach_objects() {
 
 	np_lb_carregando = np_frame.attach_new_node(lb_carregando);
 	np_lb_carregando.set_pos(0.7, 0.0, 0.3);
-	np_lb_carregando.set_scale(0.15);
+	np_lb_carregando.set_scale(0.13);
 	np_lb_carregando.set_color(1, 1, 1, 1, 0);
 
 	np_lb_processo = np_frame.attach_new_node(lb_processo);
@@ -124,7 +127,6 @@ void LoadingScreen::hide() {
 	np_lb_objetivo.hide();
 	np_lb_descricao_objetivo.hide();
 	np_lb_carregando.hide();
-	np_lb_comecar.hide();
 	np_btn_comecar.hide();
 	np_lb_processo.hide();
 	np_lb_info_processo.hide();
@@ -146,18 +148,7 @@ void LoadingScreen::loading_process() {
 
 void LoadingScreen::loading_completed() {
 	np_lb_carregando.hide();
-//	np_lb_processo.hide();
-//	np_lb_info_processo.hide();
 	lb_info_processo->set_text("Conluído.");
-	lb_comecar = new TextNode("lb_comecar");
-	lb_comecar->set_text("Começar");
-	np_lb_comecar = np_frame.attach_new_node(lb_comecar);
-	np_lb_comecar.set_color(1, 1, 1, 1, 0);
-	np_lb_comecar.set_scale(0.15);
-	np_lb_comecar.set_pos(1, 0, 0.3);
-
-	btn_comecar->set_text_node(lb_comecar);
-	btn_comecar->set_frame(0, lb_comecar->get_width(), 0, lb_comecar->get_height());
 	np_btn_comecar = np_frame.attach_new_node(btn_comecar);
 	np_btn_comecar.set_pos(1, 0, 0.3);
 

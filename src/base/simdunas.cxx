@@ -7,9 +7,17 @@
 
 #include "movieAudio.h"
 #include "audioSound.h"
+#include "objetoJogo.h"
+#include "animal.h"
+#include "sectorItems.h"
 
+#include "screen.h"
+#include "screenManager.h"
+#include "calangosMenuManager.h"
 #include "pStatClient.h"
 #include "gameOptionsScreen.h"
+#include "pgTop.h"
+#include "loadingScreen.h"
 
 //TODO: Colocar constants: modelpath, soundpath, imagepath, texturepath.
 
@@ -19,15 +27,8 @@ WindowFramework* Simdunas::window = NULL;
 EventQueue* Simdunas::evt_queue = NULL;
 EventHandler* Simdunas::evt_handler = NULL;
 GuiLayer* Simdunas::pixel2d = NULL;
+NodePath Simdunas::clickable_render_2d = NULL;
 bool Simdunas::play_clicked = false;
-
-#include "objetoJogo.h"
-#include "animal.h"
-#include "sectorItems.h"
-
-#include "screen.h"
-#include "screenManager.h"
-#include "calangosMenuManager.h"
 
 int main(int argc, char *argv[]) {
 	/* Carrega o arquivo de configuração do jogo */
@@ -69,8 +70,8 @@ int main(int argc, char *argv[]) {
 
 		//Simdunas::get_window()->get_render().set_antialias(AntialiasAttrib::M_multisample);
 
+		Simdunas::setup_clickable_render_2d();
 
-		/* Novo sistema de menu começa aqui, descomente para testar */
 		PT(CalangosMenuManager) menu_manager = new CalangosMenuManager();
 		menu_manager->get_sound()->play();
 		Thread *current_thread = Thread::get_current_thread();
@@ -86,38 +87,12 @@ int main(int argc, char *argv[]) {
 				}
 			}
 		}
-		/* Novo sistema de menu termina aqui */
-
-		//		nout << "Carregando Tela de Abertura..." << endl;
-		//
-		//		/* Inicia o Menu */
-		//		Menu::get_instance()->start_Menu();
-		//
-		//		// Segura o jogo no menu até que este libere o início do jogo
-		////		Thread *current_thread = Thread::get_current_thread();
-		//		while (!Simdunas::is_play_clicked()) {
-		//			Simdunas::get_framework()->do_frame(current_thread);
-		//			if(Menu::get_instance()->get_playing_movie()){//verifica se a vinheta ta sendo tocada
-		//				if (Menu::get_instance()->get_sound()->get_time() <= 62) {//verifica se o video chegou ao fim(DEPOIS PROCURAR UMA OUTRA FORMA DE FAZER)
-		//					Menu::get_instance()->get_audioManager()->update(); //é necessário atualizar a cada frame
-		//				}
-		//				else {
-		//					Menu::get_instance()->stop_movie(NULL,Menu::get_instance());//quando chegar chama o método que para
-		//
-		//				}
-		//			}
-		//		}
 
 		Simdunas::get_framework()->do_frame(current_thread);
 
 		/* FIX: Se o usuário já fechou a janela, não executar mais nada do jogo */
 		if(!Simdunas::get_window()->get_graphics_window()->get_properties().get_open()) return 0;
 
-		TimeControl::virtualTime = Menu::get_instance()->get_minuto_dia_virtual();
-
-		/* Como só chama o Menu uma vez: */
-//		Player::lizard_specie = Menu::get_instance()->get_especie();
-		Player::lizard_specie = ((GameOptionsScreen*) menu_manager->get_game_options_screen().p())->get_especie();
 		Player::lizard_gender = Player::young;
 
 		//		/* Inicia uma sessão padrão */
@@ -130,6 +105,22 @@ int main(int argc, char *argv[]) {
 
 	Simdunas::get_framework()->close_framework();
 	return (0);
+}
+
+// Configura o nosso clickable_render_2d.
+// Isso que foi feito aqui foi tirado do próprio código do Panda pois
+// eles fazem o mesmo com o aspect_2d. Nós precisamos fazer isso porque
+// houve a necessidade de capturar eventos de mouse no render_2d.
+void Simdunas::setup_clickable_render_2d() {
+	PGTop* top = new PGTop("clickable_render_2d");
+	Simdunas::set_clickable_render_2d(Simdunas::get_window()->get_render_2d().attach_new_node(top));
+
+	// Tell the PGTop about our MouseWatcher object, so the PGui
+	// system can operate.
+	PandaNode *mouse_node = Simdunas::get_window()->get_mouse().node();
+	if (mouse_node->is_of_type(MouseWatcher::get_class_type())) {
+		top->set_mouse_watcher(DCAST(MouseWatcher, mouse_node));
+	}
 }
 
 
@@ -153,6 +144,14 @@ WindowFramework* Simdunas::get_window(){
 
 void Simdunas::set_window(WindowFramework* window){
 	Simdunas::window = window;
+}
+
+void Simdunas::set_clickable_render_2d(NodePath node) {
+	Simdunas::clickable_render_2d = node;
+}
+
+NodePath Simdunas::get_clickable_render_2d() {
+	return Simdunas::clickable_render_2d;
 }
 
 EventHandler* Simdunas::get_evt_handler(){

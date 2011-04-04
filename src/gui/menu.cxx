@@ -992,23 +992,23 @@ AudioSound* Menu::get_sound() {
 //    voltar->show_tela_principal();   //carrega a tela do menu principal
 //}
 
-int Menu::get_minuto_dia_virtual() {
-    return minuto_dia_virtual;
-}
+//int Menu::get_minuto_dia_virtual() {
+//    return minuto_dia_virtual;
+//}
+//
+//void Menu::set_minuto_dia_virtual(int value) {
+//	minuto_dia_virtual = value;
+//}
 
-void Menu::set_minuto_dia_virtual(int value) {
-	minuto_dia_virtual = value;
-}
+//Player::lizardEpecie Menu::get_especie() {
+//
+//    return especie; // onde especie deve ficar? Eu acabei colocando na classe GameOptionsScreen, mas imagino que não seja o local ideal.
+//}
 
-Player::lizardEpecie Menu::get_especie() {
-
-    return especie; // onde especie deve ficar? Eu acabei colocando na classe GameOptionsScreen, mas imagino que não seja o local ideal.
-}
-
-bool Menu::get_flag_stop_time_pause() {
-
-    return flag_stop_time_pause;
-}
+//bool Menu::get_flag_stop_time_pause() {
+//
+//    return flag_stop_time_pause;
+//}
 
 bool Menu::get_playing_movie() {
     return playing_movio;
@@ -1018,94 +1018,94 @@ bool Menu::get_playing_movie() {
 //    return rodar;
 //}
 
-void Menu::chama_pause_game(const Event*, void* data) {
-    Menu * voltar_jogo = (Menu*) data;
-    voltar_jogo->pause_game();
+//void Menu::chama_pause_game(const Event*, void* data) {
+//    Menu * voltar_jogo = (Menu*) data;
+//    voltar_jogo->pause_game();
+//
+//}
 
-}
-
-void Menu::pause_game() {
-
-    if (flag_stop_time_pause) {
-        TimeControl::get_instance()->set_stop_time(false); //se o jogo estiver pausado, ao pressionar esc novamente volta ao normal
-        flag_stop_time_pause = false;
-
-        logo.remove_node();
-        nod_botao_voltar_jogo.remove_node();
-        nod_sair.hide();
-        videos.remove_node();
-        nod_bot_habitat.remove_node();
-        nod_bot_lagartos.remove_node();
-        nod_bot_predadores.remove_node();
-        nod_bot_presas.remove_node();
-        nod_bot_variacao_clima.remove_node();
-    } else {
-        Session::get_instance()->stop_animations();
-        if (!TimeControl::get_instance()->get_stop_time()) {//se o tempo ja estiver parado ele naum pausa o jogo
-            logo = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/pausa.png");
-            logo.set_scale(0.06);
-            logo.set_pos(0.0, 0, 0.8);
-
-
-            /////////colocando nome videos
-
-            videos = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/videos.png");
-            videos.set_scale(0.025);
-            videos.set_pos(0.0, 0, 0.55);
-
-
-            //////construindo os botões dos videos
-
-            lagartos = new PGButton("lagartos"); //////////Lagartos
-            nod_bot_lagartos = constroi_botao("models/buttons/lagartos", lagartos);
-            nod_bot_lagartos.set_scale(0.25);
-            nod_bot_lagartos.set_pos(0.0, 0.0, 0.35);
-
-            predadores = new PGButton("Predadores"); //////////Predadores
-            nod_bot_predadores = constroi_botao("models/buttons/predadores", predadores);
-            nod_bot_predadores.set_scale(0.25);
-            nod_bot_predadores.set_pos(0.0, 0.0, 0.15);
-
-            presas = new PGButton("Presas"); //////////Presas
-            nod_bot_presas = constroi_botao("models/buttons/presas", presas);
-            nod_bot_presas.set_scale(0.25);
-            nod_bot_presas.set_pos(0.0, 0.0, -0.05);
-
-            variacao_clima = new PGButton("Clima"); //////////Clima
-            nod_bot_variacao_clima = constroi_botao("models/buttons/clima", variacao_clima);
-            nod_bot_variacao_clima.set_scale(0.25);
-            nod_bot_variacao_clima.set_pos(0.0, 0.0, -0.25);
-
-            habitat = new PGButton("habitat"); //////////Habitat
-            nod_bot_habitat = constroi_botao("models/buttons/habitat", habitat);
-            nod_bot_habitat.set_scale(0.25);
-            nod_bot_habitat.set_pos(0.0, 0.0, -0.45);
-            ///////////////////////////////////////fim dos botões de vídeos
-
-            nod_sair.show();
-            nod_sair.set_pos(0.4, 0.0, -0.9);
-
-            ///////////////////criando botão voltar ao jogo/////////////////////
-
-            botao_voltar_jogo = new PGButton("voltar ao jogo");
-            nod_botao_voltar_jogo = constroi_botao("models/buttons/continuar", botao_voltar_jogo);
-            nod_botao_voltar_jogo.set_scale(0.9, 0.1, 0.22);
-            nod_botao_voltar_jogo.set_pos(-0.55, 0.0, -0.9);
-
-            ////adicionando os eventos na fila
-            Simdunas::get_evt_handler()->add_hook(botao_voltar_jogo->get_click_event(MouseButton::one()), chama_pause_game, this);
-            Simdunas::get_evt_handler()->add_hook(lagartos->get_click_event(MouseButton::one()), lagartos_play, this);
-            Simdunas::get_evt_handler()->add_hook(predadores->get_click_event(MouseButton::one()), predadores_play, this);
-            Simdunas::get_evt_handler()->add_hook(presas->get_click_event(MouseButton::one()), presas_play, this);
-            Simdunas::get_evt_handler()->add_hook(habitat->get_click_event(MouseButton::one()), habitat_play, this);
-            Simdunas::get_evt_handler()->add_hook(variacao_clima->get_click_event(MouseButton::one()), clima_play, this);
-
-
-            TimeControl::get_instance()->set_stop_time(true);
-            flag_stop_time_pause = true;
-        }
-    }
-}
+//void Menu::pause_game() {
+//
+//    if (flag_stop_time_pause) {
+//        TimeControl::get_instance()->set_stop_time(false); //se o jogo estiver pausado, ao pressionar esc novamente volta ao normal
+//        flag_stop_time_pause = false;
+//
+//        logo.remove_node();
+//        nod_botao_voltar_jogo.remove_node();
+//        nod_sair.hide();
+//        videos.remove_node();
+//        nod_bot_habitat.remove_node();
+//        nod_bot_lagartos.remove_node();
+//        nod_bot_predadores.remove_node();
+//        nod_bot_presas.remove_node();
+//        nod_bot_variacao_clima.remove_node();
+//    } else {
+//        Session::get_instance()->stop_animations();
+//        if (!TimeControl::get_instance()->get_stop_time()) {//se o tempo ja estiver parado ele naum pausa o jogo
+//            logo = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/pausa.png");
+//            logo.set_scale(0.06);
+//            logo.set_pos(0.0, 0, 0.8);
+//
+//
+//            /////////colocando nome videos
+//
+//            videos = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/videos.png");
+//            videos.set_scale(0.025);
+//            videos.set_pos(0.0, 0, 0.55);
+//
+//
+//            //////construindo os botões dos videos
+//
+//            lagartos = new PGButton("lagartos"); //////////Lagartos
+//            nod_bot_lagartos = constroi_botao("models/buttons/lagartos", lagartos);
+//            nod_bot_lagartos.set_scale(0.25);
+//            nod_bot_lagartos.set_pos(0.0, 0.0, 0.35);
+//
+//            predadores = new PGButton("Predadores"); //////////Predadores
+//            nod_bot_predadores = constroi_botao("models/buttons/predadores", predadores);
+//            nod_bot_predadores.set_scale(0.25);
+//            nod_bot_predadores.set_pos(0.0, 0.0, 0.15);
+//
+//            presas = new PGButton("Presas"); //////////Presas
+//            nod_bot_presas = constroi_botao("models/buttons/presas", presas);
+//            nod_bot_presas.set_scale(0.25);
+//            nod_bot_presas.set_pos(0.0, 0.0, -0.05);
+//
+//            variacao_clima = new PGButton("Clima"); //////////Clima
+//            nod_bot_variacao_clima = constroi_botao("models/buttons/clima", variacao_clima);
+//            nod_bot_variacao_clima.set_scale(0.25);
+//            nod_bot_variacao_clima.set_pos(0.0, 0.0, -0.25);
+//
+//            habitat = new PGButton("habitat"); //////////Habitat
+//            nod_bot_habitat = constroi_botao("models/buttons/habitat", habitat);
+//            nod_bot_habitat.set_scale(0.25);
+//            nod_bot_habitat.set_pos(0.0, 0.0, -0.45);
+//            ///////////////////////////////////////fim dos botões de vídeos
+//
+//            nod_sair.show();
+//            nod_sair.set_pos(0.4, 0.0, -0.9);
+//
+//            ///////////////////criando botão voltar ao jogo/////////////////////
+//
+//            botao_voltar_jogo = new PGButton("voltar ao jogo");
+//            nod_botao_voltar_jogo = constroi_botao("models/buttons/continuar", botao_voltar_jogo);
+//            nod_botao_voltar_jogo.set_scale(0.9, 0.1, 0.22);
+//            nod_botao_voltar_jogo.set_pos(-0.55, 0.0, -0.9);
+//
+//            ////adicionando os eventos na fila
+//            Simdunas::get_evt_handler()->add_hook(botao_voltar_jogo->get_click_event(MouseButton::one()), chama_pause_game, this);
+//            Simdunas::get_evt_handler()->add_hook(lagartos->get_click_event(MouseButton::one()), lagartos_play, this);
+//            Simdunas::get_evt_handler()->add_hook(predadores->get_click_event(MouseButton::one()), predadores_play, this);
+//            Simdunas::get_evt_handler()->add_hook(presas->get_click_event(MouseButton::one()), presas_play, this);
+//            Simdunas::get_evt_handler()->add_hook(habitat->get_click_event(MouseButton::one()), habitat_play, this);
+//            Simdunas::get_evt_handler()->add_hook(variacao_clima->get_click_event(MouseButton::one()), clima_play, this);
+//
+//
+//            TimeControl::get_instance()->set_stop_time(true);
+//            flag_stop_time_pause = true;
+//        }
+//    }
+//}
 
 void Menu::tela_over(Session *nsession) {
 
@@ -1371,18 +1371,18 @@ void Menu::show_tela_over() {
     indica_morte.show();
 }
 
-void Menu::show_tela_pause() {
-    logo.show();
-    nod_botao_voltar_jogo.show();
-    nod_sair.show();
-    videos.show();
-    nod_bot_habitat.show();
-    nod_bot_lagartos.show();
-    nod_bot_predadores.show();
-    nod_bot_presas.show();
-    nod_bot_variacao_clima.show();
-
-}
+//void Menu::show_tela_pause() {
+//    logo.show();
+//    nod_botao_voltar_jogo.show();
+//    nod_sair.show();
+//    videos.show();
+//    nod_bot_habitat.show();
+//    nod_bot_lagartos.show();
+//    nod_bot_predadores.show();
+//    nod_bot_presas.show();
+//    nod_bot_variacao_clima.show();
+//
+//}
 
 void Menu::show_tela_principal() {
 
@@ -1503,30 +1503,30 @@ void Menu::restart(const Event*, void* data) {
 
 }
 
-void Menu::out(const Event*, void* data) {
-    //	Session::get_instance()->end_session();
+//void Menu::out(const Event*, void* data) {
+//    //	Session::get_instance()->end_session();
+//
+//    exit(0); //saindo direto, fechando o jogo
+//    //na tela de inicialização ou de game over
+//
+//}
 
-    exit(0); //saindo direto, fechando o jogo
-    //na tela de inicialização ou de game over
-
-}
-
-void Menu::graph(const Event*, void* data) {
-    //Menu *m=(Menu*)data;
-    tecla = "g";
-    // controle=true;
-    Session *session = (Session*) data;
-    background_over.remove_node();
-    button_sair.remove_node();
-    button_restart.remove_node();
-    button_grafico.remove_node();
-    node_texto.remove_node();
-    logo.remove_node();
-    cout << "final g" << endl;
-
-    session->receive_answer(tecla);
-    //return tecla;
-}
+//void Menu::graph(const Event*, void* data) {
+//    //Menu *m=(Menu*)data;
+//    tecla = "g";
+//    // controle=true;
+//    Session *session = (Session*) data;
+//    background_over.remove_node();
+//    button_sair.remove_node();
+//    button_restart.remove_node();
+//    button_grafico.remove_node();
+//    node_texto.remove_node();
+//    logo.remove_node();
+//    cout << "final g" << endl;
+//
+//    session->receive_answer(tecla);
+//    //return tecla;
+//}
 
 
 

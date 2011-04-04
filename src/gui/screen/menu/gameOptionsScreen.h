@@ -40,7 +40,7 @@ private:
 	NodePath np_slide;
 	NodePath img_escolha_especie;
 	NodePath marcador;
-	static Player::lizardEpecie especie;
+//	static Player::lizardEpecie especie;
 	NodePath tropidurus, eurolophosasurus, cnemidophorus; //lagarto andando
 	PT(TextNode) lb_num_minutos;
 	NodePath np_lb_num_minutos;

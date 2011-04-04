@@ -21,7 +21,14 @@ InstructionsScreen::InstructionsScreen(PT(ScreenManager) manager) : Screen(manag
 InstructionsScreen::~InstructionsScreen(){}
 
 void InstructionsScreen::load(){
-	PT(TextFont) font = manager->get_default_font();
+	lb_titulo = new TextNode("txt_titulo");
+	lb_titulo->set_text("Instruções");
+	lb_titulo->set_font(manager->get_default_font());
+	np_lb_titulo = get_root().attach_new_node(lb_titulo);
+	np_lb_titulo.set_scale(0.2);
+	np_lb_titulo.set_x(-lb_titulo->get_width()*np_lb_titulo.get_sx()*0.5);
+	np_lb_titulo.set_z(0.7);
+	np_lb_titulo.set_color(0.87, 0.72, 0.52);
 
 	default_button_config(btn_controles, np_btn_controles, "Controles", 0.1, controles_action);
 	default_button_config(btn_indicadores, np_btn_indicadores, "Indicadores", -0.1, indicadores_action);
@@ -30,21 +37,25 @@ void InstructionsScreen::load(){
 }
 
 void InstructionsScreen::unload() {
+	np_lb_titulo.remove_node();
 	np_btn_controles.remove_node();
 	np_btn_indicadores.remove_node();
 	np_btn_voltar.remove_node();
+	lb_titulo = NULL;
 	btn_controles = NULL;
 	btn_indicadores = NULL;
 	btn_voltar = NULL;
 }
 
 void InstructionsScreen::show() {
+	np_lb_titulo.show();
 	np_btn_controles.show();
 	np_btn_indicadores.show();
 	np_btn_voltar.show();
 }
 
 void InstructionsScreen::hide() {
+	np_lb_titulo.hide();
 	np_btn_controles.hide();
 	np_btn_indicadores.hide();
 	np_btn_voltar.hide();

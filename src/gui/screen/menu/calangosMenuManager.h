@@ -34,8 +34,8 @@ public:
 	void create_menus();
 	PT(TextFont) get_default_font();
 	PT(AudioSound) get_sound();
-	PT(AudioManager) get_audio_manager();
-	bool is_playing_movie();
+	static PT(AudioManager) get_audio_manager();
+	static bool is_playing_movie();
 
 	void play_movie(string file);
 	static void stop_movie(const Event*, void *data);
@@ -57,9 +57,9 @@ private:
     PT(MovieTexture) mov;
     CardMaker *cm;
     NodePath node_card;
-    PT(AudioManager) AM;
+    static PT(AudioManager) AM;
     PT(AudioSound) ASound;
-    bool playing_movie;
+    static bool playing_movie;
 };
 
 #endif

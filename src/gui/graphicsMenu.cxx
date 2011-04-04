@@ -1031,7 +1031,7 @@ void GraphicsMenu::build_options() {
 	style.set_type(PGFrameStyle::T_flat);
 	option_frame->set_frame_style(option_frame->get_state(), style);
 	option_frame_np = NodePath(option_frame);
-	option_frame_np.reparent_to(Simdunas::get_window()->get_aspect_2d());
+	option_frame_np.reparent_to(Simdunas::get_clickable_render_2d());
 	//Seta a posição do frame
 	option_frame_np.set_pos(1.0, 0.0, -1.0);
 	//Seta a cor do frame
@@ -1046,7 +1046,7 @@ void GraphicsMenu::build_options() {
 	style.set_type(PGFrameStyle::T_flat);
 	grafico_variavel_frame->set_frame_style(grafico_variavel_frame->get_state(), style);
 	grafico_variavel_frame_np = NodePath(grafico_variavel_frame);
-	grafico_variavel_frame_np.reparent_to(Simdunas::get_window()->get_aspect_2d());
+	grafico_variavel_frame_np.reparent_to(Simdunas::get_clickable_render_2d());
 	//Seta a posição do frame
 	grafico_variavel_frame_np.set_pos(1.0, 0.0, -1.0);
 	//Seta a cor do frame
