@@ -231,7 +231,6 @@ void editorTextureScreen::set_textura4() {
 
 
 void editorTextureScreen::Paleta_cores( int  qtde_coluna) {
-  // editorTextureScreen * config = (editorTextureScreen*) data;
 
    //linha 1
    //paleta vermelha
@@ -689,15 +688,15 @@ void editorTextureScreen::print3_yellow(const Event*, void *data) {
     config->mudar_marcador3(-0.9, 0.0, 0.1);
 }
 
-//Esse método coloca uma cor padrão (vermelho) na textura. É utilizado quando o padrão de textura é alterado
+//Esse método coloca uma cor padrão (verde) na textura. É utilizado quando o padrão de textura é alterado
 void editorTextureScreen::print_standard() {
        
         //apaga os marcadores da paleta de cores
        marcador_camada1.hide();
        marcador_camada2.hide();
        marcador_camada3.hide();
-	RGBColord cor = RGBColord(0.23,0.39,0.32);//forma a cor vermelha
-	change_texture(cor, 0); //pinta toda a textura inicialmente de vermelha
+	RGBColord cor = RGBColord(0.23,0.39,0.32);//forma a cor verde
+	change_texture(cor, 0); //pinta toda a textura inicialmente de verde
 }
 
 //muda a posição do marcador da primeira coluna da paleta de cores
@@ -722,8 +721,8 @@ void editorTextureScreen::change_texture(RGBColord cor, int mask_x) {
   //  PNMImage mask = PNMImage(path_mascara);    //mascara da textura
   //  PNMImage custom = PNMImage(path_textura_personalizada);    //textura personalizada
 
-      //esse int representa a parte da mascara que o jogador deseja pintar (1 = cinza,
-      //2 = branca, 3 = cinza escuro, 0 = branco a cinza escuro)
+      //esse int mask_x representa a parte da mascara que o jogador deseja pintar (1 = cinza,
+      //2 = branca, 3 = cinza escuro, 0 = todas (branco, cinza e cinza escuro)
     int print_mask = mask_x;
 
     PNMImage image = textura_original;
