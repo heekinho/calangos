@@ -11,6 +11,10 @@ ShadowCard::ShadowCard(LPoint2f img_size, LPoint2f obj_size) {
 	/* Criando uma Imagem (Canal) para as sombras */
 	this->shadows_channel = new PNMImage(img_size.get_x(), img_size.get_y());
 	ShadowCard::clear_shadows(shadows_channel);
+
+	this->folhagem_channel = new PNMImage(img_size.get_x(), img_size.get_y());
+	ShadowCard::clear_shadows(folhagem_channel);
+
 	this->active_shadows = new PNMImage(img_size.get_x(), img_size.get_y());
 	ShadowCard::clear_shadows(active_shadows);
 
@@ -117,6 +121,14 @@ void ShadowCard::update_active_shadows(){
 		active_shadows->copy_sub_image(*shadows_channel,
 				p.get_x(), p.get_y(), p.get_x(), p.get_y(), sector_width, sector_height);
 	}
+
+	//testando aqui AS FOLHAGENS
+	/*
+	PNMImage folhagem_instance = PNMImage();
+	folhagem_instance.set_read_size(32, 32);
+	folhagem_instance.read("models/vegetation/Bocoa/folhagem_bocoa.png");
+	shadows_channel->copy_sub_image(folhagem_instance, 128, 128, 0, 0);
+	*/
 
 	//shadow_tex->load(*active_shadows);
 	update_shadows();

@@ -296,7 +296,7 @@ void Vegetal::add_vegetal_model(const string &name, float radius, float scale, f
 		/* Adiciona colisão a todos os vegetais */
 		/* TODO: esses valores de raios não estão perfeitos ainda */
 		collision::get_instance()->esferaCollision(especie, x, y, z, multiplicador*radius);
-
+		
 		//especie->set_area(area);
 		especie->set_radius(radius);
 		especie->set_scale(scale);
@@ -724,6 +724,21 @@ void Vegetal::build_forest(){
 
 				vegetal->load_edible_vegetals(vegetal->get_vegetal_name(), current_season);
 
+				//FOLHAGEM ##################################################
+				//if(cont_tree % 15 == 0){
+				
+				    //converter isso aqui em de  chamaecrista para Chamaecrista (upper case na letra c - C)
+				  //  vegetal->get_vegetal_name().replace(0, vegetal->get_vegetal_name().substr(0,1));
+					//copy_sub_image
+
+				/* começa
+				PNMImage folhagem_instance = PNMImage();
+				folhagem_instance.set_read_size(5, 5);
+				folhagem_instance.read("models/vegetation/Chamaecrista/folhagem_chamaecrista.png");
+				World::get_world()->get_terrain()->get_shadows()->get_folhagem_channel()->blend_sub_image(folhagem_instance, vegetal->get_x(), vegetal->get_y()+1 , 0, 0);
+					*/
+
+				//FOLHAGEM ##################################################
 				// Sombras
 				PNMImage shadow_image = PNMImage();
 				//TODO: fazer o raio variavel de acordo com a arvore
@@ -733,6 +748,8 @@ void Vegetal::build_forest(){
 
 				//Criar as sombras da árvore.
 				World::get_world()->get_terrain()->get_shadows()->create_shadow(shadow_image, *vegetal);
+
+				//adiciona vegetal ao terreno
 				World::get_world()->get_terrain()->add_vegetal(vegetal);
 				cont_tree++;
 			}

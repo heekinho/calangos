@@ -31,6 +31,7 @@ public:
 	PT(TextureStage) get_stage(){ return shadow_stage; };
 	PT(Texture) get_texture(){ return shadow_tex; };
 	PNMImage* get_channel(){ return shadows_channel; };
+	PNMImage* get_folhagem_channel(){ return shadows_channel; };
 
 
 	void update_active_shadows();
@@ -39,6 +40,7 @@ private:
 	double alpha;
 
 	PNMImage* shadows_channel;
+	PNMImage* folhagem_channel;
 	PNMImage* active_shadows;
 
 	PT(TextureStage) shadow_stage;
