@@ -1,10 +1,4 @@
-
-
-
-
-
 #include "menu.h"
-
 
 #include "nodePath.h"
 #include "textNode.h"
@@ -18,8 +12,6 @@
 #include "imageRepository.h"
 #include "loadingScreen.h"
 #include "editorTextureScreen.h"  //testando esse include
-
-
 
 TextNode* Menu::tex = NULL;
 TextNode* Menu::tex_obj=NULL;
@@ -62,9 +54,9 @@ Menu::Menu(WindowFramework *window) {
 
 #include "auto_bind.h"
 #include "animatedObjetoJogo.h"
-#include "player/player.h"
+#include "player.h"
 #include "editorTextureScreen.h"
-#include "base/collision.h"
+#include "collision.h"
 
 void Menu::start_Menu() {
 
