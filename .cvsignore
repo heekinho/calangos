@@ -28,3 +28,5 @@ modelcache
 doxydocs
 python-scripts
 backup
+.externalToolBuilders
+.autotools
