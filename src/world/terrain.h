@@ -92,6 +92,9 @@ public:
 	PT(ShadowCard) get_shadows(){ return shadows; };
 	LPoint3f get_random_point();
 
+	float get_sampled_elevation(const LPoint2f &reference_point, float radius = 0.1);
+	LVector3f get_normal(const LPoint2f &reference_point);
+	LVector3f get_sampled_normal(const LPoint2f &reference_point, float radius = 0.1);
 
 	list<PT(Prey)> list_prey;
 private:

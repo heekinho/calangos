@@ -513,3 +513,51 @@ LPoint3f Terrain::get_random_point(){
 
 	return LPoint3f(x, y, z);
 }
+
+/*! Obtém o z em determinado ponto de forma amostrada. Pega-se 4 pontos, distantes
+ * em radius metros do ponto de referência, e tira-se uma média. */
+float Terrain::get_sampled_elevation(const LPoint2f &reference_point, float radius){
+	LPoint2f s1 = reference_point + LPoint2f(radius, radius);
+	LPoint2f s2 = reference_point + LPoint2f(radius, -radius);
+	LPoint2f s3 = reference_point + LPoint2f(-radius, radius);
+	LPoint2f s4 = reference_point + LPoint2f(-radius, -radius);
+
+	LPoint2f sampled_position = (s1 + s2 + s3 + s4) * 0.25;
+
+	return get_elevation(sampled_position.get_x(), sampled_position.get_y());
+}
+
+/*! Obtém a normal de determinado ponto do terreno */
+LVector3f Terrain::get_normal(const LPoint2f &reference_point){
+	/* A altura é carregada aqui para evitar possíveis erros de um LPoint3f.z */
+	float elevation = get_elevation(reference_point[0], reference_point[1]);
+	LPoint3f point = LPoint3f(reference_point[0], reference_point[1], elevation);
+
+	/* Resolução para o cálculo da normal */
+	float step = 0.01;
+
+	/* Pega um ponto à frente. Pode ser axis-aligned, certo? */
+	LPoint3f front = point + LPoint3f(0, -step, 0);
+	front.set_z(get_elevation(front[0], front[1]));
+
+	/* Pega um ponto ao lado */
+	LPoint3f right = point + LPoint3f(step, 0, 0);
+	right.set_z(get_elevation(right[0], right[1]));
+
+	/* A normal é o produto vetorial dos vetores */
+	LVector3f normal = (front - point).cross(right - point);
+	normal.normalize();
+
+	return normal;
+}
+
+/*! Obtém a normal de determinado ponto de forma amostrada. Pega-se 4 pontos,
+ * distantes em radius metros do ponto de referência, e tira-se uma média. */
+LVector3f Terrain::get_sampled_normal(const LPoint2f &reference_point, float radius){
+	LVector3f n1 = get_normal(reference_point + LPoint2f(radius, radius));
+	LVector3f n2 = get_normal(reference_point + LPoint2f(radius, -radius));
+	LVector3f n3 = get_normal(reference_point + LPoint2f(-radius, radius));
+	LVector3f n4 = get_normal(reference_point + LPoint2f(-radius, -radius));
+
+	return (n1 + n2 + n3 + n4) * 0.25;
+}
