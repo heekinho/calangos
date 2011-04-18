@@ -97,14 +97,29 @@ void CharacterEditor::configure_buttons(){
 
 
 void CharacterEditor::configure_controls(){
-//	slide = new PGSliderBar("slide");
-//	slide->set_range(0, 10);
-//	slide->setup_slider(false, 1.0, 0.06, 0.01);
-//	np_slide = Simdunas::get_window()->get_aspect_2d().attach_new_node(slide);
-//	np_slide.set_scale(0.5, 1.0, 1.0);
-//	np_slide.set_pos(-0.84, 0.0, 0.27);
-//	np_slide.show();
+	float aspect = gui->get_aspect_ratio();
+
+	/* Pai de todos os controles */
+	NodePath entry = NodePath("Size Entry");
+	entry.reparent_to(get_root()); //Simdunas::get_window()->get_aspect_2d()
+	entry.set_z(-0.1);
+
+	/* Configuração de texto */
+	PT(TextNode) text_generator = new TextNode("Size Text");
+	text_generator->set_font(manager->get_default_font());
+
+	float offset = -0.1;
+	float valign = -offset;
+
+	body_size = new CharacterEditorEntrySlider(entry, "Tamanho do corpo", text_generator, 0, 10, valign += offset, 0.0, "cm");
+	head_size = new CharacterEditorEntrySlider(entry, "Tamanho da cabeça", text_generator, 0, 10, valign += offset, 0.0, "cm");
+	speed = new CharacterEditorEntrySlider(entry, "Velocidade", text_generator, 0, 10, valign += offset, 0.0, "cm/s");
+	ideal_temperature = new CharacterEditorEntrySlider(entry, "Temperatura Ideal", text_generator, 0, 10, valign += offset, 0.0, "°C");
+	density = new CharacterEditorEntrySlider(entry, "Densidade de Lagartos", text_generator, 0, 10, valign += offset);
+	aggregation = new CharacterEditorEntrySlider(entry, "Agregação dos Lagartos", text_generator, 0, 10, valign += offset);
 }
+
+
 
 /* Configura o mapeamento de ações dos botões da toolbar */
 void CharacterEditor::configure_button_actions(){
@@ -125,4 +140,79 @@ void CharacterEditor::sizing_action_performed(){
 void CharacterEditor::pattern_action_performed(){
 	nout << "Loading Pattern Editor" << endl;
 	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_editor_texture_screen());
+}
+
+
+/*! Coleta as propriedades especificadas pelo usuário em uma estrutura de intercâmbio */
+PlayerProperties CharacterEditor::collect_player_properties(){
+	PlayerProperties player_properties;
+
+//	player_properties.lizard_type = ENUM;
+
+//	player_properties.ant_diet = 0.0f;
+//	player_properties.plant_diet = 0.0f;
+//	player_properties.general_diet = 0.0f;
+
+	player_properties.bury_ability = false;
+	player_properties.nighttime_activity = false;
+
+	player_properties.body_size = body_size->control->get_value();
+	player_properties.head_size = head_size->control->get_value();
+	player_properties.speed = speed->control->get_value();
+	player_properties.ideal_tempature = ideal_temperature->control->get_value();
+	player_properties.lizards_density = density->control->get_value();
+	player_properties.lizards_aggregation = aggregation->control->get_value();
+
+	return player_properties;
+}
+
+CharacterEditorEntrySlider::CharacterEditorEntrySlider(
+		const NodePath &gparent, const string &text, PT(TextNode) text_generator,
+		float min, float max, float valign, float default_value, string unit, float align){
+	parent = gparent.attach_new_node("CharacterEditorEntry-" + text);
+	parent.set_z(valign);
+
+	/* Configurando o label */
+	text_generator->set_text(text);
+	np_label = parent.attach_new_node(text_generator->generate());
+	np_label.set_scale(0.06);
+	np_label.set_x(align);
+
+	/* Configurando o slider */
+	control = new PGSliderBar("slider");
+	control->set_range(min, max);
+	control->setup_slider(false, 0.5, 0.05, 0.0f);
+	control->set_value(default_value);
+
+	np_control = parent.attach_new_node(control);
+//	np_control.set_color_scale(0.0, 0.6, 0.0, 1.0, 2);
+//	np_control.set_scale(0.5, 1.0, 1.0);
+	np_control.set_x(0.3);
+	np_control.set_z(np_control.get_z() + 0.025);
+
+	/* Configurando campo de valor */
+	value_postfix = unit;
+
+	value = new TextNode("value");
+	value->set_font(text_generator->get_font());
+	value->set_text("20.0");
+
+	np_value = parent.attach_new_node(value);
+	np_value.set_scale(0.06);
+	np_value.set_x(-0.4);
+
+//	/* Configurando campo minrange e maxrange */
+//	stringstream ssmin; ssmin.setf(stringstream::fixed, stringstream::floatfield); ssmin.precision(1);
+//	ssmin << min; text_generator->set_text(ssmin.str());
+//	np_min_range = parent.attach_new_node(text_generator->generate());
+//	np_min_range.set_scale(0.06); np_min_range.set_x(np_control.get_x() + control->get_frame()[0] - 0.1);
+//
+//	stringstream ssmax; ssmax.setf(stringstream::fixed, stringstream::floatfield); ssmax.precision(1);
+//	ssmax.clear(); ssmax << max; text_generator->set_text(ssmax.str());
+//	np_max_range = parent.attach_new_node(text_generator->generate());
+//	np_max_range.set_scale(0.06); np_max_range.set_x(np_control.get_x() + control->get_frame()[1] + 0.05);
+
+
+	Simdunas::get_evt_handler()->add_hook(control->get_adjust_event(), adjust_value, this);
+	adjust_value(NULL, this);
 }
