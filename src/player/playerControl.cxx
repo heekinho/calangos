@@ -54,6 +54,8 @@ PlayerControl::PlayerControl() {
 	Simdunas::get_evt_handler()->add_hook(TimeControl::get_instance()->EV_segundo_real, event_female_next, this);
 
     indicator = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), "models/indicator.png");
+    indicator.find_texture("*")->set_wrap_u(Texture::WM_clamp);
+    indicator.find_texture("*")->set_wrap_v(Texture::WM_clamp);
     indicator.set_billboard_point_eye(0);
 
     _female_indicator = indicator.copy_to(Simdunas::get_window()->get_render());
