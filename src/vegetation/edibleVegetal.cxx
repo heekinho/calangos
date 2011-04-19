@@ -38,8 +38,10 @@ PT(EdibleVegetal) EdibleVegetal::configure_edible_vegetal(const string name, flo
 	especie->set_nutritional_value(nutritional_value);
 	especie->set_hydration_value(hidratacao);
 
-	especie->set_scale(scale);
-	especie->set_offset_z(offset_z);
+//	especie->set_scale(scale);
+	especie->set_width(scale*4, true);
+
+//	especie->set_offset_z(offset_z);
 	return especie;
 }
 

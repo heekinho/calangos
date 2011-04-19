@@ -41,7 +41,7 @@ void ObjetoJogo::init(){
 	offset_z = 0.0;
 	prev_pos = LPoint3f(this->NodePath::get_pos());
 	orientation = 1;
-	//calc_size_from_bounds();
+	calc_size_from_bounds();
 	_screen_status_enabled = true;
 	//Simdunas::get_evt_handler()->add_hook(PlayerControl::get_instance()->EV_player_move, update_screen_status, this);
 }
@@ -107,24 +107,30 @@ void ObjetoJogo::set_screen_status_enabled(bool enabled){
 /*! Obtém o tamanho real do objeto a partir do tight_bounds dele */
 void ObjetoJogo::calc_size_from_bounds(){
 	LPoint3f min, max;
-	calc_tight_bounds(min, max);
-	_osize = LVecBase3f(max - min);
-	_size = LVecBase3f(_osize);
+	if(!is_empty()){
+		/* Calcula o bounds para assim obter o tamanho "real" e não o scale que
+		 * sempre será (1 1 1). */
+		calc_tight_bounds(min, max);
+		_osize = LVecBase3f(max - min);
 
-	/* Faz o pivotamento central. Pivot fica no meio do plano inferior de bounds. */
-	for(int i = 0; i < get_num_children(); i++){
-		if(!get_child(i).is_empty()){
-			get_child(i).set_pos(get_child(i), -0.5*(_osize) - min);
-			//TODO: Verificar isso aqui.
-			get_child(i).set_z(get_child(i), 0.5*_osize.get_z());
-		}
+//		/* TODO: Separar. Não fazer automático. Nem todos os objetos querem isso. */
+//		/* Faz o pivotamento. Pivot fica no meio do plano inferior de bounds. */
+//		for(int i = 0; i < get_num_children(); i++){
+//			if(!get_child(i).is_empty()){
+//				get_child(i).set_pos(get_child(i), -0.5*(_osize) - min);
+//				get_child(i).set_z(get_child(i), 0.5*_osize.get_z());
+//			}
+//		}
 	}
+	else _osize = LVecBase3f(1);
+
+	_size = LVecBase3f(_osize);
 }
 
 /*! Define as dimensões "reais" do objeto em metros (1m = 1u do panda) */
 void ObjetoJogo::set_size(float width, float length, float height){
 	_size.set(width, length, height);
-	set_scale(width/_osize[0], length/_osize[1], height/_osize[2]);
+	set_scale(NodePath(), width/_osize[0], length/_osize[1], height/_osize[2]);
 }
 
 /*! Define a largura "real" do objeto em metros (1m = 1u do panda) */

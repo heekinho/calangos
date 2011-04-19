@@ -553,7 +553,7 @@ void Vegetal::load_edible_vegetal_model(string name, int quant_flower, int quant
 			vegetal->set_x(new_x);
 			vegetal->set_y(new_y);
 
-			vegetal->set_z(World::get_world()->get_terrain()->get_elevation(new_x,new_y)+vegetal->get_offset_z()+2);
+			vegetal->set_z(World::get_world()->get_terrain()->get_elevation(new_x,new_y)/*+vegetal->get_offset_z()+2*/);
 			vegetal->set_h(rand()%360);
 			World::get_world()->get_terrain()->add_edible_vegetal(vegetal);
 		}
@@ -795,7 +795,6 @@ void Vegetal::build_forest(){
  * @param qtd	- quantidade de centros/vegetais gerados.
  * @param distance - distância entre centros/vegetais.
  * @param model_radius - quando há um modelo com raio especifico */
-
 vector<LVecBase3f> Vegetal::generate_elements(LPoint2d start, LPoint2d end, int qtd, float distance, float model_radius){
 
 	int current_qtd = 0;
