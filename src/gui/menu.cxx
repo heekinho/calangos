@@ -5,7 +5,6 @@
 #include "mouseButton.h"
 #include "pgSliderBar.h"
 #include "fontPool.h"
-#include "eventQueue.h"
 #include "guiManager.h"
 #include "audioManager.h"
 #include "textureStageCollection.h"

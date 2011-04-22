@@ -6,14 +6,12 @@
 
 #include "guiLayer.h"
 #include "pgTop.h"
-#include "eventQueue.h"
 #include "eventHandler.h"
 
 GuiLayer::GuiLayer(WindowFramework* window){
 	this->window = window;
 
-	EventQueue* queue = EventQueue::get_global_event_queue();
-	EventHandler* handler = EventHandler::get_global_event_handler(queue);
+	EventHandler* handler = EventHandler::get_global_event_handler();
 	handler->add_hook("window-event", window_event, this);
 
 	/* Configuração inicial */
@@ -23,8 +21,7 @@ GuiLayer::GuiLayer(WindowFramework* window){
 
 GuiLayer::~GuiLayer(){
 	pixel2d.remove_node();
-	EventQueue* queue = EventQueue::get_global_event_queue();
-	EventHandler* handler = EventHandler::get_global_event_handler(queue);
+	EventHandler* handler = EventHandler::get_global_event_handler();
 	handler->remove_hook("window-event", window_event, this);
 }
 

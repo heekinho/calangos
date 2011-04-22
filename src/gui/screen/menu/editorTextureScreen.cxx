@@ -11,7 +11,6 @@
 #include "mouseButton.h"
 #include "pgSliderBar.h"
 #include "fontPool.h"
-#include "eventQueue.h"
 #include "guiManager.h"
 #include "textureStageCollection.h"
 #include "screenManager.h"

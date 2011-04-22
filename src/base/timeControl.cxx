@@ -55,7 +55,7 @@ TimeControl::TimeControl() {
 	stop_time = false;
 	habilita_event_frame_gui = false;
 	p_queue = EventQueue::get_global_event_queue();
-	p_handler = EventHandler::get_global_event_handler(p_queue);
+	p_handler = EventHandler::get_global_event_handler();
 
 	#if(DEBUG_TCONTROL)
 		cout << "hour = " << hour << " day = " << day << " month = " << month << " year = "<< year << endl;

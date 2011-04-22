@@ -7,7 +7,6 @@ são atualizadas a cada hora virtual.*/
 
 #include "timeControl.h"
 #include "eventHandler.h"
-#include "eventQueue.h"
 #include "simdunas.h"
 
 class ClimaTempo : public TypedReferenceCount{

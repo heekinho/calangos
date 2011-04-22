@@ -2,7 +2,6 @@
 #define GUIMANAGER_H
 
 #include "pandaFramework.h"
-#include "eventQueue.h"
 #include "eventHandler.h"
 #include "timeControl.h"
 #include "pgVirtualFrame.h"
