@@ -8,6 +8,7 @@
 # and don't specify an extension.
 
 default-model-extension .egg
+#bounds-type box
 
 # Uncomment one of the following lines to choose whether you should
 # run using OpenGL or DirectX rendering.
@@ -45,7 +46,10 @@ depth-bits 1
 color-bits 1
 alpha-bits 0
 stencil-bits 0
-multisamples 0
+
+#framebuffer-multisample 1
+#multisamples 4
+
 
 # These control the amount of output Panda gives for some various
 # categories.  The severity levels, in order, are "spam", "debug",
@@ -75,6 +79,7 @@ want-tk           #f
 # Enable/disable performance profiling tool and frame-rate meter
 
 want-pstats            #f
+pstats-max-rate        10
 show-frame-rate-meter  #t
 
 # Enable audio using the FMOD audio library by default:
@@ -83,15 +88,12 @@ show-frame-rate-meter  #t
 audio-library-name p3openal_audio
 
 # Enable the use of the new movietexture class.
-
 use-movietexture #t
 
 # The new version of panda supports hardware vertex animation, but it's not quite ready
-
 hardware-animated-vertices #f
 
 # Enable the model-cache, but only for models, not textures.
-
 model-cache-dir $THIS_PRC_DIR/../modelcache
 model-cache-textures #f
 
@@ -103,4 +105,3 @@ model-cache-textures #f
 # from within the application.
 
 basic-shaders-only #t
-
