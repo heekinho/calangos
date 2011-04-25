@@ -27,7 +27,7 @@ public:
 
 	void player_death(int);
 
-	static void stop_movie(const Event*, void *data);
+//	static void stop_movie(const Event*, void *data);
 
 	void receive_answer(char *ans);
 	int get_causa_mortis();
@@ -56,7 +56,7 @@ private:
 	//PlayerControl *player_control;
 
 	int causa_mortis;
-	vector<string> stage_info; // informações sobre as etapas de carregamento.
+	vector<string> stage_info; // informaï¿½ï¿½es sobre as etapas de carregamento.
 	bool finished_loading;
 	void end_session();
 };

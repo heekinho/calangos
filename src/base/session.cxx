@@ -15,6 +15,7 @@ Session* Session::singleSession = NULL;
 
 #include "memoryUsage.h"
 #include "memoryUsagePointers.h"
+#include "inGameScreenManager.h"
 
 
 
@@ -99,33 +100,33 @@ void Session::init_session(int process_stage){
 
 /*! MainLoop. O loop principal da session */
 void Session::run(){
-//	/* Inicializa de fato a sessao, para então rodar o loop principal */
-//	init_session();
-//
-//	GuiManager::get_instance()->hide_frameNode();
-//
-//	LoadScreenStage1::get_instance()->loading_completed();
+	//	/* Inicializa de fato a sessao, para então rodar o loop principal */
+	//	init_session();
+	//
+	//	GuiManager::get_instance()->hide_frameNode();
+	//
+	//	LoadScreenStage1::get_instance()->loading_completed();
 
-//	while (!start) {
-//		Simdunas::get_framework()->do_frame(Thread::get_current_thread());
-//	}
+	//	while (!start) {
+	//		Simdunas::get_framework()->do_frame(Thread::get_current_thread());
+	//	}
 
 	GuiManager::get_instance()->show_frameNode();
 
 	causa_mortis = -1;
-	
+
 	Simdunas::get_framework()->do_frame(Thread::get_current_thread());
 
-	
+
 	/* Loop principal do programa */
 	Session::get_instance()->game_over = false;
 	//Menu::get_instance()->hide_tela_over();
 	nout << "Iniciando Jogo..." << endl;
 
-	#ifdef PSTATS
-		if (!PStatClient::is_connected())
-				PStatClient::connect();
-	#endif
+#ifdef PSTATS
+	if (!PStatClient::is_connected())
+		PStatClient::connect();
+#endif
 
 	while(Simdunas::get_framework()->do_frame(Thread::get_current_thread()) && !Session::get_instance()->game_over) {
 		/* O controle de tempo precisa saber o quanto de tempo se passou.
@@ -137,22 +138,22 @@ void Session::run(){
 		cout<<" Reiniciando o Jogo..." << endl;
 		this->end_session();
 
-		/* Colocando o evento para parar os vídeos das vinhetas
-		 * (ta aqui pq se não quando renicia não funciona mais) */
-		Simdunas::get_framework()->define_key("escape", "Stop_Movie", stop_movie, this);
-	
+//		/* Colocando o evento para parar os vídeos das vinhetas
+//		 * (ta aqui pq se não quando renicia não funciona mais) */
+//		Simdunas::get_framework()->define_key("escape", "Stop_Movie", stop_movie, this);
+
 		this->run();
 	}
 }
 
 /*A morte do lagarto*/
 void Session::player_death(int causa_mortis){
-/*causa_mortis  = 1, desnutrição
-* causa_mortis  = 2, desidratação
-* causa_mortis  = 3, alta temperatura
-* causa_mortis  = 4, baixa temperatura
-* causa_mortis  = 5, idade maxima
-**depois fazer enum**/
+	/*causa_mortis  = 1, desnutrição
+	 * causa_mortis  = 2, desidratação
+	 * causa_mortis  = 3, alta temperatura
+	 * causa_mortis  = 4, baixa temperatura
+	 * causa_mortis  = 5, idade maxima
+	 **depois fazer enum**/
 
 	stop_animations();
 
@@ -203,7 +204,7 @@ void Session::end_session(){
 	nout << "Destruindo Controle de Camera..." << endl;
 	CameraControl::unload();
 
-		
+
 	nout << "Destruindo Player..." << endl;
 	Player::unload_player();
 }
@@ -219,10 +220,10 @@ int Session::get_causa_mortis(){
 
 Session* Session::get_instance() {
 	if(!instanceFlag) {
-        singleSession = new Session();
-        instanceFlag = true;
-    }
-    return singleSession;
+		singleSession = new Session();
+		instanceFlag = true;
+	}
+	return singleSession;
 }
 
 vector<string> Session::get_stage_info() {
@@ -234,9 +235,6 @@ bool Session::is_finished_loading() {
 }
 
 
-void Session::stop_movie(const Event*, void* data){
-	/* Apenas chama o stop_movie de menu que vai parar os vídeos efetivamente */
-	Menu::get_instance()->stop_movie(NULL,Menu::get_instance());
-
-	
-}
+//void Session::stop_movie(const Event*, void* data){
+//	Menu::get_instance()->stop_movie(NULL,Menu::get_instance());
+//}

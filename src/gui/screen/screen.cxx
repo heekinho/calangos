@@ -53,12 +53,12 @@ void Screen::configure_component(NodePath &np, const LVecBase3f &size,
 
 /*! Configura um botão dado os parametros para este menu */
 void Screen::default_button_config(PT(Button) button, NodePath &np,
-		const string &text, float z, EventCallbackFunction *action) {
+		const string &text, LVecBase3f pos, EventCallbackFunction *action) {
 
 	/* Cria um botão padrão, coloca no nó root e define o z */
 	button = new Button(text + "-button", text, manager->get_default_font());
 	np = get_root().attach_new_node(button);
-	np.set_z(z);
+	np.set_pos(pos);
 
 	/* Cadastrando o evento */
 	string event_name = button->get_click_event(MouseButton::one());
@@ -84,6 +84,5 @@ void Screen::back_action(const Event*, void* data){
  *  Força a passagem do método para evitar esquecer de setar previous */
 void Screen::configure_default_back_button(PT(Screen) previous){
 	set_previous_screen(previous);
-	default_button_config(btn_back, np_btn_back, "<< Voltar", -0.9, back_action);
-	np_btn_back.set_x(-0.9);
+	default_button_config(btn_back, np_btn_back, "<< Voltar", LVecBase3f(-0.9, 0, -0.9), back_action);
 }

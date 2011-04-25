@@ -39,7 +39,7 @@ public:
 		const LVecBase3f &hpr = LVector3f(0), const Colorf &color = Colorf(1));
 
 	void default_button_config(PT(Button) button, NodePath &np,
-			const string &text, float z, EventCallbackFunction *action);
+			const string &text, LVecBase3f pos, EventCallbackFunction *action);
 
 	PT(Screen)  get_previous_screen();
 	void set_previous_screen(PT(Screen) previous);

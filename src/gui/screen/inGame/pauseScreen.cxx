@@ -23,6 +23,7 @@ PauseScreen::~PauseScreen(){}
 
 void PauseScreen::load(){
 	stopped_time = false;
+	selected_video = false;
 	titulo = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/pausa.png");
 	titulo.set_scale(0.06);
 	titulo.set_pos(0.0, 0, 0.8);
@@ -119,6 +120,12 @@ void PauseScreen::button_config(PT(Button) button, NodePath &np,
 
 void PauseScreen::show() {
 	pause_event();
+
+	if (selected_video) {
+		selected_video = false;
+		pause_event(); // como voltou de um vídeo, chama esse evento para pausar o jogo novamente
+		GuiManager::get_instance()->show_frameNode();
+	}
 }
 
 void PauseScreen::hide() {
@@ -131,6 +138,11 @@ void PauseScreen::hide() {
 	np_btn_predadores.hide();
 	np_btn_presas.hide();
 	np_btn_sair.hide();
+
+	// se selecionou um vídeo, precisa esconder a barra de status
+	if (selected_video) {
+		GuiManager::get_instance()->hide_frameNode();
+	}
 }
 
 bool PauseScreen::is_stopped_time() {
@@ -138,23 +150,28 @@ bool PauseScreen::is_stopped_time() {
 }
 
 void PauseScreen::lagartos_action() {
-
+	selected_video = true;
+	manager->play_video("models/videos/clipe_1_lagartos_mpeg4.avi");
 }
 
 void PauseScreen::predadores_action() {
-
+	selected_video = true;
+	manager->play_video("models/videos/clipe_2_predadores_mpeg4.avi");
 }
 
 void PauseScreen::presas_action() {
-
+	selected_video = true;
+	manager->play_video("models/videos/clipe_3_presas_mpeg4.avi");
 }
 
 void PauseScreen::clima_action() {
-
+	selected_video = true;
+	manager->play_video("models/videos/clipe_5_variacoes_climaticas_mpeg4.avi");
 }
 
 void PauseScreen::habitat_action() {
-
+	selected_video = true;
+	manager->play_video("models/videos/clipe_4_habitat_mpeg4.avi");
 }
 
 void PauseScreen::continuar_action() {

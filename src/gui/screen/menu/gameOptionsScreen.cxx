@@ -83,8 +83,7 @@ void GameOptionsScreen::load() {
 //	default_button_config(btn_jogar, np_btn_jogar, "Jogar", -0.8, jogar_action);
 
 	// Mostrando botão voltar
-	default_button_config(btn_voltar, np_btn_voltar, "<< Voltar", -0.9, voltar_action);
-	np_btn_voltar.set_x(-0.9);
+	configure_default_back_button(((CalangosMenuManager* ) manager.p())->get_options_screen());
 
 	//////////////////////////////////////////Opção de configuração Tempo Virtual//////////
 	slide = new PGSliderBar("slid");
@@ -238,14 +237,13 @@ void GameOptionsScreen::unload() {
 	np_btn_menos.remove_node();
 //	np_btn_personalizar.remove_node();
 	np_btn_tropidurus.remove_node();
-	np_btn_voltar.remove_node();
 	np_lb_num_minutos.remove_node();
 	np_slide.remove_node();
-	np_btn_voltar.remove_node();
 	marcador.remove_node();
 	tropidurus.remove_node();
 	eurolophosasurus.remove_node();
 	cnemidophorus.remove_node();
+	np_btn_back.remove_node();
 	slide = NULL;
 	lb_num_minutos = NULL;
 	btn_cnemidophorus = NULL;
@@ -256,7 +254,7 @@ void GameOptionsScreen::unload() {
 	btn_menos = NULL;
 //	btn_personalizar = NULL;
 	btn_tropidurus = NULL;
-	btn_voltar = NULL;
+	btn_back = NULL;
 }
 
 void GameOptionsScreen::show() {
@@ -293,9 +291,8 @@ void GameOptionsScreen::show() {
 	np_btn_tropidurus.show();
 	np_lb_num_minutos.show();
 	np_slide.show();
-	np_btn_voltar.show();
 	marcador.show();
-	np_btn_voltar.show();
+	np_btn_back.show();
 
 	switch (Player::lizard_specie) {//mostrando especie q tava selecionada
 		case Player::tropidurus :
@@ -335,9 +332,8 @@ void GameOptionsScreen::hide() {
 	np_btn_tropidurus.hide();
 	np_lb_num_minutos.hide();
 	np_slide.hide();
-	np_btn_voltar.hide();
 	marcador.hide();
-	np_btn_voltar.hide();
+	np_btn_back.hide();
 
 	switch (Player::lizard_specie) {//mostrando especie q tava selecionada
 		case Player::tropidurus :
@@ -509,8 +505,3 @@ void GameOptionsScreen::slide_action() {
 //
 //	Simdunas::set_play_clicked(true);
 //}
-
-void GameOptionsScreen::voltar_action() {
-	CalangosMenuManager* menu_manager = (CalangosMenuManager*) manager.p();
-	menu_manager->open_screen(menu_manager->get_options_screen());
-}

@@ -70,6 +70,8 @@ public:
     static void click_event_vBotao7_grafico_Energia(const Event*, void *data);
     static void click_event_vBotao8_grafico_GastoEnergetico(const Event*, void *data);
 
+    GameStatusBar* get_game_status_bar();
+
 private:
     static TypeHandle _type_handle;
     GuiManager();

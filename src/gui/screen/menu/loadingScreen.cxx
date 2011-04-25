@@ -70,6 +70,7 @@ void LoadingScreen::unload() {
 	np_btn_comecar.remove_node();
 	np_lb_processo.remove_node();
 	np_lb_info_processo.remove_node();
+	np_btn_back.remove_node();
 	lb_objetivo = NULL;
 	lb_descricao_objetivo = NULL;
 	lb_carregando = NULL;
@@ -78,6 +79,7 @@ void LoadingScreen::unload() {
 	lb_info_processo = NULL;
 	np_frame.remove_node();
 	frame = NULL;
+	btn_back = NULL;
 }
 
 
@@ -120,6 +122,7 @@ void LoadingScreen::show() {
 	np_lb_carregando.show();
 	np_lb_processo.show();
 	np_lb_info_processo.show();
+	np_btn_back.show();
 }
 
 void LoadingScreen::hide() {
@@ -130,6 +133,7 @@ void LoadingScreen::hide() {
 	np_btn_comecar.hide();
 	np_lb_processo.hide();
 	np_lb_info_processo.hide();
+	np_btn_back.hide();
 }
 
 void LoadingScreen::loading_process() {

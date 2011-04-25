@@ -1313,3 +1313,7 @@ void GuiManager::hide_frameNode(){
 void GuiManager::show_frameNode(){
 	menu_frame_np.show();
 }
+
+GameStatusBar* GuiManager::get_game_status_bar() {
+	return game_status_bar;
+}

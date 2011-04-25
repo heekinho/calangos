@@ -71,8 +71,8 @@ void editorTextureScreen::hide_paleta_cores(){ //remove todos os botões da pale
 }
 
 void editorTextureScreen::hide_tela_personalizado(){
+	np_btn_back.hide();
     npJogar.hide();
-    npVoltar.hide();
     lagartoPersonalizado.hide();
     marcador_camada1.remove_node();
     marcador_camada2.remove_node();
@@ -115,17 +115,16 @@ void editorTextureScreen::unload(){
     hide_tela_personalizado();
     lagartoPersonalizado.remove_node();
     npJogar.remove_node();
-    npVoltar.remove_node();
+    np_btn_back.remove_node();
+    btn_back = NULL;
 }
 
 void editorTextureScreen::show_tela_personalizar() {
 	    //botões jogar e voltar ao menu anterior
-	default_button_config(buttonJogar, npJogar, " Jogar ", -0.8, jogo_action);
+	default_button_config(buttonJogar, npJogar, " Jogar ", LVecBase3f(0, 0, -0.8), jogo_action);
 	npJogar.show();
 
-	default_button_config(buttonVoltar, npVoltar, "<< Voltar", -0.9, voltar_action);
-	npVoltar.set_x(-0.9);
-   	npVoltar.show();
+	configure_default_back_button(((CalangosMenuManager*) manager.p())->get_character_editor());
     //carregando o quadro (marcador) de cor selecionada da primeira coluna da paleta de cores
 
         marcador_camada1 = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/quadro");
@@ -814,12 +813,6 @@ void editorTextureScreen::jogo_action(){
 	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_loading_screen());
 
 	Simdunas::set_play_clicked(true);
-}
-
-void editorTextureScreen::voltar_action(){
-	CalangosMenuManager* menu_manager = (CalangosMenuManager*) manager.p();
-//	menu_manager->open_screen(menu_manager->get_game_options_screen());
-	menu_manager->open_screen(menu_manager->get_character_editor());
 }
 
 

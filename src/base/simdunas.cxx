@@ -73,18 +73,12 @@ int main(int argc, char *argv[]) {
 		Simdunas::setup_clickable_render_2d();
 
 		PT(CalangosMenuManager) menu_manager = new CalangosMenuManager();
-		menu_manager->get_sound()->play();
+//		menu_manager->get_sound()->play();
 		Thread *current_thread = Thread::get_current_thread();
 		while(Simdunas::get_framework()->do_frame(current_thread) && !Simdunas::is_play_clicked()){
 			Simdunas::get_framework()->do_frame(current_thread);
-			if(menu_manager->is_playing_movie()){//verifica se a vinheta ta sendo tocada
-				if (menu_manager->get_sound()->get_time() <= 62) {//verifica se o video chegou ao fim(DEPOIS PROCURAR UMA OUTRA FORMA DE FAZER)
-					menu_manager->get_audio_manager()->update(); //é necessário atualizar a cada frame
-				}
-				else {
-					menu_manager->stop_movie(NULL,menu_manager);//quando chegar chama o método que para
-
-				}
+			if (menu_manager->is_playing_video()) {
+				menu_manager->get_video_manager()->get_audio_manager()->update();
 			}
 		}
 

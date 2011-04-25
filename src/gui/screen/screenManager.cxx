@@ -12,6 +12,7 @@
 
 ScreenManager::ScreenManager(){
 	active_screen = NULL;
+	video_manager = new VideoManager();
 }
 
 ScreenManager::~ScreenManager(){
@@ -19,6 +20,10 @@ ScreenManager::~ScreenManager(){
 //	for(ScreenIterator it = screens.begin(); it != screens.end(); it++)
 //		(*it).second = NULL;
 //	screens.clear();
+}
+
+PT(VideoManager) ScreenManager::get_video_manager() {
+	return video_manager;
 }
 
 /*! Obtém a tela ativa no momento */
@@ -57,4 +62,31 @@ EventHandler* ScreenManager::get_event_handler(){
 /*! Retorna a fila de eventos */
 EventQueue* ScreenManager::get_event_queue(){
 	return Simdunas::get_evt_queue();
+}
+
+void ScreenManager::play_video(string path) {
+	Simdunas::get_framework()->define_key("escape", "stop_video", stop_video, this);
+	if (active_screen != NULL) {
+		active_screen->hide();
+	}
+
+	video_manager->play(path);
+	Simdunas::get_evt_handler()->add_hook(video_manager->get_audio_sound()->get_finished_event(), stop_video, this);
+}
+
+void ScreenManager::stop_video(const Event*, void* data) {
+	ScreenManager* _this = (ScreenManager*) data;
+	if (_this->video_manager->get_audio_sound() != NULL && _this->video_manager->is_playing()) {
+		Simdunas::get_evt_handler()->remove_hook(_this->video_manager->get_audio_sound()->get_finished_event(), stop_video, _this);
+
+		_this->video_manager->stop();
+
+		if (_this->active_screen != NULL) {
+			_this->active_screen->show();
+		}
+	}
+}
+
+bool ScreenManager::is_playing_video() {
+	return video_manager->is_playing();
 }

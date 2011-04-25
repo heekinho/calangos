@@ -29,9 +29,6 @@ private:
 	NodePath img_teclas;
 	PT(TextNode) lb_teclas;
 	NodePath np_lb_teclas;
-
-	/* Componentes do Menu */
-	PT(Button) btn_voltar; 		NodePath np_btn_voltar;		 ACTION(voltar_action);
 };
 
 #undef ACTION

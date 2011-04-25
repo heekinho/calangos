@@ -25,7 +25,6 @@ private:
 	/* Componentes do Menu */
 	PT(Button) btn_level_one; 	NodePath np_btn_level_one;	ACTION(level_one_action);
 	PT(Button) btn_level_two; 	NodePath np_btn_level_two;	ACTION(level_two_action);
-	PT(Button) btn_back; 		NodePath np_btn_back;		ACTION(back_action);
 };
 
 #undef ACTION

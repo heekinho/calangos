@@ -9,6 +9,7 @@
 #include "menu.h"
 #include "collision.h"
 #include "calangosMenuManager.h"
+#include "inGameScreenManager.h"
 
 
 #include <iostream>
@@ -150,8 +151,8 @@ void TimeControl::update_time_control(float elapsed_time){
 	_elapsed_time = elapsed_time;
 
 	/* Caso esteja tocando um vídeo será necessário atualizar a cada frame */
-	if(CalangosMenuManager::is_playing_movie()){
-		CalangosMenuManager::get_audio_manager()->update();
+	if(InGameScreenManager::get_instance()->is_playing_video()){
+		InGameScreenManager::get_instance()->get_video_manager()->get_audio_manager()->update();
 	}
 
 

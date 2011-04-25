@@ -102,7 +102,7 @@ private:
     nod_bot_padrao_textura_1,nod_bot_padrao_textura_2,nod_bot_padrao_textura_3,nod_bot_padrao_textura_4,
     botao_blue_np, botao_white_np, botao_green2_np, botao_yellow_np, botao_brown_np, botao_black_np,
     botao2_red_np, botao2_green_np, botao2_blue_np, botao2_white_np, botao2_green2_np, botao2_yellow_np, botao2_brown_np,
-    botao2_black_np, title_color,npJogar, npVoltar,
+    botao2_black_np, title_color,npJogar,
     //NodePaths da terceira coluna da paleta de cores
     botao3_red_np, botao3_green_np, botao3_blue_np, botao3_white_np, botao3_green2_np, botao3_yellow_np, botao3_brown_np,
     botao3_black_np;
@@ -116,10 +116,9 @@ private:
      botao3_red, botao3_green, botao3_blue, botao3_white, botao3_green2, botao3_yellow, botao3_brown, botao3_black;
 
     //botão voltar e jogar
-    PT(Button) buttonJogar, buttonVoltar,botao_padrao_textura_1,botao_padrao_textura_2,
+    PT(Button) buttonJogar, botao_padrao_textura_1,botao_padrao_textura_2,
     botao_padrao_textura_3,botao_padrao_textura_4;
 
-    ACTION(voltar_action);
     ACTION(jogo_action);
     ACTION(set_textura1);
     ACTION(set_textura2);

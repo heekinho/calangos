@@ -19,17 +19,13 @@
 #include "characterEditor.h"
 #include "levelSelectionScreen.h"
 
-bool CalangosMenuManager::playing_movie = false;
-PT(AudioManager) CalangosMenuManager::AM = NULL;
-
 CalangosMenuManager::CalangosMenuManager() : ScreenManager() {
-	play_movie("models/videos/vinheta_opcao_1_mpeg4.avi");
-	Simdunas::get_framework()->define_key("escape", "Stop_Movie", stop_movie, this);
-
 	/* Carrega uma fonte estática */
 	default_menu_font = FontPool::load_font("models/gui/fonts/suplexcomic-large.egg");
 	create_menus();
-//	open_screen(main_menu);
+	open_screen(main_menu);
+
+	play_video("models/videos/vinheta_opcao_1_mpeg4.avi");
 }
 
 void CalangosMenuManager::create_menus(){
@@ -95,59 +91,4 @@ PT(Screen) CalangosMenuManager::get_editor_texture_screen() {
 
 PT(Screen) CalangosMenuManager::get_character_editor() {
 	return character_editor;
-}
-
-PT(AudioSound) CalangosMenuManager::get_sound() {
-	return ASound;
-}
-
-PT(AudioManager) CalangosMenuManager::get_audio_manager() {
-	return AM;
-}
-
-bool CalangosMenuManager::is_playing_movie() {
-	return playing_movie;
-}
-
-void CalangosMenuManager::play_movie(string file) {
-	mov = new MovieTexture("movie");
-	mov->read(file);
-
-	cm = new CardMaker("Video");
-	cm->set_frame_fullscreen_quad();
-	cm->set_uv_range(mov);
-	node_card = NodePath(cm->generate());
-	node_card.reparent_to(Simdunas::get_window()->get_render_2d());
-	node_card.set_texture(mov);
-	//node_card.set_tex_scale(TextureStage::get_default(), mov->get_tex_scale());
-
-	AM = AudioManager::create_AudioManager();
-	ASound = AM->get_sound(file, true, 1);
-
-	mov->synchronize_to(ASound);
-	//ASound->play();
-	playing_movie = true;
-}
-
-void CalangosMenuManager::stop_movie(const Event*, void* data) {
-	CalangosMenuManager* _this = (CalangosMenuManager*) data;
-
-	if (_this->playing_movie) {
-		_this->ASound->stop();
-		_this->node_card.remove_node();
-		StartMenu* start_menu = (StartMenu*) _this->main_menu.p();
-		if (!start_menu->get_np_options().is_empty()) {//só mostra a tela principal quando for a vinheta que estiver tocando
-			_this->open_screen(_this->main_menu);
-
-			//_this->open_screen(_this->character_editor);
-			//_this->character_editor->load();
-		}
-//		else{//se não for a vinheta ele mostra o frame com os ícones do jogo
-//			GuiManager::get_instance()->show_frameNode();
-//		}
-		_this->playing_movie = false; //o video não está mais tocando
-	}
-
-	//Simdunas::get_evt_handler()->remove_hooks("escape");//retirando o evento da fila, se não vai continuar chamando quando pressionar ESC
-
 }

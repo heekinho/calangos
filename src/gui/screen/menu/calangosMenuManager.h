@@ -33,12 +33,6 @@ public:
 
 	void create_menus();
 	PT(TextFont) get_default_font();
-	PT(AudioSound) get_sound();
-	static PT(AudioManager) get_audio_manager();
-	static bool is_playing_movie();
-
-	void play_movie(string file);
-	static void stop_movie(const Event*, void *data);
 
 private:
 	PT(TextFont) default_menu_font;
@@ -53,13 +47,6 @@ private:
 	PT(Screen) game_options_screen;
     PT(Screen) texture_screen;
     PT(Screen) levels_screen;
-
-    PT(MovieTexture) mov;
-    CardMaker *cm;
-    NodePath node_card;
-    static PT(AudioManager) AM;
-    PT(AudioSound) ASound;
-    static bool playing_movie;
 };
 
 #endif

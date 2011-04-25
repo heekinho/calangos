@@ -40,30 +40,25 @@ void KeyInstructionsScreen::load(){
 	//np_lb_teclas.set_color(0.0, 0.0, 0.0);
 	//construindo o botão instruções
 
-	default_button_config(btn_voltar, np_btn_voltar, "<< Voltar", -0.9, voltar_action);
-	np_btn_voltar.set_x(-0.9);
+	configure_default_back_button(((CalangosMenuManager*)(manager.p()))->get_instructions_screen());
 }
 
 void KeyInstructionsScreen::unload() {
 	img_teclas.remove_node();
 	np_lb_teclas.remove_node();
-	np_btn_voltar.remove_node();
-	btn_voltar = NULL;
+	np_btn_back.remove_node();
 	lb_teclas = NULL;
+	btn_back = NULL;
 }
 
 void KeyInstructionsScreen::show() {
 	img_teclas.show();
 	np_lb_teclas.show();
-	np_btn_voltar.show();
+	np_btn_back.show();
 }
 
 void KeyInstructionsScreen::hide() {
 	img_teclas.hide();
 	np_lb_teclas.hide();
-	np_btn_voltar.hide();
-}
-
-void KeyInstructionsScreen::voltar_action(){
-	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_instructions_screen());
+	np_btn_back.hide();
 }

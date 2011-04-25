@@ -35,6 +35,7 @@ public:
 private:
 
 	bool stopped_time;
+	bool selected_video;
 	/* Componentes do Menu */
 	NodePath titulo;
 	NodePath img_videos;

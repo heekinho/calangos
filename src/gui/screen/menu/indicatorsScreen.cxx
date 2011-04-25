@@ -22,27 +22,21 @@ void IndicatorsScreen::load() {
 	img_indicadores.set_scale(0.1, 0.001, 0.15);
 	img_indicadores.set_pos(0.0, 0.0, 0.0);
 
-    default_button_config(btn_voltar, np_btn_voltar, "<< Voltar", -0.9, voltar_action);
-    np_btn_voltar.set_x(-0.9);
+    configure_default_back_button(((CalangosMenuManager* ) manager.p())->get_instructions_screen());
 }
 
 void IndicatorsScreen::unload() {
 	img_indicadores.remove_node();
-	np_btn_voltar.remove_node();
-	btn_voltar = NULL;
+	np_btn_back.remove_node();
+	btn_back = NULL;
 }
 
 void IndicatorsScreen::show() {
-	np_btn_voltar.show();
 	img_indicadores.show();
+	np_btn_back.show();
 }
 
 void IndicatorsScreen::hide() {
-	np_btn_voltar.hide();
 	img_indicadores.hide();
-}
-
-void IndicatorsScreen::voltar_action() {
-	CalangosMenuManager* menu_manager = (CalangosMenuManager*) manager.p();
-	menu_manager->open_screen(menu_manager->get_instructions_screen());
+	np_btn_back.hide();
 }

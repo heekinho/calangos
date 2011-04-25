@@ -27,8 +27,6 @@ public:
 	void hide();
 
 private:
-	PT(Button) btn_voltar;	ACTION(voltar_action);
-	NodePath np_btn_voltar;
 	NodePath img_credit;
 };
 

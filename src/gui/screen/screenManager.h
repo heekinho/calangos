@@ -14,6 +14,7 @@
 #include "simdunas.h"
 #include "eventHandler.h"
 #include "eventQueue.h"
+#include "videoManager.h"
 
 class Screen;
 
@@ -35,10 +36,17 @@ public:
 	 *  mudanças futuras */
 	EventHandler* get_event_handler();
 	EventQueue* get_event_queue();
+
+	PT(VideoManager) get_video_manager();
+
+	void play_video(string path);
+	static void stop_video(const Event*, void* data);
+	bool is_playing_video();
 protected:
 	void set_active_screen(PT(Screen) screen);
 
 	PT(Screen) active_screen;
+	PT(VideoManager) video_manager;
 
 	//typedef map<string, PT(Screen)>::iterator ScreenIterator;
 	//map<string, PT(Screen)> screens;

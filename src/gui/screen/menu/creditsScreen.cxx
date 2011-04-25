@@ -22,27 +22,21 @@ void CreditsScreen::load() {
     img_credit.set_scale(0.12, 0.001, 0.15);
     img_credit.set_pos(0.0, 0.0, 0.06);
 
-    default_button_config(btn_voltar, np_btn_voltar, "<< Voltar", -0.9, voltar_action);
-    np_btn_voltar.set_x(-0.9);
+    configure_default_back_button(((CalangosMenuManager*) manager.p())->get_main_menu());
 }
 
 void CreditsScreen::unload() {
+	btn_back = NULL;
 	img_credit.remove_node();
-	np_btn_voltar.remove_node();
-	btn_voltar = NULL;
+	np_btn_back.remove_node();
 }
 
 void CreditsScreen::show() {
-	np_btn_voltar.show();
+	np_btn_back.show();
 	img_credit.show();
 }
 
 void CreditsScreen::hide() {
-	np_btn_voltar.hide();
+	np_btn_back.hide();
 	img_credit.hide();
-}
-
-void CreditsScreen::voltar_action() {
-	CalangosMenuManager* menu_manager = (CalangosMenuManager*) manager.p();
-	menu_manager->open_screen(menu_manager->get_main_menu());
 }

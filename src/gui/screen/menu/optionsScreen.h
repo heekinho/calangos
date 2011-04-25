@@ -32,7 +32,6 @@ private:
 	PT(Button) btn_audio; 		NodePath np_btn_audio;	 	 ACTION(audio_action);
 	PT(Button) btn_controles; 	NodePath np_btn_controles;	 ACTION(controles_action);
 	PT(Button) btn_jogo; 		NodePath np_btn_jogo;		 ACTION(jogo_action);
-	PT(Button) btn_voltar; 		NodePath np_btn_voltar;		 ACTION(voltar_action);
 };
 
 #undef ACTION
