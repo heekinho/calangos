@@ -156,11 +156,11 @@ void ShadowCard::add_transparency_to_shadows(double value){
 
 /*! Faz a conversão entre as coordenadas do terreno e da textura. */
 LPoint2f ShadowCard::_convert_coordinates(LPoint2f old_point){
-	LPoint2f new_point = LPoint2f();
 	double ratio = obj_size.get_x() / shadows_channel->get_x_size();
 
-	new_point.set_x(old_point.get_x() / ratio);
-	new_point.set_y((obj_size.get_y() - old_point.get_y()) / ratio);
+	LPoint2f new_point = LPoint2f();
+	new_point.set_x(int(old_point.get_x() / ratio) % int(obj_size.get_x()));
+	new_point.set_y(int((obj_size.get_y() - old_point.get_y()) / ratio) % int(obj_size.get_y()));
 
 	return new_point;
 }
