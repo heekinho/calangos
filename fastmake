@@ -1,0 +1,64 @@
+# Configurações dos usuários do makefile. Cada usuário tem um arquivo para trabalhar
+# Para correta utilização coloque esses caminhos em um arquivo chamado makefile.conf
+
+PYTHONPATH = /usr/include/python2.6
+PANDAPATHINCLUDE = /usr/include/panda3d
+PANDAPATHLIB = /usr/lib/panda3d
+ 
+.SUFFIXES: .c .cpp .cxx .cc .h .hh
+
+# Compiler Names:
+C++		= 	g++
+CC		= 	gcc
+RANLIB  	= 	ranlib
+
+
+# Flags for C++ compiler:
+CFLAGS			= 	-g -Wno-deprecated -fPIC #-O2
+
+CXXFLAGS 		= 	-g -Wno-deprecated -Wno-write-strings -fPIC -O3
+
+INCGAME = -Isrc -Isrc/animals -Isrc/animals/predators -Isrc/animals/prey -Isrc/animals/lizards \
+		  -Isrc/cameras -Isrc/gui -Isrc/gui/screen -Isrc/gui/screen/menu -Isrc/gui/screen/inGame -Isrc/base \
+		  -Isrc/gui/hint -Isrc/gui/widgets -Isrc/vegetation -Isrc/weather -Isrc/world -Isrc/player -Isrc/gui/editor \
+		  
+		  
+INCFLAGS 		= 	-I$(PYTHONPATH) \
+					-I$(PANDAPATHINCLUDE) \
+					-I$(INCGAME)
+
+# Libraries to link with:
+MATLIB			= 	-lm
+GLLIBS			= 	-lGL -lGLU
+GLUTLIB			= 	-lglut
+GLUILIB			= 	-lglui
+OMLIBS			=	-lOM_CORE -lOM_TOOLS	
+
+LIBPANDA		= 	-lp3framework -lpanda -lpandafx -lpandaexpress -lp3dtoolconfig -lp3dtool -lp3pystub  #-lpandanspr4
+
+LIBPATH 		= 	-L$(PANDAPATHLIB)
+
+LDFLAGS 		= 	$(LIBPANDA)
+
+# Simdunas main program build rules
+SUBDIRS = fastbuild
+
+INCFLAGS += $(patsubst %,-I%,$(SUBDIRS))
+SRC := $(foreach dir,$(SUBDIRS),$(wildcard $(dir)/*.cxx))
+HEADERFILES := $(foreach dir,$(SUBDIRS),$(wildcard $(dir)/*.h))
+OBJECTFILES := $(patsubst %.cxx,%.o$,$(SRC))
+
+
+# Targets
+all: simdunas
+
+simdunas:	$(HEADERFILES)	$(OBJECTFILES)
+		@echo "Linking ...."
+		$(CXX) $(CPPFLAGS) $(LIBPATH) $(OBJECTFILES) $(LDFLAGS) -o simdunas
+	
+.cxx.o: $*.h
+	@echo "Compiling: " $*
+	@($(C++) -o $*.o -c $(CXXFLAGS) $(INCFLAGS) $*.cxx)
+
+clean:
+	rm -f simdunas $(OBJECTFILES)
