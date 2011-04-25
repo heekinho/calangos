@@ -1099,7 +1099,6 @@ bool Menu::get_playing_movie() {
 //}
 
 void Menu::tela_over(Session *nsession) {
-
     this->session = nsession;
 
 
@@ -1186,8 +1185,8 @@ void Menu::tela_over(Session *nsession) {
     Simdunas::get_evt_handler()->add_hook(botao_sair->get_click_event(MouseButton::one()),out,this);
             cout << "botao sair" << endl;*/
 
-    nod_sair.show(); //mostrando o botão (sair)
-    nod_sair.set_pos(0.0, 0.0, -0.4);
+//    nod_sair.show(); //mostrando o botão (sair)
+//    nod_sair.set_pos(0.0, 0.0, -0.4);
 
     ////////////////////////////////////////
 
@@ -1223,7 +1222,7 @@ void Menu::tela_over(Session *nsession) {
 
 void Menu::hide_tela_over() {
     background_over.hide();
-    nod_sair.hide();
+//    nod_sair.hide();
     button_restart.hide();
     // button_grafico.hide();
     // node_texto.hide();
@@ -1298,7 +1297,7 @@ void Menu::hide_tela_over() {
 void Menu::hide_tela_pause() {
     logo.hide();
     nod_botao_voltar_jogo.hide();
-    nod_sair.hide();
+//    nod_sair.hide();
     videos.hide();
     nod_bot_habitat.hide();
     nod_bot_lagartos.hide();
@@ -1354,7 +1353,7 @@ void Menu::hide_tela_pause() {
 
 void Menu::show_tela_over() {
     background_over.show();
-    nod_sair.show();
+//    nod_sair.show();
     button_restart.show();
     //button_grafico.show();
     //node_texto.show();
@@ -1380,7 +1379,7 @@ void Menu::show_tela_principal() {
     button_np.show();
     nod_botao_creditos.show();
     button_np.set_pos(-0.3, 0.4, -0.55); //colocando o botão (Iniciar) novamente em seu lugar na tela principal
-    nod_sair.show();
+//    nod_sair.show();
     logo.show();
     nod_config_egg.show();
     lagarto.show();
@@ -1483,7 +1482,7 @@ void Menu::restart(const Event*, void* data) {
     node_texto.remove_node();
     logo.remove_node();
     m->indica_morte.remove_node();
-    m->nod_sair.hide();
+//    m->nod_sair.hide();
     cout << "final r" << endl;
 
     cout << "PASSSOU RESTART" << endl;
