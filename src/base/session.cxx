@@ -148,12 +148,18 @@ void Session::run(){
 
 /*A morte do lagarto*/
 void Session::player_death(int causa_mortis){
-	/*causa_mortis  = 1, desnutrição
-	 * causa_mortis  = 2, desidratação
-	 * causa_mortis  = 3, alta temperatura
-	 * causa_mortis  = 4, baixa temperatura
-	 * causa_mortis  = 5, idade maxima
-	 **depois fazer enum**/
+/* causa_mortis  = 1, desnutrição
+ * causa_mortis  = 2, desidratação
+ * causa_mortis  = 3, alta temperatura
+ * causa_mortis  = 4, baixa temperatura
+ * causa_mortis  = 5, idade maxima
+ **depois fazer enum**/
+
+	/* Pequeno bugfix para não permitir múltiplas mortes */
+	if(this->causa_mortis > 0) {
+		nout << "Só é permitido morrer uma vez! lol" << endl;
+		return;
+	}
 
 	stop_animations();
 
