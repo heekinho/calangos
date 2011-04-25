@@ -212,6 +212,16 @@ void GameOptionsScreen::load() {
 	Simdunas::get_evt_handler()->add_hook(slide->get_adjust_event(), slide_action, this);
 	//o lagarto default é o eurolophosaurus
 	eurolophosaurus_action();
+
+
+	/* Configuração de NumMinutos */
+	lb_num_minutos = new TextNode("inicio");
+	lb_num_minutos->set_font(FontPool::load_font("models/ExpletiveDeleted.ttf"));
+
+	np_lb_num_minutos = Simdunas::get_window()->get_aspect_2d().attach_new_node(lb_num_minutos);
+	np_lb_num_minutos.set_scale(0.17);
+	np_lb_num_minutos.set_pos(-1.2, 0, 0.35);
+	np_lb_num_minutos.set_color(0.87, 0.72, 0.52);
 	np_lb_num_minutos.show();
 }
 
@@ -395,18 +405,7 @@ void GameOptionsScreen::slide_esquerda_action() {
 }
 
 void GameOptionsScreen::informa_segundos(string aviso) {
-	if (lb_num_minutos == NULL) {
-		lb_num_minutos = new TextNode("inicio");
-		lb_num_minutos->set_font(FontPool::load_font("models/ExpletiveDeleted.ttf"));
-		lb_num_minutos->set_text(aviso);
-
-		np_lb_num_minutos = Simdunas::get_window()->get_aspect_2d().attach_new_node(lb_num_minutos);
-	} else {
-		lb_num_minutos->set_text(aviso);
-	}
-	np_lb_num_minutos.set_scale(0.17);
-	np_lb_num_minutos.set_pos(-1.2, 0, 0.35);
-	np_lb_num_minutos.set_color(0.87, 0.72, 0.52);
+	lb_num_minutos->set_text(aviso);
 }
 
 void GameOptionsScreen::tropidurus_action() {

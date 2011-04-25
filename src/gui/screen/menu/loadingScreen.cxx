@@ -70,7 +70,6 @@ void LoadingScreen::unload() {
 	np_btn_comecar.remove_node();
 	np_lb_processo.remove_node();
 	np_lb_info_processo.remove_node();
-	np_btn_back.remove_node();
 	lb_objetivo = NULL;
 	lb_descricao_objetivo = NULL;
 	lb_carregando = NULL;
@@ -113,6 +112,9 @@ void LoadingScreen::attach_objects() {
 	np_lb_info_processo.set_pos(np_lb_processo.get_x() + (lb_processo->get_width() * np_lb_processo.get_sx()) + 0.05, 0.0, 0.1);
 	np_lb_info_processo.set_scale(0.07);
 	np_lb_info_processo.set_color(1, 1, 1, 1, 0);
+
+	np_btn_comecar = np_frame.attach_new_node(btn_comecar);
+	np_btn_comecar.set_pos(1, 0, 0.3);
 }
 
 void LoadingScreen::show() {
@@ -122,7 +124,6 @@ void LoadingScreen::show() {
 	np_lb_carregando.show();
 	np_lb_processo.show();
 	np_lb_info_processo.show();
-	np_btn_back.show();
 }
 
 void LoadingScreen::hide() {
@@ -133,7 +134,6 @@ void LoadingScreen::hide() {
 	np_btn_comecar.hide();
 	np_lb_processo.hide();
 	np_lb_info_processo.hide();
-	np_btn_back.hide();
 }
 
 void LoadingScreen::loading_process() {
@@ -153,8 +153,8 @@ void LoadingScreen::loading_process() {
 void LoadingScreen::loading_completed() {
 	np_lb_carregando.hide();
 	lb_info_processo->set_text("Concluído.");
-	np_btn_comecar = np_frame.attach_new_node(btn_comecar);
-	np_btn_comecar.set_pos(1, 0, 0.3);
+
+	np_btn_comecar.show();
 
 	np_frame.set_transparency(TransparencyAttrib::M_alpha);
 	np_frame.set_alpha_scale(0.5);

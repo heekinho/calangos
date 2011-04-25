@@ -16,6 +16,7 @@
 Screen::Screen(PT(ScreenManager) manager){
 	this->manager = manager;
 	root = Simdunas::get_window()->get_aspect_2d().attach_new_node("Menu Screen");
+	np_btn_back = NodePath("No Back Button Yet");
 }
 
 /*! Efetua alguma limpeza necessária */
