@@ -99,7 +99,7 @@ NodePath(Simdunas::get_window()->load_model(Simdunas::get_window()->get_render()
 	y = 0;
 
 	sol = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), "models/skies/sol.png");
-	sol.set_scale(1, 1, 1);
+	sol.set_scale(10);
 	sol.set_pos(x, y, z);
 	sol.set_billboard_point_eye(0);
 	sol.hide();
@@ -155,57 +155,59 @@ PT(Sky) Sky::get_default_sky(){
 
 
 void Sky::update_sol(const Event*, void *data) {
-	Sky *anda_sol = (Sky*) data;
+	Sky *the_sky = (Sky*) data;
 	int hora = TimeControl::get_instance()->get_hora();
 	int minuto = TimeControl::get_instance()->get_minuto();
-        minuto_anterior=minuto_atual;
-        minuto_atual=minuto;
+	minuto_anterior = minuto_atual;
+	minuto_atual = minuto;
 
-	 if (hora >= 5 && hora < 12) {
+	if (hora >= 5 && hora < 12) {
 
-             //colocando de fato o sol na cena
-		 if(hora >= 5 && !flag_sol && ClimaTempo::get_instance()->get_chuva_today()==0){
-			 anda_sol->sol.show();
-			 flag_sol=true;
+		//colocando de fato o sol na cena
+		if (hora >= 5 && !flag_sol && ClimaTempo::get_instance()->get_chuva_today() == 0) {
+			the_sky->sol.show();
+			flag_sol = true;
 
-		 }
+		}
 
-                 if((int)fabs((float)minuto_atual-(float)minuto_anterior)<40){
-		z=z+(minuto_atual-minuto_anterior);
-		aux=aux+(minuto_atual-minuto_anterior);
-		anda_sol->anda_sol(aux);
-                 }
+//		if ((int) fabs((float) minuto_atual - (float) minuto_anterior) < 40) {
+		if (minuto_atual > minuto_anterior) {
+			z = z + (minuto_atual - minuto_anterior);
+			aux = aux + (minuto_atual - minuto_anterior);
+			the_sky->anda_sol(aux);
+		}
 
 		if (hora >= 5 && hora < 6) {//dia amanhecendo
-			anda_sol->fade(minuto, hora);//chamando o método de interpolação das texturas
+			the_sky->fade(minuto, hora);//chamando o método de interpolação das texturas
 		}
 
 		if (hora >= 7 && hora < 8) {//dia amanhece totalmente
-			anda_sol->fade(minuto, hora);//chamando o método de interpolação das texturas
+			the_sky->fade(minuto, hora);//chamando o método de interpolação das texturas
 		}
 
 	}
 
 	else if (hora >= 12 && hora < 20) {
-            if((int)fabs((float)minuto_atual-(float)minuto_anterior)<40){
-		z=z-(minuto_atual-minuto_anterior);//depois do meio dia a variável z decrementa para o sol se por
-		aux=aux+(minuto_atual-minuto_anterior);
-		anda_sol->anda_sol(aux);
-            }
+		//if ((int) fabs((float) minuto_atual - (float) minuto_anterior) < 40) {
+		if (minuto_atual > minuto_anterior) {
+			z = z - (minuto_atual - minuto_anterior);//depois do meio dia a variável z decrementa para o sol se por
+			aux = aux + (minuto_atual - minuto_anterior);
+			the_sky->anda_sol(aux);
+		}
+
 		if (hora >= 16 && hora < 17) {//entardecendo
-			anda_sol->fade(minuto, hora);//chamando o método de mudança de textura
+			the_sky->fade(minuto, hora);//chamando o método de mudança de textura
 		}
 		if (hora >= 18 && hora < 19) {//escurece completamente
-			anda_sol->fade(minuto, hora);//chamando o método de mudança de textura
+			the_sky->fade(minuto, hora);//chamando o método de mudança de textura
 		}
 
 	}
 	else if (hora >= 20 && flag_sol) {
 		z = -10;
 		aux = -180;
-                anda_sol->sol.hide();//retirando o sol da cena
-				flag_sol=false;
-
+		the_sky->sol.hide();//retirando o sol da cena
+		flag_sol = false;
 
 	}
 
