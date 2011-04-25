@@ -2,29 +2,31 @@
 #include "menu.h"
 
 #include "textureStageCollection.h"
+
 /* Bloco de constantes
  * ------------------------------------------------------------------------- */
-//Idade, em meses, na qual o lagarto poderá se reproduzir
+/* Idade, em meses, na qual o lagarto poderá se reproduzir */
 #define IDADE_REPRODUTIVA 12
-//Idade, em meses, em que o lagarto deve morrer
+/* Idade, em meses, em que o lagarto deve morrer */
 #define IDADE_MORTE 36
-//Energia e hidratação iniciais
+/* Energia e hidratação iniciais */
 #define ENERGIA_INIT 50.0
 #define HIDRATACAO_INIT 50.0
 
-//Tamanho máximo do lagarto (em termos dos parâmetros recebidos pela função set_scale)
+/* Tamanho máximo do lagarto (em termos dos parâmetros recebidos pela função set_scale) */
 #define TAMANHO_MAXIMO 0.0025
-//Tamanho máximo do lagarto (em termos dos parâmetros recebidos pela função set_scale)
+/* Tamanho máximo do lagarto (em termos dos parâmetros recebidos pela função set_scale) */
 #define TAMANHO_INICIAL 0.0004
-//Tempo (em meses virtuais) em que o lagarto poderá chegar ao tamanho máximo
+/* Tempo (em meses virtuais) em que o lagarto poderá chegar ao tamanho máximo */
 #define MESES_TAMANHO_MAXIMO 36
+
+
 /* Debugar */
 #define DEBUG_PHEALTH 0
-
 /* ------------------------------------------------------------------------- */
-/*! Carrega os atributos iniciais relacionados à saúde do lagarto*/
 
-//Parâmetros da espécie Tropidurus
+/*! Carrega os atributos iniciais relacionados à saúde do lagarto*/
+/* Parâmetros da espécie Tropidurus */
 const float Player::temperatura_interna_ideal_trop = 38;
 const float Player::qnt_h_sem_alimento_trop = 168;
 const float Player::qnt_h_baixa_hidrat_trop = 48;
@@ -39,7 +41,7 @@ const float Player::gasto_baixa_temp_trop = 0.05;
 const float Player::gasto_alta_temp_trop = 0.05;
 const float Player::vel_equi_termico_trop = 0.1;
 
-//Parâmetros da espécie Eurolophosaurus
+/* Parâmetros da espécie Eurolophosaurus */
 const float Player::temperatura_interna_ideal_euro = 36;
 const float Player::qnt_h_sem_alimento_euro = 190;
 const float Player::qnt_h_baixa_hidrat_euro = 48;
@@ -54,7 +56,7 @@ const float Player::gasto_baixa_temp_euro = 0.06;
 const float Player::gasto_alta_temp_euro = 0.08;
 const float Player::vel_equi_termico_euro = 0.1;
 
-//Parâmetros da espécie Cnemidophorus
+/* Parâmetros da espécie Cnemidophorus */
 const float Player::temperatura_interna_ideal_cnem = 40;
 const float Player::qnt_h_sem_alimento_cnem = 168;
 const float Player::qnt_h_baixa_hidrat_cnem = 48;
@@ -69,17 +71,17 @@ const float Player::gasto_baixa_temp_cnem = 0.06;
 const float Player::gasto_alta_temp_cnem = 0.06;
 const float Player::vel_equi_termico_cnem = 0.1;
 
-//Carrega os valores inicias para a espécie Tropiduros
+/* Carrega os valores inicias para a espécie Tropidurus */
 float Player::arrayTropidurus[13] = {temperatura_interna_ideal_trop, qnt_h_sem_alimento_trop, qnt_h_baixa_hidrat_trop, 
 umidade_afeta_hidrat_trop, umidade_param_trop, temp_interna_max_trop, temp_interna_min_trop, hidrat_min_trop, 
 energia_min_trop, faixa_tolerancia_tem_interna_trop, gasto_baixa_temp_trop, gasto_alta_temp_trop, vel_equi_termico_trop};
 
-//Carrega os valores inicias para a espécie Europhosaurus
+/* Carrega os valores inicias para a espécie Europhosaurus */
 float Player::arrayEurolophosaurus[13] = {temperatura_interna_ideal_euro, qnt_h_sem_alimento_euro, qnt_h_baixa_hidrat_euro,
 umidade_afeta_hidrat_euro, umidade_param_euro, temp_interna_max_euro, temp_interna_min_euro, hidrat_min_euro, energia_min_euro,
 faixa_tolerancia_tem_interna_euro, gasto_baixa_temp_euro, gasto_alta_temp_euro, vel_equi_termico_euro};
 
-//Carrega os valores inicias para a espécie Cnemidosphorus
+/* Carrega os valores inicias para a espécie Cnemidosphorus */
 float Player::arrayCnemidophorus[13] = {temperatura_interna_ideal_cnem, qnt_h_sem_alimento_cnem, qnt_h_baixa_hidrat_cnem,
 umidade_afeta_hidrat_cnem, umidade_param_cnem, temp_interna_max_cnem, temp_interna_min_cnem, hidrat_min_cnem, energia_min_cnem,
 faixa_tolerancia_tem_interna_cnem, gasto_baixa_temp_cnem, gasto_alta_temp_cnem, vel_equi_termico_cnem};
@@ -116,7 +118,7 @@ void Player::load_health(int especie){
 	media_energia_mes = 0;
 			
 	tamanho_lagarto_real = TAMANHO_INICIAL-0.00001;//colocar um valor inicial default razoável (um valor para cada espécie?)
-	a_tamanho_lagarto_base = (100/(TAMANHO_MAXIMO - TAMANHO_INICIAL));
+	a_tamanho_lagarto_base = (100.0/(TAMANHO_MAXIMO - TAMANHO_INICIAL));
 	tamanho_lagarto_base = a_tamanho_lagarto_base*(tamanho_lagarto_real-TAMANHO_INICIAL);
 
 	idade = 0;
@@ -131,7 +133,7 @@ void Player::load_health(){
 	load_health(eurolophosaurus);
 }
 
-/*Inicializando lagartos*/
+/* Inicializando lagartos */
 void Player::init_eurolophosaurus_lizard(){
 
 	num_horas_alimento = Player::arrayEurolophosaurus[QNT_H_SEM_ALIMENTO];
@@ -188,9 +190,6 @@ void Player::init_cnemidophorus_lizard(){
 
 /* EVENTOS
  * ------------------------------------------------------------------------- */
-//TODO: Acho que esse evento não será mais necessário
-void Player::event_ingestao_alimento(const Event*, void *data){
-}
 
 /* Evento chamado a cada minuto virtual para atualização dos valores */
 void Player::event_gasto_energia(const Event*, void *data){
@@ -427,7 +426,7 @@ void Player::calc_tamanho_lagarto_real(float media_energia_mensal){
 }
 
 float Player::calc_tamanho_base(float tamanho_real){
-	
+
 	float tamanho_base = 0;
 	tamanho_base = this->a_tamanho_lagarto_base*(tamanho_real-TAMANHO_INICIAL);
 	return tamanho_base;

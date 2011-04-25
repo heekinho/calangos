@@ -45,21 +45,15 @@ public:
 	bool was_captured();
 	void be_captured();
 
-	/* PlayerHealth - (playerHealth.cxx)
-	 * Relacionado com as variáveis de saúde do lagarto.
-	 * ------------------------------------------------------------------------- */
-
+	/*! PlayerHealth - (playerHealth.cxx)
+	 *  Relacionado com as variáveis de saúde do lagarto.
+	 *  ----------------------------------------------------- */
 	/* Evento periódico de gasto de energia (é preciso criar) */
 	static void event_gasto_energia(const Event *, void *data);
 
-	/* Evento de ingestão de alimento (é preciso criar).
-	 * É necessário saber o quão energético e hidratante é o alimento ingerido,
-	 * para que se possa setar coerentemente as variáveis relacionadas. */
-	static void event_ingestao_alimento(const Event *, void *data);
-
-    //No evento de passagem do dia, esse método será chamado
+    /* No evento de passagem do dia, esse método será chamado */
 	static void event_pday(const Event *, void *data);
-	//No evento de passagem do dia, esse método será chamado
+	/* No evento de passagem do dia, esse método será chamado */
 	static void event_pmonth(const Event *, void *data);
 
 	double get_energia();
@@ -140,18 +134,16 @@ private:
 	PT(ObjetoJogo) _toca;
 public:
 
-	//recebe o tamanho do lagarto que mordeu, e calcula um gasto de energia e hidrataçao proporcionalmente
+	/* Recebe o tamanho do lagarto que mordeu, e calcula um gasto de energia e
+	 * hidrataçao proporcionalmente */
 	void mordida_recebida(int tamanho_lagarto_base);
 
-	/* BEGIN OF WORKAROUND */
-	/*RECEBA ESSE GANCHO NA BOCA DO ESTÔMAGO*/
-
-	/*Enum que corresponde as espécies dos lagartos com os quais o jogador pode jogar*/
+	/* Enum que corresponde as espécies dos lagartos com os quais o jogador pode jogar */
 	enum lizardEpecie {
 		tropidurus,
 		eurolophosaurus,
 		cnemidophorus,
-                custom
+		custom
 	};
 
 	/*Enum que corresponde as grandezas armazenadas no vetor de variáveis de saúde dos lagartos*/
@@ -175,15 +167,15 @@ public:
 	enum lizardGender {female, male, young};
 	static string get_gender_name(Player::lizardGender gender);
 
-	//Variáveis que armazenarão espécie e sexo/idade da lagarto
+	/* Variáveis que armazenarão espécie e sexo/idade da lagarto */
 	static Player::lizardEpecie lizard_specie;
 	static Player::lizardGender lizard_gender;
 
-	/*Incrementa em 1, a quantidade de ovos desse lagarto.
-	*Esse valor está associado ao sucesso do lagarto nas repruduções (quanto mais melhor).*/
+	/* Incrementa em 1, a quantidade de ovos desse lagarto.
+	 * Esse valor está associado ao sucesso do lagarto nas reproduções (quanto mais melhor).*/
 	void add_ovos();
 
-	//Recebe o tamanho real e retorna em uma escala de 0 a 100
+	/* Recebe o tamanho real e retorna em uma escala de 0 a 100 */
 	float calc_tamanho_base(float tamanho_real);
 	
 	/* Corrige a orientação dos modelos */
@@ -197,7 +189,7 @@ private:
 
 	bool _captured;
 
-	//Velocidade do lagarto
+	/* Velocidade do lagarto */
 	double velocity;
 
 
@@ -218,7 +210,7 @@ private:
 	double energia_alimento_acumulada;
 
 	/* Valor de hidratacao presente no alimento ingerido
-	 * Necessario zera-la sempre que for usada */
+	 * Necessário zera-la sempre que for usada */
 	//TODO: Tirar essa variavel. Atualizar direto em hidratacao.
 	double hidratacao_alimento;
 
@@ -245,21 +237,79 @@ private:
 	/* Temperatura ideal do lagarto. Valor dependerá da espécie de lagarto escolhido pelo jogador */
 	double temp_interna_ideal;
 
-	/* Letargia - Perda temporária da sensibilidade e movimento por causa fisiológica */
-	double letargia;
-
-	/* Quantidade de atualizações que as variáveis sofrem em uma hora virtual */
-	double atualizacoes_phora;
-
 	/* Limites extremos das variáveis que podem causar a morte do personagem */
 	double temp_interna_maxlimite;
 	double temp_interna_minlimite;
 	double hidratacao_minlimite;
 	double energia_minlimite;
 
-	/*Carrega os parâmetros iniciais de saúde do lagarto. O lagarto default para carregar a saúde é o Eurolophosaurus*/
+	/* Faixa de variação em torno da temperatura ideal do lagarto,
+	 * dentro da qual será considerado como se ele estivesse na sua temperatura ideal*/
+	float variacao_temp_interna;
+	/* Fator de atenuação no gasto de energia quando a temperatura está baixa */
+	float gasto_baixa_temp;
+	/* Fator de acréscimo no gasto de energia quando a temperatura está alta */
+	float gasto_alta_temp;
+	/* Fator que regula o tempo que o lagarto gastará para chegar ao equilíbrio
+	 * térmico com o meio no qual está, a depender da diferença entre as
+	 * temperaturas interna e externa.*/
+	float equi_term;
+	/* Valor da diferença entre as temperaturas interna e externa (diferente a cada atualização) */
+	float equi_term_atual;
+
+
+	/* Letargia - Perda temporária da sensibilidade e movimento por causa fisiológica */
+	double letargia;
+
+	/* Quantidade de atualizações que as variáveis sofrem em uma hora virtual */
+	double atualizacoes_phora;
+
+
+	/* Variável que será multiplicada ao gasto basal, e controlará o gasto
+	 * adicional por movimentação */
+	float gasto_movimento;
+
+	/* Informa se o lagarto está na toca ou não */
+	bool in_toca;
+
+	/* Quantas horas sem se alimentar o lagarto consegue se sobreviver (cosiderando outros fatores ideais). */
+	float num_horas_alimento;
+
+	/* Guarda o número de atualizações para se fazer a média diária de energia */
+	int num_atualizacoes_dia;
+	/* Soma a quantidade de energia a cada atualização */
+	float soma_energia_dia;
+	/* Guarda número de dias no mês, para fazer média de energia */
+	int num_dias;
+	/* Vai armazenando a média de energia do lagarto, senddo calculada a média
+	 * mensal e zerado, assim que passar o mês */
+	float soma_media_energia_diaria;
+	/* Armazena a média da energia de determinado mês */
+	float media_energia_mes;
+
+
+	/* Armazena o tamanho do lagarto que será passado como parâmetro para o
+	 * método set_scale */
+	float tamanho_lagarto_real;
+	/* Armazena o tamanho do lagarto que servirá como base para cálculo de
+	 * outros parâmetros. Poderá variar de 0 à 100 */
+	float tamanho_lagarto_base;
+	/* Inclinação da curva */
+	float a_tamanho_lagarto_base;
+	/* Valor que irá armazenar as taxas de crescimento (como um temp) */
+	float taxa_crescimento;
+
+	/* Armazena a idade do lagarto, em meses */
+	int idade;
+	/* Número de ovos */
+	int num_ovos;
+
+	/* Carrega os parâmetros iniciais de saúde do lagarto. O lagarto default
+	 * para carregar a saúde é o Eurolophosaurus */
 	void load_health();
-	/*Carrega os parâmetros iniciais de saúde do lagarto, cuja espécie foi passada como parâmetro.*/
+
+	/* Carrega os parâmetros iniciais de saúde do lagarto, cuja espécie foi
+	 * passada como parâmetro. */
 	void load_health(int especie);
 
 	/* Cálculos de Variáveis */
@@ -273,27 +323,21 @@ private:
 	void calc_fator_umidade();
 	void calc_y_fator_umidade();
 
-	/*Armazena os valores das variáveis 'finais' (energia, hidratação, temperatura interna) no vetor
-	*da classe vector. Esses valores servirão para a geração dos gráficos no tempo.*/
+	/* Armazena os valores das variáveis 'finais' (energia, hidratação, temperatura interna) no vetor
+	 * da classe vector. Esses valores servirão para a geração dos gráficos no tempo. */
 	void atualiza_vector();
 
-	/*Calcula o número de atualizações por hora (virtual), para que a quantidade de atualizações dentro de um
-	*mesmo espaço de tempo (real) seja sempre a mesma*/
+	/* Calcula o número de atualizações por hora (virtual), para que a quantidade
+	 * de atualizações dentro de um mesmo espaço de tempo (real) seja sempre a mesma */
 	void calc_atualizacoes_phora();
 
-	/*Calcula o novo tamanho do lagarto. Esse método é chamado a cada passagem do mês, e recebe a média de energia diária
-	*daquele mês. A partir desse valor calcula o quanto o lagarto crescerá.*/
+	/* Calcula o novo tamanho do lagarto. Esse método é chamado a cada passagem
+	 * do mês, e recebe a média de energia diária daquele mês. A partir desse
+	 * valor calcula o quanto o lagarto crescerá.*/
 	void calc_tamanho_lagarto_real(float media_energia_mensal);
 
-	//Guarda referencia para os vetores que armazenarão o histórico das variáveis de saúde do lagarto
+	/* Guarda referencia para os vetores que armazenarão o histórico das variáveis de saúde do lagarto*/
 	Vetores* vetores;
-
-	//Variável que será multiplicada ao gasto basal, e controlará o gasto adicional por movimentação
-	float gasto_movimento;
-
-	//Informa se o lagarto está na toca ou não
-	bool in_toca;
-
 
 	/*ORDEM: 1 - Tempera interna ideal, 2 - Quantidade de horas sem se alimentar,
 	*3 - Quantidade de horas com baixa hidratação, 4 - Umidade que afeta a hidratação,
@@ -301,9 +345,9 @@ private:
 	*8 - Limite mínimo de hidratação, 9 - Limite mínimo de energia, 10 - Tolerancia de variação da temperatura interna,
 	*11 - Gasto com baixa temperatura, por grau abaixo da ideal, a cada atualização,
 	*12 - Gasto com alta temperatura, por grau abaixo da ideal, a cada atualização,
-	*13 - Velocidade de equilíbrio térmico com o meio*/
+	*13 - Velocidade de equilíbrio térmico com o meio */
 
-	//Variáveis do Tropidurus
+	/* Variáveis do Tropidurus */
 	static const float temperatura_interna_ideal_trop;
 	static const float qnt_h_sem_alimento_trop;
 	static const float qnt_h_baixa_hidrat_trop;
@@ -318,7 +362,7 @@ private:
 	static const float gasto_alta_temp_trop;
 	static const float vel_equi_termico_trop;
 
-	//Variáveis do Eurolophosaurus
+	/* Variáveis do Eurolophosaurus */
 	static const float temperatura_interna_ideal_euro;
 	static const float qnt_h_sem_alimento_euro;
 	static const float qnt_h_baixa_hidrat_euro;
@@ -333,7 +377,7 @@ private:
 	static const float gasto_alta_temp_euro;
 	static const float vel_equi_termico_euro;
 
-	//Variáveis do Cnemidophorus
+	/* Variáveis do Cnemidophorus */
 	static const float temperatura_interna_ideal_cnem;
 	static const float qnt_h_sem_alimento_cnem;
 	static const float qnt_h_baixa_hidrat_cnem;
@@ -348,56 +392,18 @@ private:
 	static const float gasto_alta_temp_cnem;
 	static const float vel_equi_termico_cnem;
 
-	//Vetores que guardarão os valores das variáveis apresentadas acima para cada espécie
+	/* Vetores que guardarão os valores das variáveis apresentadas acima para cada espécie */
 	static float arrayTropidurus[13];
 	static float arrayEurolophosaurus[13];
 	static float arrayCnemidophorus[13];
 
-	//Carrega os valores inicias das variáveis para cada espécie
+	/* Carrega os valores inicias das variáveis para cada espécie */
 	void init_tropidurus_lizard();
 	void init_eurolophosaurus_lizard();
 	void init_cnemidophorus_lizard();
 
-	/*Faixa de variação em torno da temperatura ideal do lagarto, 
-	*dentro da qual será considerado como se ele estivesse na sua temperatura ideal*/
-	float variacao_temp_interna;
-	//Fator de atenuação no gasto de energia quando a temperatura está baixa
-	float gasto_baixa_temp;
-	//Fator de acre´scimo no gasto de energia quando a temperatura está alta
-	float gasto_alta_temp;
-	/*Fator que regula o tempo que o lagarto gastará para chegar ao equilíbrio térmico com o meio no qual está,
-	*a depender da diferença entre as temperaturas interna e externa.*/
-	float equi_term;
-	/*Valor da diferença entre as temperaturas interna e externa (diferente a cada atualização)*/
-	float equi_term_atual;
-	/*Quantas horas sem se alimentar o lagarto consegue se sobreviver (cosiderando outros fatores ideais).*/
-	float num_horas_alimento;
-
-	//guarda o número de atualizações para se fazer a média diária de energia
-	int num_atualizacoes_dia;
-	//soma a quantidade de energia a cada atualização
-	float soma_energia_dia;
-	//guarda número de dias no mês, para fazer média de energia
-	int num_dias;
-	//armazena o tamanho do lagarto que será passado como parâmetro para o método set_scale
-	float tamanho_lagarto_real;
-	//valor que irá armazenar o tamanho do lagarto que servirá como base para cálculo de outros parâmetros. Poderá variar de 0 à 100
-	float tamanho_lagarto_base;
-	//inclinação da curva
-	float a_tamanho_lagarto_base;
-	//valor que irá armazenar as taxas de crescimento(como um temp)
-	float taxa_crescimento;
-	//vai armazenando a média de energia do lagarto, senddo calculada a média mensal e zerado, assim que passar o mÊs
-	float soma_media_energia_diaria;
-	//armazena a média da energia de determnado mês
-	float media_energia_mes;
-	//armazena a idade do lagarto, em meses
-	int idade;
-	//numero de ovos
-	int num_ovos;
-
 public:
-	//Procura fêmeas em um raio próximo
+	/* Procura fêmeas em um raio próximo */
 	bool has_female_around();
 	void update_female_around();
 	PT(FemaleLizard) get_courted_female();
