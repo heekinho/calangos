@@ -39,6 +39,8 @@ bool FlyingPredatorCamera::activate(PT(FlyingPredator) predator){
 
 	/* Desativa as ações de mudança de camera do usuário */
 	cc->disable_user_input();
+
+	return true;
 }
 
 /*! O "comportamento" da camera, por enquanto, é ficar fixa no ponto
@@ -50,6 +52,7 @@ void FlyingPredatorCamera::update(){
 /*! Por enquanto não se desabilita esta camera. */
 bool FlyingPredatorCamera::deactivate(){
 	nout << "Não implementado! Desabilitando camera" << endl;
+	return false;
 }
 
 /*! Define quais eventos chamará o update desta camera */

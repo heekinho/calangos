@@ -25,6 +25,7 @@ void CheckBox::toogle(const Event*, void* data){
 /*! Muda o estado do checkbox */
 bool CheckBox::toogle(){
 	set_checked(!is_checked());
+	return is_checked();
 }
 
 /*! Define o estado do checkbox */

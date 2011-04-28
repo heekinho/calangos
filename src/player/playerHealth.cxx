@@ -652,17 +652,17 @@ void Player::set_energia_minlimite(double nova_energia_minlimite){
 	this->energia_minlimite = nova_energia_minlimite;
 }
 
-//vai fazer o gasto do lagarto igual ao basal
+/* Vai fazer o gasto do lagarto igual ao basal */
 void Player::set_lagarto_parado(){
 	this->gasto_movimento = 1;
 }
 
-//vai fazer o gasto do lagarto 20% maior que o basal
+/* Vai fazer o gasto do lagarto 20% maior que o basal */
 void Player::set_lagarto_andando(){
 	this->gasto_movimento = 1.2;
 }
 
-//vai fazer o gasto do lagarto 50% maior que o basal
+/*! Vai fazer o gasto do lagarto 50% maior que o basal */
 void Player::set_lagarto_correndo(){
 	this->gasto_movimento = 1.5;
 }

@@ -174,8 +174,6 @@ void TimeControl::update_time_control(float elapsed_time){
 		/* --------------------------------------------------------------------------- */
 		//quantos segundos reais equivalerão a 1 minuto virtual
 		seconds_min = (virtualTimeHour*60.0)/(24*60);
-		//quantos minutos virtuais equivalem a 1 segundo real
-		float minuto_virtual = 24*60.0/(virtualTimeHour*60);
 		
 		count_et += elapsed_time;
           

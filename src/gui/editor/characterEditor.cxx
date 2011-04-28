@@ -97,8 +97,6 @@ void CharacterEditor::configure_buttons(){
 
 
 void CharacterEditor::configure_controls(){
-	float aspect = gui->get_aspect_ratio();
-
 	/* Pai de todos os controles */
 	NodePath entry = NodePath("Size Entry");
 	entry.reparent_to(get_root()); //Simdunas::get_window()->get_aspect_2d()

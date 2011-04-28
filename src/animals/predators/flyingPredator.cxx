@@ -81,7 +81,6 @@ void FlyingPredator::act(){
 	loop_anim("voar");
 
 	/* Calcula distância e coloca algumas variações de heading */
-	float dist = get_distance(*player);
 	float dist_xy = (get_pos().get_xy() - player->get_pos().get_xy()).length();
 	if(rand()%120 == 34) set_h(*this, rand()%80 - (80/2));
 

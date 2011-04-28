@@ -164,7 +164,7 @@ bool Player::reaches(PT(ObjetoJogo) object){
 	player_y_versor.normalize();
 
 	/* Flags que definem se o objeto é alcançável tanto pela distância quanto pelo ângulo */
-	bool is_reachable = is_reachable = object->get_distance(*player) < player->get_eat_radius_thr();
+	bool is_reachable = object->get_distance(*player) < player->get_eat_radius_thr();
 	bool is_ang_reachable = fabs(player_to_target.angle_deg(player_y_versor)) < 45;
 
 	if(is_reachable && is_ang_reachable) return true;

@@ -60,6 +60,9 @@ CameraControl::CameraControl(PT(ObjetoJogo) object){
 
 	/* Define e ativa a primeira camera */
 	this->set_active_camera(current_camera);
+
+	/* Define o NodePath sobre o qual as cameras ficarão */
+	this->group = Simdunas::get_window()->get_render().attach_new_node("Cameras");
 }
 
 /*! Configura as entradas de teclado do usuário para o Controle */

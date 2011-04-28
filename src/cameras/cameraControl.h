@@ -32,6 +32,7 @@ public:
 
     vector<PT(CameraNode)>* get_cameras(){ return &cameras; };
 protected:
+    NodePath group;
 	vector<PT(CameraNode)> cameras;
 	PT(DisplayRegion) display_region;
 	PT(ObjetoJogo) object;

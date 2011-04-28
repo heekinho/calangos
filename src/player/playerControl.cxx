@@ -26,7 +26,6 @@
 #define MAX_VEL_PLAYRATE 40.0
 
 #define DISTANCE_FEMALE 0.3
-#define DISTANCE_MALE 0.2
 
 // Inicializacao de non-integral type
 const string PlayerControl::EV_player_move = "EV_PLAYERMOVE";
