@@ -116,17 +116,12 @@ void Player::load_health(int especie){
 	soma_media_energia_diaria = 0;
 	num_dias = 0;
 	media_energia_mes = 0;
-			
-	tamanho_lagarto_real = TAMANHO_INICIAL-0.00001;//colocar um valor inicial default razoável (um valor para cada espécie?)
-	a_tamanho_lagarto_base = (100.0/(TAMANHO_MAXIMO - TAMANHO_INICIAL));
-	tamanho_lagarto_base = a_tamanho_lagarto_base*(tamanho_lagarto_real-TAMANHO_INICIAL);
+
+	tamanho_lagarto_real = TAMANHO_INICIAL;
+	tamanho_lagarto_base = calc_tamanho_base(tamanho_lagarto_real);
 
 	idade = 0;
 	num_ovos = 0;
-	//simples conferencia
-	#if(DEBUG_PHEALTH)
-		cout << endl << "A temperatura interna do lagarto eh: " << this->temp_interna << endl;
-	#endif
 }
 
 void Player::load_health(){
@@ -236,57 +231,62 @@ void Player::event_gasto_energia(const Event*, void *data){
 
 /*PAREI DOCUMENTAÇÃO AKI*/
 
-/*Na passagem do dia, faz a média diária de energia, e armazena a soma.
-* Essa média servirá para determinar o quanto o lagarto irá crescer na passagem de um mês.*/
+/*! Na passagem do dia, faz a média diária de energia, e armazena a soma.
+*   Essa média servirá para determinar o quanto o lagarto irá crescer na passagem de um mês.*/
 void Player::event_pday(const Event*, void *data){
-
 	PT(Player) player = (Player*) data;
 
 	player->num_dias++;
 
-	//Calcula a média de energia do dia corrente
+	/* Calcula a média de energia do dia corrente */
 	float media_energia_hoje = player->soma_energia_dia/player->num_atualizacoes_dia;
-	//Soma as médias de energia de cada dia, para na passagem do mês seja feita uma média diária do mês
+
+	/* Soma as médias de energia de cada dia, para na passagem do mês seja feita uma média diária do mês */
 	player->soma_media_energia_diaria = player->soma_media_energia_diaria + media_energia_hoje;
 
 	player->num_atualizacoes_dia = 0;
 	player->soma_energia_dia = 0;
 }
 
-/*Na passagem do mês, faz a média de energia dos dias do mês que passou.
-* Essa média servirá para determinar o quanto o lagarto irá crescer na passagem do mês.*/
+/*! Na passagem do mês, faz a média de energia dos dias do mês que passou.
+ *  Essa média servirá para determinar o quanto o lagarto irá crescer na passagem do mês.*/
 void Player::event_pmonth(const Event*, void *data){
 	PT(Player) player = (Player*) data;
 
-	//Calcula a média de energia diária do mês
+	/* Calcula a média de energia diária do mês */
 	player->media_energia_mes = player->soma_media_energia_diaria/player->num_dias;
 	
 	player->num_dias = 0;
 	player->soma_media_energia_diaria = 0;
 
-	/*Calcula o quanto o lagarto vai crescer, tomando como parâmetro a média diária de energia do lagarto
-	* durante o mês que passou.*/
+	/* Calcula o quanto o lagarto vai crescer, tomando como parâmetro a média
+	 * diária de energia do lagarto durante o mês que passou.*/
 	player->calc_tamanho_lagarto_real(player->media_energia_mes);
-	//Ajusta o novo tamanho do personagem
-	player->set_scale(Simdunas::get_window()->get_render(), player->tamanho_lagarto_real);
 
-	//Aumenta a idade do lagarto
+	/* Ajusta o novo tamanho do personagem */
+	player->set_scale(Simdunas::get_window()->get_render(), player->tamanho_lagarto_real);
+	//player->set_length(100 * player->tamanho_lagarto_real, true);
+
+	/* Aumenta a idade do lagarto */
 	player->idade++;
 
-	//Verifica se lagarto chegou na idades reprodutiva
-	if(player->idade ==IDADE_REPRODUTIVA){
+	/* Verifica se lagarto chegou na idades reprodutiva */
+	if (player->idade == IDADE_REPRODUTIVA) {
+		/* Deveria mandar evento */
 		GuiManager::get_instance()->liga_led_estado_reprodutivo();
 
-                if( player->get_specie_name(player->lizard_specie) != "custom" ){ //caso seja o lagarto personalizado não trocar a textura
-		PT(TextureStage) ts = player->find_all_texture_stages().get_texture_stage(0);
-		ts->set_mode(TextureStage::M_modulate);
-		PT(Texture) t = TexturePool::load_texture("models/lizards/" + player->get_specie_name(player->lizard_specie) + "/male/texture.jpg");
-		player->set_texture(ts, t, 2);
-                }
+		if (player->get_specie_name(player->lizard_specie) != "custom") { //caso seja o lagarto personalizado não trocar a textura
+			PT(TextureStage) ts = player->find_all_texture_stages().get_texture_stage(0);
+			ts->set_mode(TextureStage::M_modulate);
+			PT(Texture) t = TexturePool::load_texture("models/lizards/"
+					+ player->get_specie_name(player->lizard_specie)
+					+ "/male/texture.jpg");
+			player->set_texture(ts, t, 2);
+		}
 		player->lizard_gender = Player::male;
-                }
-	//Verifica se o personagem chegou na idade máxima
-	if(player->idade>=IDADE_MORTE){
+	}
+	/* Verifica se o personagem chegou na idade máxima */
+	if (player->idade >= IDADE_MORTE) {
 		Session::get_instance()->player_death(5);
 	}
 }
@@ -296,8 +296,8 @@ void Player::event_pmonth(const Event*, void *data){
  * ------------------------------------------------------------------------- */
 
 /*! Calcula o valor de energia do lagarto
- * A energia do lagarto é dada por:
- * Energia Atual - Gasto Total + Energia Adquirida por ingestão de alimentos */
+ *  A energia do lagarto é dada por:
+ *  Energia Atual - Gasto Total + Energia Adquirida por ingestão de alimentos */
 void Player::calc_energia(){
 
 	double energia_temp = 0;
@@ -417,19 +417,17 @@ void Player::calc_tamanho_lagarto_real(float media_energia_mensal){
 	float add_tamanho = ((TAMANHO_MAXIMO - TAMANHO_INICIAL)/MESES_TAMANHO_MAXIMO)*this->taxa_crescimento;
 
 	this->tamanho_lagarto_real = this->tamanho_lagarto_real + add_tamanho;
-	if(this->tamanho_lagarto_real > TAMANHO_MAXIMO){
-		this->tamanho_lagarto_real = TAMANHO_MAXIMO;
-	}
-	this->tamanho_lagarto_base = this->a_tamanho_lagarto_base*(this->tamanho_lagarto_real-TAMANHO_INICIAL);
+	if(tamanho_lagarto_real > TAMANHO_MAXIMO) tamanho_lagarto_real = TAMANHO_MAXIMO;
+	tamanho_lagarto_base = calc_tamanho_base(tamanho_lagarto_real);
 
 	this->equi_term_atual = this->equi_term-(this->equi_term*(this->tamanho_lagarto_base/100)*0.8);
 }
 
+/*! Calcula, com base no menor tamanho possível e maior tamanho possível para
+ *  os lagartos, um valor de 0 a 100 (e não de 0 a 1).
+ *  Ou seja, retorna uma espécie de valor normalizado com base em um tamanho */
 float Player::calc_tamanho_base(float tamanho_real){
-
-	float tamanho_base = 0;
-	tamanho_base = this->a_tamanho_lagarto_base*(tamanho_real-TAMANHO_INICIAL);
-	return tamanho_base;
+	return 100 * ((tamanho_real - TAMANHO_INICIAL) / (TAMANHO_MAXIMO - TAMANHO_INICIAL));
 }
 
 /*!Atualiza os valores dos vetores utiliazados para geração dos gráfico*/

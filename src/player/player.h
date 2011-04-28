@@ -294,8 +294,6 @@ private:
 	/* Armazena o tamanho do lagarto que servirá como base para cálculo de
 	 * outros parâmetros. Poderá variar de 0 à 100 */
 	float tamanho_lagarto_base;
-	/* Inclinação da curva */
-	float a_tamanho_lagarto_base;
 	/* Valor que irá armazenar as taxas de crescimento (como um temp) */
 	float taxa_crescimento;
 
