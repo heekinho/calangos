@@ -254,6 +254,11 @@ void TimeControl::update_real_seconds(){
 	}
 }
 
+/*! Verifica se está no período da noite */
+bool TimeControl::is_night(){
+	return (get_hora() >= 18.0 || get_hora() <= 6.0);
+}
+
 float TimeControl::get_virtual_time_hour() {
 	return virtualTimeHour;
 }

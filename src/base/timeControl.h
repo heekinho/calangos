@@ -30,6 +30,8 @@ public:
 	 * gerando eventos sempre a ocorre aluma mudança */
 	void update_time_control(float elapsed_time);
 
+	bool is_night();
+
 	float get_virtual_time_hour();
 	int get_minuto();
 	int get_hora();
