@@ -125,7 +125,7 @@ public:
 	void set_lagarto_andando();
 	void set_lagarto_correndo();
 
-	bool is_in_toca();
+	bool is_in_toca() const ;
 	void set_in_toca(bool is_in_toca);
 
 	PT(ObjetoJogo) get_toca(){ return _toca; };
@@ -408,6 +408,10 @@ public:
 private:
 	//bool female_around;
 	PT(FemaleLizard) _courted_female;
+
+
+public:
+	float get_indice_camuflagem() const;
 };
 
 #endif

@@ -183,9 +183,10 @@ void Player::be_captured(){
 	nout << "Player foi capturado" << endl;
 }
 
-bool Player::is_in_toca(){
+bool Player::is_in_toca() const {
 	return in_toca;
 }
+
 void Player::set_in_toca(bool in_toca){
 	this->in_toca = in_toca;
 }
@@ -225,4 +226,13 @@ void Player::update_female_around(){
 	}
 
 	_courted_female = NULL;
+}
+
+/*! Retorna o indíce de camuflagem (0 a 1) do player */
+float Player::get_indice_camuflagem() const {
+	if(is_in_toca()) return 0.0;
+
+	/* TODO: Distância de vegetal */
+	/* TODO: Folhagem */
+	return 1.0;
 }
