@@ -106,6 +106,15 @@ int Animal::stay_quiet(){
 	return stay_x_frame_stoped;
 }
 
+/*! Retorna o período de atividade do animal */
+Animal::Activity Animal::get_activity() const {
+	return activity;
+}
+
+/*! Define o período de atividade do animal */
+void Animal::set_activity(Animal::Activity activity){
+	this->activity = activity;
+}
 
 /*! Redistribui os animais em setores mais próximos do player. */
 void Animal::redistribute_animals(){

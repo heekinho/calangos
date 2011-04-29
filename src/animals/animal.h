@@ -5,6 +5,12 @@
 
 class Animal : public AnimatedObjetoJogo {
 public:
+	enum Activity {
+		A_day,
+		A_night,
+		A_both
+	};
+
 	Animal(NodePath node);
 	static void load_animals();
 
@@ -21,9 +27,12 @@ public:
 	static void migrate_animal(PT(ObjetoJogo) theanimal, PT(Setor) to);
 
 	/* Ações relacionadas ao movimento */
-	virtual float get_velocity() { return velocity; };
+	/* Precisava mesmo ser virtual??? =/ */
+	virtual float get_velocity() const { return velocity; };
 	virtual void set_velocity(float velocity) { this->velocity = velocity; };
 
+	Activity get_activity() const;
+	void set_activity(Activity activity);
 
 	virtual void pause_animation(){};
 	virtual void continue_animation(){};
@@ -36,6 +45,7 @@ protected:
 	int stay_x_frame_stoped;
 
 	float velocity;
+	Activity activity;
 };
 
 #endif
