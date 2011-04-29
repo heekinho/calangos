@@ -143,4 +143,35 @@ void Predator::continue_animation(){
 	if(Simdunas::get_window()->get_render().is_ancestor_of(*this)) play_anim("andar");
 }
 
+float Predator::get_visibility_distance() const {
+	return visibility_distance;
+}
 
+void Predator::set_visibility_distance(float visibility_distance){
+	this->visibility_distance = visibility_distance;
+}
+
+/*! Obter grau de visibilidade do predador para o player */
+float Predator::get_visibility(){
+	PT(Player) player = Player::get_instance();
+	bool is_night = TimeControl::get_instance()->is_night();
+
+	/* Separado por legibilidade. Se não estiver no período ativo anula a visibilidade */
+	if(is_night && (get_activity() == A_day)) return 0.0;
+	if(!is_night && (get_activity() == A_night)) return 0.0;
+
+	/* Calcula o fator exercido pela distância */
+	float distance = get_distance(*player);
+	float idist = 1.0 - (distance / get_visibility_distance());
+
+	/* Obtém fator exercido pela camuflagem do player na visibilidade */
+	float camuflagem = 1.0 - player->get_indice_camuflagem();
+
+	/* Ver tamanho do player */
+	/* TODO: Não utilizar tamanho base. Utilizar outra variável com base no
+	 * menor tamanho de lagarto possível e o maior tamanho */
+	float tamanho = player->get_tamanho_base() * 0.01;
+
+	/* Retorna o conjunto dos fatores juntos */
+	return (idist * camuflagem * tamanho);
+}

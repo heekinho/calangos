@@ -16,13 +16,21 @@ public:
 	virtual void pause_animation();
 	virtual void continue_animation();
 	virtual void change_sector(PT(Setor) new_sector);
+
+	virtual float get_visibility();
+
+	float get_visibility_distance() const;
+	void set_visibility_distance(float visibility_distance);
+
 private:
 	void pursuit();
 	void bite();
 
-        //testando som
-        PT(AudioManager) AM;
-        PT(AudioSound) sound;
+	float visibility_distance;
+
+	/* Testando som */
+	PT(AudioManager) AM;
+	PT(AudioSound) sound;
 };
 
 
