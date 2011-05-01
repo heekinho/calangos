@@ -234,5 +234,19 @@ float Player::get_indice_camuflagem() const {
 
 	/* TODO: Distância de vegetal */
 	/* TODO: Folhagem */
+	/* TODO: Está enterrado ou não */
+
 	return 1.0;
+}
+
+/*! Retorna true se o player tem a capacidade de se enterrar.
+ *  Com a capacidade de se enterrar o player se esconde melhor dos predadores,
+ *  mas enquanto enterrado o lagarto tem menor inércia térmica (esquenta rápido) */
+bool Player::has_bury_ability() const {
+	return bury_ability;
+}
+
+/*! Define a capacidade do player se enterrar no terreno */
+void Player::set_bury_ability(bool bury_ability){
+	this->bury_ability = bury_ability;
 }

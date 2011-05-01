@@ -412,6 +412,12 @@ private:
 
 public:
 	float get_indice_camuflagem() const;
+
+	bool has_bury_ability() const;
+	void set_bury_ability(bool bury_ability);
+
+private:
+	bool bury_ability;
 };
 
 #endif
