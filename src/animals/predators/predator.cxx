@@ -21,12 +21,24 @@ Predator::~Predator(){}
 
 /*! Carrega todos os predadores do jogo */
 void Predator::load_predators(){
+	ModelRepository::get_instance()->get_animated_model("teiu")->set_length(0.60);
 	Predator::load_predator("teiu", 7, 0.004, -1);
+
+	ModelRepository::get_instance()->get_animated_model("siriema")->set_height(0.60);
 	Predator::load_predator("siriema", 7, 0.03, -1);
+
+	ModelRepository::get_instance()->get_animated_model("raposa")->set_length(0.80);
 	Predator::load_predator("raposa", 6, 0.01, -1);
+
+	ModelRepository::get_instance()->get_animated_model("gato")->set_length(0.40);
 	Predator::load_predator("gato", 9, 0.01, -1);
+
+//	ModelRepository::get_instance()->get_animated_model("jararaca")->set_length(0.60);
 //	Predator::load_predator("jararaca", 50, 0.01, -1);
+
+//	ModelRepository::get_instance()->get_animated_model("colubridae")->set_length(0.50);
 //	Predator::load_predator("colubridae", 50, 0.01, -1);
+
 
 //	FlyingPredator::load_predators();
 }
@@ -34,7 +46,7 @@ void Predator::load_predators(){
 
 /*! Carrega uma quantidade de predadores com comportamento padrão, de determinado tipo */
 void Predator::load_predator(const string &model, int qtd, float scale, int orientation){
-	ModelRepository::get_instance()->get_animated_model(model)->set_scale(scale);
+	//ModelRepository::get_instance()->get_animated_model(model)->set_scale(scale);
 
 	PT(Terrain) terrain = World::get_world()->get_terrain();
 	for(int i = 0; i < qtd; i++){
@@ -174,4 +186,25 @@ float Predator::get_visibility(){
 
 	/* Retorna o conjunto dos fatores juntos */
 	return (idist * camuflagem * tamanho);
+}
+
+
+/*! Obtém o nível de visibilidade do predador durante o dia */
+float Predator::get_day_visibility() const {
+	return day_visibility;
+}
+
+/*! Define o nível de visibilidade do predador durante o dia */
+void Predator::set_day_visibility(float day_visibility){
+	this->day_visibility = day_visibility;
+}
+
+/*! Obtém o nível de visibilidade do predador durante a noite */
+float Predator::get_night_visibility() const {
+	return night_visibility;
+}
+
+/*! Define o nível de visibilidade do predador durante a noite */
+void Predator::set_night_visibility(float night_visibility){
+	this->night_visibility = night_visibility;
 }
