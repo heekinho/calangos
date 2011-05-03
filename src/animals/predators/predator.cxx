@@ -163,7 +163,14 @@ void Predator::set_visibility_distance(float visibility_distance){
 	this->visibility_distance = visibility_distance;
 }
 
-/*! Obter grau de visibilidade do predador para o player */
+/*! Obter grau de visibilidade do predador para o player
+ * vis = 1 - (d / dmax)
+ * dmax = dmax0 + dcontr * contraste + dtam * tam
+ * onde:
+ * dcontraste é o ganho de distância para quando o contraste for máximo (1)
+ * dtam é o ganho de distância para quando o tamanho for máximo (1).
+ * lembra-se que visibilidade pode continuar sendo negativo. Tem que fazer teste.
+ *  */
 float Predator::get_visibility(){
 	PT(Player) player = Player::get_instance();
 	bool is_night = TimeControl::get_instance()->is_night();
@@ -175,6 +182,8 @@ float Predator::get_visibility(){
 	/* Calcula o fator exercido pela distância */
 	float distance = get_distance(*player);
 	float idist = 1.0 - (distance / get_visibility_distance());
+//	idist = idist < 0 ? 0 : idist;
+//	if(idist < 0) idist = 0;
 
 	/* Obtém fator exercido pela camuflagem do player na visibilidade */
 	float camuflagem = 1.0 - player->get_indice_camuflagem();
@@ -185,6 +194,8 @@ float Predator::get_visibility(){
 	float tamanho = player->get_tamanho_base() * 0.01;
 
 	/* Retorna o conjunto dos fatores juntos */
+	// Fazer com media
+//	return (idist + camuflagem + tamanho)/3;
 	return (idist * camuflagem * tamanho);
 }
 
