@@ -229,7 +229,25 @@ void Player::event_gasto_energia(const Event*, void *data){
 	player->soma_energia_dia = player->soma_energia_dia + player->energia;
 }
 
-/*PAREI DOCUMENTAÇÃO AKI*/
+
+/* Obtém o tamanho (comprimento) mínimo de lagarto permitido. Em centímetros.
+ * Este valor é especificado com o lagarto em sua idade máxima */
+float Player::get_min_lizards_size(){
+	return 0.2;
+}
+
+/* Obtém o tamanho (comprimento) máximo de lagarto permitido. Em centímetros.
+ * Este valor é especificado com o lagarto em sua idade máxima */
+float Player::get_max_lizards_size(){
+	return 0.6;
+}
+
+/* Obtém um fator de 0 a 1, representando o tamanho do lagarto em comparação
+ * com o menor e maior lagartos possíveis */
+float Player::fator_tamanho(){
+	return (get_tamanho_real() - get_min_lizards_size()*0.2) /
+		   (get_max_lizards_size() - get_min_lizards_size());
+}
 
 /*! Na passagem do dia, faz a média diária de energia, e armazena a soma.
 *   Essa média servirá para determinar o quanto o lagarto irá crescer na passagem de um mês.*/

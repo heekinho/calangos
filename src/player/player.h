@@ -12,9 +12,13 @@
 #include "femaleLizard.h"
 #include "edible.h"
 
+#include "playerProperties.h"
+
 // Forward Declaration
 class MicroClima;
 class Vetores;
+
+
 
 //typedef enum {tropidurus , eurolophosaurus, cnemidophorus} LizardEspecie;
 //typedef enum {female, male, young} LizardGender;
@@ -33,7 +37,6 @@ public:
 	void eat(Edible* food);
 
 	static void load_player();
-
 
 	//static const float BITE_THR = 3.0;
 	float get_eat_radius_thr();
@@ -64,6 +67,8 @@ public:
 	double get_gasto_basal();
 	double get_gasto_total();
 
+	double get_environment_temp();
+
 	double get_temp_interna();
 	double get_temp_interna_ideal();
 	double get_temp_interna_maxlimite();
@@ -76,20 +81,31 @@ public:
 
 	double get_velocity();
 
-	double get_environment_temp();
-
 	int get_num_atualizacoes_dia();
 	int get_num_dias();
 	int get_idade();
+
 	float get_soma_energia_dia();
+	float get_media_energia_mes();
+	float get_soma_media_energia_diaria();
+
+	/* Obtém o tamanho mínimo e máximo de lagartos permitidos. */
+	static float get_min_lizards_size();
+	static float get_max_lizards_size();
+
+	/* Obtém um fator de 0 a 1, representando o tamanho do lagarto em comparação
+	 * com o menor e maior lagartos possíveis */
+	float fator_tamanho();
+
+//	/* Define o tamanho do lagarto */
+//	void set_tamanho();
+
+	/* Obtém a porcentagem do tamanho do lagarto */
 	float get_tamanho_base();
 	float get_tamanho_real();
 	float get_taxa_crescimento();
-	float get_soma_media_energia_diaria();
-	float get_media_energia_mes();
-	
-	bool get_estado_reprodutivo();
 
+	bool get_estado_reprodutivo();
 	int get_num_ovos();
 	/* ------------------------------------------------------------------------- */
 

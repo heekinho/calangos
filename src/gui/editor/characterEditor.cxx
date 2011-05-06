@@ -109,7 +109,11 @@ void CharacterEditor::configure_controls(){
 	float offset = -0.1;
 	float valign = -offset;
 
-	body_size = new CharacterEditorEntrySlider(entry, "Tamanho do corpo", text_generator, 0, 10, valign += offset, 0.0, "cm");
+	/* Obtém o range de valores do tamanho do lagarto em centímetros */
+	float max_l = Player::get_max_lizards_size() * 100;
+	float min_l = Player::get_min_lizards_size() * 100;
+
+	body_size = new CharacterEditorEntrySlider(entry, "Tamanho do corpo", text_generator, min_l, max_l, valign += offset, 0.0, "cm");
 	head_size = new CharacterEditorEntrySlider(entry, "Tamanho da cabeça", text_generator, 0, 10, valign += offset, 0.0, "cm");
 	speed = new CharacterEditorEntrySlider(entry, "Velocidade", text_generator, 0, 10, valign += offset, 0.0, "cm/s");
 	ideal_temperature = new CharacterEditorEntrySlider(entry, "Temperatura Ideal", text_generator, 0, 10, valign += offset, 0.0, "°C");
