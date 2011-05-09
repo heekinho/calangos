@@ -30,9 +30,11 @@ void Button::build(const string &name, const string &text, PT(TextFont) font, fl
 
 	NodePath btn_hover = btn_normal.copy_to(NodePath());
 	btn_hover.set_color_scale(0.75, 0.75, 0.75, 1.0);
+	btn_hover.set_alpha_scale(1, 10);
 
 	NodePath btn_depressed = btn_normal.copy_to(NodePath());
 	btn_depressed.set_color_scale(0.5, 0.5, 0.5, 1.0);
+	btn_depressed.set_alpha_scale(1, 10);
 
 	/* Gera o comportamento padrão */
 	setup(btn_normal, btn_depressed, btn_hover);

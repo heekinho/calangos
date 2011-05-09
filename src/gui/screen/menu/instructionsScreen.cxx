@@ -46,20 +46,6 @@ void InstructionsScreen::unload() {
 	btn_back = NULL;
 }
 
-void InstructionsScreen::show() {
-	np_lb_titulo.show();
-	np_btn_controles.show();
-	np_btn_indicadores.show();
-	np_btn_back.show();
-}
-
-void InstructionsScreen::hide() {
-	np_lb_titulo.hide();
-	np_btn_controles.hide();
-	np_btn_indicadores.hide();
-	np_btn_back.hide();
-}
-
 void InstructionsScreen::controles_action(){
 	nout << "Tela de intruções de controles..." << endl;
 	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_key_instructions_screen());

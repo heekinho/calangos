@@ -32,11 +32,11 @@ void IndicatorsScreen::unload() {
 }
 
 void IndicatorsScreen::show() {
+	Screen::show();
 	img_indicadores.show();
-	np_btn_back.show();
 }
 
 void IndicatorsScreen::hide() {
+	Screen::hide();
 	img_indicadores.hide();
-	np_btn_back.hide();
 }

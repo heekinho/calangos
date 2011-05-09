@@ -31,6 +31,10 @@ NodePath Screen::get_root(){
 	return root;
 }
 
+void Screen::set_root(NodePath new_root) {
+	root = new_root;
+}
+
 /*! Mostra o menu */
 void Screen::show(){
 	root.show();

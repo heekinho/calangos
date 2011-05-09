@@ -39,7 +39,7 @@ void StartMenu::load(){
 	anims.loop_all(false);
 
     ///imagem do logo
-    np_logo = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/calangos.png");
+    np_logo = Simdunas::get_window()->load_model(get_root(), "models/calangos.png");
     np_logo.set_scale(0.1);
     np_logo.set_pos(0.0, 0, 0.6);
 
@@ -51,23 +51,13 @@ void StartMenu::load(){
 }
 
 void StartMenu::show() {
-	np_logo.show();
+	Screen::show();
 	np_lagarto.show();
-	np_play.show();
-	np_options.show();
-	np_instructions.show();
-	np_credits.show();
-	np_exit.show();
 }
 
 void StartMenu::hide() {
-	np_logo.hide();
+	Screen::hide();
 	np_lagarto.hide();
-	np_play.hide();
-	np_options.hide();
-	np_instructions.hide();
-	np_credits.hide();
-	np_exit.hide();
 }
 
 /*! Ação do botão jogar */

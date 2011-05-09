@@ -84,7 +84,8 @@ void LoadingScreen::unload() {
 
 // Posiciona os objetos na tela.
 void LoadingScreen::attach_objects() {
-	np_frame.reparent_to(Simdunas::get_clickable_render_2d());
+	set_root(Simdunas::get_clickable_render_2d().attach_new_node("loadingScreen"));
+	np_frame.reparent_to(get_root());
 	np_frame.set_pos(-1, 0, -1);
 	np_frame.set_color(0, 0, 0);
 
@@ -115,25 +116,8 @@ void LoadingScreen::attach_objects() {
 
 	np_btn_comecar = np_frame.attach_new_node(btn_comecar);
 	np_btn_comecar.set_pos(1, 0, 0.3);
-}
-
-void LoadingScreen::show() {
-	np_frame.show();
-	np_lb_objetivo.show();
-	np_lb_descricao_objetivo.show();
-	np_lb_carregando.show();
-	np_lb_processo.show();
-	np_lb_info_processo.show();
-}
-
-void LoadingScreen::hide() {
-	np_frame.hide();
-	np_lb_objetivo.hide();
-	np_lb_descricao_objetivo.hide();
-	np_lb_carregando.hide();
+	np_btn_comecar.set_alpha_scale(1, 2);
 	np_btn_comecar.hide();
-	np_lb_processo.hide();
-	np_lb_info_processo.hide();
 }
 
 void LoadingScreen::loading_process() {
@@ -153,11 +137,9 @@ void LoadingScreen::loading_process() {
 void LoadingScreen::loading_completed() {
 	np_lb_carregando.hide();
 	lb_info_processo->set_text("Concluído.");
-
-	np_btn_comecar.show();
-
 	np_frame.set_transparency(TransparencyAttrib::M_alpha);
 	np_frame.set_alpha_scale(0.5);
+	np_btn_comecar.show();
 
 	while (!start) {
 		Simdunas::get_framework()->do_frame(Thread::get_current_thread());

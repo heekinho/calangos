@@ -33,6 +33,7 @@ public:
 	virtual void unload() = 0;
 
 	NodePath get_root();
+	void set_root(NodePath new_root);
 
 	static void configure_component(NodePath &np,
 		const LVecBase3f &size = LVecBase3f(1), const LPoint3f &pos = LPoint3f(0),

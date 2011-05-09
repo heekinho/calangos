@@ -32,11 +32,11 @@ void CreditsScreen::unload() {
 }
 
 void CreditsScreen::show() {
-	np_btn_back.show();
+	Screen::show();
 	img_credit.show();
 }
 
 void CreditsScreen::hide() {
-	np_btn_back.hide();
+	Screen::hide();
 	img_credit.hide();
 }

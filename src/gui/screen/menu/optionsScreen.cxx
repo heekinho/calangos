@@ -52,24 +52,6 @@ void OptionsScreen::unload() {
 	btn_back = NULL;
 }
 
-void OptionsScreen::show() {
-	np_lb_titulo.show();
-	np_btn_video.show();
-	np_btn_audio.show();
-	np_btn_controles.show();
-	np_btn_jogo.show();
-	np_btn_back.show();
-}
-
-void OptionsScreen::hide() {
-	np_lb_titulo.hide();
-	np_btn_video.hide();
-	np_btn_audio.hide();
-	np_btn_controles.hide();
-	np_btn_jogo.hide();
-	np_btn_back.hide();
-}
-
 void OptionsScreen::video_action(){
 	nout << "Tela de video..." << endl;
 	//manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_loading_screen());

@@ -36,8 +36,6 @@ public:
 
 	void load();
 	void unload();
-	void show();
-	void hide();
 	void loading_completed();
 	void loading_process();
 
