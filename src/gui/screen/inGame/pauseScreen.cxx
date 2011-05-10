@@ -24,33 +24,25 @@ PauseScreen::~PauseScreen(){}
 void PauseScreen::load(){
 	stopped_time = false;
 	selected_video = false;
-	titulo = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/pausa.png");
+	titulo = Simdunas::get_window()->load_model(get_root(), "models/buttons/pausa.png");
 	titulo.set_scale(0.06);
 	titulo.set_pos(0.0, 0, 0.8);
 
 	/////////colocando nome videos
-	img_videos = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/buttons/videos.png");
+	img_videos = Simdunas::get_window()->load_model(get_root(), "models/buttons/videos.png");
 	img_videos.set_scale(0.025);
 	img_videos.set_pos(0.0, 0, 0.55);
 
 	//////construindo os botões dos videos
-	default_button_config(btn_lagartos, np_btn_lagartos, "Lagartos", 0.35, lagartos_action);
-	default_button_config(btn_predadores, np_btn_predadores, "Predadores", 0.15, predadores_action);
-	default_button_config(btn_presas, np_btn_presas, "Presas", -0.05, presas_action);
-	default_button_config(btn_clima, np_btn_clima, "Clima", -0.25, clima_action);
-	default_button_config(btn_habitat, np_btn_habitat, "Habitat", -0.45, habitat_action);
+	default_button_config(btn_lagartos, np_btn_lagartos, "Lagartos", LVecBase3f(0, 0, 0.35), lagartos_action);
+	default_button_config(btn_predadores, np_btn_predadores, "Predadores", LVecBase3f(0, 0, 0.15), predadores_action);
+	default_button_config(btn_presas, np_btn_presas, "Presas", LVecBase3f(0, 0, -0.05), presas_action);
+	default_button_config(btn_clima, np_btn_clima, "Clima", LVecBase3f(0, 0, -0.25), clima_action);
+	default_button_config(btn_habitat, np_btn_habitat, "Habitat", LVecBase3f(0, 0, -0.45), habitat_action);
 	///////////////////////////////////////fim dos botões de vídeos
 
-	button_config(btn_continuar, np_btn_continuar, "Continuar", -0.55, -0.9, continuar_action);
-	button_config(btn_sair, np_btn_sair, "Sair", 0.4, -0.9, sair_action);
-
-	//			////adicionando os eventos na fila
-	//			Simdunas::get_evt_handler()->add_hook(botao_voltar_jogo->get_click_event(MouseButton::one()), chama_pause_game, this);
-	//			Simdunas::get_evt_handler()->add_hook(btn_lagartos->get_click_event(MouseButton::one()), btn_lagartos_action, this);
-	//			Simdunas::get_evt_handler()->add_hook(predadores->get_click_event(MouseButton::one()), predadores_play, this);
-	//			Simdunas::get_evt_handler()->add_hook(presas->get_click_event(MouseButton::one()), presas_play, this);
-	//			Simdunas::get_evt_handler()->add_hook(habitat->get_click_event(MouseButton::one()), habitat_play, this);
-	//			Simdunas::get_evt_handler()->add_hook(variacao_clima->get_click_event(MouseButton::one()), clima_play, this);
+	default_button_config(btn_continuar, np_btn_continuar, "Continuar", LVecBase3f(-0.55, 0, -0.9), continuar_action);
+	default_button_config(btn_sair, np_btn_sair, "Sair", LVecBase3f(0.4, 0, -0.9), sair_action);
 }
 
 void PauseScreen::pause_event() {
@@ -62,15 +54,7 @@ void PauseScreen::pause_event() {
 		Session::get_instance()->stop_animations();
 		if (!TimeControl::get_instance()->get_stop_time()) {//se o tempo ja estiver parado ele naum pausa o jogo
 			load();
-			titulo.show();
-			img_videos.show();
-			np_btn_clima.show();
-			np_btn_continuar.show();
-			np_btn_habitat.show();
-			np_btn_lagartos.show();
-			np_btn_predadores.show();
-			np_btn_presas.show();
-			np_btn_sair.show();
+			Screen::show();
 			TimeControl::get_instance()->set_stop_time(true);
 			stopped_time = true;
 		}
@@ -97,27 +81,6 @@ void PauseScreen::unload() {
 	btn_clima = NULL;
 }
 
-/*! Configura um botão dado os parametros para este menu */
-void PauseScreen::default_button_config(PT(Button) button, NodePath &np,
-		const string &text, float z, EventCallbackFunction *action) {
-
-	/* Cria um botão padrão, coloca no nó root e define o z */
-	button = new Button(text + "-button", text, manager->get_default_font());
-	np = get_root().attach_new_node(button);
-	np.set_z(z);
-
-	/* Cadastrando o evento */
-	string event_name = button->get_click_event(MouseButton::one());
-	manager->get_event_handler()->add_hook(event_name, action, this);
-}
-
-void PauseScreen::button_config(PT(Button) button, NodePath &np,
-		const string &text, float x, float z, EventCallbackFunction *action) {
-
-	default_button_config(button, np, text, z, action);
-	np.set_x(x);
-}
-
 void PauseScreen::show() {
 	pause_event();
 
@@ -129,15 +92,7 @@ void PauseScreen::show() {
 }
 
 void PauseScreen::hide() {
-	titulo.hide();
-	img_videos.hide();
-	np_btn_clima.hide();
-	np_btn_continuar.hide();
-	np_btn_habitat.hide();
-	np_btn_lagartos.hide();
-	np_btn_predadores.hide();
-	np_btn_presas.hide();
-	np_btn_sair.hide();
+	Screen::hide();
 
 	// se selecionou um vídeo, precisa esconder a barra de status
 	if (selected_video) {

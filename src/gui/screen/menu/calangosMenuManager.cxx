@@ -19,6 +19,8 @@
 #include "characterEditor.h"
 #include "levelSelectionScreen.h"
 
+PT(CalangosMenuManager) CalangosMenuManager::instance = NULL;
+
 CalangosMenuManager::CalangosMenuManager() : ScreenManager() {
 	/* Carrega uma fonte estática */
 	default_menu_font = FontPool::load_font("models/gui/fonts/suplexcomic-large.egg");
@@ -26,6 +28,13 @@ CalangosMenuManager::CalangosMenuManager() : ScreenManager() {
 	open_screen(main_menu);
 
 	play_video("models/videos/vinheta_opcao_1_mpeg4.avi");
+}
+
+PT(CalangosMenuManager) CalangosMenuManager::get_instance() {
+	if (instance == NULL) {
+		instance = new CalangosMenuManager();
+	}
+	return instance;
 }
 
 void CalangosMenuManager::create_menus(){
@@ -37,7 +46,7 @@ void CalangosMenuManager::create_menus(){
 	key_instructions_screen = new KeyInstructionsScreen(this);
 	indicators_screen = new IndicatorsScreen(this);
 	game_options_screen = new GameOptionsScreen(this);
-    levels_screen = new LevelSelectionScreen(this);
+	levels_screen = new LevelSelectionScreen(this);
 	character_editor = new CharacterEditor(this);
 	texture_screen = new editorTextureScreen(this);
 
@@ -91,4 +100,8 @@ PT(Screen) CalangosMenuManager::get_editor_texture_screen() {
 
 PT(Screen) CalangosMenuManager::get_character_editor() {
 	return character_editor;
+}
+
+void CalangosMenuManager::set_loading_screen(PT(Screen) screen) {
+	loading_screen = screen;
 }

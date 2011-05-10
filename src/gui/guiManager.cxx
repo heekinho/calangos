@@ -223,7 +223,7 @@ void GuiManager::click_event_botao_grafico(const Event*, void *data) {
 
 
 		if (is_game_over) {
-			Menu::get_instance()->hide_tela_over();
+			InGameScreenManager::get_instance()->close_screen(InGameScreenManager::get_instance()->get_game_over_screen());
 		}
 		_this->game_status_bar->hide_all_status_components();
 		_this->graphics_menu->show_all_option_graphics();
@@ -400,7 +400,7 @@ void GuiManager::init_options(const Event *, void *data) {
 						InGameScreenManager::get_instance()->open_screen(InGameScreenManager::get_instance()->get_pause_screen());
 					}
 				} else {
-					Menu::get_instance()->show_tela_over();
+					InGameScreenManager::get_instance()->open_screen(InGameScreenManager::get_instance()->get_game_over_screen());
 				}
 			}
 		}

@@ -7,6 +7,7 @@
 #include "inGameScreenManager.h"
 #include "fontPool.h"
 #include "pauseScreen.h"
+#include "gameOverScreen.h"
 
 PT(InGameScreenManager) InGameScreenManager::instance = NULL;
 
@@ -25,6 +26,7 @@ PT(InGameScreenManager) InGameScreenManager::get_instance() {
 
 void InGameScreenManager::create_menus(){
 	pause_screen = new PauseScreen(this);
+	game_over_screen = new GameOverScreen(this);
 }
 
 
@@ -36,4 +38,8 @@ PT(TextFont) InGameScreenManager::get_default_font(){
 
 PT(Screen) InGameScreenManager::get_pause_screen() {
 	return pause_screen;
+}
+
+PT(Screen) InGameScreenManager::get_game_over_screen() {
+	return game_over_screen;
 }

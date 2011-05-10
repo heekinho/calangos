@@ -16,6 +16,8 @@ Session* Session::singleSession = NULL;
 #include "memoryUsage.h"
 #include "memoryUsagePointers.h"
 #include "inGameScreenManager.h"
+#include "calangosMenuManager.h"
+#include "loadingScreen.h"
 
 
 
@@ -100,6 +102,7 @@ void Session::init_session(int process_stage){
 
 /*! MainLoop. O loop principal da session */
 void Session::run(){
+	finished_loading = false;
 	//	/* Inicializa de fato a sessao, para então rodar o loop principal */
 	//	init_session();
 	//
@@ -142,6 +145,9 @@ void Session::run(){
 //		 * (ta aqui pq se não quando renicia não funciona mais) */
 //		Simdunas::get_framework()->define_key("escape", "Stop_Movie", stop_movie, this);
 
+		CalangosMenuManager::get_instance()->set_loading_screen(new LoadingScreen(CalangosMenuManager::get_instance().p()));
+		CalangosMenuManager::get_instance()->open_screen(CalangosMenuManager::get_instance()->get_loading_screen());
+		((LoadingScreen*) CalangosMenuManager::get_instance()->get_loading_screen().p())->loading_process();
 		this->run();
 	}
 }
@@ -171,7 +177,7 @@ void Session::player_death(int causa_mortis){
 
 	/* Pára o tempo */
 	TimeControl::get_instance()->set_stop_time(true);
-	Menu::get_instance()->tela_over(this);
+	InGameScreenManager::get_instance()->open_screen(InGameScreenManager::get_instance()->get_game_over_screen());
 }
 
 void Session::receive_answer(char *ans){

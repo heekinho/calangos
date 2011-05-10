@@ -16,7 +16,7 @@
 
 class CalangosMenuManager : public ScreenManager {
 public:
-	CalangosMenuManager();
+	static PT(CalangosMenuManager) get_instance();
 	~CalangosMenuManager(){}
 
 	PT(Screen) get_main_menu();
@@ -31,10 +31,14 @@ public:
 	PT(Screen) get_character_editor();
 	PT(Screen) get_level_selection_screen(){ return levels_screen; };
 
+	void set_loading_screen(PT(Screen) screen);
+
 	void create_menus();
 	PT(TextFont) get_default_font();
 
 private:
+	CalangosMenuManager();
+	static PT(CalangosMenuManager) instance;
 	PT(TextFont) default_menu_font;
 	PT(Screen) character_editor;
 	PT(Screen) main_menu;
