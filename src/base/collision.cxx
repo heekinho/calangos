@@ -12,7 +12,6 @@
 #include "collisionTube.h"
 #include "simdunas.h"
 #include "player.h"
-#include "menu.h"
 
 
 bool collision::instanceFlag = false;
