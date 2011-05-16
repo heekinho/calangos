@@ -6,7 +6,6 @@
 
 #include "clockObject.h"
 #include "eventParameter.h"
-#include "menu.h"
 #include "collision.h"
 #include "calangosMenuManager.h"
 #include "inGameScreenManager.h"

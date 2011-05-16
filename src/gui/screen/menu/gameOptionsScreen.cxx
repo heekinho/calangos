@@ -9,7 +9,6 @@
 #include "simdunas.h"
 #include "mouseButton.h"
 #include "calangosMenuManager.h"
-#include "menu.h"
 #include "fontPool.h"
 #include "editorTextureScreen.h"
 #include "collision.h"

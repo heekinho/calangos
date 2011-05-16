@@ -10,7 +10,6 @@
 #include "mouseButton.h"
 
 #include "simdunas.h"
-#include "menu.h"
 #include "calangosMenuManager.h"
 
 /*! O menu é carregado e escondido. O manager é responsável por escolher o menu */

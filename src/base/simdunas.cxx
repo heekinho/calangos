@@ -2,7 +2,6 @@
 
 #include "load_prc_file.h"
 
-#include "menu.h"
 #include "antialiasAttrib.h"
 
 #include "movieAudio.h"

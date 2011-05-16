@@ -5,7 +5,6 @@
 #include "terrain.h"
 #include "timeControl.h"
 #include "objetoJogo.h"
-#include "menu.h"
 
 #include "femaleLizard.h"
 #include "maleLizard.h"
