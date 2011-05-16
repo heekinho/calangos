@@ -40,8 +40,8 @@ private:
 	float night_visibility;
 
 	/* Testando som */
-	PT(AudioManager) AM;
-	PT(AudioSound) sound;
+//	PT(AudioManager) AM;
+//	PT(AudioSound) sound;
 };
 
 

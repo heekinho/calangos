@@ -13,8 +13,8 @@ Predator::Predator(NodePath node) : Animal(node){
 	collision::get_instance()->collisionNpcFast(&node, 0, 0, 20, 10);
 
         //testando som
-       AM = AudioManager::create_AudioManager();
-       sound = AM->get_sound("models/sounds/pc_apanhando.wav") ;
+       //AM = AudioManager::create_AudioManager();
+       //sound = AM->get_sound("models/sounds/pc_apanhando.wav") ;
 }
 
 Predator::~Predator(){}
@@ -129,7 +129,7 @@ void Predator::bite(){
 		get_anim_control()->stop_all();
 		play_anim("comer");
 
-                sound->play();//testando som
+//        sound->play();//testando som
 
 		/* Diminui energia do player */
 		Player::get_instance()->be_bited();
