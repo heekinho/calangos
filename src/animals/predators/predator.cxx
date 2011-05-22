@@ -70,6 +70,7 @@ void Predator::load_predator(const string &model, int qtd, float scale, int orie
 }
 
 
+PT(Predator) attacker = NULL;
 /*! Roda o comportamento de ações do predador.
  * O predador basicamente perambula, e ao encontrar o lagarto dentro de uma
  * certa distância ele parte para o ataque */
@@ -77,28 +78,56 @@ void Predator::act(){
 	float distance = 10;
 	PT(Player) player = Player::get_instance();
 
-	if(get_distance(*player) < distance){
-		if (get_distance(*player) < 0.3) bite();
-		else{
-			PT(Setor) setor = World::get_world()->get_terrain()->get_setor_from_pos(player->get_x(), player->get_y());
-			SectorItems<PT(Vegetal)>* vegetal_list = setor->vegetals();
-			SectorItems<PT(Vegetal)>::iterator it;
-			for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it){
-				PT(Vegetal) vegetal = *it;
-				LVector3f player_to_vegetal = player->get_pos() - vegetal->get_pos();
-				if (player_to_vegetal.length() < 3.5 || player->is_in_toca()){
-					if(!this->get_anim_control()->is_playing("comer") && !get_anim_control()->is_playing("andar"))
-						play_anim("andar");
-					Animal::act();
-					return;
+	if(Session::get_instance()->get_level() == 1){
+		if(get_distance(*player) < distance){
+			if (get_distance(*player) < 0.3) bite();
+			else{
+				PT(Setor) setor = World::get_world()->get_terrain()->get_setor_from_pos(player->get_x(), player->get_y());
+				SectorItems<PT(Vegetal)>* vegetal_list = setor->vegetals();
+				SectorItems<PT(Vegetal)>::iterator it;
+				for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it){
+					PT(Vegetal) vegetal = *it;
+					LVector3f player_to_vegetal = player->get_pos() - vegetal->get_pos();
+					if (player_to_vegetal.length() < 3.5 || player->is_in_toca()){
+						if(!this->get_anim_control()->is_playing("comer") && !get_anim_control()->is_playing("andar"))
+							play_anim("andar");
+						Animal::act();
+						return;
+					}
 				}
+				pursuit();
 			}
-			pursuit();
+		}
+		else {
+			play_anim("andar");
+			Animal::act();
 		}
 	}
 	else {
-		play_anim("andar");
-		Animal::act();
+		/* Nova ação para a fase 2.
+		 * Se a visibilidade for maior do que zero, significa que o predador é
+		 * capaz de perceber a presença do player. Um range é especificado para
+		 * se definir a chance do predador passar a atacar.
+		 * Ex.: Visibilidade 0: Predador não percebe o player
+		 * Ex.: Visibilidade 0.2: Predador tem 20% de chance de perceber o player
+		 * Porém, se esta checagem for sendo realizada por frame, como está sendo,
+		 * a visibilidade do predador sempre começa em 0 e vai aumentando a
+		 * pequenos passos. Esta checagem deve ocorrer mesmo que o predador já
+		 * tenha ativado a ação de ataque, pois o player pode se camuflar, certo? */
+		float dist = get_distance(*player);
+
+		if (dist < 0.3) bite();
+		if ((get_visibility() * 100) > (rand() % 100)) {
+			/* Testando a visibilidade do predador */
+			if(!this->get_anim_control()->is_playing("comer")) play_anim("andar");
+			pursuit();
+			attacker = this;
+		}
+		else {
+			play_anim("andar");
+			if(dist > 10.0) Animal::act();
+			else Animal::move(get_velocity());
+		}
 	}
 
 }
@@ -135,9 +164,6 @@ void Predator::bite(){
 		Player::get_instance()->be_bited();
 		Player::get_instance()->add_energia_alimento(-1.0);
 		GuiManager::get_instance()->piscar_life();
-
-                 
-                
 	}
 }
 
@@ -165,11 +191,10 @@ void Predator::set_visibility_distance(float visibility_distance){
 
 /*! Obter grau de visibilidade do predador para o player
  * vis = 1 - (d / dmax)
- * dmax = dmax0 + dcontr * contraste + dtam * tam
+ * dmax = dmax0 + (dcontr * contraste) + (dtam * tam)
  * onde:
- * dcontraste é o ganho de distância para quando o contraste for máximo (1)
- * dtam é o ganho de distância para quando o tamanho for máximo (1).
- * lembra-se que visibilidade pode continuar sendo negativo. Tem que fazer teste.
+ * - dcontraste é o ganho de distância para quando o contraste for máximo (1)
+ * - dtam é o ganho de distância para quando o tamanho for máximo (1).
  *  */
 float Predator::get_visibility(){
 	PT(Player) player = Player::get_instance();
@@ -181,12 +206,9 @@ float Predator::get_visibility(){
 
 	/* Calcula o fator exercido pela distância */
 	float distance = get_distance(*player);
-	float idist = 1.0 - (distance / get_visibility_distance());
-//	idist = idist < 0 ? 0 : idist;
-//	if(idist < 0) idist = 0;
 
 	/* Obtém fator exercido pela camuflagem do player na visibilidade */
-	float camuflagem = 1.0 - player->get_indice_camuflagem();
+	float contraste = 1.0 - player->get_indice_camuflagem();
 
 	/* Ver tamanho do player */
 	/* TODO: Não utilizar tamanho base. Utilizar outra variável com base no
@@ -194,9 +216,12 @@ float Predator::get_visibility(){
 	float tamanho = player->get_tamanho_base() * 0.01;
 
 	/* Retorna o conjunto dos fatores juntos */
-	// Fazer com media
-//	return (idist + camuflagem + tamanho)/3;
-	return (idist * camuflagem * tamanho);
+	/* dmax = dmax0 + (dcontr * contraste) + (dtam * tam) */
+	float dmax = 3 + (contraste * 2) + (tamanho * 2);
+//	float visibilidade = 1.0 - (distance / dmax);
+
+	if(distance < dmax) return 1.0 - (distance / dmax);
+	return 0;
 }
 
 
