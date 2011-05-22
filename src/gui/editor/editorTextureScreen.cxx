@@ -5,6 +5,9 @@
  * Created on 2 de Fevereiro de 2011, 15:44
  */
 
+#include "simdunas.h"
+#include "session.h"
+
 #include "editorTextureScreen.h"
 #include "nodePath.h"
 #include "textNode.h"
@@ -19,10 +22,10 @@
 #include "calangosMenuManager.h"
 
 
-  PNMImage editorTextureScreen::textura_personalizada = PNMImage("models/lizards/custom/young/teiu.jpg");
-  PNMImage editorTextureScreen::mascara = PNMImage("models/lizards/custom/young/teiu_mask.jpg");
-  PNMImage editorTextureScreen::textura_original = PNMImage("models/lizards/custom/young/teiu.jpg");
 
+PNMImage editorTextureScreen::textura_personalizada = PNMImage("models/lizards/custom/young/teiu.jpg");
+PNMImage editorTextureScreen::mascara = PNMImage("models/lizards/custom/young/teiu_mask.jpg");
+PNMImage editorTextureScreen::textura_original = PNMImage("models/lizards/custom/young/teiu.jpg");
 
 
 editorTextureScreen::editorTextureScreen(PT(ScreenManager) manager) : Screen(manager){//construtor
@@ -806,12 +809,12 @@ void editorTextureScreen::swap_texture() {//recarregar a textura personalizada d
 
 
 void editorTextureScreen::jogo_action(){
-
 	nout << "Carregando Jogo..." << endl;
-
 	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_loading_screen());
-
 	Simdunas::set_play_clicked(true);
+
+	/* Aqui o jogador clicou em jogar. Define a segunda fase */
+	Session::get_instance()->set_level(2);
 }
 
 

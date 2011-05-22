@@ -20,7 +20,6 @@ class ClimaTempo;
 
 class Session {
 public:
-
 	static Session* get_instance();
 	
 	void run();
@@ -40,6 +39,11 @@ public:
 	vector<string> get_stage_info();
 
 	bool game_over;
+
+	/* Obtém a fase do jogo selecionada pelo jogador */
+	int get_level(){ return level; };
+	void set_level(int level) { this->level = level; };
+
 private:
 
 	Session();
@@ -54,6 +58,10 @@ private:
 
 	//PT(Player) player;
 	//PlayerControl *player_control;
+
+	/* Converter para enum depois? */
+	int level;
+
 
 	int causa_mortis;
 	vector<string> stage_info; // informa��es sobre as etapas de carregamento.

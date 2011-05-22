@@ -19,10 +19,10 @@ Session* Session::singleSession = NULL;
 #include "loadingScreen.h"
 
 
-
 /*! Constroi uma session default.*/
 //Session::Session(WindowFramework *window) {
 Session::Session() {
+	level = 1;
 	finished_loading = false;
 	stage_info.push_back("Criando Repositorio de Modelos...");
 	stage_info.push_back("Criando Repositorio de Imagens...");
@@ -114,16 +114,13 @@ void Session::run(){
 	//	}
 
 	GuiManager::get_instance()->show_frameNode();
-
 	causa_mortis = -1;
-
 	Simdunas::get_framework()->do_frame(Thread::get_current_thread());
-
 
 	/* Loop principal do programa */
 	Session::get_instance()->game_over = false;
 	//Menu::get_instance()->hide_tela_over();
-	nout << "Iniciando Jogo..." << endl;
+	nout << "Iniciando Jogo... Fase: " << get_level() << endl;
 
 #ifdef PSTATS
 	if (!PStatClient::is_connected())
@@ -220,11 +217,12 @@ void Session::end_session(){
 	Player::unload_player();
 }
 
-
+/*! Tem o intuito de parar todas as animações. TODO: Ainda não faz a funcionalidade */
 void Session::stop_animations(){
 	Player::get_instance()->get_anim_control()->stop_all();
 }
 
+/*! Retorna a causa da morte do lagarto */
 int Session::get_causa_mortis(){
 	return this->causa_mortis;
 }
@@ -241,10 +239,10 @@ vector<string> Session::get_stage_info() {
 	return stage_info;
 }
 
+/*! Verifica se o processo de carregamento já terminou */
 bool Session::is_finished_loading() {
 	return finished_loading;
 }
-
 
 //void Session::stop_movie(const Event*, void* data){
 //	Menu::get_instance()->stop_movie(NULL,Menu::get_instance());
