@@ -71,7 +71,7 @@ PT(Terrain) Terrain::create_default_terrain(){
 		terrain = new Terrain("Default_Dunas_Enviroment");
 
 		// Carrega o heightfield e a textura
-		terrain->set_heightfield((Filename) "models/terrain/heightmaps/heightmap_dunes.png");
+		terrain->set_heightfield(Filename("models/terrain/heightmaps/heightmap_dunes.png"));
 
 		// Configuracoes de textura para perto
 		PT(Texture) terrain_tex_near = TexturePool::load_texture("models/terrain/tile_near.jpg");

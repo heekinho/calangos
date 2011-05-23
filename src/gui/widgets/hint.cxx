@@ -18,6 +18,7 @@
  */
 Hint::Hint(NodePath parent, NodePath reference_node, string name, string msg) {
 	btn = new PGButton(name);
+	btn->setup(reference_node);
 	np_btn = parent.attach_new_node(btn);
 	np_btn.set_scale(reference_node.get_scale());
 	np_btn.set_pos(reference_node.get_x(), reference_node.get_y(), reference_node.get_z());

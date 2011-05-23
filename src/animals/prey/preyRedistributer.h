@@ -23,9 +23,9 @@ public:
 
 	void realoc_prey(PT(Prey) prey, LPoint3f ref);
 
-	static const float dist_min = 5.0;
-	static const float dist_mid = 6.0;
-	static const float dist_max = 10.0;
+	static const float dist_min;// = 5.0;
+	static const float dist_mid;// = 6.0;
+	static const float dist_max;// = 10.0;
 
 	LPoint2f generate_distribution_point();
 	static float random(float lower, float higher);

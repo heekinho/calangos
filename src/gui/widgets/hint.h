@@ -9,6 +9,7 @@
 #define HINT_H
 
 #include "pandaFramework.h"
+#include "pgButton.h"
 
 class Hint {
 

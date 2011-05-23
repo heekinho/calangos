@@ -10,6 +10,10 @@
 
 #include "groupPrey.h"
 
+const float PreyRedistributer::dist_min = 5.0;
+const float PreyRedistributer::dist_mid = 6.0;
+const float PreyRedistributer::dist_max = 10.0;
+
 /*! Cria e inicialiaza o método de redistribuição de presas */
 PreyRedistributer::PreyRedistributer(list<PT(Prey)> preys){
 	this->_preys = preys;
