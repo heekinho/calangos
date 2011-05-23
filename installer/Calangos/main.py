@@ -6,4 +6,5 @@ bindir=os.path.abspath(sys.path[8])
 gameenv=os.environ
 #print gameenv['PATH']
 gameenv['PATH'] += os.pathsep + bindir
-os.execle('calangos.exe',gameenv)
+a = ['calangos.exe']
+os.execve('calangos.exe', a, gameenv)
