@@ -23,7 +23,7 @@ PT(CalangosMenuManager) CalangosMenuManager::instance = NULL;
 
 CalangosMenuManager::CalangosMenuManager() : ScreenManager() {
 	/* Carrega uma fonte estática */
-	default_menu_font = FontPool::load_font("models/gui/fonts/suplexcomic-large.egg");
+	default_menu_font = FontPool::load_font("models/gui/fonts/suplexcomic-large");
 	create_menus();
 	open_screen(main_menu);
 

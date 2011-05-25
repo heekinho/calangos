@@ -79,8 +79,8 @@ void Player::eat(Edible* food){
 	add_energia_alimento(food->get_nutritional_value());
 	add_hidratacao_alimento(food->get_hydration_value());
         //TESTANDO TOCAR SOM QUANDO COME
-        cout<< "Testando som <<<< Comeu!!!!"<< endl;
-        audioRepository::play_sound("mordida");
+        //cout<< "Testando som <<<< Comeu!!!!"<< endl;
+        //audioRepository::play_sound("mordida");
         
 
 

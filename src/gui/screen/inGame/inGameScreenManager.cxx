@@ -13,7 +13,7 @@ PT(InGameScreenManager) InGameScreenManager::instance = NULL;
 
 InGameScreenManager::InGameScreenManager() : ScreenManager() {
 	/* Carrega uma fonte estática */
-	default_menu_font = FontPool::load_font("models/gui/fonts/suplexcomic-large.egg");
+	default_menu_font = FontPool::load_font("models/gui/fonts/suplexcomic-large");
 	create_menus();
 }
 
