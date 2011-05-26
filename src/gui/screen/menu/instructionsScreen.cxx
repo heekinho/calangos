@@ -18,7 +18,9 @@ InstructionsScreen::InstructionsScreen(PT(ScreenManager) manager) : Screen(manag
 	hide();
 }
 
-InstructionsScreen::~InstructionsScreen(){}
+InstructionsScreen::~InstructionsScreen() {
+	unload();
+}
 
 void InstructionsScreen::load(){
 	lb_titulo = new TextNode("txt_titulo");

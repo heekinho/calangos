@@ -18,7 +18,9 @@ KeyInstructionsScreen::KeyInstructionsScreen(PT(ScreenManager) manager) : Screen
 	hide();
 }
 
-KeyInstructionsScreen::~KeyInstructionsScreen(){}
+KeyInstructionsScreen::~KeyInstructionsScreen() {
+	unload();
+}
 
 void KeyInstructionsScreen::load(){
 	/////Carregando tela teclas

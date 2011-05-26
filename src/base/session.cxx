@@ -88,6 +88,7 @@ void Session::init_session(int process_stage){
 			nout << "Criando Interface..." << endl;
 			GuiManager::get_instance();
 			GuiManager::get_instance()->hide_frameNode();
+			InGameScreenManager::get_instance();
 			causa_mortis = -1;
 			break;
 		case 10:

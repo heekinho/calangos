@@ -15,7 +15,9 @@ CreditsScreen::CreditsScreen(PT(ScreenManager) manager) : Screen(manager) {
 	hide();
 }
 
-CreditsScreen::~CreditsScreen() {}
+CreditsScreen::~CreditsScreen() {
+	unload();
+}
 
 void CreditsScreen::load() {
     img_credit = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render_2d(), "models/apoio-creditos.jpg");

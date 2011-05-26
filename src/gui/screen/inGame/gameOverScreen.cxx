@@ -18,7 +18,9 @@ GameOverScreen::GameOverScreen(PT(ScreenManager) manager) : Screen(manager){
 	hide();
 }
 
-GameOverScreen::~GameOverScreen(){}
+GameOverScreen::~GameOverScreen() {
+	unload();
+}
 
 void GameOverScreen::load(){
 	//Tela de game over

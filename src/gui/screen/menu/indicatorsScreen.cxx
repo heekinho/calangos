@@ -15,7 +15,9 @@ IndicatorsScreen::IndicatorsScreen(PT(ScreenManager) manager) : Screen(manager) 
 	hide();
 }
 
-IndicatorsScreen::~IndicatorsScreen() {}
+IndicatorsScreen::~IndicatorsScreen() {
+	unload();
+}
 
 void IndicatorsScreen::load() {
 	img_indicadores = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render_2d(), "models/gui/icones.png");

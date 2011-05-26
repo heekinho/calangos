@@ -34,6 +34,7 @@ public:
 	void set_loading_screen(PT(Screen) screen);
 
 	void create_menus();
+	void unload_menus();
 	PT(TextFont) get_default_font();
 
 private:

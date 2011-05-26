@@ -18,7 +18,9 @@ OptionsScreen::OptionsScreen(PT(ScreenManager) manager) : Screen(manager){
 	hide();
 }
 
-OptionsScreen::~OptionsScreen(){}
+OptionsScreen::~OptionsScreen() {
+	unload();
+}
 
 void OptionsScreen::load(){
 	lb_titulo = new TextNode("txt_titulo");

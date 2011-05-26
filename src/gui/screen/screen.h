@@ -22,7 +22,7 @@ class ScreenManager;
 class Screen : public ReferenceCount {
 public:
 	Screen(PT(ScreenManager) manager);
-	~Screen();
+	virtual ~Screen();
 
 	virtual void show();
 	virtual void hide();

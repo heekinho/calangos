@@ -14,7 +14,9 @@ LevelSelectionScreen::LevelSelectionScreen(PT(ScreenManager) manager) : Screen(m
 	hide();
 }
 
-LevelSelectionScreen::~LevelSelectionScreen(){}
+LevelSelectionScreen::~LevelSelectionScreen() {
+	unload();
+}
 
 void LevelSelectionScreen::load(){
 	PT(TextFont) font = manager->get_default_font();
@@ -25,7 +27,12 @@ void LevelSelectionScreen::load(){
 }
 
 void LevelSelectionScreen::unload() {
-
+	btn_back = NULL;
+	btn_level_one = NULL;
+	btn_level_two = NULL;
+	np_btn_back.remove_node();
+	np_btn_level_one.remove_node();
+	np_btn_level_two.remove_node();
 }
 
 /*! Aciona carregamento da fase 1 */

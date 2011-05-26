@@ -19,7 +19,9 @@ PauseScreen::PauseScreen(PT(ScreenManager) manager) : Screen(manager){
 	hide();
 }
 
-PauseScreen::~PauseScreen(){}
+PauseScreen::~PauseScreen() {
+	unload();
+}
 
 void PauseScreen::load(){
 	stopped_time = false;

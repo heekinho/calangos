@@ -25,6 +25,9 @@ CalangosMenuManager::CalangosMenuManager() : ScreenManager() {
 	/* Carrega uma fonte estática */
 	default_menu_font = FontPool::load_font("models/gui/fonts/suplexcomic-large");
 	create_menus();
+	// a loading_screen é carregada separadamente porque no caso de um reinício de jogo, somente ela
+	// precisará ser recarregada.
+	set_loading_screen(new LoadingScreen(this));
 	open_screen(main_menu);
 
 	play_video("models/videos/vinheta_opcao_1_mpeg4.avi");
@@ -39,7 +42,6 @@ PT(CalangosMenuManager) CalangosMenuManager::get_instance() {
 
 void CalangosMenuManager::create_menus(){
 	main_menu = new StartMenu(this);
-	loading_screen = new LoadingScreen(this);
 	credits_screen = new CreditsScreen(this);
 	options_screen = new OptionsScreen(this);
 	instructions_screen = new InstructionsScreen(this);
@@ -49,10 +51,19 @@ void CalangosMenuManager::create_menus(){
 	levels_screen = new LevelSelectionScreen(this);
 	character_editor = new CharacterEditor(this);
 	texture_screen = new editorTextureScreen(this);
+}
 
-
-	//	main_menu->load();
-
+void CalangosMenuManager::unload_menus() {
+	main_menu = NULL;
+	credits_screen = NULL;
+	options_screen = NULL;
+	instructions_screen = NULL;
+	key_instructions_screen = NULL;
+	indicators_screen = NULL;
+	game_options_screen = NULL;
+	levels_screen = NULL;
+	character_editor = NULL;
+	texture_screen = NULL;
 }
 
 

@@ -20,7 +20,9 @@ GameOptionsScreen::GameOptionsScreen(PT(ScreenManager) manager) : Screen(manager
 	hide();
 }
 
-GameOptionsScreen::~GameOptionsScreen() {}
+GameOptionsScreen::~GameOptionsScreen() {
+	unload();
+}
 
 void GameOptionsScreen::load() {
 	ratio = 0;

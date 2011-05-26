@@ -90,6 +90,7 @@ int main(int argc, char *argv[]) {
 
 		//		/* Inicia uma sessão padrão */
 		//		Session::get_instance()->run();
+		CalangosMenuManager::get_instance()->unload_menus();
 		LoadingScreen* loading_screen = (LoadingScreen*) menu_manager->get_loading_screen().p();
 		loading_screen->loading_process();
 	} else {

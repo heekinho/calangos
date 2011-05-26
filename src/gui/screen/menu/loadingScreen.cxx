@@ -22,7 +22,7 @@ LoadingScreen::LoadingScreen(PT(ScreenManager) manager) : Screen(manager) {
 
 
 LoadingScreen::~LoadingScreen() {
-
+	unload();
 }
 
 

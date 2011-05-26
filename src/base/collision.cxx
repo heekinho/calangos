@@ -20,7 +20,7 @@ CollisionHandlerPusher pusher;
 CollisionTraverser* collTravPlayer;
 CollisionTraverser* collTravSlow;
 //para desativar a colisão no jogo basta colocar false neste variável:
-bool collision::colisao = false;
+bool collision::colisao = true;
 
 
 collision::collision() {
