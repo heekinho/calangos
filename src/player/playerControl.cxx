@@ -383,8 +383,10 @@ struct EdibleInfo {
 /*! Efetua acao de comer. Verifica se tem algum npc em volta e come */
 void PlayerControl::eat(const Event*, void *data){
 	/* Verifica a posição do mouse... Se estiver sobre a interface não executa a ação de comer */
-	MouseWatcher *mwatcher = DCAST(MouseWatcher, Simdunas::get_window()->get_mouse().node());
-	if(!(mwatcher->has_mouse() && mwatcher->get_mouse_x() < 0.57 && !TimeControl::get_instance()->get_stop_time())) return;
+	//MouseWatcher *mwatcher = DCAST(MouseWatcher, Simdunas::get_window()->get_mouse().node());
+	//if(!(mwatcher->has_mouse() && mwatcher->get_mouse_x() < 0.57 && !TimeControl::get_instance()->get_stop_time())) return;
+
+	if (TimeControl::get_instance()->get_stop_time()) return;
 
 	PlayerControl* this_control = (PlayerControl*) data;
 	PT(Player) player = Player::get_instance();
