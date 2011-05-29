@@ -5,6 +5,9 @@
  */
 
 #include "button.h"
+#include "simdunas.h"
+#include "audioRepository.h"
+#include "mouseButton.h"
 
 Button::Button(const string &name, const string &text, PT(TextFont) font, float scale) : PGButton(name){
 	build(name, text, font, scale);
@@ -38,6 +41,9 @@ void Button::build(const string &name, const string &text, PT(TextFont) font, fl
 
 	/* Gera o comportamento padrão */
 	setup(btn_normal, btn_depressed, btn_hover);
+
+	Simdunas::get_evt_handler()->add_hook(this->get_enter_event(), enter_event, this);
+	Simdunas::get_evt_handler()->add_hook(this->get_click_event(MouseButton::one()), click_event, this);
 }
 
 
@@ -48,4 +54,12 @@ Button::~Button(){
 
 float Button::get_text_width(){
 	return tnode->get_width();
+}
+
+void Button::enter_event(const Event*, void *data) {
+	audioRepository::get_instance()->play_sound("mouse_on");
+}
+
+void Button::click_event(const Event*, void *data) {
+	audioRepository::get_instance()->play_sound("mouse_click");
 }

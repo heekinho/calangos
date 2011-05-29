@@ -13,6 +13,7 @@
 #include "pStatTimer.h"
 #include "screen.h"
 #include "inGameScreenManager.h"
+#include "audioRepository.h"
 
 
 #define VEL_WALK 20.0
@@ -404,6 +405,7 @@ void PlayerControl::eat(const Event*, void *data){
 
 	if(sorteio > player->get_temp_interna()) {
 		nout << "Temperatura baixa - falha na ação de comer..." << endl;
+		Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, missed_bite, NULL);
 		eat_fail = true;
 		Player::get_instance()->add_energia_alimento(-0.1);
 		return;
@@ -423,7 +425,10 @@ void PlayerControl::eat(const Event*, void *data){
 	}
 
 	/* Se o tipo não for reconhecido, cai fora. Era pra fazer if, mas... */
-	if(type_of_closest == -1) return;
+	if(type_of_closest == -1) {
+		Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, missed_bite, NULL);
+		return;
+	}
 
 	/* Configuração de distância. Quando os objetos estaram no raio de ação do player.*/
 	float act_dist_thr = player->get_eat_radius_thr();
@@ -523,9 +528,25 @@ void PlayerControl::eating(const Event* evt, void *data){
 	PlayerControl::get_instance()->last_eating_frame = frame;
 }
 
+void PlayerControl::missed_bite(const Event* evt, void *data){
+	PT(Player) player = Player::get_instance();
+
+	int frame = player->get_anim_control()->get_frame("fast_bite");
+
+	/* last_eating_frame > frame -- Corrige o loop da animação */
+	if(frame > 40 || PlayerControl::get_instance()->last_eating_frame > frame){
+		audioRepository::get_instance()->play_sound("falha_mordida");
+		Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_pass_frame, missed_bite, data);
+	}
+
+}
+
 //consolide_eating();
 #include "groupPrey.h"
 void PlayerControl::really_eat(const Event*, void *data){
+	cout<< "Testando som <<<< Comeu!!!!"<< endl;
+	audioRepository::get_instance()->play_sound("mordida");
+
 	EdibleInfo* the_data = (EdibleInfo*) data;
 
 	/* Exclui de fato o "objeto" comido */

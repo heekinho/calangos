@@ -36,6 +36,7 @@ public:
 
 	// Testando... Mesmo que não vá ficar aqui.
 	static void eat(const Event*, void *data);
+	static void missed_bite(const Event*, void *data);
 	static void toca_control(const Event*, void *data);
 	static void really_eat(const Event*, void *data);
     static void chama_pause(const Event*, void *data);
