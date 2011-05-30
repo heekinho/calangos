@@ -5,6 +5,7 @@
 #include "modelRepository.h"
 
 #include "collision.h"
+#include "antialiasAttrib.h"
 
 /*! Constrói um Predador */
 Predator::Predator(NodePath node) : Animal(node){
@@ -15,6 +16,34 @@ Predator::Predator(NodePath node) : Animal(node){
         //testando som
        //AM = AudioManager::create_AudioManager();
        //sound = AM->get_sound("models/sounds/pc_apanhando.wav") ;
+
+	is_attacking = false;
+	check_visibility_expired = false;
+
+
+	/* Debug Visibility Circle */
+	float angle_degrees = 360, num_steps = 32;
+	float angle_radians = deg_2_rad(angle_degrees);
+	LineSegs circle = LineSegs();
+	circle.set_color(0, 0, 1, 1);
+	for(int i = 0; i <= num_steps; i++){
+		float a = angle_radians * i / num_steps;
+		float y = sin(a);
+		float x = cos(a);
+
+		circle.draw_to(x, 0, y);
+	}
+
+	debug_visibility_circle = NodePath(circle.create(false));
+	debug_visibility_circle.set_p(90);
+	debug_visibility_circle.flatten_light();
+	debug_visibility_circle.set_bin("fixed", 40);
+	debug_visibility_circle.set_depth_test(false);
+	debug_visibility_circle.set_depth_write(false);
+	debug_visibility_circle.reparent_to(Simdunas::get_window()->get_render());
+	debug_visibility_circle.show();
+	debug_visibility_circle.set_antialias(AntialiasAttrib::M_line);
+	/* Debug Visibility Circle */
 }
 
 Predator::~Predator(){}
@@ -28,7 +57,7 @@ void Predator::load_predators(){
 	Predator::load_predator("siriema", 7, 0.03, -1);
 
 	ModelRepository::get_instance()->get_animated_model("raposa")->set_length(0.80);
-	Predator::load_predator("raposa", 6, 0.01, -1);
+	Predator::load_predator("raposa", 6, 0.01, -1, Animal::A_night); // Testing
 
 	ModelRepository::get_instance()->get_animated_model("gato")->set_length(0.40);
 	Predator::load_predator("gato", 9, 0.01, -1);
@@ -45,7 +74,8 @@ void Predator::load_predators(){
 
 
 /*! Carrega uma quantidade de predadores com comportamento padrão, de determinado tipo */
-void Predator::load_predator(const string &model, int qtd, float scale, int orientation){
+void Predator::load_predator(const string &model, int qtd, float scale,
+		int orientation, Activity activity){
 	//ModelRepository::get_instance()->get_animated_model(model)->set_scale(scale);
 
 	PT(Terrain) terrain = World::get_world()->get_terrain();
@@ -66,21 +96,24 @@ void Predator::load_predator(const string &model, int qtd, float scale, int orie
 
 		/* Roda a animação */
 		predator->loop_anim("andar");
+
+		predator->set_activity(activity);
 	}
 }
 
 
-PT(Predator) attacker = NULL;
 /*! Roda o comportamento de ações do predador.
  * O predador basicamente perambula, e ao encontrar o lagarto dentro de uma
  * certa distância ele parte para o ataque */
 void Predator::act(){
-	float distance = 10;
+	static float distance = 10;
+	static float eat_thr = 0.3;
+
 	PT(Player) player = Player::get_instance();
 
 	if(Session::get_instance()->get_level() == 1){
 		if(get_distance(*player) < distance){
-			if (get_distance(*player) < 0.3) bite();
+			if (get_distance(*player) < eat_thr) bite();
 			else{
 				PT(Setor) setor = World::get_world()->get_terrain()->get_setor_from_pos(player->get_x(), player->get_y());
 				SectorItems<PT(Vegetal)>* vegetal_list = setor->vegetals();
@@ -114,14 +147,34 @@ void Predator::act(){
 		 * a visibilidade do predador sempre começa em 0 e vai aumentando a
 		 * pequenos passos. Esta checagem deve ocorrer mesmo que o predador já
 		 * tenha ativado a ação de ataque, pois o player pode se camuflar, certo? */
+
+		/* Pergunta: A presa deve poder ser perseguida por mais de um predador?
+		 * Além da questão biológica, precisa-se testar a questão de jogabilidade */
+
 		float dist = get_distance(*player);
 
-		if (dist < 0.3) bite();
-		if ((get_visibility() * 100) > (rand() % 100)) {
-			/* Testando a visibilidade do predador */
+		/* Se a distância for menor que o limiar para comer, sem conversa. morder! */
+		if (dist < eat_thr) bite();
+
+		/* Se o teste de visibilidade expirou, é hora de fazer o teste novamente */
+		if(!check_visibility_expired){
+			check_visibility_expired = true;
+			TimeControl::get_instance()->notify_after_n_seconds(2, check_visibility, this);
+		}
+
+		/* No final das contas, acho que não iremos usar nada disso. Como foi
+		 * discutido, os cálculos de visibilidade afetarão a distância máxima
+		 * que o predador poderá ver. Poderá até ser útil esse lance de esperar
+		 * mas não ser se vai ser usado. */
+		if(dist < debug_dist) is_attacking = true;
+		else is_attacking = false;
+
+		/* Apenas verifica o que já foi definido pela checagem de tempos em tempos.
+		 * Ao contrário da verificação essa parte é executada todos os frames para
+		 * os predadores ativos */
+		if(is_attacking){
 			if(!this->get_anim_control()->is_playing("comer")) play_anim("andar");
 			pursuit();
-			attacker = this;
 		}
 		else {
 			play_anim("andar");
@@ -130,7 +183,39 @@ void Predator::act(){
 		}
 	}
 
+	/* Atualiza o círculo para debug */
+	debug_visibility_circle.set_pos(get_pos(Simdunas::get_window()->get_render()));
+	debug_visibility_circle.set_quat(get_quat(Simdunas::get_window()->get_render()));
+	debug_visibility_circle.set_scale(debug_dist);
+
+	bool is_night = TimeControl::get_instance()->is_night();
+	if(is_night && (get_activity() == A_day) || (!is_night && (get_activity() == A_night))){
+		debug_visibility_circle.hide();
+	} else debug_visibility_circle.show();
+
 }
+
+/*! Realiza o sorteio e limpa a flag que verifica se a verificação de visibilidade
+ *  está expirada */
+void Predator::check_visibility(const Event*, void* data){
+	Predator* predator = (Predator*) data;
+
+	/* Verifica se o predador passará a perseguir a presa, pois a visibilidade
+	 * foi sorteada dada a visibilidade da presa em relação ao predador */
+	if ((predator->get_visibility() * 100) > (rand() % 100)) {
+		predator->is_attacking = true;
+	}
+	else predator->is_attacking = false;
+
+	/* Limpa a flag que expira a propriedade */
+	predator->check_visibility_expired = false;
+
+	/* Constatando resultados. */
+	//nout << "Predador " << int(&*predator) << " verificando visibilidade, ";
+	//if(predator->is_attacking) nout << "e ficou decidido que ele está vendo o player" << endl;
+	//else nout << "e ficou decidido que ele não está vendo o player" << endl;
+}
+
 
 /*! Muda o Predador de setor */
 void Predator::change_sector(PT(Setor) new_sector){
@@ -219,6 +304,7 @@ float Predator::get_visibility(){
 	/* dmax = dmax0 + (dcontr * contraste) + (dtam * tam) */
 	float dmax = 3 + (contraste * 2) + (tamanho * 2);
 //	float visibilidade = 1.0 - (distance / dmax);
+	debug_dist = dmax;
 
 	if(distance < dmax) return 1.0 - (distance / dmax);
 	return 0;
