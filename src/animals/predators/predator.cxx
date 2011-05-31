@@ -13,14 +13,6 @@ Predator::Predator(NodePath node) : Animal(node){
 	//adiciona solido de colisão aos predadores (ficou legal esses valores para altura e raio)
 	collision::get_instance()->collisionNpcFast(&node, 0, 0, 20, 10);
 
-        //testando som
-       //AM = AudioManager::create_AudioManager();
-       //sound = AM->get_sound("models/sounds/pc_apanhando.wav") ;
-
-	is_attacking = false;
-	check_visibility_expired = false;
-
-
 	/* Debug Visibility Circle */
 	float angle_degrees = 360, num_steps = 32;
 	float angle_radians = deg_2_rad(angle_degrees);
@@ -34,16 +26,19 @@ Predator::Predator(NodePath node) : Animal(node){
 		circle.draw_to(x, 0, y);
 	}
 
-	debug_visibility_circle = NodePath(circle.create(false));
-	debug_visibility_circle.set_p(90);
-	debug_visibility_circle.flatten_light();
-	debug_visibility_circle.set_bin("fixed", 40);
-	debug_visibility_circle.set_depth_test(false);
-	debug_visibility_circle.set_depth_write(false);
-	debug_visibility_circle.reparent_to(Simdunas::get_window()->get_render());
-	debug_visibility_circle.show();
-	debug_visibility_circle.set_antialias(AntialiasAttrib::M_line);
-	/* Debug Visibility Circle */
+	/* Carrega apenas para a fase 2 para parar de irritar a equipe. =) */
+	if(Session::get_instance()->get_level() > 1){
+		/* Debug Visibility Circle */
+		debug_visibility_circle = NodePath(circle.create(false));
+		debug_visibility_circle.set_p(90);
+		debug_visibility_circle.flatten_light();
+		debug_visibility_circle.set_bin("fixed", 40);
+		debug_visibility_circle.set_depth_test(false);
+		debug_visibility_circle.set_depth_write(false);
+		debug_visibility_circle.reparent_to(Simdunas::get_window()->get_render());
+		debug_visibility_circle.show();
+		debug_visibility_circle.set_antialias(AntialiasAttrib::M_line);
+	}
 }
 
 Predator::~Predator(){}
@@ -156,23 +151,11 @@ void Predator::act(){
 		/* Se a distância for menor que o limiar para comer, sem conversa. morder! */
 		if (dist < eat_thr) bite();
 
-		/* Se o teste de visibilidade expirou, é hora de fazer o teste novamente */
-		if(!check_visibility_expired){
-			check_visibility_expired = true;
-			TimeControl::get_instance()->notify_after_n_seconds(2, check_visibility, this);
-		}
-
-		/* No final das contas, acho que não iremos usar nada disso. Como foi
-		 * discutido, os cálculos de visibilidade afetarão a distância máxima
-		 * que o predador poderá ver. Poderá até ser útil esse lance de esperar
-		 * mas não ser se vai ser usado. */
-		if(dist < debug_dist) is_attacking = true;
-		else is_attacking = false;
-
 		/* Apenas verifica o que já foi definido pela checagem de tempos em tempos.
 		 * Ao contrário da verificação essa parte é executada todos os frames para
 		 * os predadores ativos */
-		if(is_attacking){
+		float dist_visibility = get_visibility();
+		if(dist < dist_visibility){
 			if(!this->get_anim_control()->is_playing("comer")) play_anim("andar");
 			pursuit();
 		}
@@ -181,39 +164,18 @@ void Predator::act(){
 			if(dist > 10.0) Animal::act();
 			else Animal::move(get_velocity());
 		}
+
+		/* Atualiza o círculo para debug */
+		debug_visibility_circle.set_pos(get_pos(Simdunas::get_window()->get_render()));
+		debug_visibility_circle.set_quat(get_quat(Simdunas::get_window()->get_render()));
+		if(dist_visibility == 0) debug_visibility_circle.hide();
+		else debug_visibility_circle.set_scale(dist_visibility);
+
+		bool is_night = TimeControl::get_instance()->is_night();
+		if(is_night && (get_activity() == A_day) || (!is_night && (get_activity() == A_night))){
+			debug_visibility_circle.hide();
+		} else debug_visibility_circle.show();
 	}
-
-	/* Atualiza o círculo para debug */
-	debug_visibility_circle.set_pos(get_pos(Simdunas::get_window()->get_render()));
-	debug_visibility_circle.set_quat(get_quat(Simdunas::get_window()->get_render()));
-	debug_visibility_circle.set_scale(debug_dist);
-
-	bool is_night = TimeControl::get_instance()->is_night();
-	if(is_night && (get_activity() == A_day) || (!is_night && (get_activity() == A_night))){
-		debug_visibility_circle.hide();
-	} else debug_visibility_circle.show();
-
-}
-
-/*! Realiza o sorteio e limpa a flag que verifica se a verificação de visibilidade
- *  está expirada */
-void Predator::check_visibility(const Event*, void* data){
-	Predator* predator = (Predator*) data;
-
-	/* Verifica se o predador passará a perseguir a presa, pois a visibilidade
-	 * foi sorteada dada a visibilidade da presa em relação ao predador */
-	if ((predator->get_visibility() * 100) > (rand() % 100)) {
-		predator->is_attacking = true;
-	}
-	else predator->is_attacking = false;
-
-	/* Limpa a flag que expira a propriedade */
-	predator->check_visibility_expired = false;
-
-	/* Constatando resultados. */
-	//nout << "Predador " << int(&*predator) << " verificando visibilidade, ";
-	//if(predator->is_attacking) nout << "e ficou decidido que ele está vendo o player" << endl;
-	//else nout << "e ficou decidido que ele não está vendo o player" << endl;
 }
 
 
@@ -274,8 +236,8 @@ void Predator::set_visibility_distance(float visibility_distance){
 	this->visibility_distance = visibility_distance;
 }
 
-/*! Obter grau de visibilidade do predador para o player
- * vis = 1 - (d / dmax)
+/*! Obter grau de visibilidade do predador para o player.
+ * Retorna distância de visibilidade do predador.
  * dmax = dmax0 + (dcontr * contraste) + (dtam * tam)
  * onde:
  * - dcontraste é o ganho de distância para quando o contraste for máximo (1)
@@ -303,11 +265,8 @@ float Predator::get_visibility(){
 	/* Retorna o conjunto dos fatores juntos */
 	/* dmax = dmax0 + (dcontr * contraste) + (dtam * tam) */
 	float dmax = 3 + (contraste * 2) + (tamanho * 2);
-//	float visibilidade = 1.0 - (distance / dmax);
-	debug_dist = dmax;
 
-	if(distance < dmax) return 1.0 - (distance / dmax);
-	return 0;
+	return dmax;
 }
 
 
