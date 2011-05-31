@@ -35,9 +35,13 @@ void Screen::set_root(NodePath new_root) {
 	root = new_root;
 }
 
+#include "button.h"
+
 /*! Mostra o menu */
 void Screen::show(){
+	Button::play_button = false;
 	root.show();
+	TimeControl::get_instance()->notify("reactivate button sounds", Button::reactivate_button_sounds, this, 0.05);
 }
 
 /*! Esconde o menu */

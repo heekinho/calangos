@@ -8,6 +8,9 @@
 #include "simdunas.h"
 #include "audioRepository.h"
 #include "mouseButton.h"
+#include "timeControl.h"
+
+bool Button::play_button = true;
 
 Button::Button(const string &name, const string &text, PT(TextFont) font, float scale) : PGButton(name){
 	build(name, text, font, scale);
@@ -47,7 +50,6 @@ void Button::build(const string &name, const string &text, PT(TextFont) font, fl
 }
 
 
-
 Button::~Button(){
 
 }
@@ -57,9 +59,16 @@ float Button::get_text_width(){
 }
 
 void Button::enter_event(const Event*, void *data) {
-	audioRepository::get_instance()->play_sound("mouse_on");
+	if(Button::play_button) audioRepository::get_instance()->play_sound("mouse_on");
 }
 
 void Button::click_event(const Event*, void *data) {
 	audioRepository::get_instance()->play_sound("mouse_click");
+}
+
+
+/*! Reativa sons do botão depois de transição da tela */
+AsyncTask::DoneStatus Button::reactivate_button_sounds(GenericAsyncTask* task, void* data){
+	Button::play_button = true;
+    return AsyncTask::DS_done;
 }

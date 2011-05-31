@@ -9,6 +9,7 @@
 
 #include "pgButton.h"
 #include "textFont.h"
+#include "genericAsyncTask.h"
 
 class Button : public PGButton {
 public:
@@ -17,6 +18,10 @@ public:
 
 	static void enter_event(const Event*, void *data);
 	static void click_event(const Event*, void *data);
+
+	static AsyncTask::DoneStatus reactivate_button_sounds(GenericAsyncTask* task, void* data);
+
+	static bool play_button;
 
 	float get_text_width();
 private:
