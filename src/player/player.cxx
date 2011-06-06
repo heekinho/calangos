@@ -19,7 +19,6 @@ Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_anim
 	_toca = NULL;
 
 	_courted_female = NULL;
-
 	_captured = false;
 
 	//int especie = Menu::get_instance()->get_especie();
@@ -36,7 +35,6 @@ Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_anim
 		set_texture(ts, ModelRepository::get_instance()->get_lagarto_personalizado(), 10);
 //		get_texture()->reload();
 	}
-
 }
 
 /*! Obtem a instancia atual da classe Player. Observe que a classe ja deve ter
@@ -98,26 +96,29 @@ void Player::display(PT(Player) player){
 	#endif
 }
 
-/** Carrega o Player */
+/*! Carrega o Player */
 void Player::load_player(){
-	//CRIA NÓ DE COLISÃO PARA O PLAYER
-	collision::get_instance()->playerCollision(Player::get_instance());
+	PT(Player) player = Player::get_instance();
 
-	Player::get_instance()->set_scale(Player::get_instance()->tamanho_lagarto_real);
-	Player::get_instance()->set_pos(255,255, 0);
+	/* Cria nó de colisão para o player */
+	collision::get_instance()->playerCollision(player);
+
+	/* Atualiza tamanho do player */
+	player->set_scale(player->get_visual_size());
+	player->set_pos(255,255, 0);
 
 	/* Posicionamento inicial do Player */
 	PT(Setor) setor = World::get_world()->get_terrain()->get_setor_from_pos(LPoint2d(256.0, 256.0));
-	Player::get_instance()->set_setor(setor);
+	player->set_setor(setor);
 	World::get_world()->get_terrain()->update_adjacent_sectors(setor);
 
-	/* Configuracoes das Animacoees */
-	Player::get_instance()->set_control_effect("walk", 1.0);
-	Player::get_instance()->get_anim_control()->get_anim(0)->set_play_rate(2.5);
-	PT(AnimControl) ac = Player::get_instance()->get_anim_control()->find_anim("fast_bite");
+	/* Configuracoes das Animações */
+	player->set_control_effect("walk", 1.0);
+	player->get_anim_control()->get_anim(0)->set_play_rate(2.5);
+	PT(AnimControl) ac = player->get_anim_control()->find_anim("fast_bite");
 	if(ac != NULL) ac->set_play_rate(2);
 
-	Player::get_instance()->reparent_to(Simdunas::get_window()->get_render());
+	player->reparent_to(Simdunas::get_window()->get_render());
 }
 
 /*! Muda de setor alem de atualizar os setores adjacentes */

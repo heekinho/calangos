@@ -12,10 +12,6 @@
 #define ENERGIA_INIT 50.0
 #define HIDRATACAO_INIT 50.0
 
-/* Tamanho máximo do lagarto (em termos dos parâmetros recebidos pela função set_scale) */
-#define TAMANHO_MAXIMO 0.0025
-/* Tamanho máximo do lagarto (em termos dos parâmetros recebidos pela função set_scale) */
-#define TAMANHO_INICIAL 0.0004
 /* Tempo (em meses virtuais) em que o lagarto poderá chegar ao tamanho máximo */
 #define MESES_TAMANHO_MAXIMO 36
 
@@ -86,7 +82,7 @@ umidade_afeta_hidrat_cnem, umidade_param_cnem, temp_interna_max_cnem, temp_inter
 faixa_tolerancia_tem_interna_cnem, gasto_baixa_temp_cnem, gasto_alta_temp_cnem, vel_equi_termico_cnem};
 
 void Player::load_health(int especie){
-
+	calc_visual_size_factor();
 	calc_atualizacoes_phora();
 	lizardEpecie lizard = lizardEpecie(especie);
 
@@ -116,7 +112,9 @@ void Player::load_health(int especie){
 	num_dias = 0;
 	media_energia_mes = 0;
 
-	tamanho_lagarto_real = TAMANHO_INICIAL;
+	/* Passado pelo editor ou hardcoded para outras fases */
+	max_size = get_max_lizards_size();
+	tamanho_lagarto_real = get_min_size(); // Pelo editor
 	tamanho_lagarto_base = calc_tamanho_base(tamanho_lagarto_real);
 
 	idade = 0;
@@ -228,25 +226,117 @@ void Player::event_gasto_energia(const Event*, void *data){
 	player->soma_energia_dia = player->soma_energia_dia + player->energia;
 }
 
-
-/* Obtém o tamanho (comprimento) mínimo de lagarto permitido. Em centímetros.
- * Este valor é especificado com o lagarto em sua idade máxima */
-float Player::get_min_lizards_size(){
-	return 0.2;
+/*! Obtém o tamanho máximo que o player poderá atingir. Este é o valor que deve
+ *  ser especificado no editor de personagens */
+float Player::get_max_size(){
+	return max_size;
 }
 
-/* Obtém o tamanho (comprimento) máximo de lagarto permitido. Em centímetros.
+float Player::get_min_size(){
+	return max_size * 0.2;
+}
+
+/*! Obtém o tamanho (comprimento) máximo de lagarto permitido. Em centímetros.
  * Este valor é especificado com o lagarto em sua idade máxima */
 float Player::get_max_lizards_size(){
 	return 0.6;
 }
 
-/* Obtém um fator de 0 a 1, representando o tamanho do lagarto em comparação
- * com o menor e maior lagartos possíveis */
-float Player::fator_tamanho(){
-	return (get_tamanho_real() - get_min_lizards_size()*0.2) /
+/*! Obtém o tamanho (comprimento) mínimo de lagarto permitido. Em centímetros.
+ *  Este valor é especificado com o lagarto em sua idade máxima */
+float Player::get_min_lizards_size(){
+	return 0.2;
+}
+
+/*! Obtém um fator de 0 a 1, representando o tamanho do lagarto em comparação
+ *  com o menor e maior lagartos possíveis */
+float Player::get_absolute_size_factor(){
+	return (get_tamanho_real() - get_min_lizards_size() * 0.2) /
 		   (get_max_lizards_size() - get_min_lizards_size());
 }
+
+/*! Obtém o fator tamanho baseado no tamanho máximo e mínimo que o lagarto pode
+ * atingir. Em outras palavras é relativo ao tamanho máximo do jogador, e não
+ * ao tamanho máximo de lagartos existentes */
+float Player::get_relative_size_factor(){
+	return (get_tamanho_real() - get_min_lizards_size()) /
+		   (get_max_lizards_size() - get_min_lizards_size());
+}
+
+/*! Calcula, com base no menor tamanho possível e maior tamanho possível para
+ *  os lagartos, um valor de 0 a 100 (e não de 0 a 1).
+ *  Ou seja, retorna uma espécie de valor normalizado com base em um tamanho */
+float Player::calc_tamanho_base(float tamanho_real){
+	return 100 * (tamanho_real - get_min_size()) / (get_max_size() - get_min_size());
+}
+
+/*! Obtem a taxa de crescimento */
+float Player::get_taxa_crescimento(){
+	return taxa_crescimento;
+}
+
+/*! Deprecated. Obtem o "tamanho base" do lagarto. Este é um valor de 0 a 100,
+ *  que representa o tamanho do lagarto em relação ao tamanho máximo que este
+ *  lagarto pode atingir */
+float Player::get_tamanho_base(){
+	return this->tamanho_lagarto_base;
+}
+
+/*! Obtém o tamanho real do lagarto */
+float Player::get_tamanho_real(){
+	return this->tamanho_lagarto_real;
+}
+
+/*! Calcula o tamanho real do lagarto, além de atualizar várias variáveis
+ *  importantes da dinâmica interna do lagarto */
+void Player::calc_tamanho_lagarto_real(float media_energia_mensal){
+	if(media_energia_mensal < 90){
+		this->taxa_crescimento = media_energia_mensal/100;
+	} else {
+		this->taxa_crescimento = 1;
+	}
+
+	float add_tamanho = ((get_max_size() - get_min_size())/MESES_TAMANHO_MAXIMO)*this->taxa_crescimento;
+
+	tamanho_lagarto_real = tamanho_lagarto_real + add_tamanho;
+	if(tamanho_lagarto_real > get_max_lizards_size()) tamanho_lagarto_real = get_max_lizards_size();
+	tamanho_lagarto_base = calc_tamanho_base(tamanho_lagarto_real);
+
+	this->equi_term_atual = this->equi_term-(this->equi_term*(this->tamanho_lagarto_base/100)*0.8);
+}
+
+/*! Calcula o fator pelo qual o tamanho especificado para lagarto deverá ser
+ *  multiplicado, uma vez que os modelos vem com escalas distorcidas e por
+ *  alguma razão, o flatten_light() torna inativa as animações, mesmo com o
+ *  binding posterior. Também fica mais fácil criar distorções entre o tamanho
+ *  real e o tamanho aparente do lagarto */
+void Player::calc_visual_size_factor(){
+	/* Queremos obter o tamanho do lagarto sem nenhum transform */
+	CPT(TransformState) transform = get_transform();
+	clear_transform();
+
+	/* Calcula o tamanho real do lagarto */
+	LPoint3f min, max;
+	calc_tight_bounds(min, max);
+	float length = (max - min).get_y();
+
+	/* Define o fator */
+	visual_size_factor = 1.0 / length;
+
+	nout << "Visual size factor: " << visual_size_factor << endl;
+
+	/* Coloca o transform de volta */
+	set_transform(transform);
+}
+
+/*! Obtém o tamanho visual do lagarto */
+float Player::get_visual_size(){
+	nout << visual_size_factor * tamanho_lagarto_real << endl;
+	nout << "Tamanho real: " << tamanho_lagarto_real << endl;
+	nout << "Visual size Factor: " << visual_size_factor << endl;
+	return visual_size_factor * tamanho_lagarto_real;
+}
+
 
 /*! Na passagem do dia, faz a média diária de energia, e armazena a soma.
 *   Essa média servirá para determinar o quanto o lagarto irá crescer na passagem de um mês.*/
@@ -281,7 +371,8 @@ void Player::event_pmonth(const Event*, void *data){
 	player->calc_tamanho_lagarto_real(player->media_energia_mes);
 
 	/* Ajusta o novo tamanho do personagem */
-	player->set_scale(Simdunas::get_window()->get_render(), player->tamanho_lagarto_real);
+	player->set_scale(Simdunas::get_window()->get_render(), player->get_visual_size());
+//	player->set_scale(Simdunas::get_window()->get_render(), player->tamanho_lagarto_real);
 	//player->set_length(100 * player->tamanho_lagarto_real, true);
 
 	/* Aumenta a idade do lagarto */
@@ -374,7 +465,6 @@ void Player::calc_temp_interna(){
       
 }
 
-
 /*! Calcula a letargia do lagarto
  * 0 - Nenhuma letargia (temperatura interna maior que a ideal)
  * 1 - Total letargia - culmina na morte do lagarto */
@@ -423,29 +513,6 @@ void Player::calc_atualizacoes_phora(){
 	//this->atualizacoes_phora = 60*(TimeControl::get_instance()->get_seconds_min());
 }
 
-void Player::calc_tamanho_lagarto_real(float media_energia_mensal){
-	
-	if(media_energia_mensal < 90){
-		this->taxa_crescimento = media_energia_mensal/100;
-	}else{
-		this->taxa_crescimento = 1;
-	}
-
-	float add_tamanho = ((TAMANHO_MAXIMO - TAMANHO_INICIAL)/MESES_TAMANHO_MAXIMO)*this->taxa_crescimento;
-
-	this->tamanho_lagarto_real = this->tamanho_lagarto_real + add_tamanho;
-	if(tamanho_lagarto_real > TAMANHO_MAXIMO) tamanho_lagarto_real = TAMANHO_MAXIMO;
-	tamanho_lagarto_base = calc_tamanho_base(tamanho_lagarto_real);
-
-	this->equi_term_atual = this->equi_term-(this->equi_term*(this->tamanho_lagarto_base/100)*0.8);
-}
-
-/*! Calcula, com base no menor tamanho possível e maior tamanho possível para
- *  os lagartos, um valor de 0 a 100 (e não de 0 a 1).
- *  Ou seja, retorna uma espécie de valor normalizado com base em um tamanho */
-float Player::calc_tamanho_base(float tamanho_real){
-	return 100 * ((tamanho_real - TAMANHO_INICIAL) / (TAMANHO_MAXIMO - TAMANHO_INICIAL));
-}
 
 /*!Atualiza os valores dos vetores utiliazados para geração dos gráfico*/
 void Player::atualiza_vector(){
@@ -576,10 +643,6 @@ float Player::get_soma_energia_dia(){
 }
 
 
-float Player::get_taxa_crescimento(){
-	return taxa_crescimento;
-}
-
 float Player::get_soma_media_energia_diaria(){
 	return this->soma_media_energia_diaria;
 }
@@ -604,13 +667,6 @@ int Player::get_num_ovos(){
 	return this->num_ovos;
 }
 
-float Player::get_tamanho_base(){
-	return this->tamanho_lagarto_base;
-}
-
-float Player::get_tamanho_real(){
-	return this->tamanho_lagarto_real;
-}
 /* ------------------------------------------------------------------------- */
 /* SETTERS
  * ------------------------------------------------------------------------- */

@@ -89,21 +89,43 @@ public:
 	float get_media_energia_mes();
 	float get_soma_media_energia_diaria();
 
+/* FEATURE: Tamanho do lagarto */
+public:
 	/* Obtém o tamanho mínimo e máximo de lagartos permitidos. */
 	static float get_min_lizards_size();
 	static float get_max_lizards_size();
+	/*static*/ float get_absolute_size_factor();
 
-	/* Obtém um fator de 0 a 1, representando o tamanho do lagarto em comparação
-	 * com o menor e maior lagartos possíveis */
-	float fator_tamanho();
-
-//	/* Define o tamanho do lagarto */
-//	void set_tamanho();
+	float get_max_size();
+	float get_min_size();
+	/*static*/ float get_relative_size_factor();
 
 	/* Obtém a porcentagem do tamanho do lagarto */
 	float get_tamanho_base();
+	/* Recebe o tamanho real e retorna em uma escala de 0 a 100 */
+	float calc_tamanho_base(float tamanho_real);
+
 	float get_tamanho_real();
 	float get_taxa_crescimento();
+
+	void calc_visual_size_factor();
+	float get_visual_size();
+
+private:
+	float visual_size_factor;
+	float max_size;
+
+	/* Armazena o tamanho do lagarto que será passado como parâmetro para o
+	 * método set_scale */
+	float tamanho_lagarto_real;
+	/* Armazena o tamanho do lagarto que servirá como base para cálculo de
+	 * outros parâmetros. Poderá variar de 0 à 100 */
+	float tamanho_lagarto_base;
+	/* Valor que irá armazenar as taxas de crescimento (como um temp) */
+	float taxa_crescimento;
+
+
+public:
 
 	bool get_estado_reprodutivo();
 	int get_num_ovos();
@@ -191,9 +213,6 @@ public:
 	 * Esse valor está associado ao sucesso do lagarto nas reproduções (quanto mais melhor).*/
 	void add_ovos();
 
-	/* Recebe o tamanho real e retorna em uma escala de 0 a 100 */
-	float calc_tamanho_base(float tamanho_real);
-	
 	/* Corrige a orientação dos modelos */
 	virtual int is_inverted(){ return -1; };
 
@@ -302,16 +321,6 @@ private:
 	float soma_media_energia_diaria;
 	/* Armazena a média da energia de determinado mês */
 	float media_energia_mes;
-
-
-	/* Armazena o tamanho do lagarto que será passado como parâmetro para o
-	 * método set_scale */
-	float tamanho_lagarto_real;
-	/* Armazena o tamanho do lagarto que servirá como base para cálculo de
-	 * outros parâmetros. Poderá variar de 0 à 100 */
-	float tamanho_lagarto_base;
-	/* Valor que irá armazenar as taxas de crescimento (como um temp) */
-	float taxa_crescimento;
 
 	/* Armazena a idade do lagarto, em meses */
 	int idade;

@@ -241,8 +241,7 @@ void Predator::set_visibility_distance(float visibility_distance){
  * dmax = dmax0 + (dcontr * contraste) + (dtam * tam)
  * onde:
  * - dcontraste é o ganho de distância para quando o contraste for máximo (1)
- * - dtam é o ganho de distância para quando o tamanho for máximo (1).
- *  */
+ * - dtam é o ganho de distância para quando o tamanho for máximo (1). */
 float Predator::get_visibility(){
 	PT(Player) player = Player::get_instance();
 	bool is_night = TimeControl::get_instance()->is_night();
@@ -255,16 +254,13 @@ float Predator::get_visibility(){
 	float distance = get_distance(*player);
 
 	/* Obtém fator exercido pela camuflagem do player na visibilidade */
-	float contraste = 1.0 - player->get_indice_camuflagem();
+	float contrast = 1.0 - player->get_indice_camuflagem();
 
-	/* Ver tamanho do player */
-	/* TODO: Não utilizar tamanho base. Utilizar outra variável com base no
-	 * menor tamanho de lagarto possível e o maior tamanho */
-	float tamanho = player->get_tamanho_base() * 0.01;
+	/* Fator de 0 a 1 do tamanho do player em relação ao maior/menor lagartos */
+	float size_factor = player->get_absolute_size_factor();
 
-	/* Retorna o conjunto dos fatores juntos */
-	/* dmax = dmax0 + (dcontr * contraste) + (dtam * tam) */
-	float dmax = 3 + (contraste * 2) + (tamanho * 2);
+	/* A distância de visibilidade aumenta com os fatores */
+	float dmax = 3 + (contrast * 2) + (size_factor * 2);
 
 	return dmax;
 }
