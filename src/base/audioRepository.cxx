@@ -44,6 +44,7 @@ audioRepository * audioRepository::get_instance(){
 	 add_audio("mouse_click","models/sounds/Click_14-Partners-48.wav");
 	 //add_audio("mouse_click","models/sounds/Click_16-Partners-44.wav");
 	 //add_audio("mouse_click","models/sounds/Click_17-Partners-43.wav");
+	 add_audio("heart_beat","models/sounds/heartbea-dylan-1465.wav");
 
 }
 
