@@ -11,6 +11,81 @@
 #include "simdunas.h"
 #include "calangosMenuManager.h"
 
+#include "asyncTaskManager.h"
+#include "asyncTask.h"
+
+class DietComponent {
+public:
+	enum Type {
+		T_ants,
+		T_plants,
+		T_others
+	};
+
+	class AntSliderNotify : public PGSliderBarNotify {
+	public:
+		AntSliderNotify(DietComponent* component, int type) {
+			this->diet = component;
+			this->id = type;
+		}
+
+		virtual void slider_bar_adjust(PGSliderBar *slider_bar){
+			int a = diet->components[(id+1) % 3]->get_value();
+			int b = diet->components[(id+2) % 3]->get_value();
+			int available_points = DietComponent::total_points - (a + b);
+			if(available_points < 0) available_points = 0;
+
+			if(slider_bar->get_value() > available_points){
+				slider_bar->set_value(available_points);
+			}
+		}
+
+		DietComponent* diet;
+		int id;
+	};
+
+
+	static AsyncTask::DoneStatus update(GenericAsyncTask *task, void *user_data){
+		DietComponent* data = (DietComponent*) user_data;
+
+		for(int i = 0; i < 3; i++){
+			/* O "update" dava pau */
+			data->components[i]->set_value(data->components[i]->get_value());
+		}
+
+		return AsyncTask::DS_cont;
+	}
+
+	DietComponent(){
+		root = NodePath("Diet Component");
+		for(int i = 0; i < 3; i++){
+			PT(PGSliderBar) control = new PGSliderBar("slider");
+			control->set_range(0, total_points);
+			control->setup_slider(false, 0.5, 0.05, 0.0f);
+			control->set_value(0);
+			nout << "Page size: " << control->get_page_size() << endl;
+			control->set_page_size(1.0);
+
+			notifies[i] = new AntSliderNotify(this, i);
+			control->set_notify(notifies[i]);
+
+			components[i] = control;
+
+			nodes[i] = root.attach_new_node(control);
+			nodes[i].set_z(i * 0.1);
+		}
+
+		AsyncTaskManager::get_global_ptr()->add(
+				new GenericAsyncTask("update", update, this));
+	}
+
+	static const int total_points = 15;
+	PT(PGSliderBar) components[3];
+	PGSliderBarNotify* notifies[3];
+	NodePath nodes[3];
+	NodePath root;
+};
+
 CharacterEditor::CharacterEditor(PT(ScreenManager) manager) : Screen(manager){
 	gui = Simdunas::get_pixel_2d();
 
@@ -96,6 +171,7 @@ void CharacterEditor::configure_buttons(){
 }
 
 
+DietComponent diet_control;
 void CharacterEditor::configure_controls(){
 	/* Pai de todos os controles */
 	NodePath entry = NodePath("Size Entry");
@@ -119,6 +195,15 @@ void CharacterEditor::configure_controls(){
 	ideal_temperature = new CharacterEditorEntrySlider(entry, "Temperatura Ideal", text_generator, 0, 10, valign += offset, 0.0, "°C");
 	density = new CharacterEditorEntrySlider(entry, "Densidade de Lagartos", text_generator, 0, 10, valign += offset);
 	aggregation = new CharacterEditorEntrySlider(entry, "Agregação dos Lagartos", text_generator, 0, 10, valign += offset);
+
+//	for(int i = 0; i < 3; i++){
+//		NodePath c = entry.attach_new_node(diet_control.components[i]);
+//		c.set_z(i * 0.1);
+//	}
+
+	diet_control.root.reparent_to(get_root());
+	diet_control.root.set_x(0.3);
+	diet_control.root.set_z(0.1);
 }
 
 
