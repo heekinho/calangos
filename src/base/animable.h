@@ -13,7 +13,7 @@ public:
 	Animable();
 
 	AnimControlCollection* get_anim_control();
-	void bind_anims(PandaNode* node);
+	void bind_anims(PT(PandaNode) node);
 
 	void set_control_effect(const string &anim_name, float effect);
 	void set_blend(bool anim_blend, bool frame_blend, PartBundle::BlendType blend_type);
@@ -26,7 +26,7 @@ public:
 	void play_anim(const string &anim_name);
 	void loop_anim(const string &anim_name, bool restart = false);
 
-private:
+protected:
 	AnimControlCollection anims;
 
 	bool activated;

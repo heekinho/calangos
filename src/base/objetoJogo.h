@@ -94,7 +94,6 @@ public:
 	INLINE void set_z(const NodePath &other, float z);
 private:
 	virtual void init();
-	AnimControlCollection anims;
 
 	bool _screen_status_enabled;
 protected:
