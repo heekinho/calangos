@@ -544,7 +544,6 @@ void PlayerControl::missed_bite(const Event* evt, void *data){
 //consolide_eating();
 #include "groupPrey.h"
 void PlayerControl::really_eat(const Event*, void *data){
-	cout<< "Testando som <<<< Comeu!!!!"<< endl;
 	audioRepository::get_instance()->play_sound("mordida");
 
 	EdibleInfo* the_data = (EdibleInfo*) data;

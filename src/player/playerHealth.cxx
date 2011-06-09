@@ -746,8 +746,14 @@ void Player::set_lagarto_correndo(){
 /*! Adiciona um valor de energia relativo ao alimento em questão */
 
 void Player::add_energia_alimento(double ganho_energia_alimento){
-	if (ganho_energia_alimento < -0.1 && energia < 10) {
-		audioRepository::play_sound("heart_beat");
+	if (ganho_energia_alimento < -0.1 && energia < 20) {
+		if (energia < 10) {
+			audioRepository::get_instance()->get_audio("heart_beat")->set_play_rate(2);
+		}
+		else {
+			audioRepository::get_instance()->get_audio("heart_beat")->set_play_rate(1);
+		}
+		audioRepository::get_instance()->play_sound("heart_beat", true);
 	}
 
 	this->energia_alimento = this->energia_alimento + ganho_energia_alimento;
@@ -770,8 +776,14 @@ void Player::mordida_recebida(int tamanho_lagarto_base){
 	//energia e hidratação que o lagarto retira do outro em uma mordida é igual a 5% do seu temanho(0-100)
 	float ener_hidr_perdida = tamanho_lagarto_base/20;
 
-	if (ener_hidr_perdida > 0 && energia < 10) {
-		audioRepository::play_sound("heart_beat");
+	if (ener_hidr_perdida > 0 && energia < 20) {
+		if (energia < 10) {
+			audioRepository::get_instance()->get_audio("heart_beat")->set_play_rate(2);
+		}
+		else {
+			audioRepository::get_instance()->get_audio("heart_beat")->set_play_rate(1);
+		}
+		audioRepository::get_instance()->play_sound("heart_beat", true);
 	}
 
 	this->energia = this->energia - ener_hidr_perdida;

@@ -1,7 +1,7 @@
 
 
 #include <stddef.h>
-
+#include "simdunas.h"
 #include "audioRepository.h"
 
 audioRepository* audioRepository::instance = NULL;
@@ -9,6 +9,7 @@ audioRepository* audioRepository::instance = NULL;
 
 audioRepository::audioRepository() {
     
+	playing = false;
     AM= AudioManager::create_AudioManager();
 
     load_audio();
@@ -50,15 +51,40 @@ audioRepository * audioRepository::get_instance(){
 
  void audioRepository::add_audio(const string& name, const string& path){
 
-     audio[name]=AM->get_sound(path);
+	 PT(AudioSound) a_sound = AM->get_sound(path);
+	 a_sound->set_finished_event("finished_event");
+     audio[name] = a_sound;
 
  }
 
  //quando quiser tocar um som é só chamar este método passando o nome
-  void audioRepository::play_sound(const string& name){
+  void audioRepository::play_sound(const string& name, bool unique){
 
-     instance->audio[name]->play();
+	 //Simdunas::get_evt_handler()->add_hook(audio[name]->get_finished_event(), finished_sound, audio[name]);
+	 cout<<"length = "<<audio[name]->length()<<endl;
+	 if (unique) {
+		 if (playing) return;
+
+		 playing = true;
+		 TimeControl::get_instance()->notify("finished_sound", finished_sound, audio[name], audio[name]->length());
+	 }
+     audio[name]->play();
  }
+
+  AsyncTask::DoneStatus audioRepository::finished_sound(GenericAsyncTask* task, void* data) {
+	  cout<<"FINISHED_SOUND!"<<endl;
+	  AudioSound* a_sound = (AudioSound*) data;
+	  a_sound->stop();
+	  instance->playing = false;
+  }
+
+  bool audioRepository::is_playing() {
+	  return playing;
+  }
+
+  PT(AudioSound) audioRepository::get_audio(string name) {
+	  return audio[name];
+  }
 
  PT(AudioManager) audioRepository::get_audioManager(){
      return AM;

@@ -21,8 +21,13 @@ public:
     static audioRepository* get_instance();
     void load_audio();
     void add_audio(const string &name, const string &path);
-    static void play_sound(const string &name);
+    void play_sound(const string &name, bool unique = false);
     PT(AudioManager) get_audioManager();
+    PT(AudioSound) get_audio(string name);
+
+    static AsyncTask::DoneStatus finished_sound(GenericAsyncTask* task, void* data);
+
+    bool is_playing();
 
     virtual ~audioRepository();
 private:
@@ -32,7 +37,7 @@ private:
  std::map <string,  PT(AudioSound)> audio;
  PT(AudioManager) AM;
  PT(AudioSound) sound;
-
+ bool playing;
 
 };
 
