@@ -46,6 +46,11 @@ audioRepository * audioRepository::get_instance(){
 	 //add_audio("mouse_click","models/sounds/Click_16-Partners-44.wav");
 	 //add_audio("mouse_click","models/sounds/Click_17-Partners-43.wav");
 	 add_audio("heart_beat","models/sounds/heartbea-dylan-1465.wav");
+	 add_audio("warning","models/sounds/Warning-public_d-308.wav");
+	 add_audio("predator_hit","models/sounds/Woody_cl-Partners-69.wav");
+	 add_audio("reprod_success","models/sounds/Energy-Mystery-2370.wav");
+	 add_audio("reprod_fail","models/sounds/falha_07.mp3");
+	 add_audio("bobbing","models/sounds/falha_09.mp3");
 
 }
 

@@ -639,6 +639,9 @@ void PlayerControl::bobbing(const Event*, void *data){
 
 	/* Roda animação Bobbing */
 	player->play_anim("bobbing");
+
+	audioRepository::get_instance()->get_audio("bobbing")->set_volume(0.05);
+	audioRepository::get_instance()->play_sound("bobbing");
 }
 
 void PlayerControl::chama_pause(const Event*, void* data){

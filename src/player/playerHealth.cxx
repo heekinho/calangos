@@ -69,18 +69,18 @@ const float Player::vel_equi_termico_cnem = 0.1;
 
 /* Carrega os valores inicias para a espécie Tropidurus */
 float Player::arrayTropidurus[13] = {temperatura_interna_ideal_trop, qnt_h_sem_alimento_trop, qnt_h_baixa_hidrat_trop, 
-umidade_afeta_hidrat_trop, umidade_param_trop, temp_interna_max_trop, temp_interna_min_trop, hidrat_min_trop, 
-energia_min_trop, faixa_tolerancia_tem_interna_trop, gasto_baixa_temp_trop, gasto_alta_temp_trop, vel_equi_termico_trop};
+		umidade_afeta_hidrat_trop, umidade_param_trop, temp_interna_max_trop, temp_interna_min_trop, hidrat_min_trop,
+		energia_min_trop, faixa_tolerancia_tem_interna_trop, gasto_baixa_temp_trop, gasto_alta_temp_trop, vel_equi_termico_trop};
 
 /* Carrega os valores inicias para a espécie Europhosaurus */
 float Player::arrayEurolophosaurus[13] = {temperatura_interna_ideal_euro, qnt_h_sem_alimento_euro, qnt_h_baixa_hidrat_euro,
-umidade_afeta_hidrat_euro, umidade_param_euro, temp_interna_max_euro, temp_interna_min_euro, hidrat_min_euro, energia_min_euro,
-faixa_tolerancia_tem_interna_euro, gasto_baixa_temp_euro, gasto_alta_temp_euro, vel_equi_termico_euro};
+		umidade_afeta_hidrat_euro, umidade_param_euro, temp_interna_max_euro, temp_interna_min_euro, hidrat_min_euro, energia_min_euro,
+		faixa_tolerancia_tem_interna_euro, gasto_baixa_temp_euro, gasto_alta_temp_euro, vel_equi_termico_euro};
 
 /* Carrega os valores inicias para a espécie Cnemidosphorus */
 float Player::arrayCnemidophorus[13] = {temperatura_interna_ideal_cnem, qnt_h_sem_alimento_cnem, qnt_h_baixa_hidrat_cnem,
-umidade_afeta_hidrat_cnem, umidade_param_cnem, temp_interna_max_cnem, temp_interna_min_cnem, hidrat_min_cnem, energia_min_cnem,
-faixa_tolerancia_tem_interna_cnem, gasto_baixa_temp_cnem, gasto_alta_temp_cnem, vel_equi_termico_cnem};
+		umidade_afeta_hidrat_cnem, umidade_param_cnem, temp_interna_max_cnem, temp_interna_min_cnem, hidrat_min_cnem, energia_min_cnem,
+		faixa_tolerancia_tem_interna_cnem, gasto_baixa_temp_cnem, gasto_alta_temp_cnem, vel_equi_termico_cnem};
 
 void Player::load_health(int especie){
 	calc_visual_size_factor();
@@ -94,7 +94,7 @@ void Player::load_health(int especie){
 	}else{
 		init_cnemidophorus_lizard();
 	}
-	
+
 	equi_term_atual = equi_term;
 	//valores que independem da espécie do lagarto	
 	energia = ENERGIA_INIT;
@@ -188,7 +188,7 @@ void Player::init_cnemidophorus_lizard(){
 void Player::event_gasto_energia(const Event*, void *data){
 
 	PT(Player) player = (Player*) data;
-		
+
 	/* Chama as funções para atualizar a saúde do lagarto */
 	//WARNING: Ordem é importante
 	player->calc_temp_interna();
@@ -253,7 +253,7 @@ float Player::get_min_lizards_size(){
  *  com o menor e maior lagartos possíveis */
 float Player::get_absolute_size_factor(){
 	return (get_tamanho_real() - get_min_lizards_size() * 0.2) /
-		   (get_max_lizards_size() - get_min_lizards_size());
+			(get_max_lizards_size() - get_min_lizards_size());
 }
 
 /*! Obtém o fator tamanho baseado no tamanho máximo e mínimo que o lagarto pode
@@ -261,7 +261,7 @@ float Player::get_absolute_size_factor(){
  * ao tamanho máximo de lagartos existentes */
 float Player::get_relative_size_factor(){
 	return (get_tamanho_real() - get_min_lizards_size()) /
-		   (get_max_lizards_size() - get_min_lizards_size());
+			(get_max_lizards_size() - get_min_lizards_size());
 }
 
 /*! Calcula, com base no menor tamanho possível e maior tamanho possível para
@@ -340,7 +340,7 @@ float Player::get_visual_size(){
 
 
 /*! Na passagem do dia, faz a média diária de energia, e armazena a soma.
-*   Essa média servirá para determinar o quanto o lagarto irá crescer na passagem de um mês.*/
+ *   Essa média servirá para determinar o quanto o lagarto irá crescer na passagem de um mês.*/
 void Player::event_pday(const Event*, void *data){
 	PT(Player) player = (Player*) data;
 
@@ -363,7 +363,7 @@ void Player::event_pmonth(const Event*, void *data){
 
 	/* Calcula a média de energia diária do mês */
 	player->media_energia_mes = player->soma_media_energia_diaria/player->num_dias;
-	
+
 	player->num_dias = 0;
 	player->soma_media_energia_diaria = 0;
 
@@ -373,7 +373,7 @@ void Player::event_pmonth(const Event*, void *data){
 
 	/* Ajusta o novo tamanho do personagem */
 	player->set_scale(Simdunas::get_window()->get_render(), player->get_visual_size());
-//	player->set_scale(Simdunas::get_window()->get_render(), player->tamanho_lagarto_real);
+	//	player->set_scale(Simdunas::get_window()->get_render(), player->tamanho_lagarto_real);
 	//player->set_length(100 * player->tamanho_lagarto_real, true);
 
 	/* Aumenta a idade do lagarto */
@@ -455,15 +455,38 @@ void Player::calc_gasto_basal(){
 /*! Calcula a temperatura interna do lagarto */
 void Player::calc_temp_interna(){
 
+	double temp;
 	if(in_toca){
-		this->temp_interna = this->temp_interna + this->equi_term_atual*(MicroClima::get_instance()->get_temp_toca_sector() - this->temp_interna);
-                
+		temp = this->temp_interna + this->equi_term_atual*(MicroClima::get_instance()->get_temp_toca_sector() - this->temp_interna);
+
 	}else{
-		this->temp_interna = this->temp_interna + this->equi_term_atual*(MicroClima::get_instance()->get_temp_solo_sector() - this->temp_interna);
-                
+		temp = this->temp_interna + this->equi_term_atual*(MicroClima::get_instance()->get_temp_solo_sector() - this->temp_interna);
+
 	}
-        
-      
+
+	if (this->temp_interna > 41) {
+		if (this->temp_interna < temp) {
+			audioRepository::get_instance()->get_audio("warning")->set_volume(1);
+		}
+		else {
+			cout<<"estou abaixando o volume!!!"<<endl;
+			audioRepository::get_instance()->get_audio("warning")->set_volume(0.4);
+		}
+		audioRepository::get_instance()->play_sound("warning");
+	}
+	else if (this->temp_interna < 16) {
+		if (this->temp_interna > temp) {
+			audioRepository::get_instance()->get_audio("warning")->set_volume(1);
+		}
+		else {
+			cout<<"estou abaixando o volume!!!"<<endl;
+			audioRepository::get_instance()->get_audio("warning")->set_volume(0.4);
+		}
+		audioRepository::get_instance()->play_sound("warning");
+	}
+
+	temp_interna = temp;
+
 }
 
 /*! Calcula a letargia do lagarto
@@ -491,6 +514,10 @@ void Player::calc_hidratacao(){
 
 	/* Hidratação já consumida */
 	this->hidratacao_alimento = 0;
+
+	if (this->hidratacao < 15) {
+		audioRepository::get_instance()->play_sound("warning", true);
+	}
 
 }
 
@@ -535,15 +562,15 @@ void Player::atualiza_vector(){
 
 	Vetores::get_instance()->addElementVectorTempo(TimeControl::get_instance()->get_hora_generica());
 
-	#if(DEBUG_PHEALTH)
-		cout << endl << "A temperatura interna do lagarto eh: " << this->temp_interna << endl;
-		cout << endl << "A temperatura interna do lagarto adicionada ao vetor foi: " << vetores->getLastElementTemperaturaLagarto() << endl;
-		cout << endl << "O tamanho do vetor de temperatura interna do lagarto eh: " << vetores->getSizeVectorTemperaturaLagarto() << endl;
+#if(DEBUG_PHEALTH)
+	cout << endl << "A temperatura interna do lagarto eh: " << this->temp_interna << endl;
+	cout << endl << "A temperatura interna do lagarto adicionada ao vetor foi: " << vetores->getLastElementTemperaturaLagarto() << endl;
+	cout << endl << "O tamanho do vetor de temperatura interna do lagarto eh: " << vetores->getSizeVectorTemperaturaLagarto() << endl;
 
-		cout << endl << "A temperatura do ambiente eh: " << MicroClima::get_instance()->get_temp_ar_sector() << endl;
-		cout << endl << "A temperatura do ambiente adicionada ao vetor foi: " << vetores->getLastElementTemperaturaAr() << endl;
-		cout << endl << "O tamanho do vetor de temperatura do ambiente eh: " << vetores->getSizeVectorTemperaturaAr() << endl;
-	#endif
+	cout << endl << "A temperatura do ambiente eh: " << MicroClima::get_instance()->get_temp_ar_sector() << endl;
+	cout << endl << "A temperatura do ambiente adicionada ao vetor foi: " << vetores->getLastElementTemperaturaAr() << endl;
+	cout << endl << "O tamanho do vetor de temperatura do ambiente eh: " << vetores->getSizeVectorTemperaturaAr() << endl;
+#endif
 }
 
 /* ------------------------------------------------------------------------- */
@@ -746,14 +773,18 @@ void Player::set_lagarto_correndo(){
 /*! Adiciona um valor de energia relativo ao alimento em questão */
 
 void Player::add_energia_alimento(double ganho_energia_alimento){
-	if (ganho_energia_alimento < -0.1 && energia < 20) {
-		if (energia < 10) {
-			audioRepository::get_instance()->get_audio("heart_beat")->set_play_rate(2);
+	if (ganho_energia_alimento < -0.1) {
+		if (energia < 20) {
+			if (energia < 10) {
+				audioRepository::get_instance()->get_audio("heart_beat")->set_play_rate(2);
+			}
+			else {
+				audioRepository::get_instance()->get_audio("heart_beat")->set_play_rate(1);
+			}
+			audioRepository::get_instance()->play_sound("heart_beat", true);
 		}
-		else {
-			audioRepository::get_instance()->get_audio("heart_beat")->set_play_rate(1);
-		}
-		audioRepository::get_instance()->play_sound("heart_beat", true);
+
+		audioRepository::get_instance()->play_sound("predator_hit");
 	}
 
 	this->energia_alimento = this->energia_alimento + ganho_energia_alimento;
