@@ -41,6 +41,7 @@ public:
 		value << me->control->get_value() << me->value_postfix;
 		me->value->set_text(value.str());
 	}
+
 //private:
 	NodePath parent;
 	NodePath np_label;
@@ -52,6 +53,7 @@ public:
 //	NodePath np_min_range, np_max_range;
 };
 
+class DietComponent;
 
 /*! Editor de personagens do jogo. */
 class CharacterEditor : public Screen {
@@ -92,6 +94,9 @@ private:
 //	PlayerProperties player_properties;
 
 	PT(PGSliderBar) slide; NodePath np_slide;
+
+
+	DietComponent* diet_control;
 };
 
 #undef ACTION

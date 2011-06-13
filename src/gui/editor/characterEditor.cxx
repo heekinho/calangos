@@ -22,64 +22,61 @@ public:
 		T_others
 	};
 
-	class AntSliderNotify : public PGSliderBarNotify {
+	class DietSlider : public PGSliderBar {
 	public:
-		AntSliderNotify(DietComponent* component, int type) {
-			this->diet = component;
-			this->id = type;
+		DietSlider(const string &name, DietComponent* diet, int id) : PGSliderBar(name){
+			_id = id;
+			_diet = diet;
 		}
 
-		virtual void slider_bar_adjust(PGSliderBar *slider_bar){
-			int a = diet->components[(id+1) % 3]->get_value();
-			int b = diet->components[(id+2) % 3]->get_value();
+		/*! Chamado quando se clica (solta o botão do mouse) na barra */
+		virtual void release(const MouseWatcherParameter &param, bool background){
+			PGSliderBar::release(param, background);
+			update_value();
+		}
+
+		/*! Chamado quando se clica (solta o botão do mouse) no botão da barra */
+		virtual void item_release(PGItem *item, const MouseWatcherParameter &param){
+			PGSliderBar::item_release(item, param);
+			update_value();
+		}
+
+		/*! Verifica se é possível que este slider assuma o valor que o usuário
+		 *  colocou. Se não for possível, move para o maior valor possível */
+		void update_value(){
+			int a = _diet->components[(_id + 1) % 3]->get_value();
+			int b = _diet->components[(_id + 2) % 3]->get_value();
+
 			int available_points = DietComponent::total_points - (a + b);
-			if(available_points < 0) available_points = 0;
 
-			if(slider_bar->get_value() > available_points){
-				slider_bar->set_value(available_points);
-			}
+			if(get_value() > available_points) set_value(available_points);
+
+			/* TODO: Atualizar o label que mostrará quantos pontos disponíveis */
 		}
 
-		DietComponent* diet;
-		int id;
+	private:
+		DietComponent* _diet;
+		int _id;
 	};
 
-
-	static AsyncTask::DoneStatus update(GenericAsyncTask *task, void *user_data){
-		DietComponent* data = (DietComponent*) user_data;
-
-		for(int i = 0; i < 3; i++){
-			/* O "update" dava pau */
-			data->components[i]->set_value(data->components[i]->get_value());
-		}
-
-		return AsyncTask::DS_cont;
-	}
 
 	DietComponent(){
 		root = NodePath("Diet Component");
 		for(int i = 0; i < 3; i++){
-			PT(PGSliderBar) control = new PGSliderBar("slider");
+			PT(PGSliderBar) control = new DietSlider("slider_"+i, this, i);
 			control->set_range(0, total_points);
 			control->setup_slider(false, 0.5, 0.05, 0.0f);
 			control->set_value(0);
-			nout << "Page size: " << control->get_page_size() << endl;
 			control->set_page_size(1.0);
-
-			notifies[i] = new AntSliderNotify(this, i);
-			control->set_notify(notifies[i]);
 
 			components[i] = control;
 
 			nodes[i] = root.attach_new_node(control);
 			nodes[i].set_z(i * 0.1);
 		}
-
-		AsyncTaskManager::get_global_ptr()->add(
-				new GenericAsyncTask("update", update, this));
 	}
 
-	static const int total_points = 15;
+	static const int total_points = 100;
 	PT(PGSliderBar) components[3];
 	PGSliderBarNotify* notifies[3];
 	NodePath nodes[3];
@@ -171,7 +168,6 @@ void CharacterEditor::configure_buttons(){
 }
 
 
-DietComponent diet_control;
 void CharacterEditor::configure_controls(){
 	/* Pai de todos os controles */
 	NodePath entry = NodePath("Size Entry");
@@ -201,9 +197,10 @@ void CharacterEditor::configure_controls(){
 //		c.set_z(i * 0.1);
 //	}
 
-	diet_control.root.reparent_to(get_root());
-	diet_control.root.set_x(0.3);
-	diet_control.root.set_z(0.1);
+	diet_control = new DietComponent();
+	diet_control->root.reparent_to(get_root());
+	diet_control->root.set_x(0.3);
+	diet_control->root.set_z(0.1);
 }
 
 
