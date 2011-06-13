@@ -14,6 +14,8 @@ public:
 	virtual void pause_animation();
 	virtual void continue_animation();
 
+	static AsyncTask::DoneStatus frog_sound(GenericAsyncTask* task, void* data);
+
 private:
 	int jumps;
 	bool jumping;

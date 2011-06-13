@@ -27,6 +27,7 @@ Predator::Predator(NodePath node) : Animal(node){
 	}
 
 	/* Carrega apenas para a fase 2 para parar de irritar a equipe. =) */
+	// Muito obrigado. by: Jubaz hehe =D
 	if(Session::get_instance()->get_level() > 1){
 		/* Debug Visibility Circle */
 		debug_visibility_circle = NodePath(circle.create(false));

@@ -535,7 +535,7 @@ void PlayerControl::missed_bite(const Event* evt, void *data){
 
 	/* last_eating_frame > frame -- Corrige o loop da animação */
 	if(frame > 40 || PlayerControl::get_instance()->last_eating_frame > frame){
-		audioRepository::get_instance()->play_sound("falha_mordida");
+		audioRepository::get_instance()->play_sound("frog", true);
 		Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_pass_frame, missed_bite, data);
 	}
 

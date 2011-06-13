@@ -31,7 +31,7 @@ audioRepository * audioRepository::get_instance(){
      //para adicionar mais sons é só inserir aqui
      //add_audio("mordida","models/sounds/EAT1.WAV");
      //add_audio("mordida","models/sounds/eating.wav");
-     add_audio("mordida","models/sounds/funny_bite.wav");
+     //add_audio("mordida","models/sounds/funny_bite.wav");
      //add_audio("mordida","models/sounds/mordida_03.mp3");
      add_audio("mordida","models/sounds/Pop_28-S_Bainbr-7952.wav");
      //add_audio("falha_mordida","models/sounds/falha_10.mp3");
@@ -51,6 +51,8 @@ audioRepository * audioRepository::get_instance(){
 	 add_audio("reprod_success","models/sounds/Energy-Mystery-2370.wav");
 	 add_audio("reprod_fail","models/sounds/falha_07.mp3");
 	 add_audio("bobbing","models/sounds/falha_09.mp3");
+	 add_audio("frog","models/sounds/Frog_gar-TDR-451.wav");
+	 //add_audio("frog","models/sounds/frog.aiff");
 
 }
 
@@ -71,7 +73,7 @@ audioRepository * audioRepository::get_instance(){
 		 if (playing) return;
 
 		 playing = true;
-		 TimeControl::get_instance()->notify("finished_sound", finished_sound, audio[name], audio[name]->length());
+		 TimeControl::get_instance()->notify("finished_sound", finished_sound, audio[name], audio[name]->length() + 1);
 	 }
      audio[name]->play();
  }
