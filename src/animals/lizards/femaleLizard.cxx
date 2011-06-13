@@ -1,7 +1,7 @@
 #include "femaleLizard.h"
 #include "simdunas.h"
 #include "maleLizard.h"
-#include "audioRepository.h";
+#include "audioRepository.h"
 
 #define VEL_WALK 1000.0
 #define VEL_RUN 5000.0
