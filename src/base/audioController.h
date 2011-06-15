@@ -21,9 +21,9 @@ public:
 	void only_play(string sound_name);
 	void frog(float distance_to_player);
 	void bobbing();
-	void warning_temp(double intern_temp, double extern_temp);
-	void warning_hydrat(double hydrat);
-	void heart_beat(double energy);
+	void warning_temp(double intern_temp, double extern_temp, double min_temp, double max_temp);
+	void warning_hydrat(double hydrat, double min_hydrat);
+	void heart_beat(double energy, double min_energy);
 
 private:
 	AudioController();

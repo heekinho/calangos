@@ -457,11 +457,11 @@ void Player::calc_temp_interna(){
 
 	if(in_toca){
 		temp_interna = this->temp_interna + this->equi_term_atual*(MicroClima::get_instance()->get_temp_toca_sector() - this->temp_interna);
-		AudioController::get_instance()->warning_temp(temp_interna, MicroClima::get_instance()->get_temp_toca_sector());
+		AudioController::get_instance()->warning_temp(temp_interna, MicroClima::get_instance()->get_temp_toca_sector(), temp_interna_minlimite, temp_interna_maxlimite);
 
 	}else{
 		temp_interna = this->temp_interna + this->equi_term_atual*(MicroClima::get_instance()->get_temp_solo_sector() - this->temp_interna);
-		AudioController::get_instance()->warning_temp(temp_interna, MicroClima::get_instance()->get_temp_solo_sector());
+		AudioController::get_instance()->warning_temp(temp_interna, MicroClima::get_instance()->get_temp_solo_sector(), temp_interna_minlimite, temp_interna_maxlimite);
 	}
 
 }
@@ -492,7 +492,7 @@ void Player::calc_hidratacao(){
 	/* Hidratação já consumida */
 	this->hidratacao_alimento = 0;
 
-	AudioController::get_instance()->warning_hydrat(hidratacao);
+	AudioController::get_instance()->warning_hydrat(hidratacao, hidratacao_minlimite);
 
 }
 
@@ -749,7 +749,7 @@ void Player::set_lagarto_correndo(){
 
 void Player::add_energia_alimento(double ganho_energia_alimento){
 	if (ganho_energia_alimento < -0.1) {
-		AudioController::get_instance()->heart_beat(energia);
+		AudioController::get_instance()->heart_beat(energia, energia_minlimite);
 		AudioController::get_instance()->only_play(AudioRepository::PREDATOR_HIT);
 	}
 
@@ -774,7 +774,7 @@ void Player::mordida_recebida(int tamanho_lagarto_base){
 	float ener_hidr_perdida = tamanho_lagarto_base/20;
 
 	if (ener_hidr_perdida > 0) {
-		AudioController::get_instance()->heart_beat(energia);
+		AudioController::get_instance()->heart_beat(energia, energia_minlimite);
 	}
 
 	this->energia = this->energia - ener_hidr_perdida;
