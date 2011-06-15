@@ -24,11 +24,13 @@ public:
 	void warning_temp(double intern_temp, double extern_temp, double min_temp, double max_temp);
 	void warning_hydrat(double hydrat, double min_hydrat);
 	void heart_beat(double energy, double min_energy);
+	static AsyncTask::DoneStatus finish_frog_delay(GenericAsyncTask* task, void* data);
 
 private:
 	AudioController();
 	static PT(AudioController) instance;
 	PT(AudioRepository) audio_repository;
+	bool frog_delay;
 };
 
 #endif /* AUDIOCONTROLLER_H */

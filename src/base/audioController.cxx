@@ -6,6 +6,7 @@
  */
 
 #include "audioController.h"
+#include "timeControl.h"
 
 PT(AudioController) AudioController::instance = NULL;
 
@@ -18,6 +19,7 @@ PT(AudioController) AudioController::get_instance() {
 }
 
 AudioController::AudioController() {
+	frog_delay = false;
 	audio_repository = new AudioRepository();
 }
 
@@ -33,10 +35,18 @@ void AudioController::only_play(string sound_name) {
 
 
 void AudioController::frog(float distance_to_player) {
-	if (distance_to_player < 5 && !AudioRepository::playing) {
+	if (distance_to_player < 5 && !frog_delay) {
 		cout<<"TOCANDO SOM DO SAPO!!!"<<endl;
-		audio_repository->play_sound("frog", true);
+		audio_repository->play_sound("frog");
+		frog_delay = true;
+		TimeControl::get_instance()->notify("frog_sound_delay", finish_frog_delay, this, 4);
 	}
+}
+
+AsyncTask::DoneStatus AudioController::finish_frog_delay(GenericAsyncTask* task, void* data) {
+	AudioController* _this = (AudioController*) data;
+	_this->frog_delay = false;
+    return AsyncTask::DS_done;
 }
 
 void AudioController::bobbing() {
