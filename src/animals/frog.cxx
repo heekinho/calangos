@@ -2,7 +2,7 @@
 
 #include "modelRepository.h"
 #include "terrain.h"
-#include "audioRepository.h"
+#include "audioController.h"
 
 /*! Construtor padrão dos sapos */
 Frog::Frog(NodePath node) : Animal(node){
@@ -47,10 +47,7 @@ void Frog::change_sector(PT(Setor) new_sector){
  *  2 - De vez em quando dá n saltos seguidos, mudando-se trajetória aleatóriamente.
  *  Ainda não há interação com os demais animais. */
 void Frog::act(){
-	if (get_distance(*Player::get_instance()) < 5 && !audioRepository::get_instance()->is_playing()) {
-		cout<<"TOCANDO SOM DO SAPO!!!"<<endl;
-		//audioRepository::get_instance()->play_sound("frog", true);
-	}
+	AudioController::get_instance()->frog(get_distance(*Player::get_instance()));
 
 	int frame = get_anim_control()->get_frame("character");
 
@@ -68,11 +65,6 @@ void Frog::act(){
 	else {
 		if(rand()%80 == 34) jumps = rand()%4+1;
 	}
-}
-
-AsyncTask::DoneStatus Frog::frog_sound(GenericAsyncTask* task, void* data){
-	audioRepository::get_instance()->play_sound("frog", true);
-    return AsyncTask::DS_done;
 }
 
 /*! Para a animação - quando o sapo fica estático */

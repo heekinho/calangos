@@ -1,6 +1,7 @@
 #include "femaleLizard.h"
 #include "simdunas.h"
 #include "maleLizard.h"
+#include "audioController.h"
 #include "audioRepository.h"
 
 #define VEL_WALK 1000.0
@@ -54,7 +55,7 @@ void FemaleLizard::reproduzir(const Event *theEvent, void *data){
                 Player::get_instance()->add_ovos();
                 Player::get_instance()->add_energia_alimento(-5);
 
-                audioRepository::get_instance()->play_sound("reprod_success");
+                AudioController::get_instance()->only_play(AudioRepository::REPROD_SUCCESS);
 
                 this_female->reproduziu = true;
 				/*fica verde quando reproduz*/
@@ -67,7 +68,7 @@ void FemaleLizard::reproduzir(const Event *theEvent, void *data){
             }
         }
         else {
-        	audioRepository::get_instance()->play_sound("reprod_fail");
+        	AudioController::get_instance()->only_play(AudioRepository::REPROD_FAIL);
         }
     }
 }

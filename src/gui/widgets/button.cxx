@@ -7,6 +7,7 @@
 #include "button.h"
 #include "simdunas.h"
 #include "audioRepository.h"
+#include "audioController.h"
 #include "mouseButton.h"
 #include "timeControl.h"
 
@@ -59,11 +60,11 @@ float Button::get_text_width(){
 }
 
 void Button::enter_event(const Event*, void *data) {
-	if(Button::play_button) audioRepository::get_instance()->play_sound("mouse_on");
+	if(Button::play_button) AudioController::get_instance()->only_play(AudioRepository::MOUSE_ON);
 }
 
 void Button::click_event(const Event*, void *data) {
-	audioRepository::get_instance()->play_sound("mouse_click");
+	AudioController::get_instance()->only_play(AudioRepository::MOUSE_CLICK);
 }
 
 

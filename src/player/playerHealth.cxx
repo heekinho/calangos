@@ -1,7 +1,7 @@
 #include "player.h"
 
 #include "textureStageCollection.h"
-#include "audioRepository.h"
+#include "audioController.h"
 
 /* Bloco de constantes
  * ------------------------------------------------------------------------- */
@@ -455,37 +455,14 @@ void Player::calc_gasto_basal(){
 /*! Calcula a temperatura interna do lagarto */
 void Player::calc_temp_interna(){
 
-	double temp;
 	if(in_toca){
-		temp = this->temp_interna + this->equi_term_atual*(MicroClima::get_instance()->get_temp_toca_sector() - this->temp_interna);
+		temp_interna = this->temp_interna + this->equi_term_atual*(MicroClima::get_instance()->get_temp_toca_sector() - this->temp_interna);
+		AudioController::get_instance()->warning_temp(temp_interna, MicroClima::get_instance()->get_temp_toca_sector());
 
 	}else{
-		temp = this->temp_interna + this->equi_term_atual*(MicroClima::get_instance()->get_temp_solo_sector() - this->temp_interna);
-
+		temp_interna = this->temp_interna + this->equi_term_atual*(MicroClima::get_instance()->get_temp_solo_sector() - this->temp_interna);
+		AudioController::get_instance()->warning_temp(temp_interna, MicroClima::get_instance()->get_temp_solo_sector());
 	}
-
-	if (this->temp_interna > 41) {
-		if (this->temp_interna < temp) {
-			audioRepository::get_instance()->get_audio("warning")->set_volume(1);
-		}
-		else {
-			cout<<"estou abaixando o volume!!!"<<endl;
-			audioRepository::get_instance()->get_audio("warning")->set_volume(0.4);
-		}
-		audioRepository::get_instance()->play_sound("warning");
-	}
-	else if (this->temp_interna < 16) {
-		if (this->temp_interna > temp) {
-			audioRepository::get_instance()->get_audio("warning")->set_volume(1);
-		}
-		else {
-			cout<<"estou abaixando o volume!!!"<<endl;
-			audioRepository::get_instance()->get_audio("warning")->set_volume(0.4);
-		}
-		audioRepository::get_instance()->play_sound("warning");
-	}
-
-	temp_interna = temp;
 
 }
 
@@ -515,9 +492,7 @@ void Player::calc_hidratacao(){
 	/* Hidratação já consumida */
 	this->hidratacao_alimento = 0;
 
-	if (this->hidratacao < 15) {
-		audioRepository::get_instance()->play_sound("warning", true);
-	}
+	AudioController::get_instance()->warning_hydrat(hidratacao);
 
 }
 
@@ -774,17 +749,8 @@ void Player::set_lagarto_correndo(){
 
 void Player::add_energia_alimento(double ganho_energia_alimento){
 	if (ganho_energia_alimento < -0.1) {
-		if (energia < 20) {
-			if (energia < 10) {
-				audioRepository::get_instance()->get_audio("heart_beat")->set_play_rate(2);
-			}
-			else {
-				audioRepository::get_instance()->get_audio("heart_beat")->set_play_rate(1);
-			}
-			audioRepository::get_instance()->play_sound("heart_beat", true);
-		}
-
-		audioRepository::get_instance()->play_sound("predator_hit");
+		AudioController::get_instance()->heart_beat(energia);
+		AudioController::get_instance()->only_play(AudioRepository::PREDATOR_HIT);
 	}
 
 	this->energia_alimento = this->energia_alimento + ganho_energia_alimento;
@@ -807,14 +773,8 @@ void Player::mordida_recebida(int tamanho_lagarto_base){
 	//energia e hidratação que o lagarto retira do outro em uma mordida é igual a 5% do seu temanho(0-100)
 	float ener_hidr_perdida = tamanho_lagarto_base/20;
 
-	if (ener_hidr_perdida > 0 && energia < 20) {
-		if (energia < 10) {
-			audioRepository::get_instance()->get_audio("heart_beat")->set_play_rate(2);
-		}
-		else {
-			audioRepository::get_instance()->get_audio("heart_beat")->set_play_rate(1);
-		}
-		audioRepository::get_instance()->play_sound("heart_beat", true);
+	if (ener_hidr_perdida > 0) {
+		AudioController::get_instance()->heart_beat(energia);
 	}
 
 	this->energia = this->energia - ener_hidr_perdida;

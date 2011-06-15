@@ -15,10 +15,22 @@
 using std::string;
 
 
-class audioRepository {
+class AudioRepository : public ReferenceCount {
 public:
 
-    static audioRepository* get_instance();
+	static const string BITE;
+	static const string BITE_FAIL;
+	static const string MOUSE_ON;
+	static const string MOUSE_CLICK;
+	static const string HEART_BEAT;
+	static const string WARNING;
+	static const string PREDATOR_HIT;
+	static const string REPROD_SUCCESS;
+	static const string REPROD_FAIL;
+	static const string BOBBING;
+	static const string FROG;
+
+	AudioRepository();
     void load_audio();
     void add_audio(const string &name, const string &path);
     void play_sound(const string &name, bool unique = false);
@@ -27,17 +39,14 @@ public:
 
     static AsyncTask::DoneStatus finished_sound(GenericAsyncTask* task, void* data);
 
-    bool is_playing();
+    static bool playing;
 
-    virtual ~audioRepository();
+    virtual ~AudioRepository();
 private:
 
- audioRepository();
- static audioRepository *instance;
  std::map <string,  PT(AudioSound)> audio;
  PT(AudioManager) AM;
  PT(AudioSound) sound;
- bool playing;
 
 };
 

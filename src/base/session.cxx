@@ -51,8 +51,9 @@ void Session::init_session(int process_stage){
 			ImageRepository::get_instance();
 			break;
 		case 2:
-			nout <<"Criando Repositodio de Sons..." << endl;
-			audioRepository::get_instance();
+			//nout <<"Criando Repositodio de Sons..." << endl;
+			//audioRepository::get_instance();
+			// retirar essa etapa
 			break;
 		case 3:
 			nout << "Criando Controle de Tempo..." << endl;

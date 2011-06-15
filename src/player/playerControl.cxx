@@ -14,6 +14,7 @@
 #include "screen.h"
 #include "inGameScreenManager.h"
 #include "audioRepository.h"
+#include "audioController.h"
 
 
 #define VEL_WALK 20.0
@@ -535,7 +536,7 @@ void PlayerControl::missed_bite(const Event* evt, void *data){
 
 	/* last_eating_frame > frame -- Corrige o loop da animação */
 	if(frame > 40 || PlayerControl::get_instance()->last_eating_frame > frame){
-		audioRepository::get_instance()->play_sound("falha_mordida");
+		AudioController::get_instance()->only_play(AudioRepository::BITE_FAIL);
 		Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_pass_frame, missed_bite, data);
 	}
 
@@ -544,7 +545,7 @@ void PlayerControl::missed_bite(const Event* evt, void *data){
 //consolide_eating();
 #include "groupPrey.h"
 void PlayerControl::really_eat(const Event*, void *data){
-	audioRepository::get_instance()->play_sound("mordida");
+	AudioController::get_instance()->only_play(AudioRepository::BITE);
 
 	EdibleInfo* the_data = (EdibleInfo*) data;
 
@@ -640,8 +641,7 @@ void PlayerControl::bobbing(const Event*, void *data){
 	/* Roda animação Bobbing */
 	player->play_anim("bobbing");
 
-	audioRepository::get_instance()->get_audio("bobbing")->set_volume(0.05);
-	audioRepository::get_instance()->play_sound("bobbing");
+	AudioController::get_instance()->bobbing();
 }
 
 void PlayerControl::chama_pause(const Event*, void* data){

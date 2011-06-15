@@ -17,6 +17,7 @@
 #include "gameOptionsScreen.h"
 #include "pgTop.h"
 #include "loadingScreen.h"
+#include "audioController.h"
 
 //TODO: Colocar constants: modelpath, soundpath, imagepath, texturepath.
 
@@ -70,6 +71,8 @@ int main(int argc, char *argv[]) {
 		//Simdunas::get_window()->get_render().set_antialias(AntialiasAttrib::M_multisample);
 
 		Simdunas::setup_clickable_render_2d();
+
+		AudioController::get_instance();
 
 		PT(CalangosMenuManager) menu_manager = CalangosMenuManager::get_instance();
 //		menu_manager->get_sound()->play();
