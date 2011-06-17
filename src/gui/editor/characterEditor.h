@@ -27,6 +27,7 @@ PT(pgitem) itemname; NodePath np_##itemname; ACTION(gaction);
 
 #include "characterEditorSliderEntry.h"
 
+class EditorDietEntry;
 class DietComponent;
 
 /*! Editor de personagens do jogo. */
@@ -63,6 +64,12 @@ private:
 	PT(CharacterEditorEntrySlider) ideal_temperature;
 	PT(CharacterEditorEntrySlider) density;
 	PT(CharacterEditorEntrySlider) aggregation;
+
+
+	PT(EditorDietEntry) ant_diet;
+	PT(EditorDietEntry) plant_diet;
+	PT(EditorDietEntry) others_diet;
+
 
 	PlayerProperties collect_player_properties();
 //	PlayerProperties player_properties;

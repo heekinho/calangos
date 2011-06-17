@@ -17,12 +17,6 @@
 
 class DietComponent {
 public:
-	enum Type {
-		T_ants,
-		T_plants,
-		T_others
-	};
-
 
 	class DietSlider : public PGSliderBar {
 	public:
@@ -53,7 +47,7 @@ public:
 
 			if(get_value() > available_points) set_value(available_points);
 
-			/* TODO: Atualizar o label que mostrará quantos pontos disponíveis */
+			set_value(int(get_value()));
 		}
 
 	private:
@@ -63,7 +57,7 @@ public:
 
 
 	DietComponent(){
-		root = NodePath("Diet Component");
+//		root = NodePath("Diet Component");
 		for(int i = 0; i < 3; i++){
 			PT(PGSliderBar) control = new DietSlider("slider_"+i, this, i);
 			control->set_range(0, total_points);
@@ -73,16 +67,46 @@ public:
 
 			components[i] = control;
 
-			nodes[i] = root.attach_new_node(control);
-			nodes[i].set_z(i * 0.1);
+//			nodes[i] = root.attach_new_node(control);
+//			nodes[i].set_z(i * 0.1);
 		}
 	}
 
 	static const int total_points = 100;
 	PT(PGSliderBar) components[3];
-	PGSliderBarNotify* notifies[3];
-	NodePath nodes[3];
-	NodePath root;
+//	PGSliderBarNotify* notifies[3];
+//	NodePath nodes[3];
+//	NodePath root;
+};
+
+class EditorDietEntry : public CharacterEditorEntrySlider {
+public:
+	EditorDietEntry(const NodePath &parent, const string &name):
+		CharacterEditorEntrySlider(parent, name){
+	};
+
+	void setup_diet_entry(int id, DietComponent* diet){
+		control = diet->components[id];
+
+		np_control = parent.attach_new_node(control);
+		np_control.set_x(0.3);
+		np_control.set_z(np_control.get_z() + 0.025);
+
+		Simdunas::get_evt_handler()->add_hook(control->get_adjust_event(),
+				CharacterEditorEntrySlider::adjust_value, this);
+		adjust_value();
+	}
+
+	virtual void adjust_value(){
+		/* Define e configura o stringstream */
+		stringstream value;
+		value.setf(stringstream::fixed, stringstream::floatfield);
+		value.precision(0);
+
+		/* Faz a string e seta */
+		value << control->get_value() << value_postfix;
+		this->value->set_text(value.str());
+	}
 };
 
 CharacterEditor::CharacterEditor(PT(ScreenManager) manager) : Screen(manager){
@@ -184,6 +208,20 @@ PT(CharacterEditorEntrySlider) make_entry_slider(
 	return entry;
 }
 
+PT(EditorDietEntry) make_diet_entry(int id, DietComponent* diet_control,
+				const NodePath &gparent, const string &text, PT(TextNode) text_generator,
+				float min, float max, float valign, float default_value = 0.0, string unit = "", float align = -1.233){
+
+	PT(EditorDietEntry) entry = new EditorDietEntry(gparent, "");
+	entry->parent.set_z(valign);
+
+	entry->setup_label(text, text_generator, align);
+	entry->setup_value(unit, text_generator);
+	entry->setup_diet_entry(id, diet_control);
+
+	return entry;
+}
+
 void CharacterEditor::configure_controls(){
 	/* Pai de todos os controles */
 	NodePath entry = NodePath("Size Entry");
@@ -201,13 +239,6 @@ void CharacterEditor::configure_controls(){
 	float max_l = Player::get_max_lizards_size() * 100;
 	float min_l = Player::get_min_lizards_size() * 100;
 
-//	body_size = new CharacterEditorEntrySlider(entry, "Tamanho do corpo", text_generator, min_l, max_l, valign += offset, 0.0, "cm");
-//	head_size = new CharacterEditorEntrySlider(entry, "Tamanho da cabeça", text_generator, 0, 10, valign += offset, 0.0, "cm");
-//	speed = new CharacterEditorEntrySlider(entry, "Velocidade", text_generator, 0, 10, valign += offset, 0.0, "cm/s");
-//	ideal_temperature = new CharacterEditorEntrySlider(entry, "Temperatura Ideal", text_generator, 0, 10, valign += offset, 0.0, "°C");
-//	density = new CharacterEditorEntrySlider(entry, "Densidade de Lagartos", text_generator, 0, 10, valign += offset);
-//	aggregation = new CharacterEditorEntrySlider(entry, "Agregação dos Lagartos", text_generator, 0, 10, valign += offset);
-
 	body_size = make_entry_slider(entry, "Tamanho do corpo", text_generator, min_l, max_l, valign += offset, 0.0, "cm");
 	head_size = make_entry_slider(entry, "Tamanho da cabeça", text_generator, 0, 10, valign += offset, 0.0, "cm");
 	speed = make_entry_slider(entry, "Velocidade", text_generator, 0, 10, valign += offset, 0.0, "cm/s");
@@ -216,9 +247,9 @@ void CharacterEditor::configure_controls(){
 	aggregation = make_entry_slider(entry, "Agregação dos Lagartos", text_generator, 0, 10, valign += offset);
 
 	diet_control = new DietComponent();
-	diet_control->root.reparent_to(get_root());
-	diet_control->root.set_x(0.3);
-	diet_control->root.set_z(0.2 + 0.025);
+	ant_diet = make_diet_entry(0, diet_control, entry, "(Dieta) Formigas", text_generator, 0, 10, valign += offset, 0.0, "%");
+	plant_diet = make_diet_entry(1, diet_control, entry, "(Dieta) Plantas", text_generator, 0, 10, valign += offset, 0.0, "%");
+	others_diet = make_diet_entry(2, diet_control, entry, "(Dieta) Outros", text_generator, 0, 10, valign += offset, 0.0, "%");
 }
 
 
