@@ -41,6 +41,9 @@ public:
 	void show();
 	void hide();
 
+	/*PlayerProperties*/ void collect_player_properties();
+//	PlayerProperties player_properties;
+
 private:
 	void configure_toolbar();
 	void configure_buttons();
@@ -69,10 +72,6 @@ private:
 	PT(EditorDietEntry) ant_diet;
 	PT(EditorDietEntry) plant_diet;
 	PT(EditorDietEntry) others_diet;
-
-
-	PlayerProperties collect_player_properties();
-//	PlayerProperties player_properties;
 
 	PT(PGSliderBar) slide; NodePath np_slide;
 

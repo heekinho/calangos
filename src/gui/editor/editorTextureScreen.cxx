@@ -808,13 +808,18 @@ void editorTextureScreen::swap_texture() {//recarregar a textura personalizada d
 }
 
 
+#include "characterEditor.h"
 void editorTextureScreen::jogo_action(){
 	nout << "Carregando Jogo..." << endl;
-	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_loading_screen());
+	PT(CalangosMenuManager) cmanager = ((CalangosMenuManager*)(manager.p()));
+
+	manager->open_screen(cmanager->get_loading_screen());
 	Simdunas::set_play_clicked(true);
 
 	/* Aqui o jogador clicou em jogar. Define a segunda fase */
 	Session::get_instance()->set_level(2);
+
+	((CharacterEditor*)cmanager->get_character_editor().p())->collect_player_properties();
 }
 
 

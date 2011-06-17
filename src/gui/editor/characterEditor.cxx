@@ -277,14 +277,14 @@ void CharacterEditor::pattern_action_performed(){
 
 
 /*! Coleta as propriedades especificadas pelo usuário em uma estrutura de intercâmbio */
-PlayerProperties CharacterEditor::collect_player_properties(){
+/*PlayerProperties*/ void CharacterEditor::collect_player_properties(){
 	PlayerProperties player_properties;
 
 //	player_properties.lizard_type = ENUM;
 
-//	player_properties.ant_diet = 0.0f;
-//	player_properties.plant_diet = 0.0f;
-//	player_properties.general_diet = 0.0f;
+	player_properties.ant_diet = ant_diet->control->get_value();
+	player_properties.plant_diet = plant_diet->control->get_value();
+	player_properties.general_diet = others_diet->control->get_value();
 
 	player_properties.bury_ability = false;
 	player_properties.nighttime_activity = false;
@@ -296,5 +296,6 @@ PlayerProperties CharacterEditor::collect_player_properties(){
 	player_properties.lizards_density = density->control->get_value();
 	player_properties.lizards_aggregation = aggregation->control->get_value();
 
-	return player_properties;
+	Player::properties = player_properties;
+	//return player_properties;
 }
