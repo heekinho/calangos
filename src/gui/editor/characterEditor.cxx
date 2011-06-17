@@ -57,7 +57,6 @@ public:
 
 
 	DietComponent(){
-//		root = NodePath("Diet Component");
 		for(int i = 0; i < 3; i++){
 			PT(PGSliderBar) control = new DietSlider("slider_"+i, this, i);
 			control->set_range(0, total_points);
@@ -66,17 +65,11 @@ public:
 			control->set_page_size(1.0);
 
 			components[i] = control;
-
-//			nodes[i] = root.attach_new_node(control);
-//			nodes[i].set_z(i * 0.1);
 		}
 	}
 
 	static const int total_points = 100;
 	PT(PGSliderBar) components[3];
-//	PGSliderBarNotify* notifies[3];
-//	NodePath nodes[3];
-//	NodePath root;
 };
 
 class EditorDietEntry : public CharacterEditorEntrySlider {
@@ -85,8 +78,9 @@ public:
 		CharacterEditorEntrySlider(parent, name){
 	};
 
-	void setup_diet_entry(int id, DietComponent* diet){
+	void setup_diet_entry(int id, DietComponent* diet, int default_value){
 		control = diet->components[id];
+		control->set_value(default_value);
 
 		np_control = parent.attach_new_node(control);
 		np_control.set_x(0.3);
@@ -112,9 +106,6 @@ public:
 CharacterEditor::CharacterEditor(PT(ScreenManager) manager) : Screen(manager){
 	gui = Simdunas::get_pixel_2d();
 
-	/* Reorganiza os objetos na tela. Arranjar outra forma melhor para fazer depois */
-	Simdunas::get_evt_handler()->add_hook("window-event", update_layout, this);
-
 	load(); hide();
 }
 
@@ -125,10 +116,7 @@ CharacterEditor::~CharacterEditor(){
 void CharacterEditor::load(){
 	nout << "Carregando Editor de Personagens" << endl;
 
-	configure_toolbar();
-	configure_buttons();
 	configure_controls();
-	configure_button_actions();
 
 	/* Configura botão voltar */
 	configure_default_back_button(((CalangosMenuManager*)(manager.p()))->get_level_selection_screen());
@@ -140,59 +128,11 @@ void CharacterEditor::unload(){
 
 void CharacterEditor::show(){
 	Screen::show();
-	np_toolbar.show();
 }
 
 void CharacterEditor::hide(){
 	Screen::hide();
-	np_toolbar.hide();
 }
-
-/*! Cria e configura a barra de ferramentas do editor */
-void CharacterEditor::configure_toolbar(){
-	/* Define o tamanho da toolbar em pixels. */
-	int sx = 200;
-	int sy = 2000; // Gambi para preencher o espaço vertical
-
-	/* Configura alguns aspectos da barra de ferramentas */
-	PGFrameStyle style = PGFrameStyle();
-	style.set_type(PGFrameStyle::T_flat);
-	style.set_color(0.1, 0.5, 0.8, 0.8);
-
-	/* Configura a barra de ferramentas */
-	/* WARNING: Getting some random crashes here */
-	toolbar = new PGVirtualFrame("Editor Toolbar");
-
-	/* Configura o NodePath gerado pela toolbar */
-	np_toolbar = gui->ptr.attach_new_node(toolbar);
-	np_toolbar.set_pos(-sx, -10, 0);
-	toolbar->setup(sx, sy);
-
-	toolbar->set_frame_style(toolbar->get_state(), style);
-}
-
-
-/*! Configura os botões da barra de ferramentas do editor */
-void CharacterEditor::configure_buttons(){
-	/* Botão: Tamanho do lagarto */
-	btn_sizing = new Button("Sizing Button", "Tamanho do Lagarto", manager->get_default_font());
-	np_btn_sizing = np_toolbar.attach_new_node(btn_sizing);
-	np_btn_sizing.set_scale(150); np_btn_sizing.set_sz(-np_btn_sizing.get_sz());
-	np_btn_sizing.set_pos(100, 0, 50);
-
-	/* Botão: Tamanho do lagarto */
-	btn_head_sizing = new Button("Head Size Button", "Tamanho da Cabeça", manager->get_default_font());
-	np_btn_head_sizing = np_toolbar.attach_new_node(btn_head_sizing);
-	np_btn_head_sizing.set_scale(150); np_btn_head_sizing.set_sz(-np_btn_head_sizing.get_sz());
-	np_btn_head_sizing.set_pos(100, 0, 120);
-
-	/* Botão: Configurar Textura */
-	btn_pattern = new Button("Lizard Pattern Button", "Textura do Corpo", manager->get_default_font());
-	np_btn_pattern = np_toolbar.attach_new_node(btn_pattern);
-	np_btn_pattern.set_scale(150); np_btn_pattern.set_sz(-np_btn_pattern.get_sz());
-	np_btn_pattern.set_pos(100, 0, 190);
-}
-
 
 PT(CharacterEditorEntrySlider) make_entry_slider(
 				const NodePath &gparent, const string &text, PT(TextNode) text_generator,
@@ -210,14 +150,14 @@ PT(CharacterEditorEntrySlider) make_entry_slider(
 
 PT(EditorDietEntry) make_diet_entry(int id, DietComponent* diet_control,
 				const NodePath &gparent, const string &text, PT(TextNode) text_generator,
-				float min, float max, float valign, float default_value = 0.0, string unit = "", float align = -1.233){
+				float valign, float default_value = 0.0, string unit = "", float align = -1.233){
 
 	PT(EditorDietEntry) entry = new EditorDietEntry(gparent, "");
 	entry->parent.set_z(valign);
 
 	entry->setup_label(text, text_generator, align);
 	entry->setup_value(unit, text_generator);
-	entry->setup_diet_entry(id, diet_control);
+	entry->setup_diet_entry(id, diet_control, default_value);
 
 	return entry;
 }
@@ -227,6 +167,7 @@ void CharacterEditor::configure_controls(){
 	NodePath entry = NodePath("Size Entry");
 	entry.reparent_to(get_root()); //Simdunas::get_window()->get_aspect_2d()
 	entry.set_z(0.1);
+	entry.set_x(0.35);
 
 	/* Configuração de texto */
 	PT(TextNode) text_generator = new TextNode("Size Text");
@@ -247,27 +188,18 @@ void CharacterEditor::configure_controls(){
 	aggregation = make_entry_slider(entry, "Agregação dos Lagartos", text_generator, 0, 10, valign += offset);
 
 	diet_control = new DietComponent();
-	ant_diet = make_diet_entry(0, diet_control, entry, "(Dieta) Formigas", text_generator, 0, 10, valign += offset, 0.0, "%");
-	plant_diet = make_diet_entry(1, diet_control, entry, "(Dieta) Plantas", text_generator, 0, 10, valign += offset, 0.0, "%");
-	others_diet = make_diet_entry(2, diet_control, entry, "(Dieta) Outros", text_generator, 0, 10, valign += offset, 0.0, "%");
-}
+	ant_diet = make_diet_entry(0, diet_control, entry, "(Dieta) Formigas", text_generator, valign += offset, 33, "%");
+	plant_diet = make_diet_entry(1, diet_control, entry, "(Dieta) Plantas", text_generator, valign += offset, 33, "%");
+	others_diet = make_diet_entry(2, diet_control, entry, "(Dieta) Outros", text_generator, valign += offset, 34, "%");
 
 
-
-/* Configura o mapeamento de ações dos botões da toolbar */
-void CharacterEditor::configure_button_actions(){
-	Simdunas::get_evt_handler()->add_hook(btn_sizing->get_click_event(MouseButton::one()), sizing_action_performed, this);
-	Simdunas::get_evt_handler()->add_hook(btn_head_sizing->get_click_event(MouseButton::one()), sizing_action_performed, this);
+	/* Botão: Configurar Textura */
+	btn_pattern = new Button("Lizard Pattern Button", "Avançar >>", manager->get_default_font());
+	np_btn_pattern = get_root().attach_new_node(btn_pattern);
+//	np_btn_pattern.set_scale(1); //np_btn_pattern.set_sz(-np_btn_pattern.get_sz());
+	np_btn_pattern.set_pos(0.7, 0, -0.9);
+//	np_btn_pattern.set_scale();
 	Simdunas::get_evt_handler()->add_hook(btn_pattern->get_click_event(MouseButton::one()), pattern_action_performed, this);
-}
-
-void CharacterEditor::update_layout(){
-	nout << "Atualizando Layout..." << endl;
-}
-
-/* ACTIONS */
-void CharacterEditor::sizing_action_performed(){
-	nout << "Testando!" << endl;
 }
 
 void CharacterEditor::pattern_action_performed(){

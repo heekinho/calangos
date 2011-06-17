@@ -45,18 +45,10 @@ public:
 //	PlayerProperties player_properties;
 
 private:
-	void configure_toolbar();
-	void configure_buttons();
 	void configure_controls();
-	void configure_button_actions();
-	ACTION(update_layout);
 
 	GuiLayer* gui;
-	PT(PGVirtualFrame) toolbar;		NodePath np_toolbar;
-	PT(PGVirtualFrame) statusbar;	NodePath np_statusbar;
 
-	PT(Button) btn_sizing;			NodePath np_btn_sizing;			ACTION(sizing_action_performed);
-	PT(Button) btn_head_sizing;		NodePath np_btn_head_sizing;	//ACTION(sizing_action_performed);
 	PT(Button) btn_pattern;			NodePath np_btn_pattern;		ACTION(pattern_action_performed);
 //	PT(Button) btn_density;			NodePath np_btn_density;
 //	PT(Button) btn_diet;			NodePath np_btn_diet;
