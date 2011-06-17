@@ -4,6 +4,7 @@
 #include "audioRepository.h"
 #define DEBUG_PLAYER 0
 
+PlayerProperties Player::properties;
 bool Player::instanceFlag = false;
 PT(Player) Player::single = NULL;
 
@@ -73,8 +74,28 @@ string Player::get_gender_name(Player::lizardGender gender){
 }
 
 /*! Ao comer um objeto, a respectiva hidratacao e energia eh adquirida */
-void Player::eat(Edible* food){
-	add_energia_alimento(food->get_nutritional_value());
+/* type: 0:formiga   1:plantas 2:outros */
+void Player::eat(Edible* food, int type){
+	nout << "type: " << type << " : ";
+	nout << "ant: " << properties.ant_diet << " : " << properties.plant_diet << " : " << properties.general_diet << endl;
+
+	float nutritional_value = food->get_nutritional_value();
+	nout << "Valor nutricional antes da modulação: " << nutritional_value << endl;
+
+	if(Session::get_instance()->get_level() > 1){
+		if(type == 0) nutritional_value = food->get_nutritional_value() * properties.ant_diet * 0.01;
+		else if(type == 1) nutritional_value = food->get_nutritional_value() * properties.plant_diet * 0.01;
+		else nutritional_value = food->get_nutritional_value() * properties.general_diet * 0.01;
+	}
+	else {
+		/* Se não for na segunda fase eu preciso modular também para não deixar injusto */
+		nutritional_value = food->get_nutritional_value() / 3.0;
+	}
+
+	nutritional_value = nutritional_value * 3;
+
+	nout << "Valor nutricional depois da modulação: " << nutritional_value << endl;
+	add_energia_alimento(nutritional_value);
 	add_hidratacao_alimento(food->get_hydration_value());
 }
 
@@ -98,6 +119,15 @@ void Player::display(PT(Player) player){
 
 /*! Carrega o Player */
 void Player::load_player(){
+	if(Session::get_instance()->get_level() > 1){
+		nout << "-------------------------------------------" << endl;
+		nout << "Ant Diet" << " : " << properties.ant_diet << endl;
+		nout << "Plant Diet" << " : " << properties.plant_diet << endl;
+		nout << "Others Diet" << " : " << properties.general_diet << endl;
+		nout << "-------------------------------------------" << endl;
+	}
+
+
 	PT(Player) player = Player::get_instance();
 
 	/* Cria nó de colisão para o player */

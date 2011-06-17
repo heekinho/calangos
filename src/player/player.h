@@ -19,7 +19,6 @@ class MicroClima;
 class Vetores;
 
 
-
 //typedef enum {tropidurus , eurolophosaurus, cnemidophorus} LizardEspecie;
 //typedef enum {female, male, young} LizardGender;
 
@@ -32,9 +31,11 @@ public:
 	// Modelo singleton, ao iniciar utilizar os parametros
 	static PT(Player) get_instance();
 
+	static PlayerProperties properties;
+
 	~Player();
 
-	void eat(Edible* food);
+	void eat(Edible* food, int type = 2);
 
 	static void load_player();
 

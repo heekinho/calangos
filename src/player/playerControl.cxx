@@ -475,7 +475,12 @@ void PlayerControl::eat(const Event*, void *data){
 			GuiManager::get_instance()->piscar_life();
 
 			/* Come o alvo saúde */
-			player->eat(food);
+			if(type_of_closest == 0 && dynamic_cast<Prey*>((ObjetoJogo*)closest)->get_tag("model_name").compare("formiga") == 0){
+				player->eat(food, 0);
+			}
+			else if(type_of_closest == 1) player->eat(food, 1);
+			else player->eat(food, 2);
+
 			/* Com a redistribuição dos animais não pode zera-los */
 			if(type_of_closest == 1){
 				food->set_nutritional_value(0);
