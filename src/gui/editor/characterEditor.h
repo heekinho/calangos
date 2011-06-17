@@ -25,33 +25,7 @@ static void mn(const Event*, void* d){ ((CharacterEditor*)d)->mn(); }
 #define GUIITEM(itemname, pgitem, gaction) \
 PT(pgitem) itemname; NodePath np_##itemname; ACTION(gaction);
 
-
-class CharacterEditorEntrySlider : public ReferenceCount {
-public:
-	CharacterEditorEntrySlider(const NodePath &gparent, const string &text, PT(TextNode) text_generator,
-			float min, float max, float valign, float default_value = 0.0, string unit = "", float align = -1.233);
-
-	~CharacterEditorEntrySlider(){
-		parent.remove_node();
-	}
-
-	static void adjust_value(const Event*, void* data){
-		CharacterEditorEntrySlider* me = (CharacterEditorEntrySlider*) data;
-		stringstream value; value.setf(stringstream::fixed, stringstream::floatfield); value.precision(1);
-		value << me->control->get_value() << me->value_postfix;
-		me->value->set_text(value.str());
-	}
-
-//private:
-	NodePath parent;
-	NodePath np_label;
-
-
-	PT(PGSliderBar) control;	NodePath np_control;
-	PT(TextNode) value;			NodePath np_value; 		string value_postfix;
-
-//	NodePath np_min_range, np_max_range;
-};
+#include "characterEditorSliderEntry.h"
 
 class DietComponent;
 
