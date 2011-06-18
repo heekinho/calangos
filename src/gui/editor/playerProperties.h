@@ -7,11 +7,11 @@
 #ifndef PLAYERPROPERTIES_H
 #define PLAYERPROPERTIES_H
 
-struct PlayerProperties {
-//class PlayerProperties {
-//public:
-//	PlayerProperties();
-//	virtual ~PlayerProperties();
+//struct PlayerProperties {
+class PlayerProperties {
+public:
+	PlayerProperties(){};
+//	virtual ~PlayerProperties(){};
 
 //private:
 	/* Informações do modelo do lagarto */
