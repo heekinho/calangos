@@ -367,7 +367,7 @@ void PlayerControl::move(float velocity){
 //		if(velocity <= VEL_WALK) p->get_anim_control()->find_anim("walk")->set_play_rate(1.0);
 //		else if(velocity > VEL_WALK) p->get_anim_control()->find_anim("walk")->set_play_rate(4.0);
 		float playrate = velocity * 0.15;
-		if(playrate > 6) playrate = 6;
+		if(playrate > 4) playrate = 4;
 		if(velocity == 0) playrate = 2;
 		p->get_anim_control()->find_anim("walk")->set_play_rate(playrate);
 
