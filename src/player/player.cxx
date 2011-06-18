@@ -107,6 +107,15 @@ void Player::set_velocity(double velocity){
 	this->velocity = velocity;
 }
 
+float Player::get_speed_walking(){
+	if(Session::get_instance()->get_level() > 1) return properties.speed;
+	else return (PlayerProperties::max_speed + PlayerProperties::min_speed) * 0.5;
+}
+
+float Player::get_speed_running(){
+	return get_speed_walking() * 10;
+}
+
 void Player::display(PT(Player) player){
 	#if(DEBUG_PLAYER)
 	    cout << "\nHora: " << TimeControl::get_instance()->get_hora() << ":" << TimeControl::get_instance()->get_minuto() << "\nTemperatura interna do lagarto: " << player->get_temp_interna() <<
@@ -127,8 +136,12 @@ void Player::load_player(){
 		nout << "-------------------------------------------" << endl;
 	}
 
-
 	PT(Player) player = Player::get_instance();
+
+	/* Configurações para a fase 2 */
+	/* Dá um valor de 0 a 1 para as possíveis escolhas de velocidade */
+	player->velocity_factor = (properties.speed - properties.min_speed) /
+							  (properties.max_speed - properties.min_speed);
 
 	/* Cria nó de colisão para o player */
 	collision::get_instance()->playerCollision(player);
