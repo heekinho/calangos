@@ -177,12 +177,17 @@ void CharacterEditor::configure_controls(){
 	float valign = -offset;
 
 	/* Obtém o range de valores do tamanho do lagarto em centímetros */
-	float max_l = Player::get_max_lizards_size() * 100;
 	float min_l = Player::get_min_lizards_size() * 100;
+	float max_l = Player::get_max_lizards_size() * 100;
 
-	body_size = make_entry_slider(entry, "Tamanho do corpo", text_generator, min_l, max_l, valign += offset, 0.0, "cm");
+
+	body_size = make_entry_slider(entry, "Tamanho do corpo", text_generator, min_l, max_l, valign += offset, (max_l + min_l)*0.5, "cm");
 	head_size = make_entry_slider(entry, "Tamanho da cabeça", text_generator, 0, 10, valign += offset, 0.0, "cm");
-	speed = make_entry_slider(entry, "Velocidade", text_generator, 0, 10, valign += offset, 0.0, "cm/s");
+
+	float min_v = PlayerProperties::min_speed;
+	float max_v = PlayerProperties::max_speed;
+	speed = make_entry_slider(entry, "Velocidade", text_generator, min_v, max_v, valign += offset, (max_v + min_v)*0.5, "cm/s");
+
 	ideal_temperature = make_entry_slider(entry, "Temperatura Ideal", text_generator, 0, 10, valign += offset, 0.0, "°C");
 	density = make_entry_slider(entry, "Densidade de Lagartos", text_generator, 0, 10, valign += offset);
 	aggregation = make_entry_slider(entry, "Agregação dos Lagartos", text_generator, 0, 10, valign += offset);
