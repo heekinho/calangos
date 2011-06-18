@@ -17,14 +17,9 @@
 #include "audioController.h"
 
 
-#define VEL_WALK 20.0
-#define VEL_RUN 200.0
-
 /*! Define velocidade de rotação do player em Graus/Segundos.
  * NOTA: Quando em modo turbo (w), efetua o dobro do giro. */
 #define ROTATIONSPEED 180
-
-#define MAX_VEL_PLAYRATE 40.0
 
 #define DISTANCE_FEMALE 0.3
 
@@ -254,19 +249,19 @@ void PlayerControl::update(){
 
 		/* FIX: Conserta giro sobre o próprio eixo */
 		if(!key_map_player["forward"]){
-			if(fastturn) move(VEL_WALK / 2);
-			else move(VEL_WALK / 4);
+			if(fastturn) move(p->get_speed_walking() * 0.5);
+			else move(p->get_speed_walking() * 0.25);
 		}
 	}
 
 	/* Concretiza movimentos e roda animações */
 	if(key_map_player["fastforward"] || key_map_player["shift"]){
-		move(VEL_RUN);
+		move(p->get_speed_running());
 		p->set_lagarto_correndo();
 	}
 	else if(key_map_player["forward"]){
 		// Se for soh caminhando
-		move(VEL_WALK);
+		move(p->get_speed_walking());
 		p->set_lagarto_andando();
 	}
 	else if(rotating){
@@ -360,9 +355,6 @@ void PlayerControl::move(float velocity){
 	Player *p = Player::get_instance();
 
 	if(!p->get_anim_control()->is_playing("fast_bite")){
-		if(velocity <= VEL_WALK) p->get_anim_control()->find_anim("walk")->set_play_rate(1.0);
-		else if(velocity > VEL_WALK) p->get_anim_control()->find_anim("walk")->set_play_rate(4.0);
-
 		p->loop_anim("walk");
 
 		/* A Letargia influencia na velocidade (decidiu-se por influenciar linearmente */
@@ -371,7 +363,15 @@ void PlayerControl::move(float velocity){
 
 		p->move(velocity*100);
 
-		// Lancar o evento que moveu...
+		/* O playrate deve variar de acordo com a velocidade final*/
+//		if(velocity <= VEL_WALK) p->get_anim_control()->find_anim("walk")->set_play_rate(1.0);
+//		else if(velocity > VEL_WALK) p->get_anim_control()->find_anim("walk")->set_play_rate(4.0);
+		float playrate = velocity * 0.15;
+		if(playrate > 6) playrate = 6;
+		if(velocity == 0) playrate = 2;
+		p->get_anim_control()->find_anim("walk")->set_play_rate(playrate);
+
+		/* Lancar o evento que moveu... */
 		Simdunas::get_evt_queue()->queue_event(new Event(PlayerControl::EV_player_move));
 	}
 }

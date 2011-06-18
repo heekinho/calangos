@@ -80,6 +80,9 @@ public:
 	double get_hidratacao_alimento();
 	double get_hidratacao_minlimite();
 
+	float get_speed_walking() { return  20.0; };
+	float get_speed_running() { return 200.0; };
+	/* Should be a vector */
 	double get_velocity();
 
 	int get_num_atualizacoes_dia();
