@@ -734,11 +734,23 @@ void Player::set_lagarto_parado(){
 /* Vai fazer o gasto do lagarto 20% maior que o basal */
 void Player::set_lagarto_andando(){
 	this->gasto_movimento = 1.2;
+
+	//nout << "Gasto movimento antes: " << gasto_movimento << endl;
+	if(Session::get_instance()->get_level() > 1){
+		this->gasto_movimento = velocity_factor*0.5 + 1;  // 1.0 a 1.5
+	}
+	//nout << "Gasto movimento depois: " << gasto_movimento << endl;
 }
 
 /*! Vai fazer o gasto do lagarto 50% maior que o basal */
 void Player::set_lagarto_correndo(){
 	this->gasto_movimento = 1.5;
+
+	//nout << "Gasto movimento antes: " << gasto_movimento << endl;
+	if(Session::get_instance()->get_level() > 1){
+		this->gasto_movimento = velocity_factor*0.6 + 1.4;  // 1.4 a 2.0
+	}
+	//nout << "Gasto movimento depois: " << gasto_movimento << endl;
 }
 
 /* ------------------------------------------------------------------------- */
