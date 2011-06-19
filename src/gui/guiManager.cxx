@@ -120,9 +120,9 @@ GuiManager::GuiManager() {
 	moldura_toca = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/objects/toca.png");
 	Simdunas::get_evt_handler()->add_hook(PlayerControl::EV_player_enter_toca, mostra_moldura_toca, this);
 	Simdunas::get_evt_handler()->add_hook(PlayerControl::EV_player_outof_toca, esconde_moldura_toca, this);
-	moldura_toca.reparent_to(Simdunas::get_window()->get_aspect_2d());
-	moldura_toca.set_scale(0.1);
-	moldura_toca.set_pos(0.0, 0.0, 0.0);
+	moldura_toca.reparent_to(Simdunas::get_window()->get_render_2d());
+	moldura_toca.set_scale(0.0792, 0.095, 0.1);
+	moldura_toca.set_pos(-0.21, 0.0, 0.0);
 	moldura_toca.hide();
 
 	make_frame();
