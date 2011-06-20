@@ -10,6 +10,7 @@
 
 #include "pandaFramework.h"
 #include "audioRepository.h"
+#include "frog.h"
 
 class AudioController : public ReferenceCount {
 public:
@@ -19,7 +20,7 @@ public:
 
 	PT(AudioRepository) get_audio_repository();
 	void only_play(string sound_name);
-	void frog(float distance_to_player);
+	void frog(PT(Frog));
 	void bobbing();
 	void warning_temp(double intern_temp, double extern_temp, double min_temp, double max_temp);
 	void warning_hydrat(double hydrat, double min_hydrat);

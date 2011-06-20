@@ -47,7 +47,14 @@ void Frog::change_sector(PT(Setor) new_sector){
  *  2 - De vez em quando dá n saltos seguidos, mudando-se trajetória aleatóriamente.
  *  Ainda não há interação com os demais animais. */
 void Frog::act(){
-	AudioController::get_instance()->frog(get_distance(*Player::get_instance()));
+	PT(Player) player = Player::get_instance();
+	float distance_to_player = get_distance(*player);
+	if (distance_to_player < 5) {
+		LPoint3f pos_frog = get_pos(*player);
+		// testar os valores de x e y aqui. ^^
+	}
+
+	AudioController::get_instance()->frog(this);
 
 	int frame = get_anim_control()->get_frame("character");
 
