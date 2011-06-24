@@ -36,23 +36,34 @@ void AudioController::only_play(string sound_name) {
 
 
 void AudioController::frog(PT(Frog) frog) {
-	NodePath render = Simdunas::get_window()->get_render();
-	PT(Player) player =  Player::get_instance();
-	float distance_to_player = frog->get_distance(*player);
-	LVector3f forward = player->get_net_transform()->get_quat().get_forward();
-	LVector3f right = player->get_net_transform()->get_quat().get_right();
-
-	LVector3f player_to_frog = player->get_pos(render) - frog->get_pos(render);
-
-	LVector3f balance = right.project(player_to_frog);
-
-	LPoint3f pos_frog = frog->get_pos(*player);
-
-	if (distance_to_player < 5 && !frog_delay) {
+	bool in_range = make_audio3d(6, *frog, AudioRepository::FROG);
+	if (in_range && !frog_delay) {
 		cout<<"TOCANDO SOM DO SAPO!!!"<<endl;
+		cout<<"balance = "<<audio_repository->get_audio("frog")->get_balance()<<endl;
+		cout<<"volume do sapo = "<<audio_repository->get_audio("frog")->get_volume()<<endl;
 		audio_repository->play_sound("frog");
 		frog_delay = true;
 		TimeControl::get_instance()->notify("frog_sound_delay", finish_frog_delay, this, 4);
+	}
+}
+
+bool AudioController::make_audio3d(int max_dist, NodePath obj, string audio_name) {
+	NodePath render = Simdunas::get_window()->get_render();
+	PT(Player) player =  Player::get_instance();
+	LVector3f player2obj = player->get_pos(render) - obj.get_pos(render);
+	float dist = player2obj.length();
+	if (dist > max_dist) {
+		return false;
+	}
+	else {
+		LVector3f right = player->get_net_transform()->get_quat().get_right();
+		float balance = player2obj.dot(right) / dist;
+		cout<<"Balance antes = "<<balance<<endl;
+		float volume = 1 - (dist / max_dist);
+		PT(AudioSound) audio = audio_repository->get_audio(audio_name);
+		audio->set_balance(balance);
+		audio->set_volume(volume);
+		return true;
 	}
 }
 

@@ -26,6 +26,7 @@ public:
 	void warning_hydrat(double hydrat, double min_hydrat);
 	void heart_beat(double energy, double min_energy);
 	static AsyncTask::DoneStatus finish_frog_delay(GenericAsyncTask* task, void* data);
+	bool make_audio3d(int max_dist, NodePath obj, string audio_name);
 
 private:
 	AudioController();
