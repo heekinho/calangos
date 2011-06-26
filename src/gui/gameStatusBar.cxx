@@ -194,7 +194,7 @@ void GameStatusBar::make_hidratacao_bar(NodePath menu_frame_np) {
 	np_label_hidratacao.set_scale(0.04);
 	np_label_hidratacao.set_color(0.0, 0.0, 0.0, 1,0);
 
-	hint = new Hint(menu_frame_np, hidratacao_bar, "hint_hidratacao_bar", "aaaaaaaaaaaaaaaaaaaa");
+	hint = new Hint(menu_frame_np, hidratacao_bar, "hint_hidratacao_bar", "Hidratação");
 }
 
 // Barra da temperatura interna do lagarto

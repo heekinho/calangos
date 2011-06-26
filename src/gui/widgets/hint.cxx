@@ -39,7 +39,7 @@ Hint::Hint(NodePath parent, NodePath reference_node, string name, string msg) {
 	text->set_frame_color(0, 0, 0, 1);
 
 	np_text = Simdunas::get_window()->get_aspect_2d().attach_new_node(text);
-	np_text.set_scale(0.04);
+	np_text.set_scale(0.05);
 	np_text.set_color(0.0, 0.0, 0.0, 1,0);
 	np_text.hide();
 
@@ -78,13 +78,15 @@ void Hint::show_hint(const Event* evt, void *data) {
 		return;
 	}
 
-	_this->np_text.set_pos(mwatcher->get_mouse_x(), 0, mwatcher->get_mouse_y() + 0.03);
+	float aspect_ratio = Simdunas::get_pixel_2d()->get_aspect_ratio();
+	float half_text_size = _this->text->get_width() * _this->np_text.get_sx() / 2;
+	_this->np_text.set_pos((mouse_x * aspect_ratio) - half_text_size, 0, mouse_y + 0.03);
 	LPoint3f min, max;
 	_this->np_text.calc_tight_bounds(min, max);
 
-	if (max.get_x() > 1) { // o balão passou da tela e precisará recuar para a esquerda
-		float offset_left = max.get_x() - 1 + 0.01;
-		_this->np_text.set_pos(mwatcher->get_mouse_x() - offset_left, 0, mwatcher->get_mouse_y() + 0.03);
+	if (max.get_x() > aspect_ratio) { // o balão passou da tela e precisará recuar para a esquerda
+		float offset_left = max.get_x() - aspect_ratio + half_text_size + 0.01;
+		_this->np_text.set_pos(mouse_x * aspect_ratio - offset_left, 0, mouse_y + 0.03);
 	}
 
 	_this->np_text.show();
