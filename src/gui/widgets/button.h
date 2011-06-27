@@ -25,8 +25,6 @@ public:
 
 	float get_text_width();
 private:
-	void build(const string &name, const string &text, PT(TextFont) font, float scale);
-
 	PT(TextNode) tnode;
 };
 

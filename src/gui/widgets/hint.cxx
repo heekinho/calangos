@@ -32,14 +32,16 @@ Hint::Hint(NodePath parent, NodePath reference_node, string name, string msg) {
 	text = new TextNode("text");
 	text->set_text(msg);
 
-	text->set_card_actual(-0.3, text->get_width() + 0.35, -(text->get_height() / 2) + 0.18, text->get_height() - 0.24);
+	float text_width = text->get_width();
+	float text_height = text->get_height();
+	text->set_card_actual(-0.3, text_width + 0.35, -(text_height / 2 - 0.14), text_height - 0.14);
 	text->set_card_color(1, 1, 1, 1);
 
-	text->set_frame_actual(-0.3, text->get_width() + 0.35, -(text->get_height() / 2) + 0.18, text->get_height() - 0.24);
+	text->set_frame_actual(-0.3, text_width + 0.35, -(text_height / 2 - 0.14), text_height - 0.14);
 	text->set_frame_color(0, 0, 0, 1);
 
 	np_text = Simdunas::get_window()->get_aspect_2d().attach_new_node(text);
-	np_text.set_scale(0.05);
+	np_text.set_scale(0.04);
 	np_text.set_color(0.0, 0.0, 0.0, 1,0);
 	np_text.hide();
 

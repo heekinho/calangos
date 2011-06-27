@@ -11,7 +11,7 @@
 #include "pandaFramework.h"
 #include "pgButton.h"
 
-class Hint {
+class Hint : public ReferenceCount {
 
 public:
 	Hint(NodePath parent, NodePath reference_node, string name, string msg);

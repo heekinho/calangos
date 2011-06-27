@@ -66,8 +66,6 @@ AudioRepository::AudioRepository() {
 
  //quando quiser tocar um som é só chamar este método passando o nome
   void AudioRepository::play_sound(const string& name, bool unique){
-
-	 cout<<"length = "<<audio[name]->length()<<endl;
 	 if (unique) {
 		 if (playing) return;
 

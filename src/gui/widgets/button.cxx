@@ -14,10 +14,6 @@
 bool Button::play_button = true;
 
 Button::Button(const string &name, const string &text, PT(TextFont) font, float scale) : PGButton(name){
-	build(name, text, font, scale);
-}
-
-void Button::build(const string &name, const string &text, PT(TextFont) font, float scale) {
 	/* Configura o texto */
 	tnode = new TextNode("buttonText");
 	tnode->set_font(font);
@@ -49,7 +45,6 @@ void Button::build(const string &name, const string &text, PT(TextFont) font, fl
 	Simdunas::get_evt_handler()->add_hook(this->get_enter_event(), enter_event, this);
 	Simdunas::get_evt_handler()->add_hook(this->get_click_event(MouseButton::one()), click_event, this);
 }
-
 
 Button::~Button(){
 

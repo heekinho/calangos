@@ -121,6 +121,8 @@ void GameStatusBar::make_relogio(NodePath menu_frame_np) {
 	relogio_pointer.set_hpr(0.0, 0.0, 180.0);
 //	relogio_pointer.set_transparency(TransparencyAttrib::M_alpha);
 //	relogio_pointer.set_alpha_scale(1.0);
+
+	hint_relogio = new Hint(menu_frame_np, relogio, "hint_relogio", "Tempo");
 }
 
 // Desenha barra do Life
@@ -141,6 +143,8 @@ void GameStatusBar::make_life_bar(NodePath menu_frame_np) {
 
 	//Criando uma barra para mostrar o "life"
 	life_bar = ImageBar(menu_frame_np, border_life_bar, img_life_bar);
+
+	hint_life_bar = new Hint(menu_frame_np, img_life_bar, "hint_life_bar", "Energia");
 }
 
 //Criando o label do life.
@@ -194,7 +198,7 @@ void GameStatusBar::make_hidratacao_bar(NodePath menu_frame_np) {
 	np_label_hidratacao.set_scale(0.04);
 	np_label_hidratacao.set_color(0.0, 0.0, 0.0, 1,0);
 
-	hint = new Hint(menu_frame_np, hidratacao_bar, "hint_hidratacao_bar", "Hidratação");
+	hint_hidratacao = new Hint(menu_frame_np, hidratacao_bar, "hint_hidratacao", "Hidratação");
 }
 
 // Barra da temperatura interna do lagarto
@@ -229,7 +233,7 @@ void GameStatusBar::make_temperatura_bar(NodePath menu_frame_np) {
 	np_label_temperatura.set_scale(0.04);
 	np_label_temperatura.set_color(0.0, 0.0, 0.0, 1,0);
 
-	hint2 = new Hint(menu_frame_np, temperatura_bar, "hint_temperatura_bar", "aeeee xD");
+	hint_temperatura = new Hint(menu_frame_np, temperatura_bar, "hint_temperatura", "Temperatura Interna");
 }
 
 // Barra da temperatura do ambiente
@@ -263,6 +267,8 @@ void GameStatusBar::make_temperatura_ambiente_bar(NodePath menu_frame_np) {
 	np_label_temperatura_ambiente.set_pos(0.16, 0.0, 0.82);
 	np_label_temperatura_ambiente.set_scale(0.04);
 	np_label_temperatura_ambiente.set_color(0.0, 0.0, 0.0, 1,0);
+
+	hint_temperatura_ambiente = new Hint(menu_frame_np, temperatura_ambiente_bar, "hint_temperatura_ambiente", "Temperatura do Solo");
 }
 
 // Barra de umidade do ar
@@ -296,6 +302,8 @@ void GameStatusBar::make_umidade_bar(NodePath menu_frame_np) {
 	np_label_umidade.set_pos(0.16, 0.0, 0.62);
 	np_label_umidade.set_scale(0.04);
 	np_label_umidade.set_color(0.0, 0.0, 0.0, 1,0);
+
+	hint_umidade = new Hint(menu_frame_np, umidade_bar, "hint_umidade", "Umidade do Ar");
 }
 
 // Aviso do estado reprodutivo
@@ -325,6 +333,8 @@ void GameStatusBar::make_estado_reprodutivo(NodePath menu_frame_np) {
 	np_label_egg_count.set_pos(0.35, 0.0, 0.27);
 	np_label_egg_count.set_scale(0.065);
 	np_label_egg_count.set_color(0.0, 0.0, 0.0, 1,0);
+
+	hint_estado_reprodutivo = new Hint(menu_frame_np, estado_reprodutivo, "hint_estado_reprodutivo", "Estado Reprodutivo");
 }
 
 // Quantidade de meses de vida do calango
@@ -351,6 +361,8 @@ void GameStatusBar::make_idade(NodePath menu_frame_np) {
 	np_label_idade_numero.set_pos(0.18, 0.0, 0.45);
 	np_label_idade_numero.set_scale(0.05);
 	np_label_idade_numero.set_color(0.0, 0.0, 0.0, 1,0);
+
+	hint_idade = new Hint(menu_frame_np, img_calendar, "hint_idade", "Idade");
 }
 
 void GameStatusBar::make_botao_grafico(NodePath menu_frame_np) {
@@ -366,6 +378,8 @@ void GameStatusBar::make_botao_grafico(NodePath menu_frame_np) {
 	img_btn_grafico.set_scale(0.01);
 	btn_grafico->setup(img_btn_grafico);
 	btn_grafico->set_frame(-2.0 , 2.0 , -1.5, 1.5);
+
+	//hint_btn_grafico = new Hint(menu_frame_np, img_btn_grafico, "hint_btn_grafico", "Gráficos");
 }
 
 //Deixa os componentes de interface que estão no painel lateral invisiveis.

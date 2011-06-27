@@ -57,9 +57,11 @@ public:
 private:
 	NodePath relogio;
 	NodePath relogio_pointer;
+	PT(Hint) hint_relogio;
 	NodePath img_life_bar;
 	NodePath border_life_bar;
 	ImageBar life_bar;
+	PT(Hint) hint_life_bar;
 	PT(TextNode) label_life;
 	NodePath np_label_life;
 	NodePath piscar_model;
@@ -67,29 +69,35 @@ private:
 	NodePath hidratacao_bar_pointer;
 	NodePath img_hidratacao_bar;
 	ScrollBar hidratacao_scroll_bar;
+	PT(Hint) hint_hidratacao;
 	PT(TextNode) label_hidratacao;
 	NodePath np_label_hidratacao;
 	NodePath temperatura_bar;
 	NodePath temperatura_bar_pointer;
 	NodePath img_temperatura_bar;
 	ScrollBar temperatura_scroll_bar;
+	PT(Hint) hint_temperatura;
 	PT(TextNode) label_temperatura;
 	NodePath np_label_temperatura;
 	NodePath temperatura_ambiente_bar;
 	NodePath temperatura_ambiente_bar_pointer;
 	NodePath img_temperatura_ambiente_bar;
 	ScrollBar temperatura_ambiente_scroll_bar;
+	PT(Hint) hint_temperatura_ambiente;
 	PT(TextNode) label_temperatura_ambiente;
 	NodePath np_label_temperatura_ambiente;
 	NodePath umidade_bar;
 	NodePath umidade_bar_pointer;
 	NodePath img_umidade_bar;
 	ScrollBar umidade_scroll_bar;
+	PT(Hint) hint_umidade;
 	PT(TextNode) label_umidade;
 	NodePath np_label_umidade;
 	NodePath estado_reprodutivo;
+	PT(Hint) hint_estado_reprodutivo;
 	NodePath led_estado_reprodutivo;
 	NodePath egg;
+	PT(Hint) hint_egg;
 	PT(TextNode) label_egg_count;
 	NodePath np_label_egg_count;
 	PT(TextNode) label_idade;
@@ -97,12 +105,14 @@ private:
 	PT(TextNode) label_idade_numero;
 	NodePath np_label_idade_numero;
 	NodePath img_calendar;
+	PT(Hint) hint_idade;
 	PT(PGButton) btn_grafico;
 	NodePath np_btn_grafico;
 	NodePath img_btn_grafico;
+	PT(Hint) hint_btn_grafico;
 
-	Hint* hint;
-	Hint* hint2;
+	bool alert;
+
 };
 
 #endif /* GAMESTATUSBAR_H */
