@@ -1,3 +1,5 @@
+#include <panda3d/pnmImageHeader.h>
+
 #include "vegetal.h"
 
 #include "setor.h"
@@ -724,21 +726,10 @@ void Vegetal::build_forest(){
 
 				vegetal->load_edible_vegetals(vegetal->get_vegetal_name(), current_season);
 
-				//FOLHAGEM ##################################################
-				//if(cont_tree % 15 == 0){
-				
-				    //converter isso aqui em de  chamaecrista para Chamaecrista (upper case na letra c - C)
-				  //  vegetal->get_vegetal_name().replace(0, vegetal->get_vegetal_name().substr(0,1));
-					//copy_sub_image
-
-				/* começa
-				PNMImage folhagem_instance = PNMImage();
-				folhagem_instance.set_read_size(5, 5);
-				folhagem_instance.read("models/vegetation/Chamaecrista/folhagem_chamaecrista.png");
-				World::get_world()->get_terrain()->get_shadows()->get_folhagem_channel()->blend_sub_image(folhagem_instance, vegetal->get_x(), vegetal->get_y()+1 , 0, 0);
-					*/
-
-				//FOLHAGEM ##################################################
+				//coloca folhagem nas arvores que tem uma folhagem para ser colocada
+                            if(vegetal->get_path_folhagem(vegetal->get_vegetal_name()).compare("sem_folhagem") != 0){
+				World::get_world()->get_terrain()->get_foliage()->add_foliage(vegetal->get_path_folhagem(vegetal->get_vegetal_name()),*vegetal);
+			      }
 				// Sombras
 				PNMImage shadow_image = PNMImage();
 				//TODO: fazer o raio variavel de acordo com a arvore
@@ -747,7 +738,7 @@ void Vegetal::build_forest(){
 				shadow_image.read("models/sombra.png");
 
 				//Criar as sombras da árvore.
-				World::get_world()->get_terrain()->get_shadows()->create_shadow(shadow_image, *vegetal);
+                                World::get_world()->get_terrain()->get_shadows()->create_shadow(shadow_image, *vegetal);
 
 				//adiciona vegetal ao terreno
 				World::get_world()->get_terrain()->add_vegetal(vegetal);
@@ -759,7 +750,7 @@ void Vegetal::build_forest(){
 				vegetal = NULL;
 			}
 		}
-
+		
 		/*
 		//mostra apenas (distancia x, distancia y, distancia necessaria) entre vegetais
 		for( int i = 0; i < generate_elements_buffer.size() - 1; i++)
@@ -780,7 +771,7 @@ void Vegetal::build_forest(){
 
 	cout << "quantidade de centros gerados: " << centers.size() << endl;
 	cout << "quantidade de arvores geradas: " << quantidade_arv << endl;
-
+	
 	// Adiciona um pouco de transparencia ao canal das sombras.
 	World::get_world()->get_terrain()->get_shadows()->add_transparency_to_shadows(0.5);
 	// De fato mostra as sombras. É como se tivesse fazendo antes um offscreen buffer.
@@ -887,4 +878,33 @@ Season::SeasonType Vegetal::get_vegetal_season() {
 
 Season::SeasonType Vegetal::get_season() {
 	return current_season;
+}
+
+string Vegetal::get_path_folhagem(string vegetal){
+//Retornar o caminho para a folhagem a partir do nome do vegetal
+    string path = "models/vegetation/";
+
+    if(vegetal.compare("eugenia") == 0)
+        return path + "Eugenia";
+    if(vegetal.compare("colher") == 0)
+         return path + "Colher";
+    if(vegetal.compare("murici") == 0)
+        return path + "Murici";
+    if(vegetal.compare("simaba") == 0)
+        return path + "Simaba";
+    if(vegetal.compare("bocoa") == 0)
+        return path + "Bocoa";
+    if(vegetal.compare("chamaecrista") == 0)
+        return path + "Chamaecrista";
+    if(vegetal.compare("copaifera") == 0)
+        return path + "Copaifera";
+    if(vegetal.compare("croton") == 0)
+        return path + "Croton";
+    if(vegetal.compare("harpochilus") == 0)
+        return path + "Harpochilus";
+    if(vegetal.compare("jatropha") == 0)
+        return path + "Jatropha";
+
+    return "sem_folhagem";
+
 }

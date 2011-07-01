@@ -54,6 +54,7 @@ public:
 	
 	void set_vegetal_name(string name);
 	string get_vegetal_name();
+        string get_path_folhagem(string vegetal);
 	
 	void set_vegetal_season(Season::SeasonType type);
 	Season::SeasonType get_vegetal_season();
