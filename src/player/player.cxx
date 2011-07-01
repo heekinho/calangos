@@ -128,20 +128,7 @@ void Player::display(PT(Player) player){
 
 /*! Carrega o Player */
 void Player::load_player(){
-	if(Session::get_instance()->get_level() > 1){
-		nout << "-------------------------------------------" << endl;
-		nout << "Ant Diet" << " : " << properties.ant_diet << endl;
-		nout << "Plant Diet" << " : " << properties.plant_diet << endl;
-		nout << "Others Diet" << " : " << properties.general_diet << endl;
-		nout << "-------------------------------------------" << endl;
-	}
-
 	PT(Player) player = Player::get_instance();
-
-	/* Configurações para a fase 2 */
-	/* Dá um valor de 0 a 1 para as possíveis escolhas de velocidade */
-	player->velocity_factor = (properties.speed - properties.min_speed) /
-							  (properties.max_speed - properties.min_speed);
 
 	/* Cria nó de colisão para o player */
 	collision::get_instance()->playerCollision(player);

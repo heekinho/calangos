@@ -82,6 +82,25 @@ float Player::arrayCnemidophorus[13] = {temperatura_interna_ideal_cnem, qnt_h_se
 		umidade_afeta_hidrat_cnem, umidade_param_cnem, temp_interna_max_cnem, temp_interna_min_cnem, hidrat_min_cnem, energia_min_cnem,
 		faixa_tolerancia_tem_interna_cnem, gasto_baixa_temp_cnem, gasto_alta_temp_cnem, vel_equi_termico_cnem};
 
+/*! Carrega informações customizadas da saúde do lagarto (para fase 2) */
+void Player::load_custom_health(){
+	if(Session::get_instance()->get_level() > 1){
+//		nout << "-------------------------------------------" << endl;
+//		nout << "Ant Diet" << " : " << properties.ant_diet << endl;
+//		nout << "Plant Diet" << " : " << properties.plant_diet << endl;
+//		nout << "Others Diet" << " : " << properties.general_diet << endl;
+//		nout << "-------------------------------------------" << endl;
+
+		/* Configurações para a fase 2 */
+		/* Dá um valor de 0 a 1 para as possíveis escolhas de velocidade */
+		velocity_factor = (properties.speed - properties.min_speed) /
+								  (properties.max_speed - properties.min_speed);
+
+		/* Configura a temperatura ideal */
+		set_temp_interna_ideal(properties.ideal_tempature);
+	}
+}
+
 void Player::load_health(int especie){
 	calc_visual_size_factor();
 	calc_atualizacoes_phora();
@@ -94,6 +113,8 @@ void Player::load_health(int especie){
 	}else{
 		init_cnemidophorus_lizard();
 	}
+
+	load_custom_health();
 
 	equi_term_atual = equi_term;
 	//valores que independem da espécie do lagarto	
@@ -733,22 +754,32 @@ void Player::set_lagarto_parado(){
 
 /* Vai fazer o gasto do lagarto 20% maior que o basal */
 void Player::set_lagarto_andando(){
+	static const float range = 1.0;
+
 	this->gasto_movimento = 1.2;
 
 	//nout << "Gasto movimento antes: " << gasto_movimento << endl;
 	if(Session::get_instance()->get_level() > 1){
-		this->gasto_movimento = velocity_factor*0.5 + 1;  // 1.0 a 1.5
+		/* min = 0.6; range = 1.2. O range não precisa necessáriamente ser igual ao gasto
+		 * na fase 1, mas quando velocity_factor = 0.5 deve-se igualar */
+		//static float min = this->gasto_movimento - range * 0.5;
+		//this->gasto_movimento = min + (this->gasto) * velocity_factor); // 0.6 a 1.8
+
+		this->gasto_movimento = (this->gasto_movimento * (1.0 + velocity_factor)) - (range * 0.5);
 	}
 	//nout << "Gasto movimento depois: " << gasto_movimento << endl;
 }
 
 /*! Vai fazer o gasto do lagarto 50% maior que o basal */
 void Player::set_lagarto_correndo(){
+	static const float range = 1.4;
 	this->gasto_movimento = 1.5;
 
 	//nout << "Gasto movimento antes: " << gasto_movimento << endl;
 	if(Session::get_instance()->get_level() > 1){
-		this->gasto_movimento = velocity_factor*0.6 + 1.4;  // 1.4 a 2.0
+		//this->gasto_movimento = 0.75 + (1.5 * velocity_factor); // 0.6 a 1.8
+
+		this->gasto_movimento = (this->gasto_movimento * (1.0 + velocity_factor)) - (range * 0.5);
 	}
 	//nout << "Gasto movimento depois: " << gasto_movimento << endl;
 }

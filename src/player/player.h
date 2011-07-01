@@ -38,6 +38,7 @@ public:
 	void eat(Edible* food, int type = 2);
 
 	static void load_player();
+	void load_custom_health();
 
 	//static const float BITE_THR = 3.0;
 	float get_eat_radius_thr();

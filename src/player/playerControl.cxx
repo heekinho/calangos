@@ -131,12 +131,14 @@ void PlayerControl::special_control(const Event *theEvent, void *data){
 		me->event_pmonth(NULL, me);
 
 	if(strcmp(str,"info")==0){
-		World::get_world()->get_terrain()->remove_all_edible_vegetals();
+//		World::get_world()->get_terrain()->remove_all_edible_vegetals();
 //		Vegetal::vegetals_placeholder.flatten_strong();
 //		Simdunas::get_window()->get_render().analyze();
 //		Simdunas::get_window()->get_render().ls();
-		me->get_anim_control()->write(cout);
-		Simdunas::get_window()->get_render().ls();
+//		me->get_anim_control()->write(cout);
+//		Simdunas::get_window()->get_render().ls();
+
+		nout << "Ideal Temperature: " << me->get_temp_interna_ideal() << endl;
 	}
 
 	if(strcmp(str,"shift")==0) PlayerControl::get_instance()->key_map_player["shift"] = true;
