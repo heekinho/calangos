@@ -44,6 +44,10 @@ public:
     static void bobbing(const Event*, void *data);
     static void reproducao(const Event*, void *data);
 
+    //ativa desativa wireframe
+    static void folhagem_control(const Event*, void *data);
+    static void root_control(const Event*, void *data);
+
     void keep_player_healthy();
 
     int last_eating_frame;
@@ -69,6 +73,8 @@ private:
 	NodePath _toca_indicator;
 	PT(ObjetoJogo) _closest_toca;
 
+	static bool wire_frame_folhagem;
+	static bool wire_frame_terrain;
 
 	//bool is_reachable(PT(ObjetoJogo) object);
 

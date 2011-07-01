@@ -1,3 +1,5 @@
+#include <panda3d/geoMipTerrain.h>
+
 #include "playerControl.h"
 
 #include "player.h"
@@ -33,6 +35,8 @@ const string PlayerControl::EV_player_reproducao = "EV_PLAYER_REPRODUCAO";
 // Para Singleton
 bool PlayerControl::instanceFlag = false;
 PlayerControl* PlayerControl::single = NULL;
+bool PlayerControl::wire_frame_folhagem = false;
+bool PlayerControl::wire_frame_terrain = false;
 
 PlayerControl::~PlayerControl() {
 	Simdunas::get_evt_handler()->remove_hooks_with(this);
@@ -103,6 +107,8 @@ PlayerControl::PlayerControl() {
 	action = "bite";  		Simdunas::get_framework()->define_key("space", "Player Bite", eat, this);
 	action = "bobbing";  	Simdunas::get_framework()->define_key("b", "Bobbing", bobbing, this);
 	action = "toca";   		Simdunas::get_framework()->define_key("t", "Toca Control", toca_control, this);
+	action = "wireFrameTerrain";   		Simdunas::get_framework()->define_key("n", "wireFrameTerrain", root_control, this);
+	action = "wireFrameFolhagem";   		Simdunas::get_framework()->define_key("m", "wireFrameFolhagem", folhagem_control, this);
     action = "reproduzir";	Simdunas::get_framework()->define_key("r", "Reproduzir", reproducao, this);
 
 	action = "pause"; 		Simdunas::get_framework()->define_key("escape", "Pause Game", chama_pause, this);
@@ -319,7 +325,7 @@ void PlayerControl::update(){
 
 /*! Desenha um circulo indicador do tamanho especificado */
 NodePath PlayerControl::draw_indicator(int steps, float radius){
-	PT(Terrain) terrain = Terrain::create_default_terrain();
+	PT(Terrain) terrain = Terrain::get_default_terrain();
 
 	LineSegs ls = LineSegs("indicator");
 	ls.set_color(0, 1, 0, 1);
@@ -337,7 +343,7 @@ NodePath PlayerControl::draw_indicator(int steps, float radius){
 
 /*! Monta um wireframe customizado. Apenas para demonstrar o uso */
 NodePath PlayerControl::draw_custom_terrain_wireframe(){
-	PT(Terrain) terrain = Terrain::create_default_terrain();
+	PT(Terrain) terrain = Terrain::get_default_terrain();
 
 	LineSegs ls = LineSegs("custom_wire");
 	ls.set_color(0, 1, 0, 1);
@@ -639,6 +645,37 @@ void PlayerControl::toca_control(const Event*, void *data){
 		Simdunas::get_evt_queue()->queue_event(new Event(PlayerControl::EV_player_outof_toca));
 		Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, update, this_control);
 	}
+}
+
+
+
+void PlayerControl::root_control(const Event*, void *data){
+
+
+    if(wire_frame_terrain){
+	World::get_world()->get_terrain()->get_root().clear_render_mode();
+	wire_frame_terrain = false;
+    }else{
+	World::get_world()->get_terrain()->get_root().set_render_mode_wireframe();
+	wire_frame_terrain = true;
+    }
+
+}
+
+void PlayerControl::folhagem_control(const Event*, void *data){
+
+    if(wire_frame_folhagem){
+	
+	World::get_world()->get_terrain()->get_foliage()->wire_frame_folhas_off();
+	
+	wire_frame_folhagem = false;
+    }else{
+	
+	World::get_world()->get_terrain()->get_foliage()->wire_frame_folhas();
+	wire_frame_folhagem = true;
+    }
+
+
 }
 
 void PlayerControl::bobbing(const Event*, void *data){
