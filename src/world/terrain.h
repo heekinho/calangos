@@ -14,6 +14,7 @@
 #include "texture.h"
 #include "referenceCount.h"
 #include "typedReferenceCount.h"
+#include "foliage.h"
 
 #include "predator.h"
 #include "prey.h"
@@ -28,7 +29,8 @@ class ShadowCard;
 class Terrain : public GeoMipTerrain,  public TypedReferenceCount {
 public:
 	Terrain(const string &name = "UNDEFINED_TERRAIN");
-	static PT(Terrain) create_default_terrain();
+	static PT(Terrain) get_default_terrain();
+	
 	~Terrain();
 
 	void add_animal(PT(Animal) animal);
@@ -60,6 +62,8 @@ public:
 	void update_object_z(PT(ObjetoJogo) object, double aditional_offset = 0);
 	/*@overhide*/ double get_elevation(double x, double y);
 
+	void draw_map();
+
 	bool is_inside(float x, float y);
 	bool has_inside(NodePath node);
 	bool has_inside(LPoint3f point);
@@ -90,6 +94,8 @@ public:
 	static void init_type() { register_type(_type_handle, "Terrain"); }
 
 	PT(ShadowCard) get_shadows(){ return shadows; };
+	
+        foliage* get_foliage(){return folhagem; };
 	LPoint3f get_random_point();
 
 	float get_sampled_elevation(const LPoint2f &reference_point, float radius = 0.1);
@@ -98,10 +104,11 @@ public:
 
 	list<PT(Prey)> list_prey;
 private:
-
+	static void create_default_terrain();
 	void init_sectors();
 	vector<PT(Setor)> _setores;
 	int escala;
+	
 
 	vector<PT(ObjetoJogo)> cercas;
 	vector<PT(ObjetoJogo)> casas;
@@ -111,7 +118,7 @@ private:
 
 
 	PT(ShadowCard) shadows;
-
+	foliage* folhagem;
 	//Water
 	NodePath water;
 	CardMaker* water_maker;

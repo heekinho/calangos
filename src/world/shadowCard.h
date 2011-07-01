@@ -24,7 +24,6 @@ public:
 	bool is_in_shadow(LPoint2f pos, double threshold = 0.5);
 	bool is_in_shadow(NodePath obj, double threshold = 0.5);
 
-
 	PNMImage* get_shadows_channel();
 	void add_transparency_to_shadows(double value);
 
@@ -32,15 +31,17 @@ public:
 	PT(Texture) get_texture(){ return shadow_tex; };
 	PNMImage* get_channel(){ return shadows_channel; };
 	PNMImage* get_folhagem_channel(){ return shadows_channel; };
-
-
 	void update_active_shadows();
+
+
+        void create_folhagem(PNMImage &folhagem, double x, double y);
 
 private:
 	double alpha;
 
 	PNMImage* shadows_channel;
 	PNMImage* folhagem_channel;
+        PNMImage* all_channels123;
 	PNMImage* active_shadows;
 
 	PT(TextureStage) shadow_stage;
@@ -49,6 +50,7 @@ private:
 	LPoint2f _convert_coordinates(LPoint2f old_point);
 	LPoint2f obj_size;
 
+        LPoint2f _convert_coordinates_folhagem(LPoint2f old_point);
 /* Controle de Typed Reference Counting */
 
 public:

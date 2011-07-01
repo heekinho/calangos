@@ -12,9 +12,6 @@ ShadowCard::ShadowCard(LPoint2f img_size, LPoint2f obj_size) {
 	this->shadows_channel = new PNMImage(img_size.get_x(), img_size.get_y());
 	ShadowCard::clear_shadows(shadows_channel);
 
-	this->folhagem_channel = new PNMImage(img_size.get_x(), img_size.get_y());
-	ShadowCard::clear_shadows(folhagem_channel);
-
 	this->active_shadows = new PNMImage(img_size.get_x(), img_size.get_y());
 	ShadowCard::clear_shadows(active_shadows);
 
@@ -52,7 +49,7 @@ void ShadowCard::create_shadow(PNMImage &shadow, double x, double y, double x_of
 	y_offset = y_offset - (shadow.get_y_size()/2);
 
 	/* Faz o merge das imagens. */
-	shadows_channel->blend_sub_image(shadow, point.get_x()+x_offset, point.get_y()+y_offset, 0, 0);
+	shadows_channel->blend_sub_image(shadow, point.get_x()+x_offset, point.get_y()+y_offset, 0, 0);   
 }
 
 /*! Overload de create_shadow. Considera nodepath. A sombra é centralizada sobre o objeto */
@@ -118,17 +115,9 @@ void ShadowCard::update_active_shadows(){
 		int y_i = s->get_pos_start().get_y();// - sector_height;
 
 		LPoint2f p = _convert_coordinates(LPoint2f(x_i, y_i + sector_height));
-		active_shadows->copy_sub_image(*shadows_channel,
-				p.get_x(), p.get_y(), p.get_x(), p.get_y(), sector_width, sector_height);
-	}
-
-	//testando aqui AS FOLHAGENS
-	/*
-	PNMImage folhagem_instance = PNMImage();
-	folhagem_instance.set_read_size(32, 32);
-	folhagem_instance.read("models/vegetation/Bocoa/folhagem_bocoa.png");
-	shadows_channel->copy_sub_image(folhagem_instance, 128, 128, 0, 0);
-	*/
+                active_shadows->copy_sub_image(*shadows_channel,
+				p.get_x(), p.get_y(), p.get_x(), p.get_y(), sector_width, sector_height);                        
+        }
 
 	//shadow_tex->load(*active_shadows);
 	update_shadows();
@@ -140,7 +129,7 @@ void ShadowCard::update_active_shadows(){
 
 /*! Adiciona transparencia e opacidade às sombras. (opacidade: value negativo). */
 void ShadowCard::add_transparency_to_shadows(double value){
-	value = -value; /* Para manter coerencia com o nome. */
+    value = -value; /* Para manter coerencia com o nome. */
 
 	for(int y = 0; y < shadows_channel->get_y_size(); y++){
 		for(int x = 0; x < shadows_channel->get_x_size(); x++){

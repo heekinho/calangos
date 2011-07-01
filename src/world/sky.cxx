@@ -288,15 +288,15 @@ void Sky::fade(int minuto, int hora) {
 
             //retirando as sombras das arvores a noite
 
-			Terrain::create_default_terrain()->get_shadows()->add_transparency_to_shadows(0.01 * limite);
-            Terrain::create_default_terrain()->get_shadows()->update_shadows();
+			Terrain::get_default_terrain()->get_shadows()->add_transparency_to_shadows(0.01 * limite);
+            Terrain::get_default_terrain()->get_shadows()->update_shadows();
             
         } else
             noite->set_color(LVecBase4f(seta, seta + 0.18, seta + 0.25, 1));
 
         //retirando as sombras das arvores a noite
-        Terrain::create_default_terrain()->get_shadows()->add_transparency_to_shadows(0.01 * limite);
-        Terrain::create_default_terrain()->get_shadows()->update_shadows();
+        Terrain::get_default_terrain()->get_shadows()->add_transparency_to_shadows(0.01 * limite);
+        Terrain::get_default_terrain()->get_shadows()->update_shadows();
       
     }
     else if (hora >= 5 && hora < 6) {//amanhecendo....clariando novamente o ambiente
@@ -307,8 +307,8 @@ void Sky::fade(int minuto, int hora) {
                 noite->set_color(LVecBase4f(minuto * 0.0166, 0.18 + (minuto * 0.0166), 0.25 + (minuto * 0.0166), 1));
                 //colocando as sombras de volta
                
-                    Terrain::create_default_terrain()->get_shadows()->add_transparency_to_shadows(-0.01 * limite);
-                    Terrain::create_default_terrain()->get_shadows()->update_shadows();
+                    Terrain::get_default_terrain()->get_shadows()->add_transparency_to_shadows(-0.01 * limite);
+                    Terrain::get_default_terrain()->get_shadows()->update_shadows();
                     
                 
 
@@ -327,8 +327,8 @@ void Sky::fade(int minuto, int hora) {
             //colocando as sombras de volta
             if (TimeControl::get_instance()->get_dia() > 1) {//se não for o primeiro dia
                 
-                    Terrain::create_default_terrain()->get_shadows()->add_transparency_to_shadows(-0.01 * limite);
-                    Terrain::create_default_terrain()->get_shadows()->update_shadows();
+                    Terrain::get_default_terrain()->get_shadows()->add_transparency_to_shadows(-0.01 * limite);
+                    Terrain::get_default_terrain()->get_shadows()->update_shadows();
                     
                 
             }

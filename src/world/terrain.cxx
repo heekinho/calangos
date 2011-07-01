@@ -64,8 +64,17 @@ void Terrain::remove_all_edible_vegetals(){
 	}
 }
 
-PT(Terrain) Terrain::create_default_terrain(){
+PT(Terrain) Terrain::get_default_terrain(){
+    if(terrain==NULL){
+	create_default_terrain();
 
+    }
+    return terrain;
+}
+
+
+void Terrain::create_default_terrain(){
+   cout<< "1 create_defalt_terrain chamado "<< endl;
 	if(terrain==NULL){
 		// Cria o Terreno -----------------------------------------------------//
 		terrain = new Terrain("Default_Dunas_Enviroment");
@@ -100,7 +109,8 @@ PT(Terrain) Terrain::create_default_terrain(){
 		// Com Bruteforce: (Configuração legal: min_level: 2, 3, 4, block: 64)
 		terrain->set_bruteforce(true);
 		terrain->set_min_level(0);		/* Pode-se deixar configurável, mas precisa-se implementar o get_height de mipmap */
-		terrain->set_block_size(128);	/* 128 parece oferecer o melhor trade-off. FPS melhor e mais estável */
+		//fiz alteração no valor do size block de 128 para 64
+		terrain->set_block_size(64);	/* 128 parece oferecer o melhor trade-off. FPS melhor e mais estável */
 		terrain->generate();
 
 
@@ -117,13 +127,14 @@ PT(Terrain) Terrain::create_default_terrain(){
 		terrain->set_escala(1);
 		terrain->get_root().set_sz(16);
 		terrain->init_sectors();
+		//terrain->draw_map();
+		//terrain->get_root().set_render_mode_wireframe(); //ativa wire_frame do terreno
 		//--------------------------------------------------------------------//
-		return terrain;
+
+		terrain->folhagem = new foliage();
+
 	}
-	else
-	{
-		return terrain;
-	}
+	
 }
 
 /*! Necessário para atualizar o ponto focal para o LOD do terreno */
@@ -131,6 +142,54 @@ PT(Terrain) Terrain::create_default_terrain(){
 void Terrain::update_terrain(const Event*, void *data){
 	//terrain->set_focal_point(Player::get_instance()->get_pos());
 	terrain->update();
+}
+void Terrain::draw_map(){
+	//#### método que tenta modificar posição do terreno para resolver o problema de sobre posição com as folhagens (sem sucesso)
+       NodePathCollection nodePathCollection = terrain->get_root().find_all_matches("**/+GeomNode");
+
+       cout << "Quantidade de nodePath:  " << nodePathCollection.size() << endl; //retornou 64
+       for (int i = 0; i < nodePathCollection.size(); ++i)
+        {
+
+                 NodePath nodePath = nodePathCollection[i];
+
+              //obtem posição de cada NodePath em relação ao NodePath root
+              float x = nodePath.get_pos(terrain->get_root()).get_x();
+              float y = nodePath.get_pos(terrain->get_root()).get_y();
+              //descobre o block onde o NodePath está
+              LVecBase2f lbase2  =  terrain->get_block_from_pos(x,y);
+              //obtem o indice x e y do block
+              unsigned int index_x  = lbase2.get_x();
+              unsigned int index_y  = lbase2.get_y();
+
+
+             PT(GeomNode) geomNode = DCAST(GeomNode, nodePath.node());
+             PT(GeomVertexData)  vdata = geomNode->modify_geom(0)->modify_vertex_data();
+
+              GeomVertexWriter vertexWriter = GeomVertexWriter(vdata, "vertex");
+              GeomVertexReader vertex = GeomVertexReader(vdata, "vertex");
+
+               while (!vertex.is_at_end())
+               {
+                 const LVecBase3f& v = vertex.get_data3f();
+                 //convertendo para posição real do terreno
+                 float pos_x = (v.get_x() + 32) + 64*index_x;
+                 float pos_y = (v.get_y() + 32) + 64*index_y;
+              //    cout << "indices (x,y)" << x <<  y << endl;
+
+                 float pos_z = terrain->get_elevation(pos_x, pos_y)/16;
+
+                 if(pos_z != v.get_z()){ //Em nenhum momento entra nesse if
+                    cout << "Coordenadas x,y,z e novo_z" << endl;
+                    cout << v.get_x() << ", "  <<   v.get_y()  << ", "  << v.get_z() << " e "  << pos_z << endl;
+                 }
+
+                  vertexWriter.set_data3f(v.get_x() , v.get_y() , pos_z); //faz modificação
+
+               }//fim do while
+
+       }//fim do for
+
 }
 
 Terrain::~Terrain(){

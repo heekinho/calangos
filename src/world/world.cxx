@@ -11,7 +11,7 @@ TypeHandle World::_type_handle;
 /*! Constrói o mundo no qual se passará o jogo. O mundo será composto de
  * um terreno, céu e diversos outros elementos. */
 World::World(){
-	Terrain::create_default_terrain();
+	Terrain::get_default_terrain();
     Sky::get_default_sky();
 }
 
@@ -71,7 +71,7 @@ void World::unload_enviroment(){
 
 /*! Retorna o terreno associado ao mundo */
 PT(Terrain) World::get_terrain(){
-	return Terrain::create_default_terrain();
+	return Terrain::get_default_terrain();
 }
 
 /*! Retorna o skybox associado ao mundo */
