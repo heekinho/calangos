@@ -176,22 +176,33 @@ void CharacterEditor::configure_controls(){
 	float offset = -0.1;
 	float valign = -offset;
 
-	/* Obtém o range de valores do tamanho do lagarto em centímetros */
-	float min_l = Player::get_min_lizards_size() * 100;
-	float max_l = Player::get_max_lizards_size() * 100;
 
+	/* Apenas um alias temporário para melhorar legibilidade no código */
+	float min, max;
 
-	body_size = make_entry_slider(entry, "Tamanho do corpo", text_generator, min_l, max_l, valign += offset, (max_l + min_l)*0.5, "cm");
+	/* Tamanho do corpo. Obtém o range de valores do tamanho do lagarto em centímetros */
+	min = Player::get_min_lizards_size() * 100;
+	max = Player::get_max_lizards_size() * 100;
+	body_size = make_entry_slider(entry, "Tamanho do corpo", text_generator, min, max, valign += offset, (max + min)*0.5, "cm");
+
+	/* Tamanho da cabeça em relação ao corpo */
 	head_size = make_entry_slider(entry, "Tamanho da cabeça", text_generator, 0, 10, valign += offset, 0.0, "cm");
 
-	float min_v = PlayerProperties::min_speed;
-	float max_v = PlayerProperties::max_speed;
-	speed = make_entry_slider(entry, "Velocidade", text_generator, min_v, max_v, valign += offset, (max_v + min_v)*0.5, "cm/s");
+	/* Velocidade */
+	min = PlayerProperties::min_speed;
+	max = PlayerProperties::max_speed;
+	speed = make_entry_slider(entry, "Velocidade", text_generator, min, max, valign += offset, (max + min)*0.5, "cm/s");
 
-	ideal_temperature = make_entry_slider(entry, "Temperatura Ideal", text_generator, 0, 10, valign += offset, 0.0, "°C");
+	/* Temperatura Ideal */
+	min = PlayerProperties::min_ideal_temperature;
+	max = PlayerProperties::max_ideal_temperature;
+	ideal_temperature = make_entry_slider(entry, "Temperatura Ideal", text_generator, min, max, valign += offset, 38.0, "°C");
+
+	/* Distribuição de lagartos */
 	density = make_entry_slider(entry, "Densidade de Lagartos", text_generator, 0, 10, valign += offset);
 	aggregation = make_entry_slider(entry, "Agregação dos Lagartos", text_generator, 0, 10, valign += offset);
 
+	/* Controle de dieta */
 	diet_control = new DietComponent();
 	ant_diet = make_diet_entry(0, diet_control, entry, "(Dieta) Formigas", text_generator, valign += offset, 33, "%");
 	plant_diet = make_diet_entry(1, diet_control, entry, "(Dieta) Plantas", text_generator, valign += offset, 33, "%");

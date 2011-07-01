@@ -19,14 +19,16 @@ public:
 	/* PT(Texture) color_pattern; */
 
 	/* Características do lagarto */
-	static const float max_speed = 40;
-	static const float min_speed = 10;
-	float speed;
-
 	float body_size;
 	float head_size;
 
+	float speed;
+	static const float min_speed = 10;
+	static const float max_speed = 40;
+
 	float ideal_tempature;
+	static const float min_ideal_temperature = 15.0;
+	static const float max_ideal_temperature = 50.0;
 
 	/* Dieta do lagarto */
 	float ant_diet;
