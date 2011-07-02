@@ -29,6 +29,22 @@ Hint::Hint(NodePath parent, NodePath reference_node, string name, string msg) {
 	height = size.get_z()/reference_node.get_sz();
 	btn->set_frame(-width/2, width/2, -height/2, height/2);
 
+	buildHint(msg);
+}
+
+Hint::Hint(NodePath parent, PGButton* hintable_btn, NodePath reference_node, string name, string msg) {
+	cout<<"criou hint de botão!!";
+	btn = hintable_btn;
+	np_btn = reference_node;
+	LPoint3f min, max, size;
+	reference_node.calc_tight_bounds(min, max);
+	size = (max-min);
+	width = size.get_x()/reference_node.get_sx();
+	height = size.get_z()/reference_node.get_sz();
+	buildHint(msg);
+}
+
+void Hint::buildHint(string msg) {
 	text = new TextNode("text");
 	text->set_text(msg);
 

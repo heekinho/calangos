@@ -379,7 +379,7 @@ void GameStatusBar::make_botao_grafico(NodePath menu_frame_np) {
 	btn_grafico->setup(img_btn_grafico);
 	btn_grafico->set_frame(-2.0 , 2.0 , -1.5, 1.5);
 
-	//hint_btn_grafico = new Hint(menu_frame_np, img_btn_grafico, "hint_btn_grafico", "Gráficos");
+	hint_btn_grafico = new Hint(menu_frame_np, btn_grafico.p(), img_btn_grafico, "hint_btn_grafico", "Gráficos");
 }
 
 //Deixa os componentes de interface que estão no painel lateral invisiveis.

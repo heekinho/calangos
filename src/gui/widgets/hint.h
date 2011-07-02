@@ -15,8 +15,10 @@ class Hint : public ReferenceCount {
 
 public:
 	Hint(NodePath parent, NodePath reference_node, string name, string msg);
+	Hint(NodePath parent, PGButton* hintable_btn, NodePath reference_node, string name, string msg);
 	~Hint();
 
+	void buildHint(string msg);
 	static void enter_event(const Event*, void *data);
 	static void show_hint(const Event*, void *data);
 	static void exit_event(const Event*, void *data);
