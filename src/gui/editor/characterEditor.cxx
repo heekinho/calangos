@@ -68,6 +68,10 @@ public:
 		}
 	}
 
+	INLINE float get_used_points(){
+		return components[0]->get_value() + components[1]->get_value() + components[2]->get_value();
+	}
+
 	static const int total_points = 100;
 	PT(PGSliderBar) components[3];
 };
@@ -218,9 +222,35 @@ void CharacterEditor::configure_controls(){
 	event_handler->add_hook(btn_pattern->get_click_event(MouseButton::one()), pattern_action_performed, this);
 }
 
+/* Remove a mensagem de warning exibida */
+void CharacterEditor::remove_warning_msg(){
+	warning_np.remove_node();
+}
+
+/*! Ação executada ao clicar no botão "Avançar" */
 void CharacterEditor::pattern_action_performed(){
-	nout << "Loading Pattern Editor" << endl;
-	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_editor_texture_screen());
+	/* Só permite passar para a próxima etapa se o controle de dieta estiver ok */
+	if(diet_control->get_used_points() < diet_control->total_points) {
+		/* Configura o texto da mensagem de erro */
+		PT(TextNode) warning = new TextNode("Editor Warning");
+		warning->set_text("  A soma dos valores da dieta deve ser 100");
+		warning->set_font(get_screen_manager()->get_default_font());
+		warning->set_card_color(0.5, 0, 0, 1.0);
+		warning->set_align(TextNode::A_center);
+		warning->set_card_as_margin(1, 1, 1, 1);
+
+		/* Cria o NodePath para mostrar na tela */
+		warning_np = get_root().attach_new_node(warning);
+		warning_np.set_scale(0.06);
+
+		/* Adiciona um hook para o evento de click do botão */
+		event_handler->add_hook("mouse1", remove_warning_msg, this);
+	}
+	else {
+		/* Carrega o editor de textura */
+		nout << "Loading Pattern Editor" << endl;
+		manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_editor_texture_screen());
+	}
 }
 
 

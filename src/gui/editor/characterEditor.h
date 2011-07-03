@@ -67,6 +67,8 @@ private:
 
 	PT(PGSliderBar) slide; NodePath np_slide;
 
+	NodePath warning_np;			ACTION(remove_warning_msg);
+
 
 	DietComponent* diet_control;
 };
