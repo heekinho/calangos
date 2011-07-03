@@ -36,11 +36,11 @@ bool PovCamera::deactivate(){
 
 
 void PovCamera::set_hooks(){
-	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, this->CameraNode::update, this);
+	event_handler->add_hook(TimeControl::EV_pass_frame, this->CameraNode::update, this);
 }
 
 void PovCamera::unset_hooks(){
-	Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_pass_frame, this->CameraNode::update, this);
+	event_handler->remove_hook(TimeControl::EV_pass_frame, this->CameraNode::update, this);
 }
 
 void PovCamera::update() {
@@ -48,7 +48,7 @@ void PovCamera::update() {
 	float mouse_x = 0;
 	float mouse_y = 0;
 
-	MouseWatcher *mwatcher = DCAST(MouseWatcher, Simdunas::get_window()->get_mouse().node());
+	MouseWatcher *mwatcher = DCAST(MouseWatcher, window->get_mouse().node());
 	if(mwatcher->has_mouse()){
 		mouse_x = old_x = mwatcher->get_mouse_x();
 		mouse_y = old_y = mwatcher->get_mouse_y();

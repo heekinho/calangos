@@ -19,13 +19,7 @@ public:
 	static void set_framework(PandaFramework *framework);
 
 	static WindowFramework* get_window();
-	static void set_window(WindowFramework* window);
-
-	static EventHandler* get_evt_handler();
-	static void set_evt_handler(EventHandler *evt_handler);
-
-	static EventQueue* get_evt_queue();
-	static void set_evt_queue(EventQueue *evt_queue);
+	static void set_window(WindowFramework* thewindow);
 
 	static GuiLayer* get_pixel_2d(){ return pixel2d; }
 	static void set_pixel_2d(GuiLayer* pixel2d){ Simdunas::pixel2d = pixel2d; }
@@ -42,11 +36,9 @@ public:
 
 private:
 	static GuiLayer* pixel2d;
-	static PandaFramework *framework;
-	static WindowFramework *window;
+	static PandaFramework *pframework;
+	static WindowFramework *pwindow;
 	static NodePath clickable_render_2d;
-	static EventQueue *evt_queue;
-	static EventHandler *evt_handler;
 	static bool play_clicked;
 };
 
@@ -67,5 +59,23 @@ public:
 		return value;
 	}
 };
+
+/*! Alguns shortcuts para facilitar o trabalho e deixar o código mais legível */
+#define event_handler EventHandler::get_global_event_handler()
+#define event_queue EventQueue::get_global_event_queue()
+#define task_mgr AsyncTaskManager::get_global_ptr()
+
+#define window Simdunas::get_window()
+#define render window->get_render()
+#define render2d window->get_render_2d()
+#define aspect2d window->get_aspect_2d()
+
+#define player Player::get_instance()
+#define global_clock ClockObject::get_global_clock()
+
+
+//#define camera_np window->get_camera_group()
+//#define camera DCAST(Camera, window->get_camera(0))
+
 
 #endif

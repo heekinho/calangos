@@ -48,7 +48,7 @@ PT(EdibleVegetal) EdibleVegetal::configure_edible_vegetal(const string name, flo
 /*! Faz a configuração padrão dos vegetais, para base dos vegetais a serem criados */
 void EdibleVegetal::configure_edible_vegetables(){
 	if(vegetals.size() == 0){ /* Sério? */
-		EdibleVegetal::vegetals_food_placeholder = Simdunas::get_window()->get_render().attach_new_node("Edible Vegetals Placeholder");
+		EdibleVegetal::vegetals_food_placeholder = render.attach_new_node("Edible Vegetals Placeholder");
 
 		float fl_nut = 2, fl_hid = 6.5;
 		float fr_nut = 5, fr_hid = 8;

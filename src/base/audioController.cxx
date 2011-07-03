@@ -48,8 +48,6 @@ void AudioController::frog(PT(Frog) frog) {
 }
 
 bool AudioController::make_audio3d(int max_dist, NodePath obj, string audio_name) {
-	NodePath render = Simdunas::get_window()->get_render();
-	PT(Player) player =  Player::get_instance();
 	LVector3f player2obj = player->get_pos(render) - obj.get_pos(render);
 	float dist = player2obj.length();
 	if (dist > max_dist) {

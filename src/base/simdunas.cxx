@@ -22,10 +22,8 @@
 //TODO: Colocar constants: modelpath, soundpath, imagepath, texturepath.
 
 //WindowProperties *win_prop;
-PandaFramework* Simdunas::framework = NULL;
-WindowFramework* Simdunas::window = NULL;
-EventQueue* Simdunas::evt_queue = NULL;
-EventHandler* Simdunas::evt_handler = NULL;
+PandaFramework* Simdunas::pframework = NULL;
+WindowFramework* Simdunas::pwindow = NULL;
 GuiLayer* Simdunas::pixel2d = NULL;
 NodePath Simdunas::clickable_render_2d = NULL;
 bool Simdunas::play_clicked = false;
@@ -54,21 +52,19 @@ int main(int argc, char *argv[]) {
 
 	// Define a janela, o framework, manipulação e geração de eventos e constrói uma nova sessão.
 	Simdunas::set_window(framework.open_window(/*properties*/));
-	Simdunas::set_framework(Simdunas::get_window()->get_panda_framework());
-	Simdunas::set_evt_queue(EventQueue::get_global_event_queue());
-	Simdunas::set_evt_handler(EventHandler::get_global_event_handler(Simdunas::get_evt_queue()));
+	Simdunas::set_framework(window->get_panda_framework());
 
 	Session::get_instance();
 	//Simdunas::set_session(new Session());
 
 	// Verifica se a janela abriu direitin :)
-	if (Simdunas::get_window() != (WindowFramework *) NULL) {
-		Simdunas::set_pixel_2d(new GuiLayer(Simdunas::get_window()));
-		Simdunas::get_window()->enable_keyboard();
-		//Simdunas::get_window()->setup_trackball();
+	if (window != (WindowFramework *) NULL) {
+		Simdunas::set_pixel_2d(new GuiLayer(window));
+		window->enable_keyboard();
+		//window->setup_trackball();
 		//Simdunas::get_framework()->enable_default_keys();
 
-		//Simdunas::get_window()->get_render().set_antialias(AntialiasAttrib::M_multisample);
+		//render.set_antialias(AntialiasAttrib::M_multisample);
 
 		Simdunas::setup_clickable_render_2d();
 
@@ -87,7 +83,7 @@ int main(int argc, char *argv[]) {
 		Simdunas::get_framework()->do_frame(current_thread);
 
 		/* FIX: Se o usuário já fechou a janela, não executar mais nada do jogo */
-		if(!Simdunas::get_window()->get_graphics_window()->get_properties().get_open()) return 0;
+		if(!window->get_graphics_window()->get_properties().get_open()) return 0;
 
 		Player::lizard_gender = Player::young;
 
@@ -110,11 +106,11 @@ int main(int argc, char *argv[]) {
 // houve a necessidade de capturar eventos de mouse no render_2d.
 void Simdunas::setup_clickable_render_2d() {
 	PGTop* top = new PGTop("clickable_render_2d");
-	Simdunas::set_clickable_render_2d(Simdunas::get_window()->get_render_2d().attach_new_node(top));
+	Simdunas::set_clickable_render_2d(render2d.attach_new_node(top));
 
 	// Tell the PGTop about our MouseWatcher object, so the PGui
 	// system can operate.
-	PandaNode *mouse_node = Simdunas::get_window()->get_mouse().node();
+	PandaNode *mouse_node = window->get_mouse().node();
 	if (mouse_node->is_of_type(MouseWatcher::get_class_type())) {
 		top->set_mouse_watcher(DCAST(MouseWatcher, mouse_node));
 	}
@@ -128,19 +124,19 @@ void Simdunas::init_types(){
 
 
 PandaFramework* Simdunas::get_framework() {
-	return Simdunas::framework;
+	return Simdunas::pframework;
 }
 
-void Simdunas::set_framework(PandaFramework* framework){
-	Simdunas::framework = framework;
+void Simdunas::set_framework(PandaFramework* pframework){
+	Simdunas::pframework = pframework;
 }
 
-WindowFramework* Simdunas::get_window(){
-	return Simdunas::window;
+WindowFramework* window{
+	return Simdunas::pwindow;
 }
 
-void Simdunas::set_window(WindowFramework* window){
-	Simdunas::window = window;
+void Simdunas::set_window(WindowFramework* the_window){
+	Simdunas::pwindow = the_window;
 }
 
 void Simdunas::set_clickable_render_2d(NodePath node) {
@@ -149,22 +145,6 @@ void Simdunas::set_clickable_render_2d(NodePath node) {
 
 NodePath Simdunas::get_clickable_render_2d() {
 	return Simdunas::clickable_render_2d;
-}
-
-EventHandler* Simdunas::get_evt_handler(){
-	return Simdunas::evt_handler;
-}
-
-void Simdunas::set_evt_handler(EventHandler *evt_handler){
-	Simdunas::evt_handler = evt_handler;
-}
-
-EventQueue* Simdunas::get_evt_queue(){
-	return Simdunas::evt_queue;
-}
-
-void Simdunas::set_evt_queue(EventQueue *evt_queue){
-	Simdunas::evt_queue = evt_queue;
 }
 
 bool Simdunas::is_play_clicked() {

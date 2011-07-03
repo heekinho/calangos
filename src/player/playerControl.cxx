@@ -1,8 +1,7 @@
-#include <panda3d/geoMipTerrain.h>
-
 #include "playerControl.h"
 
 #include "player.h"
+#include "geoMipTerrain.h"
 #include "pandaFramework.h"
 #include "terrain.h"
 #include "timeControl.h"
@@ -39,7 +38,7 @@ bool PlayerControl::wire_frame_folhagem = false;
 bool PlayerControl::wire_frame_terrain = false;
 
 PlayerControl::~PlayerControl() {
-	Simdunas::get_evt_handler()->remove_hooks_with(this);
+	event_handler->remove_hooks_with(this);
 	instanceFlag = false;
 }
 
@@ -49,16 +48,16 @@ PlayerControl::PlayerControl() {
 	_closest_female = NULL;
 	_closest_toca = NULL;
 
-	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, update, this);
-	Simdunas::get_evt_handler()->add_hook(TimeControl::get_instance()->EV_segundo_real, event_female_next, this);
+	event_handler->add_hook(TimeControl::EV_pass_frame, update, this);
+	event_handler->add_hook(TimeControl::get_instance()->EV_segundo_real, event_female_next, this);
 
-    indicator = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), "models/indicator.png");
+    indicator = window->load_model(render, "models/indicator.png");
     indicator.find_texture("*")->set_wrap_u(Texture::WM_clamp);
     indicator.find_texture("*")->set_wrap_v(Texture::WM_clamp);
     indicator.set_billboard_point_eye(0);
 
-    _female_indicator = indicator.copy_to(Simdunas::get_window()->get_render());
-    _toca_indicator = indicator.copy_to(Simdunas::get_window()->get_render());
+    _female_indicator = indicator.copy_to(render);
+    _toca_indicator = indicator.copy_to(render);
 
     indicator.set_scale(0.0005);
     _toca_indicator.set_scale(0.003);
@@ -120,7 +119,6 @@ PlayerControl::PlayerControl() {
 }
 
 void PlayerControl::keep_player_healthy(){
-	PT(Player) player = Player::get_instance();
 	player->set_temp_interna(40.0);
 	player->set_energia(100.0);
 	player->set_hidratacao(100.0);
@@ -128,7 +126,7 @@ void PlayerControl::keep_player_healthy(){
 
 void PlayerControl::special_control(const Event *theEvent, void *data){
 	char *str=(char *)data;
-	PT(Player) me=Player::get_instance();
+	PT(Player) me=player;
 
 	if(strcmp(str,"die")==0)
 		me->set_energia(0);
@@ -139,10 +137,10 @@ void PlayerControl::special_control(const Event *theEvent, void *data){
 	if(strcmp(str,"info")==0){
 //		World::get_world()->get_terrain()->remove_all_edible_vegetals();
 //		Vegetal::vegetals_placeholder.flatten_strong();
-//		Simdunas::get_window()->get_render().analyze();
-//		Simdunas::get_window()->get_render().ls();
+//		render.analyze();
+//		render.ls();
 //		me->get_anim_control()->write(cout);
-//		Simdunas::get_window()->get_render().ls();
+//		render.ls();
 
 		nout << "Ideal Temperature: " << me->get_temp_interna_ideal() << endl;
 	}
@@ -152,7 +150,7 @@ void PlayerControl::special_control(const Event *theEvent, void *data){
 }
 
 void PlayerControl::reproducao(const Event*, void *data){
-    Simdunas::get_evt_queue()->queue_event(new Event(PlayerControl::EV_player_reproducao));
+    event_queue->queue_event(new Event(PlayerControl::EV_player_reproducao));
 }
 
 /*! Ativa determinada tecla no map */
@@ -171,7 +169,6 @@ void PlayerControl::unset_key(const Event *theEvent, void *data) {
 /*! Verifica os objetos mais próximos do player */
 void PlayerControl::calc_closest_objects(){
 	/* Obtém as referencias do player e de seu setor */
-	PT(Player) player = Player::get_instance();
 	PT(Setor) player_sector = player->get_setor();
 	if(!player_sector) return;
 
@@ -185,7 +182,6 @@ void PlayerControl::calc_closest_objects(){
 
 PT(ObjetoJogo) PlayerControl::get_closest_biteable(){
 	/* Obtém as referencias do player e de seu setor */
-	PT(Player) player = Player::get_instance();
 	PT(Setor) player_sector = player->get_setor();
 	if(!player_sector) return NULL;
 
@@ -222,8 +218,8 @@ void PlayerControl::update(const Event*, void *data){
 /*! Chamado a cada ciclo, verifica se tem tecla ativa no map, e executa a ação
  * associada. Basicamente realiza movimento */
 void PlayerControl::update(){
-	PT(Player) p = Player::get_instance();
-	float dt = ClockObject::get_global_clock()->get_dt();
+	PT(Player) p = player;
+	float dt = global_clock->get_dt();
 
 #ifdef PSTATS
     PStatCollector ps=PStatCollector("Update_Play");
@@ -282,7 +278,7 @@ void PlayerControl::update(){
 	}
 
 
-	//if(ClockObject::get_global_clock()->get_frame_count()%10 == 0)
+	//if(global_clock->get_frame_count()%10 == 0)
 	calc_closest_objects();
 	if(_closest_biteable){
 		LPoint3f max, min;
@@ -360,7 +356,7 @@ NodePath PlayerControl::draw_custom_terrain_wireframe(){
 
 
 void PlayerControl::move(float velocity){
-	Player *p = Player::get_instance();
+	Player *p = player;
 
 	if(!p->get_anim_control()->is_playing("fast_bite")){
 		p->loop_anim("walk");
@@ -380,7 +376,7 @@ void PlayerControl::move(float velocity){
 		p->get_anim_control()->find_anim("walk")->set_play_rate(playrate);
 
 		/* Lancar o evento que moveu... */
-		Simdunas::get_evt_queue()->queue_event(new Event(PlayerControl::EV_player_move));
+		event_queue->queue_event(new Event(PlayerControl::EV_player_move));
 	}
 }
 
@@ -393,13 +389,12 @@ struct EdibleInfo {
 /*! Efetua acao de comer. Verifica se tem algum npc em volta e come */
 void PlayerControl::eat(const Event*, void *data){
 	/* Verifica a posição do mouse... Se estiver sobre a interface não executa a ação de comer */
-	//MouseWatcher *mwatcher = DCAST(MouseWatcher, Simdunas::get_window()->get_mouse().node());
+	//MouseWatcher *mwatcher = DCAST(MouseWatcher, window->get_mouse().node());
 	//if(!(mwatcher->has_mouse() && mwatcher->get_mouse_x() < 0.57 && !TimeControl::get_instance()->get_stop_time())) return;
 
 	if (TimeControl::get_instance()->get_stop_time()) return;
 
 	PlayerControl* this_control = (PlayerControl*) data;
-	PT(Player) player = Player::get_instance();
 	PT(Setor) player_sector = player->get_setor();
 
 	/* Animação roda independente de comer ou não */
@@ -414,9 +409,9 @@ void PlayerControl::eat(const Event*, void *data){
 
 	if(sorteio > player->get_temp_interna()) {
 		nout << "Temperatura baixa - falha na ação de comer..." << endl;
-		Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, missed_bite, NULL);
+		event_handler->add_hook(TimeControl::EV_pass_frame, missed_bite, NULL);
 		eat_fail = true;
-		Player::get_instance()->add_energia_alimento(-0.1);
+		player->add_energia_alimento(-0.1);
 		return;
 	}
 	/* ----------------------------------------- */
@@ -435,7 +430,7 @@ void PlayerControl::eat(const Event*, void *data){
 
 	/* Se o tipo não for reconhecido, cai fora. Era pra fazer if, mas... */
 	if(type_of_closest == -1) {
-		Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, missed_bite, NULL);
+		event_handler->add_hook(TimeControl::EV_pass_frame, missed_bite, NULL);
 		return;
 	}
 
@@ -505,7 +500,7 @@ void PlayerControl::eat(const Event*, void *data){
 			//TimeControl::get_instance()->notify_after_n_frames(40, really_eat, (void*) mydata);
 
 			this_control->last_eating_frame = 0;
-			Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, eating, (void *) info);
+			event_handler->add_hook(TimeControl::EV_pass_frame, eating, (void *) info);
 
 			eatsuccess = true;
 		}
@@ -524,33 +519,29 @@ void PlayerControl::eat(const Event*, void *data){
 	}
 
 	/* Se for uma mordida sem sucesso: -0.1 de energia */
-	if(!eatsuccess) Player::get_instance()->add_energia_alimento(-0.1);
+	if(!eatsuccess) player->add_energia_alimento(-0.1);
 }
 
 /*! Fica esperando o frame certo para comer */
 void PlayerControl::eating(const Event* evt, void *data){
-	PT(Player) player = Player::get_instance();
-
 	int frame = player->get_anim_control()->get_frame("fast_bite");
 
 	/* last_eating_frame > frame -- Corrige o loop da animação */
 	if(frame > 40 || PlayerControl::get_instance()->last_eating_frame > frame){
 		PlayerControl::really_eat(evt, data);
-		Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_pass_frame, eating, (void *) data);
+		event_handler->remove_hook(TimeControl::EV_pass_frame, eating, (void *) data);
 	}
 
 	PlayerControl::get_instance()->last_eating_frame = frame;
 }
 
 void PlayerControl::missed_bite(const Event* evt, void *data){
-	PT(Player) player = Player::get_instance();
-
 	int frame = player->get_anim_control()->get_frame("fast_bite");
 
 	/* last_eating_frame > frame -- Corrige o loop da animação */
 	if(frame > 40 || PlayerControl::get_instance()->last_eating_frame > frame){
 		AudioController::get_instance()->only_play(AudioRepository::BITE_FAIL);
-		Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_pass_frame, missed_bite, data);
+		event_handler->remove_hook(TimeControl::EV_pass_frame, missed_bite, data);
 	}
 
 }
@@ -566,7 +557,7 @@ void PlayerControl::really_eat(const Event*, void *data){
 	if(the_data->type == 0) {
 		PT(Prey) cprey = dynamic_cast<Prey*>((ObjetoJogo*) the_data->object);
 		if(cprey->_group) cprey->_group->remove_prey(cprey);
-		Prey::redistributer->realoc_prey(cprey, Player::get_instance()->get_pos());
+		Prey::redistributer->realoc_prey(cprey, player->get_pos());
 	}
 	else if(the_data->type == 1) {
 		PT(EdibleVegetal) vegetal = dynamic_cast<EdibleVegetal*>((ObjetoJogo*) the_data->object);
@@ -590,35 +581,32 @@ PlayerControl* PlayerControl::get_instance() {
 void PlayerControl::unload_player_control(){
 
 	// TODO: Consertar isso, por enquanto para testes.
-	Simdunas::get_evt_handler()->remove_hooks("a");
-	Simdunas::get_evt_handler()->remove_hooks("q");
-	Simdunas::get_evt_handler()->remove_hooks("s");
-	Simdunas::get_evt_handler()->remove_hooks("w");
-	Simdunas::get_evt_handler()->remove_hooks("d");
-	Simdunas::get_evt_handler()->remove_hooks("e");
+	event_handler->remove_hooks("a");
+	event_handler->remove_hooks("q");
+	event_handler->remove_hooks("s");
+	event_handler->remove_hooks("w");
+	event_handler->remove_hooks("d");
+	event_handler->remove_hooks("e");
 
-	Simdunas::get_evt_handler()->remove_hooks("a-up");
-	Simdunas::get_evt_handler()->remove_hooks("q-up");
-	Simdunas::get_evt_handler()->remove_hooks("s-up");
-	Simdunas::get_evt_handler()->remove_hooks("w-up");
-	Simdunas::get_evt_handler()->remove_hooks("d-up");
-	Simdunas::get_evt_handler()->remove_hooks("e-up");
+	event_handler->remove_hooks("a-up");
+	event_handler->remove_hooks("q-up");
+	event_handler->remove_hooks("s-up");
+	event_handler->remove_hooks("w-up");
+	event_handler->remove_hooks("d-up");
+	event_handler->remove_hooks("e-up");
 
-	Simdunas::get_evt_handler()->remove_hooks("mouse1");
-	Simdunas::get_evt_handler()->remove_hooks("space");
-	Simdunas::get_evt_handler()->remove_hooks("t");
-	Simdunas::get_evt_handler()->remove_hooks("escape");
-	Simdunas::get_evt_handler()->remove_hooks("m");
+	event_handler->remove_hooks("mouse1");
+	event_handler->remove_hooks("space");
+	event_handler->remove_hooks("t");
+	event_handler->remove_hooks("escape");
+	event_handler->remove_hooks("m");
 
 	single = NULL;
 	instanceFlag = false;
 }
 
 void PlayerControl::toca_control(const Event*, void *data){
-
-
 	PlayerControl* this_control = (PlayerControl*)data;
-	PT(Player) player = Player::get_instance();
 
 	if (!player->is_in_toca()){
 		// Pede ao setor, o vetor que guarda as tocas.
@@ -631,8 +619,8 @@ void PlayerControl::toca_control(const Event*, void *data){
 				toca->hide();
 				player->set_in_toca(true);
 				player->set_toca(toca);
-				Simdunas::get_evt_queue()->queue_event(new Event(PlayerControl::EV_player_enter_toca));
-				Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_pass_frame, update, this_control);
+				event_queue->queue_event(new Event(PlayerControl::EV_player_enter_toca));
+				event_handler->remove_hook(TimeControl::EV_pass_frame, update, this_control);
 				return;
 			}
 		}
@@ -642,8 +630,8 @@ void PlayerControl::toca_control(const Event*, void *data){
 
 		player->set_in_toca(false);
 		player->set_toca(NULL);
-		Simdunas::get_evt_queue()->queue_event(new Event(PlayerControl::EV_player_outof_toca));
-		Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, update, this_control);
+		event_queue->queue_event(new Event(PlayerControl::EV_player_outof_toca));
+		event_handler->add_hook(TimeControl::EV_pass_frame, update, this_control);
 	}
 }
 
@@ -679,8 +667,7 @@ void PlayerControl::folhagem_control(const Event*, void *data){
 }
 
 void PlayerControl::bobbing(const Event*, void *data){
-	Simdunas::get_evt_queue()->queue_event(new Event(PlayerControl::EV_player_bobbing));
-	PT(Player) player = Player::get_instance();
+	event_queue->queue_event(new Event(PlayerControl::EV_player_bobbing));
 
 	/* Roda animação Bobbing */
 	player->play_anim("bobbing");
@@ -698,9 +685,7 @@ void PlayerControl::morder(){
 }
 
 void PlayerControl::event_female_next(const Event *, void *data){
-	PT(Player) player = Player::get_instance();
-
-	if (Player::get_instance()->get_estado_reprodutivo()) {
+	if (player->get_estado_reprodutivo()) {
 		SectorItems<PT(Lizard)>* lizards = player->get_setor()->lizards();
 		SectorItems<PT(Lizard)>::iterator it;
 		for (it = lizards->begin(); it != lizards->end(); ++it) {

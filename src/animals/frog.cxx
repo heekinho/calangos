@@ -32,7 +32,7 @@ void Frog::load_frogs(){
 
 		/* Adiciona na lista de animais e o coloca para renderização */
 		terrain->add_animal((PT(Animal)) frog);
-		frog->reparent_to(Simdunas::get_window()->get_render());
+		frog->reparent_to(render);
 	}
 }
 

@@ -24,7 +24,7 @@ KeyInstructionsScreen::~KeyInstructionsScreen() {
 
 void KeyInstructionsScreen::load(){
 	/////Carregando tela teclas
-	img_teclas = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render_2d(), "models/gui/teclas.png");
+	img_teclas = window->load_model(render2d, "models/gui/teclas.png");
 	img_teclas.set_scale(0.1, 0.001, 0.17);
 	img_teclas.set_pos(0.0, 0.0, 0.06);
 

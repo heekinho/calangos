@@ -36,9 +36,9 @@ MicroClima::MicroClima(){
 	umidade_relativa_sector = ClimaTempo::get_instance()->get_umi_rel();
 
 	//recebe evento de mudana de setor do lagarto
-	Simdunas::get_evt_handler()->add_hook(PlayerControl::get_instance()->EV_player_move, event_player_hour_move, this);
+	event_handler->add_hook(PlayerControl::get_instance()->EV_player_move, event_player_hour_move, this);
 	//mudanca de hora, tem que atualizar as variveis tambem
-	Simdunas::get_evt_handler()->add_hook(TimeControl::get_instance()->EV_pass_hour, event_player_hour_move, this);
+	event_handler->add_hook(TimeControl::get_instance()->EV_pass_hour, event_player_hour_move, this);
 }
 
 void MicroClima::event_player_hour_move(const Event*, void *data){
@@ -51,7 +51,7 @@ void MicroClima::event_player_hour_move(const Event*, void *data){
 	MicroClima::get_instance()->umidade_relativa_sector = ClimaTempo::get_instance()->get_umi_rel();
 
 	/*se o player est� na sombra e é entre 5h e 19h, atualiza as vari�veis*/
-	if((World::get_world()->get_terrain()->get_shadows()->is_in_shadow(*Player::get_instance(), 0.1)) && (TimeControl::get_instance()->get_hora() > 6) && (TimeControl::get_instance()->get_hora() < 20)){
+	if((World::get_world()->get_terrain()->get_shadows()->is_in_shadow(*player, 0.1)) && (TimeControl::get_instance()->get_hora() > 6) && (TimeControl::get_instance()->get_hora() < 20)){
 		
 		#if(DEBUG_MCLIMA)
 			cout << "\n Atualizando Microclima" << endl;

@@ -35,7 +35,7 @@ int Sky::hora_anterior=0;
 
 TypeHandle Sky::_type_handle;
 Sky::Sky(const string &model) :
-NodePath(Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), model)) {
+NodePath(window->load_model(render, model)) {
 	set_bin("background", 10);
 	set_depth_write(false);
 	set_depth_test(false);
@@ -91,12 +91,12 @@ NodePath(Simdunas::get_window()->load_model(Simdunas::get_window()->get_render()
 			TextureStage::CS_constant, TextureStage::CO_src_alpha);
 
 	//a cada evento de minuto do jogo será atualizada a posição do sol
-	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_minute, update_sol, this);
+	event_handler->add_hook(TimeControl::EV_pass_minute, update_sol, this);
 
 	x = 0;
 	y = 0;
 
-	sol = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), "models/skies/sol.png");
+	sol = window->load_model(render, "models/skies/sol.png");
 	sol.set_scale(10);
 	sol.set_pos(x, y, z);
 	sol.set_billboard_point_eye(0);
@@ -110,7 +110,7 @@ NodePath(Simdunas::get_window()->load_model(Simdunas::get_window()->get_render()
 	//condição inicial do ambiente (noite)
 	//aplicando a luz na raiz da cena (todos os objetos da cena serão atingidos)
 	this->noite = new AmbientLight("noite");
-	Simdunas::get_window()->get_render().set_light(this->noite);
+	render.set_light(this->noite);
 
 	//verificando se a hora de início é dia ou noite para setar a luz do ambiente
 	if ((hora >= 19 && hora <= 23) || (hora >= 0 && hora < 6)) {
@@ -126,7 +126,7 @@ NodePath(Simdunas::get_window()->load_model(Simdunas::get_window()->get_render()
 		else this->noite->set_color(LVecBase4f(1, 1, 1, 1));
 	}
 
-	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, update_transform, this);
+	event_handler->add_hook(TimeControl::EV_pass_frame, update_transform, this);
 }
 
 /*! Atualiza a posição do skybox em relação à camera */
@@ -135,7 +135,7 @@ void Sky::update_transform(const Event* evt, void* data){
 	PT(CameraNode) camera = CameraControl::get_instance()->get_current_camera();
 
 	/* Com reparent_to e compass dá quase certo, mais assim funciona totalmente */
-	this_sky->set_pos(camera->get_pos(Simdunas::get_window()->get_render()));
+	this_sky->set_pos(camera->get_pos(render));
 	this_sky->set_z(-50);
 }
 

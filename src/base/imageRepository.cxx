@@ -57,7 +57,7 @@ void ImageRepository::load_images(){
 
 /*! Obtém uma instância de uma imagem do repositório */
 NodePath ImageRepository::get_image(const string &name){
-	return models[name].copy_to(Simdunas::get_window()->get_aspect_2d());
+	return models[name].copy_to(aspect2d);
 }
 
 
@@ -66,5 +66,5 @@ NodePath ImageRepository::get_image(const string &name){
  * @param path - Caminho do modelo.*/
 void ImageRepository::add_image(const string &name, const string &path){
 	// Assign to map
-	models[name] = Simdunas::get_window()->load_model(Simdunas::get_framework()->get_models(), path);
+	models[name] = window->load_model(Simdunas::get_framework()->get_models(), path);
 }

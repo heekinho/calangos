@@ -20,7 +20,7 @@ CreditsScreen::~CreditsScreen() {
 }
 
 void CreditsScreen::load() {
-    img_credit = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render_2d(), "models/apoio-creditos.jpg");
+    img_credit = window->load_model(render2d, "models/apoio-creditos.jpg");
     img_credit.set_scale(0.12, 0.001, 0.15);
     img_credit.set_pos(0.0, 0.0, 0.06);
 

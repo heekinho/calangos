@@ -15,12 +15,12 @@ Terrain::Terrain(const string &name) : GeoMipTerrain (name) {
 	nout << "Criando Terreno..." << endl;
 	escala = 1;
 
-	//Simdunas::get_window()->set_wireframe(true);
+	//window->set_wireframe(true);
 
 	shadows = new ShadowCard(LPoint2f(512, 512), LPoint2f(512, 512));
 	this->get_root().set_texture(shadows->get_stage(), shadows->get_texture());
 
-	//Simdunas::get_evt_handler()->add_hook(PlayerControl::EV_player_move, update_terrain, this);
+	//event_handler->add_hook(PlayerControl::EV_player_move, update_terrain, this);
 	//get_root().hide();
 }
 
@@ -102,7 +102,7 @@ void Terrain::create_default_terrain(){
 		terrain->get_root().set_texture(stage_far, terrain_tex_far);
 		terrain->get_root().set_tex_scale(stage_far, 20);
 
-		terrain->get_root().reparent_to(Simdunas::get_window()->get_render());
+		terrain->get_root().reparent_to(render);
 		terrain->set_focal_point(LPoint2d(256, 256));
 
 
@@ -119,7 +119,7 @@ void Terrain::create_default_terrain(){
 //		terrain->set_block_size(32);
 //		terrain->set_near_far(40, 100);
 //		terrain->generate();
-//		terrain->set_focal_point(*Player::get_instance());
+//		terrain->set_focal_point(*player);
 ////		terrain->set_auto_flatten(GeoMipTerrain::AFM_strong);
 
 
@@ -140,7 +140,7 @@ void Terrain::create_default_terrain(){
 /*! Necessário para atualizar o ponto focal para o LOD do terreno */
 //TODO: Mudar nome para update_terrain...
 void Terrain::update_terrain(const Event*, void *data){
-	//terrain->set_focal_point(Player::get_instance()->get_pos());
+	//terrain->set_focal_point(player->get_pos());
 	terrain->update();
 }
 void Terrain::draw_map(){
@@ -291,7 +291,7 @@ void Terrain::update_adjacent_sectors(PT(Setor) s){
 		flagy++;
 	}
        
-//	nout << "neighbors(" << Player::get_instance()->get_setor()->get_indice() << "): ";
+//	nout << "neighbors(" << player->get_setor()->get_indice() << "): ";
 //	for(int i = 0; i < neighborhood.size(); i++){
 //		nout << neighborhood.at(i)->get_indice() << " ";
 //	}
@@ -324,7 +324,7 @@ void Terrain::init_sectors(){
 
     //no_setores=new NodePath[MAX_SETORES];//64 setores
         
-    //// no_setores=Simdunas::get_window()->get_render().attach_new_node("setor");
+    //// no_setores=render.attach_new_node("setor");
 
     std::string s;
     std::stringstream out;
@@ -337,7 +337,7 @@ void Terrain::init_sectors(){
 			PT(Setor) setor = new Setor(pos_inicio, pos_fim, index);
                         //out << index;
                         //s = out.str();
-                        //no_setores[index]=Simdunas::get_window()->get_render().attach_new_node("setor"+s);
+                        //no_setores[index]=render.attach_new_node("setor"+s);
 			terrain->add_setor(setor);
 			index++;
 
@@ -411,7 +411,7 @@ void Terrain::load_tocas(){
 
 			if (elevation < 1 && elevation_toca < 1){
 				toca_list->push_back( ModelRepository::get_instance()->get_model_instance("toca") );
-				toca_list->back()->reparent_to(Simdunas::get_window()->get_render());
+				toca_list->back()->reparent_to(render);
 				toca_list->back()->set_pos(x+1, y+1, 0);
 				toca_list->back()->set_scale(0.001);
 				if (toca_list->size() > 10){
@@ -475,10 +475,10 @@ void Terrain::load_terrain_limit(){
 	left_fence_set.flatten_strong();
 	down_fence_set.flatten_strong();
 
-	top_fence_set.reparent_to(Simdunas::get_window()->get_render());
-	right_fence_set.reparent_to(Simdunas::get_window()->get_render());
-	left_fence_set.reparent_to(Simdunas::get_window()->get_render());
-	down_fence_set.reparent_to(Simdunas::get_window()->get_render());
+	top_fence_set.reparent_to(render);
+	right_fence_set.reparent_to(render);
+	left_fence_set.reparent_to(render);
+	down_fence_set.reparent_to(render);
 
 
 	string casa_model[6] = { "casa1", "casa2", "casa3", "casa2", "casa1", "casa3" };
@@ -513,7 +513,7 @@ void Terrain::load_terrain_limit(){
 	ModelRepository::get_instance()->get_model("casa3")->clear_model_nodes();
 
 	houses.flatten_strong();
-	houses.reparent_to(Simdunas::get_window()->get_render());
+	houses.reparent_to(render);
 }
 
 /*! Carrega o rio*/
@@ -521,11 +521,11 @@ void Terrain::load_water(){
 
 	water_maker = new CardMaker("water_maker");
 	water_maker->set_frame( 0, 120, 0, 120 );
-	water = Simdunas::get_window()->get_render().attach_new_node(water_maker->generate());
+	water = render.attach_new_node(water_maker->generate());
 	water.set_hpr(0,-90,0);
 	water.set_pos(0, 0, 1);
 	water.set_transparency(TransparencyAttrib::M_alpha);
-	//buffer = Simdunas::get_window()->get_graphics_window()->make_texture_buffer("waterBuffer", 512, 512);
+	//buffer = window->get_graphics_window()->make_texture_buffer("waterBuffer", 512, 512);
 	//buffer->set_clear_color( LVector4f( 0, 0, 0, 1 ) );
 
 //	tex0 = buffer->get_texture();

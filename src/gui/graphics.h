@@ -30,7 +30,6 @@ private:
     void desenha_eixoY();
     void desenha_marcacao_eixoX();
     void desenha_marcacao_eixoY();
-    WindowFramework* window;
     PGVirtualFrame* graphic_frame;
     LineSegs* eixoX;
     LineSegs* eixoX2;

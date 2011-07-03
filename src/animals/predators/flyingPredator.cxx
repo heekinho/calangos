@@ -51,7 +51,7 @@ void FlyingPredator::load_predator(const string &model, int qtd, float scale, in
 
 		/* Adiciona o predator ao terreno e ao render */
 		terrain->add_predator((PT(Predator))predator);
-		predator->reparent_to(Simdunas::get_window()->get_render());
+		predator->reparent_to(render);
 
 		/* Roda a animação */
 		predator->loop_anim("voar");
@@ -63,8 +63,6 @@ void FlyingPredator::load_predator(const string &model, int qtd, float scale, in
  * O predador basicamente perambula, e ao encontrar o lagarto dentro de uma
  * certa distância ele parte para o ataque */
 void FlyingPredator::act(){
-	PT(Player) player = Player::get_instance();
-
 	/* Se o player foi capturado por este predator, roda attack() */
 	if(_player_captured) { attack(); return; }
 
@@ -100,7 +98,6 @@ void FlyingPredator::start_chasing(){
 
 /*! Inicia a captura, indo de encontro ao player para o capturar */
 void FlyingPredator::chase(){
-	PT(Player) player = Player::get_instance();
 	look_at(*player);
 	move(get_velocity()*4);
 	int z = World::get_world()->get_terrain()->get_elevation(get_x(), get_y());
@@ -112,9 +109,6 @@ void FlyingPredator::chase(){
 
 /* Ação de captura do predador */
 void FlyingPredator::capture_player(){
-	PT(Player) player = Player::get_instance();
-	NodePath render = Simdunas::get_window()->get_render();
-
 	/* Define as flags de comportamento */
 	_chasing_player = false;
 	_player_captured = true;

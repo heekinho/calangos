@@ -21,6 +21,42 @@
 #define DEBUG_PHEALTH 0
 /* ------------------------------------------------------------------------- */
 
+/* Refatorando a parte de informações internas do lagarto */
+class LizardHealthInfo {
+public:
+	float ideal_temperature;
+	float max_temperature;
+	float min_temperature;
+	float temperature_range;
+
+	float max_hours_without_feed;
+	float max_hours_with_low_hidration;
+
+	float humidity_affects_hidration;
+	float humidity_param; // moisture?
+
+	float min_hydration;
+	float max_hydration;
+
+	float min_energy; // stamina?
+	float energy_cost_low_temperature;
+	float energy_cost_high_temperature;
+
+	float thermal_equilibrium_speed;
+};
+
+float init_tropidurus_health(){
+	LizardHealthInfo health;
+
+	health.ideal_temperature = 38.0;
+	health.max_temperature = 50.0;
+	health.min_temperature = 15.0;
+	health.temperature_range = 2.0;
+
+	health.max_hours_without_feed = 168; /* 7 dias */
+	health.max_hours_with_low_hidration = 48; /* 2 dias */
+}
+
 /*! Carrega os atributos iniciais relacionados à saúde do lagarto*/
 /* Parâmetros da espécie Tropidurus */
 const float Player::temperatura_interna_ideal_trop = 38;
@@ -207,9 +243,6 @@ void Player::init_cnemidophorus_lizard(){
 
 /* Evento chamado a cada minuto virtual para atualização dos valores */
 void Player::event_gasto_energia(const Event*, void *data){
-
-	PT(Player) player = (Player*) data;
-
 	/* Chama as funções para atualizar a saúde do lagarto */
 	//WARNING: Ordem é importante
 	player->calc_temp_interna();
@@ -221,7 +254,7 @@ void Player::event_gasto_energia(const Event*, void *data){
 	player->calc_fator_umidade();
 	player->calc_hidratacao();
 	player->calc_energia();
-	player->display(player);
+	player->display();
 	player->atualiza_vector();
 
 	/* Verificação de morte do personagem por energia*/
@@ -363,8 +396,6 @@ float Player::get_visual_size(){
 /*! Na passagem do dia, faz a média diária de energia, e armazena a soma.
  *   Essa média servirá para determinar o quanto o lagarto irá crescer na passagem de um mês.*/
 void Player::event_pday(const Event*, void *data){
-	PT(Player) player = (Player*) data;
-
 	player->num_dias++;
 
 	/* Calcula a média de energia do dia corrente */
@@ -380,8 +411,6 @@ void Player::event_pday(const Event*, void *data){
 /*! Na passagem do mês, faz a média de energia dos dias do mês que passou.
  *  Essa média servirá para determinar o quanto o lagarto irá crescer na passagem do mês.*/
 void Player::event_pmonth(const Event*, void *data){
-	PT(Player) player = (Player*) data;
-
 	/* Calcula a média de energia diária do mês */
 	player->media_energia_mes = player->soma_media_energia_diaria/player->num_dias;
 
@@ -393,8 +422,8 @@ void Player::event_pmonth(const Event*, void *data){
 	player->calc_tamanho_lagarto_real(player->media_energia_mes);
 
 	/* Ajusta o novo tamanho do personagem */
-	player->set_scale(Simdunas::get_window()->get_render(), player->get_visual_size());
-	//	player->set_scale(Simdunas::get_window()->get_render(), player->tamanho_lagarto_real);
+	player->set_scale(render, player->get_visual_size());
+	//	player->set_scale(render, player->tamanho_lagarto_real);
 	//player->set_length(100 * player->tamanho_lagarto_real, true);
 
 	/* Aumenta a idade do lagarto */

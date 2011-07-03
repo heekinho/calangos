@@ -24,23 +24,23 @@ StartMenu::~StartMenu() {
 
 /*! Carrega o menu principal */
 void StartMenu::load(){
-	Simdunas::get_window()->set_background_type(WindowFramework::BT_black);
+	window->set_background_type(WindowFramework::BT_black);
 
 	//carregando animação inicial da Tela principal
-	np_lagarto = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), "models/lizards/cnemidophorus/male/model");
+	np_lagarto = window->load_model(render, "models/lizards/cnemidophorus/male/model");
 	np_lagarto.set_scale(0.08, 0.08, 0.08);
 	np_lagarto.set_pos(0, 35, -2);
 	np_lagarto.set_h(45);
 	np_lagarto.set_p(20);
 
 	// Animação
-	Simdunas::get_window()->load_model(np_lagarto, "models/lizards/cnemidophorus/male/walk");
+	window->load_model(np_lagarto, "models/lizards/cnemidophorus/male/walk");
 	auto_bind(np_lagarto.node(), anims, PartGroup::HMF_ok_part_extra |
 			PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
 	anims.loop_all(false);
 
     ///imagem do logo
-    np_logo = Simdunas::get_window()->load_model(get_root(), "models/calangos.png");
+    np_logo = window->load_model(get_root(), "models/calangos.png");
     np_logo.set_scale(0.1);
     np_logo.set_pos(0.0, 0, 0.6);
 

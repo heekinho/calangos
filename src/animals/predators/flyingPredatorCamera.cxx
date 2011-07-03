@@ -13,8 +13,6 @@ FlyingPredatorCamera::FlyingPredatorCamera(PT(Camera) camera) : CameraNode(camer
 bool FlyingPredatorCamera::activate(){
 	if(!_enabled) return false;
 	CameraNode::activate();
-
-	NodePath render = Simdunas::get_window()->get_render();
 	reparent_to(render);
 
 	/* Obtem distancia necessária em predador para corresponder a 1u do render */
@@ -57,10 +55,10 @@ bool FlyingPredatorCamera::deactivate(){
 
 /*! Define quais eventos chamará o update desta camera */
 void FlyingPredatorCamera::set_hooks(){
-	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, this->CameraNode::update, this);
+	event_handler->add_hook(TimeControl::EV_pass_frame, this->CameraNode::update, this);
 }
 
 /*! Remove os eventos que chaman o update desta camera */
 void FlyingPredatorCamera::unset_hooks(){
-	Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_pass_frame, this->CameraNode::update, this);
+	event_handler->remove_hook(TimeControl::EV_pass_frame, this->CameraNode::update, this);
 }

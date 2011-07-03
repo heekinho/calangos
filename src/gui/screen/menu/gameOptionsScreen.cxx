@@ -28,55 +28,55 @@ void GameOptionsScreen::load() {
 	ratio = 0;
 
     ////////////////////////Tropidurus////////////////////
-    tropidurus = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), "models/lizards/tropidurus/male/model");
+    tropidurus = window->load_model(render, "models/lizards/tropidurus/male/model");
     tropidurus.set_scale(0.04, 0.04, 0.04);
     tropidurus.set_pos(4, 35, -3);
     tropidurus.set_h(45);
     tropidurus.set_p(20);
     /* Animação */
-    Simdunas::get_window()->load_model(tropidurus, "models/lizards/tropidurus/male/walk");
+    window->load_model(tropidurus, "models/lizards/tropidurus/male/walk");
     auto_bind(tropidurus.node(), anims, PartGroup::HMF_ok_part_extra |
             PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
     anims.loop_all(false);
     tropidurus.hide();
 
     //////////////////////////Eurolophosauros/////////////////
-    eurolophosasurus = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), "models/lizards/eurolophosaurus/male/model");
+    eurolophosasurus = window->load_model(render, "models/lizards/eurolophosaurus/male/model");
     eurolophosasurus.set_scale(0.04, 0.04, 0.04);
     eurolophosasurus.set_pos(4, 35, -3);
     eurolophosasurus.set_h(45);
     eurolophosasurus.set_p(20);
     /* Animação */
-    Simdunas::get_window()->load_model(eurolophosasurus, "models/lizards/eurolophosaurus/male/walk");
+    window->load_model(eurolophosasurus, "models/lizards/eurolophosaurus/male/walk");
     auto_bind(eurolophosasurus.node(), anims, PartGroup::HMF_ok_part_extra |
             PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
     anims.loop_all(false);
     eurolophosasurus.hide();
 
     //////////////////Cnemidophorus////////////
-    cnemidophorus = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render(), "models/lizards/cnemidophorus/male/model");
+    cnemidophorus = window->load_model(render, "models/lizards/cnemidophorus/male/model");
     cnemidophorus.set_scale(0.04, 0.04, 0.04);
     cnemidophorus.set_pos(4, 35, -3);
     cnemidophorus.set_h(45);
     cnemidophorus.set_p(20);
     //		/* Animação */
-    Simdunas::get_window()->load_model(cnemidophorus, "models/lizards/cnemidophorus/male/walk");
+    window->load_model(cnemidophorus, "models/lizards/cnemidophorus/male/walk");
     auto_bind(cnemidophorus.node(), anims, PartGroup::HMF_ok_part_extra |
             PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
     anims.loop_all(false);
     cnemidophorus.hide();
 
 	///carregando titulo do menu de configurações
-	img_titulo = Simdunas::get_window()->load_model(get_root(), "models/config_jogo.png");
+	img_titulo = window->load_model(get_root(), "models/config_jogo.png");
 	img_titulo.set_scale(0.1);
 	img_titulo.set_pos(0.0, 0, 0.8);
 
 	//relogio virtual////////////////////
-	img_tempo = Simdunas::get_window()->load_model(get_root(), "models/buttons/tempo");
+	img_tempo = window->load_model(get_root(), "models/buttons/tempo");
 	img_tempo.set_scale(1, 0.0, 0.2);
 	img_tempo.set_pos(-0.8, 0.0, 0.6);
 
-	img_frase_relogio = Simdunas::get_window()->load_model(get_root(), "models/buttons/relogio_frase");
+	img_frase_relogio = window->load_model(get_root(), "models/buttons/relogio_frase");
 	img_frase_relogio.set_scale(1.8, 0.0, 0.2);
 	img_frase_relogio.set_pos(-0.1, 0.0, 0.4);
 
@@ -95,7 +95,7 @@ void GameOptionsScreen::load() {
 	np_slide.set_pos(-0.84, 0.0, 0.27);
 
 	//criando o botão mais//////////////////////////////////////////////////////////
-	img_btn_mais = Simdunas::get_window()->load_model(get_root(), "models/buttons/mais");
+	img_btn_mais = window->load_model(get_root(), "models/buttons/mais");
 	img_btn_mais.detach_node();
 	btn_mais = new PGButton("mais");
 	btn_mais->setup(img_btn_mais);
@@ -103,12 +103,12 @@ void GameOptionsScreen::load() {
 	np_btn_mais.set_scale(0.12);
 	np_btn_mais.set_pos(-0.53, 0.0, 0.28);
 	btn_mais->set_frame(-0.4, 0.4, -0.4, 0.4);
-	Simdunas::get_evt_handler()->add_hook(btn_mais->get_click_event(MouseButton::one()), slide_direita_action, this);
+	event_handler->add_hook(btn_mais->get_click_event(MouseButton::one()), slide_direita_action, this);
 
 	////////o default será três? minutos então ja começa como se tivesse dado três clicks no +
 //	for (int i = 0; i < TimeControl::get_instance()->get_virtual_time_hour(); i++) {
 //		//                            const Event *ev_direita = new Event(btn_mais->get_click_event(MouseButton::one()));
-//		//                            Simdunas::get_evt_queue()->queue_event(ev_direita);
+//		//                            event_queue->queue_event(ev_direita);
 //		//  cout<<"Minuto dia virtual: "<<config->minuto_dia_virtual<<endl;
 //
 //		//melhor que ficar enfileirando eventos!!!
@@ -116,7 +116,7 @@ void GameOptionsScreen::load() {
 //	}
 
 	//criando o botão menos///////////////////////////////
-	img_btn_menos = Simdunas::get_window()->load_model(get_root(), "models/buttons/menos");
+	img_btn_menos = window->load_model(get_root(), "models/buttons/menos");
 	img_btn_menos.detach_node();
 
 	btn_menos = new PGButton("menos");
@@ -125,22 +125,22 @@ void GameOptionsScreen::load() {
 	np_btn_menos.set_scale(0.12);
 	np_btn_menos.set_pos(-1.15, 0.0, 0.28);
 	btn_menos->set_frame(-0.4, 0.4, -0.4, 0.4);
-	Simdunas::get_evt_handler()->add_hook(btn_menos->get_click_event(MouseButton::one()), slide_esquerda_action, this);
+	event_handler->add_hook(btn_menos->get_click_event(MouseButton::one()), slide_esquerda_action, this);
 
 	///////opção de configuração de Escolha da Espécie/////////////
-	img_escolha_especie = Simdunas::get_window()->load_model(get_root(), "models/buttons/especie.png");
+	img_escolha_especie = window->load_model(get_root(), "models/buttons/especie.png");
 	img_escolha_especie.set_scale(0.06, 0.0, 0.06);
 	img_escolha_especie.set_pos(-0.68, 0.0, 0.03);
 
 	//carregando o marcador/////////
-	marcador = Simdunas::get_window()->load_model(img_escolha_especie, "models/buttons/marcador.png");
+	marcador = window->load_model(img_escolha_especie, "models/buttons/marcador.png");
 	marcador.set_scale(0.2, 0.0, 0.2);
 	marcador.set_pos(4.0, 0.0, -4.7);
 
 	///////Botões para escolha da especie/////////////////
 
 	//botão TROPIDURUS///////////////
-	img_btn_tropidurus = Simdunas::get_window()->load_model(get_root(), "models/buttons/tropidurus");
+	img_btn_tropidurus = window->load_model(get_root(), "models/buttons/tropidurus");
 	img_btn_tropidurus.detach_node();
 	btn_tropidurus = new PGButton("tropidurus");
 	btn_tropidurus->setup(img_btn_tropidurus);
@@ -149,10 +149,10 @@ void GameOptionsScreen::load() {
 	np_btn_tropidurus.set_pos(-0.85, 0.0, -0.1);
 	btn_tropidurus->set_frame(-0.4, 0.4, -0.4, 0.4);
 
-	Simdunas::get_evt_handler()->add_hook(btn_tropidurus->get_click_event(MouseButton::one()), tropidurus_action, this);
+	event_handler->add_hook(btn_tropidurus->get_click_event(MouseButton::one()), tropidurus_action, this);
 
 	///////botão EUROLOPHOSAURUS //////////////////////////
-	img_btn_eurolophosaurus = Simdunas::get_window()->load_model(get_root(), "models/buttons/eurolophosaurus");
+	img_btn_eurolophosaurus = window->load_model(get_root(), "models/buttons/eurolophosaurus");
 	img_btn_eurolophosaurus.detach_node();
 	btn_eurolophosaurus = new PGButton("eurolophosaurus");
 	btn_eurolophosaurus->setup(img_btn_eurolophosaurus);
@@ -161,10 +161,10 @@ void GameOptionsScreen::load() {
 	np_btn_eurolophosaurus.set_pos(-0.8, 0.0, -0.25);
 	btn_eurolophosaurus->set_frame(-0.4, 0.4, -0.4, 0.4);
 
-	Simdunas::get_evt_handler()->add_hook(btn_eurolophosaurus->get_click_event(MouseButton::one()), eurolophosaurus_action, this);
+	event_handler->add_hook(btn_eurolophosaurus->get_click_event(MouseButton::one()), eurolophosaurus_action, this);
 
 	///////botão CNEMIDOPHORUS //////////////////////////
-	img_btn_cnemidophorus = Simdunas::get_window()->load_model(get_root(), "models/buttons/cnemidophorus");
+	img_btn_cnemidophorus = window->load_model(get_root(), "models/buttons/cnemidophorus");
 	img_btn_cnemidophorus.detach_node();
 	btn_cnemidophorus = new PGButton("cnemidophorus");
 	btn_cnemidophorus->setup(img_btn_cnemidophorus);
@@ -173,10 +173,10 @@ void GameOptionsScreen::load() {
 	np_btn_cnemidophorus.set_pos(-0.8, 0.0, -0.4);
 	btn_cnemidophorus->set_frame(-0.4, 0.4, -0.4, 0.4);
 
-	Simdunas::get_evt_handler()->add_hook(btn_cnemidophorus->get_click_event(MouseButton::one()), cnemidophorus_action, this);
+	event_handler->add_hook(btn_cnemidophorus->get_click_event(MouseButton::one()), cnemidophorus_action, this);
 
 //	// ###########  Botão PERSONALIZAR (Leva o jogador para o editor de cores de lagartos) ##############################
-//	img_btn_personalizar = Simdunas::get_window()->load_model(get_root(), "models/buttons/personalizar");
+//	img_btn_personalizar = window->load_model(get_root(), "models/buttons/personalizar");
 //	img_btn_personalizar.detach_node();
 //	btn_personalizar = new PGButton("Personalizar");
 //	btn_personalizar->setup(img_btn_personalizar);
@@ -185,10 +185,10 @@ void GameOptionsScreen::load() {
 //	np_btn_personalizar.set_pos(-0.8, 0.0, -0.55);
 //	btn_personalizar->set_frame(-0.4, 0.4, -0.4, 0.4);
 //
-//	Simdunas::get_evt_handler()->add_hook(btn_personalizar->get_click_event(MouseButton::one()), personalizar_action, this);
+//	event_handler->add_hook(btn_personalizar->get_click_event(MouseButton::one()), personalizar_action, this);
 
 	//botão de ativar/desativar colisão
-	img_btn_colisao = Simdunas::get_window()->load_model(get_root(), "models/buttons/colisao");
+	img_btn_colisao = window->load_model(get_root(), "models/buttons/colisao");
 	img_btn_colisao.detach_node();
 	btn_colisao = new PGButton("colisao");
 	btn_colisao->setup(img_btn_colisao);
@@ -197,15 +197,15 @@ void GameOptionsScreen::load() {
 	np_btn_colisao.set_pos(0.6, 0.0, 0.03);
 	btn_colisao->set_frame(-0.4, 0.4, -0.4, 0.4);
 
-	Simdunas::get_evt_handler()->add_hook(btn_colisao->get_click_event(MouseButton::one()), colisao_action, this);
+	event_handler->add_hook(btn_colisao->get_click_event(MouseButton::one()), colisao_action, this);
 
 	//carregando botão V (de ativar colisão)
-	img_colisao_ativada = Simdunas::get_window()->load_model(img_escolha_especie, "models/buttons/v.png");
+	img_colisao_ativada = window->load_model(img_escolha_especie, "models/buttons/v.png");
 	img_colisao_ativada.set_scale(0.2, 0.0, 0.2);
 	img_colisao_ativada.set_pos(28.0, 0.0, 0.0);
      
 	//carregando botão x (de desativar colisão)
-	img_colisao_desativada = Simdunas::get_window()->load_model(img_escolha_especie, "models/buttons/x.png");
+	img_colisao_desativada = window->load_model(img_escolha_especie, "models/buttons/x.png");
 	img_colisao_desativada.set_scale(0.2, 0.0, 0.2);
 	img_colisao_desativada.set_pos(28.0, 0.0, 0.0);
 	
@@ -219,7 +219,7 @@ void GameOptionsScreen::load() {
 	}
 
 
-	Simdunas::get_evt_handler()->add_hook(slide->get_adjust_event(), slide_action, this);
+	event_handler->add_hook(slide->get_adjust_event(), slide_action, this);
 	//o lagarto default é o eurolophosaurus
 	eurolophosaurus_action();
 

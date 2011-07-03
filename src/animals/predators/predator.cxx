@@ -36,7 +36,7 @@ Predator::Predator(NodePath node) : Animal(node){
 		debug_visibility_circle.set_bin("fixed", 40);
 		debug_visibility_circle.set_depth_test(false);
 		debug_visibility_circle.set_depth_write(false);
-		debug_visibility_circle.reparent_to(Simdunas::get_window()->get_render());
+		debug_visibility_circle.reparent_to(render);
 		debug_visibility_circle.show();
 		debug_visibility_circle.set_antialias(AntialiasAttrib::M_line);
 	}
@@ -88,7 +88,7 @@ void Predator::load_predator(const string &model, int qtd, float scale,
 
 		/* Adiciona o predator ao terreno e ao render */
 		terrain->add_predator(predator);
-		predator->reparent_to(Simdunas::get_window()->get_render());
+		predator->reparent_to(render);
 
 		/* Roda a animação */
 		predator->loop_anim("andar");
@@ -104,8 +104,6 @@ void Predator::load_predator(const string &model, int qtd, float scale,
 void Predator::act(){
 	static float distance = 10;
 	static float eat_thr = 0.3;
-
-	PT(Player) player = Player::get_instance();
 
 	if(Session::get_instance()->get_level() == 1){
 		if(get_distance(*player) < distance){
@@ -167,8 +165,8 @@ void Predator::act(){
 		}
 
 		/* Atualiza o círculo para debug */
-		debug_visibility_circle.set_pos(get_pos(Simdunas::get_window()->get_render()));
-		debug_visibility_circle.set_quat(get_quat(Simdunas::get_window()->get_render()));
+		debug_visibility_circle.set_pos(get_pos(render));
+		debug_visibility_circle.set_quat(get_quat(render));
 		if(dist_visibility == 0) debug_visibility_circle.hide();
 		else debug_visibility_circle.set_scale(dist_visibility);
 
@@ -193,7 +191,6 @@ void Predator::pursuit(){
 	if(!this->get_anim_control()->is_playing("comer")){
 		play_anim("andar");
 
-		PT(Player) player = Player::get_instance();
 		look_at(*player);
 
 		move(get_velocity());
@@ -202,15 +199,15 @@ void Predator::pursuit(){
 
 /*! Roda comportamento de mordida/comer */
 void Predator::bite(){
-	if(!this->get_anim_control()->is_playing("comer") && !Player::get_instance()->being_bited()){
+	if(!this->get_anim_control()->is_playing("comer") && !player->being_bited()){
 		get_anim_control()->stop_all();
 		play_anim("comer");
 
 //        sound->play();//testando som
 
 		/* Diminui energia do player */
-		Player::get_instance()->be_bited();
-		Player::get_instance()->add_energia_alimento(-1.0);
+		player->be_bited();
+		player->add_energia_alimento(-1.0);
 		GuiManager::get_instance()->piscar_life();
 	}
 }
@@ -226,7 +223,7 @@ void Predator::pause_animation(){
 
 /*! Retoma a animação */
 void Predator::continue_animation(){
-	if(Simdunas::get_window()->get_render().is_ancestor_of(*this)) play_anim("andar");
+	if(render.is_ancestor_of(*this)) play_anim("andar");
 }
 
 float Predator::get_visibility_distance() const {
@@ -244,7 +241,6 @@ void Predator::set_visibility_distance(float visibility_distance){
  * - dcontraste é o ganho de distância para quando o contraste for máximo (1)
  * - dtam é o ganho de distância para quando o tamanho for máximo (1). */
 float Predator::get_visibility(){
-	PT(Player) player = Player::get_instance();
 	bool is_night = TimeControl::get_instance()->is_night();
 
 	/* Separado por legibilidade. Se não estiver no período ativo anula a visibilidade */

@@ -185,7 +185,7 @@ void foliage::add_foliage(string path, NodePath vegetal){
 	block.set_texture(folhagem_stage, folhagem_texture); //add folhagem ao bloco
 	block.set_tex_scale(folhagem_stage, terrain_size/block_size); //determina escala 512/64 = 8
 	block.set_tex_offset(folhagem_stage, - coordenada.get_x(), - coordenada.get_y());//coloca imagem no block certo
-	//LPoint3f xxx = Player::get_instance()->get_pos(block);
+	//LPoint3f xxx = player->get_pos(block);
 	//cout<<  xxx.get_x() << endl;
 	//cout<< xxx.get_y() << endl;
 	cout<< "3 colocando a TEXTURA"<< endl;

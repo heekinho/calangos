@@ -296,7 +296,7 @@ void ModelRepository::add_animated_model(const string &name, const string &path,
 	object->set_name(name);
 
 
-	for(int i = 0; i < num_anims; i++) Simdunas::get_window()->load_model(*object, Filename(path + anims[i] + filetype));
+	for(int i = 0; i < num_anims; i++) window->load_model(*object, Filename(path + anims[i] + filetype));
 
 
 	/* Bind Anims */

@@ -3,6 +3,8 @@
 
 #include "pandaFramework.h"
 #include "eventHandler.h"
+#include "mouseWatcher.h"
+#include "mouseWatcherGroup.h"
 #include "timeControl.h"
 #include "pgVirtualFrame.h"
 #include "pgButton.h"
@@ -12,8 +14,6 @@
 #include "microClima.h"
 #include "textNode.h"
 #include "graphics.h"
-#include "mouseWatcher.h"
-#include "mouseWatcherGroup.h"
 //#include "vetores.h"
 #include "gameStatusBar.h"
 #include "graphicsMenu.h"
@@ -77,7 +77,6 @@ private:
     GuiManager();
     static PT(GuiManager) instance;
     static bool instanceFlag;
-    WindowFramework* window;
     GameStatusBar* game_status_bar;
     GraphicsMenu* graphics_menu;
     PGVirtualFrame* menu_frame;

@@ -25,7 +25,7 @@ TypeHandle CameraControl::_type_handle;
 PT(CameraControl) CameraControl::get_instance(){
 	if(!single) {
 		/* Qual a forma de passar atributos antes da primeira chamada no Singleton? */
-        single = new CameraControl((PT(ObjetoJogo)) Player::get_instance());
+        single = new CameraControl((PT(ObjetoJogo)) player);
     }
     return single;
 }
@@ -40,7 +40,7 @@ CameraControl::~CameraControl(){
 	display_region = NULL;
 	object = NULL;
 
-	Simdunas::get_evt_handler()->remove_hooks_with(this);
+	event_handler->remove_hooks_with(this);
 }
 
 /*! Constrói o Controle de Cameras. Este controle é responsável pela criação e ativação
@@ -52,7 +52,7 @@ CameraControl::CameraControl(PT(ObjetoJogo) object){
 	this->current_camera = 2;
 	this->accept_user_input = true;
 
-	this->display_region = Simdunas::get_window()->get_graphics_window()->get_active_display_region(0);
+	this->display_region = window->get_graphics_window()->get_active_display_region(0);
 	this->display_region->set_clear_color(Colorf(0,0,0,1));
 
 	this->configure_user_input();
@@ -62,7 +62,7 @@ CameraControl::CameraControl(PT(ObjetoJogo) object){
 	this->set_active_camera(current_camera);
 
 	/* Define o NodePath sobre o qual as cameras ficarão */
-	this->group = Simdunas::get_window()->get_render().attach_new_node("Cameras");
+	this->group = render.attach_new_node("Cameras");
 }
 
 /*! Configura as entradas de teclado do usuário para o Controle */
@@ -98,7 +98,7 @@ void CameraControl::create_cameras(){
 	this->cameras.push_back(new CloseCamera(new Camera("close_camera")));
 	this->cameras.push_back(new FarCamera(new Camera("far_camera")));
 	this->cameras.push_back(new TopCamera(new Camera("top_camera")));
-	this->cameras.push_back(new FreeCamera(Simdunas::get_window()->get_camera(0)));
+	this->cameras.push_back(new FreeCamera(window->get_camera(0)));
 	this->cameras.push_back(new TocaCamera(new Camera("toca_camera")));
 }
 
@@ -154,7 +154,7 @@ void CameraControl::set_active_camera(int icamera){
 	}
 
 	/* Ao mudar de camera, lança-se um evento */
-	if(current_camera != previous_camera) Simdunas::get_evt_queue()->queue_event(new Event("camera-change"));
+	if(current_camera != previous_camera) event_queue->queue_event(new Event("camera-change"));
 }
 
 

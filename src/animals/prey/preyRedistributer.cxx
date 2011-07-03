@@ -17,7 +17,7 @@ const float PreyRedistributer::dist_max = 10.0;
 /*! Cria e inicialiaza o método de redistribuição de presas */
 PreyRedistributer::PreyRedistributer(list<PT(Prey)> preys){
 	this->_preys = preys;
-	Simdunas::get_evt_handler()->add_hook(PlayerControl::EV_player_move, update_redistribution, this);
+	event_handler->add_hook(PlayerControl::EV_player_move, update_redistribution, this);
 	update_redistribution();
 }
 
@@ -28,7 +28,6 @@ PreyRedistributer::~PreyRedistributer(){
 
 /*! Metódo chamada via eventos para atualizar distribuição */
 void PreyRedistributer::update_redistribution(){
-	PT(Player) player = Player::get_instance();
 	list<PT(Prey)>::iterator prey = _preys.begin();
 	while(prey != _preys.end()){
 		if((*prey)->get_distance(*player) > dist_max) realoc_prey(*prey, player->get_pos());

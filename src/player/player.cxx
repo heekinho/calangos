@@ -25,9 +25,9 @@ Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_anim
 	//int especie = Menu::get_instance()->get_especie();
 	load_health(lizard_specie);
 
-	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_segundo_real, event_gasto_energia, this);
-	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_day, event_pday, this);
-	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_month, event_pmonth, this);
+	event_handler->add_hook(TimeControl::EV_segundo_real, event_gasto_energia, this);
+	event_handler->add_hook(TimeControl::EV_pass_day, event_pday, this);
+	event_handler->add_hook(TimeControl::EV_pass_month, event_pmonth, this);
 
 	if(ModelRepository::get_instance()->get_lagarto_personalizado()){
 		nout << "teste" << endl;
@@ -116,20 +116,18 @@ float Player::get_speed_running(){
 	return get_speed_walking() * 10;
 }
 
-void Player::display(PT(Player) player){
+void Player::display(){
 	#if(DEBUG_PLAYER)
 	    cout << "\nHora: " << TimeControl::get_instance()->get_hora() << ":" << TimeControl::get_instance()->get_minuto() << "\nTemperatura interna do lagarto: " << player->get_temp_interna() <<
-		"\nGasto com temperatura interna: " << Player::get_instance()->get_gasto_temp() << "\nGasto basal: " << Player::get_instance()->get_gasto_basal()
-		<< "\nGasto total: " << Player::get_instance()->get_gasto_total() << "\nFatorUmidade: " << Player::get_instance()->fator_umidade << "\nHidrata��o: "
-		<< Player::get_instance()->get_hidratacao() << "\nEnergia do lagarto: "
-		<< Player::get_instance()->get_energia() << endl;
+		"\nGasto com temperatura interna: " << player->get_gasto_temp() << "\nGasto basal: " << player->get_gasto_basal()
+		<< "\nGasto total: " << player->get_gasto_total() << "\nFatorUmidade: " << player->fator_umidade << "\nHidrata��o: "
+		<< player->get_hidratacao() << "\nEnergia do lagarto: "
+		<< player->get_energia() << endl;
 	#endif
 }
 
 /*! Carrega o Player */
 void Player::load_player(){
-	PT(Player) player = Player::get_instance();
-
 	/* Cria nó de colisão para o player */
 	collision::get_instance()->playerCollision(player);
 
@@ -148,7 +146,7 @@ void Player::load_player(){
 	PT(AnimControl) ac = player->get_anim_control()->find_anim("fast_bite");
 	if(ac != NULL) ac->set_play_rate(2);
 
-	player->reparent_to(Simdunas::get_window()->get_render());
+	player->reparent_to(render);
 }
 
 /*! Muda de setor alem de atualizar os setores adjacentes */
@@ -178,7 +176,6 @@ float Player::get_eat_radius_thr(){
 
 /*! Verifica se o objeto passado é alcançavel pelo player (ex.: para comer ou morder) */
 bool Player::reaches(PT(ObjetoJogo) object){
-	PT(Player) player = Player::get_instance();
 	if(!object || !player->get_setor()) return false;
 
 	/* Obtem os vetores para fazer as comparações de distância e angulo */
@@ -217,9 +214,9 @@ void Player::set_in_toca(bool in_toca){
 
 void Player::unload_player(){
 
-	Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_segundo_real, event_gasto_energia, Player::get_instance());
-	Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_pass_day, event_pday, Player::get_instance());
-	Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_pass_month, event_pmonth, Player::get_instance());
+	event_handler->remove_hook(TimeControl::EV_segundo_real, event_gasto_energia, player);
+	event_handler->remove_hook(TimeControl::EV_pass_day, event_pday, player);
+	event_handler->remove_hook(TimeControl::EV_pass_month, event_pmonth, player);
 
 	instanceFlag = false;
 	single->remove_node();

@@ -95,7 +95,7 @@ void Session::init_session(int process_stage){
 		case 10:
 			/* Redistribui animais para setores próximos ao player */
 			nout << "Distribuindo animais..." << endl;
-			Player::get_instance()->change_sector(Player::get_instance()->get_setor());
+			player->change_sector(player->get_setor());
 			finished_loading = true;
 			break;
 	}
@@ -133,7 +133,7 @@ void Session::run(){
 		/* O controle de tempo precisa saber o quanto de tempo se passou.
 		 * Assim, todos os elementos de jogo que precisam ser atualizados, passam a escutar
 		 * o evento de passagem de frame do TimeControl agindo a cada frame. */
-		TimeControl::get_instance()->update_time_control(ClockObject::get_global_clock()->get_dt());
+		TimeControl::get_instance()->update_time_control(global_clock->get_dt());
 	}
 	if(Session::get_instance()->game_over){
 		cout<<" Reiniciando o Jogo..." << endl;
@@ -221,7 +221,7 @@ void Session::end_session(){
 
 /*! Tem o intuito de parar todas as animações. TODO: Ainda não faz a funcionalidade */
 void Session::stop_animations(){
-	Player::get_instance()->get_anim_control()->stop_all();
+	player->get_anim_control()->stop_all();
 }
 
 /*! Retorna a causa da morte do lagarto */

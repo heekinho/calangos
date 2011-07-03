@@ -25,7 +25,7 @@ Lizard::Lizard(NodePath node) : Animal(node){
 }
 
 Lizard::~Lizard(){
-	Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_pass_minute, check_temp, this);
+	event_handler->remove_hook(TimeControl::EV_pass_minute, check_temp, this);
 }
 
 
@@ -42,7 +42,7 @@ void Lizard::init(){
 	actions["bobbing"] = false;
 
 
-	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_minute, check_temp, this);
+	event_handler->add_hook(TimeControl::EV_pass_minute, check_temp, this);
 	tempo_no_sol_thr = 100;
 	tempo_na_sombra_thr = 150;
 	tempo_no_sol = 0;
@@ -87,7 +87,7 @@ void Lizard::load_lizards(){
 			//0.0021 = 0.0025 - 0.0004 => tamanho máximo - tamanho mínimo
 			lizard->scale_temp = ((0.0021/100)* lizard->get_energia()) + 0.0004;
 			lizard->set_tamanho_real(ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.0001));
-			lizard->set_tamanho_base(Player::get_instance()->calc_tamanho_base(lizard->get_tamanho_real()));
+			lizard->set_tamanho_base(player->calc_tamanho_base(lizard->get_tamanho_real()));
 			//lizard->scale = ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.0001);
 		}
 		else if(gender == 1){
@@ -100,7 +100,7 @@ void Lizard::load_lizards(){
 			//0.0021 = 0.0025 - 0.0004 => tamanho máximo - tamanho mínimo
 			lizard->scale_temp = ((0.0021/100)* lizard->get_energia()) + 0.0004;
 			lizard->set_tamanho_real(ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.0001));
-			lizard->set_tamanho_base(Player::get_instance()->calc_tamanho_base(lizard->get_tamanho_real()));
+			lizard->set_tamanho_base(player->calc_tamanho_base(lizard->get_tamanho_real()));
 			//lizard->scale = ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.0001);
 		}
 		else {
@@ -115,7 +115,7 @@ void Lizard::load_lizards(){
 			//0.0021 = 0.0025 - 0.0004 => tamanho máximo - tamanho mínimo
 			lizard->scale_temp = ((0.0021/100)* lizard->get_energia()) + 0.0004;
 			lizard->set_tamanho_real(ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.0001));
-			lizard->set_tamanho_base(Player::get_instance()->calc_tamanho_base(lizard->get_tamanho_real()));
+			lizard->set_tamanho_base(player->calc_tamanho_base(lizard->get_tamanho_real()));
 			//lizard->scale = ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.00001);
 		}
 
@@ -131,7 +131,7 @@ void Lizard::load_lizards(){
 		lizard->loop_anim("walk", true);
 
 		//lizard->wrt_reparent_to(Terrain::create_default_terrain()->no_setores[->get_setor_from_pos(lizard->get_x(),lizard->get_y())->get_indice()].node());
-                //lizard->reparent_to(Simdunas::get_window()->get_render());
+                //lizard->reparent_to(render);
 
 		lizard->reparent_to(lizard->get_setor()->get_root());
 
@@ -173,8 +173,6 @@ void Lizard::act(){
 
 
 void Lizard::flee(){
-	PT(Player) player = Player::get_instance();
-
 	if(!has_other_anim_active("walk")){
 		play_anim("walk");
 
@@ -284,7 +282,7 @@ void Lizard::pause_animation(){
 }
 
 void Lizard::continue_animation(){
-	if(Simdunas::get_window()->get_render().is_ancestor_of(*this)){
+	if(render.is_ancestor_of(*this)){
 		set_action("walk", true);
 		play_anim("walk");
 	}

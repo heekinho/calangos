@@ -204,8 +204,6 @@ void Prey::act(){
 
 /*! Comportamento de fuga das presas */
 void Prey::flee(){
-	PT(Player) player = Player::get_instance();
-
 	/* Comportamento */
 	look_at(*player);  //TODO: Corrigir depois para não permitir muito giro.
 	set_h(*this, 180); // Corrige modelo errado
@@ -255,7 +253,7 @@ PT(Vegetal) Prey::chose_new_living_tree(){
 	float prey_to_vegetal_max_dist = 8.0;
 	float prey_to_player_min_dist = 5.0;
 
-	PT(Player) player = Player::get_instance();
+	
 	SectorItems<PT(Vegetal)>* vegetal_list = get_setor()->vegetals();
 	SectorItems<PT(Vegetal)>::iterator it;
 	for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it) {

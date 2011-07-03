@@ -35,7 +35,7 @@ ClimaTempo::ClimaTempo() {
 
 	/*Se 'inscreve' para escutar o evento de passagem de hora virtual (Ev_pass_hour), gerado pela classe TimeControl.
 	*Quando esse evento acontecer, o método event_phour_temp() será chamado.*/
-	Simdunas::get_evt_handler()->add_hook(TimeControl::get_instance()->EV_pass_hour, event_phour_temp, this);
+	event_handler->add_hook(TimeControl::get_instance()->EV_pass_hour, event_phour_temp, this);
 }
 
 /*Isso e o TypeHandle garantem que todos as referências sejam eliminadas ao finalizar o jogo

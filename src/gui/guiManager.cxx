@@ -89,38 +89,36 @@ void GuiManager::unload_gui(){
 //Método que remove os eventos cadastrados na fila de eventos.
 void GuiManager::remove_hooks() {
 	//------------------------------------------------------------
-	Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_segundo_real, update_gui, this);
-	//Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_pass_frame_gui_options, init_options, this);
-	Simdunas::get_evt_handler()->remove_hook(game_status_bar->get_btn_grafico()->get_click_event(MouseButton::one()), click_event_botao_grafico, this);
-	Simdunas::get_evt_handler()->remove_hook(graphics_menu->get_btn_graf_tempo()->get_click_event(MouseButton::one()), click_event_botao_grafico_tempo, this);
-	Simdunas::get_evt_handler()->remove_hook(graphics_menu->get_btn_graf_variavel()->get_click_event(MouseButton::one()), click_event_botao_grafico_variavel, this);
-	Simdunas::get_evt_handler()->remove_hook(graphics_menu->get_btn_temp_interna()->get_click_event(MouseButton::one()), click_event_botao1_grafico_TempInterna, this);
-	Simdunas::get_evt_handler()->remove_hook(graphics_menu->get_btn_hidratacao()->get_click_event(MouseButton::one()), click_event_botao2_grafico_Hidratacao, this);
-	Simdunas::get_evt_handler()->remove_hook(graphics_menu->get_btn_temp_ar()->get_click_event(MouseButton::one()), click_event_botao3_grafico_TempAr, this);
-	Simdunas::get_evt_handler()->remove_hook(graphics_menu->get_btn_umidade()->get_click_event(MouseButton::one()), click_event_botao4_grafico_Umidade, this);
-	Simdunas::get_evt_handler()->remove_hook(graphics_menu->get_btn_temp_solo()->get_click_event(MouseButton::one()), click_event_botao5_grafico_TempSolo, this);
-	Simdunas::get_evt_handler()->remove_hook(graphics_menu->get_btn_alimentacao()->get_click_event(MouseButton::one()), click_event_botao6_grafico_Alimentacao, this);
-	Simdunas::get_evt_handler()->remove_hook(graphics_menu->get_btn_energia()->get_click_event(MouseButton::one()), click_event_botao7_grafico_Energia, this);
-	Simdunas::get_evt_handler()->remove_hook(graphics_menu->get_btn_gasto_energetico()->get_click_event(MouseButton::one()), click_event_botao8_grafico_GastoEnergetico, this);
+	event_handler->remove_hook(TimeControl::EV_segundo_real, update_gui, this);
+	//event_handler->remove_hook(TimeControl::EV_pass_frame_gui_options, init_options, this);
+	event_handler->remove_hook(game_status_bar->get_btn_grafico()->get_click_event(MouseButton::one()), click_event_botao_grafico, this);
+	event_handler->remove_hook(graphics_menu->get_btn_graf_tempo()->get_click_event(MouseButton::one()), click_event_botao_grafico_tempo, this);
+	event_handler->remove_hook(graphics_menu->get_btn_graf_variavel()->get_click_event(MouseButton::one()), click_event_botao_grafico_variavel, this);
+	event_handler->remove_hook(graphics_menu->get_btn_temp_interna()->get_click_event(MouseButton::one()), click_event_botao1_grafico_TempInterna, this);
+	event_handler->remove_hook(graphics_menu->get_btn_hidratacao()->get_click_event(MouseButton::one()), click_event_botao2_grafico_Hidratacao, this);
+	event_handler->remove_hook(graphics_menu->get_btn_temp_ar()->get_click_event(MouseButton::one()), click_event_botao3_grafico_TempAr, this);
+	event_handler->remove_hook(graphics_menu->get_btn_umidade()->get_click_event(MouseButton::one()), click_event_botao4_grafico_Umidade, this);
+	event_handler->remove_hook(graphics_menu->get_btn_temp_solo()->get_click_event(MouseButton::one()), click_event_botao5_grafico_TempSolo, this);
+	event_handler->remove_hook(graphics_menu->get_btn_alimentacao()->get_click_event(MouseButton::one()), click_event_botao6_grafico_Alimentacao, this);
+	event_handler->remove_hook(graphics_menu->get_btn_energia()->get_click_event(MouseButton::one()), click_event_botao7_grafico_Energia, this);
+	event_handler->remove_hook(graphics_menu->get_btn_gasto_energetico()->get_click_event(MouseButton::one()), click_event_botao8_grafico_GastoEnergetico, this);
 
 }
 
 //Construtor.
 GuiManager::GuiManager() {
-	//window = Simdunas::get_window();
-
 	////////controla quanto tempo  o lagarto vai ficar piscando quando comer uma presa
 	//    controle_tempo_piscando=(50/Menu::get_instance()->get_minuto_dia_virtual());
 
 	//Regula o aspect 2d.
-//	Simdunas::get_window()->get_aspect_2d().set_scale(1.0);
+//	aspect2d.set_scale(1.0);
 	is_game_over = false;
 
 	//Toca
-	moldura_toca = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/objects/toca.png");
-	Simdunas::get_evt_handler()->add_hook(PlayerControl::EV_player_enter_toca, mostra_moldura_toca, this);
-	Simdunas::get_evt_handler()->add_hook(PlayerControl::EV_player_outof_toca, esconde_moldura_toca, this);
-	moldura_toca.reparent_to(Simdunas::get_window()->get_render_2d());
+	moldura_toca = window->load_model(aspect2d, "models/objects/toca.png");
+	event_handler->add_hook(PlayerControl::EV_player_enter_toca, mostra_moldura_toca, this);
+	event_handler->add_hook(PlayerControl::EV_player_outof_toca, esconde_moldura_toca, this);
+	moldura_toca.reparent_to(render2d);
 	moldura_toca.set_scale(0.0792, 0.095, 0.1);
 	moldura_toca.set_pos(-0.21, 0.0, 0.0);
 	moldura_toca.hide();
@@ -145,28 +143,28 @@ GuiManager::GuiManager() {
 
 	//----------------------------------------------------------------------
 	TimeControl::get_instance()->set_habilita_event_frame_gui(true);
-	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_segundo_real, update_gui, this);
+	event_handler->add_hook(TimeControl::EV_segundo_real, update_gui, this);
 
 	//Coloca os eventos na fila de eventos.
-	Simdunas::get_evt_handler()->add_hook(game_status_bar->get_btn_grafico()->get_click_event(MouseButton::one()), click_event_botao_grafico,this);
-	Simdunas::get_evt_handler()->add_hook(graphics_menu->get_btn_graf_tempo()->get_click_event(MouseButton::one()), click_event_botao_grafico_tempo,this);
-	Simdunas::get_evt_handler()->add_hook(graphics_menu->get_btn_graf_variavel()->get_click_event(MouseButton::one()), click_event_botao_grafico_variavel,this);
-	Simdunas::get_evt_handler()->add_hook(graphics_menu->get_btn_temp_interna()->get_click_event(MouseButton::one()), click_event_botao1_grafico_TempInterna,this);
-	Simdunas::get_evt_handler()->add_hook(graphics_menu->get_btn_hidratacao()->get_click_event(MouseButton::one()), click_event_botao2_grafico_Hidratacao, this);
-	Simdunas::get_evt_handler()->add_hook(graphics_menu->get_btn_temp_ar()->get_click_event(MouseButton::one()), click_event_botao3_grafico_TempAr,this);
-	Simdunas::get_evt_handler()->add_hook(graphics_menu->get_btn_umidade()->get_click_event(MouseButton::one()), click_event_botao4_grafico_Umidade,this);
-	Simdunas::get_evt_handler()->add_hook(graphics_menu->get_btn_temp_solo()->get_click_event(MouseButton::one()), click_event_botao5_grafico_TempSolo,this);
-	Simdunas::get_evt_handler()->add_hook(graphics_menu->get_btn_alimentacao()->get_click_event(MouseButton::one()), click_event_botao6_grafico_Alimentacao, this);
-	Simdunas::get_evt_handler()->add_hook(graphics_menu->get_btn_energia()->get_click_event(MouseButton::one()), click_event_botao7_grafico_Energia,this);
-	Simdunas::get_evt_handler()->add_hook(graphics_menu->get_btn_gasto_energetico()->get_click_event(MouseButton::one()), click_event_botao8_grafico_GastoEnergetico,this);
-	Simdunas::get_evt_handler()->add_hook(graphics_menu->get_btn_temp_interna_v()->get_click_event(MouseButton::one()), click_event_vBotao1_grafico_TempInterna,this);
-	Simdunas::get_evt_handler()->add_hook(graphics_menu->get_btn_hidratacao_v()->get_click_event(MouseButton::one()), click_event_vBotao2_grafico_Hidratacao, this);
-	Simdunas::get_evt_handler()->add_hook(graphics_menu->get_btn_temp_ar_v()->get_click_event(MouseButton::one()), click_event_vBotao3_grafico_TempAr,this);
-	Simdunas::get_evt_handler()->add_hook(graphics_menu->get_btn_umidade_v()->get_click_event(MouseButton::one()), click_event_vBotao4_grafico_Umidade,this);
-	Simdunas::get_evt_handler()->add_hook(graphics_menu->get_btn_temp_solo_v()->get_click_event(MouseButton::one()), click_event_vBotao5_grafico_TempSolo,this);
-	Simdunas::get_evt_handler()->add_hook(graphics_menu->get_btn_alimentacao_v()->get_click_event(MouseButton::one()), click_event_vBotao6_grafico_Alimentacao, this);
-	Simdunas::get_evt_handler()->add_hook(graphics_menu->get_btn_energia_v()->get_click_event(MouseButton::one()), click_event_vBotao7_grafico_Energia,this);
-	Simdunas::get_evt_handler()->add_hook(graphics_menu->get_btn_gasto_energetico_v()->get_click_event(MouseButton::one()), click_event_vBotao8_grafico_GastoEnergetico,this);
+	event_handler->add_hook(game_status_bar->get_btn_grafico()->get_click_event(MouseButton::one()), click_event_botao_grafico,this);
+	event_handler->add_hook(graphics_menu->get_btn_graf_tempo()->get_click_event(MouseButton::one()), click_event_botao_grafico_tempo,this);
+	event_handler->add_hook(graphics_menu->get_btn_graf_variavel()->get_click_event(MouseButton::one()), click_event_botao_grafico_variavel,this);
+	event_handler->add_hook(graphics_menu->get_btn_temp_interna()->get_click_event(MouseButton::one()), click_event_botao1_grafico_TempInterna,this);
+	event_handler->add_hook(graphics_menu->get_btn_hidratacao()->get_click_event(MouseButton::one()), click_event_botao2_grafico_Hidratacao, this);
+	event_handler->add_hook(graphics_menu->get_btn_temp_ar()->get_click_event(MouseButton::one()), click_event_botao3_grafico_TempAr,this);
+	event_handler->add_hook(graphics_menu->get_btn_umidade()->get_click_event(MouseButton::one()), click_event_botao4_grafico_Umidade,this);
+	event_handler->add_hook(graphics_menu->get_btn_temp_solo()->get_click_event(MouseButton::one()), click_event_botao5_grafico_TempSolo,this);
+	event_handler->add_hook(graphics_menu->get_btn_alimentacao()->get_click_event(MouseButton::one()), click_event_botao6_grafico_Alimentacao, this);
+	event_handler->add_hook(graphics_menu->get_btn_energia()->get_click_event(MouseButton::one()), click_event_botao7_grafico_Energia,this);
+	event_handler->add_hook(graphics_menu->get_btn_gasto_energetico()->get_click_event(MouseButton::one()), click_event_botao8_grafico_GastoEnergetico,this);
+	event_handler->add_hook(graphics_menu->get_btn_temp_interna_v()->get_click_event(MouseButton::one()), click_event_vBotao1_grafico_TempInterna,this);
+	event_handler->add_hook(graphics_menu->get_btn_hidratacao_v()->get_click_event(MouseButton::one()), click_event_vBotao2_grafico_Hidratacao, this);
+	event_handler->add_hook(graphics_menu->get_btn_temp_ar_v()->get_click_event(MouseButton::one()), click_event_vBotao3_grafico_TempAr,this);
+	event_handler->add_hook(graphics_menu->get_btn_umidade_v()->get_click_event(MouseButton::one()), click_event_vBotao4_grafico_Umidade,this);
+	event_handler->add_hook(graphics_menu->get_btn_temp_solo_v()->get_click_event(MouseButton::one()), click_event_vBotao5_grafico_TempSolo,this);
+	event_handler->add_hook(graphics_menu->get_btn_alimentacao_v()->get_click_event(MouseButton::one()), click_event_vBotao6_grafico_Alimentacao, this);
+	event_handler->add_hook(graphics_menu->get_btn_energia_v()->get_click_event(MouseButton::one()), click_event_vBotao7_grafico_Energia,this);
+	event_handler->add_hook(graphics_menu->get_btn_gasto_energetico_v()->get_click_event(MouseButton::one()), click_event_vBotao8_grafico_GastoEnergetico,this);
 	//cout<<"teste4" << endl;
 }
 
@@ -194,8 +192,8 @@ void GuiManager::make_frame() {
 void GuiManager::notifyGameOver() {
 	update_gui(NULL,this);
 	is_game_over = true;
-	Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_segundo_real, update_gui, this);
-	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame_gui_options, update_gui, this);
+	event_handler->remove_hook(TimeControl::EV_segundo_real, update_gui, this);
+	event_handler->add_hook(TimeControl::EV_pass_frame_gui_options, update_gui, this);
 }
 
 //Metodo que é chamado toda vez que o evento de clique no botao de abertura do painel dos graficos.
@@ -217,7 +215,7 @@ void GuiManager::click_event_botao_grafico(const Event*, void *data) {
 			conta = 0;
 			flag_piscar = false;
 			_this->game_status_bar->get_piscar_model().detach_node();
-			Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_segundo_real, verifica_conta, _this);
+			event_handler->remove_hook(TimeControl::EV_segundo_real, verifica_conta, _this);
 		}
 
 
@@ -258,7 +256,7 @@ void GuiManager::click_event_botao_grafico(const Event*, void *data) {
 
 		_this->graphics_menu->init_graphics();
 
-		Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame_gui_options, init_options, _this);
+		event_handler->add_hook(TimeControl::EV_pass_frame_gui_options, init_options, _this);
 		TimeControl::get_instance()->set_stop_time(true);
 	} else {
 		_this->gui_options_flag2 = true;
@@ -274,77 +272,77 @@ void GuiManager::update_gui(const Event*, void *data) {
 	GameStatusBar* game_status_bar = _this->game_status_bar;
 	if (!is_game_over) {
 		//this_guiManager->my_bar.set_value(this_guiManager->my_bar.get_value() - 0.01, 0.02, 0.22);
-		game_status_bar->get_life_bar().set_value((Player::get_instance()->get_energia() / 100), 0.02, 0.22);
+		game_status_bar->get_life_bar().set_value((player->get_energia() / 100), 0.02, 0.22);
 		//A barra varia de -9.5 até 9.5, por isso 0.19 * valor_de_hidratação.
-		game_status_bar->get_hidratacao_scroll_bar().set_value(0.19 * (Player::get_instance()->get_hidratacao()));
-		sprintf(_this->string_hidratacao, "%.1f", Player::get_instance()->get_hidratacao());
+		game_status_bar->get_hidratacao_scroll_bar().set_value(0.19 * (player->get_hidratacao()));
+		sprintf(_this->string_hidratacao, "%.1f", player->get_hidratacao());
 		game_status_bar->get_label_hidratacao()->set_text(_this->string_hidratacao);
 
 		//FAZENDO OS CALCULOS PRA PARAMETRIZAR A TEMPERATURA DO LAGARTO
-		if (Player::get_instance()->get_temp_interna() < Player::get_instance()->get_temp_interna_maxlimite()) {
-			float passo = (17 - 2) / (Player::get_instance()->get_temp_interna_maxlimite() - Player::get_instance()->get_temp_interna_minlimite());
-			game_status_bar->get_temperatura_scroll_bar().set_value((3 + ((Player::get_instance()->get_temp_interna() - Player::get_instance()->get_temp_interna_minlimite()) * passo) - 2*passo));
-			//cout << (3 + ((Player::get_instance()->get_temp_interna() - Player::get_instance()->get_temp_interna_minlimite()) * passo)) << endl;
-			sprintf(_this->string_temperatura, "%.1f", Player::get_instance()->get_temp_interna());
+		if (player->get_temp_interna() < player->get_temp_interna_maxlimite()) {
+			float passo = (17 - 2) / (player->get_temp_interna_maxlimite() - player->get_temp_interna_minlimite());
+			game_status_bar->get_temperatura_scroll_bar().set_value((3 + ((player->get_temp_interna() - player->get_temp_interna_minlimite()) * passo) - 2*passo));
+			//cout << (3 + ((player->get_temp_interna() - player->get_temp_interna_minlimite()) * passo)) << endl;
+			sprintf(_this->string_temperatura, "%.1f", player->get_temp_interna());
 			game_status_bar->get_label_temperatura()->set_text(_this->string_temperatura);
 		} else {
-			if (Player::get_instance()->get_temp_interna() > Player::get_instance()->get_temp_interna_minlimite() && Player::get_instance()->get_temp_interna() < Player::get_instance()->get_temp_interna_maxlimite()) {
-				float passo = (17 - 2) / (Player::get_instance()->get_temp_interna_maxlimite() - Player::get_instance()->get_temp_interna_minlimite());
-				game_status_bar->get_temperatura_scroll_bar().set_value(3 + ((Player::get_instance()->get_temp_interna() - Player::get_instance()->get_temp_interna_minlimite()) * passo));
-				//cout << (3 + ((Player::get_instance()->get_temp_interna() - Player::get_instance()->get_temp_interna_minlimite()) * passo)) << endl;
-				sprintf(_this->string_temperatura, "%.1f", Player::get_instance()->get_temp_interna());
+			if (player->get_temp_interna() > player->get_temp_interna_minlimite() && player->get_temp_interna() < player->get_temp_interna_maxlimite()) {
+				float passo = (17 - 2) / (player->get_temp_interna_maxlimite() - player->get_temp_interna_minlimite());
+				game_status_bar->get_temperatura_scroll_bar().set_value(3 + ((player->get_temp_interna() - player->get_temp_interna_minlimite()) * passo));
+				//cout << (3 + ((player->get_temp_interna() - player->get_temp_interna_minlimite()) * passo)) << endl;
+				sprintf(_this->string_temperatura, "%.1f", player->get_temp_interna());
 				game_status_bar->get_label_temperatura()->set_text(_this->string_temperatura);
 			} else {
-				float passo = (17 - 2) / (Player::get_instance()->get_temp_interna_maxlimite() - Player::get_instance()->get_temp_interna_minlimite());
-				game_status_bar->get_temperatura_scroll_bar().set_value((3 + ((Player::get_instance()->get_temp_interna() - Player::get_instance()->get_temp_interna_minlimite()) * passo) + 2 * passo));
-				//cout << (3 + ((Player::get_instance()->get_temp_interna() - 15) * passo)) << endl;
-				sprintf(_this->string_temperatura, "%.1f", Player::get_instance()->get_temp_interna());
+				float passo = (17 - 2) / (player->get_temp_interna_maxlimite() - player->get_temp_interna_minlimite());
+				game_status_bar->get_temperatura_scroll_bar().set_value((3 + ((player->get_temp_interna() - player->get_temp_interna_minlimite()) * passo) + 2 * passo));
+				//cout << (3 + ((player->get_temp_interna() - 15) * passo)) << endl;
+				sprintf(_this->string_temperatura, "%.1f", player->get_temp_interna());
 				game_status_bar->get_label_temperatura()->set_text(_this->string_temperatura);
 			}
 		}
 
 		//FAZENDO OS CALCULOS PRA PARAMETRIZAR A TEMPERATURA DO ar
-		if (Player::get_instance()->get_environment_temp() < LIMITE_INFERIOR_TEMP_AMBIENTE) {
+		if (player->get_environment_temp() < LIMITE_INFERIOR_TEMP_AMBIENTE) {
 			float passo = (17 - 2) / (LIMITE_SUPERIOR_TEMP_AMBIENTE - LIMITE_INFERIOR_TEMP_AMBIENTE);
-			game_status_bar->get_temperatura_ambiente_scroll_bar().set_value((3 + ((Player::get_instance()->get_environment_temp() - LIMITE_INFERIOR_TEMP_AMBIENTE) * passo) - 2*passo));
-			//cout << (3 + ((Player::get_instance()->get_environment_temp() - LIMITE_INFERIOR_TEMP_AMBIENTE) * passo)) << endl;
-			sprintf(_this->string_temp_amb, "%.1f", Player::get_instance()->get_environment_temp());
+			game_status_bar->get_temperatura_ambiente_scroll_bar().set_value((3 + ((player->get_environment_temp() - LIMITE_INFERIOR_TEMP_AMBIENTE) * passo) - 2*passo));
+			//cout << (3 + ((player->get_environment_temp() - LIMITE_INFERIOR_TEMP_AMBIENTE) * passo)) << endl;
+			sprintf(_this->string_temp_amb, "%.1f", player->get_environment_temp());
 			game_status_bar->get_label_temperatura_ambiente()->set_text(_this->string_temp_amb);
 		} else {
-			if (Player::get_instance()->get_environment_temp() > LIMITE_INFERIOR_TEMP_AMBIENTE && Player::get_instance()->get_environment_temp() < LIMITE_SUPERIOR_TEMP_AMBIENTE) {
+			if (player->get_environment_temp() > LIMITE_INFERIOR_TEMP_AMBIENTE && player->get_environment_temp() < LIMITE_SUPERIOR_TEMP_AMBIENTE) {
 				float passo = (17 - 2) / (LIMITE_SUPERIOR_TEMP_AMBIENTE - LIMITE_INFERIOR_TEMP_AMBIENTE);
-				game_status_bar->get_temperatura_ambiente_scroll_bar().set_value(3 + ((Player::get_instance()->get_environment_temp() - LIMITE_INFERIOR_TEMP_AMBIENTE) * passo));
-				//cout << (3 + ((Player::get_instance()->get_environment_temp() - LIMITE_INFERIOR_TEMP_AMBIENTE) * passo)) << endl;
-				sprintf(_this->string_temp_amb, "%.1f", Player::get_instance()->get_environment_temp());
+				game_status_bar->get_temperatura_ambiente_scroll_bar().set_value(3 + ((player->get_environment_temp() - LIMITE_INFERIOR_TEMP_AMBIENTE) * passo));
+				//cout << (3 + ((player->get_environment_temp() - LIMITE_INFERIOR_TEMP_AMBIENTE) * passo)) << endl;
+				sprintf(_this->string_temp_amb, "%.1f", player->get_environment_temp());
 				game_status_bar->get_label_temperatura_ambiente()->set_text(_this->string_temp_amb);
 			} else {
 				float passo = (17 - 2) / (LIMITE_SUPERIOR_TEMP_AMBIENTE - LIMITE_INFERIOR_TEMP_AMBIENTE);
-				game_status_bar->get_temperatura_ambiente_scroll_bar().set_value((3 + ((Player::get_instance()->get_environment_temp() - LIMITE_INFERIOR_TEMP_AMBIENTE) * passo) + 2 * passo));
-				//cout << (3 + ((Player::get_instance()->get_environment_temp() - LIMITE_INFERIOR_TEMP_AMBIENTE) * passo)) << endl;
-				sprintf(_this->string_temp_amb, "%.1f", Player::get_instance()->get_environment_temp());
+				game_status_bar->get_temperatura_ambiente_scroll_bar().set_value((3 + ((player->get_environment_temp() - LIMITE_INFERIOR_TEMP_AMBIENTE) * passo) + 2 * passo));
+				//cout << (3 + ((player->get_environment_temp() - LIMITE_INFERIOR_TEMP_AMBIENTE) * passo)) << endl;
+				sprintf(_this->string_temp_amb, "%.1f", player->get_environment_temp());
 				game_status_bar->get_label_temperatura_ambiente()->set_text(_this->string_temp_amb);
 			}
 		}
 
-		//        this_guiManager->tempAmbiente_scrollBar.set_value(0.19 * (Player::get_instance()->get_environment_temp()));
-		//        sprintf(this_guiManager->stringTemperaturaAmb, "%.1f", Player::get_instance()->get_environment_temp());
+		//        this_guiManager->tempAmbiente_scrollBar.set_value(0.19 * (player->get_environment_temp()));
+		//        sprintf(this_guiManager->stringTemperaturaAmb, "%.1f", player->get_environment_temp());
 		//        this_guiManager->labelTemperaturaAmb->set_text(this_guiManager->stringTemperaturaAmb);
 
 		game_status_bar->get_umidade_scroll_bar().set_value(0.19 * (MicroClima::get_instance()->get_umidade_relativa_sector()));
 		sprintf(_this->string_umidade, "%.1f", MicroClima::get_instance()->get_umidade_relativa_sector());
 		game_status_bar->get_label_umidade()->set_text(_this->string_umidade);
 
-		sprintf(_this->string_vida, "%.1f", Player::get_instance()->get_energia());
+		sprintf(_this->string_vida, "%.1f", player->get_energia());
 		game_status_bar->get_label_life()->set_text(_this->string_vida);
 
-		sprintf(_this->string_count_egg, "%d", Player::get_instance()->get_num_ovos());
+		sprintf(_this->string_count_egg, "%d", player->get_num_ovos());
 		game_status_bar->get_label_egg_count()->set_text(_this->string_count_egg);
 
-		sprintf(_this->string_idade_numero, "%d", Player::get_instance()->get_idade());
+		sprintf(_this->string_idade_numero, "%d", player->get_idade());
 
 		game_status_bar->get_label_idade_numero()->set_text(_this->string_idade_numero);
 
-		if (Player::get_instance()->get_idade() > 1) {
+		if (player->get_idade() > 1) {
 			game_status_bar->get_label_idade()->set_text("meses");
 		}
 	}
@@ -389,7 +387,7 @@ void GuiManager::init_options(const Event *, void *data) {
 				_this->graphics_menu->hide_all_option_graphics();
 				_this->game_status_bar->show_all_status_components();
 
-				Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_pass_frame_gui_options, init_options, _this);
+				event_handler->remove_hook(TimeControl::EV_pass_frame_gui_options, init_options, _this);
 				if (!is_game_over) {
 					PauseScreen* pause_screen = (PauseScreen*) InGameScreenManager::get_instance()->get_pause_screen().p();
 					if(!pause_screen->is_stopped_time()){//verifica se o jogo está pausado
@@ -1279,8 +1277,8 @@ void GuiManager::piscar_life() {
 
 		game_status_bar->get_piscar_model().reparent_to(Simdunas::get_clickable_render_2d());
 		flag_piscar = true;
-		Simdunas::get_evt_handler()->add_hook(TimeControl::EV_segundo_real, verifica_conta, this);
-		Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame_gui_options, verifica_conta, this);
+		event_handler->add_hook(TimeControl::EV_segundo_real, verifica_conta, this);
+		event_handler->add_hook(TimeControl::EV_pass_frame_gui_options, verifica_conta, this);
 	}
 
 }
@@ -1299,8 +1297,8 @@ void GuiManager::verifica_conta(const Event*, void* data) {
 		this_manager->conta = 0;
 		this_manager->flag_piscar = false;
 		this_manager->game_status_bar->get_piscar_model().detach_node();
-		Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_segundo_real, verifica_conta, this_manager);
-		Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_pass_frame_gui_options, verifica_conta, this_manager);
+		event_handler->remove_hook(TimeControl::EV_segundo_real, verifica_conta, this_manager);
+		event_handler->remove_hook(TimeControl::EV_pass_frame_gui_options, verifica_conta, this_manager);
 	}
 }
 

@@ -42,7 +42,7 @@ TimeControl::TimeControl() {
 	passTime = 1;
 	vminute_count = 0;
 	count_et = 0;
-	last_second = (int) ClockObject::get_global_clock()->get_long_time();
+	last_second = (int) global_clock->get_long_time();
 	//MUDAR DE NOME
 	virtualTimeHour = 3;//Menu::get_instance()->get_minuto_dia_virtual();//
 	virtualTimeMonth = 1; //numero de dias por mes
@@ -91,7 +91,7 @@ void TimeControl::event_pframe(const Event *, void *data){
 	/* Como diria o Angra: "Tempo que passou, não vai mais voltar, tudo que se foi..."
 	 * Ou seja: Os seguintes hooks podem ser excluídos pois o tempo não volta... :P */
 	std::stringstream this_frame;
-	this_frame << EV_pass_frame << "_" << (ClockObject::get_global_clock()->get_frame_count() - 1);
+	this_frame << EV_pass_frame << "_" << (global_clock->get_frame_count() - 1);
 	time->p_handler->remove_hooks(this_frame.str());
 
 	std::stringstream this_minute;
@@ -167,7 +167,7 @@ void TimeControl::update_time_control(float elapsed_time){
 		/* --------------------------------------------------------------------------- */
 		//TODO: Colocar EV_... como atributo.
 		std::stringstream pass_frame_numbered;
-		pass_frame_numbered << EV_pass_frame << "_" << ClockObject::get_global_clock()->get_frame_count();
+		pass_frame_numbered << EV_pass_frame << "_" << global_clock->get_frame_count();
 		const Event *ev_frame_numbered = new Event(pass_frame_numbered.str());
 		(*p_queue).queue_event(ev_frame_numbered);
 		/* --------------------------------------------------------------------------- */
@@ -241,7 +241,7 @@ void TimeControl::update_time_control(float elapsed_time){
 }
 
 void TimeControl::update_real_seconds(){
-	int current_second = (int)ClockObject::get_global_clock()->get_long_time();
+	int current_second = (int)global_clock->get_long_time();
 	if(current_second >= last_second + 1){
 		p_queue->queue_event(new Event(EV_segundo_real));
 		last_second = current_second;
@@ -353,12 +353,12 @@ void TimeControl::notify(float time_after, EventCallbackFunction *function, void
 void TimeControl::notify(const string &task_name, GenericAsyncTask::TaskFunc *function, void* data, int delay){
 	PT(GenericAsyncTask) task = new GenericAsyncTask(task_name, function, data);
 	task->set_delay(delay);
-	AsyncTaskManager::get_global_ptr()->add(task);
+	task_mgr->add(task);
 }
 
 //IMPORTANTE: Não esquecer de retirar SEMPRE os hooks com frame_numbered.
 void TimeControl::notify_after_n_frames(int after_n_frames, EventCallbackFunction *function, void *data){
-	int target_frame = ClockObject::get_global_clock()->get_frame_count() + after_n_frames;
+	int target_frame = global_clock->get_frame_count() + after_n_frames;
 
 	std::stringstream listen_frame;
 	listen_frame << EV_pass_frame << "_" << target_frame;
@@ -368,7 +368,7 @@ void TimeControl::notify_after_n_frames(int after_n_frames, EventCallbackFunctio
 
 
 void TimeControl::notify_after_n_seconds(int after_n_secs, EventCallbackFunction *function, void *data) {
-	int target_second = (int)ClockObject::get_global_clock()->get_long_time() + after_n_secs;
+	int target_second = (int)global_clock->get_long_time() + after_n_secs;
 
 	std::stringstream listen_second;
 	listen_second << EV_pass_second << "_" << target_second;

@@ -56,13 +56,13 @@ void Hint::buildHint(string msg) {
 	text->set_frame_actual(-0.3, text_width + 0.35, -(text_height / 2 - 0.14), text_height - 0.14);
 	text->set_frame_color(0, 0, 0, 1);
 
-	np_text = Simdunas::get_window()->get_aspect_2d().attach_new_node(text);
+	np_text = aspect2d.attach_new_node(text);
 	np_text.set_scale(0.04);
 	np_text.set_color(0.0, 0.0, 0.0, 1,0);
 	np_text.hide();
 
-	Simdunas::get_evt_handler()->add_hook(btn->get_enter_event(), enter_event, this);
-	Simdunas::get_evt_handler()->add_hook(btn->get_exit_event(), exit_event, this);
+	event_handler->add_hook(btn->get_enter_event(), enter_event, this);
+	event_handler->add_hook(btn->get_exit_event(), exit_event, this);
 }
 
 Hint::~Hint() {
@@ -78,7 +78,7 @@ void Hint::show_hint(const Event* evt, void *data) {
 	TimeControl::get_instance()->get_p_handler()->remove_hook(evt->get_name(), Hint::show_hint, data);
 
 	Hint* _this = (Hint*) data;
-	MouseWatcher *mwatcher = DCAST(MouseWatcher, Simdunas::get_window()->get_mouse().node());
+	PT(MouseWatcher) mwatcher = DCAST(MouseWatcher, window->get_mouse().node());
 	if (!mwatcher->has_mouse()) {
 		return;
 	}

@@ -11,8 +11,8 @@ TocaCamera::TocaCamera(PT(Camera) camera) : CameraNode(camera){
 	//this->_last_camera = CameraControl::get_instance()->get_current_camera();
 	this->_last_camera = NULL;
 
-	Simdunas::get_evt_handler()->add_hook(PlayerControl::EV_player_enter_toca, enable_camera, this);
-	Simdunas::get_evt_handler()->add_hook(PlayerControl::EV_player_outof_toca, disable_camera, this);
+	event_handler->add_hook(PlayerControl::EV_player_enter_toca, enable_camera, this);
+	event_handler->add_hook(PlayerControl::EV_player_outof_toca, disable_camera, this);
 };
 
 /*! Habilita a camera de toca. Evento é lançado pelo controle do jogador */

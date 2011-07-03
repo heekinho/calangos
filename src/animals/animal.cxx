@@ -21,18 +21,18 @@ Animal::Animal(NodePath node) : AnimatedObjetoJogo(node) {
 //	set_acting(true);
 	this->velocity = 0.01;
 	this->stay_x_frame_stoped = 0;
-	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_frame, act, this);
+	event_handler->add_hook(TimeControl::EV_pass_frame, act, this);
 }
 
 
 /*! Destroi o Animal */
 Animal::~Animal(){
-	Simdunas::get_evt_handler()->remove_hook(TimeControl::EV_pass_frame, act, this);
+	event_handler->remove_hook(TimeControl::EV_pass_frame, act, this);
 }
 
 /*! Carrega os NPCs do jogo. */
 void Animal::load_animals(){
-	Animal::animals_placeholder = Simdunas::get_window()->get_render().attach_new_node("Animals Placeholder");
+	Animal::animals_placeholder = render.attach_new_node("Animals Placeholder");
 
 	Prey::load_prey();
 	Predator::load_predators();
@@ -64,7 +64,7 @@ void Animal::act(const Event*, void *data){
 //	 * TODO: Elaborar um sistema que não permita essa reativação - simples flag
 //	 * E ainda por cima tá atrapalhando a parada de Animal::act() */
 //	if(flag){
-//		//this_animal->reparent_to(Simdunas::get_window()->get_render());
+//		//this_animal->reparent_to(render);
 //		this_animal->reparent_to(this_animal->get_setor()->get_root());
 //		//this_animal->continue_animation();
 //	}
@@ -122,7 +122,6 @@ void Animal::redistribute_animals(){
 		nout << "Redistribuindo Animais" << endl;
 	#endif
 
-	PT(Player) player = Player::get_instance();
 	PT(Terrain) terrain = World::get_world()->get_terrain();
 	int max_sectors = Terrain::MAX_SETORES;
 

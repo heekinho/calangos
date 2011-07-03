@@ -37,7 +37,7 @@ void VideoManager::play(string path) {
 	card_maker->set_frame_fullscreen_quad();
 	card_maker->set_uv_range(movie_texture);
 	np_card_maker = NodePath(card_maker->generate());
-	np_card_maker.reparent_to(Simdunas::get_window()->get_render_2d());
+	np_card_maker.reparent_to(render2d);
 	np_card_maker.set_texture(movie_texture);
 
 	audio_manager = AudioManager::create_AudioManager();

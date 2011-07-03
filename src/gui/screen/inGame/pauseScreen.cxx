@@ -26,12 +26,12 @@ PauseScreen::~PauseScreen() {
 void PauseScreen::load(){
 	stopped_time = false;
 	selected_video = false;
-	titulo = Simdunas::get_window()->load_model(get_root(), "models/buttons/pausa.png");
+	titulo = window->load_model(get_root(), "models/buttons/pausa.png");
 	titulo.set_scale(0.06);
 	titulo.set_pos(0.0, 0, 0.8);
 
 	/////////colocando nome videos
-	img_videos = Simdunas::get_window()->load_model(get_root(), "models/buttons/videos.png");
+	img_videos = window->load_model(get_root(), "models/buttons/videos.png");
 	img_videos.set_scale(0.025);
 	img_videos.set_pos(0.0, 0, 0.55);
 

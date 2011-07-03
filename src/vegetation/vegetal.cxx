@@ -1,4 +1,4 @@
-#include <panda3d/pnmImageHeader.h>
+#include "pnmImageHeader.h"
 
 #include "vegetal.h"
 
@@ -340,9 +340,9 @@ void Vegetal::add_data(const string &map_name, int value){
 void Vegetal::load_vegetals(int density) {
 	load_default_model_and_data();
 
-	//Vegetal::vegetals_placeholder = Simdunas::get_window()->get_render().attach_new_node("Vegetals Placeholder");
-	//Vegetal::vegetals_placeholder.reparent_to(Simdunas::get_window()->get_render());
-	Vegetal::visible_vegetals_placeholder.reparent_to(Simdunas::get_window()->get_render());
+	//Vegetal::vegetals_placeholder = render.attach_new_node("Vegetals Placeholder");
+	//Vegetal::vegetals_placeholder.reparent_to(render);
+	Vegetal::visible_vegetals_placeholder.reparent_to(render);
 
 	int terrain_x_size = (int) World::get_world()->get_terrain()->get_x_size();
 	int terrain_y_size = (int) World::get_world()->get_terrain()->get_y_size();
@@ -412,7 +412,7 @@ void Vegetal::flatten_vegetals(){
 }
 
 void Vegetal::configure_change_season_event(){
-	Simdunas::get_evt_handler()->add_hook(TimeControl::EV_pass_month, hook_change_season, NULL);
+	event_handler->add_hook(TimeControl::EV_pass_month, hook_change_season, NULL);
 }
 
 void Vegetal::hook_change_season(const Event* evt, void *data){

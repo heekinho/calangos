@@ -56,12 +56,12 @@ void ScreenManager::close_screen(PT(Screen) screen){
 
 /*! Retorna o gerenciador de eventos */
 EventHandler* ScreenManager::get_event_handler(){
-	return Simdunas::get_evt_handler();
+	return event_handler;
 }
 
 /*! Retorna a fila de eventos */
 EventQueue* ScreenManager::get_event_queue(){
-	return Simdunas::get_evt_queue();
+	return event_queue;
 }
 
 void ScreenManager::play_video(string path) {
@@ -71,13 +71,13 @@ void ScreenManager::play_video(string path) {
 	}
 
 	video_manager->play(path);
-	Simdunas::get_evt_handler()->add_hook(video_manager->get_audio_sound()->get_finished_event(), stop_video, this);
+	event_handler->add_hook(video_manager->get_audio_sound()->get_finished_event(), stop_video, this);
 }
 
 void ScreenManager::stop_video(const Event*, void* data) {
 	ScreenManager* _this = (ScreenManager*) data;
 	if (_this->video_manager->get_audio_sound() != NULL && _this->video_manager->is_playing()) {
-		Simdunas::get_evt_handler()->remove_hook(_this->video_manager->get_audio_sound()->get_finished_event(), stop_video, _this);
+		event_handler->remove_hook(_this->video_manager->get_audio_sound()->get_finished_event(), stop_video, _this);
 
 		_this->video_manager->stop();
 

@@ -315,7 +315,7 @@ void GameStatusBar::make_estado_reprodutivo(NodePath menu_frame_np) {
 
 	//led é a luz que indica se o estado reprodutivo está ativo ou não.
 	led_estado_reprodutivo = ImageRepository::get_instance()->get_image("GrayLed");
-	//ledGreen = Simdunas::get_window()->load_model(Simdunas::get_window()->get_aspect_2d(), "models/gui/GreenLed.png");
+	//ledGreen = window->load_model(aspect2d, "models/gui/GreenLed.png");
 	led_estado_reprodutivo.reparent_to(menu_frame_np);
 	led_estado_reprodutivo.set_scale(0.004);
 	led_estado_reprodutivo.set_pos(0.16, 0.0, 0.29);

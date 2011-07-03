@@ -86,7 +86,7 @@ public:
 		np_control.set_x(0.3);
 		np_control.set_z(np_control.get_z() + 0.025);
 
-		Simdunas::get_evt_handler()->add_hook(control->get_adjust_event(),
+		event_handler->add_hook(control->get_adjust_event(),
 				CharacterEditorEntrySlider::adjust_value, this);
 		adjust_value();
 	}
@@ -165,7 +165,7 @@ PT(EditorDietEntry) make_diet_entry(int id, DietComponent* diet_control,
 void CharacterEditor::configure_controls(){
 	/* Pai de todos os controles */
 	NodePath entry = NodePath("Size Entry");
-	entry.reparent_to(get_root()); //Simdunas::get_window()->get_aspect_2d()
+	entry.reparent_to(get_root()); //aspect2d
 	entry.set_z(0.1);
 	entry.set_x(0.35);
 
@@ -215,7 +215,7 @@ void CharacterEditor::configure_controls(){
 //	np_btn_pattern.set_scale(1); //np_btn_pattern.set_sz(-np_btn_pattern.get_sz());
 	np_btn_pattern.set_pos(0.7, 0, -0.9);
 //	np_btn_pattern.set_scale();
-	Simdunas::get_evt_handler()->add_hook(btn_pattern->get_click_event(MouseButton::one()), pattern_action_performed, this);
+	event_handler->add_hook(btn_pattern->get_click_event(MouseButton::one()), pattern_action_performed, this);
 }
 
 void CharacterEditor::pattern_action_performed(){

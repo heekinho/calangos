@@ -20,7 +20,7 @@ IndicatorsScreen::~IndicatorsScreen() {
 }
 
 void IndicatorsScreen::load() {
-	img_indicadores = Simdunas::get_window()->load_model(Simdunas::get_window()->get_render_2d(), "models/gui/icones.png");
+	img_indicadores = window->load_model(render2d, "models/gui/icones.png");
 	img_indicadores.set_scale(0.1, 0.001, 0.15);
 	img_indicadores.set_pos(0.0, 0.0, 0.0);
 

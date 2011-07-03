@@ -12,13 +12,13 @@ TypeHandle CameraNode::_type_handle;
 /*! Constrói um CameraNode */
 CameraNode::CameraNode(PT(Camera) camera) : NodePath(camera){
 	this->camera = camera;
-	this->object = Player::get_instance();
+	this->object = player;
 
 	/* Define algumas configuracoes de camera (gerais) */
 	this->camera->get_lens()->set_near_far(0.05, 2000.0);
 	this->camera->get_lens()->set_fov(60.0);
 
-	Simdunas::get_evt_handler()->add_hook("window-event", update_configs, this);
+	event_handler->add_hook("window-event", update_configs, this);
 	update_configs(NULL, this);
 }
 
@@ -45,8 +45,8 @@ bool CameraNode::is_in_view(const NodePath& object){
 void CameraNode::update_configs(const Event*, void *data){
 	CameraNode* this_node = (CameraNode*) data;
 
-	int x_size = Simdunas::get_window()->get_graphics_window()->get_properties().get_x_size();
-	int y_size = Simdunas::get_window()->get_graphics_window()->get_properties().get_y_size();
+	int x_size = window->get_graphics_window()->get_properties().get_x_size();
+	int y_size = window->get_graphics_window()->get_properties().get_y_size();
 
 	/* Atualizando o Aspect Ratio */
 	float new_aspect_ratio = (float) x_size / y_size;
@@ -57,7 +57,7 @@ void CameraNode::update_configs(const Event*, void *data){
 
 /* Destrói o CameraNode */
 CameraNode::~CameraNode(){
-	Simdunas::get_evt_handler()->remove_hooks_with(this);
+	event_handler->remove_hooks_with(this);
 
 	this->object = NULL;
 	this->remove_node();
@@ -66,12 +66,12 @@ CameraNode::~CameraNode(){
 /*! É chamado para configurar os eventos que serão ouvidos para se chamar o update() */
 void CameraNode::set_hooks(){
 	/* O evento de escuta padrão é o movimento do player */
-	Simdunas::get_evt_handler()->add_hook(PlayerControl::EV_player_move, update, this);
+	event_handler->add_hook(PlayerControl::EV_player_move, update, this);
 }
 
 /*! É chamado para remover os eventos de update da camera que estavam sendo ouvidos */
 void CameraNode::unset_hooks(){
-	Simdunas::get_evt_handler()->remove_hook(PlayerControl::EV_player_move, update, this);
+	event_handler->remove_hook(PlayerControl::EV_player_move, update, this);
 }
 
 /*! É chamado pelos eventos cadastrados para assim chamar o update da camera */
@@ -85,7 +85,7 @@ void CameraNode::update(const Event* evt, void *data){
 //		PT(CameraNode) cn = CameraControl::get_instance()->get_cameras()->at(0);
 //		int flag = cn->is_in_view(vegetal);
 //		if(flag){
-//			//vegetal.reparent_to(Simdunas::get_window()->get_render());
+//			//vegetal.reparent_to(render);
 //			//vegetal.wrt_reparent_to(terrain->no_setores[i].node());
 //			vegetal.reparent_to(terrain->get_setor(i)->get_root());
 //		}

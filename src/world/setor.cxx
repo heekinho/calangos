@@ -15,7 +15,7 @@ Setor::Setor(LPoint2d inicio, LPoint2d fim, int indice){
 //	// Deve receber eventos de movimento de npc, para atualizar setores por exemplo.
 //	std::stringstream npc_moving_name;
 //	npc_moving_name << "ev_npc_moving_on_sector_" << _indice;
-//	Simdunas::get_evt_handler()->add_hook(npc_moving_name.str(), npc_moving, this);
+//	event_handler->add_hook(npc_moving_name.str(), npc_moving, this);
 
 	// Deve gerar eventos indicando proximidade do player, para npc se movimentar, por exemplo.
 	std::stringstream sector_event_name;
@@ -27,7 +27,7 @@ Setor::Setor(LPoint2d inicio, LPoint2d fim, int indice){
 	not_next_event_name << "ev_player_not_next_to_sector_" << indice;
 	EV_player_not_next = sector_event_name.str();
 
-	_root = Simdunas::get_window()->get_render().attach_new_node("Sector Root NodePath");
+	_root = render.attach_new_node("Sector Root NodePath");
 
 	_animal_list = SectorItems<PT(Animal)>(this);
 	_prey_list = SectorItems<PT(Prey)>(this);
@@ -70,16 +70,16 @@ bool Setor::is_player_neighbor(){
 void Setor::set_player_neighbor(bool is_neighbor){
 	if(is_neighbor){
 		_player_sector_neighbor = true;
-		//Simdunas::get_evt_handler()->add_hook(TimeControl::get_instance()->EV_pass_frame, event_player_next, this);
-		Simdunas::get_evt_queue()->queue_event(new Event(this->EV_player_next));
+		//event_handler->add_hook(TimeControl::get_instance()->EV_pass_frame, event_player_next, this);
+		event_queue->queue_event(new Event(this->EV_player_next));
 	}
 	else {
 		_player_sector_neighbor = false;
 		// Este setor para de ouvir eventos pois o player não faz parte da vizinhança.
-		//Simdunas::get_evt_handler()->remove_hook(TimeControl::get_instance()->EV_pass_frame, event_player_next, this);
+		//event_handler->remove_hook(TimeControl::get_instance()->EV_pass_frame, event_player_next, this);
 
 		// Lança um evento para avisar aos npcs do setor que o player não é mais vizinho.
-		Simdunas::get_evt_queue()->queue_event(new Event(this->EV_player_not_next));
+		event_queue->queue_event(new Event(this->EV_player_not_next));
 	}
 }
 
@@ -88,7 +88,7 @@ void Setor::set_player_neighbor(bool is_neighbor){
 //void Setor::event_player_next(const Event*, void *data){
 //	Setor *this_sector = (Setor*) data;
 //	const Event *ev_player_next = new Event(this_sector->EV_player_next);
-//	Simdunas::get_evt_queue()->queue_event(ev_player_next);
+//	event_queue->queue_event(ev_player_next);
 //}
 
 
@@ -124,5 +124,5 @@ LPoint2d Setor::get_random_pos_inside(){
 }
 
 void Setor::unload_sector(){
-	Simdunas::get_evt_handler()->remove_hooks_with(this);
+	event_handler->remove_hooks_with(this);
 }

@@ -14,7 +14,7 @@ MaleLizard::MaleLizard(NodePath node) : Lizard(node){ init(); }
 const double MaleLizard::BOBBING_WAITING_TIME = 3.0;
 
 MaleLizard::~MaleLizard(){
-	Simdunas::get_evt_handler()->remove_hook(PlayerControl::EV_player_bobbing, player_did_bobbing, (void *) this);
+	event_handler->remove_hook(PlayerControl::EV_player_bobbing, player_did_bobbing, (void *) this);
 }
 
 void MaleLizard::init() {
@@ -26,7 +26,7 @@ void MaleLizard::init() {
     PT(AnimControl) ac = get_anim_control()->find_anim("fast_bite");
     if(ac != NULL) ac->set_play_rate(1.5);
 
-    maleSymbol = Simdunas::get_window()->load_model(*this, "models/lizards/symbols/male.png");
+    maleSymbol = window->load_model(*this, "models/lizards/symbols/male.png");
     maleSymbol.set_scale(2.0);
     float posZ = maleSymbol.get_z();
     maleSymbol.set_z(posZ + 100);
@@ -40,8 +40,6 @@ void MaleLizard::init() {
 }
 
 void MaleLizard::act(){
-	PT(Player) player = Player::get_instance();
-
 	float bobbing_dist_thr = 3;
 	float flee_max_dist = 10;
 	float distance = (player->get_pos() - get_pos()).length();
@@ -51,9 +49,9 @@ void MaleLizard::act(){
 	/* Quando esperando a resposta do player... */
 	if(waiting_player_decide == true){
 		/* Se o player não respondeu dentro do tempo */
-		if(ClockObject::get_global_clock()->get_real_time() - last_bobbing_done > BOBBING_WAITING_TIME){
+		if(global_clock->get_real_time() - last_bobbing_done > BOBBING_WAITING_TIME){
 			waiting_player_decide = false;
-			Simdunas::get_evt_handler()->remove_hook(PlayerControl::EV_player_bobbing, player_did_bobbing, (void *) this);
+			event_handler->remove_hook(PlayerControl::EV_player_bobbing, player_did_bobbing, (void *) this);
 
 			/* Paciência tem limite... Parte para morder o player */
 			// TODO: Consertar essa bagunça de enums.
@@ -84,10 +82,10 @@ void MaleLizard::act(){
 		 * Evita-se assim ter que calcular toda santa hora as distâncias e etc. Só consulto a flag... */
 		if(player->has_female_around() && player->lizard_gender != Player::young){
 			bob();
-			last_bobbing_done = ClockObject::get_global_clock()->get_real_time();
+			last_bobbing_done = global_clock->get_real_time();
 			waiting_player_decide = true;
 
-			Simdunas::get_evt_handler()->add_hook(PlayerControl::EV_player_bobbing, player_did_bobbing, (void *) this);
+			event_handler->add_hook(PlayerControl::EV_player_bobbing, player_did_bobbing, (void *) this);
 		}
 	}
 	else {
@@ -101,9 +99,7 @@ void MaleLizard::act(){
 
 void MaleLizard::player_did_bobbing(const Event *theEvent, void *data){
 	MaleLizard* this_lizard = (MaleLizard*) data;
-	PT(Player) player = Player::get_instance();
-
-	Simdunas::get_evt_handler()->remove_hook(PlayerControl::EV_player_bobbing, player_did_bobbing, (void *) this_lizard);
+	event_handler->remove_hook(PlayerControl::EV_player_bobbing, player_did_bobbing, (void *) this_lizard);
 
 	this_lizard->waiting_player_decide = false;
 
@@ -127,7 +123,6 @@ void MaleLizard::wander(){
 }
 
 void MaleLizard::chase(){
-	PT(Player) player = Player::get_instance();
 	float distance = (player->get_pos() - get_pos()).length();
 
 	if(!has_other_anim_active("walk")){
@@ -151,9 +146,9 @@ void MaleLizard::bite(){
 	if(!get_anim_control()->is_playing("fast_bite")){
 		play_anim("fast_bite");
 
-		Player::get_instance()->be_bited();
-        Player::get_instance()->mordida_recebida(this->get_tamanho_base());
-		//Player::get_instance()->add_energia_alimento(-5.0);
+		player->be_bited();
+        player->mordida_recebida(this->get_tamanho_base());
+		//player->add_energia_alimento(-5.0);
 		GuiManager::get_instance()->piscar_life();
 	}
 }

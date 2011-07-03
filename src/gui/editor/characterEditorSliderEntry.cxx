@@ -27,7 +27,7 @@ void CharacterEditorEntrySlider::setup_control(float min, float max, float defau
 	np_control.set_x(0.3);
 	np_control.set_z(np_control.get_z() + 0.025);
 
-	Simdunas::get_evt_handler()->add_hook(control->get_adjust_event(), adjust_value, this);
+	event_handler->add_hook(control->get_adjust_event(), adjust_value, this);
 	adjust_value();
 }
 

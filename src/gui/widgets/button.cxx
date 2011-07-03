@@ -42,8 +42,8 @@ Button::Button(const string &name, const string &text, PT(TextFont) font, float 
 	/* Gera o comportamento padrão */
 	setup(btn_normal, btn_depressed, btn_hover);
 
-	Simdunas::get_evt_handler()->add_hook(this->get_enter_event(), enter_event, this);
-	Simdunas::get_evt_handler()->add_hook(this->get_click_event(MouseButton::one()), click_event, this);
+	event_handler->add_hook(this->get_enter_event(), enter_event, this);
+	event_handler->add_hook(this->get_click_event(MouseButton::one()), click_event, this);
 }
 
 Button::~Button(){

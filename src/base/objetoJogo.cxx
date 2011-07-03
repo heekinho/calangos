@@ -18,7 +18,7 @@ ObjetoJogo::ObjetoJogo(){
 /*! Construtor da classe ObjetoJogo.
  * @param model String que representa o caminho do modelo (.egg) */
 ObjetoJogo::ObjetoJogo(const string &model) :
-NodePath(Simdunas::get_window()->load_model(Simdunas::get_framework()->get_models(), model)){
+NodePath(window->load_model(Simdunas::get_framework()->get_models(), model)){
 	init();
 }
 
@@ -28,7 +28,7 @@ ObjetoJogo::ObjetoJogo(NodePath node) : NodePath(node){
 	init();
 }
 
-ObjetoJogo::ObjetoJogo(PT(ObjetoJogo) object) : NodePath(Simdunas::get_window()->get_render().attach_new_node("Placeholder")) {
+ObjetoJogo::ObjetoJogo(PT(ObjetoJogo) object) : NodePath(render.attach_new_node("Placeholder")) {
 	object->instance_to(*this);
 	//TODO: configure_object(object);
 	init();
@@ -43,7 +43,7 @@ void ObjetoJogo::init(){
 	orientation = 1;
 	calc_size_from_bounds();
 	_screen_status_enabled = true;
-	//Simdunas::get_evt_handler()->add_hook(PlayerControl::get_instance()->EV_player_move, update_screen_status, this);
+	//event_handler->add_hook(PlayerControl::get_instance()->EV_player_move, update_screen_status, this);
 }
 
 /* Destrói o ObjetoJogo */
@@ -238,7 +238,6 @@ LVecBase3f ObjetoJogo::get_orientation(bool use_z){
 /*! Atualiza a inclinação do objeto */
 void ObjetoJogo::update_pr(){
 	/* Por conveniência */
-	NodePath render = Simdunas::get_window()->get_render();
 	PT(Terrain) terrain = World::get_world()->get_terrain();
 
 	/* Deseja-se saber a normal do terreno no ponto: */

@@ -5,15 +5,13 @@
  * Created on 11 de Junho de 2010, 15:04
  */
 
-#ifndef _COLLISION_H
-#define	_COLLISION_H
+#ifndef COLLISION_H
+#define	COLLISION_H
+
 #include "collisionHandlerPusher.h"
 #include "collisionNode.h"
 #include "collisionSphere.h"
-/* NOVOS INCLUDES*/
 #include "pandaFramework.h"
-#include "eventQueue.h"
-#include "eventHandler.h"
 #include "timeControl.h"
 
 
@@ -47,12 +45,7 @@ private:
     static bool instanceFlag;
     static collision *single;
     static bool colisao;
-    
-   /*
-    EventQueue *p_queue;
-    EventHandler* p_handler;
-    * */
 };
 
-#endif	/* _COLLISION_H */
+#endif	/* COLLISION_H */
 

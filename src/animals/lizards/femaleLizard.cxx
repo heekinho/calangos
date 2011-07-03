@@ -19,14 +19,14 @@ void FemaleLizard::init() {
     //Lizard::isFemale();
 	away_from_player = false;
 
-    femaleSymbol = Simdunas::get_window()->load_model(*this, "models/lizards/symbols/female.png");
+    femaleSymbol = window->load_model(*this, "models/lizards/symbols/female.png");
     femaleSymbol.set_scale(2.0);
     float posZ = femaleSymbol.get_z();
     femaleSymbol.set_z(posZ + 100);
     femaleSymbol.set_billboard_point_eye(0);
     set_gender(LizardGender::female);
 
-    Simdunas::get_evt_handler()->add_hook(PlayerControl::EV_player_reproducao, reproduzir, (void *) this);
+    event_handler->add_hook(PlayerControl::EV_player_reproducao, reproduzir, (void *) this);
 }
 
 /*! Comportamento dos lagartos fêmeas */
@@ -37,10 +37,10 @@ void FemaleLizard::act(){
 
 /*! Realiza a reprodução com o player */
 void FemaleLizard::reproduzir(const Event *theEvent, void *data){
-    if(Player::get_instance()->get_estado_reprodutivo()) {
+    if(player->get_estado_reprodutivo()) {
         FemaleLizard* this_female = (FemaleLizard*) data;
         if (!this_female->reproduziu) {
-            if ((this_female->get_pos() - Player::get_instance()->get_pos()).length() < 1) {
+            if ((this_female->get_pos() - player->get_pos()).length() < 1) {
             	//TODO: E se estiver na borda do setor???
             	SectorItems<PT(Lizard)>* lizards = this_female->get_setor()->lizards();
             	SectorItems<PT(Lizard)>::iterator it;
@@ -52,8 +52,8 @@ void FemaleLizard::reproduzir(const Event *theEvent, void *data){
                     }
                 }
 
-                Player::get_instance()->add_ovos();
-                Player::get_instance()->add_energia_alimento(-5);
+                player->add_ovos();
+                player->add_energia_alimento(-5);
 
                 AudioController::get_instance()->only_play(AudioRepository::REPROD_SUCCESS);
 

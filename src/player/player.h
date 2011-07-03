@@ -159,7 +159,7 @@ public:
 	void add_energia_alimento(double ganho_energia_alimento);
 	void add_hidratacao_alimento(double ganho_hidratacao_alimento);
 
-	void display(PT(Player) player);
+	void display();
 	/* ------------------------------------------------------------------------- */
 
 	//Descarrega qualquer referência de objeto da classe player da memória, para que possa ser recriado
