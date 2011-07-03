@@ -47,6 +47,7 @@ public:
 	static void back_action(const Event*, void* data);
 	void configure_default_back_button(PT(Screen) previous);
 
+	PT(ScreenManager) get_screen_manager() const;
 protected:
 	NodePath root;
 	PT(ScreenManager) manager;

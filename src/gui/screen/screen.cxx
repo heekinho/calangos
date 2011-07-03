@@ -8,6 +8,7 @@
 #include "screenManager.h"
 
 #include "simdunas.h"
+#include "button.h"
 
 /*! Classe que representa uma tela no jogo.
  *  Geralmente Menus, esta classe deve usar o *mediator* ScreenManager passado
@@ -35,7 +36,10 @@ void Screen::set_root(NodePath new_root) {
 	root = new_root;
 }
 
-#include "button.h"
+/*! Retorna o manager associado a esta tela */
+PT(ScreenManager) Screen::get_screen_manager() const {
+	return manager;
+}
 
 /*! Mostra o menu */
 void Screen::show(){
