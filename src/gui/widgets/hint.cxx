@@ -17,6 +17,7 @@
  * - msg = Mensagem que será exibida
  */
 Hint::Hint(NodePath parent, NodePath reference_node, string name, string msg) {
+	np_reference = reference_node;
 	btn = new PGButton(name);
 	btn->setup(reference_node);
 	np_btn = parent.attach_new_node(btn);
@@ -33,7 +34,7 @@ Hint::Hint(NodePath parent, NodePath reference_node, string name, string msg) {
 }
 
 Hint::Hint(NodePath parent, PGButton* hintable_btn, NodePath reference_node, string name, string msg) {
-	cout<<"criou hint de botão!!";
+	np_reference = reference_node;
 	btn = hintable_btn;
 	np_btn = reference_node;
 	LPoint3f min, max, size;
@@ -71,29 +72,25 @@ Hint::~Hint() {
 
 void Hint::enter_event(const Event*, void *data) {
 	Hint* _this = (Hint*) data;
-	TimeControl::get_instance()->notify_after_n_seconds(1, Hint::show_hint, _this);
+	TimeControl::get_instance()->notify("show_hint", show_hint, data, 1);
+	_this->mouse_in = true;
 }
 
-void Hint::show_hint(const Event* evt, void *data) {
-	TimeControl::get_instance()->get_p_handler()->remove_hook(evt->get_name(), Hint::show_hint, data);
-
+AsyncTask::DoneStatus Hint::show_hint(GenericAsyncTask* task, void* data) {
 	Hint* _this = (Hint*) data;
+	if (_this->np_reference.is_hidden()) {
+		return AsyncTask::DS_done;
+	}
 	PT(MouseWatcher) mwatcher = DCAST(MouseWatcher, window->get_mouse().node());
 	if (!mwatcher->has_mouse()) {
-		return;
+		return AsyncTask::DS_done;
 	}
 
 	float mouse_x = mwatcher->get_mouse_x();
 	float mouse_y = mwatcher->get_mouse_y();
-	float pos_x = _this->np_btn.get_pos().get_x() + 0.58;
-	float pos_z = _this->np_btn.get_pos().get_z() - 1;
-	float s_width = _this->width * _this->np_btn.get_sx(); // width com a escala.
-	float s_height = _this->height * _this->np_btn.get_sy(); // height com a escala.
 
-	// verifica se ainda está com o mouse sobre a imagem
-	if (!((mouse_x >= pos_x - (s_width / 2) && mouse_x <= pos_x + (s_width / 2))
-			&& (mouse_y >= pos_z - (s_height / 2) && mouse_y <= pos_z + (s_height / 2)))) {
-		return;
+	if (!_this->mouse_in) {
+		return AsyncTask::DS_done;
 	}
 
 	float aspect_ratio = Simdunas::get_pixel_2d()->get_aspect_ratio();
@@ -106,11 +103,18 @@ void Hint::show_hint(const Event* evt, void *data) {
 		float offset_left = max.get_x() - aspect_ratio + half_text_size + 0.01;
 		_this->np_text.set_pos(mouse_x * aspect_ratio - offset_left, 0, mouse_y + 0.03);
 	}
+	else if (min.get_x() < -aspect_ratio) {
+		float offset_right = min.get_x() + aspect_ratio + half_text_size * 0.8;
+		_this->np_text.set_pos(mouse_x * aspect_ratio - offset_right, 0, mouse_y + 0.03);
+	}
 
 	_this->np_text.show();
+
+	return AsyncTask::DS_done;
 }
 
 void Hint::exit_event(const Event*, void *data) {
 	Hint* _this = (Hint*) data;
 	_this->np_text.hide();
+	_this->mouse_in = false;
 }

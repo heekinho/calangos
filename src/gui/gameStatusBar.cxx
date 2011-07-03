@@ -199,6 +199,7 @@ void GameStatusBar::make_hidratacao_bar(NodePath menu_frame_np) {
 	np_label_hidratacao.set_color(0.0, 0.0, 0.0, 1,0);
 
 	hint_hidratacao = new Hint(menu_frame_np, hidratacao_bar, "hint_hidratacao", "Hidratação");
+	hint_hidratacao2 = new Hint(menu_frame_np, img_hidratacao_bar, "hint_hidratacao2", "Hidratação");
 }
 
 // Barra da temperatura interna do lagarto
@@ -234,6 +235,7 @@ void GameStatusBar::make_temperatura_bar(NodePath menu_frame_np) {
 	np_label_temperatura.set_color(0.0, 0.0, 0.0, 1,0);
 
 	hint_temperatura = new Hint(menu_frame_np, temperatura_bar, "hint_temperatura", "Temperatura Interna");
+	hint_temperatura2 = new Hint(menu_frame_np, img_temperatura_bar, "hint_temperatura2", "Temperatura Interna");
 }
 
 // Barra da temperatura do ambiente
@@ -269,6 +271,7 @@ void GameStatusBar::make_temperatura_ambiente_bar(NodePath menu_frame_np) {
 	np_label_temperatura_ambiente.set_color(0.0, 0.0, 0.0, 1,0);
 
 	hint_temperatura_ambiente = new Hint(menu_frame_np, temperatura_ambiente_bar, "hint_temperatura_ambiente", "Temperatura do Solo");
+	hint_temperatura_ambiente2 = new Hint(menu_frame_np, img_temperatura_ambiente_bar, "hint_temperatura_ambiente2", "Temperatura do Solo");
 }
 
 // Barra de umidade do ar
@@ -304,6 +307,7 @@ void GameStatusBar::make_umidade_bar(NodePath menu_frame_np) {
 	np_label_umidade.set_color(0.0, 0.0, 0.0, 1,0);
 
 	hint_umidade = new Hint(menu_frame_np, umidade_bar, "hint_umidade", "Umidade do Ar");
+	hint_umidade2 = new Hint(menu_frame_np, img_umidade_bar, "hint_umidade2", "Umidade do Ar");
 }
 
 // Aviso do estado reprodutivo

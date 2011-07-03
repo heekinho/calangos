@@ -70,6 +70,7 @@ private:
 	NodePath img_hidratacao_bar;
 	ScrollBar hidratacao_scroll_bar;
 	PT(Hint) hint_hidratacao;
+	PT(Hint) hint_hidratacao2;
 	PT(TextNode) label_hidratacao;
 	NodePath np_label_hidratacao;
 	NodePath temperatura_bar;
@@ -77,6 +78,7 @@ private:
 	NodePath img_temperatura_bar;
 	ScrollBar temperatura_scroll_bar;
 	PT(Hint) hint_temperatura;
+	PT(Hint) hint_temperatura2;
 	PT(TextNode) label_temperatura;
 	NodePath np_label_temperatura;
 	NodePath temperatura_ambiente_bar;
@@ -84,6 +86,7 @@ private:
 	NodePath img_temperatura_ambiente_bar;
 	ScrollBar temperatura_ambiente_scroll_bar;
 	PT(Hint) hint_temperatura_ambiente;
+	PT(Hint) hint_temperatura_ambiente2;
 	PT(TextNode) label_temperatura_ambiente;
 	NodePath np_label_temperatura_ambiente;
 	NodePath umidade_bar;
@@ -91,6 +94,7 @@ private:
 	NodePath img_umidade_bar;
 	ScrollBar umidade_scroll_bar;
 	PT(Hint) hint_umidade;
+	PT(Hint) hint_umidade2;
 	PT(TextNode) label_umidade;
 	NodePath np_label_umidade;
 	NodePath estado_reprodutivo;

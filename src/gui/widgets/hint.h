@@ -20,7 +20,7 @@ public:
 
 	void buildHint(string msg);
 	static void enter_event(const Event*, void *data);
-	static void show_hint(const Event*, void *data);
+	static AsyncTask::DoneStatus show_hint(GenericAsyncTask* task, void* data);
 	static void exit_event(const Event*, void *data);
 
 
@@ -29,8 +29,10 @@ private:
 	NodePath np_btn;
 	PT(TextNode) text;
 	NodePath np_text;
+	NodePath np_reference;
 	float width;
 	float height;
+	bool mouse_in;
 
 };
 

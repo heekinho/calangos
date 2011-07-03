@@ -198,6 +198,7 @@ private:
 	PT(PGButton) btn_temp_interna;
 	NodePath np_btn_temp_interna;
 	NodePath img_btn_temp_interna;
+	PT(Hint) hint_btn_temp_interna;
 	NodePath led_off_temp_interna;
 	NodePath led_on_temp_interna;
 	bool flag_temp_interna;
@@ -205,6 +206,7 @@ private:
 	PT(PGButton) btn_hidratacao;
 	NodePath np_btn_hidratacao;
 	NodePath img_btn_hidratacao;
+	PT(Hint) hint_btn_hidratacao;
 	NodePath led_off_hidratacao;
 	NodePath led_on_hidratacao;
 	bool flag_hidratacao;
@@ -212,6 +214,7 @@ private:
 	PT(PGButton) btn_temp_ar;
 	NodePath np_btn_temp_ar;
 	NodePath img_btn_temp_ar;
+	PT(Hint) hint_btn_temp_ar;
 	NodePath led_off_temp_ar;
 	NodePath led_on_temp_ar;
 	bool flag_temp_ar;
@@ -219,6 +222,7 @@ private:
 	PT(PGButton) btn_umidade;
 	NodePath np_btn_umidade;
 	NodePath img_btn_umidade;
+	PT(Hint) hint_btn_umidade;
 	NodePath led_off_umidade;
 	NodePath led_on_umidade;
 	bool flag_umidade;
@@ -226,6 +230,7 @@ private:
 	PT(PGButton) btn_temp_solo;
 	NodePath np_btn_temp_solo;
 	NodePath img_btn_temp_solo;
+	PT(Hint) hint_btn_temp_solo;
 	NodePath led_off_temp_solo;
 	NodePath led_on_temp_solo;
 	bool flag_temp_solo;
@@ -233,6 +238,7 @@ private:
 	PT(PGButton) btn_alimentacao;
 	NodePath np_btn_alimentacao;
 	NodePath img_btn_alimentacao;
+	PT(Hint) hint_btn_alimentacao;
 	NodePath led_off_alimentacao;
 	NodePath led_on_alimentacao;
 	bool flag_alimentacao;
@@ -240,6 +246,7 @@ private:
 	PT(PGButton) btn_energia;
 	NodePath np_btn_energia;
 	NodePath img_btn_energia;
+	PT(Hint) hint_btn_energia;
 	NodePath led_off_energia;
 	NodePath led_on_energia;
 	bool flag_energia;
@@ -247,6 +254,7 @@ private:
 	PT(PGButton) btn_gasto_energetico;
 	NodePath np_btn_gasto_energetico;
 	NodePath img_btn_gasto_energetico;
+	PT(Hint) hint_btn_gasto_energetico;
 	NodePath led_off_gasto_energetico;
 	NodePath led_on_gasto_energetico;
 	bool flag_gasto_energetico;
@@ -254,6 +262,7 @@ private:
 	PT(PGButton) btn_temp_interna_v; // "_v" de "variavel", para diferenciar das do gráfico de tempo
 	NodePath np_btn_temp_interna_v;
 	NodePath img_btn_temp_interna_v;
+	PT(Hint) hint_btn_temp_interna_v;
 	NodePath led_off_temp_interna_v;
 	NodePath led_on_temp_interna_v;
 	bool flag_temp_interna_v;
@@ -261,6 +270,7 @@ private:
 	PT(PGButton) btn_hidratacao_v;
 	NodePath np_btn_hidratacao_v;
 	NodePath img_btn_hidratacao_v;
+	PT(Hint) hint_btn_hidratacao_v;
 	NodePath led_off_hidratacao_v;
 	NodePath led_on_hidratacao_v;
 	bool flag_hidratacao_v;
@@ -268,6 +278,7 @@ private:
 	PT(PGButton) btn_temp_ar_v;
 	NodePath np_btn_temp_ar_v;
 	NodePath img_btn_temp_ar_v;
+	PT(Hint) hint_btn_temp_ar_v;
 	NodePath led_off_temp_ar_v;
 	NodePath led_on_temp_ar_v;
 	bool flag_temp_ar_v;
@@ -275,6 +286,7 @@ private:
 	PT(PGButton) btn_umidade_v;
 	NodePath np_btn_umidade_v;
 	NodePath img_btn_umidade_v;
+	PT(Hint) hint_btn_umidade_v;
 	NodePath led_off_umidade_v;
 	NodePath led_on_umidade_v;
 	bool flag_umidade_v;
@@ -282,6 +294,7 @@ private:
 	PT(PGButton) btn_temp_solo_v;
 	NodePath np_btn_temp_solo_v;
 	NodePath img_btn_temp_solo_v;
+	PT(Hint) hint_btn_temp_solo_v;
 	NodePath led_off_temp_solo_v;
 	NodePath led_on_temp_solo_v;
 	bool flag_temp_solo_v;
@@ -289,6 +302,7 @@ private:
 	PT(PGButton) btn_alimentacao_v;
 	NodePath np_btn_alimentacao_v;
 	NodePath img_btn_alimentacao_v;
+	PT(Hint) hint_btn_alimentacao_v;
 	NodePath led_off_alimentacao_v;
 	NodePath led_on_alimentacao_v;
 	bool flag_alimentacao_v;
@@ -296,6 +310,7 @@ private:
 	PT(PGButton) btn_energia_v;
 	NodePath np_btn_energia_v;
 	NodePath img_btn_energia_v;
+	PT(Hint) hint_btn_energia_v;
 	NodePath led_off_energia_v;
 	NodePath led_on_energia_v;
 	bool flag_energia_v;
@@ -303,6 +318,7 @@ private:
 	PT(PGButton) btn_gasto_energetico_v;
 	NodePath np_btn_gasto_energetico_v;
 	NodePath img_btn_gasto_energetico_v;
+	PT(Hint) hint_btn_gasto_energetico_v;
 	NodePath led_off_gasto_energetico_v;
 	NodePath led_on_gasto_energetico_v;
 	bool flag_gasto_energetico_v;

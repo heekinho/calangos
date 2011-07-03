@@ -489,6 +489,7 @@ void GraphicsMenu::make_btn_temp_interna(NodePath menu_frame_np) {
 	img_btn_temp_interna.set_scale(0.008);
 	img_btn_temp_interna.set_pos(0.08, 0.0, 1.52);
 	img_btn_temp_interna.hide();
+	hint_btn_temp_interna = new Hint(menu_frame_np, btn_temp_interna.p(), img_btn_temp_interna, "hint_btn_temp_interna", "Temperatura Interna");
 	led_off_temp_interna = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_temp_interna.reparent_to(menu_frame_np);
 	led_off_temp_interna.set_scale(0.0034);
@@ -515,6 +516,7 @@ void GraphicsMenu::make_btn_hidratacao(NodePath menu_frame_np) {
 	img_btn_hidratacao.set_scale(0.008);
 	img_btn_hidratacao.set_pos(0.26, 0.0, 1.52);
 	img_btn_hidratacao.hide();
+	hint_btn_hidratacao = new Hint(menu_frame_np, btn_hidratacao.p(), img_btn_hidratacao, "hint_btn_hidratacao", "Hidratação");
 	led_off_hidratacao = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_hidratacao.reparent_to(menu_frame_np);
 	led_off_hidratacao.set_scale(0.0034);
@@ -541,6 +543,7 @@ void GraphicsMenu::make_btn_temp_ar(NodePath menu_frame_np) {
 	img_btn_temp_ar.set_scale(0.006);
 	img_btn_temp_ar.set_pos(0.08, 0.0, 1.30);
 	img_btn_temp_ar.hide();
+	hint_btn_temp_ar = new Hint(menu_frame_np, btn_temp_ar.p(), img_btn_temp_ar, "hint_btn_temp_ar", "Temperatura do Ar");
 	led_off_temp_ar = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_temp_ar.reparent_to(menu_frame_np);
 	led_off_temp_ar.set_scale(0.0034);
@@ -567,6 +570,7 @@ void GraphicsMenu::make_btn_umidade(NodePath menu_frame_np) {
 	img_btn_umidade.set_scale(0.005);
 	img_btn_umidade.set_pos(0.26, 0.0, 1.30);
 	img_btn_umidade.hide();
+	hint_btn_umidade = new Hint(menu_frame_np, btn_umidade.p(), img_btn_umidade, "hint_btn_umidade", "Umidade do Ar");
 	led_off_umidade = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_umidade.reparent_to(menu_frame_np);
 	led_off_umidade.set_scale(0.0034);
@@ -593,6 +597,7 @@ void GraphicsMenu::make_btn_temp_solo(NodePath menu_frame_np) {
 	img_btn_temp_solo.set_scale(0.006);
 	img_btn_temp_solo.set_pos(0.08, 0.0, 1.08);
 	img_btn_temp_solo.hide();
+	hint_btn_temp_solo = new Hint(menu_frame_np, btn_temp_solo.p(), img_btn_temp_solo, "hint_btn_temp_solo", "Temperatura do Solo");
 	led_off_temp_solo = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_temp_solo.reparent_to(menu_frame_np);
 	led_off_temp_solo.set_scale(0.0034);
@@ -619,6 +624,7 @@ void GraphicsMenu::make_btn_alimentacao(NodePath menu_frame_np) {
 	img_btn_alimentacao.set_scale(0.008);
 	img_btn_alimentacao.set_pos(0.26, 0.0, 1.08);
 	img_btn_alimentacao.hide();
+	hint_btn_alimentacao = new Hint(menu_frame_np, btn_alimentacao.p(), img_btn_alimentacao, "hint_btn_alimentacao", "Alimentação");
 	led_off_alimentacao = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_alimentacao.reparent_to(menu_frame_np);
 	led_off_alimentacao.set_scale(0.0034);
@@ -645,6 +651,7 @@ void GraphicsMenu::make_btn_energia(NodePath menu_frame_np) {
 	img_btn_energia.set_scale(0.008);
 	img_btn_energia.set_pos(0.08, 0.0, 0.86);
 	img_btn_energia.hide();
+	hint_btn_energia = new Hint(menu_frame_np, btn_energia.p(), img_btn_energia, "hint_btn_energia", "Energia");
 	led_off_energia = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_energia.reparent_to(menu_frame_np);
 	led_off_energia.set_scale(0.0034);
@@ -671,6 +678,7 @@ void GraphicsMenu::make_btn_gasto_energetico(NodePath menu_frame_np) {
 	img_btn_gasto_energetico.set_scale(0.008);
 	img_btn_gasto_energetico.set_pos(0.26, 0.0, 0.86);
 	img_btn_gasto_energetico.hide();
+	hint_btn_gasto_energetico = new Hint(menu_frame_np, btn_gasto_energetico.p(), img_btn_gasto_energetico, "hint_btn_gasto_energetico", "Gasto Energético");
 	led_off_gasto_energetico = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_gasto_energetico.reparent_to(menu_frame_np);
 	led_off_gasto_energetico.set_scale(0.0034);
@@ -715,6 +723,7 @@ void GraphicsMenu::make_btn_temp_interna_v() {
 	img_btn_temp_interna_v.set_scale(0.009);
 	img_btn_temp_interna_v.set_pos(0.1, 0.0, 0.12);
 	//img_btn_temp_interna_v.hide();
+	hint_btn_temp_interna_v = new Hint(grafico_variavel_frame_np, btn_temp_interna_v.p(), img_btn_temp_interna_v, "hint_btn_temp_interna_v", "Temperatura Interna");
 	led_off_temp_interna_v = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_temp_interna_v.reparent_to(grafico_variavel_frame_np);
 	led_off_temp_interna_v.set_scale(0.004);
@@ -741,6 +750,7 @@ void GraphicsMenu::make_btn_hidratacao_v() {
 	img_btn_hidratacao_v.set_scale(0.009);
 	img_btn_hidratacao_v.set_pos(0.26, 0.0, 0.12);
 	//img_btn_hidratacao_v.hide();
+	hint_btn_hidratacao_v = new Hint(grafico_variavel_frame_np, btn_hidratacao_v.p(), img_btn_hidratacao_v, "hint_btn_hidratacao_v", "Hidratação");
 	led_off_hidratacao_v = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_hidratacao_v.reparent_to(grafico_variavel_frame_np);
 	led_off_hidratacao_v.set_scale(0.004);
@@ -767,6 +777,7 @@ void GraphicsMenu::make_btn_temp_ar_v() {
 	img_btn_temp_ar_v.set_scale(0.009);
 	img_btn_temp_ar_v.set_pos(0.42, 0.0, 0.12);
 	//img_btn_temp_ar_v.hide();
+	hint_btn_temp_ar_v = new Hint(grafico_variavel_frame_np, btn_temp_ar_v.p(), img_btn_temp_ar_v, "hint_btn_temp_ar_v", "Temperatura do Ar");
 	led_off_temp_ar_v = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_temp_ar_v.reparent_to(grafico_variavel_frame_np);
 	led_off_temp_ar_v.set_scale(0.004);
@@ -793,6 +804,7 @@ void GraphicsMenu::make_btn_umidade_v() {
 	img_btn_umidade_v.set_scale(0.008);
 	img_btn_umidade_v.set_pos(0.60, 0.0, 0.12);
 	//botao4UmidadeAr_image.hide();
+	hint_btn_umidade_v = new Hint(grafico_variavel_frame_np, btn_umidade_v.p(), img_btn_umidade_v, "hint_btn_umidade_v", "Umidade");
 	led_off_umidade_v = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_umidade_v.reparent_to(grafico_variavel_frame_np);
 	led_off_umidade_v.set_scale(0.004);
@@ -819,6 +831,7 @@ void GraphicsMenu::make_btn_temp_solo_v() {
 	img_btn_temp_solo_v.set_scale(0.009);
 	img_btn_temp_solo_v.set_pos(0.78, 0.0, 0.12);
 	//img_btn_temp_solo_v.hide();
+	hint_btn_temp_solo_v = new Hint(grafico_variavel_frame_np, btn_temp_solo_v.p(), img_btn_temp_solo_v, "hint_btn_temp_solo_v", "Temperatura do Solo");
 	led_off_temp_solo_v = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_temp_solo_v.reparent_to(grafico_variavel_frame_np);
 	led_off_temp_solo_v.set_scale(0.004);
@@ -845,6 +858,7 @@ void GraphicsMenu::make_btn_alimentacao_v() {
 	img_btn_alimentacao_v.set_scale(0.009);
 	img_btn_alimentacao_v.set_pos(0.94, 0.0, 0.12);
 	//img_btn_alimentacao_v.hide();
+	hint_btn_alimentacao_v = new Hint(grafico_variavel_frame_np, btn_alimentacao_v.p(), img_btn_alimentacao_v, "hint_btn_alimentacao_v", "Alimentação");
 	led_off_alimentacao_v = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_alimentacao_v.reparent_to(grafico_variavel_frame_np);
 	led_off_alimentacao_v.set_scale(0.004);
@@ -871,6 +885,7 @@ void GraphicsMenu::make_btn_energia_v() {
 	img_btn_energia_v.set_scale(0.009);
 	img_btn_energia_v.set_pos(1.10, 0.0, 0.12);
 	//img_btn_energia_v.hide();
+	hint_btn_energia_v = new Hint(grafico_variavel_frame_np, btn_energia_v.p(), img_btn_energia_v, "hint_btn_energia_v", "Energia");
 	led_off_energia_v = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_energia_v.reparent_to(grafico_variavel_frame_np);
 	led_off_energia_v.set_scale(0.004);
@@ -897,6 +912,7 @@ void GraphicsMenu::make_btn_gasto_energetico_v() {
 	img_btn_gasto_energetico_v.set_scale(0.009);
 	img_btn_gasto_energetico_v.set_pos(1.28, 0.0, 0.12);
 	//img_btn_gasto_energetico_v.hide();
+	hint_btn_gasto_energetico_v = new Hint(grafico_variavel_frame_np, btn_gasto_energetico_v.p(), img_btn_gasto_energetico_v, "hint_btn_gasto_energetico_v", "Gasto Energético");
 	led_off_gasto_energetico_v = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_gasto_energetico_v.reparent_to(grafico_variavel_frame_np);
 	led_off_gasto_energetico_v.set_scale(0.004);
