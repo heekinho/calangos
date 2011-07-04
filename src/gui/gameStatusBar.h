@@ -54,6 +54,14 @@ public:
 	void show_all_status_components();
 	void set_led_estado_reprodutivo(bool on, NodePath menu_frame_np);
 
+	void hidratacao_critica_on();
+	void hidratacao_critica_off();
+	static AsyncTask::DoneStatus efeito_alerta_hidratacao(GenericAsyncTask* task, void* data);
+
+	void temperatura_critica_on();
+	void temperatura_critica_off();
+	static AsyncTask::DoneStatus efeito_alerta_temperatura(GenericAsyncTask* task, void* data);
+
 private:
 	NodePath relogio;
 	NodePath relogio_pointer;
@@ -115,7 +123,10 @@ private:
 	NodePath img_btn_grafico;
 	PT(Hint) hint_btn_grafico;
 
-	bool alert;
+	bool hidrat_critica;
+	bool temp_critica;
+	bool num_hidrat_vermelho;
+	bool num_temp_vermelho;
 
 };
 

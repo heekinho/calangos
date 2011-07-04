@@ -88,6 +88,7 @@ void AudioController::warning_temp(double intern_temp, double extern_temp, doubl
 			audio_repository->get_audio("warning")->set_volume(0.4);
 		}
 		audio_repository->play_sound("warning");
+		GuiManager::get_instance()->get_game_status_bar()->temperatura_critica_on();
 	}
 	else if (intern_temp < (min_temp + 4)) {
 		if (intern_temp > extern_temp) {
@@ -97,13 +98,17 @@ void AudioController::warning_temp(double intern_temp, double extern_temp, doubl
 			audio_repository->get_audio("warning")->set_volume(0.4);
 		}
 		audio_repository->play_sound("warning");
+		GuiManager::get_instance()->get_game_status_bar()->temperatura_critica_on();
 	}
+	GuiManager::get_instance()->get_game_status_bar()->temperatura_critica_off();
 }
 
 void AudioController::warning_hydrat(double hydrat, double min_hydrat) {
 	if (hydrat < (min_hydrat + 4)) {
 		audio_repository->play_sound("warning");
+		GuiManager::get_instance()->get_game_status_bar()->hidratacao_critica_on();
 	}
+	GuiManager::get_instance()->get_game_status_bar()->hidratacao_critica_off();
 }
 
 void AudioController::heart_beat(double energy, double min_energy) {

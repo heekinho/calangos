@@ -462,3 +462,59 @@ void GameStatusBar::set_led_estado_reprodutivo(bool on, NodePath menu_frame_np) 
 	led_estado_reprodutivo.set_scale(0.004);
 	led_estado_reprodutivo.set_pos(0.16, 0.0, 0.32);
 }
+
+void GameStatusBar::hidratacao_critica_on() {
+	hidrat_critica = true;
+	TimeControl::get_instance()->notify("efeito_alerta_hidratacao", efeito_alerta_hidratacao, this, 0.5);
+}
+
+void GameStatusBar::hidratacao_critica_off() {
+	hidrat_critica = false;
+}
+
+AsyncTask::DoneStatus GameStatusBar::efeito_alerta_hidratacao(GenericAsyncTask* task, void* data) {
+	GameStatusBar* _this = (GameStatusBar*) data;
+	if (!_this->hidrat_critica) {
+		_this->np_label_hidratacao.set_color(0, 0, 0, 1);
+		return AsyncTask::DS_done;
+	}
+
+	if (_this->num_hidrat_vermelho) {
+		_this->np_label_hidratacao.set_color(0, 0, 0, 1);
+		_this->num_hidrat_vermelho = false;
+	}
+	else {
+		_this->np_label_hidratacao.set_color(1, 0, 0, 1);
+		_this->num_hidrat_vermelho = true;
+	}
+
+	return AsyncTask::DS_again;
+}
+
+void GameStatusBar::temperatura_critica_on() {
+	temp_critica = true;
+	TimeControl::get_instance()->notify("efeito_alerta_temperatura", efeito_alerta_temperatura, this, 0.5);
+}
+
+void GameStatusBar::temperatura_critica_off() {
+	temp_critica = false;
+}
+
+AsyncTask::DoneStatus GameStatusBar::efeito_alerta_temperatura(GenericAsyncTask* task, void* data) {
+	GameStatusBar* _this = (GameStatusBar*) data;
+	if (!_this->temp_critica) {
+		_this->np_label_temperatura.set_color(0, 0, 0, 1);
+		return AsyncTask::DS_done;
+	}
+
+	if (_this->num_temp_vermelho) {
+		_this->np_label_temperatura.set_color(0, 0, 0, 1);
+		_this->num_temp_vermelho = false;
+	}
+	else {
+		_this->np_label_temperatura.set_color(1, 0, 0, 1);
+		_this->num_temp_vermelho = true;
+	}
+
+	return AsyncTask::DS_again;
+}

@@ -350,7 +350,7 @@ void TimeControl::notify(float time_after, EventCallbackFunction *function, void
 }
 
 /*! Chama a função como notificação após a passagem do tempo especificado */
-void TimeControl::notify(const string &task_name, GenericAsyncTask::TaskFunc *function, void* data, int delay){
+void TimeControl::notify(const string &task_name, GenericAsyncTask::TaskFunc *function, void* data, double delay){
 	PT(GenericAsyncTask) task = new GenericAsyncTask(task_name, function, data);
 	task->set_delay(delay);
 	task_mgr->add(task);
