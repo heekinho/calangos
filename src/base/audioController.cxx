@@ -100,7 +100,9 @@ void AudioController::warning_temp(double intern_temp, double extern_temp, doubl
 		audio_repository->play_sound("warning");
 		GuiManager::get_instance()->get_game_status_bar()->temperatura_critica_on();
 	}
-	GuiManager::get_instance()->get_game_status_bar()->temperatura_critica_off();
+	else {
+		GuiManager::get_instance()->get_game_status_bar()->temperatura_critica_off();
+	}
 }
 
 void AudioController::warning_hydrat(double hydrat, double min_hydrat) {
