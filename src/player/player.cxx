@@ -264,10 +264,37 @@ float Player::get_indice_camuflagem() const {
  *  Com a capacidade de se enterrar o player se esconde melhor dos predadores,
  *  mas enquanto enterrado o lagarto tem menor inércia térmica (esquenta rápido) */
 bool Player::has_bury_ability() const {
-	return bury_ability;
+	return _bury_ability;
 }
 
 /*! Define a capacidade do player se enterrar no terreno */
 void Player::set_bury_ability(bool bury_ability){
-	this->bury_ability = bury_ability;
+	this->_bury_ability = bury_ability;
+}
+
+/*! Retorna true se o player está atualmente enterrado */
+bool Player::is_buried() const {
+	return _is_buried;
+}
+
+/*! Enterra ou desenterra o player */
+void Player::set_buried(bool is_buried){
+	if(!_bury_ability && is_buried){
+		/* Informa que o player não possui a capacidade de se enterrar */
+		nout << "Player não possui capacidade de se enterrar!" << endl;
+	}
+	else if(_bury_ability && is_buried && !_is_buried){
+		/* O player pode ser enterrado. Define o player como tal */
+		_is_buried = true;
+
+		/* TODO: Executa outras taferas (ação visual de se enterrar) */
+	}
+	else if(!is_buried && _is_buried){
+		/* O player estava enterrado e precisa se desenterrar agora */
+		/* TODO: Executa outras taferas (ação visual de se desenterrar) */
+		_is_buried = false;
+	}
+	else {
+		_is_buried = false;
+	}
 }
