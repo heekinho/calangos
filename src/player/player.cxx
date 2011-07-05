@@ -99,23 +99,29 @@ void Player::eat(Edible* food, int type){
 	add_hidratacao_alimento(food->get_hydration_value());
 }
 
-double Player::get_velocity(){
+/*! Retorna a velocidade do jogador */
+/* TODO: Deveria ser speed e não velocity. Velocity é vetor */
+double Player::get_velocity() const {
 	return this->velocity;
 }
 
+/*! Define a velocidade do jogador */
 void Player::set_velocity(double velocity){
 	this->velocity = velocity;
 }
 
-float Player::get_speed_walking(){
+/*! Obtém a velocidade do jogador quando andando */
+float Player::get_speed_walking() const {
 	if(Session::get_instance()->get_level() > 1) return properties.speed;
 	else return (PlayerProperties::max_speed + PlayerProperties::min_speed) * 0.5;
 }
 
-float Player::get_speed_running(){
+/*! Obtém a velocidade do jogador enquanto correndo */
+float Player::get_speed_running() const {
 	return get_speed_walking() * 10;
 }
 
+/*! Mostra algumas informações do player para Debug */
 void Player::display(){
 	#if(DEBUG_PLAYER)
 	    cout << "\nHora: " << TimeControl::get_instance()->get_hora() << ":" << TimeControl::get_instance()->get_minuto() << "\nTemperatura interna do lagarto: " << player->get_temp_interna() <<
@@ -164,8 +170,10 @@ void Player::change_sector(PT(Setor) new_sector){
  	//World::get_world()->get_terrain()->get_shadows()->update_active_shadows(new_sector);
 }
 
+/*! Chamado quando o player se move */
 void Player::has_moved(){
 	this->ObjetoJogo::has_moved();
+	/* Corrige inclinação do player no terreno */
 	update_pr();
 }
 
@@ -193,7 +201,7 @@ bool Player::reaches(PT(ObjetoJogo) object){
 }
 
 /*! Retorna se o player foi capturado por algum predador */
-bool Player::was_captured(){
+bool Player::was_captured() const {
 	return _captured;
 }
 
@@ -204,16 +212,19 @@ void Player::be_captured(){
 	nout << "Player foi capturado" << endl;
 }
 
+/*! Verifica se o player encontra-se em uma toca */
 bool Player::is_in_toca() const {
 	return in_toca;
 }
 
+/*! Define se o player encontra-se em uma toca */
 void Player::set_in_toca(bool in_toca){
 	this->in_toca = in_toca;
 }
 
+/*! Descarrega o player */
 void Player::unload_player(){
-
+	/*! Descadastra todos os hooks cadastrados */
 	event_handler->remove_hook(TimeControl::EV_segundo_real, event_gasto_energia, player);
 	event_handler->remove_hook(TimeControl::EV_pass_day, event_pday, player);
 	event_handler->remove_hook(TimeControl::EV_pass_month, event_pmonth, player);
@@ -224,14 +235,17 @@ void Player::unload_player(){
 	//single->~Player();
 }
 
-bool Player::has_female_around(){
+/*! Verifica se existe alguma fêmea por perto */
+bool Player::has_female_around() const {
 	return _courted_female != NULL;
 }
 
-PT(FemaleLizard) Player::get_courted_female(){
+/*! Obtém qual fêmea está sendo cortejada */
+PT(FemaleLizard) Player::get_courted_female() const {
 	return _courted_female;
 }
 
+/*! Recalcula qual a fêmea próxima do player para interação */
 void Player::update_female_around(){
 	SectorItems<PT(Lizard)>* lizards = get_setor()->lizards();
 	SectorItems<PT(Lizard)>::iterator it;
@@ -251,13 +265,14 @@ void Player::update_female_around(){
 
 /*! Retorna o indíce de camuflagem (0 a 1) do player */
 float Player::get_indice_camuflagem() const {
-	if(is_in_toca()) return 0.0;
+	if(is_in_toca()) return 1.0; /* 100% camuflado */
 
-	/* TODO: Distância de vegetal */
-	/* TODO: Folhagem */
 	/* TODO: Está enterrado ou não */
+	if(is_buried()) return 1.0; /* 100% camuflado. A verificar */
 
-	return 1.0;
+	/* TODO: Distância de vegetal + Folhagem */
+
+	return 0.0; /* 100% exposto */
 }
 
 /*! Retorna true se o player tem a capacidade de se enterrar.

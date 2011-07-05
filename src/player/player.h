@@ -47,7 +47,7 @@ public:
 
 	bool reaches(PT(ObjetoJogo) object);
 
-	bool was_captured();
+	bool was_captured() const;
 	void be_captured();
 
 	/*! PlayerHealth - (playerHealth.cxx)
@@ -82,10 +82,10 @@ public:
 	double get_hidratacao_minlimite();
 
 
-	float get_speed_walking();
-	float get_speed_running();
+	float get_speed_walking() const;
+	float get_speed_running() const;
 	/* Should be a vector */
-	double get_velocity();
+	double get_velocity() const;
 
 	float velocity_factor;
 
@@ -436,9 +436,9 @@ private:
 
 public:
 	/* Procura fêmeas em um raio próximo */
-	bool has_female_around();
+	bool has_female_around() const;
 	void update_female_around();
-	PT(FemaleLizard) get_courted_female();
+	PT(FemaleLizard) get_courted_female() const;
 private:
 	//bool female_around;
 	PT(FemaleLizard) _courted_female;
