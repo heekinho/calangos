@@ -504,16 +504,22 @@ void Player::calc_gasto_basal(){
 
 /*! Calcula a temperatura interna do lagarto */
 void Player::calc_temp_interna(){
+	float temp_toca = MicroClima::get_instance()->get_temp_toca_sector();
+	float temp_solo = MicroClima::get_instance()->get_temp_solo_sector();
 
 	if(in_toca){
-		temp_interna = this->temp_interna + this->equi_term_atual*(MicroClima::get_instance()->get_temp_toca_sector() - this->temp_interna);
-		AudioController::get_instance()->warning_temp(temp_interna, MicroClima::get_instance()->get_temp_toca_sector(), temp_interna_minlimite, temp_interna_maxlimite);
-
-	}else{
-		temp_interna = this->temp_interna + this->equi_term_atual*(MicroClima::get_instance()->get_temp_solo_sector() - this->temp_interna);
-		AudioController::get_instance()->warning_temp(temp_interna, MicroClima::get_instance()->get_temp_solo_sector(), temp_interna_minlimite, temp_interna_maxlimite);
+		temp_interna = this->temp_interna + this->equi_term_atual*(temp_toca - this->temp_interna);
+		AudioController::get_instance()->warning_temp(temp_interna, temp_toca, temp_interna_minlimite, temp_interna_maxlimite);
 	}
+	else {
+		/* Se tiver enterrado diminui a inércia térmica */
+		float fator_diminuir_inercia = is_buried() ? 1.8 : 1.0;
+		/* Variação de temperatura com inércia térmica */
+		float dtemp = (equi_term_atual * fator_diminuir_inercia) * (temp_solo - temp_interna);
+		temp_interna = temp_interna + dtemp;
 
+		AudioController::get_instance()->warning_temp(temp_interna, temp_solo, temp_interna_minlimite, temp_interna_maxlimite);
+	}
 }
 
 /*! Calcula a letargia do lagarto
