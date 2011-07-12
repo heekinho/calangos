@@ -29,6 +29,7 @@ public:
 	float get_night_visibility() const;
 	void set_night_visibility(float nvisibility);
 
+	float get_visibility_factor() const;
 private:
 	void pursuit();
 	void bite();
@@ -36,7 +37,7 @@ private:
 	float visibility_distance;
 
 	/* Se tivesse uma classe para cada predador (realmente OOP) seria estático.
-	 * "Bom" é que se pode adicionar variações em cada presa. Coloca uma cega. kkkk */
+	 * "Bom" é que se pode adicionar variações em cada predador. Colocar um cego. kkkk */
 	float day_visibility;
 	float night_visibility;
 

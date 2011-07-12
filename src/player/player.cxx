@@ -265,14 +265,19 @@ void Player::update_female_around(){
 
 /*! Retorna o indíce de camuflagem (0 a 1) do player */
 float Player::get_indice_camuflagem() const {
-	if(is_in_toca()) return 1.0; /* 100% camuflado */
+	float camuflagem = 0.0;
 
-	/* TODO: Está enterrado ou não */
-	if(is_buried()) return 1.0; /* 100% camuflado. A verificar */
+	if(is_in_toca()) camuflagem += 1.0; /* 100% camuflado */
+
+	/* Como o índice de visão do predador é considerado se enterrado ou não, então
+	 * podemos levar o fator em consideração aqui e não em predador */
+	if(is_buried()) camuflagem += 1.0; /* 100% camuflado. A verificar */
 
 	/* TODO: Distância de vegetal + Folhagem */
 
-	return 0.0; /* 100% exposto */
+	if(camuflagem > 1.0) camuflagem = 1.0;
+
+	return camuflagem;
 }
 
 /*! Retorna true se o player tem a capacidade de se enterrar.

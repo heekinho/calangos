@@ -251,7 +251,7 @@ float Predator::get_visibility(){
 	float distance = get_distance(*player);
 
 	/* Obtém fator exercido pela camuflagem do player na visibilidade */
-	float contrast = 1.0 - player->get_indice_camuflagem();
+	float contrast = 1.0 - (player->get_indice_camuflagem() * get_visibility_factor());
 
 	/* Fator de 0 a 1 do tamanho do player em relação ao maior/menor lagartos */
 	float size_factor = player->get_absolute_size_factor();
@@ -262,6 +262,10 @@ float Predator::get_visibility(){
 	return dmax;
 }
 
+/*! Obtém o fator de visibilidade do predador, verificando se é dia ou noite */
+float Predator::get_visibility_factor() const {
+	return TimeControl::get_instance()->is_night() ? night_visibility : day_visibility;
+}
 
 /*! Obtém o nível de visibilidade do predador durante o dia */
 float Predator::get_day_visibility() const {

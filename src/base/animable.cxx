@@ -10,7 +10,6 @@ void Animable::bind_anims(PT(PandaNode) node){
 			PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
 }
 
-
 /*! Retorna um controle de animações, a partir do qual é possível controlar
  *  as animações do Objeto */
 AnimControlCollection* Animable::get_anim_control(){
@@ -25,7 +24,6 @@ void Animable::set_control_effect(const string &anim_name, float effect){
 		}
 	}
 }
-
 
 /*! Responsável pela identificação e bind correto das animações. */
 void Animable::set_blend(bool anim_blend, bool frame_blend, PartBundle::BlendType blend_type){

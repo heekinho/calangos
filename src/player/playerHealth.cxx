@@ -781,36 +781,36 @@ void Player::set_lagarto_parado(){
 	this->gasto_movimento = 1;
 }
 
+const float min_mult = 1.2;	 /* Mínima velocidade andando  */
+const float max_mult = 2.0;  /* Máxima velocidade correndo */
+
+float get_cost_multiplier(float speed){
+	float min_speed_walking = PlayerProperties::min_speed;
+	float max_speed_running = PlayerProperties::max_speed * 10;
+
+	float tgteta = (max_mult - min_mult) / (max_speed_running - min_speed_walking);
+	return (tgteta * (speed - min_speed_walking) + min_mult);
+}
+
 /* Vai fazer o gasto do lagarto 20% maior que o basal */
 void Player::set_lagarto_andando(){
-	static const float range = 1.0;
-
 	this->gasto_movimento = 1.2;
 
-	//nout << "Gasto movimento antes: " << gasto_movimento << endl;
 	if(Session::get_instance()->get_level() > 1){
-		/* min = 0.6; range = 1.2. O range não precisa necessáriamente ser igual ao gasto
-		 * na fase 1, mas quando velocity_factor = 0.5 deve-se igualar */
-		//static float min = this->gasto_movimento - range * 0.5;
-		//this->gasto_movimento = min + (this->gasto) * velocity_factor); // 0.6 a 1.8
-
-		this->gasto_movimento = (this->gasto_movimento * (1.0 + velocity_factor)) - (range * 0.5);
+		this->gasto_movimento = get_cost_multiplier(get_speed_walking());
+		//nout << gasto_movimento << endl;
 	}
-	//nout << "Gasto movimento depois: " << gasto_movimento << endl;
 }
 
 /*! Vai fazer o gasto do lagarto 50% maior que o basal */
 void Player::set_lagarto_correndo(){
-	static const float range = 1.4;
 	this->gasto_movimento = 1.5;
 
-	//nout << "Gasto movimento antes: " << gasto_movimento << endl;
 	if(Session::get_instance()->get_level() > 1){
-		//this->gasto_movimento = 0.75 + (1.5 * velocity_factor); // 0.6 a 1.8
-
-		this->gasto_movimento = (this->gasto_movimento * (1.0 + velocity_factor)) - (range * 0.5);
+		this->gasto_movimento = get_cost_multiplier(get_speed_running());
+		nout << gasto_movimento << endl;
+		//this->gasto_movimento = (this->gasto_movimento * (1.0 + velocity_factor)) - (range * 0.5);
 	}
-	//nout << "Gasto movimento depois: " << gasto_movimento << endl;
 }
 
 /* ------------------------------------------------------------------------- */
