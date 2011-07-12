@@ -236,13 +236,14 @@ void CharacterEditor::configure_controls(){
 	others_diet = make_diet_entry(2, diet_control, entry, "(Dieta) Outros", text_generator, valign += offset, 34, "%");
 
 
+	/* Ao invés de toggle deveria usar um radio button ai embaixo */
 	/* Capacidade de se enterrar */
 	lbl_bury = new Label("Bury Label", "Capacidade de se enterrar", manager->get_default_font(),
 			entry, 0.06, LVector3f(-1.233, 0, valign += offset));
 
 	btn_bury = new ToggleButton("Bury Button", "(Sim)", "(Não)", true, entry, valign,
 			manager->get_default_font(), 0.06);
-	btn_bury->_np_button.set_x(-0.34);
+	btn_bury->np().set_x(-0.34);
 
 	/* Ciclo circadiano */
 	lbl_circadian = new Label("Circadian Label", "Ciclo Circadiano", manager->get_default_font(),
@@ -250,7 +251,7 @@ void CharacterEditor::configure_controls(){
 
 	btn_circadian = new ToggleButton("Circadian Button", "(Dia)", "(Noite)", true, entry, valign,
 			manager->get_default_font(), 0.06);
-	btn_circadian->_np_button.set_x(-0.34);
+	btn_circadian->np().set_x(-0.34);
 
 
 	/* Botão: Configurar Textura */

@@ -21,7 +21,10 @@ public:
 	bool get_state() const;
 	static void toggle(const Event*, void* data);
 
-//private:
+	NodePath np() const { return _np_button; };
+
+
+private:
 	PT(Button) _button;
 	NodePath _np_button;
 
