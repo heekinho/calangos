@@ -18,6 +18,7 @@ public:
 	~ToggleButton();
 
 	void set_state(bool state);
+	bool get_state() const;
 	static void toggle(const Event*, void* data);
 
 //private:

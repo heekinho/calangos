@@ -38,6 +38,11 @@ void ToggleButton::set_state(bool state){
 	_button->set_text(_state ? _text_on : _text_off);
 }
 
+/*! Retorna o estado atual */
+bool ToggleButton::get_state() const {
+	return _state;
+}
+
 /*! Alterna o estado do botão através de eventos */
 void ToggleButton::toggle(const Event*, void* data){
 	ToggleButton* button = (ToggleButton*) data;

@@ -305,8 +305,8 @@ void CharacterEditor::pattern_action_performed(){
 	player_properties.plant_diet = plant_diet->control->get_value();
 	player_properties.general_diet = others_diet->control->get_value();
 
-	player_properties.bury_ability = false;
-	player_properties.nighttime_activity = false;
+	player_properties.bury_ability = btn_bury->get_state();
+	player_properties.nighttime_activity = !btn_circadian->get_state();
 
 	player_properties.body_size = body_size->control->get_value();
 	player_properties.head_size = head_size->control->get_value();
