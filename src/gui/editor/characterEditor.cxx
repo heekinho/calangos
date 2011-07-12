@@ -166,6 +166,29 @@ PT(EditorDietEntry) make_diet_entry(int id, DietComponent* diet_control,
 	return entry;
 }
 
+
+
+
+class Label : public ReferenceCount {
+public:
+	Label(const string &name, const string &text, PT(TextFont) font, const NodePath &parent, float scale, const LVecBase3f &pos){
+		_text = new TextNode(name);
+		_text->set_text(text);
+		_text->set_font(font);
+
+		NodePath _np_text = parent.attach_new_node(_text);
+		_np_text.set_scale(scale);
+		_np_text.set_pos(pos);
+	}
+
+	const NodePath& np(){
+		return _np_text;
+	}
+private:
+	PT(TextNode) _text;
+	NodePath _np_text;
+};
+
 void CharacterEditor::configure_controls(){
 	/* Pai de todos os controles */
 	NodePath entry = NodePath("Size Entry");
@@ -178,7 +201,7 @@ void CharacterEditor::configure_controls(){
 	text_generator->set_font(manager->get_default_font());
 
 	float offset = -0.1;
-	float valign = -offset;
+	float valign = 0.3;//-offset;
 
 
 	/* Apenas um alias temporário para melhorar legibilidade no código */
@@ -213,6 +236,23 @@ void CharacterEditor::configure_controls(){
 	others_diet = make_diet_entry(2, diet_control, entry, "(Dieta) Outros", text_generator, valign += offset, 34, "%");
 
 
+	/* Capacidade de se enterrar */
+	lbl_bury = new Label("Bury Label", "Capacidade de se enterrar", manager->get_default_font(),
+			entry, 0.06, LVector3f(-1.233, 0, valign += offset));
+
+	btn_bury = new ToggleButton("Bury Button", "(Sim)", "(Não)", true, entry, valign,
+			manager->get_default_font(), 0.06);
+	btn_bury->_np_button.set_x(-0.34);
+
+	/* Ciclo circadiano */
+	lbl_circadian = new Label("Circadian Label", "Ciclo Circadiano", manager->get_default_font(),
+			entry, 0.06, LVector3f(-1.233, 0, valign += offset));
+
+	btn_circadian = new ToggleButton("Circadian Button", "(Dia)", "(Noite)", true, entry, valign,
+			manager->get_default_font(), 0.06);
+	btn_circadian->_np_button.set_x(-0.34);
+
+
 	/* Botão: Configurar Textura */
 	btn_pattern = new Button("Lizard Pattern Button", "Avançar >>", manager->get_default_font());
 	np_btn_pattern = get_root().attach_new_node(btn_pattern);
@@ -221,6 +261,7 @@ void CharacterEditor::configure_controls(){
 //	np_btn_pattern.set_scale();
 	event_handler->add_hook(btn_pattern->get_click_event(MouseButton::one()), pattern_action_performed, this);
 }
+
 
 /* Remove a mensagem de warning exibida */
 void CharacterEditor::remove_warning_msg(){

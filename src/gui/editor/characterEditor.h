@@ -15,6 +15,7 @@
 #include "pgVirtualFrame.h"
 #include "pgFrameStyle.h"
 #include "button.h"
+#include "toggleButton.h"
 
 #include "guiLayer.h"
 #include "playerProperties.h"
@@ -29,6 +30,8 @@ PT(pgitem) itemname; NodePath np_##itemname; ACTION(gaction);
 
 class EditorDietEntry;
 class DietComponent;
+
+class Label;
 
 /*! Editor de personagens do jogo. */
 class CharacterEditor : public Screen {
@@ -60,10 +63,13 @@ private:
 	PT(CharacterEditorEntrySlider) density;
 	PT(CharacterEditorEntrySlider) aggregation;
 
-
 	PT(EditorDietEntry) ant_diet;
 	PT(EditorDietEntry) plant_diet;
 	PT(EditorDietEntry) others_diet;
+
+	PT(Label) lbl_bury;				PT(ToggleButton) btn_bury;
+	PT(Label) lbl_circadian;		PT(ToggleButton) btn_circadian;
+
 
 	PT(PGSliderBar) slide; NodePath np_slide;
 
