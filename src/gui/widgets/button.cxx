@@ -26,21 +26,21 @@ Button::Button(const string &name, const string &text, PT(TextFont) font, float 
 	tnode->set_shadow_color(0, 0, 0, 1);
 
 	/* Configura os diferentes tipos de estados do botão */
-	NodePath btn_normal = NodePath(tnode->generate());
-	btn_normal.set_scale(scale);
-	btn_normal.set_x(-tnode->get_width()*btn_normal.get_sx()*0.5);
-	btn_normal.flatten_light();
+	np_btn_normal = NodePath(tnode);
+	np_btn_normal.set_scale(scale);
+	np_btn_normal.set_x(-tnode->get_width()*np_btn_normal.get_sx()*0.5);
+	//np_btn_normal.flatten_light();
 
-	NodePath btn_hover = btn_normal.copy_to(NodePath());
-	btn_hover.set_color_scale(0.75, 0.75, 0.75, 1.0);
-	btn_hover.set_alpha_scale(1, 10);
+	np_btn_hover = np_btn_normal.copy_to(NodePath());
+	np_btn_hover.set_color_scale(0.75, 0.75, 0.75, 1.0);
+	np_btn_hover.set_alpha_scale(1, 10);
 
-	NodePath btn_depressed = btn_normal.copy_to(NodePath());
-	btn_depressed.set_color_scale(0.5, 0.5, 0.5, 1.0);
-	btn_depressed.set_alpha_scale(1, 10);
+	np_btn_depressed = np_btn_normal.copy_to(NodePath());
+	np_btn_depressed.set_color_scale(0.5, 0.5, 0.5, 1.0);
+	np_btn_depressed.set_alpha_scale(1, 10);
 
 	/* Gera o comportamento padrão */
-	setup(btn_normal, btn_depressed, btn_hover);
+	setup(np_btn_normal, np_btn_depressed, np_btn_hover);
 
 	event_handler->add_hook(this->get_enter_event(), enter_event, this);
 	event_handler->add_hook(this->get_click_event(MouseButton::one()), click_event, this);
@@ -50,18 +50,38 @@ Button::~Button(){
 
 }
 
-float Button::get_text_width(){
+/*! Retorna o TextNode associado ao botão */
+PT(TextNode) Button::get_text_node() const {
+	return tnode;
+}
+
+/*! Define o texto do botão. Delegada para TextNode */
+void Button::set_text(const string &text){
+//	tnode->set_text(text);
+	DCAST(TextNode, np_btn_normal.node())->set_text(text);
+	DCAST(TextNode, np_btn_hover.node())->set_text(text);
+	DCAST(TextNode, np_btn_depressed.node())->set_text(text);
+}
+
+/* Obtém o texto do botão. Delegada para o TextNode */
+string Button::get_text() const {
+	return tnode->get_text();
+}
+
+/*! Obtém a largura o texto */
+float Button::get_text_width() const {
 	return tnode->get_width();
 }
 
+/*! Evento chamado quando o mouse passa por cima */
 void Button::enter_event(const Event*, void *data) {
 	if(Button::play_button) AudioController::get_instance()->only_play(AudioRepository::MOUSE_ON);
 }
 
+/*! Evento chamado quanto há um click de mouse */
 void Button::click_event(const Event*, void *data) {
 	AudioController::get_instance()->only_play(AudioRepository::MOUSE_CLICK);
 }
-
 
 /*! Reativa sons do botão depois de transição da tela */
 AsyncTask::DoneStatus Button::reactivate_button_sounds(GenericAsyncTask* task, void* data){

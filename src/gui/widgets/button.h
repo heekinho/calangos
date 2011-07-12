@@ -23,9 +23,19 @@ public:
 
 	static bool play_button;
 
-	float get_text_width();
+	PT(TextNode) get_text_node() const;
+
+	/* Ações por conveniencia. Delegadas para o TextNode */
+	void set_text(const string &text);
+	string get_text() const;
+	float get_text_width() const;
+
 private:
 	PT(TextNode) tnode;
+
+	NodePath np_btn_normal;
+	NodePath np_btn_hover;
+	NodePath np_btn_depressed;
 };
 
 #endif
