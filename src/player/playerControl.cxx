@@ -110,6 +110,9 @@ PlayerControl::PlayerControl() {
 	action = "wireFrameFolhagem";   		Simdunas::get_framework()->define_key("m", "wireFrameFolhagem", folhagem_control, this);
     action = "reproduzir";	Simdunas::get_framework()->define_key("r", "Reproduzir", reproducao, this);
 
+    action = "bury";		Simdunas::get_framework()->define_key("k", "Enterrar-se", bury, this);
+    action = "unbury";		Simdunas::get_framework()->define_key("l", "Desenterrar-se", unbury, this);
+
 	action = "pause"; 		Simdunas::get_framework()->define_key("escape", "Pause Game", chama_pause, this);
 
 	//CHEATS
@@ -225,6 +228,9 @@ void PlayerControl::update(){
     PStatCollector ps=PStatCollector("Update_Play");
     PStatTimer t =PStatTimer(ps);
 #endif
+
+    /* Se o player estiver enterrado as ações seguintes não são executadas */
+    if(p->is_buried()) return;
 
 	/* Verifica se tem femeas por perto */
 	p->update_female_around();
@@ -696,5 +702,50 @@ void PlayerControl::event_female_next(const Event *, void *data){
 				if(!female->reproduziu) female->set_frames_stopped(120);
 			}
 		}
+	}
+}
+
+#include "cLerpNodePathInterval.h"
+PT(CLerpNodePathInterval) color_interval;
+void fadeout(){
+	color_interval = new CLerpNodePathInterval("color_interval", 1, CLerpInterval::BT_no_blend, true, false, *player, render);
+	color_interval->set_end_color_scale(LVecBase4f(0,0,0,0));
+	color_interval->start();
+}
+
+void fadein(){
+	color_interval = new CLerpNodePathInterval("color_interval", 1, CLerpInterval::BT_no_blend, true, false, *player, render);
+	color_interval->set_end_color_scale(LVecBase4f(1,1,1,1));
+	color_interval->start();
+}
+
+/*! Comando para se enterrar */
+void PlayerControl::bury(const Event*, void* data){
+	if(Session::get_instance()->get_level() > 1){
+		/* Parar animações */
+		player->get_anim_control()->stop_all();
+
+		/* Enterrar e bloquear movimentação */
+		player->set_buried(true);
+
+		/* Fade out */
+		fadeout();
+	}
+	else {
+		nout << "A capacidade de se enterrar não está disponível na fase 1." << endl;
+	}
+}
+
+/*! Comando para se desenterrar */
+void PlayerControl::unbury(const Event*, void* data){
+	if(Session::get_instance()->get_level() > 1){
+		/* Enterrar e bloquear movimentação */
+		player->set_buried(false);
+
+		/* Fade in */
+		fadein();
+	}
+	else {
+		nout << "A capacidade de se enterrar não está disponível na fase 1." << endl;
 	}
 }

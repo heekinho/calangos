@@ -43,6 +43,8 @@ public:
     static void special_control(const Event*, void *data);
     static void bobbing(const Event*, void *data);
     static void reproducao(const Event*, void *data);
+    static void bury(const Event*, void* data);
+    static void unbury(const Event*, void* data);
 
     //ativa desativa wireframe
     static void folhagem_control(const Event*, void *data);

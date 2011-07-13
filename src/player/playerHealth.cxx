@@ -134,6 +134,10 @@ void Player::load_custom_health(){
 
 		/* Configura a temperatura ideal */
 		set_temp_interna_ideal(properties.ideal_tempature);
+
+		/* Configura a capacidade de se enterrar */
+		/* Seria melhor deixar em properties ao invés de criar uma nova variável? */
+		set_bury_ability(properties.bury_ability);
 	}
 }
 
@@ -814,7 +818,7 @@ void Player::set_lagarto_correndo(){
 
 	if(Session::get_instance()->get_level() > 1){
 		this->gasto_movimento = get_cost_multiplier(get_speed_running());
-		nout << gasto_movimento << endl;
+		//nout << gasto_movimento << endl;
 		//this->gasto_movimento = (this->gasto_movimento * (1.0 + velocity_factor)) - (range * 0.5);
 	}
 }

@@ -21,6 +21,7 @@ Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_anim
 
 	_courted_female = NULL;
 	_captured = false;
+	_is_buried = false;
 
 	//int especie = Menu::get_instance()->get_especie();
 	load_health(lizard_specie);
@@ -312,9 +313,6 @@ void Player::set_buried(bool is_buried){
 	else if(!is_buried && _is_buried){
 		/* O player estava enterrado e precisa se desenterrar agora */
 		/* TODO: Executa outras taferas (ação visual de se desenterrar) */
-		_is_buried = false;
-	}
-	else {
 		_is_buried = false;
 	}
 }
