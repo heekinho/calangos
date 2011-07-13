@@ -25,7 +25,7 @@ GLUTLIB			= 	-lglut
 GLUILIB			= 	-lglui
 OMLIBS			=	-lOM_CORE -lOM_TOOLS	
 
-LIBPANDA		= 	-lp3framework -lpanda -lpandafx -lpandaexpress -lp3dtoolconfig -lp3dtool -lp3pystub  #-lpandanspr4
+LIBPANDA		= 	-lp3framework -lpanda -lpandafx -lpandaexpress -lp3dtoolconfig -lp3dtool -lp3pystub -lp3direct  #-lpandanspr4
 
 LIBPATH 		= 	-L$(PANDAPATHLIB)
 

@@ -18,7 +18,6 @@ Session* Session::singleSession = NULL;
 #include "calangosMenuManager.h"
 #include "loadingScreen.h"
 
-
 /*! Constroi uma session default.*/
 //Session::Session(WindowFramework *window) {
 Session::Session() {
@@ -134,6 +133,7 @@ void Session::run(){
 		 * Assim, todos os elementos de jogo que precisam ser atualizados, passam a escutar
 		 * o evento de passagem de frame do TimeControl agindo a cada frame. */
 		TimeControl::get_instance()->update_time_control(global_clock->get_dt());
+		CIntervalManager::get_global_ptr()->step();
 	}
 	if(Session::get_instance()->game_over){
 		cout<<" Reiniciando o Jogo..." << endl;

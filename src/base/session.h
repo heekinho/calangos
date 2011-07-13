@@ -3,6 +3,7 @@
 
 //#define PSTATS  //se quiser rodar o pstats é só descomentar aqui
 
+#include "cIntervalManager.h"
 #include "world.h"
 #include "guiManager.h"
 #include "timeControl.h"
