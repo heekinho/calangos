@@ -1,5 +1,5 @@
 #include "player.h"
-
+#include "modelRepository.h"
 #include "textureStageCollection.h"
 #include "audioController.h"
 
@@ -438,7 +438,7 @@ void Player::event_pmonth(const Event*, void *data){
 		/* Deveria mandar evento */
 		GuiManager::get_instance()->liga_led_estado_reprodutivo();
 
-		if (player->get_specie_name(player->lizard_specie) != "custom") { //caso seja o lagarto personalizado não trocar a textura
+		if (!ModelRepository::get_instance()->get_lagarto_personalizado()) { //caso seja o lagarto personalizado não trocar a textura
 			PT(TextureStage) ts = player->find_all_texture_stages().get_texture_stage(0);
 			ts->set_mode(TextureStage::M_modulate);
 			PT(Texture) t = TexturePool::load_texture("models/lizards/"
