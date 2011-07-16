@@ -240,7 +240,10 @@ void editorTextureScreen::Paleta_cores( int  qtde_coluna) {
         botao_red_np.set_scale(0.1, 0.2, 0.1);
         botao_red_np.set_pos(-1.2, 0.0, 0.5);
         botao_red->set_frame(-0.4, 0.4, -0.4, 0.4);
-        botao_red_np.set_color(0.69,0.64,0.61,100,1);
+
+        //botao_red_np.set_color(0.69,0.64,0.61,100,1);
+
+        botao_red_np.set_color(0.31,0.556,0.58,100,1);
         //evento ao clicar...
         event_handler->add_hook(botao_red->get_click_event(MouseButton::one()),  print_red2, this);
 
@@ -289,7 +292,7 @@ void editorTextureScreen::Paleta_cores( int  qtde_coluna) {
 	botao_yellow_np.set_scale(0.1, 0.2, 0.1);
         botao_yellow_np.set_pos(-1.2, 0.0, 0.1);
         botao_yellow->set_frame(-0.4, 0.4, -0.4, 0.4);
-        botao_yellow_np.set_color(0.96,0.81,0.52,100,1);
+        botao_yellow_np.set_color(0.94,0.82,0.015,100,1);
         //evento ao clicar...
 
         event_handler->add_hook(botao_yellow->get_click_event(MouseButton::one()), print_yellow,this);
@@ -301,7 +304,8 @@ void editorTextureScreen::Paleta_cores( int  qtde_coluna) {
         botao_green2_np.set_scale(0.1, 0.2, 0.1);
         botao_green2_np.set_pos(-1.2, 0.0, 0.0);
         botao_green2->set_frame(-0.4, 0.4, -0.4, 0.4);
-        botao_green2_np.set_color(0.23,0.39,0.32,100,1);
+        //botao_green2_np.set_color(0.23,0.39,0.32,100,1);
+        botao_green2_np.set_color(0.0,0.7,0.01, 100,1);
         //evento ao clicar...
 
         event_handler->add_hook(botao_green2->get_click_event(MouseButton::one()), print_green2, this);
@@ -342,7 +346,7 @@ void editorTextureScreen::Paleta_cores( int  qtde_coluna) {
         botao2_red_np.set_scale(0.1, 0.2, 0.1);
         botao2_red_np.set_pos(-1.05, 0.0, 0.5);
         botao2_red->set_frame(-0.4, 0.4, -0.4, 0.4);
-        botao2_red_np.set_color(0.69,0.64,0.61,100,1);
+        botao2_red_np.set_color(0.31,0.556,0.58,100,1);
         //evento ao clicar...
          event_handler->add_hook(botao2_red->get_click_event(MouseButton::one()),  print2_red2, this);
 
@@ -391,7 +395,7 @@ void editorTextureScreen::Paleta_cores( int  qtde_coluna) {
         botao2_yellow_np.set_scale(0.1, 0.2, 0.1);
         botao2_yellow_np.set_pos(-1.05, 0.0, 0.1);
         botao2_yellow->set_frame(-0.4, 0.4, -0.4, 0.4);
-        botao2_yellow_np.set_color(0.96,0.81,0.52,100,1);
+        botao2_yellow_np.set_color(0.94,0.82,0.015,100,1);
         //evento ao clicar...
 
         event_handler->add_hook(botao2_yellow->get_click_event(MouseButton::one()), print2_yellow, this);
@@ -403,7 +407,7 @@ void editorTextureScreen::Paleta_cores( int  qtde_coluna) {
         botao2_green2_np.set_scale(0.1, 0.2, 0.1);
         botao2_green2_np.set_pos(-1.05, 0.0, 0.0);
         botao2_green2->set_frame(-0.4, 0.4, -0.4, 0.4);
-        botao2_green2_np.set_color(0.23,0.39,0.32,100,1);
+        botao2_green2_np.set_color(0.0,0.7,0.01,100,1);
         //evento ao clicar...
 
         event_handler->add_hook(botao2_green2->get_click_event(MouseButton::one()), print2_green2, this);
@@ -444,7 +448,7 @@ void editorTextureScreen::Paleta_cores( int  qtde_coluna) {
         botao3_red_np.set_scale(0.1, 0.2, 0.1);
         botao3_red_np.set_pos(-0.9, 0.0, 0.5);
         botao3_red->set_frame(-0.4, 0.4, -0.4, 0.4);
-        botao3_red_np.set_color(0.69,0.64,0.61,100,1);
+        botao3_red_np.set_color(0.31,0.556,0.58,100,1);
         //evento ao clicar...
          event_handler->add_hook(botao3_red->get_click_event(MouseButton::one()),  print3_red2, this);
 
@@ -493,7 +497,7 @@ void editorTextureScreen::Paleta_cores( int  qtde_coluna) {
         botao3_yellow_np.set_scale(0.1, 0.2, 0.1);
         botao3_yellow_np.set_pos(-0.9, 0.0, 0.1);
         botao3_yellow->set_frame(-0.4, 0.4, -0.4, 0.4);
-        botao3_yellow_np.set_color(0.96,0.81,0.52,100,1);
+        botao3_yellow_np.set_color(0.94,0.82,0.015,100,1);
         //evento ao clicar...
 
         event_handler->add_hook(botao3_yellow->get_click_event(MouseButton::one()), print3_yellow, this);
@@ -505,7 +509,7 @@ void editorTextureScreen::Paleta_cores( int  qtde_coluna) {
         botao3_green2_np.set_scale(0.1, 0.2, 0.1);
         botao3_green2_np.set_pos(-0.9, 0.0, 0.0);
         botao3_green2->set_frame(-0.4, 0.4, -0.4, 0.4);
-        botao3_green2_np.set_color(0.23,0.39,0.32,100,1);
+        botao3_green2_np.set_color(0.0,0.7,0.01,100,1);
         //evento ao clicar...
 
         event_handler->add_hook(botao3_green2->get_click_event(MouseButton::one()), print3_green2, this);
@@ -547,13 +551,13 @@ void editorTextureScreen::print_green(const Event*, void *data) {
 }
 void editorTextureScreen::print_green2(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(0.23,0.39,0.32);
+    RGBColord cor = RGBColord(0.0,0.7,0.01);
     config->change_texture( cor, 2);
     config->mudar_marcador(-1.2, 0.0, 0.0);
 }
 void editorTextureScreen::print_red2(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(0.69,0.64,0.61);
+    RGBColord cor = RGBColord(0.31,0.556,0.58);
     config->change_texture( cor,2);
     config->mudar_marcador(-1.2, 0.0, 0.5);
 }
@@ -583,7 +587,8 @@ void editorTextureScreen::print_black(const Event*, void *data) {
 }
 void editorTextureScreen::print_yellow(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(0.96,0.81,0.52);
+   // RGBColord cor = RGBColord(0.96,0.81,0.52);
+    RGBColord cor = RGBColord(0.94,0.82,0.015);
     config->change_texture(cor, 2);
     config->mudar_marcador(-1.2, 0.0, 0.1); //posição que deverá ficar o marcador
 }
@@ -597,13 +602,13 @@ void editorTextureScreen::print2_green(const Event*, void *data) {
 }
 void editorTextureScreen::print2_green2(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(0.23,0.39,0.32);
+    RGBColord cor = RGBColord(0.0,0.7,0.01);
     config->change_texture(cor, 1);
     config->mudar_marcador2(-1.05, 0.0, 0.0);
 }
 void editorTextureScreen::print2_red2(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(0.69,0.64,0.61);
+    RGBColord cor = RGBColord(0.31,0.556,0.58);
     config->change_texture( cor, 1);
     config->mudar_marcador2(-1.05, 0.0, 0.5);
 }
@@ -633,7 +638,7 @@ void editorTextureScreen::print2_black(const Event*, void *data) {
 }
 void editorTextureScreen::print2_yellow(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(0.96,0.81,0.52);
+    RGBColord cor = RGBColord(0.94,0.82,0.015);
     config->change_texture( cor, 1);
     config->mudar_marcador2(-1.05, 0.0, 0.1);
 }
@@ -647,13 +652,13 @@ void editorTextureScreen::print3_green(const Event*, void *data) {
 }
 void editorTextureScreen::print3_green2(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(0.23,0.39,0.32);
+    RGBColord cor = RGBColord(0.0,0.7,0.01);
     config->change_texture(cor, 3);
     config->mudar_marcador3(-0.9, 0.0, 0.0);
 }
 void editorTextureScreen::print3_red2(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(0.69,0.64,0.61);
+    RGBColord cor = RGBColord(0.31,0.556,0.58);
     config->change_texture(cor, 3);
     config->mudar_marcador3(-0.9, 0.0, 0.5);
 }
@@ -683,7 +688,7 @@ void editorTextureScreen::print3_black(const Event*, void *data) {
 }
 void editorTextureScreen::print3_yellow(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(0.96,0.81,0.52);
+    RGBColord cor = RGBColord(0.94,0.82,0.015);
     config->change_texture(cor, 3);
     config->mudar_marcador3(-0.9, 0.0, 0.1);
 }
@@ -695,7 +700,7 @@ void editorTextureScreen::print_standard() {
        marcador_camada1.hide();
        marcador_camada2.hide();
        marcador_camada3.hide();
-	RGBColord cor = RGBColord(0.23,0.39,0.32);//forma a cor verde
+	RGBColord cor = RGBColord(0.019,0.28,0);//forma a cor verde
 	change_texture(cor, 0); //pinta toda a textura inicialmente de verde
 }
 
@@ -738,7 +743,7 @@ void editorTextureScreen::change_texture(RGBColord cor, int mask_x) {
     	for(int j = 0; j < y; j++){//percorre pixels na vertical
     		float bright = mask.get_bright(i, j); //pega o brilho da mascara a cada pixel
 
-                if(print_mask == 0){ //se for pra pintar todo o lagarto...
+                if(bright > 0.1 && print_mask == 0){ //se for pra pintar todo o lagarto...
                     result_image.set_xel(i, j, RGBColord(cor.get_x()*image.get_red(i, j),
 											   cor.get_y()*image.get_green(i, j) ,
 											   cor.get_z()*image.get_blue(i, j)));
