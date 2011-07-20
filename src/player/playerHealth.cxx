@@ -314,13 +314,13 @@ float Player::get_absolute_size_factor(){
 			(get_max_lizards_size() - get_min_lizards_size());
 }
 
-/*! Obtém o fator tamanho baseado no tamanho máximo e mínimo que o lagarto pode
- * atingir. Em outras palavras é relativo ao tamanho máximo do jogador, e não
- * ao tamanho máximo de lagartos existentes */
-float Player::get_relative_size_factor(){
-	return (get_tamanho_real() - get_min_lizards_size()) /
-			(get_max_lizards_size() - get_min_lizards_size());
-}
+///*! Obtém o fator tamanho baseado no tamanho máximo e mínimo que o lagarto pode
+// * atingir. Em outras palavras é relativo ao tamanho máximo do jogador, e não
+// * ao tamanho máximo de lagartos existentes */
+//float Player::get_relative_size_factor(){
+//	return (get_tamanho_real() - get_min_lizards_size()) /
+//			(get_max_lizards_size() - get_min_lizards_size());
+//}
 
 /*! Calcula, com base no menor tamanho possível e maior tamanho possível para
  *  os lagartos, um valor de 0 a 100 (e não de 0 a 1).
@@ -361,7 +361,11 @@ void Player::calc_tamanho_lagarto_real(float media_energia_mensal){
 	if(tamanho_lagarto_real > get_max_lizards_size()) tamanho_lagarto_real = get_max_lizards_size();
 	tamanho_lagarto_base = calc_tamanho_base(tamanho_lagarto_real);
 
-	this->equi_term_atual = this->equi_term-(this->equi_term*(this->tamanho_lagarto_base/100)*0.8);
+	if (Session::get_instance()->get_level() > 1) {
+		equi_term_atual = equi_term - (equi_term * get_absolute_size_factor() * 0.8);
+	} else {
+		this->equi_term_atual = this->equi_term - (this->equi_term * (this->tamanho_lagarto_base / 100) * 0.8);
+	}
 }
 
 /*! Calcula o fator pelo qual o tamanho especificado para lagarto deverá ser
@@ -433,21 +437,22 @@ void Player::event_pmonth(const Event*, void *data){
 	/* Aumenta a idade do lagarto */
 	player->idade++;
 
-	/* Verifica se lagarto chegou na idades reprodutiva */
-	if (player->idade == IDADE_REPRODUTIVA) {
+	/* Só deve ser feita a mudança uma vez: Evento de borda */
+	if(player->lizard_gender == Player::young && player->get_estado_reprodutivo()){
 		/* Deveria mandar evento */
 		GuiManager::get_instance()->liga_led_estado_reprodutivo();
 
 		if (!ModelRepository::get_instance()->get_lagarto_personalizado()) { //caso seja o lagarto personalizado não trocar a textura
 			PT(TextureStage) ts = player->find_all_texture_stages().get_texture_stage(0);
 			ts->set_mode(TextureStage::M_modulate);
-			PT(Texture) t = TexturePool::load_texture("models/lizards/"
+			PT(Texture) tex = TexturePool::load_texture("models/lizards/"
 					+ player->get_specie_name(player->lizard_specie)
 					+ "/male/texture.jpg");
-			player->set_texture(ts, t, 2);
+			player->set_texture(ts, tex, 2);
 		}
 		player->lizard_gender = Player::male;
 	}
+
 	/* Verifica se o personagem chegou na idade máxima */
 	if (player->idade >= IDADE_MORTE) {
 		Session::get_instance()->player_death(5);
@@ -503,7 +508,11 @@ void Player::calc_gasto_total(){
 
 /*! Calcula o gasto de energia inerente ao lagarto */
 void Player::calc_gasto_basal(){
-	this->gasto_basal = (ENERGIA_INIT/(num_horas_alimento*atualizacoes_phora))*(1+(5*this->tamanho_lagarto_base/100));
+	if (Session::get_instance()->get_level() > 1) {
+		gasto_basal = (ENERGIA_INIT/(num_horas_alimento*atualizacoes_phora))*(1+(5*get_absolute_size_factor()));
+	} else {
+		this->gasto_basal = (ENERGIA_INIT/(num_horas_alimento*atualizacoes_phora))*(1+(5*this->tamanho_lagarto_base/100));
+	}
 }
 
 /*! Calcula a temperatura interna do lagarto */
@@ -719,11 +728,8 @@ int Player::get_idade(){
 }
 
 bool Player::get_estado_reprodutivo(){
-	if(this->idade >= IDADE_REPRODUTIVA){
-		return true;
-	}else{
-		return false;
-	}
+	if(Session::get_instance()->get_level() > 1) return get_tamanho_real() > get_max_size() * 0.7;
+	else return idade >= IDADE_REPRODUTIVA;
 }
 
 int Player::get_num_ovos(){

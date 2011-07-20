@@ -107,7 +107,7 @@ public:
 
 	float get_max_size();
 	float get_min_size();
-	/*static*/ float get_relative_size_factor();
+//	/*static*/ float get_relative_size_factor();
 
 	/* Obtém a porcentagem do tamanho do lagarto */
 	float get_tamanho_base();
