@@ -1,7 +1,7 @@
-/* 
+/*
  * File:   editorTextureScreen.cxx
  * Author: tassalon
- * 
+ *
  * Created on 2 de Fevereiro de 2011, 15:44
  */
 
@@ -87,7 +87,7 @@ void editorTextureScreen::hide_tela_personalizado(){
     nod_bot_padrao_textura_4.remove_node();
 }
 
-//implementa método abstrato herdados da classe screen 
+//implementa método abstrato herdados da classe screen
 void editorTextureScreen::hide(){
     hide_tela_personalizado();
 }
@@ -110,7 +110,7 @@ void editorTextureScreen::load(){
     PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
     anims2.loop_all(false);
     lagartoPersonalizado.hide();
-      
+
 }
 
 void editorTextureScreen::unload(){
@@ -122,18 +122,20 @@ void editorTextureScreen::unload(){
 }
 
 void editorTextureScreen::show_tela_personalizar() {
+     
 	    //botões jogar e voltar ao menu anterior
 	default_button_config(buttonJogar, npJogar, " Jogar ", LVecBase3f(0, 0, -0.8), jogo_action);
 	npJogar.show();
-
+         nout << "TA CAPOTANDO" << endl;
 	configure_default_back_button(((CalangosMenuManager*) manager.p())->get_character_editor());
-    //carregando o quadro (marcador) de cor selecionada da primeira coluna da paleta de cores
 
+    //carregando o quadro (marcador) de cor selecionada da primeira coluna da paleta de cores
+         nout << "sHOW TELA 2" << endl;
         marcador_camada1 = window->load_model(aspect2d, "models/buttons/quadro");
         marcador_camada1.set_scale(0.17, 1.0, 0.17);
         marcador_camada1.hide();
       //  c->marcador_camada1.set_pos(4.0, 0.0, -4.7);
-
+       
         marcador_camada2 = window->load_model(aspect2d, "models/buttons/quadro");
         marcador_camada2.set_scale(0.17, 1.0, 0.17);
         marcador_camada2.hide();
@@ -142,20 +144,20 @@ void editorTextureScreen::show_tela_personalizar() {
         marcador_camada3 = window->load_model(aspect2d, "models/buttons/quadro");
         marcador_camada3.set_scale(0.17, 1.0, 0.17);
         marcador_camada3.hide();
-        
+
     ///carregando titulo do editor de cores
         title_color = window->load_model(aspect2d, "models/buttons/editorcores");
         title_color.set_scale(1, 2 ,0.4);
         title_color.set_pos(0, 0, 0.8);
         title_color.show();
-
+                
 
 
 	default_button_config(botao_padrao_textura_1, nod_bot_padrao_textura_1, "Textura 1", -0.9, set_textura1);
 	nod_bot_padrao_textura_1.set_scale(0.8, 1.0, 0.8);
         nod_bot_padrao_textura_1.set_pos(-0.8, 0.0, 0.6);
 	nod_bot_padrao_textura_1.set_alpha_scale(0.5);
-	
+
 	default_button_config(botao_padrao_textura_2, nod_bot_padrao_textura_2, "Textura 2", -0.9, set_textura2);
 	nod_bot_padrao_textura_2.set_scale(0.8, 1.0, 0.8);
         nod_bot_padrao_textura_2.set_pos(-0.2, 0.0, 0.6);
@@ -170,10 +172,10 @@ void editorTextureScreen::show_tela_personalizar() {
 	nod_bot_padrao_textura_4.set_scale(0.8, 1.0, 0.8);
         nod_bot_padrao_textura_4.set_pos(1.0, 0.0, 0.6);
 	nod_bot_padrao_textura_4.set_alpha_scale(0.5);
-
+              
         set_textura1();  //coloca uma textura incial ao lagarto
 	lagartoPersonalizado.show();  //mostra o lagarto personalizado
-	
+             
 }
 
 void editorTextureScreen::marca_textura(int botao){
@@ -198,40 +200,45 @@ void editorTextureScreen::set_textura1() {
     Paleta_cores(2);  //o numero é a quantidade de colunas que terá a paleta de cores
     textura_original = PNMImage("models/lizards/custom/young/teiu.jpg");
     mascara = PNMImage("models/lizards/custom/young/teiu_mask.jpg");
-    print_standard();
+    peso_lagarto_textura = 5;
+    print_standard(2);
 }
 void editorTextureScreen::set_textura2() {
-  
+
      marca_textura(2);
      hide_paleta_cores();
      Paleta_cores(3);  //o numero é a quantidade de colunas que terá a paleta de cores
      textura_original = PNMImage("models/lizards/custom/young/eurolophosaurus.jpg");
      mascara = PNMImage("models/lizards/custom/young/eurolophosaurus_mask.jpg");
-     print_standard();
+     peso_lagarto_textura = 4;
+     print_standard(3);
 }
 void editorTextureScreen::set_textura3() {
-     
+
      marca_textura(3);
      hide_paleta_cores();
      Paleta_cores(1);  //o numero é a quantidade de colunas que terá a paleta de cores
     textura_original = PNMImage("models/lizards/custom/young/cnemidophorus.jpg");
     mascara = PNMImage("models/lizards/custom/young/cnemidophorus_mask.jpg");
-    print_standard();
+     peso_lagarto_textura = 3;
+    print_standard(1); //o parâmetro é a quantidade de camadas da máscara para essa textura
 }
 void editorTextureScreen::set_textura4() {
-     
+
      marca_textura(4);
      hide_paleta_cores();
      Paleta_cores(1);  //o numero é a quantidade de colunas que terá a paleta de cores
     textura_original = PNMImage("models/lizards/custom/young/tropidurus.jpg");
     mascara = PNMImage("models/lizards/custom/young/tropidurus_mask.jpg");
-    print_standard();
+     peso_lagarto_textura= 3;
+    print_standard(1);
 }
 
 
 
 void editorTextureScreen::Paleta_cores( int  qtde_coluna) {
 
+    nout << "Paleta de CORES CORES, CORES..." << endl;
    //linha 1
    //paleta vermelha
         botao_red = new PGButton("Red");
@@ -538,170 +545,336 @@ void editorTextureScreen::Paleta_cores( int  qtde_coluna) {
 
         //evento ao clicar...
         event_handler->add_hook(botao3_black->get_click_event(MouseButton::one()), print3_black, this);
-            
+
         }
 }
 
 //métodos que pintam a area branca da mascara
-void editorTextureScreen::print_green(const Event*, void *data) {
-    editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(0.4,0.49,0.46);
-    config->change_texture(cor,2);
-    config->mudar_marcador(-1.2, 0.0, 0.4);
-}
-void editorTextureScreen::print_green2(const Event*, void *data) {
-    editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(0.0,0.7,0.01);
-    config->change_texture( cor, 2);
-    config->mudar_marcador(-1.2, 0.0, 0.0);
-}
 void editorTextureScreen::print_red2(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.31,0.556,0.58);
     config->change_texture( cor,2);
     config->mudar_marcador(-1.2, 0.0, 0.5);
+    //atribuindo pesos para camuflagem
+    config->peso_cor1_folhagem = 2;
+    config->peso_cor1_sol = 0;
+    config->peso_cor1_noite = 3;
+    config->peso_cor1_sombra = 1;
+}
+
+void editorTextureScreen::print_green(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
+    RGBColord cor = RGBColord(0.4,0.49,0.46);
+    config->change_texture(cor,2);
+    config->mudar_marcador(-1.2, 0.0, 0.4);
+        //atribuindo pesos para camuflagem
+    config->peso_cor1_folhagem = 2;
+    config->peso_cor1_sol = 1;
+    config->peso_cor1_noite = 4;
+    config->peso_cor1_sombra = 3;
 }
 void editorTextureScreen::print_red(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.64,0.11,0.1);
     config->change_texture( cor, 2);
     config->mudar_marcador(-1.2, 0.0, 0.3);
+        //atribuindo pesos para camuflagem
+    config->peso_cor1_folhagem = 1;
+    config->peso_cor1_sol = 0;
+    config->peso_cor1_noite = 2;
+    config->peso_cor1_sombra = 0;
 }
 void editorTextureScreen::print_white(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(1,1,1);
     config->change_texture( cor,2);
     config->mudar_marcador(-1.2, 0.0, 0.2);
+        //atribuindo pesos para camuflagem
+    config->peso_cor1_folhagem = 1;
+    config->peso_cor1_sol = 2;
+    config->peso_cor1_noite = 3;
+    config->peso_cor1_sombra = 0;
 }
+
+void editorTextureScreen::print_yellow(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
+    RGBColord cor = RGBColord(0.94,0.82,0.015);
+    config->change_texture(cor, 2);
+    config->mudar_marcador(-1.2, 0.0, 0.1); //posição que deverá ficar o marcador
+        //atribuindo pesos para camuflagem
+    config->peso_cor1_folhagem = 4;
+    config->peso_cor1_sol = 1;
+    config->peso_cor1_noite = 3;
+    config->peso_cor1_sombra = 1;
+}
+
+void editorTextureScreen::print_green2(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
+    RGBColord cor = RGBColord(0.0,0.7,0.01);
+    config->change_texture( cor, 2);
+    config->mudar_marcador(-1.2, 0.0, 0.0);
+        //atribuindo pesos para camuflagem
+    config->peso_cor1_folhagem = 4;
+    config->peso_cor1_sol = 1;
+    config->peso_cor1_noite = 3;
+    config->peso_cor1_sombra = 2;
+}
+
 void editorTextureScreen::print_brown(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.3,0.23,0.16);
     config->change_texture( cor,2);
     config->mudar_marcador(-1.2, 0.0, -0.1);
+        //atribuindo pesos para camuflagem
+    config->peso_cor1_folhagem = 2;
+    config->peso_cor1_sol = 1;
+    config->peso_cor1_noite = 4;
+    config->peso_cor1_sombra = 2;
 }
 void editorTextureScreen::print_black(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.15,0.15,0.11);
     config->change_texture( cor, 2);
     config->mudar_marcador(-1.2, 0.0, -0.2);
-}
-void editorTextureScreen::print_yellow(const Event*, void *data) {
-    editorTextureScreen * config = (editorTextureScreen*) data;
-   // RGBColord cor = RGBColord(0.96,0.81,0.52);
-    RGBColord cor = RGBColord(0.94,0.82,0.015);
-    config->change_texture(cor, 2);
-    config->mudar_marcador(-1.2, 0.0, 0.1); //posição que deverá ficar o marcador
+        //atribuindo pesos para camuflagem
+    config->peso_cor1_folhagem = 3;
+    config->peso_cor1_sol = 2;
+    config->peso_cor1_noite = 5;
+    config->peso_cor1_sombra = 4;
 }
 
+
 //métodos que pintam a area cinza da mascara
-void editorTextureScreen::print2_green(const Event*, void *data) {
-    editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(0.4,0.49,0.46);
-    config->change_texture( cor, 1);
-    config->mudar_marcador2(-1.05, 0.0, 0.4);
-}
-void editorTextureScreen::print2_green2(const Event*, void *data) {
-    editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(0.0,0.7,0.01);
-    config->change_texture(cor, 1);
-    config->mudar_marcador2(-1.05, 0.0, 0.0);
-}
 void editorTextureScreen::print2_red2(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.31,0.556,0.58);
     config->change_texture( cor, 1);
     config->mudar_marcador2(-1.05, 0.0, 0.5);
+ //atribuindo pesos para camuflagem
+    config->peso_cor2_folhagem = 2;
+    config->peso_cor2_sol = 0;
+    config->peso_cor2_noite = 3;
+    config->peso_cor2_sombra = 1;
+
+}
+
+void editorTextureScreen::print2_green(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
+    RGBColord cor = RGBColord(0.4,0.49,0.46);
+    config->change_texture( cor, 1);
+    config->mudar_marcador2(-1.05, 0.0, 0.4);
+        //atribuindo pesos para camuflagem
+    config->peso_cor2_folhagem = 2;
+    config->peso_cor2_sol = 1;
+    config->peso_cor2_noite = 4;
+    config->peso_cor2_sombra = 3;
 }
 void editorTextureScreen::print2_red(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.64,0.11,0.1);
     config->change_texture(cor, 1);
     config->mudar_marcador2(-1.05, 0.0, 0.3);
+     //atribuindo pesos para camuflagem
+    config->peso_cor2_folhagem = 1;
+    config->peso_cor2_sol = 0;
+    config->peso_cor2_noite = 2;
+    config->peso_cor2_sombra = 0;
 }
 void editorTextureScreen::print2_white(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(1,1,1);
     config->change_texture(cor, 1);
     config->mudar_marcador2(-1.05, 0.0, 0.2);
+      //atribuindo pesos para camuflagem
+    config->peso_cor2_folhagem = 1;
+    config->peso_cor2_sol = 2;
+    config->peso_cor2_noite = 3;
+    config->peso_cor2_sombra = 0;
 }
+
+void editorTextureScreen::print2_yellow(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
+    RGBColord cor = RGBColord(0.94,0.82,0.015);
+    config->change_texture( cor, 1);
+    config->mudar_marcador2(-1.05, 0.0, 0.1);
+      //atribuindo pesos para camuflagem
+    config->peso_cor2_folhagem = 4;
+    config->peso_cor2_sol = 1;
+    config->peso_cor2_noite = 3;
+    config->peso_cor2_sombra = 1;
+}
+
+
+void editorTextureScreen::print2_green2(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
+    RGBColord cor = RGBColord(0.0,0.7,0.01);
+    config->change_texture(cor, 1);
+    config->mudar_marcador2(-1.05, 0.0, 0.0);
+        //atribuindo pesos para camuflagem
+    config->peso_cor2_folhagem = 4;
+    config->peso_cor2_sol = 1;
+    config->peso_cor2_noite = 3;
+    config->peso_cor2_sombra = 2;
+}
+
+
 void editorTextureScreen::print2_brown(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.3,0.23,0.16);
     config->change_texture(cor, 1);
     config->mudar_marcador2(-1.05, 0.0, -0.1);
+       //atribuindo pesos para camuflagem
+    config->peso_cor2_folhagem = 2;
+    config->peso_cor2_sol = 1;
+    config->peso_cor2_noite = 4;
+    config->peso_cor2_sombra = 2;
 }
 void editorTextureScreen::print2_black(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.15,0.15,0.11);
     config->change_texture( cor, 1);
     config->mudar_marcador2(-1.05, 0.0, -0.2);
-}
-void editorTextureScreen::print2_yellow(const Event*, void *data) {
-    editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(0.94,0.82,0.015);
-    config->change_texture( cor, 1);
-    config->mudar_marcador2(-1.05, 0.0, 0.1);
+        //atribuindo pesos para camuflagem
+    config->peso_cor2_folhagem = 3;
+    config->peso_cor2_sol = 2;
+    config->peso_cor2_noite = 5;
+    config->peso_cor2_sombra = 4;
 }
 
+
 //métodos que pintam a area cinza escuro da mascara (botões da terceira coluna da palata de cores)
-void editorTextureScreen::print3_green(const Event*, void *data) {
-    editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(0.4,0.49,0.46);
-    config->change_texture(cor, 3);
-    config->mudar_marcador3(-0.9, 0.0, 0.4);
-}
-void editorTextureScreen::print3_green2(const Event*, void *data) {
-    editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(0.0,0.7,0.01);
-    config->change_texture(cor, 3);
-    config->mudar_marcador3(-0.9, 0.0, 0.0);
-}
 void editorTextureScreen::print3_red2(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.31,0.556,0.58);
     config->change_texture(cor, 3);
     config->mudar_marcador3(-0.9, 0.0, 0.5);
+    //atribuindo pesos para camuflagem
+    config->peso_cor3_folhagem = 2;
+    config->peso_cor3_sol = 0;
+    config->peso_cor3_noite = 3;
+    config->peso_cor3_sombra = 1;
 }
+
+void editorTextureScreen::print3_green(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
+    RGBColord cor = RGBColord(0.4,0.49,0.46);
+    config->change_texture(cor, 3);
+    config->mudar_marcador3(-0.9, 0.0, 0.4);
+         //atribuindo pesos para camuflagem
+    config->peso_cor3_folhagem = 2;
+    config->peso_cor3_sol = 1;
+    config->peso_cor3_noite = 4;
+    config->peso_cor3_sombra = 3;
+}
+
+
 void editorTextureScreen::print3_red(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.64,0.11,0.1);
     config->change_texture( cor, 3);
      config->mudar_marcador3(-0.9, 0.0, 0.3);
+      //atribuindo pesos para camuflagem
+    config->peso_cor3_folhagem = 1;
+    config->peso_cor3_sol = 0;
+    config->peso_cor3_noite = 2;
+    config->peso_cor3_sombra = 0;
 }
 void editorTextureScreen::print3_white(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(1,1,1);
     config->change_texture( cor, 3);
     config->mudar_marcador3(-0.9, 0.0, 0.2);
-}
-void editorTextureScreen::print3_brown(const Event*, void *data) {
-    editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(0.3,0.23,0.16);
-    config->change_texture( cor, 3);
-    config->mudar_marcador3(-0.9, 0.0, -0.1);
-}
-void editorTextureScreen::print3_black(const Event*, void *data) {
-    editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(0.15,0.15,0.11);
-    config->change_texture(cor, 3);
-    config->mudar_marcador3(-0.9, 0.0, -0.2);
+      //atribuindo pesos para camuflagem
+    config->peso_cor3_folhagem = 1;
+    config->peso_cor3_sol = 2;
+    config->peso_cor3_noite = 3;
+    config->peso_cor3_sombra = 0;
 }
 void editorTextureScreen::print3_yellow(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
     RGBColord cor = RGBColord(0.94,0.82,0.015);
     config->change_texture(cor, 3);
     config->mudar_marcador3(-0.9, 0.0, 0.1);
+      //atribuindo pesos para camuflagem
+    config->peso_cor3_folhagem = 4;
+    config->peso_cor3_sol = 1;
+    config->peso_cor3_noite = 3;
+    config->peso_cor3_sombra = 1;
+}
+void editorTextureScreen::print3_green2(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
+    RGBColord cor = RGBColord(0.0,0.7,0.01);
+    config->change_texture(cor, 3);
+    config->mudar_marcador3(-0.9, 0.0, 0.0);
+        //atribuindo pesos para camuflagem
+    config->peso_cor3_folhagem = 4;
+    config->peso_cor3_sol = 1;
+    config->peso_cor3_noite = 3;
+    config->peso_cor3_sombra = 2;
+}
+void editorTextureScreen::print3_brown(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
+    RGBColord cor = RGBColord(0.3,0.23,0.16);
+    config->change_texture( cor, 3);
+    config->mudar_marcador3(-0.9, 0.0, -0.1);
+       //atribuindo pesos para camuflagem
+    config->peso_cor3_folhagem = 2;
+    config->peso_cor3_sol = 1;
+    config->peso_cor3_noite = 4;
+    config->peso_cor3_sombra = 2;
+}
+void editorTextureScreen::print3_black(const Event*, void *data) {
+    editorTextureScreen * config = (editorTextureScreen*) data;
+    RGBColord cor = RGBColord(0.15,0.15,0.11);
+    config->change_texture(cor, 3);
+    config->mudar_marcador3(-0.9, 0.0, -0.2);
+        //atribuindo pesos para camuflagem
+    config->peso_cor3_folhagem = 3;
+    config->peso_cor3_sol = 2;
+    config->peso_cor3_noite = 5;
+    config->peso_cor3_sombra = 4;
 }
 
+
 //Esse método coloca uma cor padrão (verde) na textura. É utilizado quando o padrão de textura é alterado
-void editorTextureScreen::print_standard() {
-       
+void editorTextureScreen::print_standard(int camadas) {
+
         //apaga os marcadores da paleta de cores
        marcador_camada1.hide();
        marcador_camada2.hide();
        marcador_camada3.hide();
 	RGBColord cor = RGBColord(0.019,0.28,0);//forma a cor verde
 	change_texture(cor, 0); //pinta toda a textura inicialmente de verde
+
+
+	peso_cor2_folhagem = -1;
+	peso_cor2_sol = -1;
+	peso_cor2_noite = -1;
+	peso_cor2_sombra = -1;
+
+	peso_cor3_folhagem = -1;
+	peso_cor3_sol = -1;
+	peso_cor3_noite = -1;
+	peso_cor3_sombra = -1;
+
+	peso_cor1_folhagem = 4;
+	peso_cor1_sol = 1;
+	peso_cor1_noite = 3;
+	peso_cor1_sombra = 2;
+
+
+	if (camadas >= 2){
+	peso_cor2_folhagem = 4;
+	peso_cor2_sol = 1;
+	peso_cor2_noite = 3;
+	peso_cor2_sombra = 2;
+	}
+	if (camadas >= 3){
+	peso_cor3_folhagem = 4;
+	peso_cor3_sol = 1;
+	peso_cor3_noite = 3;
+	peso_cor3_sombra = 2;
+	}
 }
 
 //muda a posição do marcador da primeira coluna da paleta de cores
@@ -721,7 +894,7 @@ void editorTextureScreen::mudar_marcador3(float a,float b,float c){
 }
 
 void editorTextureScreen::change_texture(RGBColord cor, int mask_x) {
-   
+
   //  PNMImage image = PNMImage(path_textura_original);   //textura original
   //  PNMImage mask = PNMImage(path_mascara);    //mascara da textura
   //  PNMImage custom = PNMImage(path_textura_personalizada);    //textura personalizada
@@ -801,12 +974,12 @@ void editorTextureScreen::change_texture(RGBColord cor, int mask_x) {
 }
 
 void editorTextureScreen::swap_texture() {//recarregar a textura personalizada do lagarto
-                
+
                  //troca textura, entre 2 texturas diferentes
                PT(TextureStage) ts = lagartoPersonalizado.find_all_texture_stages().get_texture_stage(0);
 		ts->set_mode(TextureStage::M_modulate);
                 PT(Texture) t = new Texture();//instancia um Texture
-                t->load(textura_personalizada); //cria um textura a partir de um PNMImage		
+                t->load(textura_personalizada); //cria um textura a partir de um PNMImage
 		lagartoPersonalizado.set_texture(ts, t, 1);
                 lagartoPersonalizado.get_texture()->reload();
 		ModelRepository::get_instance()->set_lagarto_personalizado(t);
@@ -815,15 +988,41 @@ void editorTextureScreen::swap_texture() {//recarregar a textura personalizada d
 
 #include "characterEditor.h"
 void editorTextureScreen::jogo_action(){
-	nout << "Carregando Jogo..." << endl;
-	PT(CalangosMenuManager) cmanager = ((CalangosMenuManager*)(manager.p()));
+    
+	//colocando pesos para camuflagem
+    if(peso_cor2_folhagem == -1 && peso_cor3_folhagem == -1){ //se o lagarto tiver apenas uma camada de cor
+	peso_lagarto_folhagem = peso_cor1_folhagem;
+	peso_lagarto_sol = peso_cor1_sol;
+	peso_lagarto_noite = peso_cor1_noite;
+	peso_lagarto_sombra = peso_cor1_sombra;
+    }else if(peso_cor2_folhagem != -1 && peso_cor3_folhagem == -1){ //se o lagarto tiver duas camadas de cor
+	    peso_lagarto_folhagem = (peso_cor1_folhagem + peso_cor2_folhagem)/2 ;
+	    peso_lagarto_sol = (peso_cor1_sol + peso_cor2_sol)/2;
+	    peso_lagarto_noite = (peso_cor1_noite + peso_cor2_noite)/2;
+	    peso_lagarto_sombra = (peso_cor1_sombra + peso_cor2_sombra)/2 ;
+	  }else{						    //se tiver 3 camadas de cor...
+		peso_lagarto_folhagem = (peso_cor1_folhagem + peso_cor2_folhagem + peso_cor3_folhagem)/3 ;
+		peso_lagarto_sol = (peso_cor1_sol + peso_cor2_sol+ peso_cor3_sol)/3;
+		peso_lagarto_noite = (peso_cor1_noite + peso_cor2_noite + peso_cor3_noite)/3;
+		peso_lagarto_sombra = (peso_cor1_sombra + peso_cor2_sombra + peso_cor3_sombra)/3 ;
+	  }
 
+	//aplica o peso da camuflagem da textura ao final da edição. O valor total não passa de 10
+	peso_lagarto_folhagem += peso_lagarto_textura ;
+	peso_lagarto_sol += peso_lagarto_textura;
+	peso_lagarto_noite += peso_lagarto_textura;
+	peso_lagarto_sombra += peso_lagarto_textura;
+
+
+	nout << "Carregando Jogo...XXXXXXXXXXXXXXXXXXXXXXXXXx" << endl;
+	PT(CalangosMenuManager) cmanager = ((CalangosMenuManager*)(manager.p()));
+         nout << "Carregando Jogo...1" << endl;
 	manager->open_screen(cmanager->get_loading_screen());
 	Simdunas::set_play_clicked(true);
-
+        nout << "Carregando Jogo...2" << endl;
 	/* Aqui o jogador clicou em jogar. Define a segunda fase */
 	Session::get_instance()->set_level(2);
-
+     
 	((CharacterEditor*)cmanager->get_character_editor().p())->collect_player_properties();
 }
 

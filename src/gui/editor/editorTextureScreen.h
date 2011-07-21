@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   editorTexture.h
  * Author: tassalon
  *
@@ -71,13 +71,9 @@ public:
 	static void print3_white(const Event*, void *data);
 	static void print3_yellow(const Event*, void *data);
 
-	// static void set_textura1(const Event*, void *data);
-	// static void set_textura2(const Event*, void *data);
-	// static void set_textura3(const Event*, void *data);
-	//  static void set_textura4(const Event*, void *data);
 	void marca_textura(int textura);
 	void swap_texture();//faz a troca da textura atual pela personalizada
-	void print_standard(); //definindo um cor inicial para as texturas a serem modificadas
+	void print_standard(int camadas); //definindo um cor inicial para as texturas a serem modificadas
 	void Paleta_cores(int qtde_coluna);
 	void mudar_marcador(float a, float b, float c);
 	void mudar_marcador2(float a, float b, float c);
@@ -93,6 +89,30 @@ public:
 	void hide();
 
 private:
+
+    //variáveis que definem o nível de camuflagem do lagarto personalizado
+   
+    float peso_cor1_folhagem;
+    float peso_cor1_sol;
+    float peso_cor1_noite;
+    float peso_cor1_sombra;
+
+    float peso_cor2_folhagem;
+    float peso_cor2_sol;
+    float peso_cor2_noite;
+    float peso_cor2_sombra;
+
+    float peso_cor3_folhagem;
+    float peso_cor3_sol;
+    float peso_cor3_noite;
+    float peso_cor3_sombra;
+
+
+    float peso_lagarto_textura;
+    float peso_lagarto_folhagem;
+    float peso_lagarto_sol;
+    float peso_lagarto_noite;
+    float peso_lagarto_sombra;
 
 	static   PNMImage textura_original;
 	static   PNMImage mascara;
@@ -128,4 +148,3 @@ private:
 
 #undef ACTION
 #endif	/* _editorTextureScreen_H */
-
