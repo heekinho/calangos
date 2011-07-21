@@ -106,8 +106,9 @@ PlayerControl::PlayerControl() {
 	action = "bite";  		Simdunas::get_framework()->define_key("space", "Player Bite", eat, this);
 	action = "bobbing";  	Simdunas::get_framework()->define_key("b", "Bobbing", bobbing, this);
 	action = "toca";   		Simdunas::get_framework()->define_key("t", "Toca Control", toca_control, this);
-	action = "wireFrameTerrain";   		Simdunas::get_framework()->define_key("n", "wireFrameTerrain", root_control, this);
-	action = "wireFrameFolhagem";   		Simdunas::get_framework()->define_key("m", "wireFrameFolhagem", folhagem_control, this);
+	//teclas para Ativa e desativa o wireframe no terreno e na folhagem
+//	action = "wireFrameTerrain";   		Simdunas::get_framework()->define_key("n", "wireFrameTerrain", root_control, this);
+//	action = "wireFrameFolhagem";   		Simdunas::get_framework()->define_key("m", "wireFrameFolhagem", folhagem_control, this);
     action = "reproduzir";	Simdunas::get_framework()->define_key("r", "Reproduzir", reproducao, this);
 
     action = "bury";		Simdunas::get_framework()->define_key("k", "Enterrar-se", bury, this);
