@@ -126,11 +126,10 @@ void editorTextureScreen::show_tela_personalizar() {
 	    //botões jogar e voltar ao menu anterior
 	default_button_config(buttonJogar, npJogar, " Jogar ", LVecBase3f(0, 0, -0.8), jogo_action);
 	npJogar.show();
-         nout << "TA CAPOTANDO" << endl;
+     
 	configure_default_back_button(((CalangosMenuManager*) manager.p())->get_character_editor());
 
     //carregando o quadro (marcador) de cor selecionada da primeira coluna da paleta de cores
-         nout << "sHOW TELA 2" << endl;
         marcador_camada1 = window->load_model(aspect2d, "models/buttons/quadro");
         marcador_camada1.set_scale(0.17, 1.0, 0.17);
         marcador_camada1.hide();
@@ -238,7 +237,7 @@ void editorTextureScreen::set_textura4() {
 
 void editorTextureScreen::Paleta_cores( int  qtde_coluna) {
 
-    nout << "Paleta de CORES CORES, CORES..." << endl;
+ 
    //linha 1
    //paleta vermelha
         botao_red = new PGButton("Red");
@@ -353,7 +352,7 @@ void editorTextureScreen::Paleta_cores( int  qtde_coluna) {
         botao2_red_np.set_scale(0.1, 0.2, 0.1);
         botao2_red_np.set_pos(-1.05, 0.0, 0.5);
         botao2_red->set_frame(-0.4, 0.4, -0.4, 0.4);
-        botao2_red_np.set_color(0.31,0.556,0.58,100,1);
+        botao2_red_np.set_color(botao_red_np.get_color(),1);
         //evento ao clicar...
          event_handler->add_hook(botao2_red->get_click_event(MouseButton::one()),  print2_red2, this);
 
@@ -455,7 +454,7 @@ void editorTextureScreen::Paleta_cores( int  qtde_coluna) {
         botao3_red_np.set_scale(0.1, 0.2, 0.1);
         botao3_red_np.set_pos(-0.9, 0.0, 0.5);
         botao3_red->set_frame(-0.4, 0.4, -0.4, 0.4);
-        botao3_red_np.set_color(0.31,0.556,0.58,100,1);
+        botao3_red_np.set_color(botao_red_np.get_color(),1);
         //evento ao clicar...
          event_handler->add_hook(botao3_red->get_click_event(MouseButton::one()),  print3_red2, this);
 
@@ -552,7 +551,9 @@ void editorTextureScreen::Paleta_cores( int  qtde_coluna) {
 //métodos que pintam a area branca da mascara
 void editorTextureScreen::print_red2(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(0.31,0.556,0.58);
+    
+    //RGBColord cor = RGBColord(0.31,0.556,0.58);
+    RGBColord cor = RGBColord(config->botao_red_np.get_color().get_x(),config->botao_red_np.get_color().get_y(),config->botao_red_np.get_color().get_z());
     config->change_texture( cor,2);
     config->mudar_marcador(-1.2, 0.0, 0.5);
     //atribuindo pesos para camuflagem
@@ -895,10 +896,6 @@ void editorTextureScreen::mudar_marcador3(float a,float b,float c){
 
 void editorTextureScreen::change_texture(RGBColord cor, int mask_x) {
 
-  //  PNMImage image = PNMImage(path_textura_original);   //textura original
-  //  PNMImage mask = PNMImage(path_mascara);    //mascara da textura
-  //  PNMImage custom = PNMImage(path_textura_personalizada);    //textura personalizada
-
       //esse int mask_x representa a parte da mascara que o jogador deseja pintar (1 = cinza,
       //2 = branca, 3 = cinza escuro, 0 = todas (branco, cinza e cinza escuro)
     int print_mask = mask_x;
@@ -986,10 +983,8 @@ void editorTextureScreen::swap_texture() {//recarregar a textura personalizada d
 }
 
 
-#include "characterEditor.h"
-void editorTextureScreen::jogo_action(){
-    
-	//colocando pesos para camuflagem
+void editorTextureScreen::calcula_nivel_camuflagem(){
+//colocando pesos para camuflagem
     if(peso_cor2_folhagem == -1 && peso_cor3_folhagem == -1){ //se o lagarto tiver apenas uma camada de cor
 	peso_lagarto_folhagem = peso_cor1_folhagem;
 	peso_lagarto_sol = peso_cor1_sol;
@@ -1012,14 +1007,19 @@ void editorTextureScreen::jogo_action(){
 	peso_lagarto_sol += peso_lagarto_textura;
 	peso_lagarto_noite += peso_lagarto_textura;
 	peso_lagarto_sombra += peso_lagarto_textura;
+}
 
 
-	nout << "Carregando Jogo...XXXXXXXXXXXXXXXXXXXXXXXXXx" << endl;
+#include "characterEditor.h"
+void editorTextureScreen::jogo_action(){
+    //Atribui os valores para a camuflagem do lagarto antes de inciar o jogo.
+	calcula_nivel_camuflagem();
+		
 	PT(CalangosMenuManager) cmanager = ((CalangosMenuManager*)(manager.p()));
-         nout << "Carregando Jogo...1" << endl;
+     
 	manager->open_screen(cmanager->get_loading_screen());
 	Simdunas::set_play_clicked(true);
-        nout << "Carregando Jogo...2" << endl;
+        
 	/* Aqui o jogador clicou em jogar. Define a segunda fase */
 	Session::get_instance()->set_level(2);
      

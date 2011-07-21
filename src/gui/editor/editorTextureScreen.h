@@ -81,6 +81,7 @@ public:
 	void hide_paleta_cores();
 	void hide_tela_personalizado();
 	void show_tela_personalizar();
+	void calcula_nivel_camuflagem();
 
 	//métodos que serão implementados classe abstrata screen
 	void load();
@@ -91,8 +92,7 @@ public:
 private:
 
     //variáveis que definem o nível de camuflagem do lagarto personalizado
-   
-    float peso_cor1_folhagem;
+    float peso_cor1_folhagem;  //cor1 representa a primeira camada que pode ser pintada no lagarto
     float peso_cor1_sol;
     float peso_cor1_noite;
     float peso_cor1_sombra;
