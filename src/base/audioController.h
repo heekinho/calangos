@@ -27,12 +27,17 @@ public:
 	void heart_beat(double energy, double min_energy);
 	static AsyncTask::DoneStatus finish_frog_delay(GenericAsyncTask* task, void* data);
 	bool make_audio3d(int max_dist, NodePath obj, string audio_name);
+	void running();
+	void stop_running();
+	static AsyncTask::DoneStatus finish_dash(GenericAsyncTask* task, void* data);
+	static AsyncTask::DoneStatus loop_running(GenericAsyncTask* task, void* data);
 
 private:
 	AudioController();
 	static PT(AudioController) instance;
 	PT(AudioRepository) audio_repository;
 	bool frog_delay;
+	bool is_running;
 };
 
 #endif /* AUDIOCONTROLLER_H */

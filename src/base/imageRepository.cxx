@@ -33,6 +33,7 @@ void ImageRepository::load_images(){
 
 	add_image("diaEnoite", "models/gui/diaEnoite.png");
 	add_image("ponteiro", "models/gui/ponteiro.png");
+	add_image("ponteiro_red", "models/gui/ponteiro_red.png");
 	add_image("calango_color", "models/calango_color.png");
 	add_image("calango_border", "models/calango_border.png");
 	add_image("pisca_life", "models/pisca_life");

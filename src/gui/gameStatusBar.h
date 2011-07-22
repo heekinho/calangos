@@ -75,6 +75,7 @@ private:
 	NodePath piscar_model;
 	NodePath hidratacao_bar;
 	NodePath hidratacao_bar_pointer;
+	NodePath hidratacao_bar_pointer_red;
 	NodePath img_hidratacao_bar;
 	ScrollBar hidratacao_scroll_bar;
 	PT(Hint) hint_hidratacao;
@@ -83,6 +84,7 @@ private:
 	NodePath np_label_hidratacao;
 	NodePath temperatura_bar;
 	NodePath temperatura_bar_pointer;
+	NodePath temperatura_bar_pointer_red;
 	NodePath img_temperatura_bar;
 	ScrollBar temperatura_scroll_bar;
 	PT(Hint) hint_temperatura;

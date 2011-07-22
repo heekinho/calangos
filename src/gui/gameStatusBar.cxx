@@ -186,6 +186,10 @@ void GameStatusBar::make_hidratacao_bar(NodePath menu_frame_np) {
 	hidratacao_bar_pointer.reparent_to(hidratacao_bar);
 	hidratacao_bar_pointer.set_scale(0.18);
 	hidratacao_bar_pointer.set_pos(0.0, 0.0, 0.0);
+	hidratacao_bar_pointer_red = ImageRepository::get_instance()->get_image("ponteiro_red");
+	hidratacao_bar_pointer_red.reparent_to(hidratacao_bar);
+	hidratacao_bar_pointer_red.set_scale(0.18);
+	hidratacao_bar_pointer_red.hide();
 
 	//Criando a barra para mostrar o nivel de hidratação.
 	hidratacao_scroll_bar = ScrollBar(menu_frame_np, hidratacao_bar, hidratacao_bar_pointer);
@@ -221,6 +225,10 @@ void GameStatusBar::make_temperatura_bar(NodePath menu_frame_np) {
 	temperatura_bar_pointer.reparent_to(temperatura_bar);
 	temperatura_bar_pointer.set_scale(0.18);
 	temperatura_bar_pointer.set_pos(0.0, 0.0, 0.0);
+	temperatura_bar_pointer_red = ImageRepository::get_instance()->get_image("ponteiro_red");
+	temperatura_bar_pointer_red.reparent_to(temperatura_bar);
+	temperatura_bar_pointer_red.set_scale(0.18);
+	temperatura_bar_pointer_red.hide();
 
 	//Criando a barra para mostrar a temperatura.
 	temperatura_scroll_bar = ScrollBar(menu_frame_np, temperatura_bar, temperatura_bar_pointer);
@@ -464,6 +472,8 @@ void GameStatusBar::set_led_estado_reprodutivo(bool on, NodePath menu_frame_np) 
 }
 
 void GameStatusBar::hidratacao_critica_on() {
+	if (hidrat_critica) return;
+
 	hidrat_critica = true;
 	TimeControl::get_instance()->notify("efeito_alerta_hidratacao", efeito_alerta_hidratacao, this, 0.5);
 }
@@ -475,15 +485,22 @@ void GameStatusBar::hidratacao_critica_off() {
 AsyncTask::DoneStatus GameStatusBar::efeito_alerta_hidratacao(GenericAsyncTask* task, void* data) {
 	GameStatusBar* _this = (GameStatusBar*) data;
 	if (!_this->hidrat_critica) {
+		_this->hidratacao_bar_pointer.show();
+		_this->hidratacao_bar_pointer_red.hide();
 		_this->np_label_hidratacao.set_color(0, 0, 0, 1);
 		return AsyncTask::DS_done;
 	}
 
 	if (_this->num_hidrat_vermelho) {
+		_this->hidratacao_bar_pointer.show();
+		_this->hidratacao_bar_pointer_red.hide();
 		_this->np_label_hidratacao.set_color(0, 0, 0, 1);
 		_this->num_hidrat_vermelho = false;
 	}
 	else {
+		_this->hidratacao_bar_pointer.hide();
+		_this->hidratacao_bar_pointer_red.set_pos(_this->hidratacao_bar_pointer.get_pos());
+		_this->hidratacao_bar_pointer_red.show();
 		_this->np_label_hidratacao.set_color(1, 0, 0, 1);
 		_this->num_hidrat_vermelho = true;
 	}
@@ -492,6 +509,8 @@ AsyncTask::DoneStatus GameStatusBar::efeito_alerta_hidratacao(GenericAsyncTask* 
 }
 
 void GameStatusBar::temperatura_critica_on() {
+	if (temp_critica) return;
+
 	temp_critica = true;
 	TimeControl::get_instance()->notify("efeito_alerta_temperatura", efeito_alerta_temperatura, this, 0.5);
 }
@@ -503,15 +522,22 @@ void GameStatusBar::temperatura_critica_off() {
 AsyncTask::DoneStatus GameStatusBar::efeito_alerta_temperatura(GenericAsyncTask* task, void* data) {
 	GameStatusBar* _this = (GameStatusBar*) data;
 	if (!_this->temp_critica) {
+		_this->temperatura_bar_pointer.show();
+		_this->temperatura_bar_pointer_red.hide();
 		_this->np_label_temperatura.set_color(0, 0, 0, 1);
 		return AsyncTask::DS_done;
 	}
 
 	if (_this->num_temp_vermelho) {
+		_this->temperatura_bar_pointer.show();
+		_this->temperatura_bar_pointer_red.hide();
 		_this->np_label_temperatura.set_color(0, 0, 0, 1);
 		_this->num_temp_vermelho = false;
 	}
 	else {
+		_this->temperatura_bar_pointer.hide();
+		_this->temperatura_bar_pointer_red.set_pos(_this->temperatura_bar_pointer.get_pos());
+		_this->temperatura_bar_pointer_red.show();
 		_this->np_label_temperatura.set_color(1, 0, 0, 1);
 		_this->num_temp_vermelho = true;
 	}

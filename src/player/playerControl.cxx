@@ -269,19 +269,24 @@ void PlayerControl::update(){
 	if(key_map_player["fastforward"] || key_map_player["shift"]){
 		move(p->get_speed_running());
 		p->set_lagarto_correndo();
+
+		AudioController::get_instance()->running();
 	}
 	else if(key_map_player["forward"]){
 		// Se for soh caminhando
 		move(p->get_speed_walking());
 		p->set_lagarto_andando();
+		AudioController::get_instance()->stop_running();
 	}
 	else if(rotating){
 		move(0); /* Gambi para rodar a animação */
+		AudioController::get_instance()->stop_running();
 	}
 	else {
 		/* Lagarto está parado */
 		p->get_anim_control()->stop("walk");
 		p->set_lagarto_parado();
+		AudioController::get_instance()->stop_running();
 	}
 
 

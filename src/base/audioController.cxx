@@ -21,6 +21,7 @@ PT(AudioController) AudioController::get_instance() {
 
 AudioController::AudioController() {
 	frog_delay = false;
+	is_running = false;
 	audio_repository = new AudioRepository();
 }
 
@@ -82,20 +83,20 @@ void AudioController::warning_temp(double intern_temp, double extern_temp, doubl
 	// fosse 5 o alerta ficaria tocando mesmo o player estando na sombra.
 	if (intern_temp > (max_temp - 4)) {
 		if (intern_temp < extern_temp) {
-			audio_repository->get_audio("warning")->set_volume(1);
+			audio_repository->get_audio("warning")->set_volume(0.7);
 		}
 		else {
-			audio_repository->get_audio("warning")->set_volume(0.4);
+			audio_repository->get_audio("warning")->set_volume(0.25);
 		}
 		audio_repository->play_sound("warning");
 		GuiManager::get_instance()->get_game_status_bar()->temperatura_critica_on();
 	}
 	else if (intern_temp < (min_temp + 4)) {
 		if (intern_temp > extern_temp) {
-			audio_repository->get_audio("warning")->set_volume(1);
+			audio_repository->get_audio("warning")->set_volume(0.7);
 		}
 		else {
-			audio_repository->get_audio("warning")->set_volume(0.4);
+			audio_repository->get_audio("warning")->set_volume(0.25);
 		}
 		audio_repository->play_sound("warning");
 		GuiManager::get_instance()->get_game_status_bar()->temperatura_critica_on();
@@ -123,4 +124,34 @@ void AudioController::heart_beat(double energy, double min_energy) {
 		}
 		audio_repository->play_sound("heart_beat", true);
 	}
+}
+
+void AudioController::running() {
+	if (is_running) return;
+
+	is_running = true;
+	audio_repository->play_sound("dash");
+	TimeControl::get_instance()->notify("dash_finish", finish_dash, this, audio_repository->get_audio("dash")->length());
+}
+
+void AudioController::stop_running() {
+	is_running = false;
+	audio_repository->get_audio("running")->stop();
+}
+
+AsyncTask::DoneStatus AudioController::finish_dash(GenericAsyncTask* task, void* data) {
+	AudioController* _this = (AudioController*) data;
+	_this->audio_repository->play_sound("running");
+	TimeControl::get_instance()->notify("loop_running", loop_running, _this, _this->audio_repository->get_audio("running")->length());
+	return AsyncTask::DS_done;
+}
+
+AsyncTask::DoneStatus AudioController::loop_running(GenericAsyncTask* task, void* data) {
+	AudioController* _this = (AudioController*) data;
+
+	if (!_this->is_running) return AsyncTask::DS_done;
+
+	PlayerControl* playerCtrl = PlayerControl::get_instance();
+	_this->audio_repository->play_sound("running");
+	return AsyncTask::DS_again;
 }
