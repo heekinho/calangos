@@ -94,7 +94,7 @@ void Vegetal::load_default_model_and_data()
         //(String, radius, scale, offset_z, multiplicador, x,y, z)
 	add_vegetal_model("mimosa", 1.5, 0.2);//ok
 	add_vegetal_model("quipa", 1, 0.09,0, 45); //ok
-        add_vegetal_model("eugenia", 5, 0.20, -0.15, 4);//ok
+	add_vegetal_model("eugenia", 5, 0.20, -0.15, 4);//ok
 	add_vegetal_model("mandacaru", 5, 0.22,-0.2, 3); // OK
 	add_vegetal_model("colher", 5, 0.20,-0.2, 2);//ok
 	add_vegetal_model("bromelia", 2, 0.20, -0.1, 4); //ok
@@ -322,7 +322,7 @@ void Vegetal::add_vegetal_model(const string &map_name, const string &reposit_na
 	PT(Vegetal) especie = new Vegetal(*ModelRepository::get_instance()->get_model(reposit_name));
 
 
-        especie->set_area(area);
+	especie->set_area(area);
 	especie->set_radius(radius);
 	especie->set_scale(scale);
 	especie->set_offset_z(offset_z);

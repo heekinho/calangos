@@ -20,7 +20,10 @@ public:
 
 	/* Características do lagarto */
 	float body_size;
+
 	float head_size;
+	static const float min_head_size = 0.5; /* dobro do tamanho */
+	static const float max_head_size = 2.0; /* metade do tamanho */
 
 	float speed;
 	static const float min_speed = 10;

@@ -213,7 +213,9 @@ void CharacterEditor::configure_controls(){
 	body_size = make_entry_slider(entry, "Tamanho do corpo", text_generator, min, max, valign += offset, (max + min)*0.5, "cm");
 
 	/* Tamanho da cabeça em relação ao corpo */
-	head_size = make_entry_slider(entry, "Tamanho da cabeça", text_generator, 0, 10, valign += offset, 0.0, "cm");
+	min = PlayerProperties::min_head_size * 100;
+	max = PlayerProperties::max_head_size * 100;
+	head_size = make_entry_slider(entry, "Tamanho da cabeça", text_generator, min, max, valign += offset, 100, "%");
 
 	/* Velocidade */
 	min = PlayerProperties::min_speed;
@@ -310,7 +312,7 @@ void CharacterEditor::pattern_action_performed(){
 	player_properties.nighttime_activity = !btn_circadian->get_state();
 
 	player_properties.body_size = body_size->control->get_value();
-	player_properties.head_size = head_size->control->get_value();
+	player_properties.head_size = head_size->control->get_value() * 0.01;
 	player_properties.speed = speed->control->get_value();
 	player_properties.ideal_tempature = ideal_temperature->control->get_value();
 	player_properties.lizards_density = density->control->get_value();

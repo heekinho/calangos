@@ -31,6 +31,9 @@ public:
 	// Modelo singleton, ao iniciar utilizar os parametros
 	static PT(Player) get_instance();
 
+	static void update_debug(const Event*, void* data);
+	void update_debug();
+
 	static PlayerProperties properties;
 
 	~Player();
@@ -456,6 +459,14 @@ public:
 private:
 	bool _bury_ability;
 	bool _is_buried;
+
+
+
+public:
+	float get_mouth_size();
+	//void set_mouth_size(float mouth_size);
+private:
+	float _mouth_size;
 };
 
 #endif

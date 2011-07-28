@@ -1,7 +1,10 @@
 #include "player.h"
 #include "modelRepository.h"
-# include "collision.h"
+#include "collision.h"
 #include "audioRepository.h"
+#include "textureStageCollection.h"
+#include "simdunas.h"
+
 #define DEBUG_PLAYER 0
 
 PlayerProperties Player::properties;
@@ -11,7 +14,18 @@ PT(Player) Player::single = NULL;
 Player::lizardEpecie Player::lizard_specie = Player::eurolophosaurus;
 Player::lizardGender Player::lizard_gender = Player::young;
 
-#include "textureStageCollection.h"
+/*! Realiza diversos testes */
+void Player::update_debug(){
+	nout << "get_size: " << get_size() << endl;
+	nout << "get_tamanho_base: " << get_tamanho_base() << endl;
+	nout << "get_tamanho_real: " << get_tamanho_real() << endl;
+	nout << "mouth_size: " << get_mouth_size() << endl;
+}
+
+/*! Recebe o evento de passagem de tempo e encaminha para update_debug() */
+void Player::update_debug(const Event*, void* data){
+	((Player*)data)->update_debug();
+}
 
 Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_animated_model(
 	Player::get_specie_name(Player::lizard_specie) + "/" +
@@ -37,6 +51,9 @@ Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_anim
 		set_texture(ts, ModelRepository::get_instance()->get_lagarto_personalizado(), 10);
 //		get_texture()->reload();
 	}
+
+	/* Chama o evento de debug */
+	Simdunas::get_framework()->define_key("control-d", "debug", update_debug, this);
 }
 
 /*! Obtem a instancia atual da classe Player. Observe que a classe ja deve ter
@@ -316,3 +333,21 @@ void Player::set_buried(bool is_buried){
 		_is_buried = false;
 	}
 }
+
+
+/*! Obtém o tamanho da boca do lagarto */
+float Player::get_mouth_size() {
+//	return _mouth_size;
+
+	float real_head_size = properties.head_size * get_tamanho_real() * 0.2;
+	return real_head_size * 0.8;
+}
+
+///*! Define o tamanho da boca do lagarto */
+//void Player::set_mouth_size(float mouth_size){
+//	_mouth_size = mouth_size;
+//}
+
+/*! Verifica se o player pode comer determinado alimento */
+//bool Player::can_eat(float food_size){
+//}
