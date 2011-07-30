@@ -35,6 +35,26 @@ public:
 
 	void set_lagarto_personalizado(PT(Texture) custom);
 	PT(Texture) get_lagarto_personalizado();
+         void set_nivel_camuflagem(float terreno_dia,float terreno_noite,float sombra, float folhagem);
+         float get_nivel_camuflagem_terreno_dia(){
+             return nivel_camuflagem_terreno_dia;
+         }
+         float get_nivel_camuflagem_terreno_noite(){
+             return nivel_camuflagem_terreno_noite;
+         }
+         float get_nivel_camuflagem_sombra(){
+             return nivel_camuflagem_sombra;
+         }
+         float get_nivel_camuflagem_folhagem(){
+             return nivel_camuflagem_folhagem;
+         }
+
+private:
+        //armazena os níveis de camuflagem  do player editado para variadas situações:
+        float nivel_camuflagem_terreno_dia;
+        float nivel_camuflagem_terreno_noite;
+        float nivel_camuflagem_sombra;
+        float nivel_camuflagem_folhagem;
 
 private:
 	/* Controle do Singleton */

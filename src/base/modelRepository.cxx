@@ -309,6 +309,15 @@ void ModelRepository::set_lagarto_personalizado(PT(Texture) custom){
     lagartoPersonalizado = custom;
 }
 
+
+
 PT(Texture) ModelRepository::get_lagarto_personalizado(){
     return lagartoPersonalizado;
+}
+
+void ModelRepository::set_nivel_camuflagem(float terreno_dia,float terreno_noite,float sombra, float folhagem){
+    nivel_camuflagem_terreno_dia = terreno_dia;
+    nivel_camuflagem_terreno_noite = terreno_noite;
+    nivel_camuflagem_sombra = sombra;
+    nivel_camuflagem_folhagem = folhagem;
 }
