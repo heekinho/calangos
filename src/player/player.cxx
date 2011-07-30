@@ -10,6 +10,10 @@
 PlayerProperties Player::properties;
 bool Player::instanceFlag = false;
 PT(Player) Player::single = NULL;
+float Player::nivel_camuflagem_terreno_dia = 0;
+float Player::nivel_camuflagem_terreno_noite = 0;
+float Player::nivel_camuflagem_sombra = 0;
+float Player::nivel_camuflagem_folhagem = 0;
 
 Player::lizardEpecie Player::lizard_specie = Player::eurolophosaurus;
 Player::lizardGender Player::lizard_gender = Player::young;
@@ -50,6 +54,9 @@ Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_anim
 		ts->set_mode(TextureStage::M_modulate);
 		set_texture(ts, ModelRepository::get_instance()->get_lagarto_personalizado(), 10);
 //		get_texture()->reload();
+                //ativa método que provoca o efeito de camuflagem do player
+                event_handler->add_hook("EV_SEGUNDO_REAL", event_psegundo_camuflagem, this);
+
 	}
 
 	/* Chama o evento de debug */
@@ -154,6 +161,12 @@ void Player::display(){
 void Player::load_player(){
 	/* Cria nó de colisão para o player */
 	collision::get_instance()->playerCollision(player);
+
+          //obtendo os níveis de camuflagem do lagarto (valores entre 0 e 1) sendo que 1 representa mais camuflado
+        player->nivel_camuflagem_folhagem = ModelRepository::get_instance()->get_nivel_camuflagem_folhagem();
+        player->nivel_camuflagem_sombra = ModelRepository::get_instance()->get_nivel_camuflagem_sombra();
+        player->nivel_camuflagem_terreno_dia = ModelRepository::get_instance()->get_nivel_camuflagem_terreno_dia();
+        player->nivel_camuflagem_terreno_noite = ModelRepository::get_instance()->get_nivel_camuflagem_terreno_noite();
 
 	/* Atualiza tamanho do player */
 	player->set_scale(player->get_visual_size());
@@ -351,3 +364,24 @@ float Player::get_mouth_size() {
 /*! Verifica se o player pode comer determinado alimento */
 //bool Player::can_eat(float food_size){
 //}
+
+
+
+//exemplo de como utilizar o nivel de camuflagem para aplicar um efeito de transparência no lagarto
+//Neste método o nível de camuflagem do lagarto editado vai provocar um efeito de transparência na
+//textura caso ele entre na sombra.
+ void Player::event_psegundo_camuflagem(const Event *, void *data){
+     //verifica se player está na sombra
+     if(World::get_world()->get_terrain()->get_shadows()->is_in_shadow(*player, 0.1)){
+    //aplica alpha - provocando efeito visual de camuflagem
+     player->set_alpha_scale(1 - nivel_camuflagem_sombra/3,1); //A depender do nível de camuflagem
+    //do lagarto  a intensidade do alpha muda.
+     }else{//caso não esteja na sombra
+     //sem alpha
+     player->set_alpha_scale(1,1);
+     }
+ }
+
+
+
+
