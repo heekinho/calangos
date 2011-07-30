@@ -123,9 +123,18 @@ public:
 	void calc_visual_size_factor();
 	float get_visual_size();
 
+         static void event_psegundo_camuflagem(const Event *, void *data);
+
 private:
 	float visual_size_factor;
 	float max_size;
+
+        //armazena os níveis de camuflagem  do player editado para variadas situações:
+       static float nivel_camuflagem_terreno_dia;
+       static float nivel_camuflagem_terreno_noite;
+       static float nivel_camuflagem_sombra;
+       static float nivel_camuflagem_folhagem;
+
 
 	/* Armazena o tamanho do lagarto que será passado como parâmetro para o
 	 * método set_scale */
