@@ -53,8 +53,8 @@ AudioRepository::AudioRepository() {
 	 add_audio(BOBBING,"models/sounds/falha_09.mp3");
 	 add_audio(FROG,"models/sounds/Frog_gar-TDR-451.wav");
 	 //add_audio("frog","models/sounds/frog.aiff");
-	 add_audio("dash","models/sounds/Arranque_2.wav");
-	 add_audio("running","models/sounds/Corrida_Lagarto.wav");
+	 add_audio("dash","models/sounds/Arranque_2+.wav");
+	 add_audio("running","models/sounds/Corrida_Lagarto+.wav");
 
 }
 

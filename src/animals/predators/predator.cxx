@@ -7,6 +7,8 @@
 #include "collision.h"
 #include "antialiasAttrib.h"
 
+bool Predator::pursuing = false;
+
 /*! Constrói um Predador */
 Predator::Predator(NodePath node) : Animal(node){
 	set_velocity(350.0);
@@ -122,6 +124,13 @@ void Predator::act(){
 						return;
 					}
 				}
+
+				if (!pursuing) {
+					pursuing = true;
+					LVector3f right = player->get_net_transform()->get_quat().get_right();
+					// continuar aqui com a lógica da posição (angulação)
+				}
+
 				pursuit();
 			}
 		}

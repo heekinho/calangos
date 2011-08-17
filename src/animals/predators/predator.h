@@ -47,6 +47,8 @@ private:
 
 	/* Círculo que mostra o raio de visibilidade de cada predador */
 	NodePath debug_visibility_circle;
+
+	static bool pursuing;
 };
 
 
