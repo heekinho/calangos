@@ -10,10 +10,29 @@
 bool Predator::pursuing = false;
 
 /*! Constrói um Predador */
-Predator::Predator(NodePath node) : Animal(node){
+
+
+
+Predator::Predator(NodePath node, Predator::types_predator type) : Animal(node){
 	set_velocity(350.0);
 	//adiciona solido de colisão aos predadores (ficou legal esses valores para altura e raio)
 	collision::get_instance()->collisionNpcFast(&node, 0, 0, 20, 10);
+
+	//Tipo de predador
+	type_predator = Predator::get_predator_type(type);
+	set_tipo_predator_enum(type);
+
+/*TODO Ajustar a distancia para perserguir a depender do tipo de predador*/
+	switch(type){
+		case(Predator::teiu): this->set_distance_pursuit(10.1); break;
+		case(Predator::siriema):this->set_distance_pursuit(9.9);break;
+		case(Predator::gato):this->set_distance_pursuit(9.8);break;
+		case(Predator::raposa):this->set_distance_pursuit(10);break;
+		case(Predator::jararaca):this->set_distance_pursuit(9.85);break;
+		case(Predator::colubridae):this->set_distance_pursuit(10.2);break;
+		case(Predator::coruja):this->set_distance_pursuit(10);break;
+
+	}
 
 	/* Debug Visibility Circle */
 	float angle_degrees = 360, num_steps = 32;
@@ -49,22 +68,22 @@ Predator::~Predator(){}
 /*! Carrega todos os predadores do jogo */
 void Predator::load_predators(){
 	ModelRepository::get_instance()->get_animated_model("teiu")->set_length(0.60);
-	Predator::load_predator("teiu", 7, 0.004, -1);
+	Predator::load_predator(Predator::teiu, 7, 0.004, -1);
 
 	ModelRepository::get_instance()->get_animated_model("siriema")->set_height(0.60);
-	Predator::load_predator("siriema", 7, 0.03, -1);
+	Predator::load_predator(Predator::siriema, 7, 0.03, -1);
 
 	ModelRepository::get_instance()->get_animated_model("raposa")->set_length(0.80);
-	Predator::load_predator("raposa", 6, 0.01, -1, Animal::A_night); // Testing
+	Predator::load_predator(Predator::raposa, 6, 0.01, -1, Animal::A_night); // Testing
 
 	ModelRepository::get_instance()->get_animated_model("gato")->set_length(0.40);
-	Predator::load_predator("gato", 9, 0.01, -1);
+	Predator::load_predator(Predator::gato, 9, 0.01, -1);
 
 //	ModelRepository::get_instance()->get_animated_model("jararaca")->set_length(0.60);
-//	Predator::load_predator("jararaca", 50, 0.01, -1);
+//	Predator::load_predator(Predator::tipos::jararaca, 50, 0.01, -1);
 
 //	ModelRepository::get_instance()->get_animated_model("colubridae")->set_length(0.50);
-//	Predator::load_predator("colubridae", 50, 0.01, -1);
+//	Predator::load_predator(Predator::tipos::colubridae, 50, 0.01, -1);
 
 
 //	FlyingPredator::load_predators();
@@ -72,15 +91,18 @@ void Predator::load_predators(){
 
 
 /*! Carrega uma quantidade de predadores com comportamento padrão, de determinado tipo */
-void Predator::load_predator(const string &model, int qtd, float scale,
+void Predator::load_predator(Predator::types_predator type , int qtd, float scale,
 		int orientation, Activity activity){
 	//ModelRepository::get_instance()->get_animated_model(model)->set_scale(scale);
+
+	string tipo_predador = Predator::get_predator_type(type);//Tipo de Predador
 
 	PT(Terrain) terrain = World::get_world()->get_terrain();
 	for(int i = 0; i < qtd; i++){
 		/* Carrega e cria uma cópia (deep) do modelo */
-		NodePath base_predator = ModelRepository::get_instance()->get_animated_model(model)->copy_to(NodePath());
-		PT(Predator) predator = new Predator(base_predator);
+		NodePath base_predator = ModelRepository::get_instance()->get_animated_model(tipo_predador)->copy_to(NodePath());
+		PT(Predator) predator = new Predator(base_predator, type);
+
 		predator->bind_anims(predator->node());
 
 		/* Define localização e orientação aleatórias */
@@ -104,8 +126,12 @@ void Predator::load_predator(const string &model, int qtd, float scale,
  * O predador basicamente perambula, e ao encontrar o lagarto dentro de uma
  * certa distância ele parte para o ataque */
 void Predator::act(){
-	static float distance = 10;
+
+
+	 float distance = this->get_distance_pursuit();
+
 	static float eat_thr = 0.3;
+	// eat_thr original = 0.3
 
 	if(Session::get_instance()->get_level() == 1){
 		if(get_distance(*player) < distance){
@@ -221,7 +247,7 @@ void Predator::bite(){
 	}
 }
 
-/*! Pausa a nimação */
+/*! Pausa a animação */
 void Predator::pause_animation(){
 	get_anim_control()->stop_all();
 	get_anim_control()->pose("andar", 7);
@@ -243,6 +269,13 @@ void Predator::set_visibility_distance(float visibility_distance){
 	this->visibility_distance = visibility_distance;
 }
 
+float Predator::get_distance_pursuit(){
+	return distance_pursuit;
+}
+
+void Predator::set_distance_pursuit(float distance){
+	this->distance_pursuit = distance;
+}
 /*! Obter grau de visibilidade do predador para o player.
  * Retorna distância de visibilidade do predador.
  * dmax = dmax0 + (dcontr * contraste) + (dtam * tam)
@@ -294,4 +327,36 @@ float Predator::get_night_visibility() const {
 /*! Define o nível de visibilidade do predador durante a noite */
 void Predator::set_night_visibility(float night_visibility){
 	this->night_visibility = night_visibility;
+}
+
+/*!Define o tipo de predador*/
+string Predator::get_type_predator() const{
+	return type_predator;
+}
+
+/*!Obtém o tipo de predador*/
+void Predator::set_type_predator(string type){
+	this->type_predator = type;
+}
+
+
+string Predator::get_predator_type(Predator::types_predator type){
+	switch(type){
+		case(Predator::teiu):return"teiu";
+		case(Predator::siriema):return"siriema";
+		case(Predator::gato):return"gato";
+		case(Predator::raposa):return"raposa";
+		case(Predator::jararaca):return"jararaca";
+		case(Predator::colubridae):return"colubridae";
+		case(Predator::coruja):return"coruja";
+	}
+	return NULL;
+}
+
+void Predator::set_tipo_predator_enum(Predator::types_predator type){
+	this->tipo_predator_enum = type;
+}
+
+Predator::types_predator Predator::get_tipo_predator_enum(){
+	return this->tipo_predator_enum;
 }

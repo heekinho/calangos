@@ -6,17 +6,45 @@
 
 class Predator : public Animal {
 public:
-	Predator(NodePath node);
+
+	enum types_predator{
+			teiu,
+			siriema,
+			gato,
+			raposa,
+			jararaca,
+			colubridae,
+			coruja
+	};
+
+
+
+	Predator(NodePath node,Predator::types_predator type);
 	~Predator();
 
 	static void load_predators();
-	static void load_predator(const string &model, int qtd, float scale,
-			int orientation = -1, Activity activity = Animal::A_day);
+
+	static void load_predator(Predator::types_predator type, int qtd, float scale,
+				int orientation = -1, Activity activity = Animal::A_day);
+
 
 	virtual void act();
 	virtual void pause_animation();
 	virtual void continue_animation();
 	virtual void change_sector(PT(Setor) new_sector);
+
+
+	string get_type_predator() const;
+	void set_type_predator(string type);
+
+	/*Tipos de predadores*/
+
+	types_predator tipo_predator_enum;
+	static string get_predator_type(Predator::types_predator type);
+
+	void set_tipo_predator_enum(Predator::types_predator type);
+	Predator::types_predator get_tipo_predator_enum();
+
 
 	virtual float get_visibility();
 
@@ -29,6 +57,9 @@ public:
 	float get_night_visibility() const;
 	void set_night_visibility(float nvisibility);
 
+	float get_distance_pursuit() ;
+	void set_distance_pursuit(float distance);
+
 	float get_visibility_factor() const;
 private:
 	void pursuit();
@@ -40,6 +71,9 @@ private:
 	 * "Bom" é que se pode adicionar variações em cada predador. Colocar um cego. kkkk */
 	float day_visibility;
 	float night_visibility;
+
+	string type_predator;
+	float distance_pursuit;
 
 	/* Testando som */
 //	PT(AudioManager) AM;
