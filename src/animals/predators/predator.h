@@ -60,6 +60,9 @@ public:
 	float get_distance_pursuit() ;
 	void set_distance_pursuit(float distance);
 
+	float get_distance_bite() ;
+	void set_distance_bite(float distance);
+
 	float get_visibility_factor() const;
 private:
 	void pursuit();
@@ -74,6 +77,7 @@ private:
 
 	string type_predator;
 	float distance_pursuit;
+	float distance_bite;
 
 	/* Testando som */
 //	PT(AudioManager) AM;

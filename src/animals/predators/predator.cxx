@@ -22,15 +22,38 @@ Predator::Predator(NodePath node, Predator::types_predator type) : Animal(node){
 	type_predator = Predator::get_predator_type(type);
 	set_tipo_predator_enum(type);
 
-/*TODO Ajustar a distancia para perserguir a depender do tipo de predador*/
+/*TODO Ajustar a distancia para perserguir e para atacar a depender do tipo de predador*/
+	// eat_thr original = 0.3
+	//distance_pursuit original = 10
 	switch(type){
-		case(Predator::teiu): this->set_distance_pursuit(10.1); break;
-		case(Predator::siriema):this->set_distance_pursuit(9.9);break;
-		case(Predator::gato):this->set_distance_pursuit(9.8);break;
-		case(Predator::raposa):this->set_distance_pursuit(10);break;
-		case(Predator::jararaca):this->set_distance_pursuit(9.85);break;
-		case(Predator::colubridae):this->set_distance_pursuit(10.2);break;
-		case(Predator::coruja):this->set_distance_pursuit(10);break;
+		case(Predator::teiu):
+				this->set_distance_pursuit(10.1);
+				this->set_distance_bite(0.31);
+				break;
+		case(Predator::siriema):
+				this->set_distance_pursuit(9.9);
+				this->set_distance_bite(0.32);
+				break;
+		case(Predator::gato):
+				this->set_distance_pursuit(9.8);
+				this->set_distance_bite(0.33);
+				break;
+		case(Predator::raposa):
+				this->set_distance_pursuit(10);
+				this->set_distance_bite(0.34);
+				break;
+		case(Predator::jararaca):
+				this->set_distance_pursuit(9.85);
+				this->set_distance_bite(0.3);
+				break;
+		case(Predator::colubridae):
+				this->set_distance_pursuit(10.2);
+				this->set_distance_bite(0.3);
+				break;
+		case(Predator::coruja):
+				this->set_distance_pursuit(10);
+				this->set_distance_bite(0.3);
+				break;
 
 	}
 
@@ -128,10 +151,8 @@ void Predator::load_predator(Predator::types_predator type , int qtd, float scal
 void Predator::act(){
 
 
-	 float distance = this->get_distance_pursuit();
-
-	static float eat_thr = 0.3;
-	// eat_thr original = 0.3
+	float distance = this->get_distance_pursuit();
+	float eat_thr = this->get_distance_bite();
 
 	if(Session::get_instance()->get_level() == 1){
 		if(get_distance(*player) < distance){
@@ -275,6 +296,14 @@ float Predator::get_distance_pursuit(){
 
 void Predator::set_distance_pursuit(float distance){
 	this->distance_pursuit = distance;
+}
+
+float Predator::get_distance_bite(){
+	return distance_bite;
+}
+
+void Predator::set_distance_bite(float distance){
+	this->distance_bite = distance;
 }
 /*! Obter grau de visibilidade do predador para o player.
  * Retorna distância de visibilidade do predador.
