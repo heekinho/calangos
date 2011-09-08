@@ -45,7 +45,7 @@ public:
 	float thermal_equilibrium_speed;
 };
 
-float init_tropidurus_health(){
+void init_tropidurus_health(){
 	LizardHealthInfo health;
 
 	health.ideal_temperature = 38.0;

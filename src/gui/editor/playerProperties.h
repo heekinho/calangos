@@ -22,16 +22,16 @@ public:
 	float body_size;
 
 	float head_size;
-	static const float min_head_size = 0.5; /* dobro do tamanho */
-	static const float max_head_size = 2.0; /* metade do tamanho */
+	static const float min_head_size; /* dobro do tamanho */
+	static const float max_head_size; /* metade do tamanho */
 
 	float speed;
-	static const float min_speed = 10;
-	static const float max_speed = 40;
+	static const float min_speed;
+	static const float max_speed;
 
 	float ideal_tempature;
-	static const float min_ideal_temperature = 15.0;
-	static const float max_ideal_temperature = 50.0;
+	static const float min_ideal_temperature;
+	static const float max_ideal_temperature;
 
 	/* Dieta do lagarto */
 	float ant_diet;

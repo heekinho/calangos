@@ -82,6 +82,7 @@ AudioRepository::AudioRepository() {
 	  AudioSound* a_sound = (AudioSound*) data;
 	  a_sound->stop();
 	  playing = false;
+	  return AsyncTask::DS_done;
   }
 
   PT(AudioSound) AudioRepository::get_audio(string name) {
