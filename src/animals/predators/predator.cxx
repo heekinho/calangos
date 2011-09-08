@@ -156,6 +156,24 @@ void Predator::act(){
 
 	if(Session::get_instance()->get_level() == 1){
 		if(get_distance(*player) < distance){
+			//if (!pursuing) {
+				pursuing = true;
+				LVector3f right = player->get_net_transform()->get_quat().get_right();
+				LVector3f player2obj = player->get_pos(render) - this->get_pos(render);
+				right.normalize();
+				player2obj.normalize();
+				float angle = right.angle_deg(player2obj);
+				//cout<<"angulo = "<<angle<<endl;
+				LPoint3f pos_player = player->get_pos(render);
+				LPoint3f pos_predador = this->get_pos(render);
+
+				if (pos_player.get_y() > pos_predador.get_y()) {
+					// o predador está atrás
+					angle = 360.0 - angle;
+				}
+				// continuar aqui com a lógica da posição (angulação)
+			//}
+
 			if (get_distance(*player) < eat_thr) bite();
 			else{
 				PT(Setor) setor = World::get_world()->get_terrain()->get_setor_from_pos(player->get_x(), player->get_y());
@@ -170,12 +188,6 @@ void Predator::act(){
 						Animal::act();
 						return;
 					}
-				}
-
-				if (!pursuing) {
-					pursuing = true;
-					LVector3f right = player->get_net_transform()->get_quat().get_right();
-					// continuar aqui com a lógica da posição (angulação)
 				}
 
 				pursuit();
