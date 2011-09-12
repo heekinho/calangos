@@ -7,6 +7,7 @@
 #include "playerControl.h"
 #include "inGameScreenManager.h"
 #include "pauseScreen.h"
+#include "imageRepository.h"
 
 #define ABS(a)		(((a) < 0) ? -(a) : (a))
 #define LIMITE_SUPERIOR_TEMP_LAGARTO 45.0
@@ -45,6 +46,9 @@ PT(GuiManager) GuiManager::instance = NULL;
 bool GuiManager::flag_piscar=false;
 int GuiManager::conta=0;
 //float GuiManager::controle_tempo_piscando=0.0;
+
+NodePath GuiManager::img_arrow_predator_position = NULL;
+bool GuiManager::is_showing_arrow_predator = false;
 
 //Destrutor: Somente coloca os objetos graphics igual a null devido ao
 //fato da classe guiManager ser PT.
@@ -113,6 +117,10 @@ GuiManager::GuiManager() {
 	//Regula o aspect 2d.
 //	aspect2d.set_scale(1.0);
 	is_game_over = false;
+
+	img_arrow_predator_position = ImageRepository::get_instance()->get_image("predator_left");
+	img_arrow_predator_position.reparent_to(render2d);
+	img_arrow_predator_position.hide();
 
 	//Toca
 	moldura_toca = window->load_model(aspect2d, "models/objects/toca.png");
@@ -1313,4 +1321,82 @@ void GuiManager::show_frameNode(){
 
 GameStatusBar* GuiManager::get_game_status_bar() {
 	return game_status_bar;
+}
+
+void GuiManager::activate_predator_alert(Predator* pursuer) {
+	show_predator_location(pursuer);
+	img_arrow_predator_position.show();
+	TimeControl::get_instance()->notify("showing_predator_location", showing_predator_location, pursuer, 0.7);
+	TimeControl::get_instance()->notify("arrow_predator_effect", arrow_predator_effect, NULL, 1);
+}
+
+AsyncTask::DoneStatus GuiManager::showing_predator_location(GenericAsyncTask* task, void* data) {
+	if (!Predator::pursuing) {
+		return AsyncTask::DS_done;
+	}
+
+	GuiManager::get_instance()->show_predator_location(data);
+
+	return AsyncTask::DS_again;
+}
+
+void GuiManager::show_predator_location(void* data) {
+	Predator* pursuer = (Predator*) data;
+	LVector3f right = player->get_net_transform()->get_quat().get_right();
+	LVector3f player2obj = player->get_pos(render) - pursuer->get_pos(render);
+	right.normalize();
+	player2obj.normalize();
+	float angle = right.angle_deg(player2obj);
+	//cout<<"angulo = "<<angle<<endl;
+	LPoint3f pos_player = player->get_pos(player->node());
+	LPoint3f pos_predador = pursuer->get_pos(player->node());
+
+	if (pos_player.get_y() < pos_predador.get_y()) {
+		// o predador está atrás
+		angle = 360.0 - angle;
+	}
+
+	if ((angle >= 310 && angle <= 360) || (angle >= 0 && angle <= 50)) {
+		// predador vindo pela direita
+		set_predator_location_img("predator_right");
+	}
+	else if (angle >= 50 && angle <= 130) {
+		// predador vindo pela frente
+		set_predator_location_img("predator_up");
+	}
+	else if (angle >= 130 && angle <= 230) {
+		// predador vindo pela esquerda
+		set_predator_location_img("predator_left");
+	}
+	else {
+		// predador vindo por traz
+		set_predator_location_img("predator_down");
+	}
+}
+
+void GuiManager::set_predator_location_img(string image_name) {
+	img_arrow_predator_position.remove_node();
+	img_arrow_predator_position = ImageRepository::get_instance()->get_image(image_name);
+	img_arrow_predator_position.reparent_to(render2d);
+	img_arrow_predator_position.set_scale(0.01);
+	img_arrow_predator_position.set_pos(-0.7, 0, -0.7);
+}
+
+AsyncTask::DoneStatus GuiManager::arrow_predator_effect(GenericAsyncTask* task, void* data) {
+	if (!Predator::pursuing) {
+		img_arrow_predator_position.hide();
+		is_showing_arrow_predator = false;
+		return AsyncTask::DS_done;
+	}
+
+	if (is_showing_arrow_predator) {
+		img_arrow_predator_position.hide();
+		is_showing_arrow_predator = false;
+	}
+	else {
+		img_arrow_predator_position.show();
+		is_showing_arrow_predator = true;
+	}
+
+	return AsyncTask::DS_again;
 }

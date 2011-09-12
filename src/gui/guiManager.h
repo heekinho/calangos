@@ -71,6 +71,7 @@ public:
     static void click_event_vBotao8_grafico_GastoEnergetico(const Event*, void *data);
 
     GameStatusBar* get_game_status_bar();
+    void activate_predator_alert(Predator* pursuer);
 
 private:
     static TypeHandle _type_handle;
@@ -121,6 +122,12 @@ private:
     bool grafico8Cima;
     bool grafico8Baixo;
 
+    static NodePath img_arrow_predator_position;
+    static bool is_showing_arrow_predator;
+    static AsyncTask::DoneStatus showing_predator_location(GenericAsyncTask* task, void* data);
+	static AsyncTask::DoneStatus arrow_predator_effect(GenericAsyncTask* task, void* data);
+	void show_predator_location(void* data);
+	void set_predator_location_img(string image_name);
 };
 
 #endif

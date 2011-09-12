@@ -64,6 +64,8 @@ public:
 	void set_distance_bite(float distance);
 
 	float get_visibility_factor() const;
+
+	static bool pursuing;
 private:
 	void pursuit();
 	void bite();
@@ -85,8 +87,6 @@ private:
 
 	/* Círculo que mostra o raio de visibilidade de cada predador */
 	NodePath debug_visibility_circle;
-
-	static bool pursuing;
 };
 
 
