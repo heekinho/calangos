@@ -114,8 +114,8 @@ void LoadingScreen::attach_objects() {
 	np_lb_info_processo.set_scale(0.07);
 	np_lb_info_processo.set_color(1, 1, 1, 1, 0);
 
-	np_btn_comecar = np_frame.attach_new_node(btn_comecar);
-	np_btn_comecar.set_pos(1, 0, 0.3);
+	np_btn_comecar = get_root().attach_new_node(btn_comecar);
+	np_btn_comecar.set_pos(0, 0, -0.7);
 	np_btn_comecar.set_alpha_scale(1, 2);
 	np_btn_comecar.hide();
 }

@@ -8,6 +8,7 @@
 #include "inGameScreenManager.h"
 #include "pauseScreen.h"
 #include "imageRepository.h"
+#include "audioController.h"
 
 #define ABS(a)		(((a) < 0) ? -(a) : (a))
 #define LIMITE_SUPERIOR_TEMP_LAGARTO 45.0
@@ -1328,6 +1329,7 @@ void GuiManager::activate_predator_alert(Predator* pursuer) {
 	img_arrow_predator_position.show();
 	TimeControl::get_instance()->notify("showing_predator_location", showing_predator_location, pursuer, 0.7);
 	TimeControl::get_instance()->notify("arrow_predator_effect", arrow_predator_effect, NULL, 1);
+	AudioController::get_instance()->play_warning();
 }
 
 AsyncTask::DoneStatus GuiManager::showing_predator_location(GenericAsyncTask* task, void* data) {
@@ -1375,11 +1377,15 @@ void GuiManager::show_predator_location(void* data) {
 }
 
 void GuiManager::set_predator_location_img(string image_name) {
+	bool hidden = img_arrow_predator_position.is_hidden();
 	img_arrow_predator_position.remove_node();
 	img_arrow_predator_position = ImageRepository::get_instance()->get_image(image_name);
 	img_arrow_predator_position.reparent_to(render2d);
 	img_arrow_predator_position.set_scale(0.01);
-	img_arrow_predator_position.set_pos(-0.7, 0, -0.7);
+	img_arrow_predator_position.set_pos(0, 0, -0.7);
+	if (hidden) {
+		img_arrow_predator_position.hide();
+	}
 }
 
 AsyncTask::DoneStatus GuiManager::arrow_predator_effect(GenericAsyncTask* task, void* data) {

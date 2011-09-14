@@ -39,9 +39,9 @@ void AudioController::only_play(string sound_name) {
 void AudioController::frog(PT(Frog) frog) {
 	bool in_range = make_audio3d(6, *frog, AudioRepository::FROG);
 	if (in_range && !frog_delay) {
-		cout<<"TOCANDO SOM DO SAPO!!!"<<endl;
-		cout<<"balance = "<<audio_repository->get_audio("frog")->get_balance()<<endl;
-		cout<<"volume do sapo = "<<audio_repository->get_audio("frog")->get_volume()<<endl;
+		//cout<<"TOCANDO SOM DO SAPO!!!"<<endl;
+		//cout<<"balance = "<<audio_repository->get_audio("frog")->get_balance()<<endl;
+		//cout<<"volume do sapo = "<<audio_repository->get_audio("frog")->get_volume()<<endl;
 		audio_repository->play_sound("frog");
 		frog_delay = true;
 		TimeControl::get_instance()->notify("frog_sound_delay", finish_frog_delay, this, 4);
@@ -57,7 +57,7 @@ bool AudioController::make_audio3d(int max_dist, NodePath obj, string audio_name
 	else {
 		LVector3f right = player->get_net_transform()->get_quat().get_right();
 		float balance = player2obj.dot(right) / dist;
-		cout<<"Balance antes = "<<balance<<endl;
+		//cout<<"Balance antes = "<<balance<<endl;
 		float volume = 1 - (dist / max_dist);
 		PT(AudioSound) audio = audio_repository->get_audio(audio_name);
 		audio->set_balance(balance);
@@ -73,8 +73,8 @@ AsyncTask::DoneStatus AudioController::finish_frog_delay(GenericAsyncTask* task,
 }
 
 void AudioController::bobbing() {
-	audio_repository->get_audio("bobbing")->set_volume(0.05);
-	audio_repository->play_sound("bobbing");
+	audio_repository->get_audio(AudioRepository::BOBBING)->set_volume(0.05);
+	audio_repository->play_sound(AudioRepository::BOBBING);
 }
 
 void AudioController::warning_temp(double intern_temp, double extern_temp, double min_temp, double max_temp) {
@@ -83,22 +83,22 @@ void AudioController::warning_temp(double intern_temp, double extern_temp, doubl
 	// fosse 5 o alerta ficaria tocando mesmo o player estando na sombra.
 	if (intern_temp > (max_temp - 4)) {
 		if (intern_temp < extern_temp) {
-			audio_repository->get_audio("warning")->set_volume(0.7);
+			audio_repository->get_audio(AudioRepository::WARNING)->set_volume(0.7);
 		}
 		else {
-			audio_repository->get_audio("warning")->set_volume(0.25);
+			audio_repository->get_audio(AudioRepository::WARNING)->set_volume(0.25);
 		}
-		audio_repository->play_sound("warning");
+		audio_repository->play_sound(AudioRepository::WARNING);
 		GuiManager::get_instance()->get_game_status_bar()->temperatura_critica_on();
 	}
 	else if (intern_temp < (min_temp + 4)) {
 		if (intern_temp > extern_temp) {
-			audio_repository->get_audio("warning")->set_volume(0.7);
+			audio_repository->get_audio(AudioRepository::WARNING)->set_volume(0.7);
 		}
 		else {
-			audio_repository->get_audio("warning")->set_volume(0.25);
+			audio_repository->get_audio(AudioRepository::WARNING)->set_volume(0.25);
 		}
-		audio_repository->play_sound("warning");
+		audio_repository->play_sound(AudioRepository::WARNING);
 		GuiManager::get_instance()->get_game_status_bar()->temperatura_critica_on();
 	}
 	else {
@@ -108,7 +108,7 @@ void AudioController::warning_temp(double intern_temp, double extern_temp, doubl
 
 void AudioController::warning_hydrat(double hydrat, double min_hydrat) {
 	if (hydrat < (min_hydrat + 4)) {
-		audio_repository->play_sound("warning");
+		audio_repository->play_sound(AudioRepository::WARNING);
 		GuiManager::get_instance()->get_game_status_bar()->hidratacao_critica_on();
 	}
 	GuiManager::get_instance()->get_game_status_bar()->hidratacao_critica_off();
@@ -117,12 +117,12 @@ void AudioController::warning_hydrat(double hydrat, double min_hydrat) {
 void AudioController::heart_beat(double energy, double min_energy) {
 	if (energy < (min_energy + 15)) {
 		if (energy < (min_energy + 7)) {
-			audio_repository->get_audio("heart_beat")->set_play_rate(2);
+			audio_repository->get_audio(AudioRepository::HEART_BEAT)->set_play_rate(2);
 		}
 		else {
-			audio_repository->get_audio("heart_beat")->set_play_rate(1);
+			audio_repository->get_audio(AudioRepository::HEART_BEAT)->set_play_rate(1);
 		}
-		audio_repository->play_sound("heart_beat", true);
+		audio_repository->play_sound(AudioRepository::HEART_BEAT, true);
 	}
 }
 
@@ -154,4 +154,9 @@ AsyncTask::DoneStatus AudioController::loop_running(GenericAsyncTask* task, void
 	PlayerControl* playerCtrl = PlayerControl::get_instance();
 	_this->audio_repository->play_sound("running");
 	return AsyncTask::DS_again;
+}
+
+void AudioController::play_warning() {
+	audio_repository->get_audio(AudioRepository::WARNING)->set_volume(0.2);
+	audio_repository->play_sound(AudioRepository::WARNING);
 }

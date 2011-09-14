@@ -31,6 +31,7 @@ public:
 	void stop_running();
 	static AsyncTask::DoneStatus finish_dash(GenericAsyncTask* task, void* data);
 	static AsyncTask::DoneStatus loop_running(GenericAsyncTask* task, void* data);
+	void play_warning();
 
 private:
 	AudioController();
