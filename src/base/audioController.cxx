@@ -23,6 +23,7 @@ AudioController::AudioController() {
 	frog_delay = false;
 	is_running = false;
 	audio_repository = new AudioRepository();
+	event_handler->add_hook(TimeControl::EV_pass_minute, play_bgm, this);
 }
 
 AudioController::~AudioController() {}
@@ -31,8 +32,17 @@ PT(AudioRepository) AudioController::get_audio_repository() {
 	return audio_repository;
 }
 
-void AudioController::only_play(string sound_name) {
-	audio_repository->play_sound(sound_name);
+void AudioController::play_bgm(const Event*, void *data) {
+	if (Sky::current_status == Sky::STATUS_DAY) {
+		AudioController::get_instance()->only_play(AudioRepository::DAY_SOUND, true);
+	}
+	else {
+		AudioController::get_instance()->only_play(AudioRepository::NIGHT_SOUND, true);
+	}
+}
+
+void AudioController::only_play(string sound_name, bool unique) {
+	audio_repository->play_sound(sound_name, unique);
 }
 
 
@@ -73,8 +83,7 @@ AsyncTask::DoneStatus AudioController::finish_frog_delay(GenericAsyncTask* task,
 }
 
 void AudioController::bobbing() {
-	audio_repository->get_audio(AudioRepository::BOBBING)->set_volume(0.05);
-	audio_repository->play_sound(AudioRepository::BOBBING);
+	audio_repository->play_sound(AudioRepository::BOBBING, false , 0.05);
 }
 
 void AudioController::warning_temp(double intern_temp, double extern_temp, double min_temp, double max_temp) {
@@ -83,22 +92,20 @@ void AudioController::warning_temp(double intern_temp, double extern_temp, doubl
 	// fosse 5 o alerta ficaria tocando mesmo o player estando na sombra.
 	if (intern_temp > (max_temp - 4)) {
 		if (intern_temp < extern_temp) {
-			audio_repository->get_audio(AudioRepository::WARNING)->set_volume(0.7);
+			audio_repository->play_sound(AudioRepository::WARNING, false, 0.7);
 		}
 		else {
-			audio_repository->get_audio(AudioRepository::WARNING)->set_volume(0.25);
+			audio_repository->play_sound(AudioRepository::WARNING, false, 0.25);
 		}
-		audio_repository->play_sound(AudioRepository::WARNING);
 		GuiManager::get_instance()->get_game_status_bar()->temperatura_critica_on();
 	}
 	else if (intern_temp < (min_temp + 4)) {
 		if (intern_temp > extern_temp) {
-			audio_repository->get_audio(AudioRepository::WARNING)->set_volume(0.7);
+			audio_repository->play_sound(AudioRepository::WARNING, false, 0.7);
 		}
 		else {
-			audio_repository->get_audio(AudioRepository::WARNING)->set_volume(0.25);
+			audio_repository->play_sound(AudioRepository::WARNING, false, 0.25);
 		}
-		audio_repository->play_sound(AudioRepository::WARNING);
 		GuiManager::get_instance()->get_game_status_bar()->temperatura_critica_on();
 	}
 	else {
@@ -130,19 +137,19 @@ void AudioController::running() {
 	if (is_running) return;
 
 	is_running = true;
-	audio_repository->play_sound("dash");
-	TimeControl::get_instance()->notify("dash_finish", finish_dash, this, audio_repository->get_audio("dash")->length());
+	audio_repository->play_sound(AudioRepository::DASH);
+	TimeControl::get_instance()->notify("dash_finish", finish_dash, this, audio_repository->get_audio(AudioRepository::DASH)->length());
 }
 
 void AudioController::stop_running() {
 	is_running = false;
-	audio_repository->get_audio("running")->stop();
+	audio_repository->get_audio(AudioRepository::RUNNING)->stop();
 }
 
 AsyncTask::DoneStatus AudioController::finish_dash(GenericAsyncTask* task, void* data) {
 	AudioController* _this = (AudioController*) data;
-	_this->audio_repository->play_sound("running");
-	TimeControl::get_instance()->notify("loop_running", loop_running, _this, _this->audio_repository->get_audio("running")->length());
+	_this->audio_repository->play_sound(AudioRepository::RUNNING);
+	TimeControl::get_instance()->notify("loop_running", loop_running, _this, _this->audio_repository->get_audio(AudioRepository::RUNNING)->length());
 	return AsyncTask::DS_done;
 }
 
@@ -152,11 +159,10 @@ AsyncTask::DoneStatus AudioController::loop_running(GenericAsyncTask* task, void
 	if (!_this->is_running) return AsyncTask::DS_done;
 
 	PlayerControl* playerCtrl = PlayerControl::get_instance();
-	_this->audio_repository->play_sound("running");
+	_this->audio_repository->play_sound(AudioRepository::RUNNING);
 	return AsyncTask::DS_again;
 }
 
 void AudioController::play_warning() {
-	audio_repository->get_audio(AudioRepository::WARNING)->set_volume(0.2);
-	audio_repository->play_sound(AudioRepository::WARNING);
+	audio_repository->play_sound(AudioRepository::WARNING, false, 0.2);
 }

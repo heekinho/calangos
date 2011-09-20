@@ -37,6 +37,10 @@ public:
     static TypeHandle get_class_type() { return _type_handle; }
 	static void init_type() { register_type(_type_handle, "Sky"); }
 
+	static const int STATUS_DAY;
+	static const int STATUS_NIGHT;
+	static int current_status;
+
 private:
     Sky(const string &model);
 	TextureCollection *skies;

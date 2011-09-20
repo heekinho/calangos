@@ -1253,8 +1253,8 @@ void GuiManager::click_event_vBotao8_grafico_GastoEnergetico(const Event*, void*
 	_this->graphics_menu->set_limite_inferior_x(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vector()->getVectorGastoEnergeticoTotal()));
 	_this->graphics_menu->set_limite_superior_x(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vector()->getVectorGastoEnergeticoTotal()));
 	_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
-			_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
-			_this->graphics_menu->get_limite_superior_y(),	_this->graphics_menu->get_limite_inferior_y(), false));
+	_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
+	_this->graphics_menu->get_limite_superior_y(),	_this->graphics_menu->get_limite_inferior_y(), false));
 	_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
 	_this->graphics_menu->get_graphic_variavel()->set_scale(1.2);
 	string titulo = _this->graphics_menu->get_legenda_x() + (string) " x " + _this->graphics_menu->get_legenda_y();

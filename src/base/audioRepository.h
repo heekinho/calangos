@@ -29,11 +29,15 @@ public:
 	static const string REPROD_FAIL;
 	static const string BOBBING;
 	static const string FROG;
+	static const string DASH;
+	static const string RUNNING;
+	static const string DAY_SOUND;
+	static const string NIGHT_SOUND;
 
 	AudioRepository();
     void load_audio();
     void add_audio(const string &name, const string &path);
-    void play_sound(const string &name, bool unique = false);
+    void play_sound(const string &name, bool unique = false, int volume = 1);
     PT(AudioManager) get_audioManager();
     PT(AudioSound) get_audio(string name);
 

@@ -15,6 +15,10 @@ const string AudioRepository::REPROD_SUCCESS = "reprod_success";
 const string AudioRepository::REPROD_FAIL = "reprod_fail";
 const string AudioRepository::BOBBING = "bobbing";
 const string AudioRepository::FROG = "frog";
+const string AudioRepository::DASH = "dash";
+const string AudioRepository::RUNNING = "running";
+const string AudioRepository::DAY_SOUND = "day_sound";
+const string AudioRepository::NIGHT_SOUND = "night_sound";
 bool AudioRepository::playing = false;
 
 AudioRepository::AudioRepository() {
@@ -53,8 +57,10 @@ AudioRepository::AudioRepository() {
 	 add_audio(BOBBING,"models/sounds/falha_09.mp3");
 	 add_audio(FROG,"models/sounds/Frog_gar-TDR-451.wav");
 	 //add_audio("frog","models/sounds/frog.aiff");
-	 add_audio("dash","models/sounds/Arranque_2.wav");
-	 add_audio("running","models/sounds/Corrida_Lagarto.wav");
+	 add_audio(DASH,"models/sounds/Arranque_2.wav");
+	 add_audio(RUNNING,"models/sounds/Corrida_Lagarto.wav");
+	 add_audio(DAY_SOUND,"models/sounds/forest+wind2.wav");
+	 add_audio(NIGHT_SOUND,"models/sounds/night+wind.wav");
 
 }
 
@@ -67,13 +73,14 @@ AudioRepository::AudioRepository() {
  }
 
  //quando quiser tocar um som é só chamar este método passando o nome
-  void AudioRepository::play_sound(const string& name, bool unique){
+  void AudioRepository::play_sound(const string& name, bool unique, int volume){
 	 if (unique) {
 		 if (playing) return;
 
 		 playing = true;
 		 TimeControl::get_instance()->notify("finished_sound", finished_sound, audio[name], audio[name]->length() + 1);
 	 }
+	 audio[name]->set_volume(volume);
      audio[name]->play();
  }
 

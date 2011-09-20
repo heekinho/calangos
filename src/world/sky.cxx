@@ -33,6 +33,10 @@ int Sky::hora_anterior=0;
  int Sky::minuto_anterior_sombra=0;
  int Sky::minuto_atual_sombra=0;
 
+const int Sky::STATUS_DAY = 0;
+const int Sky::STATUS_NIGHT = 1;
+int Sky::current_status = 0;
+
 TypeHandle Sky::_type_handle;
 Sky::Sky(const string &model) :
 NodePath(window->load_model(render, model)) {
@@ -69,12 +73,13 @@ NodePath(window->load_model(render, model)) {
 	}
 	else if (hora >= 8 && hora <= 17) {
 
-		if (ClimaTempo::get_instance()->get_chuva_today() != 0) //verificando se o dia vai ser chovoso
-		change_sky(NOITE, CHUVOSO);
-		else if (hora == 17) //caso especial da tarde
-		change_sky(NOITE, ENTARDECER);
+		if (ClimaTempo::get_instance()->get_chuva_today() != 0) {//verificando se o dia vai ser chovoso
+			change_sky(NOITE, CHUVOSO);
+		}
+		else if (hora == 17) { //caso especial da tarde
+			change_sky(NOITE, ENTARDECER);
+		}
 		else
-
 		change_sky(ENTARDECER, TARDE);
 	}
 	else if (hora >= 18 && hora < 19) {
@@ -176,6 +181,7 @@ void Sky::update_sol(const Event*, void *data) {
 		}
 
 		if (hora >= 5 && hora < 6) {//dia amanhecendo
+			current_status = STATUS_DAY;
 			the_sky->fade(minuto, hora);//chamando o método de interpolação das texturas
 		}
 
@@ -197,6 +203,7 @@ void Sky::update_sol(const Event*, void *data) {
 			the_sky->fade(minuto, hora);//chamando o método de mudança de textura
 		}
 		if (hora >= 18 && hora < 19) {//escurece completamente
+			current_status = STATUS_NIGHT;
 			the_sky->fade(minuto, hora);//chamando o método de mudança de textura
 		}
 
@@ -316,7 +323,6 @@ void Sky::fade(int minuto, int hora) {
         }
     }
     else if (hora >= 7 && hora < 8) {
-
         if (ClimaTempo::get_instance()->get_chuva_today() != 0) {//se tiver chuvendo.....amanhece as 7 e não vai clariar tudo
 			
             float aux = minuto * 0.0166;

@@ -19,7 +19,7 @@ public:
 	static PT(AudioController) get_instance();
 
 	PT(AudioRepository) get_audio_repository();
-	void only_play(string sound_name);
+	void only_play(string sound_name, bool unique = false);
 	void frog(PT(Frog));
 	void bobbing();
 	void warning_temp(double intern_temp, double extern_temp, double min_temp, double max_temp);
@@ -32,6 +32,7 @@ public:
 	static AsyncTask::DoneStatus finish_dash(GenericAsyncTask* task, void* data);
 	static AsyncTask::DoneStatus loop_running(GenericAsyncTask* task, void* data);
 	void play_warning();
+	static void play_bgm(const Event*, void *data);
 
 private:
 	AudioController();
