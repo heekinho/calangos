@@ -34,15 +34,15 @@ PT(AudioRepository) AudioController::get_audio_repository() {
 
 void AudioController::play_bgm(const Event*, void *data) {
 	if (Sky::current_status == Sky::STATUS_DAY) {
-		AudioController::get_instance()->only_play(AudioRepository::DAY_SOUND, true);
+		AudioController::get_instance()->only_play(AudioRepository::DAY_SOUND, true, 0.5);
 	}
 	else {
-		AudioController::get_instance()->only_play(AudioRepository::NIGHT_SOUND, true);
+		AudioController::get_instance()->only_play(AudioRepository::NIGHT_SOUND, true, 0.5);
 	}
 }
 
-void AudioController::only_play(string sound_name, bool unique) {
-	audio_repository->play_sound(sound_name, unique);
+void AudioController::only_play(string sound_name, bool unique, float volume) {
+	audio_repository->play_sound(sound_name, unique, volume);
 }
 
 

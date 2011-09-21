@@ -37,7 +37,7 @@ public:
 	AudioRepository();
     void load_audio();
     void add_audio(const string &name, const string &path);
-    void play_sound(const string &name, bool unique = false, int volume = 1);
+    void play_sound(const string &name, bool unique = false, float volume = 1);
     PT(AudioManager) get_audioManager();
     PT(AudioSound) get_audio(string name);
 

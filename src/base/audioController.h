@@ -19,7 +19,7 @@ public:
 	static PT(AudioController) get_instance();
 
 	PT(AudioRepository) get_audio_repository();
-	void only_play(string sound_name, bool unique = false);
+	void only_play(string sound_name, bool unique = false, float volume = 1);
 	void frog(PT(Frog));
 	void bobbing();
 	void warning_temp(double intern_temp, double extern_temp, double min_temp, double max_temp);
