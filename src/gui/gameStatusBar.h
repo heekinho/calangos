@@ -16,7 +16,7 @@
 
 class Hint;
 
-class GameStatusBar {
+class GameStatusBar : public ReferenceCount {
 public:
 	GameStatusBar(NodePath menu_frame_np);
 	virtual ~GameStatusBar();

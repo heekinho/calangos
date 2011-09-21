@@ -180,7 +180,7 @@ GuiManager::GuiManager() {
 //DESENHA O FRAME-----------------------------------------------------------
 void GuiManager::make_frame() {
 	menu_frame = new PGVirtualFrame("menuFrame");
-	menu_frame->setup(0.42, 2.0);
+	menu_frame->setup(0.50, 2.0);
 	PGFrameStyle style = menu_frame->get_frame_style(menu_frame->get_state());
 	style.set_type(PGFrameStyle::T_flat);
 	menu_frame->set_frame_style(menu_frame->get_state(), style);
@@ -377,7 +377,7 @@ void GuiManager::init_options(const Event *, void *data) {
 		_this->cont_gui_options = _this->cont_gui_options - 0.02;
 		if (_this->cont_gui_options >= -1.01) {
 			_this->menu_frame_np.set_pos(_this->cont_gui_options, 0.0, -1.0);
-			_this->graphics_menu->get_option_frame_np().set_pos((_this->cont_gui_options + 0.42), 0.0, -1.0);
+			_this->graphics_menu->get_option_frame_np().set_pos((_this->cont_gui_options + 0.50), 0.0, -1.0);
 			_this->graphics_menu->get_grafico_variavel_frame_np().set_pos((_this->cont_gui_options + 0.42), 0.0, -1.0);
 		} else {
 			_this->gui_options_flag = true;
@@ -388,7 +388,7 @@ void GuiManager::init_options(const Event *, void *data) {
 			_this->cont_gui_options = _this->cont_gui_options + 0.02;
 			if (_this->cont_gui_options <= 0.59) {
 				_this->menu_frame_np.set_pos(_this->cont_gui_options, 0.0, -1.0);
-				_this->graphics_menu->get_option_frame_np().set_pos((_this->cont_gui_options + 0.42), 0.0, -1.0);
+				_this->graphics_menu->get_option_frame_np().set_pos((_this->cont_gui_options + 0.50), 0.0, -1.0);
 				_this->graphics_menu->get_grafico_variavel_frame_np().set_pos((_this->cont_gui_options + 0.42), 0.0, -1.0);
 			} else {
 				_this->gui_options_flag = false;

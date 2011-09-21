@@ -419,17 +419,17 @@ void GraphicsMenu::make_btn_graf_tempo(NodePath menu_frame_np) {
 	btn_graf_tempo->setup("Tempo", 0.1);
 	np_btn_graf_tempo = menu_frame_np.attach_new_node(btn_graf_tempo);
 	np_btn_graf_tempo.set_scale(0.05);
-	np_btn_graf_tempo.set_pos(0.08, 0.0, 1.80);
+	np_btn_graf_tempo.set_pos(0.09, 0.0, 1.80);
 	np_btn_graf_tempo.hide();
 	led_off_graf_tempo = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_graf_tempo.reparent_to(menu_frame_np);
 	led_off_graf_tempo.set_scale(0.004);
-	led_off_graf_tempo.set_pos(0.28, 0.0, 1.82);
+	led_off_graf_tempo.set_pos(0.32, 0.0, 1.82);
 	led_off_graf_tempo.hide();
 	led_on_graf_tempo = ImageRepository::get_instance()->get_image("GreenLed");
 	led_on_graf_tempo.reparent_to(menu_frame_np);
 	led_on_graf_tempo.set_scale(0.004);
-	led_on_graf_tempo.set_pos(0.28, 0.0, 1.82);
+	led_on_graf_tempo.set_pos(0.32, 0.0, 1.82);
 	led_on_graf_tempo.hide();
 }
 
@@ -444,12 +444,12 @@ void GraphicsMenu::make_btn_graf_variavel(NodePath menu_frame_np) {
 	led_off_graf_variavel = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_graf_variavel.reparent_to(menu_frame_np);
 	led_off_graf_variavel.set_scale(0.004);
-	led_off_graf_variavel.set_pos(0.28, 0.0, 1.70);
+	led_off_graf_variavel.set_pos(0.32, 0.0, 1.70);
 	led_off_graf_variavel.hide();
 	led_on_graf_variavel = ImageRepository::get_instance()->get_image("GreenLed");
 	led_on_graf_variavel.reparent_to(menu_frame_np);
 	led_on_graf_variavel.set_scale(0.004);
-	led_on_graf_variavel.set_pos(0.28, 0.0, 1.70);
+	led_on_graf_variavel.set_pos(0.32, 0.0, 1.70);
 	led_on_graf_variavel.hide();
 }
 

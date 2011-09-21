@@ -15,7 +15,7 @@
 
 class Graphics;
 
-class GraphicsMenu {
+class GraphicsMenu : public ReferenceCount {
 public:
 	GraphicsMenu(NodePath menu_frame_np);
 	virtual ~GraphicsMenu();

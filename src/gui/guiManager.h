@@ -78,8 +78,8 @@ private:
     GuiManager();
     static PT(GuiManager) instance;
     static bool instanceFlag;
-    GameStatusBar* game_status_bar;
-    GraphicsMenu* graphics_menu;
+    PT(GameStatusBar) game_status_bar;
+    PT(GraphicsMenu) graphics_menu;
     PGVirtualFrame* menu_frame;
     NodePath menu_frame_np;
     NodePath moldura_toca;
