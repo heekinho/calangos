@@ -34,7 +34,9 @@ int Sky::hora_anterior=0;
  int Sky::minuto_atual_sombra=0;
 
 const int Sky::STATUS_DAY = 0;
+const int Sky::STATUS_RAINY_DAY = 2;
 const int Sky::STATUS_NIGHT = 1;
+const int Sky::STATUS_RAINY_NIGHT = 3;
 int Sky::current_status = 0;
 
 TypeHandle Sky::_type_handle;
@@ -181,7 +183,6 @@ void Sky::update_sol(const Event*, void *data) {
 		}
 
 		if (hora >= 5 && hora < 6) {//dia amanhecendo
-			current_status = STATUS_DAY;
 			the_sky->fade(minuto, hora);//chamando o método de interpolação das texturas
 		}
 
@@ -203,7 +204,6 @@ void Sky::update_sol(const Event*, void *data) {
 			the_sky->fade(minuto, hora);//chamando o método de mudança de textura
 		}
 		if (hora >= 18 && hora < 19) {//escurece completamente
-			current_status = STATUS_NIGHT;
 			the_sky->fade(minuto, hora);//chamando o método de mudança de textura
 		}
 
@@ -251,6 +251,7 @@ void Sky::fade(int minuto, int hora) {
         limite = 0.0;
         if (hora == 5) {
             if (ClimaTempo::get_instance()->get_chuva_today() == 0) {//verificando se o dia não está  chovoso
+            	current_status = STATUS_DAY;
                 change_sky(AMANHECER, NOITE);
                 seta = 1.0; //a variável volta ao esado inicial para o próximo
             }
@@ -260,6 +261,7 @@ void Sky::fade(int minuto, int hora) {
                 change_sky(TARDE, AMANHECER);
                 seta = 1.0; //a variável volta ao esado inicial para o próximo
             } else {
+            	current_status = STATUS_RAINY_DAY;
                 change_sky(CHUVOSO, NOITE); //caso esteja chuvoso o dia  só nasce as sete horas
                 seta = 1.0; //a variável volta ao esado inicial para o próximo
             }
@@ -273,10 +275,12 @@ void Sky::fade(int minuto, int hora) {
         } else if (hora == 18) {
 
             if (ClimaTempo::get_instance()->get_chuva_today() == 0) {//verificando se o dia está  chovoso
+            	current_status = STATUS_NIGHT;
                 change_sky(NOITE, ENTARDECER);
                 seta = 1.0; //a variável volta ao esado inicial para o próximo
             }
             else {
+            	current_status = STATUS_RAINY_NIGHT;
                 change_sky(NOITE, CHUVOSO); //caso esteja chuvoso
                 seta = 1.0; //a variável volta ao esado inicial para o próximo
             }
@@ -287,7 +291,6 @@ void Sky::fade(int minuto, int hora) {
     if (hora >= 18 && hora < 19) {//anoitecendo... escurecendo o ambiente
 
         if (ClimaTempo::get_instance()->get_chuva_today() != 0) {//se tiver chuvendo....vai ja vai ta um pouco escuro
-
 
             if (seta < 0.5) {
                 noite->set_color(LVecBase4f(seta, seta + 0.18, seta + 0.25, 1));
@@ -324,7 +327,8 @@ void Sky::fade(int minuto, int hora) {
     }
     else if (hora >= 7 && hora < 8) {
         if (ClimaTempo::get_instance()->get_chuva_today() != 0) {//se tiver chuvendo.....amanhece as 7 e não vai clariar tudo
-			
+			current_status = STATUS_RAINY_DAY;
+
             float aux = minuto * 0.0166;
             if (aux < 0.5 && minuto > 1) {//para não escurecer totalmente antes de começar a clariar
                 noite->set_color(LVecBase4f(minuto * 0.0166, 0.18 + (minuto * 0.0166), 0.25 + (minuto * 0.0166), 1));

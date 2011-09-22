@@ -33,6 +33,7 @@ public:
 	static const string RUNNING;
 	static const string DAY_SOUND;
 	static const string NIGHT_SOUND;
+	static const string RAIN_SOUND;
 
 	AudioRepository();
     void load_audio();

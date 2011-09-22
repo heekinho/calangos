@@ -38,7 +38,9 @@ public:
 	static void init_type() { register_type(_type_handle, "Sky"); }
 
 	static const int STATUS_DAY;
+	static const int STATUS_RAINY_DAY;
 	static const int STATUS_NIGHT;
+	static const int STATUS_RAINY_NIGHT;
 	static int current_status;
 
 private:

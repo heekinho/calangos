@@ -19,6 +19,7 @@ const string AudioRepository::DASH = "dash";
 const string AudioRepository::RUNNING = "running";
 const string AudioRepository::DAY_SOUND = "day_sound";
 const string AudioRepository::NIGHT_SOUND = "night_sound";
+const string AudioRepository::RAIN_SOUND = "rain_sound";
 bool AudioRepository::playing = false;
 
 AudioRepository::AudioRepository() {
@@ -51,7 +52,8 @@ AudioRepository::AudioRepository() {
 	 //add_audio("mouse_click","models/sounds/Click_17-Partners-43.wav");
 	 add_audio(HEART_BEAT,"models/sounds/heartbea-dylan-1465.wav");
 	 add_audio(WARNING,"models/sounds/Warning-public_d-308.wav");
-	 add_audio(PREDATOR_HIT,"models/sounds/Woody_cl-Partners-69.wav");
+	 //add_audio(PREDATOR_HIT,"models/sounds/Woody_cl-Partners-69.wav");
+	 add_audio(PREDATOR_HIT,"models/sounds/pc_apanhando.wav");
 	 add_audio(REPROD_SUCCESS,"models/sounds/Energy-Mystery-2370.wav");
 	 add_audio(REPROD_FAIL,"models/sounds/falha_07.mp3");
 	 add_audio(BOBBING,"models/sounds/falha_09.mp3");
@@ -61,7 +63,7 @@ AudioRepository::AudioRepository() {
 	 add_audio(RUNNING,"models/sounds/Corrida_Lagarto.wav");
 	 add_audio(DAY_SOUND,"models/sounds/forest+wind2.wav");
 	 add_audio(NIGHT_SOUND,"models/sounds/night+wind.wav");
-
+	 add_audio(RAIN_SOUND,"models/sounds/rain_1.mp3");
 }
 
  void AudioRepository::add_audio(const string& name, const string& path){

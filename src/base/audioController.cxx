@@ -36,8 +36,11 @@ void AudioController::play_bgm(const Event*, void *data) {
 	if (Sky::current_status == Sky::STATUS_DAY) {
 		AudioController::get_instance()->only_play(AudioRepository::DAY_SOUND, true, 0.5);
 	}
-	else {
+	else if (Sky::current_status == Sky::STATUS_NIGHT) {
 		AudioController::get_instance()->only_play(AudioRepository::NIGHT_SOUND, true, 0.5);
+	}
+	else {
+		AudioController::get_instance()->only_play(AudioRepository::RAIN_SOUND, true, 0.5);
 	}
 }
 
