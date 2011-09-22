@@ -8,13 +8,13 @@ class Predator : public Animal {
 public:
 
 	enum types_predator{
-			teiu,
-			siriema,
-			gato,
-			raposa,
-			jararaca,
-			colubridae,
-			coruja
+		teiu,
+		siriema,
+		gato,
+		raposa,
+		jararaca,
+		colubridae,
+		coruja
 	};
 
 
@@ -25,7 +25,7 @@ public:
 	static void load_predators();
 
 	static void load_predator(Predator::types_predator type, int qtd, float scale,
-				int orientation = -1, Activity activity = Animal::A_day);
+			int orientation = -1, Activity activity = Animal::A_day);
 
 
 	virtual void act();
@@ -86,8 +86,8 @@ private:
 	float distance_bite;
 
 	/* Testando som */
-//	PT(AudioManager) AM;
-//	PT(AudioSound) sound;
+	//	PT(AudioManager) AM;
+	//	PT(AudioSound) sound;
 
 	/* Círculo que mostra o raio de visibilidade de cada predador */
 	NodePath debug_visibility_circle;

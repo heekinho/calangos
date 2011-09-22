@@ -181,7 +181,7 @@ void Prey::was_redistributed(){
 void Prey::group_behavior(){
 	float dist_max = 0.1;
 
-	if(get_distance(*get_leader()) > dist_max){
+	if(get_distance_squared(*get_leader()) > dist_max*dist_max){
 		look_at(*get_leader());
 //		set_h(*this, rand()%40 - 20);
 		move(get_velocity());
@@ -194,7 +194,7 @@ void Prey::group_behavior(){
 void Prey::act(){
 	if(fleing) flee();
 	else if(get_leader() != NULL) group_behavior();
-	else if(get_has_living_tree() && living_tree != NULL && get_distance(*living_tree) > radius_thr){
+	else if(get_has_living_tree() && living_tree != NULL && get_distance_squared(*living_tree) > radius_thr*radius_thr){
 		look_at(*living_tree);
 		move(get_velocity());
 		continue_animation();

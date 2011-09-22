@@ -30,7 +30,7 @@ PreyRedistributer::~PreyRedistributer(){
 void PreyRedistributer::update_redistribution(){
 	list<PT(Prey)>::iterator prey = _preys.begin();
 	while(prey != _preys.end()){
-		if((*prey)->get_distance(*player) > dist_max) realoc_prey(*prey, player->get_pos());
+		if((*prey)->get_distance_squared(*player) > dist_max*dist_max) realoc_prey(*prey, player->get_pos());
 		prey++;
 	}
 }

@@ -305,7 +305,7 @@ void PlayerControl::update(){
 	else indicator.hide();
 
 	/* Condição deveria estar em um método comum com entrar na toca, mas... */
-	if(_closest_toca && p->get_distance(*_closest_toca) < p->get_toca_thr()){
+	if(_closest_toca && p->get_distance_squared(*_closest_toca) < p->get_toca_thr()*p->get_toca_thr()){
 		_toca_indicator.show();
 		_toca_indicator.set_pos(_closest_toca->get_pos());
 		_toca_indicator.set_z(_toca_indicator.get_z() + 0.15);
@@ -473,7 +473,8 @@ void PlayerControl::eat(const Event*, void *data){
 			for(it = player_sector->preys()->begin(); it != player_sector->preys()->end(); ++it){
 				PT(Prey) prey = *it;
 				if(prey != NULL){
-					if((prey->get_pos() - player->get_pos()).length() < act_dist_thr * 3){
+					//if((prey->get_pos() - player->get_pos()).length() < act_dist_thr * 3){
+					if(prey->get_distance_squared(*player)<(act_dist_thr*3)*(act_dist_thr*3)){
 						prey->set_fleing(true);
 						TimeControl::get_instance()->notify_after_n_vminutes(50, Prey::stop_flee, prey);
 					}
@@ -703,7 +704,7 @@ void PlayerControl::event_female_next(const Event *, void *data){
 		for (it = lizards->begin(); it != lizards->end(); ++it) {
 			PT(Lizard) npcf = *it;
 			// e for fêmea e estiver próxima
-			if((npcf->get_gender() == LizardGender::female) && (npcf->get_distance(player->get_pos()) < DISTANCE_FEMALE)){
+			if((npcf->get_gender() == LizardGender::female) && (npcf->get_distance_squared(player->get_pos()) < DISTANCE_FEMALE*DISTANCE_FEMALE)){
 				PT(FemaleLizard) female = (PT(FemaleLizard))((FemaleLizard*)(Lizard*) npcf);
 				if(!female->reproduziu) female->set_frames_stopped(120);
 			}

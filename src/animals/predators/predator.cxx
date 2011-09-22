@@ -22,38 +22,38 @@ Predator::Predator(NodePath node, Predator::types_predator type) : Animal(node){
 	type_predator = Predator::get_predator_type(type);
 	set_tipo_predator_enum(type);
 
-/*TODO Ajustar a distancia para perserguir e para atacar a depender do tipo de predador*/
+	/*TODO Ajustar a distancia para perserguir e para atacar a depender do tipo de predador*/
 	// eat_thr original = 0.3
 	//distance_pursuit original = 10
 	switch(type){
 		case(Predator::teiu):
-				this->set_distance_pursuit(10.1);
-				this->set_distance_bite(0.31);
-				break;
+						this->set_distance_pursuit(10.1);
+		this->set_distance_bite(0.31);
+		break;
 		case(Predator::siriema):
-				this->set_distance_pursuit(9.9);
-				this->set_distance_bite(0.32);
-				break;
+						this->set_distance_pursuit(9.9);
+		this->set_distance_bite(0.32);
+		break;
 		case(Predator::gato):
-				this->set_distance_pursuit(9.8);
-				this->set_distance_bite(0.33);
-				break;
+						this->set_distance_pursuit(9.8);
+		this->set_distance_bite(0.33);
+		break;
 		case(Predator::raposa):
-				this->set_distance_pursuit(10);
-				this->set_distance_bite(0.34);
-				break;
+						this->set_distance_pursuit(10);
+		this->set_distance_bite(0.34);
+		break;
 		case(Predator::jararaca):
-				this->set_distance_pursuit(9.85);
-				this->set_distance_bite(0.3);
-				break;
+						this->set_distance_pursuit(9.85);
+		this->set_distance_bite(0.3);
+		break;
 		case(Predator::colubridae):
-				this->set_distance_pursuit(10.2);
-				this->set_distance_bite(0.3);
-				break;
+						this->set_distance_pursuit(10.2);
+		this->set_distance_bite(0.3);
+		break;
 		case(Predator::coruja):
-				this->set_distance_pursuit(10);
-				this->set_distance_bite(0.3);
-				break;
+						this->set_distance_pursuit(10);
+		this->set_distance_bite(0.3);
+		break;
 
 	}
 
@@ -102,14 +102,14 @@ void Predator::load_predators(){
 	ModelRepository::get_instance()->get_animated_model("gato")->set_length(0.40);
 	Predator::load_predator(Predator::gato, 9, 0.01, -1);
 
-//	ModelRepository::get_instance()->get_animated_model("jararaca")->set_length(0.60);
-//	Predator::load_predator(Predator::tipos::jararaca, 50, 0.01, -1);
+	//	ModelRepository::get_instance()->get_animated_model("jararaca")->set_length(0.60);
+	//	Predator::load_predator(Predator::tipos::jararaca, 50, 0.01, -1);
 
-//	ModelRepository::get_instance()->get_animated_model("colubridae")->set_length(0.50);
-//	Predator::load_predator(Predator::tipos::colubridae, 50, 0.01, -1);
+	//	ModelRepository::get_instance()->get_animated_model("colubridae")->set_length(0.50);
+	//	Predator::load_predator(Predator::tipos::colubridae, 50, 0.01, -1);
 
 
-//	FlyingPredator::load_predators();
+	//	FlyingPredator::load_predators();
 }
 
 
@@ -155,44 +155,44 @@ void Predator::act(){
 	float eat_thr = this->get_distance_bite();
 
 	if(Session::get_instance()->get_level() == 1){
-		if(get_distance(*player) < distance){
-			if (get_distance(*player) < eat_thr) bite();
+		if(get_distance_squared(*player) < distance*distance){
+			if (get_distance_squared(*player) < eat_thr*eat_thr) bite();
 			else{
-//				PT(Setor) setor = World::get_world()->get_terrain()->get_setor_from_pos(player->get_x(), player->get_y());
-//				SectorItems<PT(Vegetal)>* vegetal_list = setor->vegetals();
-//				SectorItems<PT(Vegetal)>::iterator it;
-//				for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it){
-//					PT(Vegetal) vegetal = *it;
-//					LVector3f player_to_vegetal = player->get_pos() - vegetal->get_pos();
-//
-//
-//
-//
-//					if (player_to_vegetal.length_squared() < Predator::dist_player_hide || player->is_in_toca()){
-//						if(!this->get_anim_control()->is_playing("comer") && !get_anim_control()->is_playing("andar")){
-//							play_anim("andar");
-//						}
-//						pursuing = false;
-//						Animal::act();
-//						return;
-//					}
-//				}
+				//				PT(Setor) setor = World::get_world()->get_terrain()->get_setor_from_pos(player->get_x(), player->get_y());
+				//				SectorItems<PT(Vegetal)>* vegetal_list = setor->vegetals();
+				//				SectorItems<PT(Vegetal)>::iterator it;
+				//				for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it){
+				//					PT(Vegetal) vegetal = *it;
+				//					LVector3f player_to_vegetal = player->get_pos() - vegetal->get_pos();
+				//
+				//
+				//
+				//
+				//					if (player_to_vegetal.length_squared() < Predator::dist_player_hide || player->is_in_toca()){
+				//						if(!this->get_anim_control()->is_playing("comer") && !get_anim_control()->is_playing("andar")){
+				//							play_anim("andar");
+				//						}
+				//						pursuing = false;
+				//						Animal::act();
+				//						return;
+				//					}
+				//				}
 
-						if (player->is_under_vegetal() || player->is_in_toca()){
-							if(!this->get_anim_control()->is_playing("comer") && !get_anim_control()->is_playing("andar")){
-								play_anim("andar");
-							}
-							pursuing = false;
-							Animal::act();
-							return;
-						}
+				if (player->is_under_vegetal() || player->is_in_toca()){
+					if(!this->get_anim_control()->is_playing("comer") && !get_anim_control()->is_playing("andar")){
+						play_anim("andar");
 					}
-
-				if (!pursuing) {
-					pursuing = true;
-					GuiManager::get_instance()->activate_predator_alert(this);
+					pursuing = false;
+					Animal::act();
+					return;
 				}
-				pursuit();
+			}
+
+			if (!pursuing) {
+				pursuing = true;
+				GuiManager::get_instance()->activate_predator_alert(this);
+			}
+			pursuit();
 
 		}
 		else {
@@ -273,7 +273,7 @@ void Predator::bite(){
 		get_anim_control()->stop_all();
 		play_anim("comer");
 
-//        sound->play();//testando som
+		//        sound->play();//testando som
 
 		/* Diminui energia do player */
 		player->be_bited();

@@ -32,8 +32,8 @@ void Player::update_debug(const Event*, void* data){
 }
 
 Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_animated_model(
-	Player::get_specie_name(Player::lizard_specie) + "/" +
-	Player::get_gender_name(lizard_gender))){
+		Player::get_specie_name(Player::lizard_specie) + "/" +
+		Player::get_gender_name(lizard_gender))){
 	in_toca = false;
 	_toca = NULL;
 
@@ -56,9 +56,9 @@ Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_anim
 		PT(TextureStage) ts = find_all_texture_stages().get_texture_stage(0);
 		ts->set_mode(TextureStage::M_modulate);
 		set_texture(ts, ModelRepository::get_instance()->get_lagarto_personalizado(), 10);
-//		get_texture()->reload();
-                //ativa método que provoca o efeito de camuflagem do player
-                event_handler->add_hook("EV_SEGUNDO_REAL", event_psegundo_camuflagem, this);
+		//		get_texture()->reload();
+		//ativa método que provoca o efeito de camuflagem do player
+		event_handler->add_hook("EV_SEGUNDO_REAL", event_psegundo_camuflagem, this);
 
 	}
 
@@ -73,10 +73,10 @@ Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_anim
  * @return single Referencia para o Player atual */
 PT(Player) Player::get_instance() {
 	if(!instanceFlag) {
-        single = new Player();
-        instanceFlag = true;
-    }
-    return single;
+		single = new Player();
+		instanceFlag = true;
+	}
+	return single;
 }
 
 /* Destrutor da classe Player */
@@ -89,7 +89,7 @@ string Player::get_specie_name(Player::lizardEpecie specie){
 		case(Player::tropidurus): return "tropidurus";
 		case(Player::eurolophosaurus): return "eurolophosaurus";
 		case(Player::cnemidophorus): return "cnemidophorus";
-                case(Player::custom): return "custom";
+		case(Player::custom): return "custom";
 	}
 	return NULL;
 }
@@ -155,13 +155,13 @@ float Player::get_speed_running() const {
 
 /*! Mostra algumas informações do player para Debug */
 void Player::display(){
-	#if(DEBUG_PLAYER)
-	    cout << "\nHora: " << TimeControl::get_instance()->get_hora() << ":" << TimeControl::get_instance()->get_minuto() << "\nTemperatura interna do lagarto: " << player->get_temp_interna() <<
-		"\nGasto com temperatura interna: " << player->get_gasto_temp() << "\nGasto basal: " << player->get_gasto_basal()
-		<< "\nGasto total: " << player->get_gasto_total() << "\nFatorUmidade: " << player->fator_umidade << "\nHidrata��o: "
-		<< player->get_hidratacao() << "\nEnergia do lagarto: "
-		<< player->get_energia() << endl;
-	#endif
+#if(DEBUG_PLAYER)
+	cout << "\nHora: " << TimeControl::get_instance()->get_hora() << ":" << TimeControl::get_instance()->get_minuto() << "\nTemperatura interna do lagarto: " << player->get_temp_interna() <<
+			"\nGasto com temperatura interna: " << player->get_gasto_temp() << "\nGasto basal: " << player->get_gasto_basal()
+			<< "\nGasto total: " << player->get_gasto_total() << "\nFatorUmidade: " << player->fator_umidade << "\nHidrata��o: "
+			<< player->get_hidratacao() << "\nEnergia do lagarto: "
+			<< player->get_energia() << endl;
+#endif
 }
 
 /*! Carrega o Player */
@@ -169,11 +169,11 @@ void Player::load_player(){
 	/* Cria nó de colisão para o player */
 	collision::get_instance()->playerCollision(player);
 
-          //obtendo os níveis de camuflagem do lagarto (valores entre 0 e 1) sendo que 1 representa mais camuflado
-        player->nivel_camuflagem_folhagem = ModelRepository::get_instance()->get_nivel_camuflagem_folhagem();
-        player->nivel_camuflagem_sombra = ModelRepository::get_instance()->get_nivel_camuflagem_sombra();
-        player->nivel_camuflagem_terreno_dia = ModelRepository::get_instance()->get_nivel_camuflagem_terreno_dia();
-        player->nivel_camuflagem_terreno_noite = ModelRepository::get_instance()->get_nivel_camuflagem_terreno_noite();
+	//obtendo os níveis de camuflagem do lagarto (valores entre 0 e 1) sendo que 1 representa mais camuflado
+	player->nivel_camuflagem_folhagem = ModelRepository::get_instance()->get_nivel_camuflagem_folhagem();
+	player->nivel_camuflagem_sombra = ModelRepository::get_instance()->get_nivel_camuflagem_sombra();
+	player->nivel_camuflagem_terreno_dia = ModelRepository::get_instance()->get_nivel_camuflagem_terreno_dia();
+	player->nivel_camuflagem_terreno_noite = ModelRepository::get_instance()->get_nivel_camuflagem_terreno_noite();
 
 	/* Atualiza tamanho do player */
 	player->set_scale(player->get_visual_size());
@@ -201,11 +201,11 @@ void Player::change_sector(PT(Setor) new_sector){
 	/* Quando o player muda de setor é necessário uma redistribuição dos npcs. */
 	Animal::redistribute_animals();
 
- 	/* Quando o player muda de setor é necessário esconder alguns vegetais e mostrar outros*/
+	/* Quando o player muda de setor é necessário esconder alguns vegetais e mostrar outros*/
 	Vegetal::update_show_hide();
 
- 	//Vegetal::show_player_next_sector_vegetation();
- 	//World::get_world()->get_terrain()->get_shadows()->update_active_shadows(new_sector);
+	//Vegetal::show_player_next_sector_vegetation();
+	//World::get_world()->get_terrain()->get_shadows()->update_active_shadows(new_sector);
 }
 
 /*! Chamado quando o player se move */
@@ -290,8 +290,9 @@ void Player::update_female_around(){
 	for (it = lizards->begin(); it != lizards->end(); ++it) {
 		PT(Lizard) lizard = *it;
 		if(lizard->get_gender() == LizardGender::female){
-			float distance_player_to_female = (lizard->get_pos() - get_pos()).length();
-			if(distance_player_to_female < get_female_thr()){
+			//float distance_player_to_female = (lizard->get_pos() - get_pos()).length();
+			float distance_player_to_female = lizard->get_distance_squared(*player);
+			if(distance_player_to_female < get_female_thr()*get_female_thr()){
 				_courted_female = dynamic_cast<FemaleLizard*>((Lizard*) lizard);
 				return;
 			}
@@ -357,7 +358,7 @@ void Player::set_buried(bool is_buried){
 
 /*! Obtém o tamanho da boca do lagarto */
 float Player::get_mouth_size() {
-//	return _mouth_size;
+	//	return _mouth_size;
 
 	float real_head_size = properties.head_size * get_tamanho_real() * 0.2;
 	return real_head_size * 0.8;
@@ -377,27 +378,27 @@ float Player::get_mouth_size() {
 //exemplo de como utilizar o nivel de camuflagem para aplicar um efeito de transparência no lagarto
 //Neste método o nível de camuflagem do lagarto editado vai provocar um efeito de transparência na
 //textura caso ele entre na sombra.
- void Player::event_psegundo_camuflagem(const Event *, void *data){
-     //verifica se player está na sombra
-     if(World::get_world()->get_terrain()->get_shadows()->is_in_shadow(*player, 0.1)){
-    //aplica alpha - provocando efeito visual de camuflagem
-     player->set_alpha_scale(1 - nivel_camuflagem_sombra/3,1); //A depender do nível de camuflagem
-    //do lagarto  a intensidade do alpha muda.
-     }else{//caso não esteja na sombra
-     //sem alpha
-     player->set_alpha_scale(1,1);
-     }
- }
+void Player::event_psegundo_camuflagem(const Event *, void *data){
+	//verifica se player está na sombra
+	if(World::get_world()->get_terrain()->get_shadows()->is_in_shadow(*player, 0.1)){
+		//aplica alpha - provocando efeito visual de camuflagem
+		player->set_alpha_scale(1 - nivel_camuflagem_sombra/3,1); //A depender do nível de camuflagem
+		//do lagarto  a intensidade do alpha muda.
+	}else{//caso não esteja na sombra
+		//sem alpha
+		player->set_alpha_scale(1,1);
+	}
+}
 
 
- void  Player::false_flag_under_vegetal(const Event *, void *data){
-	 	 player->set_false_verify_under_vegetal();
+void  Player::false_flag_under_vegetal(const Event *, void *data){
+	player->set_false_verify_under_vegetal();
 
- }
+}
 
- void Player::set_false_verify_under_vegetal(){
-	 flag_verify_under_vegetal = false;
- }
+void Player::set_false_verify_under_vegetal(){
+	flag_verify_under_vegetal = false;
+}
 
 
 bool Player::is_under_vegetal(){
@@ -411,7 +412,7 @@ bool Player::is_under_vegetal(){
 		return player_is_under_vegetal;
 	}
 	flag_verify_under_vegetal = true;
-//Primeiramente, verifica-se se o player está de baixo de um dos vegetais do do setor em que ele está.
+	//Primeiramente, verifica-se se o player está de baixo de um dos vegetais do do setor em que ele está.
 
 	PT(Setor) setor = World::get_world()->get_terrain()->get_setor_from_pos(player->get_x(), player->get_y());
 	SectorItems<PT(Vegetal)>* vegetal_list = setor->vegetals();
@@ -419,56 +420,56 @@ bool Player::is_under_vegetal(){
 
 
 	for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it){
-						PT(Vegetal) vegetal = *it;
-						LVector3f player_to_vegetal = player->get_pos() - vegetal->get_pos();
-						if (player_to_vegetal.length_squared() < Predator::dist_player_hide){
+		PT(Vegetal) vegetal = *it;
+		LVector3f player_to_vegetal = player->get_pos() - vegetal->get_pos();
+		if (player_to_vegetal.length_squared() < Predator::dist_player_hide){
 			//					cout<<"Vegetal no mesmo setor"<<endl;
-								player_is_under_vegetal =true;
-								return player_is_under_vegetal;
-						}
+			player_is_under_vegetal =true;
+			return player_is_under_vegetal;
+		}
 
 	}
 
-//Caso o player não esteja sob nenhum vegetal de seu setor, procura-se nos vegetais dos setores adjacentes
-//
-//		PT(Terrain) terrain = World::get_world()->get_terrain();
-//		int max_sectors = Terrain::MAX_SETORES;
-//
-//		for(int i =0 ; i< max_sectors;i++){
-//		PT(Setor) setor = terrain->get_setor(i);
-//		if(setor->is_player_neighbor()){
-//			SectorItems<PT(Vegetal)>* vegetal_list = setor->vegetals();
-//
-//			for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it){
-//								PT(Vegetal) vegetal = *it;
-//								LVector3f player_to_vegetal = player->get_pos() - vegetal->get_pos();
-//
-//								if (player_to_vegetal.length_squared() < Predator::dist_player_hide){
-//
-//										player_is_under_vegetal = true;
-//										return player_is_under_vegetal;
-//								}
-//			}
-//
-//		}
-//	}
+	//Caso o player não esteja sob nenhum vegetal de seu setor, procura-se nos vegetais dos setores adjacentes
+	//
+	//		PT(Terrain) terrain = World::get_world()->get_terrain();
+	//		int max_sectors = Terrain::MAX_SETORES;
+	//
+	//		for(int i =0 ; i< max_sectors;i++){
+	//		PT(Setor) setor = terrain->get_setor(i);
+	//		if(setor->is_player_neighbor()){
+	//			SectorItems<PT(Vegetal)>* vegetal_list = setor->vegetals();
+	//
+	//			for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it){
+	//								PT(Vegetal) vegetal = *it;
+	//								LVector3f player_to_vegetal = player->get_pos() - vegetal->get_pos();
+	//
+	//								if (player_to_vegetal.length_squared() < Predator::dist_player_hide){
+	//
+	//										player_is_under_vegetal = true;
+	//										return player_is_under_vegetal;
+	//								}
+	//			}
+	//
+	//		}
+	//	}
 
 	PT(Terrain) terrain = World::get_world()->get_terrain();
 	vector<PT(Setor)>* neighborhood = terrain->get_adjacent_sectors();
 
 	for(unsigned int i = 0; i < neighborhood->size(); i++){
-			vegetal_list = neighborhood->at(i)->vegetals();
+		vegetal_list = neighborhood->at(i)->vegetals();
 
-			for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it){
-					PT(Vegetal) vegetal = *it;
-					LVector3f player_to_vegetal = player->get_pos() - vegetal->get_pos();
+		for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it){
+			PT(Vegetal) vegetal = *it;
+			LVector3f player_to_vegetal = player->get_pos() - vegetal->get_pos();
 
-					if (player_to_vegetal.length_squared() < Predator::dist_player_hide){
-							player_is_under_vegetal = true;
-							return player_is_under_vegetal;
-					}
+			if (player_to_vegetal.length_squared() < Predator::dist_player_hide){
+				player_is_under_vegetal = true;
+				return player_is_under_vegetal;
 			}
 		}
+	}
 
 	player_is_under_vegetal = false;
 	return player_is_under_vegetal;

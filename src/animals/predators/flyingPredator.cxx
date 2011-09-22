@@ -108,7 +108,7 @@ void FlyingPredator::chase(){
 	if(get_z() < z) set_z(z);
 
 	/* Distância da qual se pode agarrar o player */
-	if(get_distance(*player) < 1) capture_player();
+	if(get_distance_squared(*player) < 1*1) capture_player();
 }
 
 /* Ação de captura do predador */

@@ -279,3 +279,11 @@ void ObjetoJogo::set_offset_z(double offset){
 	this->offset_z = offset;
 	set_z(World::get_world()->get_terrain()->get_elevation(get_x(), get_y()) + offset);
 }
+
+
+
+
+
+
+
+

@@ -52,7 +52,7 @@ void Terrain::add_vegetal(PT(Vegetal) vegetal){
 }
 
 void Terrain::add_edible_vegetal(PT(EdibleVegetal) vegetal){
-//	Setor::add_edible_vegetal(vegetal, get_setor_from_pos(vegetal->get_x(), vegetal->get_y()));
+	//	Setor::add_edible_vegetal(vegetal, get_setor_from_pos(vegetal->get_x(), vegetal->get_y()));
 	get_setor_from_pos(vegetal->get_x(), vegetal->get_y())->edible_vegetals()->push_back(vegetal);
 }
 
@@ -65,16 +65,16 @@ void Terrain::remove_all_edible_vegetals(){
 }
 
 PT(Terrain) Terrain::get_default_terrain(){
-    if(terrain==NULL){
-	create_default_terrain();
+	if(terrain==NULL){
+		create_default_terrain();
 
-    }
-    return terrain;
+	}
+	return terrain;
 }
 
 
 void Terrain::create_default_terrain(){
-   cout<< "1 create_defalt_terrain chamado "<< endl;
+	cout<< "1 create_defalt_terrain chamado "<< endl;
 	if(terrain==NULL){
 		// Cria o Terreno -----------------------------------------------------//
 		terrain = new Terrain("Default_Dunas_Enviroment");
@@ -114,13 +114,13 @@ void Terrain::create_default_terrain(){
 		terrain->generate();
 
 
-//		// Gera o Terreno, sem bruteforce.
-//		//terrain->set_min_level(0);
-//		terrain->set_block_size(32);
-//		terrain->set_near_far(40, 100);
-//		terrain->generate();
-//		terrain->set_focal_point(*player);
-////		terrain->set_auto_flatten(GeoMipTerrain::AFM_strong);
+		//		// Gera o Terreno, sem bruteforce.
+		//		//terrain->set_min_level(0);
+		//		terrain->set_block_size(32);
+		//		terrain->set_near_far(40, 100);
+		//		terrain->generate();
+		//		terrain->set_focal_point(*player);
+		////		terrain->set_auto_flatten(GeoMipTerrain::AFM_strong);
 
 
 		// Configuracoes do terreno
@@ -134,7 +134,7 @@ void Terrain::create_default_terrain(){
 		terrain->folhagem = new foliage();
 
 	}
-	
+
 }
 
 /*! Necessário para atualizar o ponto focal para o LOD do terreno */
@@ -145,50 +145,50 @@ void Terrain::update_terrain(const Event*, void *data){
 }
 void Terrain::draw_map(){
 	//#### método que tenta modificar posição do terreno para resolver o problema de sobre posição com as folhagens (sem sucesso)
-       NodePathCollection nodePathCollection = terrain->get_root().find_all_matches("**/+GeomNode");
+	NodePathCollection nodePathCollection = terrain->get_root().find_all_matches("**/+GeomNode");
 
-       cout << "Quantidade de nodePath:  " << nodePathCollection.size() << endl; //retornou 64
-       for (int i = 0; i < nodePathCollection.size(); ++i)
-        {
+	cout << "Quantidade de nodePath:  " << nodePathCollection.size() << endl; //retornou 64
+	for (int i = 0; i < nodePathCollection.size(); ++i)
+	{
 
-                 NodePath nodePath = nodePathCollection[i];
+		NodePath nodePath = nodePathCollection[i];
 
-              //obtem posição de cada NodePath em relação ao NodePath root
-              float x = nodePath.get_pos(terrain->get_root()).get_x();
-              float y = nodePath.get_pos(terrain->get_root()).get_y();
-              //descobre o block onde o NodePath está
-              LVecBase2f lbase2  =  terrain->get_block_from_pos(x,y);
-              //obtem o indice x e y do block
-              unsigned int index_x  = lbase2.get_x();
-              unsigned int index_y  = lbase2.get_y();
+		//obtem posição de cada NodePath em relação ao NodePath root
+		float x = nodePath.get_pos(terrain->get_root()).get_x();
+		float y = nodePath.get_pos(terrain->get_root()).get_y();
+		//descobre o block onde o NodePath está
+		LVecBase2f lbase2  =  terrain->get_block_from_pos(x,y);
+		//obtem o indice x e y do block
+		unsigned int index_x  = lbase2.get_x();
+		unsigned int index_y  = lbase2.get_y();
 
 
-             PT(GeomNode) geomNode = DCAST(GeomNode, nodePath.node());
-             PT(GeomVertexData)  vdata = geomNode->modify_geom(0)->modify_vertex_data();
+		PT(GeomNode) geomNode = DCAST(GeomNode, nodePath.node());
+		PT(GeomVertexData)  vdata = geomNode->modify_geom(0)->modify_vertex_data();
 
-              GeomVertexWriter vertexWriter = GeomVertexWriter(vdata, "vertex");
-              GeomVertexReader vertex = GeomVertexReader(vdata, "vertex");
+		GeomVertexWriter vertexWriter = GeomVertexWriter(vdata, "vertex");
+		GeomVertexReader vertex = GeomVertexReader(vdata, "vertex");
 
-               while (!vertex.is_at_end())
-               {
-                 const LVecBase3f& v = vertex.get_data3f();
-                 //convertendo para posição real do terreno
-                 float pos_x = (v.get_x() + 32) + 64*index_x;
-                 float pos_y = (v.get_y() + 32) + 64*index_y;
-              //    cout << "indices (x,y)" << x <<  y << endl;
+		while (!vertex.is_at_end())
+		{
+			const LVecBase3f& v = vertex.get_data3f();
+			//convertendo para posição real do terreno
+			float pos_x = (v.get_x() + 32) + 64*index_x;
+			float pos_y = (v.get_y() + 32) + 64*index_y;
+			//    cout << "indices (x,y)" << x <<  y << endl;
 
-                 float pos_z = terrain->get_elevation(pos_x, pos_y)/16;
+			float pos_z = terrain->get_elevation(pos_x, pos_y)/16;
 
-                 if(pos_z != v.get_z()){ //Em nenhum momento entra nesse if
-                    cout << "Coordenadas x,y,z e novo_z" << endl;
-                    cout << v.get_x() << ", "  <<   v.get_y()  << ", "  << v.get_z() << " e "  << pos_z << endl;
-                 }
+			if(pos_z != v.get_z()){ //Em nenhum momento entra nesse if
+				cout << "Coordenadas x,y,z e novo_z" << endl;
+				cout << v.get_x() << ", "  <<   v.get_y()  << ", "  << v.get_z() << " e "  << pos_z << endl;
+			}
 
-                  vertexWriter.set_data3f(v.get_x() , v.get_y() , pos_z); //faz modificação
+			vertexWriter.set_data3f(v.get_x() , v.get_y() , pos_z); //faz modificação
 
-               }//fim do while
+		}//fim do while
 
-       }//fim do for
+	}//fim do for
 
 }
 
@@ -268,7 +268,7 @@ vector<PT(Setor)> *Terrain::get_adjacent_sectors(){
 /*! Obtem os setores vizinhos dado um setor de referencia */
 void Terrain::update_adjacent_sectors(PT(Setor) s){
 	// Tira todo mundo da vizinha
-     
+
 
 	for(unsigned int i = 0; i < neighborhood.size(); i++){
 		neighborhood.at(i)->set_player_neighbor(false);
@@ -276,44 +276,44 @@ void Terrain::update_adjacent_sectors(PT(Setor) s){
 	neighborhood.clear();
 
 	// Define a nova vizinhança
-//	int flagx = -1, flagy = -1;
-//	for (int i = 0; i < 3; ++i) {
-//		for (int j = 0; j < 3; ++j) {
-//			LPoint2d adj_sector = s->get_pos_start() + LPoint2d(flagx * (get_x_size()/8), flagy * (get_y_size()/8));
-//			//if(has_inside(adj_sector) /* && !((i == 1) && (j == 1))*/){
-//				PT(Setor) sector_found = get_setor_from_pos(adj_sector);
-//				if(!sector_found->is_player_neighbor()){
-//				  sector_found->set_player_neighbor(true);
-//				  neighborhood.push_back(sector_found);
-//				}
-//			//}
-//			flagx++;
-//		}
-//		flagx = -1;
-//		flagy++;
-//	}
+	//	int flagx = -1, flagy = -1;
+	//	for (int i = 0; i < 3; ++i) {
+	//		for (int j = 0; j < 3; ++j) {
+	//			LPoint2d adj_sector = s->get_pos_start() + LPoint2d(flagx * (get_x_size()/8), flagy * (get_y_size()/8));
+	//			//if(has_inside(adj_sector) /* && !((i == 1) && (j == 1))*/){
+	//				PT(Setor) sector_found = get_setor_from_pos(adj_sector);
+	//				if(!sector_found->is_player_neighbor()){
+	//				  sector_found->set_player_neighbor(true);
+	//				  neighborhood.push_back(sector_found);
+	//				}
+	//			//}
+	//			flagx++;
+	//		}
+	//		flagx = -1;
+	//		flagy++;
+	//	}
 	int i = -1;
 	int j = -1;
 	for ( i = -1; i < 2; ++i) {
-			for ( j = -1; j < 2; ++j) {
-				LPoint2d adj_sector = s->get_pos_start() + LPoint2d(j * (get_x_size()/8), i * (get_y_size()/8));
+		for ( j = -1; j < 2; ++j) {
+			LPoint2d adj_sector = s->get_pos_start() + LPoint2d(j * (get_x_size()/8), i * (get_y_size()/8));
 
-					PT(Setor) sector_found = get_setor_from_pos(adj_sector);
-					if(!sector_found->is_player_neighbor()){
-					  sector_found->set_player_neighbor(true);
-					  neighborhood.push_back(sector_found);
-					}
-				}
+			PT(Setor) sector_found = get_setor_from_pos(adj_sector);
+			if(!sector_found->is_player_neighbor()){
+				sector_found->set_player_neighbor(true);
+				neighborhood.push_back(sector_found);
 			}
+		}
+	}
 
 
 
 	//
-//	nout << "neighbors(" << player->get_setor()->get_indice() << "): ";
-//	for(int i = 0; i < neighborhood.size(); i++){
-//		nout << neighborhood.at(i)->get_indice() << " ";
-//	}
-//	nout << endl;
+	//	nout << "neighbors(" << player->get_setor()->get_indice() << "): ";
+	//	for(int i = 0; i < neighborhood.size(); i++){
+	//		nout << neighborhood.at(i)->get_indice() << " ";
+	//	}
+	//	nout << endl;
 }
 
 /*! Atualiza a posição Z do objeto. Como parametro opcional, um offset,
@@ -340,12 +340,12 @@ void Terrain::init_sectors(){
 	int width = x_size/NUM_SECTORS_X;
 	int height = y_size/NUM_SECTORS_Y;
 
-    //no_setores=new NodePath[MAX_SETORES];//64 setores
-        
-    //// no_setores=render.attach_new_node("setor");
+	//no_setores=new NodePath[MAX_SETORES];//64 setores
 
-    std::string s;
-    std::stringstream out;
+	//// no_setores=render.attach_new_node("setor");
+
+	std::string s;
+	std::stringstream out;
 
 	for(double x = 0; x < x_size; x = x + width) {
 		for (double y = 0; y < y_size; y = y + height) {
@@ -353,17 +353,17 @@ void Terrain::init_sectors(){
 			LPoint2d pos_fim = LPoint2d( x+(width-1), y+(height-1) );
 
 			PT(Setor) setor = new Setor(pos_inicio, pos_fim, index);
-                        //out << index;
-                        //s = out.str();
-                        //no_setores[index]=render.attach_new_node("setor"+s);
+			//out << index;
+			//s = out.str();
+			//no_setores[index]=render.attach_new_node("setor"+s);
 			terrain->add_setor(setor);
 			index++;
 
 
-                        
+
 		}
 	}
-        
+
 }
 
 /*! Para Debug */
@@ -395,19 +395,19 @@ bool Terrain::is_inside(float x, float y)
 {
 	if ((x <= 120) && (y <= 120)){
 		//if ((y - (x*(-0.706)) >= 79.85) && (y - (x*(-0.825))  >= 87.15))
-			if (y - (x*(-0.97)) >= 114.9)
-				if ((x >= 0.5) && (x <= get_x_size()-0.5) && (y >= 0.5) && (y <= get_y_size()-0.5))
+		if (y - (x*(-0.97)) >= 114.9)
+			if ((x >= 0.5) && (x <= get_x_size()-0.5) && (y >= 0.5) && (y <= get_y_size()-0.5))
+				return true;
+	}
+	else{
+		if ( (x >= 382.2) && (y >= 382.2)){
+			if( (x <= 507.9) && (y  <= 507.9))
 				return true;
 		}
-		else{
-			if ( (x >= 382.2) && (y >= 382.2)){
-				if( (x <= 507.9) && (y  <= 507.9))
-					return true;
-			}
-			else
-				if ((x >= 0.5) && (x <= get_x_size()-0.5) && (y >= 0.5) && (y <= get_y_size()-0.5))
-					return true;
-		}
+		else
+			if ((x >= 0.5) && (x <= get_x_size()-0.5) && (y >= 0.5) && (y <= get_y_size()-0.5))
+				return true;
+	}
 	return false;
 }
 
@@ -416,11 +416,11 @@ bool Terrain::is_inside(float x, float y)
 void Terrain::load_tocas(){
 
 	for (int i = 0; i < MAX_SETORES; i++){
-  		PT(Setor) setor = get_setor(i);
-  		SectorItems<PT(Vegetal)>* vegetal_list = setor->vegetals();
-  		SectorItems<PT(ObjetoJogo)>* toca_list = setor->tocas();
-  		SectorItems<PT(Vegetal)>::iterator it;
-  		for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it){
+		PT(Setor) setor = get_setor(i);
+		SectorItems<PT(Vegetal)>* vegetal_list = setor->vegetals();
+		SectorItems<PT(ObjetoJogo)>* toca_list = setor->tocas();
+		SectorItems<PT(Vegetal)>::iterator it;
+		for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it){
 			PT(Vegetal) vegetal = (*it);
 			double x = vegetal->get_x();
 			double y = vegetal->get_y();
@@ -483,7 +483,7 @@ void Terrain::load_terrain_limit(){
 		pos = i;
 		cercas.push_back( ModelRepository::get_instance()->get_model_instance("cerca") );
 		cercas.back()->reparent_to(left_fence_set);
-        cercas.back()->set_pos(0.5, pos, 0);
+		cercas.back()->set_pos(0.5, pos, 0);
 		cercas.back()->set_scale(0.05);
 	}
 
@@ -507,8 +507,8 @@ void Terrain::load_terrain_limit(){
 	for (double pos = 10.5; pos <= 130.0; pos += distancia) {
 		casas.push_back( ModelRepository::get_instance()->get_model_instance( casa_model[index_casa] ) );
 		casas.back()->reparent_to(houses);
-        casas.back()->set_x(terrain_x_size - pos);
-        casas.back()->set_y(terrain_y_size);
+		casas.back()->set_x(terrain_x_size - pos);
+		casas.back()->set_y(terrain_y_size);
 		casas.back()->set_scale(0.05);
 		casas.back()->set_h(*casas.back(), 90);
 
@@ -521,8 +521,8 @@ void Terrain::load_terrain_limit(){
 
 		casas.push_back( ModelRepository::get_instance()->get_model_instance( casa_model[index_casa+3] ));
 		casas.back()->reparent_to(houses);
-        casas.back()->set_x(terrain_x_size);
-        casas.back()->set_y(terrain_y_size - pos);
+		casas.back()->set_x(terrain_x_size);
+		casas.back()->set_y(terrain_y_size - pos);
 		casas.back()->set_scale(0.05);
 	}
 
@@ -546,11 +546,11 @@ void Terrain::load_water(){
 	//buffer = window->get_graphics_window()->make_texture_buffer("waterBuffer", 512, 512);
 	//buffer->set_clear_color( LVector4f( 0, 0, 0, 1 ) );
 
-//	tex0 = buffer->get_texture();
-//	tex0->set_wrap_u(Texture::WM_clamp);
-//	tex0->set_wrap_v(Texture::WM_clamp);
-//	TextureStage *ts0 = new TextureStage("reflection");
-//	water.set_texture(ts0, tex0);
+	//	tex0 = buffer->get_texture();
+	//	tex0->set_wrap_u(Texture::WM_clamp);
+	//	tex0->set_wrap_v(Texture::WM_clamp);
+	//	TextureStage *ts0 = new TextureStage("reflection");
+	//	water.set_texture(ts0, tex0);
 
 	water_tex = TexturePool::load_texture("models/terrain/down.png");
 	water_tex->set_wrap_u(Texture::WM_repeat);

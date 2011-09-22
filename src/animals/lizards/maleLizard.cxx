@@ -42,8 +42,8 @@ void MaleLizard::init() {
 void MaleLizard::act(){
 	float bobbing_dist_thr = 3;
 	float flee_max_dist = 10;
-	float distance = (player->get_pos() - get_pos()).length();
-
+	//float distance = (player->get_pos() - get_pos()).length();
+	float distance = get_distance_squared(*player);//Substituição ocorreu porque distance é utilizada em comparações
 	//if(!player->has_female_around() && is_action_active("fight")) set_action("walk", true);
 
 	/* Quando esperando a resposta do player... */
@@ -59,11 +59,11 @@ void MaleLizard::act(){
 		}
 	}
 
-	if(distance > 1.25 * flee_max_dist){
+	if(distance > (1.25 * flee_max_dist)*(1.25 * flee_max_dist)){
 		set_action("walk", true);
 	}
 	if(is_action_active("flee") || this->get_energia() < 20){
-		if(distance < flee_max_dist) flee();
+		if(distance < flee_max_dist*flee_max_dist) flee();
 		else {
 			energia = 50;
 			set_action("walk", true);
@@ -73,10 +73,10 @@ void MaleLizard::act(){
 	}
 	else if(is_action_active("fight")){
 		/* Round One: FIGHT! */
-		if(distance < eat_thr) bite();
+		if(distance < eat_thr*eat_thr) bite();
 		else chase();
 	}
-	else if(distance < bobbing_dist_thr && !waiting_player_decide){
+	else if(distance < bobbing_dist_thr*bobbing_dist_thr && !waiting_player_decide){
 		/* Aqui se verifica as condições para começar uma briga */
 		/* "Se o player tem femea próximo dele, e eu tow perto dele, logo tem femea perto de mim..."
 		 * Evita-se assim ter que calcular toda santa hora as distâncias e etc. Só consulto a flag... */
@@ -123,15 +123,15 @@ void MaleLizard::wander(){
 }
 
 void MaleLizard::chase(){
-	float distance = (player->get_pos() - get_pos()).length();
-
+	//float distance = (player->get_pos() - get_pos()).length();
+	float distance = get_distance_squared(*player);
 	if(!has_other_anim_active("walk")){
 		play_anim("walk");
 
 		/* Comportamento */
 		look_at(*player);  //TODO: Corrigir depois para não permitir muito giro.
 
-		 if(distance > eat_thr - (eat_thr / 10)) move(VEL_RUN);
+		 if(distance > (eat_thr - (eat_thr / 10))*(eat_thr - (eat_thr / 10))) move(VEL_RUN);
 	}
 
 }
