@@ -158,27 +158,42 @@ void Predator::act(){
 		if(get_distance(*player) < distance){
 			if (get_distance(*player) < eat_thr) bite();
 			else{
-				PT(Setor) setor = World::get_world()->get_terrain()->get_setor_from_pos(player->get_x(), player->get_y());
-				SectorItems<PT(Vegetal)>* vegetal_list = setor->vegetals();
-				SectorItems<PT(Vegetal)>::iterator it;
-				for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it){
-					PT(Vegetal) vegetal = *it;
-					LVector3f player_to_vegetal = player->get_pos() - vegetal->get_pos();
-					if (player_to_vegetal.length() < 3.5 || player->is_in_toca()){
-						if(!this->get_anim_control()->is_playing("comer") && !get_anim_control()->is_playing("andar"))
-							play_anim("andar");
-						pursuing = false;
-						Animal::act();
-						return;
+//				PT(Setor) setor = World::get_world()->get_terrain()->get_setor_from_pos(player->get_x(), player->get_y());
+//				SectorItems<PT(Vegetal)>* vegetal_list = setor->vegetals();
+//				SectorItems<PT(Vegetal)>::iterator it;
+//				for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it){
+//					PT(Vegetal) vegetal = *it;
+//					LVector3f player_to_vegetal = player->get_pos() - vegetal->get_pos();
+//
+//
+//
+//
+//					if (player_to_vegetal.length_squared() < Predator::dist_player_hide || player->is_in_toca()){
+//						if(!this->get_anim_control()->is_playing("comer") && !get_anim_control()->is_playing("andar")){
+//							play_anim("andar");
+//						}
+//						pursuing = false;
+//						Animal::act();
+//						return;
+//					}
+//				}
+
+						if (player->is_under_vegetal() || player->is_in_toca()){
+							if(!this->get_anim_control()->is_playing("comer") && !get_anim_control()->is_playing("andar")){
+								play_anim("andar");
+							}
+							pursuing = false;
+							Animal::act();
+							return;
+						}
 					}
-				}
 
 				if (!pursuing) {
 					pursuing = true;
 					GuiManager::get_instance()->activate_predator_alert(this);
 				}
 				pursuit();
-			}
+
 		}
 		else {
 			play_anim("andar");

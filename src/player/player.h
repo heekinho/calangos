@@ -101,6 +101,13 @@ public:
 	float get_media_energia_mes();
 	float get_soma_media_energia_diaria();
 
+
+
+
+
+
+
+
 /* FEATURE: Tamanho do lagarto */
 public:
 	/* Obtém o tamanho mínimo e máximo de lagartos permitidos. */
@@ -124,6 +131,9 @@ public:
 	float get_visual_size();
 
          static void event_psegundo_camuflagem(const Event *, void *data);
+
+         static void false_flag_under_vegetal(const Event *, void *data);
+
 
 private:
 	float visual_size_factor;
@@ -476,6 +486,28 @@ public:
 	//void set_mouth_size(float mouth_size);
 private:
 	float _mouth_size;
+
+
+
+public:
+//Verifica se o player está de baixo de um vegetal do seu setor ou dos setores adjacentes
+	bool is_under_vegetal();
+
+	/*Coloca como false o flag que verifica se o calculo de under_vegetal foi realizado em uma frama
+	 * Utilizado pelo o event da passagem do frame*/
+	void set_false_verify_under_vegetal();
+
+
+private:
+	bool flag_verify_under_vegetal;//Flag verifica se o método in_under_vegetal foi chamado em um frame
+	bool player_is_under_vegetal;
+
+
+
 };
+
+
+
+
 
 #endif

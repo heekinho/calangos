@@ -276,21 +276,39 @@ void Terrain::update_adjacent_sectors(PT(Setor) s){
 	neighborhood.clear();
 
 	// Define a nova vizinhança
-	int flagx = -1, flagy = -1;
-	for (int i = 0; i < 3; ++i) {
-		for (int j = 0; j < 3; ++j) {
-			LPoint2d adj_sector = s->get_pos_start() + LPoint2d(flagx * (get_x_size()/8), flagy * (get_y_size()/8));
-			//if(has_inside(adj_sector) /* && !((i == 1) && (j == 1))*/){
-				PT(Setor) sector_found = get_setor_from_pos(adj_sector);
-				sector_found->set_player_neighbor(true);
-				neighborhood.push_back(sector_found);
-			//}
-			flagx++;
-		}
-		flagx = -1;
-		flagy++;
-	}
-       
+//	int flagx = -1, flagy = -1;
+//	for (int i = 0; i < 3; ++i) {
+//		for (int j = 0; j < 3; ++j) {
+//			LPoint2d adj_sector = s->get_pos_start() + LPoint2d(flagx * (get_x_size()/8), flagy * (get_y_size()/8));
+//			//if(has_inside(adj_sector) /* && !((i == 1) && (j == 1))*/){
+//				PT(Setor) sector_found = get_setor_from_pos(adj_sector);
+//				if(!sector_found->is_player_neighbor()){
+//				  sector_found->set_player_neighbor(true);
+//				  neighborhood.push_back(sector_found);
+//				}
+//			//}
+//			flagx++;
+//		}
+//		flagx = -1;
+//		flagy++;
+//	}
+	int i = -1;
+	int j = -1;
+	for ( i = -1; i < 2; ++i) {
+			for ( j = -1; j < 2; ++j) {
+				LPoint2d adj_sector = s->get_pos_start() + LPoint2d(j * (get_x_size()/8), i * (get_y_size()/8));
+
+					PT(Setor) sector_found = get_setor_from_pos(adj_sector);
+					if(!sector_found->is_player_neighbor()){
+					  sector_found->set_player_neighbor(true);
+					  neighborhood.push_back(sector_found);
+					}
+				}
+			}
+
+
+
+	//
 //	nout << "neighbors(" << player->get_setor()->get_indice() << "): ";
 //	for(int i = 0; i < neighborhood.size(); i++){
 //		nout << neighborhood.at(i)->get_indice() << " ";

@@ -37,6 +37,9 @@ Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_anim
 	in_toca = false;
 	_toca = NULL;
 
+	flag_verify_under_vegetal = false;
+	player_is_under_vegetal = false;
+
 	_courted_female = NULL;
 	_captured = false;
 	_is_buried = false;
@@ -61,6 +64,8 @@ Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_anim
 
 	/* Chama o evento de debug */
 	Simdunas::get_framework()->define_key("control-d", "debug", update_debug, this);
+
+	event_handler->add_hook(TimeControl::EV_pass_frame, false_flag_under_vegetal, this);
 }
 
 /*! Obtem a instancia atual da classe Player. Observe que a classe ja deve ter
@@ -123,6 +128,8 @@ void Player::eat(Edible* food, int type){
 	add_energia_alimento(nutritional_value);
 	add_hidratacao_alimento(food->get_hydration_value());
 }
+
+
 
 /*! Retorna a velocidade do jogador */
 /* TODO: Deveria ser speed e não velocity. Velocity é vetor */
@@ -381,6 +388,91 @@ float Player::get_mouth_size() {
      player->set_alpha_scale(1,1);
      }
  }
+
+
+ void  Player::false_flag_under_vegetal(const Event *, void *data){
+	 	 player->set_false_verify_under_vegetal();
+
+ }
+
+ void Player::set_false_verify_under_vegetal(){
+	 flag_verify_under_vegetal = false;
+ }
+
+
+bool Player::is_under_vegetal(){
+	//Verifica se o player está de baixo de um vegetal
+
+	if(flag_verify_under_vegetal){
+		/*Caso a verificação já tenha ocorrido em um frame, não ocorrerá novamente no mesmo frame,
+		 *o método retorna o que já foi calculado */
+
+		//cout<<"Calculado no mesmo frame"<<endl;
+		return player_is_under_vegetal;
+	}
+	flag_verify_under_vegetal = true;
+//Primeiramente, verifica-se se o player está de baixo de um dos vegetais do do setor em que ele está.
+
+	PT(Setor) setor = World::get_world()->get_terrain()->get_setor_from_pos(player->get_x(), player->get_y());
+	SectorItems<PT(Vegetal)>* vegetal_list = setor->vegetals();
+	SectorItems<PT(Vegetal)>::iterator it;
+
+
+	for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it){
+						PT(Vegetal) vegetal = *it;
+						LVector3f player_to_vegetal = player->get_pos() - vegetal->get_pos();
+						if (player_to_vegetal.length_squared() < Predator::dist_player_hide){
+			//					cout<<"Vegetal no mesmo setor"<<endl;
+								player_is_under_vegetal =true;
+								return player_is_under_vegetal;
+						}
+
+	}
+
+//Caso o player não esteja sob nenhum vegetal de seu setor, procura-se nos vegetais dos setores adjacentes
+//
+//		PT(Terrain) terrain = World::get_world()->get_terrain();
+//		int max_sectors = Terrain::MAX_SETORES;
+//
+//		for(int i =0 ; i< max_sectors;i++){
+//		PT(Setor) setor = terrain->get_setor(i);
+//		if(setor->is_player_neighbor()){
+//			SectorItems<PT(Vegetal)>* vegetal_list = setor->vegetals();
+//
+//			for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it){
+//								PT(Vegetal) vegetal = *it;
+//								LVector3f player_to_vegetal = player->get_pos() - vegetal->get_pos();
+//
+//								if (player_to_vegetal.length_squared() < Predator::dist_player_hide){
+//
+//										player_is_under_vegetal = true;
+//										return player_is_under_vegetal;
+//								}
+//			}
+//
+//		}
+//	}
+
+	PT(Terrain) terrain = World::get_world()->get_terrain();
+	vector<PT(Setor)>* neighborhood = terrain->get_adjacent_sectors();
+
+	for(unsigned int i = 0; i < neighborhood->size(); i++){
+			vegetal_list = neighborhood->at(i)->vegetals();
+
+			for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it){
+					PT(Vegetal) vegetal = *it;
+					LVector3f player_to_vegetal = player->get_pos() - vegetal->get_pos();
+
+					if (player_to_vegetal.length_squared() < Predator::dist_player_hide){
+							player_is_under_vegetal = true;
+							return player_is_under_vegetal;
+					}
+			}
+		}
+
+	player_is_under_vegetal = false;
+	return player_is_under_vegetal;
+}
 
 
 

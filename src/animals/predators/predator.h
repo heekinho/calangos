@@ -66,7 +66,11 @@ public:
 	float get_visibility_factor() const;
 
 	static bool pursuing;
+
+	static float const dist_player_hide = 3.5*3.5;
 private:
+
+
 	void pursuit();
 	void bite();
 
