@@ -52,6 +52,7 @@ AudioRepository::AudioRepository() {
 	 //add_audio("mouse_click","models/sounds/Click_17-Partners-43.wav");
 	 add_audio(HEART_BEAT,"models/sounds/heartbea-dylan-1465.wav");
 	 add_audio(WARNING,"models/sounds/Warning-public_d-308.wav");
+	 add_audio("warning2","models/sounds/WARNING-TM-534.wav");
 	 //add_audio(PREDATOR_HIT,"models/sounds/Woody_cl-Partners-69.wav");
 	 add_audio(PREDATOR_HIT,"models/sounds/pc_apanhando.wav");
 	 add_audio(REPROD_SUCCESS,"models/sounds/Energy-Mystery-2370.wav");

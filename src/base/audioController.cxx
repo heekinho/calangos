@@ -95,7 +95,7 @@ void AudioController::warning_temp(double intern_temp, double extern_temp, doubl
 	// fosse 5 o alerta ficaria tocando mesmo o player estando na sombra.
 	if (intern_temp > (max_temp - 4)) {
 		if (intern_temp < extern_temp) {
-			audio_repository->play_sound(AudioRepository::WARNING, false, 0.7);
+			audio_repository->play_sound(AudioRepository::WARNING, false, 0.5);
 		}
 		else {
 			audio_repository->play_sound(AudioRepository::WARNING, false, 0.25);
@@ -104,7 +104,7 @@ void AudioController::warning_temp(double intern_temp, double extern_temp, doubl
 	}
 	else if (intern_temp < (min_temp + 4)) {
 		if (intern_temp > extern_temp) {
-			audio_repository->play_sound(AudioRepository::WARNING, false, 0.7);
+			audio_repository->play_sound(AudioRepository::WARNING, false, 0.5);
 		}
 		else {
 			audio_repository->play_sound(AudioRepository::WARNING, false, 0.25);
@@ -167,5 +167,5 @@ AsyncTask::DoneStatus AudioController::loop_running(GenericAsyncTask* task, void
 }
 
 void AudioController::play_warning() {
-	audio_repository->play_sound(AudioRepository::WARNING, false, 0.2);
+	audio_repository->play_sound("warning2", false, 0.2);
 }
