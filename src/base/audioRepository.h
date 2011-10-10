@@ -38,20 +38,35 @@ public:
 	AudioRepository();
     void load_audio();
     void add_audio(const string &name, const string &path);
+    void add_bgm(const string &name, const string &path);
     void play_sound(const string &name, bool unique = false, float volume = 1);
+    void play_bgm(const string &name, int loops = 1, float volume = 1);
+    void pause_bgm();
+    void unpause_bgm();
+    void play_bgm_infinitely(const string& name, float volume = 1);
+    void stop_bgm(const string& name);
     PT(AudioManager) get_audioManager();
     PT(AudioSound) get_audio(string name);
+    PT(AudioSound) get_bgm(string name);
 
-    static AsyncTask::DoneStatus finished_sound(GenericAsyncTask* task, void* data);
+    static AsyncTask::DoneStatus sound_finished(GenericAsyncTask* task, void* data);
+    static AsyncTask::DoneStatus bgm_finished(GenericAsyncTask* task, void* data);
+    static void bgm_end(const Event*, void *data);
 
     static bool playing;
+    static int loops_remaining;
 
     virtual ~AudioRepository();
 private:
 
  std::map <string,  PT(AudioSound)> audio;
+ std::map <string,  PT(AudioSound)> bgm;
  PT(AudioManager) AM;
- PT(AudioSound) sound;
+ PT(AudioManager) bgm_AM;
+ PT(AudioSound) current_bgm;
+ static bool is_stopped;
+ bool using_security_loop;
+ float position_before_stop;
 
 };
 

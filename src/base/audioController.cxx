@@ -22,6 +22,7 @@ PT(AudioController) AudioController::get_instance() {
 AudioController::AudioController() {
 	frog_delay = false;
 	is_running = false;
+	bgm_number = 1;
 	audio_repository = new AudioRepository();
 	event_handler->add_hook(TimeControl::EV_pass_minute, play_bgm, this);
 }
@@ -33,15 +34,48 @@ PT(AudioRepository) AudioController::get_audio_repository() {
 }
 
 void AudioController::play_bgm(const Event*, void *data) {
-	if (Sky::current_status == Sky::STATUS_DAY) {
-		AudioController::get_instance()->only_play(AudioRepository::DAY_SOUND, true, 0.5);
+	AudioController* _this = (AudioController*) data;
+
+	if (AudioRepository::loops_remaining == 0) {
+		switch (_this->bgm_number) {
+			case 1:
+				_this->audio_repository->play_bgm("BGM_1", 7, 0.15);
+				break;
+			case 2:
+				_this->audio_repository->play_bgm("BGM_2", 1, 0.3);
+				break;
+			case 3:
+				_this->audio_repository->play_bgm("BGM_3", 10, 0.3);
+				break;
+			case 4:
+				_this->audio_repository->play_bgm("BGM_4", 1, 0.3);
+				break;
+		}
+		_this->bgm_number++;
+		if (_this->bgm_number > 4) {
+			_this->bgm_number = 1;
+		}
 	}
-	else if (Sky::current_status == Sky::STATUS_NIGHT) {
-		AudioController::get_instance()->only_play(AudioRepository::NIGHT_SOUND, true, 0.5);
-	}
-	else {
-		AudioController::get_instance()->only_play(AudioRepository::RAIN_SOUND, true, 0.5);
-	}
+
+	//	if (Sky::current_status == Sky::STATUS_DAY) {
+	//		AudioController::get_instance()->only_play(AudioRepository::DAY_SOUND, true, 0.5);
+	//	}
+	//	else if (Sky::current_status == Sky::STATUS_NIGHT) {
+	//		AudioController::get_instance()->only_play(AudioRepository::NIGHT_SOUND, true, 0.5);
+	//	}
+	//	else {
+	//		AudioController::get_instance()->only_play(AudioRepository::RAIN_SOUND, true, 0.5);
+	//	}
+}
+
+void AudioController::predator_pursuing() {
+	audio_repository->pause_bgm();
+	audio_repository->play_bgm_infinitely("BGM_predator", 0.4);
+}
+
+void AudioController::pursuit_finished() {
+	audio_repository->stop_bgm("BGM_predator");
+	audio_repository->unpause_bgm();
 }
 
 void AudioController::only_play(string sound_name, bool unique, float volume) {
@@ -82,7 +116,7 @@ bool AudioController::make_audio3d(int max_dist, NodePath obj, string audio_name
 AsyncTask::DoneStatus AudioController::finish_frog_delay(GenericAsyncTask* task, void* data) {
 	AudioController* _this = (AudioController*) data;
 	_this->frog_delay = false;
-    return AsyncTask::DS_done;
+	return AsyncTask::DS_done;
 }
 
 void AudioController::bobbing() {

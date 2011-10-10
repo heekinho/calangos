@@ -33,6 +33,8 @@ public:
 	static AsyncTask::DoneStatus loop_running(GenericAsyncTask* task, void* data);
 	void play_warning();
 	static void play_bgm(const Event*, void *data);
+	void predator_pursuing();
+	void pursuit_finished();
 
 private:
 	AudioController();
@@ -40,6 +42,7 @@ private:
 	PT(AudioRepository) audio_repository;
 	bool frog_delay;
 	bool is_running;
+	int bgm_number;
 };
 
 #endif /* AUDIOCONTROLLER_H */

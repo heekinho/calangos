@@ -21,11 +21,15 @@ const string AudioRepository::DAY_SOUND = "day_sound";
 const string AudioRepository::NIGHT_SOUND = "night_sound";
 const string AudioRepository::RAIN_SOUND = "rain_sound";
 bool AudioRepository::playing = false;
+bool AudioRepository::is_stopped = false;
+int AudioRepository::loops_remaining = 0;
 
 AudioRepository::AudioRepository() {
 
     AM= AudioManager::create_AudioManager();
-
+    bgm_AM = AudioManager::create_AudioManager();
+    is_stopped = false;
+    using_security_loop = false;
     load_audio();
 
 
@@ -65,6 +69,11 @@ AudioRepository::AudioRepository() {
 	 add_audio(DAY_SOUND,"models/sounds/forest+wind2.wav");
 	 add_audio(NIGHT_SOUND,"models/sounds/night+wind.wav");
 	 add_audio(RAIN_SOUND,"models/sounds/rain_1.mp3");
+	 add_bgm("BGM_1","models/sounds/AncientLand.wav");
+	 add_bgm("BGM_2","models/sounds/midnight-ride.mp3");
+	 add_bgm("BGM_3","models/sounds/Overcome.wav");
+	 add_bgm("BGM_4","models/sounds/iron-man.mp3");
+	 add_bgm("BGM_predator","models/sounds/jungle-run.mp3");
 }
 
  void AudioRepository::add_audio(const string& name, const string& path){
@@ -75,28 +84,94 @@ AudioRepository::AudioRepository() {
 
  }
 
+ void AudioRepository::add_bgm(const string& name, const string& path){
+
+	 PT(AudioSound) a_sound = bgm_AM->get_sound(path);
+	 a_sound->set_finished_event("bgm_finished_evt");
+     bgm[name] = a_sound;
+
+ }
+
  //quando quiser tocar um som é só chamar este método passando o nome
   void AudioRepository::play_sound(const string& name, bool unique, float volume){
 	 if (unique) {
 		 if (playing) return;
 
 		 playing = true;
-		 TimeControl::get_instance()->notify("finished_sound", finished_sound, audio[name], audio[name]->length() + 1);
+		 TimeControl::get_instance()->notify("finished_sound", sound_finished, audio[name], audio[name]->length() + 1);
 	 }
 	 audio[name]->set_volume(volume);
      audio[name]->play();
  }
 
-  AsyncTask::DoneStatus AudioRepository::finished_sound(GenericAsyncTask* task, void* data) {
-	  cout<<"FINISHED_SOUND!"<<endl;
+  AsyncTask::DoneStatus AudioRepository::sound_finished(GenericAsyncTask* task, void* data) {
+	  cout<<"SOUND_FINISHED!"<<endl;
 	  AudioSound* a_sound = (AudioSound*) data;
 	  a_sound->stop();
 	  playing = false;
 	  return AsyncTask::DS_done;
   }
 
+  void AudioRepository::play_bgm(const string& name, int loops, float volume) {
+	  loops_remaining = loops;
+	  TimeControl::get_instance()->notify("finished_bgm_" + name, bgm_finished, bgm[name], bgm[name]->length());
+	  bgm[name]->set_volume(volume);
+	  bgm[name]->set_loop(true);
+	  bgm[name]->play();
+	  current_bgm = bgm[name];
+  }
+
+  void AudioRepository::pause_bgm() {
+	  is_stopped = true;
+	  if (!using_security_loop) {
+		  loops_remaining++;
+		  using_security_loop = true;
+	  }
+	  position_before_stop = current_bgm->get_time();
+	  current_bgm->stop();
+  }
+
+  void AudioRepository::unpause_bgm() {
+	  is_stopped = false;
+	  current_bgm->set_time(position_before_stop);
+	  current_bgm->play();
+  }
+
+  void AudioRepository::play_bgm_infinitely(const string& name, float volume) {
+	  bgm[name]->set_volume(volume);
+	  bgm[name]->set_loop(true);
+	  bgm[name]->play();
+  }
+
+  // Esse método só deve ser usado para parar uma bgm que foi tocada pelo método
+  // play_bgm_infinitely, porque as outras já tem o método bgm_finished para cuidar disso.
+  void AudioRepository::stop_bgm(const string& name) {
+	  bgm[name]->stop();
+  }
+
+  AsyncTask::DoneStatus AudioRepository::bgm_finished(GenericAsyncTask* task, void* data) {
+	  cout<<"BGM_FINISHED!"<<endl;
+	  if (is_stopped) return AsyncTask::DS_again;
+
+	  AudioSound* a_sound = (AudioSound*) data;
+	  //a_sound->stop();
+
+	  loops_remaining--;
+	  if (loops_remaining != 0) {
+		  //a_sound->play();
+		  return AsyncTask::DS_again;
+	  }
+
+	  a_sound->stop();
+	  return AsyncTask::DS_done;
+  }
+
   PT(AudioSound) AudioRepository::get_audio(string name) {
 	  return audio[name];
+  }
+
+  PT(AudioSound) AudioRepository::get_bgm(string name) {
+  	  return bgm[name];
   }
 
  PT(AudioManager) AudioRepository::get_audioManager(){

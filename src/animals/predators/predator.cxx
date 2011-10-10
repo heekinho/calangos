@@ -6,6 +6,7 @@
 
 #include "collision.h"
 #include "antialiasAttrib.h"
+#include "audioController.h"
 
 bool Predator::pursuing = false;
 
@@ -182,6 +183,9 @@ void Predator::act(){
 					if(!this->get_anim_control()->is_playing("comer") && !get_anim_control()->is_playing("andar")){
 						play_anim("andar");
 					}
+					if (pursuing) {
+						AudioController::get_instance()->pursuit_finished();
+					}
 					pursuing = false;
 					Animal::act();
 					return;
@@ -189,6 +193,7 @@ void Predator::act(){
 			}
 
 			if (!pursuing) {
+				AudioController::get_instance()->predator_pursuing();
 				pursuing = true;
 				GuiManager::get_instance()->activate_predator_alert(this);
 			}
