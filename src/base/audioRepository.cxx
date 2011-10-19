@@ -30,6 +30,7 @@ AudioRepository::AudioRepository() {
     bgm_AM = AudioManager::create_AudioManager();
     is_stopped = false;
     using_security_loop = false;
+    sfx_volume_percent = 1;
     load_audio();
 
 
@@ -100,7 +101,8 @@ AudioRepository::AudioRepository() {
 		 playing = true;
 		 TimeControl::get_instance()->notify("finished_sound", sound_finished, audio[name], audio[name]->length() + 1);
 	 }
-	 audio[name]->set_volume(volume);
+	 cout<<"volume_percent = "<<sfx_volume_percent<<endl;
+	 audio[name]->set_volume(volume * sfx_volume_percent);
      audio[name]->play();
  }
 
@@ -176,6 +178,14 @@ AudioRepository::AudioRepository() {
 
  PT(AudioManager) AudioRepository::get_audioManager(){
      return AM;
+ }
+
+ float AudioRepository::get_sfx_volume_percent() {
+	 return sfx_volume_percent;
+ }
+
+ void AudioRepository::set_sfx_volume_percent(float percent) {
+	 sfx_volume_percent = percent;
  }
 
 

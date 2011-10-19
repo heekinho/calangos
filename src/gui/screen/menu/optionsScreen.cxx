@@ -61,6 +61,7 @@ void OptionsScreen::video_action(){
 
 void OptionsScreen::audio_action(){
 	nout << "Tela de audio..." << endl;
+	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_audio_options_screen());
 }
 
 void OptionsScreen::controles_action(){
