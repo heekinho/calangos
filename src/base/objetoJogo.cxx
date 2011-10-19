@@ -44,6 +44,8 @@ void ObjetoJogo::init(){
 	calc_size_from_bounds();
 	_screen_status_enabled = true;
 	//event_handler->add_hook(PlayerControl::get_instance()->EV_player_move, update_screen_status, this);
+	//Subsector inicial.
+	subsector = LPoint2d(0 , 0);
 }
 
 /* Destrói o ObjetoJogo */
@@ -202,6 +204,10 @@ void ObjetoJogo::has_moved(){
 			if(World::get_world()->get_terrain()){
 				if (parent_sector != NULL){
 					parent_sector->update_object_sector((PT(ObjetoJogo)) this);
+					if(this->get_pos()==player->get_pos()){
+						this->update_subsector();
+						World::get_world()->get_terrain()->update_closest_sectors(this->get_setor(), this->get_subsector());
+					}
 				}
 
 				//WARNING: Não utilizar "update_object_z()" dentro desta classe.
@@ -280,10 +286,55 @@ void ObjetoJogo::set_offset_z(double offset){
 	set_z(World::get_world()->get_terrain()->get_elevation(get_x(), get_y()) + offset);
 }
 
+//Um setor possui 4 subsetores, divididos igualmente a partir do meio do setor
+LPoint2d ObjetoJogo::get_subsector(){
+	return subsector;
+}
 
+void ObjetoJogo::set_subsector(LPoint2d new_subsector){
+	subsector = new_subsector;
+}
+//Determina o novo subsetor de um objeto a depender de sua nova posição
+void ObjetoJogo::update_subsector(){
 
+	PT(Setor) sector = this->get_setor();
 
+	float pos_x = this->get_x();//Posição do Objeto
+	float pos_y = this->get_y();
 
+	float x_start = sector->get_pos_start().get_x();
+	//cout<
+	float y_start = sector->get_pos_start().get_y();
+	float x_end = sector->get_pos_end().get_x();
+	float y_end = sector->get_pos_end().get_y();
+
+	float x_mid = (x_start + x_end)/2; // Centro do setor
+	float y_mid = (y_start + y_end)/2;
+
+	if(pos_x >= x_mid){
+		if(pos_y >= y_mid){
+			subsector = LPoint2d(1 , 1);
+			return;
+		}
+
+		else{//pos_y < y_mid
+			subsector = LPoint2d(1 , -1);
+			return;
+		}
+	}
+
+	else{//pos_x < x_mid
+		if(pos_y >= y_mid){
+			subsector = LPoint2d(-1 , 1);
+			return;
+		}
+
+		else{//pos_y < y_mid
+			subsector = LPoint2d(-1 , -1);
+			return;
+		}
+	}
+}
 
 
 

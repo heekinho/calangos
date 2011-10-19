@@ -8,6 +8,7 @@ Setor::Setor(LPoint2d inicio, LPoint2d fim, int indice){
 	this->_pos_end = fim;
 	this->_indice = indice;
 	this->_player_sector_neighbor = false;
+	this->_player_closest_sector = false;
 
 	_vegetals = NodePath("sectorVegetals");
 	_vegetals.reparent_to(Vegetal::visible_vegetals_placeholder);
@@ -113,6 +114,13 @@ LPoint2d Setor::get_pos_start(){
 /*! Obtém o ponto onde termina o setor */
 LPoint2d Setor::get_pos_end(){
 	return _pos_end;
+}
+/*!Se o setor estiver próximo do subsetor do player*/
+void Setor::set_is_closest_sector(bool is_closest){
+	_player_closest_sector = is_closest;
+}
+bool Setor::get_is_closest_sector(){
+	return _player_closest_sector;
 }
 
 /*! Obtém uma posição aleatória dentro do setor */

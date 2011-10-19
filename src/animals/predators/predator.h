@@ -72,7 +72,10 @@ private:
 
 
 	void pursuit();
+	void pursuit(const NodePath &other);
+
 	void bite();
+	//void bite(const NodePath &other);
 
 	float visibility_distance;
 

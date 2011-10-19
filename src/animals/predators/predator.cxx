@@ -85,6 +85,7 @@ Predator::Predator(NodePath node, Predator::types_predator type) : Animal(node){
 		debug_visibility_circle.show();
 		debug_visibility_circle.set_antialias(AntialiasAttrib::M_line);
 	}
+
 }
 
 Predator::~Predator(){}
@@ -150,35 +151,17 @@ void Predator::load_predator(Predator::types_predator type , int qtd, float scal
  * O predador basicamente perambula, e ao encontrar o lagarto dentro de uma
  * certa distância ele parte para o ataque */
 void Predator::act(){
-
+/*TODO:Verificar se o predador está no mesmo setor do player, ou um setor próximo*/
 
 	float distance = this->get_distance_pursuit();
 	float eat_thr = this->get_distance_bite();
 
 	if(Session::get_instance()->get_level() == 1){
+
+		/*Verificação de ataque/perseguição/mordida no player*/
 		if(get_distance_squared(*player) < distance*distance){
 			if (get_distance_squared(*player) < eat_thr*eat_thr) bite();
 			else{
-				//				PT(Setor) setor = World::get_world()->get_terrain()->get_setor_from_pos(player->get_x(), player->get_y());
-				//				SectorItems<PT(Vegetal)>* vegetal_list = setor->vegetals();
-				//				SectorItems<PT(Vegetal)>::iterator it;
-				//				for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it){
-				//					PT(Vegetal) vegetal = *it;
-				//					LVector3f player_to_vegetal = player->get_pos() - vegetal->get_pos();
-				//
-				//
-				//
-				//
-				//					if (player_to_vegetal.length_squared() < Predator::dist_player_hide || player->is_in_toca()){
-				//						if(!this->get_anim_control()->is_playing("comer") && !get_anim_control()->is_playing("andar")){
-				//							play_anim("andar");
-				//						}
-				//						pursuing = false;
-				//						Animal::act();
-				//						return;
-				//					}
-				//				}
-
 				if (player->is_under_vegetal() || player->is_in_toca()){
 					if(!this->get_anim_control()->is_playing("comer") && !get_anim_control()->is_playing("andar")){
 						play_anim("andar");
@@ -200,6 +183,7 @@ void Predator::act(){
 			pursuit();
 
 		}
+
 		else {
 			play_anim("andar");
 			Animal::act();
@@ -261,7 +245,7 @@ void Predator::change_sector(PT(Setor) new_sector){
 	reparent_to(get_setor()->get_root());
 }
 
-/*! Roda comportamento de perseguição */
+/*! Roda comportamento de perseguição, alvo: player */
 void Predator::pursuit(){
 	if(!this->get_anim_control()->is_playing("comer")){
 		play_anim("andar");
@@ -272,7 +256,8 @@ void Predator::pursuit(){
 	}
 }
 
-/*! Roda comportamento de mordida/comer */
+
+/*! Roda comportamento de mordida/comer, alvo:player */
 void Predator::bite(){
 	if(!this->get_anim_control()->is_playing("comer") && !player->being_bited()){
 		get_anim_control()->stop_all();
@@ -286,6 +271,7 @@ void Predator::bite(){
 		GuiManager::get_instance()->piscar_life();
 	}
 }
+
 
 /*! Pausa a animação */
 void Predator::pause_animation(){

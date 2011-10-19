@@ -257,6 +257,114 @@ PT(Setor) Terrain::get_setor_from_pos(int x, int y){
 	return _setores.at(index);
 }
 
+/*! Obtem os setores mais próximos baseando-se no subsetor. Cada setor é dividido em
+ * quatro subsetores, somentes os setores mais próximos à esses subsetores estão listados*/
+vector<PT(Setor)> *Terrain::get_closest_sectors(){
+	return &closest_sector;
+}
+
+/*! Atualiza os setores mais próximos do subsetor*/
+void Terrain::update_closest_sectors(PT(Setor) s, LPoint2d subsector){
+
+	for(unsigned int i = 0; i < closest_sector.size(); i++){
+		closest_sector.at(i)->set_is_closest_sector(false);
+	}
+
+	closest_sector.clear();
+	if(subsector.get_x() == 1){
+
+		if(subsector.get_y() == 1){//Subsetor Superior Direito
+			//Setor Acima do subsetor
+			LPoint2d clo_sector = s->get_pos_start() + LPoint2d( 0 * (get_x_size()/8) , 1*(get_y_size()/8));
+			PT(Setor) sector_found = get_setor_from_pos(clo_sector);
+			//Considerando o setor próximo ao player
+			sector_found->set_is_closest_sector(true);
+			//Colocando na lista de setores próximos
+			closest_sector.push_back(sector_found);
+
+			//Setor na diagonal ao subsetor
+			clo_sector =  s->get_pos_start() + LPoint2d( 1 * (get_x_size()/8) , 1 * (get_y_size()/8));
+			sector_found = get_setor_from_pos(clo_sector);
+			sector_found->set_is_closest_sector(true);
+			closest_sector.push_back(sector_found);
+
+			//Setor a direita ao subsector
+			clo_sector =  s->get_pos_start() + LPoint2d( 1 * (get_x_size()/8) , 0 * (get_y_size()/8));
+			sector_found = get_setor_from_pos(clo_sector);
+			sector_found->set_is_closest_sector(true);
+			closest_sector.push_back(sector_found);
+			return;
+		}
+
+		else{//Subsetor Inferior Direito
+			//Setor Abaixo do subsetor
+			LPoint2d clo_sector = s->get_pos_start() + LPoint2d( 0 * (get_x_size()/8) , -1*(get_y_size()/8));
+			PT(Setor) sector_found = get_setor_from_pos(clo_sector);
+			sector_found->set_is_closest_sector(true);
+			closest_sector.push_back(sector_found);
+
+			//Setor na diagonal ao subsetor
+			clo_sector =  s->get_pos_start() + LPoint2d( 1 * (get_x_size()/8) , -1 * (get_y_size()/8));
+			sector_found = get_setor_from_pos(clo_sector);
+			sector_found->set_is_closest_sector(true);
+			closest_sector.push_back(sector_found);
+
+			//Setor a direita ao subsector
+			clo_sector =  s->get_pos_start() + LPoint2d( 1 * (get_x_size()/8) , 0 * (get_y_size()/8));
+			sector_found = get_setor_from_pos(clo_sector);
+			sector_found->set_is_closest_sector(true);
+			closest_sector.push_back(sector_found);
+			return;
+		}
+	}
+
+
+	else{
+
+		if(subsector.get_y() == 1){//Subsetor Superior Esquerdo
+			//Setor Acima do subsetor
+			LPoint2d clo_sector = s->get_pos_start() + LPoint2d( 0 * (get_x_size()/8) , 1*(get_y_size()/8));
+			PT(Setor) sector_found = get_setor_from_pos(clo_sector);
+			sector_found->set_is_closest_sector(true);
+			closest_sector.push_back(sector_found);
+
+			//Setor na diagonal do subsetor
+			clo_sector =  s->get_pos_start() + LPoint2d( -1 * (get_x_size()/8) , 1 * (get_y_size()/8));
+			sector_found = get_setor_from_pos(clo_sector);
+			sector_found->set_is_closest_sector(true);
+			closest_sector.push_back(sector_found);
+
+			//Setor a esquerda do subsetor
+			clo_sector =  s->get_pos_start() + LPoint2d( -1 * (get_x_size()/8) , 0 * (get_y_size()/8));
+			sector_found = get_setor_from_pos(clo_sector);
+			sector_found->set_is_closest_sector(true);
+			closest_sector.push_back(sector_found);
+			return;
+		}
+
+		else{//Subsetor Inferior Esquerdo
+
+			//Setor Abaixo do subsetor
+			LPoint2d clo_sector = s->get_pos_start() + LPoint2d(0 * (get_x_size()/8) , -1*(get_y_size()/8));
+			PT(Setor) sector_found = get_setor_from_pos(clo_sector);
+			sector_found->set_is_closest_sector(true);
+			closest_sector.push_back(sector_found);
+
+			//Setor na diagonal do subsetor
+			clo_sector =  s->get_pos_start() + LPoint2d( -1 * (get_x_size()/8) , -1 * (get_y_size()/8));
+			sector_found = get_setor_from_pos(clo_sector);
+			sector_found->set_is_closest_sector(true);
+			closest_sector.push_back(sector_found);
+
+			//Setor a esquerda do subsetor
+			clo_sector =  s->get_pos_start() + LPoint2d( -1 * (get_x_size()/8) , 0 * (get_y_size()/8));
+			sector_found = get_setor_from_pos(clo_sector);
+			sector_found->set_is_closest_sector(true);
+			closest_sector.push_back(sector_found);
+			return;
+		}
+	}
+}
 
 
 /*! Obtem os setores vizinhos... 8 se no meio, 6 se no canto e 3 se no extremo canto. */
@@ -275,23 +383,6 @@ void Terrain::update_adjacent_sectors(PT(Setor) s){
 	}
 	neighborhood.clear();
 
-	// Define a nova vizinhança
-	//	int flagx = -1, flagy = -1;
-	//	for (int i = 0; i < 3; ++i) {
-	//		for (int j = 0; j < 3; ++j) {
-	//			LPoint2d adj_sector = s->get_pos_start() + LPoint2d(flagx * (get_x_size()/8), flagy * (get_y_size()/8));
-	//			//if(has_inside(adj_sector) /* && !((i == 1) && (j == 1))*/){
-	//				PT(Setor) sector_found = get_setor_from_pos(adj_sector);
-	//				if(!sector_found->is_player_neighbor()){
-	//				  sector_found->set_player_neighbor(true);
-	//				  neighborhood.push_back(sector_found);
-	//				}
-	//			//}
-	//			flagx++;
-	//		}
-	//		flagx = -1;
-	//		flagy++;
-	//	}
 	int i = -1;
 	int j = -1;
 	for ( i = -1; i < 2; ++i) {
@@ -305,7 +396,6 @@ void Terrain::update_adjacent_sectors(PT(Setor) s){
 			}
 		}
 	}
-
 
 
 	//

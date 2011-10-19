@@ -56,6 +56,10 @@ public:
 	SectorItems<PT(EdibleVegetal)>* edible_vegetals(){ return &_edible_vegetal_list; };
 	SectorItems<PT(Lizard)>* lizards(){ return &_lizard_list; };
 	SectorItems<PT(ObjetoJogo)>* tocas(){ return &_toca_list; };
+
+	void set_is_closest_sector(bool is_closest);
+	bool get_is_closest_sector();
+
 private:
 	SectorItems<PT(Animal)> _animal_list;
 	SectorItems<PT(Prey)> _prey_list;
@@ -73,6 +77,7 @@ private:
 	int _indice;
 
 	bool _player_sector_neighbor;
+	bool _player_closest_sector;
 	static TypeHandle _type_handle;
 };
 

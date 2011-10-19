@@ -66,6 +66,7 @@ Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_anim
 	Simdunas::get_framework()->define_key("control-d", "debug", update_debug, this);
 
 	event_handler->add_hook(TimeControl::EV_pass_frame, false_flag_under_vegetal, this);
+
 }
 
 /*! Obtem a instancia atual da classe Player. Observe que a classe ja deve ter

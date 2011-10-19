@@ -56,6 +56,10 @@ public:
 	static void update_terrain(const Event*, void *data);
 	//void update_setor(ObjetoJogo *object);
 
+	//Subsectors
+	void update_closest_sectors(PT(Setor) s, LPoint2d Subsector);
+	vector<PT(Setor)> *get_closest_sectors();
+
 	//Métodos auxiliares
 	void update_node_z(NodePath node, double offset = 0);
 	//TODO: Como sobreescrevi o set_z() lá em Object, podemos limar isso aqui depois.
@@ -115,6 +119,8 @@ private:
 
 	// Setores vizinhos ao setor que o player se encontra
 	vector<PT(Setor)> neighborhood;
+	//Setores muito próximos ao subsetor em que o player se encontra
+	vector<PT(Setor)> closest_sector;
 
 
 	PT(ShadowCard) shadows;

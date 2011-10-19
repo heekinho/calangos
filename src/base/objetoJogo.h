@@ -6,6 +6,7 @@
 #include "eventReceiver.h"
 #include "typedReferenceCount.h"
 #include "genericAsyncTask.h"
+#include <typeinfo>
 
 #include "typeHandle.h"
 class Setor;
@@ -34,6 +35,11 @@ public:
 
 	PT(Setor) get_setor();
 	void set_setor(PT(Setor) setor);
+
+	LPoint2d get_subsector();
+	void set_subsector(LPoint2d new_subsector);
+	void update_subsector();
+
 
 	virtual void be_bited();
 	static AsyncTask::DoneStatus blink(GenericAsyncTask* task, void* data);
@@ -104,7 +110,7 @@ protected:
 
 	LVecBase3f _osize, _size;
 
-
+	LPoint2d subsector;
 
 /* Controle de Typed Reference Counting */
 public:
