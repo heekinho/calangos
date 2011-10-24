@@ -31,13 +31,14 @@ AudioRepository::AudioRepository() {
     is_stopped = false;
     using_security_loop = false;
     sfx_volume_percent = 1;
+    bgm_volume_percent = 1;
     load_audio();
 
 
 }
 
  void AudioRepository::load_audio(){
-	 nout <<"Criando Repositodio de Sons..." << endl;
+	 nout <<"Criando Repositorio de Sons..." << endl;
      //para adicionar mais sons é só inserir aqui
      //add_audio("mordida","models/sounds/EAT1.WAV");
      //add_audio("mordida","models/sounds/eating.wav");
@@ -117,7 +118,8 @@ AudioRepository::AudioRepository() {
   void AudioRepository::play_bgm(const string& name, int loops, float volume) {
 	  loops_remaining = loops;
 	  TimeControl::get_instance()->notify("finished_bgm_" + name, bgm_finished, bgm[name], bgm[name]->length());
-	  bgm[name]->set_volume(volume);
+	  cout<<"bgm_volume_percent = "<<bgm_volume_percent<<endl;
+	  bgm[name]->set_volume(volume * bgm_volume_percent);
 	  bgm[name]->set_loop(true);
 	  bgm[name]->play();
 	  current_bgm = bgm[name];
@@ -140,7 +142,7 @@ AudioRepository::AudioRepository() {
   }
 
   void AudioRepository::play_bgm_infinitely(const string& name, float volume) {
-	  bgm[name]->set_volume(volume);
+	  bgm[name]->set_volume(volume * bgm_volume_percent);
 	  bgm[name]->set_loop(true);
 	  bgm[name]->play();
   }
@@ -186,6 +188,14 @@ AudioRepository::AudioRepository() {
 
  void AudioRepository::set_sfx_volume_percent(float percent) {
 	 sfx_volume_percent = percent;
+ }
+
+ float AudioRepository::get_bgm_volume_percent() {
+	 return bgm_volume_percent;
+ }
+
+ void AudioRepository::set_bgm_volume_percent(float percent) {
+	 bgm_volume_percent = percent;
  }
 
 

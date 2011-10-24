@@ -50,6 +50,8 @@ public:
     PT(AudioSound) get_bgm(string name);
     float get_sfx_volume_percent();
     void set_sfx_volume_percent(float percent);
+    float get_bgm_volume_percent();
+	void set_bgm_volume_percent(float percent);
 
     static AsyncTask::DoneStatus sound_finished(GenericAsyncTask* task, void* data);
     static AsyncTask::DoneStatus bgm_finished(GenericAsyncTask* task, void* data);
@@ -70,6 +72,7 @@ private:
  bool using_security_loop;
  float position_before_stop;
  float sfx_volume_percent;
+ float bgm_volume_percent;
 
 };
 

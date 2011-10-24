@@ -25,12 +25,16 @@ public:
 private:
 
 	/* Componentes do Menu */
+	PT(TextNode) lb_titulo;				NodePath np_lb_titulo;
 	PT(TextNode) lb_efeitos_sonoros;	NodePath np_lb_efeitos_sonoros;
-	PT(TextNode) lb_titulo;			NodePath np_lb_titulo;
-	PT(PGButton) btn_mais;			NodePath np_btn_mais;			NodePath img_btn_mais;			ACTION(increase_volume_action);
-	PT(PGButton) btn_menos;			NodePath np_btn_menos;			NodePath img_btn_menos;			ACTION(decrease_volume_action);
-	PT(PGSliderBar) slide;
-	NodePath np_slide;																				ACTION(slide_action);
+	PT(PGButton) btn_mais;				NodePath np_btn_mais;			NodePath img_btn_mais;			ACTION(increase_volume_action);
+	PT(PGButton) btn_menos;				NodePath np_btn_menos;			NodePath img_btn_menos;			ACTION(decrease_volume_action);
+	PT(PGSliderBar) slide;				NodePath np_slide;												ACTION(slide_action);
+
+	PT(TextNode) lb_musicas;			NodePath np_lb_musicas;
+	PT(PGButton) btn_mais_2;			NodePath np_btn_mais_2;			NodePath img_btn_mais_2;		ACTION(increase_volume_action_2);
+	PT(PGButton) btn_menos_2;			NodePath np_btn_menos_2;		NodePath img_btn_menos_2;		ACTION(decrease_volume_action_2);
+	PT(PGSliderBar) slide_2;			NodePath np_slide_2;											ACTION(slide_action_2);
 };
 
 #undef ACTION
