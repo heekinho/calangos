@@ -42,6 +42,7 @@ private:
 	PT(AudioRepository) audio_repository;
 	bool frog_delay;
 	bool is_running;
+	bool is_still_dangerous_temp;
 	int bgm_number;
 };
 

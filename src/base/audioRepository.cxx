@@ -130,6 +130,7 @@ AudioRepository::AudioRepository() {
 		  loops_remaining++;
 		  using_security_loop = true;
 	  }
+	  // esse método get_time() não está funcionando. T_T
 	  position_before_stop = current_bgm->get_time();
 	  current_bgm->stop();
   }
