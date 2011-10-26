@@ -102,7 +102,6 @@ AudioRepository::AudioRepository() {
 		 playing = true;
 		 TimeControl::get_instance()->notify("finished_sound", sound_finished, audio[name], audio[name]->length() + 1);
 	 }
-	 cout<<"volume_percent = "<<sfx_volume_percent<<endl;
 	 audio[name]->set_volume(volume * sfx_volume_percent);
      audio[name]->play();
  }
