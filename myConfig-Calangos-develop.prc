@@ -87,6 +87,7 @@ show-frame-rate-meter  #t
 #audio-library-name p3fmod_audio
 audio-library-name p3openal_audio
 audio-preload-threshold 100000000
+audio-cache-limit 30
 
 # Enable the use of the new movietexture class.
 use-movietexture #t
