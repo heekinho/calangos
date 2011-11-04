@@ -22,6 +22,8 @@ PT(AudioController) AudioController::get_instance() {
 AudioController::AudioController() {
 	frog_delay = false;
 	is_running = false;
+	is_still_dangerous_temp = false;
+	flag_stop_warning = false;
 	bgm_number = 1;
 	audio_repository = new AudioRepository();
 	event_handler->add_hook(TimeControl::EV_pass_minute, play_bgm, this);
@@ -129,19 +131,30 @@ void AudioController::warning_temp(double intern_temp, double extern_temp, doubl
 	// fosse 5 o alerta ficaria tocando mesmo o player estando na sombra.
 	if (intern_temp > (max_temp - 4)) {
 		if (intern_temp < extern_temp) {
+			is_still_dangerous_temp = true;
+			flag_stop_warning = false;
+			TimeControl::get_instance()->notify("dangerous_temp_verifier", dangerous_temp_verifier, this, 3);
 			audio_repository->play_sound(AudioRepository::WARNING, false, 0.5);
 		}
 		else {
-			audio_repository->play_sound(AudioRepository::WARNING, false, 0.25);
+			is_still_dangerous_temp = false;
+			if (!flag_stop_warning) {
+				audio_repository->play_sound(AudioRepository::WARNING, false, 0.25);
+			}
 		}
 		GuiManager::get_instance()->get_game_status_bar()->temperatura_critica_on();
 	}
 	else if (intern_temp < (min_temp + 4)) {
 		if (intern_temp > extern_temp) {
+			is_still_dangerous_temp = true;
+			flag_stop_warning = false;
 			audio_repository->play_sound(AudioRepository::WARNING, false, 0.5);
 		}
 		else {
-			audio_repository->play_sound(AudioRepository::WARNING, false, 0.25);
+			is_still_dangerous_temp = false;
+			if (!flag_stop_warning) {
+				audio_repository->play_sound(AudioRepository::WARNING, false, 0.25);
+			}
 		}
 		GuiManager::get_instance()->get_game_status_bar()->temperatura_critica_on();
 	}
@@ -198,6 +211,14 @@ AsyncTask::DoneStatus AudioController::loop_running(GenericAsyncTask* task, void
 	PlayerControl* playerCtrl = PlayerControl::get_instance();
 	_this->audio_repository->play_sound(AudioRepository::RUNNING);
 	return AsyncTask::DS_again;
+}
+
+AsyncTask::DoneStatus AudioController::dangerous_temp_verifier(GenericAsyncTask* task, void* data) {
+	AudioController* _this = (AudioController*) data;
+	if (_this->is_still_dangerous_temp) return AsyncTask::DS_again;
+
+	_this->flag_stop_warning = true;
+	return AsyncTask::DS_done;
 }
 
 void AudioController::play_warning() {

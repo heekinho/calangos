@@ -31,6 +31,7 @@ public:
 	void stop_running();
 	static AsyncTask::DoneStatus finish_dash(GenericAsyncTask* task, void* data);
 	static AsyncTask::DoneStatus loop_running(GenericAsyncTask* task, void* data);
+	static AsyncTask::DoneStatus dangerous_temp_verifier(GenericAsyncTask* task, void* data);
 	void play_warning();
 	static void play_bgm(const Event*, void *data);
 	void predator_pursuing();
@@ -43,6 +44,7 @@ private:
 	bool frog_delay;
 	bool is_running;
 	bool is_still_dangerous_temp;
+	bool flag_stop_warning;
 	int bgm_number;
 };
 
