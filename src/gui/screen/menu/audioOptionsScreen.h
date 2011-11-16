@@ -35,6 +35,11 @@ private:
 	PT(PGButton) btn_mais_2;			NodePath np_btn_mais_2;			NodePath img_btn_mais_2;		ACTION(increase_volume_action_2);
 	PT(PGButton) btn_menos_2;			NodePath np_btn_menos_2;		NodePath img_btn_menos_2;		ACTION(decrease_volume_action_2);
 	PT(PGSliderBar) slide_2;			NodePath np_slide_2;											ACTION(slide_action_2);
+
+	PT(PGButton) btn_bgm_enabled;		NodePath np_btn_bgm_enabled;		NodePath img_btn_bgm_enabled;	ACTION(enable_bgm);
+	PT(PGButton) btn_bgm_disabled;		NodePath np_btn_bgm_disabled;		NodePath img_btn_bgm_disabled;	ACTION(disable_bgm);
+	PT(PGButton) btn_sfx_enabled;		NodePath np_btn_sfx_enabled;		NodePath img_btn_sfx_enabled;	ACTION(disable_sfx);
+	PT(PGButton) btn_sfx_disabled;		NodePath np_btn_sfx_disabled;		NodePath img_btn_sfx_disabled;	ACTION(enable_sfx);
 };
 
 #undef ACTION

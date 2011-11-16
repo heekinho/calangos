@@ -52,6 +52,8 @@ public:
     void set_sfx_volume_percent(float percent);
     float get_bgm_volume_percent();
 	void set_bgm_volume_percent(float percent);
+	void set_sfx_enabled(bool flag);
+	void set_bgm_enabled(bool flag);
 
     static AsyncTask::DoneStatus sound_finished(GenericAsyncTask* task, void* data);
     static AsyncTask::DoneStatus bgm_finished(GenericAsyncTask* task, void* data);
@@ -73,6 +75,8 @@ private:
  float position_before_stop;
  float sfx_volume_percent;
  float bgm_volume_percent;
+ bool is_sfx_enabled;
+ bool is_bgm_enabled;
 
 };
 

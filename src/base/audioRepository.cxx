@@ -30,6 +30,8 @@ AudioRepository::AudioRepository() {
     bgm_AM = AudioManager::create_AudioManager();
     is_stopped = false;
     using_security_loop = false;
+    is_sfx_enabled = true;
+    is_bgm_enabled = true;
     sfx_volume_percent = 1;
     bgm_volume_percent = 1;
     load_audio();
@@ -96,6 +98,8 @@ AudioRepository::AudioRepository() {
 
  //quando quiser tocar um som é só chamar este método passando o nome
   void AudioRepository::play_sound(const string& name, bool unique, float volume){
+	 if (!is_sfx_enabled) return;
+
 	 if (unique) {
 		 if (playing) return;
 
@@ -115,6 +119,8 @@ AudioRepository::AudioRepository() {
   }
 
   void AudioRepository::play_bgm(const string& name, int loops, float volume) {
+	  if (!is_bgm_enabled) return;
+
 	  loops_remaining = loops;
 	  TimeControl::get_instance()->notify("finished_bgm_" + name, bgm_finished, bgm[name], bgm[name]->length());
 	  cout<<"bgm_volume_percent = "<<bgm_volume_percent<<endl;
@@ -125,6 +131,8 @@ AudioRepository::AudioRepository() {
   }
 
   void AudioRepository::pause_bgm() {
+	  if (!is_bgm_enabled) return;
+
 	  is_stopped = true;
 	  if (!using_security_loop) {
 		  loops_remaining++;
@@ -136,12 +144,16 @@ AudioRepository::AudioRepository() {
   }
 
   void AudioRepository::unpause_bgm() {
+	  if (!is_bgm_enabled) return;
+
 	  is_stopped = false;
 	  current_bgm->set_time(position_before_stop);
 	  current_bgm->play();
   }
 
   void AudioRepository::play_bgm_infinitely(const string& name, float volume) {
+	  if (!is_bgm_enabled) return;
+
 	  bgm[name]->set_volume(volume * bgm_volume_percent);
 	  bgm[name]->set_loop(true);
 	  bgm[name]->play();
@@ -150,6 +162,8 @@ AudioRepository::AudioRepository() {
   // Esse método só deve ser usado para parar uma bgm que foi tocada pelo método
   // play_bgm_infinitely, porque as outras já tem o método bgm_finished para cuidar disso.
   void AudioRepository::stop_bgm(const string& name) {
+	  if (!is_bgm_enabled) return;
+
 	  bgm[name]->stop();
   }
 
@@ -196,6 +210,14 @@ AudioRepository::AudioRepository() {
 
  void AudioRepository::set_bgm_volume_percent(float percent) {
 	 bgm_volume_percent = percent;
+ }
+
+ void AudioRepository::set_sfx_enabled(bool flag) {
+	 is_sfx_enabled = flag;
+ }
+
+ void AudioRepository::set_bgm_enabled(bool flag) {
+	 is_bgm_enabled = flag;
  }
 
 
