@@ -10,8 +10,13 @@
 
 #include "pandaFramework.h"
 #include "pgVirtualFrame.h"
+#include "button.h"
+#include "simdunas.h"
 
-class Window {
+#define ACTION(mn) void mn(); \
+static void mn(const Event*, void* d){ ((PT(Window))(Window*)d)->mn(); }
+
+class Window : public ReferenceCount {
 public:
 	Window(NodePath parent, float width = 2, float height = 1, string name = "frame");
 	virtual ~Window();
@@ -32,6 +37,9 @@ private:
 	NodePath np_header_frame;
 	PT(TextNode) header;
 	NodePath np_header;
+	PT(Button) btn_close;		NodePath np_btn_close;		ACTION(close_action);
 };
+
+#undef ACTION
 
 #endif /* WINDOW_H */
