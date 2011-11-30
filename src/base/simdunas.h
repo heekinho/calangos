@@ -69,6 +69,7 @@ public:
 #define render window->get_render()
 #define render2d window->get_render_2d()
 #define aspect2d window->get_aspect_2d()
+#define clickable_render2d Simdunas::get_clickable_render_2d()
 
 #define player Player::get_instance()
 #define global_clock ClockObject::get_global_clock()

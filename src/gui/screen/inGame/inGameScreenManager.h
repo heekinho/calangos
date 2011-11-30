@@ -17,6 +17,7 @@ public:
 
 	PT(Screen) get_pause_screen();
 	PT(Screen) get_game_over_screen();
+	PT(Screen) get_game_interface_screen();
 	void create_menus();
 	PT(TextFont) get_default_font();
 
@@ -27,6 +28,7 @@ private:
 	PT(TextFont) default_menu_font;
 	PT(Screen) pause_screen;
 	PT(Screen) game_over_screen;
+	PT(Screen) game_interface_screen;
 };
 
 #endif

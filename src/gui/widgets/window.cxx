@@ -46,7 +46,8 @@ Window::Window(NodePath parent, float width, float height, string title) {
 	event_handler->add_hook(btn_close->get_click_event(MouseButton::one()), close_action, this);
 	np_btn_close = np_frame.attach_new_node(btn_close);
 	np_btn_close.set_scale(0.6);
-	np_btn_close.set_pos(1.8, 0, 0.08);
+	//TODO verificar a lógica de posicionamento do botão de fechar.
+	np_btn_close.set_pos(np_frame.get_x() + width, 0, np_frame.get_y() + 0.1);
 }
 
 Window::~Window() {

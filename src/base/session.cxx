@@ -115,6 +115,7 @@ void Session::run(){
 	//	}
 
 	GuiManager::get_instance()->show_frameNode();
+	InGameScreenManager::get_instance()->get_game_interface_screen()->show();
 	causa_mortis = -1;
 	Simdunas::get_framework()->do_frame(Thread::get_current_thread());
 
