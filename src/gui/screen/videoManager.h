@@ -24,7 +24,7 @@ public:
 	PT(AudioSound) get_audio_sound();
 	void play(string path);
 	void stop();
-	bool is_playing();
+	static bool is_playing();
 
 private:
 	PT(AudioSound) audio_sound;
@@ -32,7 +32,7 @@ private:
 	PT(MovieTexture) movie_texture;
 	CardMaker* card_maker;
 	NodePath np_card_maker;
-	bool playing;
+	static bool playing;
 };
 
 #endif /* VIDEOMANAGER_H */

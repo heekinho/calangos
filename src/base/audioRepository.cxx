@@ -144,7 +144,7 @@ AudioRepository::AudioRepository() {
   }
 
   void AudioRepository::unpause_bgm() {
-	  if (!is_bgm_enabled) return;
+	  if (!is_bgm_enabled || !is_stopped) return;
 
 	  is_stopped = false;
 	  current_bgm->set_time(position_before_stop);

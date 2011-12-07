@@ -7,8 +7,9 @@
 
 #include "videoManager.h"
 
+bool VideoManager::playing = false;
+
 VideoManager::VideoManager() {
-	playing = false;
 }
 
 VideoManager::~VideoManager() {

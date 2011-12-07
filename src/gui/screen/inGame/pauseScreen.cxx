@@ -11,6 +11,7 @@
 
 #include "simdunas.h"
 #include "inGameScreenManager.h"
+#include "audioController.h"
 
 
 /*! O menu é carregado e escondido. O manager é responsável por escolher o menu */
@@ -108,26 +109,31 @@ bool PauseScreen::is_stopped_time() {
 
 void PauseScreen::lagartos_action() {
 	selected_video = true;
+	AudioController::get_instance()->get_audio_repository()->pause_bgm();
 	manager->play_video("models/videos/clipe_1_lagartos_mpeg4.avi");
 }
 
 void PauseScreen::predadores_action() {
 	selected_video = true;
+	AudioController::get_instance()->get_audio_repository()->pause_bgm();
 	manager->play_video("models/videos/clipe_2_predadores_mpeg4.avi");
 }
 
 void PauseScreen::presas_action() {
 	selected_video = true;
+	AudioController::get_instance()->get_audio_repository()->pause_bgm();
 	manager->play_video("models/videos/clipe_3_presas_mpeg4.avi");
 }
 
 void PauseScreen::clima_action() {
 	selected_video = true;
+	AudioController::get_instance()->get_audio_repository()->pause_bgm();
 	manager->play_video("models/videos/clipe_5_variacoes_climaticas_mpeg4.avi");
 }
 
 void PauseScreen::habitat_action() {
 	selected_video = true;
+	AudioController::get_instance()->get_audio_repository()->pause_bgm();
 	manager->play_video("models/videos/clipe_4_habitat_mpeg4.avi");
 }
 

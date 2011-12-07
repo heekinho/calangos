@@ -10,6 +10,7 @@
 #include "audioController.h"
 #include "mouseButton.h"
 #include "timeControl.h"
+#include "videoManager.h"
 
 bool Button::play_button = true;
 
@@ -80,6 +81,7 @@ void Button::enter_event(const Event*, void *data) {
 
 /*! Evento chamado quanto há um click de mouse */
 void Button::click_event(const Event*, void *data) {
+	if (VideoManager::is_playing()) return;
 	AudioController::get_instance()->only_play(AudioRepository::MOUSE_CLICK);
 }
 

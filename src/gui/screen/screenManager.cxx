@@ -9,6 +9,7 @@
 
 // TODO: Tirar essa depedencia. Talvez fazer aquela ideia de GameFramework.
 #include "simdunas.h"
+#include "audioController.h"
 
 ScreenManager::ScreenManager(){
 	active_screen = NULL;
@@ -80,6 +81,7 @@ void ScreenManager::stop_video(const Event*, void* data) {
 		event_handler->remove_hook(_this->video_manager->get_audio_sound()->get_finished_event(), stop_video, _this);
 
 		_this->video_manager->stop();
+		AudioController::get_instance()->get_audio_repository()->unpause_bgm();
 
 		if (_this->active_screen != NULL) {
 			_this->active_screen->show();
