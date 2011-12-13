@@ -10,8 +10,9 @@
 #include "mouseButton.h"
 
 //TODO efeito ao abrir
-//TODO gets e sets.
 Window::Window(NodePath parent, float width, float height, string title) {
+	this->width = width;
+	this->height = height;
 	frame = new PGVirtualFrame("window");
 	frame->setup(width, height);
 	PGFrameStyle style = frame->get_frame_style(frame->get_state());
@@ -70,4 +71,53 @@ void Window::close_action() {
 	np_frame.remove_node();
 	np_header.remove_node();
 	np_header_frame.remove_node();
+}
+
+NodePath Window::get_np_frame() {
+	return np_frame;
+}
+
+NodePath Window::get_np_header_frame() {
+	return np_header_frame;
+}
+
+string Window::get_header() {
+	return header->get_text();
+}
+
+void Window::set_header(string text) {
+	header->set_text(text);
+}
+
+float Window::get_width() {
+	return width;
+}
+
+void Window::set_width(float width) {
+	frame->setup(width, height);
+	header_frame->setup(width, 0.1);
+}
+
+float Window::get_height() {
+	return height;
+}
+
+void Window::set_height(float height) {
+	frame->setup(width, height);
+}
+
+float Window::get_pos_x() {
+	return np_frame.get_x();
+}
+
+void Window::set_pos_x(float x) {
+	np_frame.set_x(x);
+}
+
+float Window::get_pos_y() {
+	return np_frame.get_y();
+}
+
+void Window::set_pos_y(float y) {
+	np_frame.set_y(y);
 }

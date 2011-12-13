@@ -21,16 +21,22 @@ public:
 	Window(NodePath parent, float width = 2, float height = 1, string name = "frame");
 	virtual ~Window();
 
-	void set_header(string text);
+	NodePath get_np_frame();
+	NodePath get_np_header_frame();
 	string get_header();
-	void set_width(float width);
+	void set_header(string text);
 	float get_width();
-	void set_pos_x(float x);
+	void set_width(float width);
+	float get_height();
+	void set_height(float height);
 	float get_pos_x();
-	void set_pos_y(float y);
+	void set_pos_x(float x);
 	float get_pos_y();
+	void set_pos_y(float y);
 
-private:
+protected:
+	float width;
+	float height;
 	PT(PGVirtualFrame) frame;
 	NodePath np_frame;
 	PT(PGVirtualFrame) header_frame;

@@ -9,6 +9,7 @@
 #include "simdunas.h"
 #include "guiLayer.h"
 #include "fontPool.h"
+#include "achievementsWindow.h"
 
 GameInterfaceScreen::GameInterfaceScreen(PT(ScreenManager) manager) : Screen(manager) {
 	set_root(clickable_render2d);
@@ -40,5 +41,6 @@ void GameInterfaceScreen::hide() {
 }
 
 void GameInterfaceScreen::show_realizacoes_action() {
-	wnd_realizacoes = new Window(get_root(), 1.5, 1, "Realizações");
+	//wnd_realizacoes = new Window(get_root(), 1.5, 1, "Realizações");
+	wnd_realizacoes = new AchievementsWindow(get_root(), 1.5, 1, "Realizações");
 }

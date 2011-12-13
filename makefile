@@ -35,6 +35,7 @@ LDFLAGS 		= 	$(LIBPANDA)
 SUBDIRS = src src/animals src/animals/predators src/animals/prey src/animals/lizards \
 		  src/cameras src/gui src/gui/screen src/gui/screen/menu src/gui/screen/inGame src/base \
 		  src/gui/hint src/gui/widgets src/vegetation src/weather src/world src/player src/gui/editor \
+		  src/gui/screen/inGame/window
 
 INCFLAGS += $(patsubst %,-I%,$(SUBDIRS))
 SRC := $(foreach dir,$(SUBDIRS),$(wildcard $(dir)/*.cxx))

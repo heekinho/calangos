@@ -59,6 +59,8 @@ void ImageRepository::load_images(){
 	add_image("predator_down", "models/gui/arrow-down2.png");
 	add_image("v", "models/buttons/v.png");
 	add_image("x", "models/buttons/x.png");
+	add_image("white_star", "models/gui/white-star-hi.png");
+	add_image("yellow_star", "models/gui/yellow-star-hi.png");
 }
 
 
