@@ -4,6 +4,7 @@
 #include "animatedObjetoJogo.h"
 #include "animal.h"
 
+
 class Predator : public Animal {
 public:
 
@@ -17,6 +18,13 @@ public:
 		coruja
 	};
 
+	enum act_states{
+		walking,
+		pursuing_act,
+		biting,
+	};
+
+
 
 
 	Predator(NodePath node,Predator::types_predator type);
@@ -27,12 +35,15 @@ public:
 	static void load_predator(Predator::types_predator type, int qtd, float scale,
 			int orientation = -1, Activity activity = Animal::A_day);
 
+	static void event_psegundo_change_state(const Event *, void *data);
+	void change_state();
 
 	virtual void act();
 	virtual void pause_animation();
 	virtual void continue_animation();
 	virtual void change_sector(PT(Setor) new_sector);
 
+	void chance_act_state();
 
 	string get_type_predator() const;
 	void set_type_predator(string type);
@@ -40,11 +51,14 @@ public:
 	/*Tipos de predadores*/
 
 	types_predator tipo_predator_enum;
+
 	static string get_predator_type(Predator::types_predator type);
 
 	void set_tipo_predator_enum(Predator::types_predator type);
 	Predator::types_predator get_tipo_predator_enum();
 
+	Predator::act_states get_state();
+	void set_state(Predator::act_states);
 
 	virtual float get_visibility();
 
@@ -68,14 +82,31 @@ public:
 	static bool pursuing;
 
 	static float const dist_player_hide = 3.5*3.5;
+	static float const dist_to_hunt = 10*10;
+	static float const dist_to_bite = 0.3;
+
+	float predator_to_prey;
+
+	PT(AnimatedObjetoJogo) get_prey();
+	void set_prey(PT(AnimatedObjetoJogo) other);
+
+	bool get_hunting();
+	void set_huntig(bool hunt);
+
+
+
 private:
 
+	void act_fase_2();
+
+	act_states act_state; //Estado atual do predador
 
 	void pursuit();
 	void pursuit(const NodePath &other);
 
 	void bite();
-	//void bite(const NodePath &other);
+	void bite_other();
+	bool find_prey();
 
 	float visibility_distance;
 
@@ -87,6 +118,10 @@ private:
 	string type_predator;
 	float distance_pursuit;
 	float distance_bite;
+
+	PT(AnimatedObjetoJogo) prey;
+	bool hunting_lizard;//Se está perseguindo ou caçando alguma presa
+	bool hunting_player;
 
 	/* Testando som */
 	//	PT(AudioManager) AM;

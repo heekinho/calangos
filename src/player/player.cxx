@@ -41,8 +41,10 @@ Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_anim
 	player_is_under_vegetal = false;
 
 	_courted_female = NULL;
+	predator = NULL;
 	_captured = false;
 	_is_buried = false;
+	hunted = false;
 
 	//int especie = Menu::get_instance()->get_especie();
 	load_health(lizard_specie);
@@ -391,16 +393,23 @@ void Player::event_psegundo_camuflagem(const Event *, void *data){
 	}
 }
 
-
+/*Método que seta atributo como false a cada mudança de frame*/
 void  Player::false_flag_under_vegetal(const Event *, void *data){
 	player->set_false_verify_under_vegetal();
-
 }
-
+/*Quando acontece a chamada de método que verifica se player esta embaixo de uma arvore,
+ *  este flag é setado falso, assim, outros predadores não chamarão o mesmo método novamente*/
 void Player::set_false_verify_under_vegetal(){
 	flag_verify_under_vegetal = false;
 }
 
+void Player::set_predator(PT(Predator) other){
+	this->predator = other;
+}
+
+PT(Predator) Player::get_predator(){
+	return this->predator;
+}
 
 bool Player::is_under_vegetal(){
 	//Verifica se o player está de baixo de um vegetal
@@ -432,28 +441,7 @@ bool Player::is_under_vegetal(){
 	}
 
 	//Caso o player não esteja sob nenhum vegetal de seu setor, procura-se nos vegetais dos setores adjacentes
-	//
-	//		PT(Terrain) terrain = World::get_world()->get_terrain();
-	//		int max_sectors = Terrain::MAX_SETORES;
-	//
-	//		for(int i =0 ; i< max_sectors;i++){
-	//		PT(Setor) setor = terrain->get_setor(i);
-	//		if(setor->is_player_neighbor()){
-	//			SectorItems<PT(Vegetal)>* vegetal_list = setor->vegetals();
-	//
-	//			for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it){
-	//								PT(Vegetal) vegetal = *it;
-	//								LVector3f player_to_vegetal = player->get_pos() - vegetal->get_pos();
-	//
-	//								if (player_to_vegetal.length_squared() < Predator::dist_player_hide){
-	//
-	//										player_is_under_vegetal = true;
-	//										return player_is_under_vegetal;
-	//								}
-	//			}
-	//
-	//		}
-	//	}
+
 
 	PT(Terrain) terrain = World::get_world()->get_terrain();
 	vector<PT(Setor)>* neighborhood = terrain->get_adjacent_sectors();

@@ -40,6 +40,7 @@ public:
 	void set_subsector(LPoint2d new_subsector);
 	void update_subsector();
 
+	bool under_vegetal();
 
 	virtual void be_bited();
 	static AsyncTask::DoneStatus blink(GenericAsyncTask* task, void* data);
@@ -111,7 +112,7 @@ protected:
 	LVecBase3f _osize, _size;
 
 	LPoint2d subsector;
-
+	bool hunted;
 /* Controle de Typed Reference Counting */
 public:
 	virtual TypeHandle get_type() const { return get_class_type(); }
@@ -121,8 +122,15 @@ public:
 		TypedReferenceCount::init_type();
 		register_type(_type_handle, "ObjetoJogo", TypedReferenceCount::get_class_type());
 	}
+
+
+	void set_hunted(bool hunted);
+	bool get_hunted();
 private:
 	static TypeHandle _type_handle;
+
+
+
 };
 
 #include "objetoJogo.I"

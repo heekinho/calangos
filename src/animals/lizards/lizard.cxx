@@ -49,6 +49,10 @@ void Lizard::init(){
 	tempo_na_sombra = 0;
 	ficar_na_sombra = false;
 
+
+	this->predator =  NULL;
+	this->hunted = false;
+
 //	clear_actions();
 //	config_anims_to_action();
 //	play_action_anims();
@@ -161,38 +165,94 @@ void Lizard::check_temp(const Event *theEvent, void *data){
 }
 
 void Lizard::act(){
-	if(ficar_na_sombra && (arvore_da_sombra != NULL)){
+	/*Se o lizard estiver sendo caçado, ele não caminhará para a sombra inicialmente
+	 * primeiro, ele fugirá, e somente depois, procurará por um novo vegetal para se
+	 * esconder do predador*/
+
+	if(ficar_na_sombra && (arvore_da_sombra != NULL) && !hunted){
 		if(! World::get_world()->get_terrain()->get_shadows()->is_in_shadow(*this)){
 			look_at(*arvore_da_sombra);
 			move(get_velocity()*1.5);
 			return;
 		}
 	}
-	Animal::act();
+	//Se o lizard estiver sendo caçado
+	if(hunted){
+		flee(*predator);
+
+	}
+	else{
+		Animal::act();
+	}
+
 }
+
 
 
 void Lizard::flee(){
-	if(!has_other_anim_active("walk")){
+	flee(*player);
+
+}
+
+void Lizard::flee(const NodePath &other){
+//	if(!has_other_anim_active("walk")){
 		play_anim("walk");
 
 		/* Comportamento */
-		look_at(*player);  //TODO: Corrigir depois para não permitir muito giro.
+		look_at(other);  //TODO: Corrigir depois para não permitir muito giro.
 		set_h(*this, 180); // Corrige modelo errado
 
 		this->move(VEL_RUN);
-	}
+//	}
 }
-
-
+/*! se esconder na árvore mais próxima dele */
+//bool Lizard::hide(){
+//	//Atualização de árvore mais proxima
+//	this->arvore_da_sombra = this->get_setor()->vegetals()->get_closest_to(this->get_pos());
+//	if(this->arvore_da_sombra == NULL){
+//		flee(this->predator);
+//		return false;
+//	}
+////Verifica se o lizard está mais próximo da árvore que o predador
+//	if(this->get_distance_squared(this->arvore_da_sombra) < this->predator()->get_distance_squared(this->arvore_da_sombra)){
+//		if(!has_other_anim_active("walk")){
+//
+//				play_anim("walk");
+//				look_at(this->arvore_da_sombra);
+//				this->move(VEL_RUN);
+//				return true;
+//			}
+//	}
+//	else{
+//		flee(this->predator);
+//		return false;
+//	}
+//}
 
 void Lizard::change_sector(PT(Setor) new_sector){
 	get_setor()->lizards()->remove(this);
 	new_sector->lizards()->push_back(this);
 
+//Se o novo setor do lizard não estiver próximo do player, ele deixará de ser perseguido.
+//	if(!new_sector->get_is_closest_sector()){
+//		this->predator->get_prey() = NULL;
+//
+//		this->predator->set_huntig(false);
+//		this->predator = NULL;
+//
+//	}
+
 	reparent_to(get_setor()->get_root());
          //mudando de nodepath
         //this->reparent_to(Terrain::create_default_terrain()->no_setores[new_sector->get_indice()]);
+}
+
+void Lizard::set_predator(PT(Predator) other){
+	this->predator = other;
+}
+
+PT(Predator) Lizard::get_predator(){
+	return this->predator;
 }
 
 

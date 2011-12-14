@@ -3,6 +3,8 @@
 
 #include "animal.h"
 #include "vegetal.h"
+#include "predator.h"
+
 
 namespace LizardEspecie {
 	enum lizardEpecie {tropidurus , eurolophosaurus, cnemidophorus};
@@ -19,6 +21,8 @@ public:
 	~Lizard();
 
 	virtual void act();
+//	virtual void new_act();
+
 	static void check_temp(const Event *theEvent, void *data);
 
 	void init();
@@ -57,12 +61,19 @@ public:
 	virtual void wander(){};
 	virtual void bite(){};
 	virtual void flee();
+	virtual void flee(const NodePath &other);
 	virtual void chase(){};
+//	virtual bool hide(){};
+
 
 	//virtual void move(float velocity);
 
 	virtual void continue_animation();
 	virtual void pause_animation();
+
+	void set_predator(PT(Predator) other);
+	PT(Predator) get_predator();
+
 protected:
 	/* Mapeia as ações */
 	map<string, bool> actions;
@@ -74,13 +85,17 @@ protected:
 	float scale_temp;
 	float scale;
 
+	PT(Predator) predator;
 private:
 	bool ficar_na_sombra;
 	int tempo_no_sol_thr;
 	int tempo_na_sombra_thr;
 	int tempo_no_sol;
 	int tempo_na_sombra;
+
 	PT(Vegetal) arvore_da_sombra;
+
+
 };
 
 #endif

@@ -20,6 +20,8 @@ public:
 	static void act(const Event*, void *data);
 	virtual void act();
 
+
+
 	//virtual void has_moved();
 	virtual void change_sector(PT(Setor) new_sector) = 0;
 	static void redistribute_animals();

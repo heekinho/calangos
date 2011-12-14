@@ -46,6 +46,7 @@ void ObjetoJogo::init(){
 	//event_handler->add_hook(PlayerControl::get_instance()->EV_player_move, update_screen_status, this);
 	//Subsector inicial.
 	subsector = LPoint2d(0 , 0);
+//	hunted = false;
 }
 
 /* Destrói o ObjetoJogo */
@@ -291,6 +292,46 @@ LPoint2d ObjetoJogo::get_subsector(){
 	return subsector;
 }
 
+
+/*Verifica se o animal esa debaixo de um vegetal de seu setor*/
+bool ObjetoJogo::under_vegetal(){
+	PT(Setor) setor = World::get_world()->get_terrain()->get_setor_from_pos(this->get_x(), player->get_y());
+	SectorItems<PT(Vegetal)>* vegetal_list = setor->vegetals();
+	SectorItems<PT(Vegetal)>::iterator it;
+
+	bool animal_is_under_vegetal;
+
+	for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it){
+		PT(Vegetal) vegetal = *it;
+		LVector3f animal_to_vegetal = this->get_pos() - vegetal->get_pos();
+		if (animal_to_vegetal.length_squared() < Predator::dist_player_hide){
+
+			animal_is_under_vegetal = true;
+
+			return animal_is_under_vegetal;
+		}
+
+	}
+
+	if(!animal_is_under_vegetal) {
+//		cout<<"False"<<endl;
+	return false;
+	}
+}
+
+
+/*Determina se está sendo caçado*/
+void ObjetoJogo::set_hunted(bool being_hunted){
+	this->hunted = being_hunted;
+}
+/*Verifica se está sendo caçado*/
+bool ObjetoJogo::get_hunted(){
+	return this->hunted;
+}
+
+
+
+/*Define um subsetor dentro de um setor*/
 void ObjetoJogo::set_subsector(LPoint2d new_subsector){
 	subsector = new_subsector;
 }

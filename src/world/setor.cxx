@@ -13,10 +13,10 @@ Setor::Setor(LPoint2d inicio, LPoint2d fim, int indice){
 	_vegetals = NodePath("sectorVegetals");
 	_vegetals.reparent_to(Vegetal::visible_vegetals_placeholder);
 
-//	// Deve receber eventos de movimento de npc, para atualizar setores por exemplo.
-//	std::stringstream npc_moving_name;
-//	npc_moving_name << "ev_npc_moving_on_sector_" << _indice;
-//	event_handler->add_hook(npc_moving_name.str(), npc_moving, this);
+	//	// Deve receber eventos de movimento de npc, para atualizar setores por exemplo.
+	//	std::stringstream npc_moving_name;
+	//	npc_moving_name << "ev_npc_moving_on_sector_" << _indice;
+	//	event_handler->add_hook(npc_moving_name.str(), npc_moving, this);
 
 	// Deve gerar eventos indicando proximidade do player, para npc se movimentar, por exemplo.
 	std::stringstream sector_event_name;
@@ -98,7 +98,7 @@ bool Setor::has_inside(LPoint2d point){
 	// Interessante o point.compare_to, olhar depois
 	// Interessante a implementao de operadores...
 	return (point.get_x() >= _pos_start.get_x() && point.get_x() <= _pos_end.get_x())
-		&& (point.get_y() >= _pos_start.get_y() && point.get_y() <= _pos_end.get_y());
+				&& (point.get_y() >= _pos_start.get_y() && point.get_y() <= _pos_end.get_y());
 }
 
 /*! Obtém o _indice (id) do setor */

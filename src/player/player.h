@@ -11,6 +11,7 @@
 #include "vetores.h"
 #include "femaleLizard.h"
 #include "edible.h"
+#include "predator.h"
 
 #include "playerProperties.h"
 
@@ -465,8 +466,13 @@ private:
 	//bool female_around;
 	PT(FemaleLizard) _courted_female;
 
+	PT(Predator) predator;
+
 
 public:
+	void set_predator(PT(Predator) other);
+	PT(Predator) get_predator();
+
 	float get_indice_camuflagem() const;
 
 	bool is_buried() const;
@@ -490,7 +496,7 @@ private:
 
 
 public:
-//Verifica se o player está de baixo de um vegetal do seu setor ou dos setores adjacentes
+	/*Verifica se o player está de baixo de um vegetal do seu setor ou dos setores adjacentes*/
 	bool is_under_vegetal();
 
 	/*Coloca como false o flag que verifica se o calculo de under_vegetal foi realizado em uma frama

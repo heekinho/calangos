@@ -7,6 +7,7 @@
 #include "collision.h"
 #include "antialiasAttrib.h"
 #include "audioController.h"
+#include "animal.h"
 
 bool Predator::pursuing = false;
 
@@ -23,36 +24,46 @@ Predator::Predator(NodePath node, Predator::types_predator type) : Animal(node){
 	type_predator = Predator::get_predator_type(type);
 	set_tipo_predator_enum(type);
 
+	//Presa
+//	this->prey = NULL;
+
+	//Estado inicial do predador
+	act_state = Predator::walking;
+	hunting_lizard = false;
+	hunting_player = false;
+	event_handler->add_hook(TimeControl::EV_segundo_real, event_psegundo_change_state, this);
+
+
 	/*TODO Ajustar a distancia para perserguir e para atacar a depender do tipo de predador*/
 	// eat_thr original = 0.3
 	//distance_pursuit original = 10
 	switch(type){
 		case(Predator::teiu):
-						this->set_distance_pursuit(10.1);
-		this->set_distance_bite(0.31);
+										this->set_distance_pursuit(10);
+		this->set_distance_bite(0.3);
 		break;
 		case(Predator::siriema):
-						this->set_distance_pursuit(9.9);
-		this->set_distance_bite(0.32);
+										this->set_distance_pursuit(10);
+		this->set_distance_bite(0.3);
 		break;
 		case(Predator::gato):
-						this->set_distance_pursuit(9.8);
-		this->set_distance_bite(0.33);
+										this->set_distance_pursuit(10);
+		this->set_distance_bite(0.3);
 		break;
 		case(Predator::raposa):
-						this->set_distance_pursuit(10);
-		this->set_distance_bite(0.34);
+										this->set_distance_pursuit(10);
+		this->set_distance_bite(0.3);
 		break;
 		case(Predator::jararaca):
-						this->set_distance_pursuit(9.85);
+										this->set_distance_pursuit(10);
 		this->set_distance_bite(0.3);
 		break;
 		case(Predator::colubridae):
-						this->set_distance_pursuit(10.2);
+										this->set_distance_pursuit(10);
 		this->set_distance_bite(0.3);
 		break;
 		case(Predator::coruja):
-						this->set_distance_pursuit(10);
+										this->set_distance_pursuit(10);
 		this->set_distance_bite(0.3);
 		break;
 
@@ -104,11 +115,11 @@ void Predator::load_predators(){
 	ModelRepository::get_instance()->get_animated_model("gato")->set_length(0.40);
 	Predator::load_predator(Predator::gato, 9, 0.01, -1);
 
-	//	ModelRepository::get_instance()->get_animated_model("jararaca")->set_length(0.60);
-	//	Predator::load_predator(Predator::tipos::jararaca, 50, 0.01, -1);
+//		ModelRepository::get_instance()->get_animated_model("jararaca")->set_length(0.60);
+//		Predator::load_predator(Predator::jararaca, 50, 0.01, -1);
 
-	//	ModelRepository::get_instance()->get_animated_model("colubridae")->set_length(0.50);
-	//	Predator::load_predator(Predator::tipos::colubridae, 50, 0.01, -1);
+//		ModelRepository::get_instance()->get_animated_model("colubridae")->set_length(0.50);
+//		Predator::load_predator(Predator::colubridae, 50, 0.01, -1);
 
 
 	//	FlyingPredator::load_predators();
@@ -146,95 +157,260 @@ void Predator::load_predator(Predator::types_predator type , int qtd, float scal
 	}
 }
 
-
 /*! Roda o comportamento de ações do predador.
  * O predador basicamente perambula, e ao encontrar o lagarto dentro de uma
  * certa distância ele parte para o ataque */
 void Predator::act(){
-/*TODO:Verificar se o predador está no mesmo setor do player, ou um setor próximo*/
-
-	float distance = this->get_distance_pursuit();
-	float eat_thr = this->get_distance_bite();
 
 	if(Session::get_instance()->get_level() == 1){
+	//Se o predador não estiver nas proximidades do player, ele apenas andará
+		if(!(this->get_setor()==player->get_setor() || this->get_setor()->get_is_closest_sector())){
+			this->act_state = Predator::walking;
+			play_anim("andar");
+			Animal::act();
 
-		/*Verificação de ataque/perseguição/mordida no player*/
-		if(get_distance_squared(*player) < distance*distance){
-			if (get_distance_squared(*player) < eat_thr*eat_thr) bite();
-			else{
-				if (player->is_under_vegetal() || player->is_in_toca()){
-					if(!this->get_anim_control()->is_playing("comer") && !get_anim_control()->is_playing("andar")){
-						play_anim("andar");
+		}
+
+		else{
+			switch(act_state){
+				case(Predator::walking):
+							play_anim("andar");
+							Animal::act();
+							break;
+
+				case(Predator::pursuing_act):
+							if(this->prey != NULL){
+								pursuit(*this->prey);
+							}
+							break;
+
+				case(Predator::biting):
+
+							bite();
+			}
+
+			}
+	}
+
+	else{
+//Nova ação para a fase 2
+		act_fase_2();
+	}
+
+}
+
+
+void Predator::event_psegundo_change_state(const Event *, void *data){
+	Predator* _this = (Predator*) data;
+	_this->change_state();
+}
+/*Verificação do estado do predador
+ * Podem ser: caminhando, perseguindo, mordendo*/
+void Predator::change_state(){
+	switch(act_state){
+		case(Predator::walking):
+				if(find_prey()){
+					act_state = Predator::pursuing_act;
+					if(hunting_player){
+						pursuing = true;
+						AudioController::get_instance()->predator_pursuing();
+						GuiManager::get_instance()->activate_predator_alert(this);
 					}
-					if (pursuing) {
+					if(predator_to_prey < Predator::dist_to_bite){ act_state = Predator::biting; }
+				}
+
+			break;
+
+		case(Predator::pursuing_act):
+				if(hunting_player){//Presa é o player
+
+					if(player->is_under_vegetal() || player->is_in_toca()){
+
+						act_state = Predator::walking;
+						hunting_player = false;
+						player->set_hunted(false);
 						AudioController::get_instance()->pursuit_finished();
+						pursuing = false;
+						break;
 					}
-					pursuing = false;
-					Animal::act();
-					return;
+				}
+
+				if(hunting_lizard){//Presa é um lizard
+					if(this->prey->under_vegetal()){//verificar se método under_vegetal funciona corretamente
+						act_state = Predator::walking;
+						hunting_lizard = false;
+						this->prey->set_hunted(false);
+
+
+						break;
+					}
+				}
+				//Atualizando distancia para a presa
+				predator_to_prey = this->get_distance_squared(*prey);
+				if(predator_to_prey < Predator::dist_to_bite){ act_state = Predator::biting; }
+			break;
+
+		case(Predator::biting):
+				//Atualizando distancia para a presa
+				predator_to_prey = this->get_distance_squared(*prey);
+				if(predator_to_prey > Predator::dist_to_bite){
+					act_state = Predator::pursuing_act;
+				}
+	}
+}
+
+
+
+/*Localize uma presa mais próxima para o predador, incluindo o player*/
+bool Predator::find_prey(){
+
+	SectorItems<PT(Lizard)>* lizard_list = this->get_setor()->lizards();
+	SectorItems<PT(Lizard)>::iterator it;
+	float distance_squared_lizard  = 0;
+	float distance = this->get_distance_pursuit();
+
+	predator_to_prey = 0;
+
+	float distance_squared_player = this->get_distance_squared(*player);
+
+
+	if(!player->is_under_vegetal() && !player->is_in_toca()){
+
+		if(distance_squared_player < Predator::dist_to_hunt){
+
+			if(player->get_hunted() && player->get_predator() != NULL){//Player está sendo caçado
+
+				float dist_first_pred = player->get_distance_squared(player->get_predator()->get_pos());
+
+				if (distance_squared_player < dist_first_pred){
+
+					//Verificando se este é o predador mais próximo, se for, antigo predador passa a caminhar
+								this->prey = player;
+								player->set_hunted(true);
+								player->get_predator()->set_state(Predator::walking);
+								player->set_predator(this);
+								predator_to_prey = distance_squared_player;
+								hunting_lizard = false;
+								hunting_player = true;
 				}
 			}
 
-			if (!pursuing) {
-				AudioController::get_instance()->predator_pursuing();
-				pursuing = true;
-				GuiManager::get_instance()->activate_predator_alert(this);
+			else{
+			this->prey = player;
+			this->prey->set_hunted(true);
+			player->set_predator(this);
+			predator_to_prey = distance_squared_player;
+			hunting_lizard = false;
+			hunting_player = true;
+		}
 			}
-			pursuit();
+	}
 
-		}
+//Verifica os outros calangos
+	for(it = lizard_list->begin(); it!= lizard_list->end(); ++it){
+		PT(Lizard) lizard = *it;
+		distance_squared_lizard = get_distance_squared(*lizard);
+		if(distance_squared_lizard < Predator::dist_to_hunt){
 
-		else {
-			play_anim("andar");
-			Animal::act();
+			if(predator_to_prey == 0 || distance_squared_lizard < predator_to_prey){
+
+				if(lizard->get_hunted() && lizard->get_predator()!=NULL){
+
+					float dist_first_pred = lizard->get_distance_squared(lizard->get_predator()->get_pos());
+
+									if(distance_squared_lizard < dist_first_pred){
+//Predador está mais próximo que o primeiro predador
+									this->prey = lizard;
+									lizard->get_predator()->set_state(Predator::walking);
+									lizard->set_predator(this);
+									this->prey->set_hunted(true);
+									predator_to_prey = distance_squared_lizard;
+									hunting_lizard = true;
+									hunting_player = false;
+					}
+				}
+
+				else{
+				this->prey = lizard;
+			lizard->set_predator(this);
+			this->prey->set_hunted(true);
+			predator_to_prey = distance_squared_lizard;
+			hunting_lizard = true;
+			hunting_player = false;
+				}
+			}
+
+		continue;
 		}
+		else{
+			continue;
+		}
+	}
+
+
+
+
+	if(predator_to_prey == 0){
+		hunting_lizard = false;
+		hunting_player = false;
+		return false;
+	}
+	else{
+		return true;
+	}
+
+
+}
+
+/*Act da fase 2*/
+void Predator::act_fase_2(){
+	/* Nova ação para a fase 2.
+	 * Se a visibilidade for maior do que zero, significa que o predador é
+	 * capaz de perceber a presença do player. Um range é especificado para
+	 * se definir a chance do predador passar a atacar.
+	 * Ex.: Visibilidade 0: Predador não percebe o player
+	 * Ex.: Visibilidade 0.2: Predador tem 20% de chance de perceber o player
+	 * Porém, se esta checagem for sendo realizada por frame, como está sendo,
+	 * a visibilidade do predador sempre começa em 0 e vai aumentando a
+	 * pequenos passos. Esta checagem deve ocorrer mesmo que o predador já
+	 * tenha ativado a ação de ataque, pois o player pode se camuflar, certo? */
+
+	/* Pergunta: A presa deve poder ser perseguida por mais de um predador?
+	 * Além da questão biológica, precisa-se testar a questão de jogabilidade */
+	float distance = this->get_distance_pursuit();
+		float eat_thr = this->get_distance_bite();
+
+	float dist = get_distance(*player);
+
+	/* Se a distância for menor que o limiar para comer, sem conversa. morder! */
+	if (dist < eat_thr) bite();
+
+	/* Apenas verifica o que já foi definido pela checagem de tempos em tempos.
+	 * Ao contrário da verificação essa parte é executada todos os frames para
+	 * os predadores ativos */
+	float dist_visibility = get_visibility();
+	if(dist < dist_visibility){
+		if(!this->get_anim_control()->is_playing("comer")) play_anim("andar");
+		pursuit();
 	}
 	else {
-		/* Nova ação para a fase 2.
-		 * Se a visibilidade for maior do que zero, significa que o predador é
-		 * capaz de perceber a presença do player. Um range é especificado para
-		 * se definir a chance do predador passar a atacar.
-		 * Ex.: Visibilidade 0: Predador não percebe o player
-		 * Ex.: Visibilidade 0.2: Predador tem 20% de chance de perceber o player
-		 * Porém, se esta checagem for sendo realizada por frame, como está sendo,
-		 * a visibilidade do predador sempre começa em 0 e vai aumentando a
-		 * pequenos passos. Esta checagem deve ocorrer mesmo que o predador já
-		 * tenha ativado a ação de ataque, pois o player pode se camuflar, certo? */
-
-		/* Pergunta: A presa deve poder ser perseguida por mais de um predador?
-		 * Além da questão biológica, precisa-se testar a questão de jogabilidade */
-
-		float dist = get_distance(*player);
-
-		/* Se a distância for menor que o limiar para comer, sem conversa. morder! */
-		if (dist < eat_thr) bite();
-
-		/* Apenas verifica o que já foi definido pela checagem de tempos em tempos.
-		 * Ao contrário da verificação essa parte é executada todos os frames para
-		 * os predadores ativos */
-		float dist_visibility = get_visibility();
-		if(dist < dist_visibility){
-			if(!this->get_anim_control()->is_playing("comer")) play_anim("andar");
-			pursuit();
-		}
-		else {
-			play_anim("andar");
-			if(dist > 10.0) Animal::act();
-			else Animal::move(get_velocity());
-		}
-
-		/* Atualiza o círculo para debug */
-		debug_visibility_circle.set_pos(get_pos(render));
-		debug_visibility_circle.set_quat(get_quat(render));
-		if(dist_visibility == 0) debug_visibility_circle.hide();
-		else debug_visibility_circle.set_scale(dist_visibility);
-
-		bool is_night = TimeControl::get_instance()->is_night();
-		if(is_night && (get_activity() == A_day) || (!is_night && (get_activity() == A_night))){
-			debug_visibility_circle.hide();
-		} else debug_visibility_circle.show();
+		play_anim("andar");
+		if(dist > 10.0) Animal::act();
+		else Animal::move(get_velocity());
 	}
+
+	/* Atualiza o círculo para debug */
+	debug_visibility_circle.set_pos(get_pos(render));
+	debug_visibility_circle.set_quat(get_quat(render));
+	if(dist_visibility == 0) debug_visibility_circle.hide();
+	else debug_visibility_circle.set_scale(dist_visibility);
+
+	bool is_night = TimeControl::get_instance()->is_night();
+	if(is_night && (get_activity() == A_day) || (!is_night && (get_activity() == A_night))){
+		debug_visibility_circle.hide();
+	} else debug_visibility_circle.show();
 }
+
 
 
 /*! Muda o Predador de setor */
@@ -247,10 +423,15 @@ void Predator::change_sector(PT(Setor) new_sector){
 
 /*! Roda comportamento de perseguição, alvo: player */
 void Predator::pursuit(){
+	pursuit(*player);
+}
+
+/*! Roda comportamento de perseguição, alvo: lizard */
+void Predator::pursuit(const NodePath &other){
 	if(!this->get_anim_control()->is_playing("comer")){
 		play_anim("andar");
 
-		look_at(*player);
+		look_at(other);
 
 		move(get_velocity());
 	}
@@ -259,19 +440,28 @@ void Predator::pursuit(){
 
 /*! Roda comportamento de mordida/comer, alvo:player */
 void Predator::bite(){
-	if(!this->get_anim_control()->is_playing("comer") && !player->being_bited()){
+	if(!this->get_anim_control()->is_playing("comer") && !this->prey->being_bited()){
 		get_anim_control()->stop_all();
 		play_anim("comer");
 
 		//        sound->play();//testando som
 
+		if(hunting_player){
 		/* Diminui energia do player */
 		player->be_bited();
 		player->add_energia_alimento(-1.0);
 		GuiManager::get_instance()->piscar_life();
+		}
 	}
 }
 
+/*! Roda comportamento de mordida/comer, alvo: presa */
+void Predator::bite_other(){
+	if(!this->get_anim_control()->is_playing("comer") ){
+		get_anim_control()->stop_all();
+		play_anim("comer");
+	}
+}
 
 /*! Pausa a animação */
 void Predator::pause_animation(){
@@ -306,6 +496,7 @@ void Predator::set_distance_pursuit(float distance){
 float Predator::get_distance_bite(){
 	return distance_bite;
 }
+
 
 void Predator::set_distance_bite(float distance){
 	this->distance_bite = distance;
@@ -386,6 +577,16 @@ string Predator::get_predator_type(Predator::types_predator type){
 	}
 	return NULL;
 }
+
+/*Define o estado de ação do predador*/
+void Predator::set_state(Predator::act_states state){
+	this->act_state = state;
+}
+
+Predator::act_states Predator::get_state(){
+	return act_state;
+}
+/*Obtém o estado de ação do predador*/
 
 void Predator::set_tipo_predator_enum(Predator::types_predator type){
 	this->tipo_predator_enum = type;

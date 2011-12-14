@@ -8,6 +8,7 @@
 #include "prey.h"
 #include "frog.h"
 #include "lizard.h"
+#include "vegetal.h"
 
 #define MAXDEGREE 100
 #define PROBTHR 80
