@@ -15,6 +15,7 @@ class Hint : public ReferenceCount {
 
 public:
 	Hint(NodePath parent, NodePath reference_node, string name, string msg);
+	Hint(NodePath parent, NodePath reference_node, float width, float height, string name, string msg);
 	Hint(NodePath parent, PGButton* hintable_btn, NodePath reference_node, string name, string msg);
 	~Hint();
 
@@ -22,6 +23,10 @@ public:
 	static void enter_event(const Event*, void *data);
 	static AsyncTask::DoneStatus show_hint(GenericAsyncTask* task, void* data);
 	static void exit_event(const Event*, void *data);
+	void set_message(string msg);
+	void change_text_reference(NodePath np_text, float width, float height);
+	void change_img_reference(NodePath np_img);
+	void change_btn_reference(PGButton* hintable_btn, NodePath reference_node);
 
 
 private:

@@ -19,7 +19,7 @@
 Hint::Hint(NodePath parent, NodePath reference_node, string name, string msg) {
 	np_reference = reference_node;
 	btn = new PGButton(name);
-	btn->setup(reference_node);
+	//btn->setup(reference_node);
 	np_btn = parent.attach_new_node(btn);
 	np_btn.set_scale(reference_node.get_scale());
 	np_btn.set_pos(reference_node.get_x(), reference_node.get_y(), reference_node.get_z());
@@ -29,6 +29,22 @@ Hint::Hint(NodePath parent, NodePath reference_node, string name, string msg) {
 	width = size.get_x()/reference_node.get_sx();
 	height = size.get_z()/reference_node.get_sz();
 	btn->set_frame(-width/2, width/2, -height/2, height/2);
+
+	buildHint(msg);
+}
+
+// Construtor criado para o uso do Hint em TextNodes, pois com eles é prático passar as dimensões
+// e o ponto principal fica à esquerda, diferentemente das imagens que ficam no meio.
+Hint::Hint(NodePath parent, NodePath reference_node, float width, float height, string name, string msg) {
+	np_reference = reference_node;
+	this->width = width;
+	this->height = height;
+	btn = new PGButton(name);
+	//btn->setup(reference_node);
+	np_btn = parent.attach_new_node(btn);
+	np_btn.set_scale(reference_node.get_scale());
+	np_btn.set_pos(reference_node.get_x(), reference_node.get_y(), reference_node.get_z());
+	btn->set_frame(0, width, -height/2, height/2);
 
 	buildHint(msg);
 }
@@ -43,6 +59,38 @@ Hint::Hint(NodePath parent, PGButton* hintable_btn, NodePath reference_node, str
 	width = size.get_x()/reference_node.get_sx();
 	height = size.get_z()/reference_node.get_sz();
 	buildHint(msg);
+}
+
+void Hint::change_text_reference(NodePath np_text, float width, float height) {
+	//btn->setup(np_text);
+	this->width = width;
+	this->height = height;
+	np_btn.set_scale(np_text.get_scale());
+	np_btn.set_pos(np_text.get_x(), np_text.get_y(), np_text.get_z());
+	btn->set_frame(0, width, -height/2, height/2);
+}
+
+void Hint::change_img_reference(NodePath np_img) {
+	//btn->setup(reference_node);
+	np_btn.set_scale(np_img.get_scale());
+	np_btn.set_pos(np_img.get_x(), np_img.get_y(), np_img.get_z());
+	LPoint3f min, max, size;
+	np_img.calc_tight_bounds(min, max);
+	size = (max-min);
+	width = size.get_x()/np_img.get_sx();
+	height = size.get_z()/np_img.get_sz();
+	btn->set_frame(-width/2, width/2, -height/2, height/2);
+}
+
+void Hint::change_btn_reference(PGButton* hintable_btn, NodePath reference_node) {
+	np_reference = reference_node;
+	btn = hintable_btn;
+	np_btn = reference_node;
+	LPoint3f min, max, size;
+	reference_node.calc_tight_bounds(min, max);
+	size = (max-min);
+	width = size.get_x()/reference_node.get_sx();
+	height = size.get_z()/reference_node.get_sz();
 }
 
 void Hint::buildHint(string msg) {
@@ -117,4 +165,8 @@ void Hint::exit_event(const Event*, void *data) {
 	Hint* _this = (Hint*) data;
 	_this->np_text.hide();
 	_this->mouse_in = false;
+}
+
+void Hint::set_message(string msg) {
+	text->set_text(msg);
 }
