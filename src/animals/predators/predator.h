@@ -90,8 +90,9 @@ public:
 	PT(AnimatedObjetoJogo) get_prey();
 	void set_prey(PT(AnimatedObjetoJogo) other);
 
-	bool get_hunting();
-	void set_huntig(bool hunt);
+
+	bool get_closest_player();
+	void set_closest_player(bool closest);
 
 
 
@@ -122,6 +123,8 @@ private:
 	PT(AnimatedObjetoJogo) prey;
 	bool hunting_lizard;//Se está perseguindo ou caçando alguma presa
 	bool hunting_player;
+
+	bool closest_to_player;//True se predador é aquele mais próximo ao player
 
 	/* Testando som */
 	//	PT(AudioManager) AM;

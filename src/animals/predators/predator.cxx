@@ -31,6 +31,8 @@ Predator::Predator(NodePath node, Predator::types_predator type) : Animal(node){
 	act_state = Predator::walking;
 	hunting_lizard = false;
 	hunting_player = false;
+	closest_to_player = false;
+
 	event_handler->add_hook(TimeControl::EV_segundo_real, event_psegundo_change_state, this);
 
 
@@ -233,6 +235,26 @@ void Predator::change_state(){
 						pursuing = false;
 						break;
 					}
+
+					if(!closest_to_player){//Se ele não for o mais próximo, verifica se o primeiro está muito próximo
+						float distance_squared_player = this->get_distance_squared(*player);
+						float dist_first_pred = player->get_distance_squared(player->get_predator()->get_pos());
+
+						if(dist_first_pred < 5*5){//Closest_predator muito próximo
+							act_state = Predator::walking;
+							hunting_player = false;
+
+							break;
+						}
+
+						if(distance_squared_player < dist_first_pred){//Este está  mais próximo, e acontece a mudança de predador no player
+							player->get_predator()->set_closest_player(false);
+							player->set_predator(this);
+							this->closest_to_player = true;
+							break;
+						}
+
+					}
 				}
 
 				if(hunting_lizard){//Presa é um lizard
@@ -284,21 +306,37 @@ bool Predator::find_prey(){
 
 				if (distance_squared_player < dist_first_pred){
 
-					//Verificando se este é o predador mais próximo, se for, antigo predador passa a caminhar
+					//Verificando se este é o predador mais próximo
 								this->prey = player;
 								player->set_hunted(true);
-								player->get_predator()->set_state(Predator::walking);
+								//player->get_predator()->set_state(Predator::walking);
+								player->get_predator()->set_closest_player(false);
 								player->set_predator(this);
+								this->closest_to_player = true;
 								predator_to_prey = distance_squared_player;
 								hunting_lizard = false;
 								hunting_player = true;
 				}
-			}
+				else{//Caso não, ele verifica se o primeiro predador está muito próximo
+						if(dist_first_pred < 5*5){//Desista
+						this->act_state = Predator::walking;
+						}
+						else{//Continue
+							this->prey = player;
+							closest_to_player = false;
+							predator_to_prey = distance_squared_player;
+							hunting_lizard = false;
+							hunting_player = true;
+						}
+				}
 
-			else{
+
+			}
+			else{//Player sem nenhum predador
 			this->prey = player;
 			this->prey->set_hunted(true);
 			player->set_predator(this);
+			this->closest_to_player = true;
 			predator_to_prey = distance_squared_player;
 			hunting_lizard = false;
 			hunting_player = true;
@@ -576,6 +614,16 @@ string Predator::get_predator_type(Predator::types_predator type){
 		case(Predator::coruja):return"coruja";
 	}
 	return NULL;
+}
+
+/*Define se o predador é o mais próximo do player*/
+void Predator::set_closest_player(bool closest){
+	this->closest_to_player = closest;
+}
+
+/*obtém se o predaor é o mais próximo do player*/
+bool Predator::get_closest_player(){
+	return this->closest_to_player;
 }
 
 /*Define o estado de ação do predador*/
