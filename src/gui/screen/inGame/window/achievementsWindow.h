@@ -16,6 +16,9 @@ public:
 	virtual ~AchievementsWindow();
 
 private:
+	PT(TextNode) lb_andamento;
+	NodePath np_lb_andamento;
+
 	// Achievement: Senhor mordida perfeita
 	PT(TextNode) lb_senhor_mordida;
 	NodePath np_lb_senhor_mordida;

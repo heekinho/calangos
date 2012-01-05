@@ -45,6 +45,7 @@ Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_anim
 	_captured = false;
 	_is_buried = false;
 	hunted = false;
+	achievements = new Achievements();
 
 	//int especie = Menu::get_instance()->get_especie();
 	load_health(lizard_specie);
@@ -464,6 +465,8 @@ bool Player::is_under_vegetal(){
 	return player_is_under_vegetal;
 }
 
-
+PT(Achievements) Player::get_achievements() {
+	return achievements;
+}
 
 

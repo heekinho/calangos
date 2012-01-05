@@ -17,6 +17,7 @@ public:
 	~Button();
 
 	static void enter_event(const Event*, void *data);
+	static void exit_event(const Event*, void *data);
 	static void click_event(const Event*, void *data);
 
 	static AsyncTask::DoneStatus reactivate_button_sounds(GenericAsyncTask* task, void* data);

@@ -66,6 +66,8 @@ public:
 	NodePath line_indicator;
 	NodePath draw_indicator(int steps, float radius);
 	NodePath draw_custom_terrain_wireframe();
+
+	static bool mouse_on_button;
 private:
 	PT(ObjetoJogo) _closest_biteable;
 

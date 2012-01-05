@@ -14,6 +14,7 @@
 #include "predator.h"
 
 #include "playerProperties.h"
+#include "achievements.h"
 
 // Forward Declaration
 class MicroClima;
@@ -102,7 +103,7 @@ public:
 	float get_media_energia_mes();
 	float get_soma_media_energia_diaria();
 
-
+	PT(Achievements) get_achievements();
 
 
 
@@ -155,6 +156,8 @@ private:
 	float tamanho_lagarto_base;
 	/* Valor que irá armazenar as taxas de crescimento (como um temp) */
 	float taxa_crescimento;
+
+	PT(Achievements) achievements;
 
 
 public:

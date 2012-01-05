@@ -44,6 +44,7 @@ Button::Button(const string &name, const string &text, PT(TextFont) font, float 
 	setup(np_btn_normal, np_btn_depressed, np_btn_hover);
 
 	event_handler->add_hook(this->get_enter_event(), enter_event, this);
+	event_handler->add_hook(this->get_exit_event(), exit_event, this);
 	event_handler->add_hook(this->get_click_event(MouseButton::one()), click_event, this);
 }
 
@@ -76,7 +77,12 @@ float Button::get_text_width() const {
 
 /*! Evento chamado quando o mouse passa por cima */
 void Button::enter_event(const Event*, void *data) {
+	PlayerControl::mouse_on_button = true;
 	if(Button::play_button) AudioController::get_instance()->only_play(AudioRepository::MOUSE_ON);
+}
+
+void Button::exit_event(const Event*, void *data) {
+	PlayerControl::mouse_on_button = false;
 }
 
 /*! Evento chamado quanto há um click de mouse */

@@ -36,6 +36,7 @@ bool PlayerControl::instanceFlag = false;
 PlayerControl* PlayerControl::single = NULL;
 bool PlayerControl::wire_frame_folhagem = false;
 bool PlayerControl::wire_frame_terrain = false;
+bool PlayerControl::mouse_on_button = false;
 
 PlayerControl::~PlayerControl() {
 	event_handler->remove_hooks_with(this);
@@ -399,10 +400,12 @@ struct EdibleInfo {
 };
 
 /*! Efetua acao de comer. Verifica se tem algum npc em volta e come */
-void PlayerControl::eat(const Event*, void *data){
+void PlayerControl::eat(const Event *evt, void *data){
 	/* Verifica a posição do mouse... Se estiver sobre a interface não executa a ação de comer */
 	//MouseWatcher *mwatcher = DCAST(MouseWatcher, window->get_mouse().node());
 	//if(!(mwatcher->has_mouse() && mwatcher->get_mouse_x() < 0.57 && !TimeControl::get_instance()->get_stop_time())) return;
+
+	if (!evt->get_name().compare("mouse1") && PlayerControl::mouse_on_button) return;
 
 	if (TimeControl::get_instance()->get_stop_time()) return;
 
@@ -424,6 +427,7 @@ void PlayerControl::eat(const Event*, void *data){
 		event_handler->add_hook(TimeControl::EV_pass_frame, missed_bite, NULL);
 		eat_fail = true;
 		player->add_energia_alimento(-0.1);
+		player->get_achievements()->clear_bites();
 		return;
 	}
 	/* ----------------------------------------- */
@@ -443,6 +447,8 @@ void PlayerControl::eat(const Event*, void *data){
 	/* Se o tipo não for reconhecido, cai fora. Era pra fazer if, mas... */
 	if(type_of_closest == -1) {
 		event_handler->add_hook(TimeControl::EV_pass_frame, missed_bite, NULL);
+		cout<<"tipo de alimento não reconhecido?"<<endl;
+		player->get_achievements()->clear_bites();
 		return;
 	}
 
@@ -516,6 +522,7 @@ void PlayerControl::eat(const Event*, void *data){
 			event_handler->add_hook(TimeControl::EV_pass_frame, eating, (void *) info);
 
 			eatsuccess = true;
+			player->get_achievements()->inc_bites();
 		}
 	}
 	/* Morder outro lagarto */
