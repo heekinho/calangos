@@ -10,7 +10,7 @@
 
 #include "editorTextureScreen.h"
 #include "nodePath.h"
-#include "player/player.h"
+#include "player.h"
 #include "textNode.h"
 #include "mouseButton.h"
 #include "pgSliderBar.h"

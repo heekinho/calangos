@@ -7,7 +7,6 @@
 #include "auto_bind.h"
 #include "partGroup.h"
 
-
 class Animable {
 public:
 	Animable();

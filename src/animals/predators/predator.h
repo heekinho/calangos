@@ -81,9 +81,9 @@ public:
 
 	static bool pursuing;
 
-	static float const dist_player_hide = 3.5*3.5;
-	static float const dist_to_hunt = 10*10;
-	static float const dist_to_bite = 0.3;
+	static float dist_player_hide;
+	static float dist_to_hunt;
+	static float dist_to_bite;
 
 	float predator_to_prey;
 

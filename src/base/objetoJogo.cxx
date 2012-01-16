@@ -299,7 +299,7 @@ bool ObjetoJogo::under_vegetal(){
 	SectorItems<PT(Vegetal)>* vegetal_list = setor->vegetals();
 	SectorItems<PT(Vegetal)>::iterator it;
 
-	bool animal_is_under_vegetal;
+	bool animal_is_under_vegetal = false;
 
 	for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it){
 		PT(Vegetal) vegetal = *it;
@@ -315,8 +315,10 @@ bool ObjetoJogo::under_vegetal(){
 
 	if(!animal_is_under_vegetal) {
 //		cout<<"False"<<endl;
-	return false;
+		return false;
 	}
+
+	return false;
 }
 
 

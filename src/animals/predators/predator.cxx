@@ -11,6 +11,10 @@
 
 bool Predator::pursuing = false;
 
+float Predator::dist_player_hide = 3.5*3.5;
+float Predator::dist_to_hunt = 10*10;
+float Predator::dist_to_bite = 0.3;
+
 /*! Constrói um Predador */
 
 
