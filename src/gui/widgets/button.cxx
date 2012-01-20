@@ -49,7 +49,7 @@ Button::Button(const string &name, const string &text, PT(TextFont) font, float 
 }
 
 Button::~Button(){
-
+	PlayerControl::mouse_on_button = false;
 }
 
 /*! Retorna o TextNode associado ao botão */
