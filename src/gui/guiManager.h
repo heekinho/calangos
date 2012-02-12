@@ -74,6 +74,24 @@ public:
     void activate_predator_alert(Predator* pursuer);
 
 private:
+    static const int TEMP_INTERNA;
+    static const int HIDRATACAO;
+    static const int TEMP_AR;
+    static const int UMIDADE;
+    static const int TEMP_SOLO;
+    static const int ALIMENTACAO;
+    static const int ENERGIA;
+    static const int GASTO_ENERGETICO;
+
+    static const string NOME_TEMP_INTERNA;
+	static const string NOME_HIDRATACAO;
+	static const string NOME_TEMP_AR;
+	static const string NOME_UMIDADE;
+	static const string NOME_TEMP_SOLO;
+	static const string NOME_ALIMENTACAO;
+	static const string NOME_ENERGIA;
+	static const string NOME_GASTO_ENERGETICO;
+
     static TypeHandle _type_handle;
     GuiManager();
     static PT(GuiManager) instance;
@@ -128,6 +146,12 @@ private:
 	static AsyncTask::DoneStatus arrow_predator_effect(GenericAsyncTask* task, void* data);
 	void show_predator_location(void* data);
 	void set_predator_location_img(string image_name);
+
+	void print_queue_values(queue<double> qx, queue<double> qy);
+	int var_x;
+	int var_y;
+	queue<double> x_values;
+	queue<double> y_values;
 };
 
 #endif

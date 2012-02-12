@@ -1094,6 +1094,7 @@ void GraphicsMenu::init_graphics() {
 
 //Constroi o grafico de temperatura interna X tempo.
 void GraphicsMenu::novo_grafico1_TempInterna() {
+	print_queue_values(vector->getVectorTemperaturaLagarto(), "TEMPERATURA INTERNA");
 	graphic = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorTemperaturaLagarto(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaLagarto()), vector->getSmallestElement(vector->getVectorTemperaturaLagarto()), true);
 	graphic->set_Position_Graphic(0.4, 1.0);
 	graphic->set_scale(0.86);
@@ -1103,8 +1104,26 @@ void GraphicsMenu::novo_grafico1_TempInterna() {
 	graphic->create_Graphic(vector->getSizeVectorTempo(), vector->getSizeVectorTemperaturaLagarto());
 }
 
+void GraphicsMenu::print_queue_values(queue<double> q, string name) {
+	cout<<"### IMPRIMINDO VETOR DE "<<name<<" ###"<<endl;
+	queue<double> q2;
+	int size = q.size();
+	for (int i = 0; i < size; i++) {
+		cout<<"value["<<i<<"] = "<<q.front()<<endl;
+		q2.push(q.front());
+		q.pop();
+	}
+
+	while (!q2.empty()) {
+		q.push(q2.front());
+		q2.pop();
+	}
+	cout<<"###############################################"<<endl;
+}
+
 //Constroi o grafico de hidratacao X tempo.
 void GraphicsMenu::novo_grafico2_Hidratacao() {
+	print_queue_values(vector->getVectorHidratacaoLagarto(), "HIDRATAÇÃO");
 	graphic2 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorHidratacaoLagarto(), 0, 0, 100, 0, true);
 	graphic2->set_Position_Graphic(0.4, 1.0);
 	graphic2->set_scale(0.86);
@@ -1116,6 +1135,7 @@ void GraphicsMenu::novo_grafico2_Hidratacao() {
 
 //Constroi o grafico de temperatura do ar X tempo.
 void GraphicsMenu::novo_grafico3_TempAr() {
+	print_queue_values(vector->getVectorTemperaturaAr(), "TEMPERATURA DO AR");
 	graphic3 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorTemperaturaAr(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaAr()), vector->getSmallestElement(vector->getVectorTemperaturaAr()), true);
 	graphic3->set_Position_Graphic(0.4, 1.0);
 	graphic3->set_scale(0.86);
@@ -1127,6 +1147,7 @@ void GraphicsMenu::novo_grafico3_TempAr() {
 
 //Constroi o grafico de umidade X tempo.
 void GraphicsMenu::novo_grafico4_Umidade() {
+	print_queue_values(vector->getVectorUmidadeAmbiente(), "UMIDADE");
 	graphic4 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorUmidadeAmbiente(), 0, 0, 100, 0, true);
 	graphic4->set_Position_Graphic(0.4, 1.0);
 	graphic4->set_scale(0.86);
@@ -1138,6 +1159,7 @@ void GraphicsMenu::novo_grafico4_Umidade() {
 
 //Constroi o grafico de temperatura do solo X tempo.
 void GraphicsMenu::novo_grafico5_TempSolo() {
+	print_queue_values(vector->getVectorTemperaturaSolo(), "TEMPERATURA DO SOLO");
 	graphic5 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorTemperaturaSolo(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaSolo()), vector->getSmallestElement(vector->getVectorTemperaturaSolo()), true);
 	graphic5->set_Position_Graphic(0.4, 1.0);
 	graphic5->set_scale(0.86);
@@ -1149,6 +1171,7 @@ void GraphicsMenu::novo_grafico5_TempSolo() {
 
 //Constroi o grafico de alimentacao X tempo.
 void GraphicsMenu::novo_grafico6_Alimentacao() {
+	print_queue_values(vector->getVectorAlimentacao(), "ALIMENTAÇÃO");
 	graphic6 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorAlimentacao(), 0, 0, vector->getLargestElement(vector->getVectorAlimentacao()), vector->getSmallestElement(vector->getVectorAlimentacao()), true);
 	graphic6->set_Position_Graphic(0.4, 1.0);
 	graphic6->set_scale(0.86);
@@ -1160,6 +1183,7 @@ void GraphicsMenu::novo_grafico6_Alimentacao() {
 
 //Constroi o grafico de energia X tempo.
 void GraphicsMenu::novo_grafico7_Energia() {
+	print_queue_values(vector->getVectorEnergia(), "ENERGIA");
 	graphic7 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorEnergia(), 0, 0, 100, 0, true);
 	graphic7->set_Position_Graphic(0.4, 1.0);
 	graphic7->set_scale(0.86);
@@ -1172,6 +1196,7 @@ void GraphicsMenu::novo_grafico7_Energia() {
 
 //Constroi o grafico de gasto energetico X tempo.
 void GraphicsMenu::novo_grafico8_GastoEnergetico() {
+	print_queue_values(vector->getVectorGastoEnergeticoTotal(), "GASTO ENERGÉTICO");
 	graphic8 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorGastoEnergeticoTotal(), 0, 0, vector->getLargestElement(vector->getVectorGastoEnergeticoTotal()), vector->getSmallestElement(vector->getVectorGastoEnergeticoTotal()), true);
 	graphic8->set_Position_Graphic(0.4, 1.0);
 	graphic8->set_scale(0.86);

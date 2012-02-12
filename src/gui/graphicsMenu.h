@@ -353,6 +353,8 @@ private:
 
     Vetores* vector;
 
+    void print_queue_values(queue<double> q, string name);
+
 };
 
 #endif /* GRAPHICSMENU_H */
