@@ -39,18 +39,19 @@ void FemaleLizard::act(){
 void FemaleLizard::reproduzir(const Event *theEvent, void *data){
     if(player->get_estado_reprodutivo()) {
         FemaleLizard* this_female = (FemaleLizard*) data;
+
         if (!this_female->reproduziu) {
           //if ((this_female->get_pos() - player->get_pos()).length() < 1) {
-        	if (this_female->get_distance_squared(*player) < 1*1){
-            	//TODO: E se estiver na borda do setor???
+        	 if (this_female->get_distance_squared(*player) < 1*1){
+        	   	//TODO: E se estiver na borda do setor???
             	SectorItems<PT(Lizard)>* lizards = this_female->get_setor()->lizards();
             	SectorItems<PT(Lizard)>::iterator it;
             	for(it = lizards->begin(); it != lizards->end(); ++it){
             		PT(Lizard) clizard = *it;
                     if (clizard->get_gender() == LizardGender::male) {
                         PT(Lizard) male = clizard;
-                        //if ((this_female->get_pos() - male->get_pos()).length() < 2) return;
-                        if (this_female->get_distance_squared(*player) < 2*2) return;
+                        if ((this_female->get_pos() - male->get_pos()).length() < 2) return;
+
                     }
                 }
 

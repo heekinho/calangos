@@ -69,7 +69,7 @@ void Lizard::load_lizards(){
 	/* Ter calangos do tipo do player */
 	string player_specie = Player::get_specie_name(Player::lizard_specie);
 
-	int qtd = 20;
+	int qtd = 60;
 
 	for(int i = 0; i < qtd; i++){
 		LPoint3f point = World::get_world()->get_terrain()->get_random_point();
@@ -178,7 +178,13 @@ void Lizard::act(){
 	}
 	//Se o lizard estiver sendo caçado
 	if(hunted){
-		flee(*predator);
+//		if(this->get_distance_squared(*predator) < 10*10){
+			flee(*predator);
+//		}
+//		else{
+//			this->hunted = false;
+//		}
+
 
 	}
 	else{
