@@ -33,7 +33,7 @@ void GameInterfaceScreen::unload() {
 }
 
 void GameInterfaceScreen::show() {
-	np_btn_realizacoes.show();
+	//np_btn_realizacoes.show();
 }
 
 void GameInterfaceScreen::hide() {
