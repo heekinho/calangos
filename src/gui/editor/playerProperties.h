@@ -43,6 +43,8 @@ public:
 	bool bury_ability;
 
 	/* Informações gerais dos lagartos */
+	static const float min_lizard_density;
+	static const float max_lizard_density;
 	float lizards_density;
 	float lizards_aggregation;
 };

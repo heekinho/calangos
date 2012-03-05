@@ -14,3 +14,6 @@ const float PlayerProperties::max_speed = 40;
 
 const float PlayerProperties::min_ideal_temperature = 15.0;
 const float PlayerProperties::max_ideal_temperature = 50.0;
+
+const float PlayerProperties::min_lizard_density = 15.0;
+const float PlayerProperties::max_lizard_density = 100.0;

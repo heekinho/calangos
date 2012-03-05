@@ -65,13 +65,21 @@ void Lizard::init(){
 *Os jovens (considerados abaixo de um ano) não devem ter o símbolo em cima deles,
 *para indicar que eles não podem fazer reprodução nem brigar.*/
 void Lizard::load_lizards(){
+	nout << "Loading Lizards... " << endl;
+
+	/* Para a primeira fase continua o que estava.
+	 * TODO: Existe um property padrão para não precisar fazer esse if? */
+	float lizard_density = 60;
+
+	/* A partir da segunda fase os valores são customizados */
+	if(Session::get_instance()->get_level() > 1){
+		lizard_density = Player::properties.lizards_density;
+	}
 
 	/* Ter calangos do tipo do player */
 	string player_specie = Player::get_specie_name(Player::lizard_specie);
 
-	int qtd = 60;
-
-	for(int i = 0; i < qtd; i++){
+	for(int i = 0; i < lizard_density; i++){
 		LPoint3f point = World::get_world()->get_terrain()->get_random_point();
 
 		/* Pronto... para criar instancias separadas, sem instancing... */

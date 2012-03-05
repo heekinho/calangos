@@ -228,7 +228,9 @@ void CharacterEditor::configure_controls(){
 	ideal_temperature = make_entry_slider(entry, "Temperatura Ideal", text_generator, min, max, valign += offset, 38.0, "°C");
 
 	/* Distribuição de lagartos */
-	density = make_entry_slider(entry, "Densidade de Lagartos", text_generator, 0, 10, valign += offset);
+	min = PlayerProperties::min_lizard_density;
+	max = PlayerProperties::max_lizard_density;
+	density = make_entry_slider(entry, "Densidade de Lagartos", text_generator, min, max, valign += offset);
 	aggregation = make_entry_slider(entry, "Agregação dos Lagartos", text_generator, 0, 10, valign += offset);
 
 	/* Controle de dieta */
