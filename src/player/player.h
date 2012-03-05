@@ -105,11 +105,6 @@ public:
 
 	PT(Achievements) get_achievements();
 
-
-
-
-
-
 /* FEATURE: Tamanho do lagarto */
 public:
 	/* Obtém o tamanho mínimo e máximo de lagartos permitidos. */
@@ -132,20 +127,18 @@ public:
 	void calc_visual_size_factor();
 	float get_visual_size();
 
-         static void event_psegundo_camuflagem(const Event *, void *data);
-
-         static void false_flag_under_vegetal(const Event *, void *data);
-
+	static void event_psegundo_camuflagem(const Event *, void *data);
+	static void false_flag_under_vegetal(const Event *, void *data);
 
 private:
 	float visual_size_factor;
 	float max_size;
 
-        //armazena os níveis de camuflagem  do player editado para variadas situações:
-       static float nivel_camuflagem_terreno_dia;
-       static float nivel_camuflagem_terreno_noite;
-       static float nivel_camuflagem_sombra;
-       static float nivel_camuflagem_folhagem;
+	// Armazena os níveis de camuflagem  do player editado para variadas situações:
+	static float nivel_camuflagem_terreno_dia;
+	static float nivel_camuflagem_terreno_noite;
+	static float nivel_camuflagem_sombra;
+	static float nivel_camuflagem_folhagem;
 
 
 	/* Armazena o tamanho do lagarto que será passado como parâmetro para o
@@ -161,7 +154,6 @@ private:
 
 
 public:
-
 	bool get_estado_reprodutivo();
 	int get_num_ovos();
 	/* ------------------------------------------------------------------------- */
@@ -510,13 +502,7 @@ public:
 private:
 	bool flag_verify_under_vegetal;//Flag verifica se o método in_under_vegetal foi chamado em um frame
 	bool player_is_under_vegetal;
-
-
-
+	
 };
-
-
-
-
 
 #endif
