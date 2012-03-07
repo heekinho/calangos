@@ -63,7 +63,8 @@ public:
 	virtual void flee();
 	virtual void flee(const NodePath &other);
 	virtual void chase(){};
-//	virtual bool hide(){};
+
+//	bool hide_from_predator();
 
 
 	//virtual void move(float velocity);

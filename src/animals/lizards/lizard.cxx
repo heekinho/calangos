@@ -69,7 +69,7 @@ void Lizard::load_lizards(){
 
 	/* Para a primeira fase continua o que estava.
 	 * TODO: Existe um property padrão para não precisar fazer esse if? */
-	float lizard_density = 60;
+	float lizard_density = 90;//Valor inicial de densidade 30
 
 	/* A partir da segunda fase os valores são customizados */
 	if(Session::get_instance()->get_level() > 1){
@@ -181,17 +181,14 @@ void Lizard::act(){
 		if(! World::get_world()->get_terrain()->get_shadows()->is_in_shadow(*this)){
 			look_at(*arvore_da_sombra);
 			move(get_velocity()*1.5);
+//			cout<<"Tamanho"<<this->get_scale().get_x()<<endl;
 			return;
 		}
 	}
 	//Se o lizard estiver sendo caçado
 	if(hunted){
-//		if(this->get_distance_squared(*predator) < 10*10){
+
 			flee(*predator);
-//		}
-//		else{
-//			this->hunted = false;
-//		}
 
 
 	}
@@ -217,28 +214,32 @@ void Lizard::flee(const NodePath &other){
 		set_h(*this, 180); // Corrige modelo errado
 
 		this->move(VEL_RUN);
+
 //	}
 }
+
 /*! se esconder na árvore mais próxima dele */
-//bool Lizard::hide(){
+//bool Lizard::hide_from_predator(){
 //	//Atualização de árvore mais proxima
 //	this->arvore_da_sombra = this->get_setor()->vegetals()->get_closest_to(this->get_pos());
 //	if(this->arvore_da_sombra == NULL){
-//		flee(this->predator);
+//		flee(*predator);
 //		return false;
 //	}
 ////Verifica se o lizard está mais próximo da árvore que o predador
-//	if(this->get_distance_squared(this->arvore_da_sombra) < this->predator()->get_distance_squared(this->arvore_da_sombra)){
+//	float predator_arvore = predator->get_distance_squared(arvore_da_sombra->get_pos());
+//	float lizard_arvore = this->get_distance(arvore_da_sombra->get_pos());
+//	if(lizard_arvore < predator_arvore){
 //		if(!has_other_anim_active("walk")){
 //
 //				play_anim("walk");
-//				look_at(this->arvore_da_sombra);
+//				look_at(*arvore_da_sombra);
 //				this->move(VEL_RUN);
 //				return true;
 //			}
 //	}
 //	else{
-//		flee(this->predator);
+//		flee(*predator);
 //		return false;
 //	}
 //}

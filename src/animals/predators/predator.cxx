@@ -122,13 +122,15 @@ void Predator::load_predators(){
 	Predator::load_predator(Predator::gato, 9, 0.01, -1);
 
 //		ModelRepository::get_instance()->get_animated_model("jararaca")->set_length(0.60);
+//	ModelRepository::get_instance()->get_animated_model("jararaca")->set_length(0.40);
 //		Predator::load_predator(Predator::jararaca, 50, 0.01, -1);
 
 //		ModelRepository::get_instance()->get_animated_model("colubridae")->set_length(0.50);
-//		Predator::load_predator(Predator::colubridae, 50, 0.01, -1);
+//		ModelRepository::get_instance()->get_animated_model("colubridae")->set_length(0.30);
+//		Predator::load_predator(Predator::colubridae, 50, 0.01, -1 );
 
 
-	//	FlyingPredator::load_predators();
+		//FlyingPredator::load_predators();
 }
 
 
@@ -267,8 +269,16 @@ void Predator::change_state(){
 						hunting_lizard = false;
 						this->prey->set_hunted(false);
 
+						break;
+					}
+
+					if(this->get_distance_squared(prey->get_pos()) > 10*10){//Verificar se a presa não está muito distante do predador
+						act_state = Predator::walking;
+						hunting_lizard = false;
+						this->prey->set_hunted(false);
 
 						break;
+
 					}
 				}
 				//Atualizando distancia para a presa
