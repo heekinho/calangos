@@ -72,13 +72,16 @@ void ScreenManager::play_video(string path) {
 	}
 
 	video_manager->play(path);
-	event_handler->add_hook(video_manager->get_audio_sound()->get_finished_event(), stop_video, this);
+	//event_handler->add_hook(video_manager->get_audio_sound()->get_finished_event(), stop_video, this);
 }
 
 void ScreenManager::stop_video(const Event*, void* data) {
+	cout<<"Apertei ESC!"<<endl;
 	ScreenManager* _this = (ScreenManager*) data;
 	if (_this->video_manager->get_audio_sound() != NULL && _this->video_manager->is_playing()) {
-		event_handler->remove_hook(_this->video_manager->get_audio_sound()->get_finished_event(), stop_video, _this);
+		cout<<"Parando o video!"<<endl;
+
+		//event_handler->remove_hook(_this->video_manager->get_audio_sound()->get_finished_event(), stop_video, _this);
 
 		_this->video_manager->stop();
 		AudioController::get_instance()->get_audio_repository()->unpause_bgm();

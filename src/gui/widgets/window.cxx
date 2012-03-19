@@ -10,7 +10,7 @@
 #include "mouseButton.h"
 
 //TODO efeito ao abrir
-Window::Window(NodePath parent, float width, float height, string title) {
+Window::Window(NodePath parent, float width, float height, string title, float pos_x, float pos_y) {
 	this->width = width;
 	this->height = height;
 	frame = new PGVirtualFrame("window");
@@ -18,10 +18,11 @@ Window::Window(NodePath parent, float width, float height, string title) {
 	PGFrameStyle style = frame->get_frame_style(frame->get_state());
 	style.set_type(PGFrameStyle::T_flat);
 	frame->set_frame_style(frame->get_state(), style);
+	frame->set_active(true);
 
 	np_frame = NodePath(frame);
 	np_frame.reparent_to(parent);
-	np_frame.set_pos(-0.8, 0.0, -0.8);
+	np_frame.set_pos(pos_x, 0.0, pos_y);
 	np_frame.set_transparency(TransparencyAttrib::M_alpha);
 	np_frame.set_color(0.97, 0.945, 0.914, 0.85);
 
@@ -32,7 +33,7 @@ Window::Window(NodePath parent, float width, float height, string title) {
 
 	np_header_frame = NodePath(header_frame);
 	np_header_frame.reparent_to(parent);
-	np_header_frame.set_pos(-0.8, 0.0, 0.2);
+	np_header_frame.set_pos(pos_x, 0.0, height + pos_y);
 	np_header_frame.set_color(1, 1, 1);
 
 	header = new TextNode("header");
@@ -51,6 +52,7 @@ Window::Window(NodePath parent, float width, float height, string title) {
 }
 
 Window::~Window() {
+	cout<<"Destruindo a window"<<endl;
 	frame = NULL;
 	header_frame = NULL;
 	header = NULL;
@@ -120,4 +122,18 @@ float Window::get_pos_y() {
 
 void Window::set_pos_y(float y) {
 	np_frame.set_y(y);
+}
+
+/*! Configura um botão dado os parametros para este menu */
+void Window::default_button_config(PT(Button) button, NodePath &np,
+		const string &text, LVecBase3f pos, EventCallbackFunction *action) {
+
+	/* Cria um botão padrão, coloca no nó root e define o z */
+	button = new Button(text + "-button", text, Simdunas::get_game_font(), 0.06);
+	np = np_frame.attach_new_node(button);
+	np.set_pos(pos);
+
+	/* Cadastrando o evento */
+	string event_name = button->get_click_event(MouseButton::one());
+	event_handler->add_hook(event_name, action, this);
 }

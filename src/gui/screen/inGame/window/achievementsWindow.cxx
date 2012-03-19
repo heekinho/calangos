@@ -11,7 +11,7 @@
 
 // TODO colocar os outros achievements
 // TODO se essa janela for aberta apenas com o jogo pausado, ajeitar para ter apenas uma variavel de estrela para cada achievement
-AchievementsWindow::AchievementsWindow(NodePath parent, float width, float height, string title) : Window(parent, width, height, title) {
+AchievementsWindow::AchievementsWindow(NodePath parent, float width, float height, string title, float pos_x, float pos_y) : Window(parent, width, height, title, pos_x, pos_y) {
 	lb_andamento = new TextNode("lb_andamento");
 	lb_andamento->set_text("ANDAMENTO");
 	//lb_andamento->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));

@@ -27,6 +27,7 @@ WindowFramework* Simdunas::pwindow = NULL;
 GuiLayer* Simdunas::pixel2d = NULL;
 NodePath Simdunas::clickable_render_2d = NULL;
 bool Simdunas::play_clicked = false;
+TextFont* Simdunas::game_font = FontPool::load_font("models/gui/fonts/suplexcomic-large");
 
 int main(int argc, char *argv[]) {
 	/* Carrega o arquivo de configuração do jogo */
@@ -153,5 +154,9 @@ bool Simdunas::is_play_clicked() {
 
 void Simdunas::set_play_clicked(bool flag) {
 	Simdunas::play_clicked = flag;
+}
+
+TextFont* Simdunas::get_game_font() {
+	return Simdunas::game_font;
 }
 

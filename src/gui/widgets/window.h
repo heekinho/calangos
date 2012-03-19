@@ -18,7 +18,7 @@ static void mn(const Event*, void* d){ ((PT(Window))(Window*)d)->mn(); }
 
 class Window : public ReferenceCount {
 public:
-	Window(NodePath parent, float width = 2, float height = 1, string name = "frame");
+	Window(NodePath parent, float width = 2, float height = 1, string name = "frame", float pos_x = -0.8, float pos_y = -0.8);
 	virtual ~Window();
 
 	NodePath get_np_frame();
@@ -33,6 +33,8 @@ public:
 	void set_pos_x(float x);
 	float get_pos_y();
 	void set_pos_y(float y);
+	void default_button_config(PT(Button) button, NodePath &np,
+			const string &text, LVecBase3f pos, EventCallbackFunction *action);
 
 protected:
 	float width;

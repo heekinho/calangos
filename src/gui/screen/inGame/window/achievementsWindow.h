@@ -12,7 +12,7 @@
 
 class AchievementsWindow : public Window {
 public:
-	AchievementsWindow(NodePath parent, float width = 2, float height = 1, string name = "frame");
+	AchievementsWindow(NodePath parent, float width = 2, float height = 1, string title = "frame", float pos_x = -0.8, float pos_y = -0.8);
 	virtual ~AchievementsWindow();
 
 private:

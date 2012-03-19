@@ -16,6 +16,7 @@
 #include "inGameScreenManager.h"
 #include "audioRepository.h"
 #include "audioController.h"
+#include "pauseScreen.h"
 
 
 /*! Define velocidade de rotação do player em Graus/Segundos.
@@ -696,8 +697,22 @@ void PlayerControl::bobbing(const Event*, void *data){
 }
 
 void PlayerControl::chama_pause(const Event*, void* data){
-	PT(Screen) pause_screen = InGameScreenManager::get_instance()->get_pause_screen();
-    InGameScreenManager::get_instance()->open_screen(pause_screen);
+	PauseScreen* pause_screen = (PauseScreen*) InGameScreenManager::get_instance()->get_pause_screen().p();
+    //InGameScreenManager::get_instance()->open_screen(pause_screen);
+	cout<<"evento chama pause"<<endl;
+	if (!PauseScreen::is_opened) {
+		cout<<"tela de pause nao esta aberta!"<<endl;
+		pause_screen->show();
+	}
+	else if (PauseScreen::selected_video) {
+		cout<<"esta tocando video! Parando o video agora!"<<endl;
+		InGameScreenManager::get_instance()->stop_video(NULL, InGameScreenManager::get_instance());
+		pause_screen->show();
+	}
+	else {
+		cout<<"tela de pause aberta, fechando a tela"<<endl;
+		pause_screen->show();
+	}
 }
 
 void PlayerControl::morder(){

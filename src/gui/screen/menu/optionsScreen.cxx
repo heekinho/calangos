@@ -32,25 +32,27 @@ void OptionsScreen::load(){
 	np_lb_titulo.set_z(0.7);
 	np_lb_titulo.set_color(0.87, 0.72, 0.52);
 
-	default_button_config(btn_video, np_btn_video, "Vídeo", LVecBase3f(0, 0, 0.1), video_action);
-	default_button_config(btn_audio, np_btn_audio, "Áudio", LVecBase3f(0, 0, -0.1), audio_action);
-	default_button_config(btn_controles, np_btn_controles, "Controles", LVecBase3f(0, 0, -0.3), controles_action);
-	default_button_config(btn_jogo, np_btn_jogo, "Jogo", LVecBase3f(0, 0, -0.5), jogo_action);
+	//default_button_config(btn_video, np_btn_video, "Vídeo", LVecBase3f(0, 0, 0.1), video_action);
+	//default_button_config(btn_audio, np_btn_audio, "Áudio", LVecBase3f(0, 0, -0.1), audio_action);
+	default_button_config(btn_audio, np_btn_audio, "Áudio", LVecBase3f(0, 0, 0.1), audio_action);
+	//default_button_config(btn_controles, np_btn_controles, "Controles", LVecBase3f(0, 0, -0.3), controles_action);
+	//default_button_config(btn_jogo, np_btn_jogo, "Jogo", LVecBase3f(0, 0, -0.5), jogo_action);
+	default_button_config(btn_jogo, np_btn_jogo, "Jogo", LVecBase3f(0, 0, -0.1), jogo_action);
 	configure_default_back_button(((CalangosMenuManager*) manager.p())->get_main_menu());
 }
 
 void OptionsScreen::unload() {
 	np_lb_titulo.remove_node();
 	np_btn_audio.remove_node();
-	np_btn_controles.remove_node();
+	//np_btn_controles.remove_node();
 	np_btn_jogo.remove_node();
-	np_btn_video.remove_node();
+	//np_btn_video.remove_node();
 	np_btn_back.remove_node();
 	lb_titulo = NULL;
 	btn_audio = NULL;
-	btn_controles = NULL;
+	//btn_controles = NULL;
 	btn_jogo = NULL;
-	btn_video = NULL;
+	//btn_video = NULL;
 	btn_back = NULL;
 }
 

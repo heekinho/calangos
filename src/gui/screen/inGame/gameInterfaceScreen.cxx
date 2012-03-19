@@ -42,5 +42,5 @@ void GameInterfaceScreen::hide() {
 
 void GameInterfaceScreen::show_realizacoes_action() {
 	//wnd_realizacoes = new Window(get_root(), 1.5, 1, "Realizações");
-	wnd_realizacoes = new AchievementsWindow(get_root(), 1.5, 1, "Realizações");
+	wnd_realizacoes = new AchievementsWindow(get_root(), 1.5, 1, "Realizações", -0.8, -0.8);
 }
