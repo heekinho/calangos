@@ -141,7 +141,7 @@ void PauseScreen::realizacoes_action() {
 }
 
 void PauseScreen::videos_action() {
-	wnd_videos = new VideosWindow(get_root(), manager, 1.5, 1.3, "Vídeos", -0.8, -0.8);
+	wnd_videos = new VideosWindow(get_root(), manager, 2, 1.3, "Vídeos", -1, -0.8);
 }
 
 void PauseScreen::continuar_action() {

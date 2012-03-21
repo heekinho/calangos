@@ -9,15 +9,41 @@
 #include "audioController.h"
 #include "pauseScreen.h"
 #include "inGameScreenManager.h"
+#include "imageRepository.h"
 
 VideosWindow::VideosWindow(NodePath parent, PT(ScreenManager) manager, float width, float height, string title, float pos_x, float pos_y) : Window(parent, width, height, title, pos_x, pos_y) {
 	this->manager = manager;
 
-	default_button_config(btn_lagartos, np_btn_lagartos, "Lagartos", LVecBase3f(0.2, 0, 1.2), VideosWindow::lagartos_action);
-	default_button_config(btn_predadores, np_btn_predadores, "Predadores", LVecBase3f(0.9, 0, 1.2), VideosWindow::predadores_action);
-	default_button_config(btn_presas, np_btn_presas, "Presas", LVecBase3f(0.2, 0, 0.8), VideosWindow::presas_action);
-	default_button_config(btn_clima, np_btn_clima, "Clima", LVecBase3f(0.9, 0, 0.8), VideosWindow::clima_action);
-	default_button_config(btn_habitat, np_btn_habitat, "Habitat", LVecBase3f(0.2, 0, 0.4), VideosWindow::habitat_action);
+	img_video_lagartos = ImageRepository::get_instance()->get_image("video_lagartos");
+	img_video_lagartos.reparent_to(np_frame);
+	img_video_lagartos.set_scale(0.025);
+	img_video_lagartos.set_pos(0.35, 0.0, 1);
+
+	img_video_predadores = ImageRepository::get_instance()->get_image("video_predadores");
+	img_video_predadores.reparent_to(np_frame);
+	img_video_predadores.set_scale(0.025);
+	img_video_predadores.set_pos(1, 0.0, 1);
+
+	img_video_presas = ImageRepository::get_instance()->get_image("video_presas");
+	img_video_presas.reparent_to(np_frame);
+	img_video_presas.set_scale(0.025);
+	img_video_presas.set_pos(1.65, 0.0, 1);
+
+	img_video_clima = ImageRepository::get_instance()->get_image("video_clima");
+	img_video_clima.reparent_to(np_frame);
+	img_video_clima.set_scale(0.025);
+	img_video_clima.set_pos(0.675, 0.0, 0.45);
+
+	img_video_habitat = ImageRepository::get_instance()->get_image("video_habitat");
+	img_video_habitat.reparent_to(np_frame);
+	img_video_habitat.set_scale(0.025);
+	img_video_habitat.set_pos(1.325, 0.0, 0.45);
+
+	default_button_config(btn_lagartos, np_btn_lagartos, "Lagartos", LVecBase3f(0.35, 0, 0.75), VideosWindow::lagartos_action);
+	default_button_config(btn_predadores, np_btn_predadores, "Predadores", LVecBase3f(1, 0, 0.75), VideosWindow::predadores_action);
+	default_button_config(btn_presas, np_btn_presas, "Presas", LVecBase3f(1.65, 0, 0.75), VideosWindow::presas_action);
+	default_button_config(btn_clima, np_btn_clima, "Clima", LVecBase3f(0.675, 0, 0.2), VideosWindow::clima_action);
+	default_button_config(btn_habitat, np_btn_habitat, "Habitat", LVecBase3f(1.325, 0, 0.2), VideosWindow::habitat_action);
 }
 
 VideosWindow::~VideosWindow() {}

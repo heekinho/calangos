@@ -27,11 +27,11 @@ public:
 private:
 	PT(ScreenManager) manager;
 
-	PT(Button) btn_lagartos;		NodePath np_btn_lagartos;
-	PT(Button) btn_predadores; 		NodePath np_btn_predadores;
-	PT(Button) btn_presas; 			NodePath np_btn_presas;
-	PT(Button) btn_clima; 			NodePath np_btn_clima;
-	PT(Button) btn_habitat; 		NodePath np_btn_habitat;
+	PT(Button) btn_lagartos;		NodePath np_btn_lagartos;		NodePath img_video_lagartos;
+	PT(Button) btn_predadores; 		NodePath np_btn_predadores;		NodePath img_video_predadores;
+	PT(Button) btn_presas; 			NodePath np_btn_presas;			NodePath img_video_presas;
+	PT(Button) btn_clima; 			NodePath np_btn_clima;			NodePath img_video_clima;
+	PT(Button) btn_habitat; 		NodePath np_btn_habitat;		NodePath img_video_habitat;
 };
 
 #undef ACTION

@@ -61,6 +61,11 @@ void ImageRepository::load_images(){
 	add_image("x", "models/buttons/x.png");
 	add_image("white_star", "models/gui/white-star-hi.png");
 	add_image("yellow_star", "models/gui/yellow-star-hi.png");
+	add_image("video_lagartos", "models/gui/video_lagartos.png");
+	add_image("video_predadores", "models/gui/video_predadores.png");
+	add_image("video_presas", "models/gui/video_presas.png");
+	add_image("video_clima", "models/gui/video_clima.png");
+	add_image("video_habitat", "models/gui/video_habitat.png");
 }
 
 
