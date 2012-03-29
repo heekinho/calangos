@@ -31,76 +31,31 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	float text_width = lb_senhor_mordida->get_width();
 	float text_height = lb_senhor_mordida->get_height();
 
-	img_senhor_mordida_whitestar_1 = ImageRepository::get_instance()->get_image("white_star");
-	img_senhor_mordida_whitestar_1.reparent_to(np_frame);
-	img_senhor_mordida_whitestar_1.set_scale(0.003);
-	img_senhor_mordida_whitestar_1.set_pos(0.76, 0, 0.86);
+	string white = "white_star";
+	string yellow = "yellow_star";
 
-	img_senhor_mordida_yellowstar_1 = ImageRepository::get_instance()->get_image("yellow_star");
-	img_senhor_mordida_yellowstar_1.reparent_to(np_frame);
-	img_senhor_mordida_yellowstar_1.set_scale(0.003);
-	img_senhor_mordida_yellowstar_1.set_pos(0.76, 0, 0.86);
-	img_senhor_mordida_yellowstar_1.hide();
-
-	img_senhor_mordida_whitestar_2 = ImageRepository::get_instance()->get_image("white_star");
-	img_senhor_mordida_whitestar_2.reparent_to(np_frame);
-	img_senhor_mordida_whitestar_2.set_scale(0.003);
-	img_senhor_mordida_whitestar_2.set_pos(0.86, 0, 0.86);
-
-	img_senhor_mordida_yellowstar_2 = ImageRepository::get_instance()->get_image("yellow_star");
-	img_senhor_mordida_yellowstar_2.reparent_to(np_frame);
-	img_senhor_mordida_yellowstar_2.set_scale(0.003);
-	img_senhor_mordida_yellowstar_2.set_pos(0.86, 0, 0.86);
-	img_senhor_mordida_yellowstar_2.hide();
-
-	img_senhor_mordida_whitestar_3 = ImageRepository::get_instance()->get_image("white_star");
-	img_senhor_mordida_whitestar_3.reparent_to(np_frame);
-	img_senhor_mordida_whitestar_3.set_scale(0.003);
-	img_senhor_mordida_whitestar_3.set_pos(0.96, 0, 0.86);
-
-	img_senhor_mordida_yellowstar_3 = ImageRepository::get_instance()->get_image("yellow_star");
-	img_senhor_mordida_yellowstar_3.reparent_to(np_frame);
-	img_senhor_mordida_yellowstar_3.set_scale(0.003);
-	img_senhor_mordida_yellowstar_3.set_pos(0.96, 0, 0.86);
-	img_senhor_mordida_yellowstar_3.hide();
-
-	hint_senhor_mordida_atual = new Hint(np_frame, np_lb_senhor_mordida, text_width, text_height, "hint_senhor_mordida", "Coma 10 vezes sem errar a mordida");
 	int lvl_senhor_mordida = player->get_achievements()->get_lvl_senhor_mordida();
-	if (lvl_senhor_mordida == 0) {
-		hint_senhor_mordida_1 = new Hint(np_frame, img_senhor_mordida_whitestar_1, "hint_senhor_mordida", "Coma 10 vezes sem errar a mordida");
-		hint_senhor_mordida_2 = new Hint(np_frame, img_senhor_mordida_whitestar_2, "hint_senhor_mordida", "Coma 25 vezes sem errar a mordida");
-		hint_senhor_mordida_3 = new Hint(np_frame, img_senhor_mordida_whitestar_3, "hint_senhor_mordida", "Coma 50 vezes sem errar a mordida");
+	switch (lvl_senhor_mordida) {
+		case 0:
+			createSenhorMordidaStars(white, white, white);
+			hint_senhor_mordida_atual = new Hint(np_frame, np_lb_senhor_mordida, text_width, text_height, "hint_senhor_mordida", "Coma 10 vezes sem errar a mordida");
+			break;
+		case 1:
+			createSenhorMordidaStars(yellow, white, white);
+			hint_senhor_mordida_atual = new Hint(np_frame, np_lb_senhor_mordida, text_width, text_height, "hint_senhor_mordida", "Coma 25 vezes sem errar a mordida");
+			break;
+		case 2:
+			createSenhorMordidaStars(yellow, yellow, white);
+			hint_senhor_mordida_atual = new Hint(np_frame, np_lb_senhor_mordida, text_width, text_height, "hint_senhor_mordida", "Coma 50 vezes sem errar a mordida");
+			break;
+		default:
+			createSenhorMordidaStars(yellow, yellow, yellow);
+			hint_senhor_mordida_atual = new Hint(np_frame, np_lb_senhor_mordida, text_width, text_height, "hint_senhor_mordida", "Coma 50 vezes sem errar a mordida");
 	}
-	else if (lvl_senhor_mordida == 1) {
-		hint_senhor_mordida_1 = new Hint(np_frame, img_senhor_mordida_yellowstar_1, "hint_senhor_mordida", "Coma 10 vezes sem errar a mordida");
-		hint_senhor_mordida_2 = new Hint(np_frame, img_senhor_mordida_whitestar_2, "hint_senhor_mordida", "Coma 25 vezes sem errar a mordida");
-		hint_senhor_mordida_3 = new Hint(np_frame, img_senhor_mordida_whitestar_3, "hint_senhor_mordida", "Coma 50 vezes sem errar a mordida");
 
-		img_senhor_mordida_whitestar_1.hide();
-		img_senhor_mordida_yellowstar_1.show();
-	}
-	else if (lvl_senhor_mordida == 2) {
-		hint_senhor_mordida_1 = new Hint(np_frame, img_senhor_mordida_yellowstar_1, "hint_senhor_mordida", "Coma 10 vezes sem errar a mordida");
-		hint_senhor_mordida_2 = new Hint(np_frame, img_senhor_mordida_yellowstar_2, "hint_senhor_mordida", "Coma 25 vezes sem errar a mordida");
-		hint_senhor_mordida_3 = new Hint(np_frame, img_senhor_mordida_whitestar_3, "hint_senhor_mordida", "Coma 50 vezes sem errar a mordida");
-
-		img_senhor_mordida_whitestar_1.hide();
-		img_senhor_mordida_whitestar_2.hide();
-		img_senhor_mordida_yellowstar_1.show();
-		img_senhor_mordida_yellowstar_2.show();
-	}
-	else {
-		hint_senhor_mordida_1 = new Hint(np_frame, img_senhor_mordida_yellowstar_1, "hint_senhor_mordida", "Coma 10 vezes sem errar a mordida");
-		hint_senhor_mordida_2 = new Hint(np_frame, img_senhor_mordida_yellowstar_2, "hint_senhor_mordida", "Coma 25 vezes sem errar a mordida");
-		hint_senhor_mordida_3 = new Hint(np_frame, img_senhor_mordida_yellowstar_3, "hint_senhor_mordida", "Coma 50 vezes sem errar a mordida");
-
-		img_senhor_mordida_whitestar_1.hide();
-		img_senhor_mordida_whitestar_2.hide();
-		img_senhor_mordida_whitestar_3.hide();
-		img_senhor_mordida_yellowstar_1.show();
-		img_senhor_mordida_yellowstar_2.show();
-		img_senhor_mordida_yellowstar_3.show();
-	}
+	hint_senhor_mordida_1 = new Hint(np_frame, img_senhor_mordida_star_1, "hint_senhor_mordida", "Coma 10 vezes sem errar a mordida");
+	hint_senhor_mordida_2 = new Hint(np_frame, img_senhor_mordida_star_2, "hint_senhor_mordida", "Coma 25 vezes sem errar a mordida");
+	hint_senhor_mordida_3 = new Hint(np_frame, img_senhor_mordida_star_3, "hint_senhor_mordida", "Coma 50 vezes sem errar a mordida");
 
 	lb_senhor_mordida_xnum = new TextNode("lb_senhor_mordida_xnum");
 	stringstream senhor_mordida_adicionais;
@@ -133,6 +88,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	np_lb_senhor_mordida_andamento.set_scale(0.05);
 	np_lb_senhor_mordida_andamento.set_pos(1.25, 0, 0.85);
 	np_lb_senhor_mordida_andamento.set_color(0, 0, 0, 1);
+	// FIM DO ACHIEVEMENT SENHOR MORDIDA PERFEITA
 
 	// Achievement: O bom de boca
 	lb_bom_de_boca = new TextNode("lb_bom_de_boca");
@@ -146,43 +102,25 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	text_height = lb_bom_de_boca->get_height();
 	hint_bom_de_boca_1 = new Hint(np_frame, np_lb_bom_de_boca, text_width, text_height, "hint_bom_de_boca", "Coma um alimento qualquer.");
 
-	img_bom_de_boca_whitestar_1 = ImageRepository::get_instance()->get_image("white_star");
-	img_bom_de_boca_whitestar_1.reparent_to(np_frame);
-	img_bom_de_boca_whitestar_1.set_scale(0.003);
-	img_bom_de_boca_whitestar_1.set_pos(0.76, 0, 0.76);
+	img_bom_de_boca_star_1 = ImageRepository::get_instance()->get_image("white_star");
+	img_bom_de_boca_star_1.reparent_to(np_frame);
+	img_bom_de_boca_star_1.set_scale(0.003);
+	img_bom_de_boca_star_1.set_pos(0.76, 0, 0.76);
 
-	img_bom_de_boca_yellowstar_1 = ImageRepository::get_instance()->get_image("yellow_star");
-	img_bom_de_boca_yellowstar_1.reparent_to(np_frame);
-	img_bom_de_boca_yellowstar_1.set_scale(0.003);
-	img_bom_de_boca_yellowstar_1.set_pos(0.76, 0, 0.76);
-	img_bom_de_boca_yellowstar_1.hide();
+	img_bom_de_boca_star_2 = ImageRepository::get_instance()->get_image("white_star");
+	img_bom_de_boca_star_2.reparent_to(np_frame);
+	img_bom_de_boca_star_2.set_scale(0.003);
+	img_bom_de_boca_star_2.set_pos(0.86, 0, 0.76);
 
-	img_bom_de_boca_whitestar_2 = ImageRepository::get_instance()->get_image("white_star");
-	img_bom_de_boca_whitestar_2.reparent_to(np_frame);
-	img_bom_de_boca_whitestar_2.set_scale(0.003);
-	img_bom_de_boca_whitestar_2.set_pos(0.86, 0, 0.76);
-
-	img_bom_de_boca_yellowstar_2 = ImageRepository::get_instance()->get_image("yellow_star");
-	img_bom_de_boca_yellowstar_2.reparent_to(np_frame);
-	img_bom_de_boca_yellowstar_2.set_scale(0.003);
-	img_bom_de_boca_yellowstar_2.set_pos(0.86, 0, 0.76);
-	img_bom_de_boca_yellowstar_2.hide();
-
-	img_bom_de_boca_whitestar_3 = ImageRepository::get_instance()->get_image("white_star");
-	img_bom_de_boca_whitestar_3.reparent_to(np_frame);
-	img_bom_de_boca_whitestar_3.set_scale(0.003);
-	img_bom_de_boca_whitestar_3.set_pos(0.96, 0, 0.76);
-
-	img_bom_de_boca_yellowstar_3 = ImageRepository::get_instance()->get_image("yellow_star");
-	img_bom_de_boca_yellowstar_3.reparent_to(np_frame);
-	img_bom_de_boca_yellowstar_3.set_scale(0.003);
-	img_bom_de_boca_yellowstar_3.set_pos(0.96, 0, 0.76);
-	img_bom_de_boca_yellowstar_3.hide();
+	img_bom_de_boca_star_3 = ImageRepository::get_instance()->get_image("white_star");
+	img_bom_de_boca_star_3.reparent_to(np_frame);
+	img_bom_de_boca_star_3.set_scale(0.003);
+	img_bom_de_boca_star_3.set_pos(0.96, 0, 0.76);
 
 	hint_bom_de_boca_atual = new Hint(np_frame, np_lb_bom_de_boca, text_width, text_height, "hint_bom_de_boca", "Coma 10 vezes sem errar a mordida");
-	hint_bom_de_boca_1 = new Hint(np_frame, img_bom_de_boca_whitestar_1, "hint_bom_de_boca", "Ter comido um alimento qualquer");
-	hint_bom_de_boca_2 = new Hint(np_frame, img_bom_de_boca_whitestar_2, "hint_bom_de_boca", "Ter comido metade dos tipos de alimento");
-	hint_bom_de_boca_3 = new Hint(np_frame, img_bom_de_boca_whitestar_3, "hint_bom_de_boca", "Ter comido todos os tipos de alimento");
+	hint_bom_de_boca_1 = new Hint(np_frame, img_bom_de_boca_star_1, "hint_bom_de_boca", "Ter comido um alimento qualquer");
+	hint_bom_de_boca_2 = new Hint(np_frame, img_bom_de_boca_star_2, "hint_bom_de_boca", "Ter comido metade dos tipos de alimento");
+	hint_bom_de_boca_3 = new Hint(np_frame, img_bom_de_boca_star_3, "hint_bom_de_boca", "Ter comido todos os tipos de alimento");
 
 	lb_bom_de_boca_xnum = new TextNode("lb_bom_de_boca_xnum");
 	lb_bom_de_boca_xnum->set_text("+ 0");
@@ -202,3 +140,20 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 }
 
 AchievementsWindow::~AchievementsWindow() {}
+
+void AchievementsWindow::createSenhorMordidaStars(string star1, string star2, string star3) {
+	img_senhor_mordida_star_1 = ImageRepository::get_instance()->get_image(star1);
+	img_senhor_mordida_star_1.reparent_to(np_frame);
+	img_senhor_mordida_star_1.set_scale(0.003);
+	img_senhor_mordida_star_1.set_pos(0.76, 0, 0.86);
+
+	img_senhor_mordida_star_2 = ImageRepository::get_instance()->get_image(star2);
+	img_senhor_mordida_star_2.reparent_to(np_frame);
+	img_senhor_mordida_star_2.set_scale(0.003);
+	img_senhor_mordida_star_2.set_pos(0.86, 0, 0.86);
+
+	img_senhor_mordida_star_3 = ImageRepository::get_instance()->get_image(star3);
+	img_senhor_mordida_star_3.reparent_to(np_frame);
+	img_senhor_mordida_star_3.set_scale(0.003);
+	img_senhor_mordida_star_3.set_pos(0.96, 0, 0.86);
+}

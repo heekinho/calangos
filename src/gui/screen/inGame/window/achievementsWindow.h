@@ -15,6 +15,8 @@ public:
 	AchievementsWindow(NodePath parent, float width = 2, float height = 1, string title = "frame", float pos_x = -0.8, float pos_y = -0.8);
 	virtual ~AchievementsWindow();
 
+	void createSenhorMordidaStars(string star1, string star2, string star3);
+
 private:
 	PT(TextNode) lb_andamento;
 	NodePath np_lb_andamento;
@@ -26,12 +28,9 @@ private:
 	PT(Hint) hint_senhor_mordida_1;
 	PT(Hint) hint_senhor_mordida_2;
 	PT(Hint) hint_senhor_mordida_3;
-	NodePath img_senhor_mordida_whitestar_1;
-	NodePath img_senhor_mordida_whitestar_2;
-	NodePath img_senhor_mordida_whitestar_3;
-	NodePath img_senhor_mordida_yellowstar_1;
-	NodePath img_senhor_mordida_yellowstar_2;
-	NodePath img_senhor_mordida_yellowstar_3;
+	NodePath img_senhor_mordida_star_1;
+	NodePath img_senhor_mordida_star_2;
+	NodePath img_senhor_mordida_star_3;
 	PT(TextNode) lb_senhor_mordida_xnum;
 	NodePath np_lb_senhor_mordida_xnum;
 	PT(TextNode) lb_senhor_mordida_andamento;
@@ -44,12 +43,9 @@ private:
 	PT(Hint) hint_bom_de_boca_1;
 	PT(Hint) hint_bom_de_boca_2;
 	PT(Hint) hint_bom_de_boca_3;
-	NodePath img_bom_de_boca_whitestar_1;
-	NodePath img_bom_de_boca_whitestar_2;
-	NodePath img_bom_de_boca_whitestar_3;
-	NodePath img_bom_de_boca_yellowstar_1;
-	NodePath img_bom_de_boca_yellowstar_2;
-	NodePath img_bom_de_boca_yellowstar_3;
+	NodePath img_bom_de_boca_star_1;
+	NodePath img_bom_de_boca_star_2;
+	NodePath img_bom_de_boca_star_3;
 	PT(TextNode) lb_bom_de_boca_xnum;
 	NodePath np_lb_bom_de_boca_xnum;
 	PT(TextNode) lb_bom_de_boca_andamento;
@@ -62,12 +58,9 @@ private:
 	PT(Hint) hint_sobrevivente_1;
 	PT(Hint) hint_sobrevivente_2;
 	PT(Hint) hint_sobrevivente_3;
-	NodePath img_sobrevivente_whitestar_1;
-	NodePath img_sobrevivente_whitestar_2;
-	NodePath img_sobrevivente_whitestar_3;
-	NodePath img_sobrevivente_yellowstar_1;
-	NodePath img_sobrevivente_yellowstar_2;
-	NodePath img_sobrevivente_yellowstar_3;
+	NodePath img_sobrevivente_star_1;
+	NodePath img_sobrevivente_star_2;
+	NodePath img_sobrevivente_star_3;
 	PT(TextNode) lb_sobrevivente_xnum;
 	NodePath np_lb_sobrevivente_xnum;
 	PT(TextNode) lb_sobrevivente_andamento;
@@ -80,12 +73,9 @@ private:
 	PT(Hint) hint_reprodutor_1;
 	PT(Hint) hint_reprodutor_2;
 	PT(Hint) hint_reprodutor_3;
-	NodePath img_reprodutor_whitestar_1;
-	NodePath img_reprodutor_whitestar_2;
-	NodePath img_reprodutor_whitestar_3;
-	NodePath img_reprodutor_yellowstar_1;
-	NodePath img_reprodutor_yellowstar_2;
-	NodePath img_reprodutor_yellowstar_3;
+	NodePath img_reprodutor_star_1;
+	NodePath img_reprodutor_star_2;
+	NodePath img_reprodutor_star_3;
 	PT(TextNode) lb_reprodutor_xnum;
 	NodePath np_lb_reprodutor_xnum;
 	PT(TextNode) lb_reprodutor_andamento;
