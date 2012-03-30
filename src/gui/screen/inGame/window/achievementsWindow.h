@@ -15,7 +15,8 @@ public:
 	AchievementsWindow(NodePath parent, float width = 2, float height = 1, string title = "frame", float pos_x = -0.8, float pos_y = -0.8);
 	virtual ~AchievementsWindow();
 
-	void createSenhorMordidaStars(string star1, string star2, string star3);
+	void create_senhor_mordida_stars(string star1, string star2, string star3);
+	void create_bom_de_boca_stars(string star1, string star2, string star3);
 
 private:
 	PT(TextNode) lb_andamento;

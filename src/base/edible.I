@@ -10,6 +10,14 @@ INLINE Edible::Edible(float nutritional, float hydration){
 	_hydration = hydration;
 }
 
+INLINE Edible::Specie Edible::get_specie_value() {
+	return _specie;
+}
+
+INLINE void Edible::set_specie_value(Edible::Specie specie) {
+	_specie = specie;
+}
+
 /*! Obtém o valor nutricional associado */
 INLINE float Edible::get_nutritional_value() const {
 	return _nutritional;

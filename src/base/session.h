@@ -65,7 +65,7 @@ private:
 
 
 	int causa_mortis;
-	vector<string> stage_info; // informa��es sobre as etapas de carregamento.
+	vector<string> stage_info; // informações sobre as etapas de carregamento.
 	bool finished_loading;
 	void end_session();
 };

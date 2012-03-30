@@ -112,6 +112,8 @@ string Player::get_gender_name(Player::lizardGender gender){
 /*! Ao comer um objeto, a respectiva hidratacao e energia eh adquirida */
 /* type: 0:formiga   1:plantas 2:outros */
 void Player::eat(Edible* food, int type){
+	achievements->check_edible_specie(food->get_specie_value());
+
 	nout << "type: " << type << " : ";
 	nout << "ant: " << properties.ant_diet << " : " << properties.plant_diet << " : " << properties.general_diet << endl;
 
