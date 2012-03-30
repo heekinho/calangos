@@ -136,6 +136,7 @@ GuiManager::GuiManager() {
 	//Regula o aspect 2d.
 //	aspect2d.set_scale(1.0);
 	is_game_over = false;
+	status_seta = false;
 
 	img_arrow_predator_position = ImageRepository::get_instance()->get_image("predator_left");
 	img_arrow_predator_position.reparent_to(render2d);
@@ -1492,26 +1493,39 @@ GameStatusBar* GuiManager::get_game_status_bar() {
 	return game_status_bar;
 }
 
+/*Verifica se já existe um seta criada para apontar para um predador*/
+bool GuiManager::is_status_seta(){
+	return status_seta;
+}
+
 void GuiManager::activate_predator_alert(Predator* pursuer) {
+	status_seta = true;
 	show_predator_location(pursuer);
+
 	img_arrow_predator_position.show();
-	TimeControl::get_instance()->notify("showing_predator_location", showing_predator_location, pursuer, 0.7);
+	TimeControl::get_instance()->notify("showing_predator_location", showing_predator_location, this, 0.7);
 	TimeControl::get_instance()->notify("arrow_predator_effect", arrow_predator_effect, NULL, 1);
 	AudioController::get_instance()->play_warning();
 }
 
 AsyncTask::DoneStatus GuiManager::showing_predator_location(GenericAsyncTask* task, void* data) {
-	if (!Predator::pursuing) {
+//	if (!Predator::pursuing) {
+//		return AsyncTask::DS_done;
+//	}
+	GuiManager* _this = (GuiManager*) data;
+	if (!player->get_hunted()) {//Verifica se o player está sendo caçado ou não, para se retirar a seta indicadora
+		_this->status_seta = false;
 		return AsyncTask::DS_done;
 	}
 
 	GuiManager::get_instance()->show_predator_location(data);
-
 	return AsyncTask::DS_again;
 }
 
 void GuiManager::show_predator_location(void* data) {
-	Predator* pursuer = (Predator*) data;
+//	Predator* pursuer = (Predator*) data;
+	if(player->get_predator() == NULL){return;}
+	Predator* pursuer = player->get_predator();
 	LVector3f right = player->get_net_transform()->get_quat().get_right();
 	LVector3f player2obj = player->get_pos(render) - pursuer->get_pos(render);
 	right.normalize();
@@ -1557,7 +1571,12 @@ void GuiManager::set_predator_location_img(string image_name) {
 }
 
 AsyncTask::DoneStatus GuiManager::arrow_predator_effect(GenericAsyncTask* task, void* data) {
-	if (!Predator::pursuing) {
+//	if (!Predator::pursuing) {
+//		img_arrow_predator_position.hide();
+//		is_showing_arrow_predator = false;
+//		return AsyncTask::DS_done;
+//	}
+	if (!player->get_hunted()) {
 		img_arrow_predator_position.hide();
 		is_showing_arrow_predator = false;
 		return AsyncTask::DS_done;

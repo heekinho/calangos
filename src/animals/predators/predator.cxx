@@ -116,8 +116,8 @@ void Predator::load_predators(){
 	Predator::load_predator(Predator::siriema, 7, 0.03, -1);
 
 	ModelRepository::get_instance()->get_animated_model("raposa")->set_length(0.80);
-//	Predator::load_predator(Predator::raposa, 6, 0.01, -1, Animal::A_night); // Testing
-	Predator::load_predator(Predator::raposa, 20, 0.01, -1, Animal::A_night); // Testing
+	Predator::load_predator(Predator::raposa, 6, 0.01, -1, Animal::A_night); // Testing
+//	Predator::load_predator(Predator::raposa, 20, 0.01, -1, Animal::A_night); // Testing
 
 	ModelRepository::get_instance()->get_animated_model("gato")->set_length(0.40);
 	Predator::load_predator(Predator::gato, 9, 0.01, -1);
@@ -219,11 +219,11 @@ void Predator::change_state(){
 		case(Predator::walking):
 				if(find_prey()){
 					act_state = Predator::pursuing_act;
-					if(hunting_player){
-						pursuing = true;
-						AudioController::get_instance()->predator_pursuing();
-						GuiManager::get_instance()->activate_predator_alert(this);
-					}
+//					if(hunting_player){
+//						pursuing = true;
+//						AudioController::get_instance()->predator_pursuing();
+//						GuiManager::get_instance()->activate_predator_alert(this);
+//					}
 					if(predator_to_prey < Predator::dist_to_bite){ act_state = Predator::biting; }
 				}
 
@@ -237,8 +237,9 @@ void Predator::change_state(){
 						act_state = Predator::walking;
 						hunting_player = false;
 						player->set_hunted(false);
-						AudioController::get_instance()->pursuit_finished();
-						pursuing = false;
+						player->set_predator(NULL);
+//						AudioController::get_instance()->pursuit_finished();
+//						pursuing = false;
 						break;
 					}
 
@@ -246,8 +247,9 @@ void Predator::change_state(){
 						act_state = Predator::walking;
 						hunting_player = false;
 						player->set_hunted(false);
-						AudioController::get_instance()->pursuit_finished();
-						pursuing = false;
+						player->set_predator(NULL);
+//						AudioController::get_instance()->pursuit_finished();
+//						pursuing = false;
 						break;
 					}
 

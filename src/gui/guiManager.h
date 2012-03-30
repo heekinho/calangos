@@ -40,6 +40,8 @@ public:
     static void verifica_conta(const Event*, void *data);
 	void remove_hooks();//remove todos os hooks.......
 
+	bool is_status_seta();
+
     static void update_gui(const Event*, void *data);
     static void init_options(const Event*, void *data);
     static void mostra_moldura_toca(const Event*, void *data);
@@ -108,6 +110,7 @@ private:
                                          quando o tempo virtual demorar mais de passar vai ficar muito tempo piscando
                                          */
 
+
     char string_hidratacao[10];
     char string_temperatura[10];
     char string_temp_amb[10];
@@ -139,6 +142,8 @@ private:
     bool grafico7Baixo;
     bool grafico8Cima;
     bool grafico8Baixo;
+
+    bool status_seta;
 
     static NodePath img_arrow_predator_position;
     static bool is_showing_arrow_predator;

@@ -4,6 +4,7 @@
 #include "audioRepository.h"
 #include "textureStageCollection.h"
 #include "simdunas.h"
+#include "audioController.h"
 
 #define DEBUG_PLAYER 0
 
@@ -45,6 +46,7 @@ Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_anim
 	_captured = false;
 	_is_buried = false;
 	hunted = false;
+
 	achievements = new Achievements();
 
 	//int especie = Menu::get_instance()->get_especie();
@@ -406,6 +408,16 @@ void Player::set_false_verify_under_vegetal(){
 
 void Player::set_predator(PT(Predator) other){
 	this->predator = other;
+
+	if(other == NULL){//Se não houver predador, termina a música
+		AudioController::get_instance()->pursuit_finished();
+	}
+	else if(!GuiManager::get_instance()->is_status_seta()){//Se já existir um seta criada, não se cria outra
+		AudioController::get_instance()->predator_pursuing();
+		GuiManager::get_instance()->activate_predator_alert(other);
+	}
+
+
 }
 
 PT(Predator) Player::get_predator(){
