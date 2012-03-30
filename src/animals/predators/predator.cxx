@@ -116,7 +116,8 @@ void Predator::load_predators(){
 	Predator::load_predator(Predator::siriema, 7, 0.03, -1);
 
 	ModelRepository::get_instance()->get_animated_model("raposa")->set_length(0.80);
-	Predator::load_predator(Predator::raposa, 6, 0.01, -1, Animal::A_night); // Testing
+//	Predator::load_predator(Predator::raposa, 6, 0.01, -1, Animal::A_night); // Testing
+	Predator::load_predator(Predator::raposa, 20, 0.01, -1, Animal::A_night); // Testing
 
 	ModelRepository::get_instance()->get_animated_model("gato")->set_length(0.40);
 	Predator::load_predator(Predator::gato, 9, 0.01, -1);
@@ -171,7 +172,7 @@ void Predator::load_predator(Predator::types_predator type , int qtd, float scal
 void Predator::act(){
 
 	if(Session::get_instance()->get_level() == 1){
-	//Se o predador não estiver nas proximidades do player, ele apenas andará
+		//Se o predador não estiver nas proximidades do player, ele apenas andará
 		if(!(this->get_setor()==player->get_setor() || this->get_setor()->get_is_closest_sector())){
 			this->act_state = Predator::walking;
 			play_anim("andar");
@@ -182,26 +183,25 @@ void Predator::act(){
 		else{
 			switch(act_state){
 				case(Predator::walking):
-							play_anim("andar");
-							Animal::act();
-							break;
+						play_anim("andar");
+						Animal::act();
+						break;
 
 				case(Predator::pursuing_act):
-							if(this->prey != NULL){
-								pursuit(*this->prey);
-							}
-							break;
+						if(this->prey != NULL){
+						pursuit(*this->prey);
+						}
+					break;
 
 				case(Predator::biting):
-
-							bite();
+				bite();
 			}
 
-			}
+		}
 	}
 
 	else{
-//Nova ação para a fase 2
+		//Nova ação para a fase 2
 		act_fase_2();
 	}
 
@@ -242,19 +242,37 @@ void Predator::change_state(){
 						break;
 					}
 
-					if(!closest_to_player){//Se ele não for o mais próximo, verifica se o primeiro está muito próximo
+					if(get_distance_squared(*player) > 10*10){
+						act_state = Predator::walking;
+						hunting_player = false;
+						player->set_hunted(false);
+						AudioController::get_instance()->pursuit_finished();
+						pursuing = false;
+						break;
+					}
+
+					if(!closest_to_player || player->get_predator() != this){//Se ele não for o mais próximo, verifica se o primeiro está muito próximo
+						if(player->get_predator() != NULL){
 						float distance_squared_player = this->get_distance_squared(*player);
 						float dist_first_pred = player->get_distance_squared(player->get_predator()->get_pos());
 
 						if(dist_first_pred < 5*5){//Closest_predator muito próximo
 							act_state = Predator::walking;
 							hunting_player = false;
-
 							break;
-						}
+							}
 
 						if(distance_squared_player < dist_first_pred){//Este está  mais próximo, e acontece a mudança de predador no player
 							player->get_predator()->set_closest_player(false);
+							player->set_hunted(true);
+							player->set_predator(this);
+							this->closest_to_player = true;
+							break;
+							}
+						}
+						else{
+							player->set_predator(this);
+							player->set_hunted(true);
 							player->set_predator(this);
 							this->closest_to_player = true;
 							break;
@@ -371,14 +389,19 @@ bool Predator::find_prey(){
 					float dist_first_pred = lizard->get_distance_squared(lizard->get_predator()->get_pos());
 
 									if(distance_squared_lizard < dist_first_pred){
-//Predador está mais próximo que o primeiro predador
-									this->prey = lizard;
-									lizard->get_predator()->set_state(Predator::walking);
-									lizard->set_predator(this);
-									this->prey->set_hunted(true);
-									predator_to_prey = distance_squared_lizard;
-									hunting_lizard = true;
-									hunting_player = false;
+										if(distance_squared_lizard < predator_to_prey){
+											player->set_hunted(false);
+											player->set_predator(NULL);
+										}
+
+										//Predador está mais próximo que o primeiro predador
+										this->prey = lizard;
+										lizard->get_predator()->set_state(Predator::walking);
+										lizard->set_predator(this);
+										this->prey->set_hunted(true);
+										predator_to_prey = distance_squared_lizard;
+										hunting_lizard = true;
+										hunting_player = false;
 					}
 				}
 
