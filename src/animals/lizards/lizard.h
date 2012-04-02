@@ -64,7 +64,8 @@ public:
 	virtual void flee(const NodePath &other);
 	virtual void chase(){};
 
-//	bool hide_from_predator();
+	bool hide_from_predator();
+	PT(Vegetal) get_arvore_da_sombra();
 
 
 	//virtual void move(float velocity);

@@ -185,10 +185,15 @@ void Lizard::act(){
 			return;
 		}
 	}
+	else{
+		Animal::act();
+	}
 	//Se o lizard estiver sendo caçado
 	if(hunted){
-
+			//flee(*predator);
+		if(this->hide_from_predator()){
 			flee(*predator);
+		}
 
 
 	}
@@ -219,30 +224,34 @@ void Lizard::flee(const NodePath &other){
 }
 
 /*! se esconder na árvore mais próxima dele */
-//bool Lizard::hide_from_predator(){
-//	//Atualização de árvore mais proxima
-//	this->arvore_da_sombra = this->get_setor()->vegetals()->get_closest_to(this->get_pos());
+bool Lizard::hide_from_predator(){
+	//Atualização de árvore mais proxima
+	this->arvore_da_sombra = this->get_setor()->vegetals()->get_closest_to(this->get_pos());
 //	if(this->arvore_da_sombra == NULL){
 //		flee(*predator);
 //		return false;
 //	}
-////Verifica se o lizard está mais próximo da árvore que o predador
-//	float predator_arvore = predator->get_distance_squared(arvore_da_sombra->get_pos());
-//	float lizard_arvore = this->get_distance(arvore_da_sombra->get_pos());
-//	if(lizard_arvore < predator_arvore){
-//		if(!has_other_anim_active("walk")){
-//
-//				play_anim("walk");
-//				look_at(*arvore_da_sombra);
-//				this->move(VEL_RUN);
-//				return true;
-//			}
-//	}
-//	else{
+//Verifica se o lizard está mais próximo da árvore que o predador
+	float predator_arvore = predator->get_distance_squared(arvore_da_sombra->get_pos());
+	float lizard_arvore = this->get_distance(arvore_da_sombra->get_pos());
+	if(lizard_arvore < predator_arvore){
+		if(!has_other_anim_active("walk")){
+
+				play_anim("walk");
+				look_at(*arvore_da_sombra);
+				this->move(VEL_RUN);
+				return true;
+			}
+	}
+	else{
 //		flee(*predator);
-//		return false;
-//	}
-//}
+		return false;
+	}
+}
+
+PT(Vegetal) Lizard::get_arvore_da_sombra(){
+	return this->arvore_da_sombra;
+}
 
 void Lizard::change_sector(PT(Setor) new_sector){
 	get_setor()->lizards()->remove(this);

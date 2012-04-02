@@ -284,7 +284,8 @@ void Predator::change_state(){
 				}
 
 				if(hunting_lizard){//Presa é um lizard
-					if(this->prey->under_vegetal()){//verificar se método under_vegetal funciona corretamente
+					Lizard* presa = (Lizard*) prey.p();
+					if(presa->get_distance_squared(presa->get_arvore_da_sombra()->get_pos()) < Predator::dist_player_hide){
 						act_state = Predator::walking;
 						hunting_lizard = false;
 						this->prey->set_hunted(false);
@@ -382,10 +383,13 @@ bool Predator::find_prey(){
 	for(it = lizard_list->begin(); it!= lizard_list->end(); ++it){
 		PT(Lizard) lizard = *it;
 		distance_squared_lizard = get_distance_squared(*lizard);
-		if(distance_squared_lizard < Predator::dist_to_hunt){
-
-			if(predator_to_prey == 0 || distance_squared_lizard < predator_to_prey){
-
+		if(distance_squared_lizard < Predator::dist_to_hunt){//Verifica se a presa está próxima
+			if(lizard->get_arvore_da_sombra() != NULL){
+				if(lizard->get_distance_squared(lizard->get_arvore_da_sombra()->get_pos()) < Predator::dist_player_hide){continue;}
+			}
+				//Verifica se  a presa não está camuflada
+			  if(predator_to_prey == 0 || distance_squared_lizard < predator_to_prey){
+					//Verifica se esse lizard é o mais próximo do predador
 				if(lizard->get_hunted() && lizard->get_predator()!=NULL){
 
 					float dist_first_pred = lizard->get_distance_squared(lizard->get_predator()->get_pos());
@@ -415,9 +419,9 @@ bool Predator::find_prey(){
 			hunting_lizard = true;
 			hunting_player = false;
 				}
-			}
-
+		  }
 		continue;
+
 		}
 		else{
 			continue;
