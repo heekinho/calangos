@@ -125,7 +125,9 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	hint_bom_de_boca_3 = new Hint(np_frame, img_bom_de_boca_star_3, "hint_bom_de_boca", "Ter comido de todas as 14 espécies diferentes de insetos ou plantas");
 
 	lb_bom_de_boca_xnum = new TextNode("lb_bom_de_boca_xnum");
-	lb_bom_de_boca_xnum->set_text("+ 0");
+	stringstream bom_de_boca_adicionais;
+	bom_de_boca_adicionais<<((lvl_bom_de_boca - 3) > 0 ? lvl_bom_de_boca - 3 : 0);
+	lb_bom_de_boca_xnum->set_text("+ " + bom_de_boca_adicionais.str());
 	lb_bom_de_boca_xnum->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_bom_de_boca_xnum = np_frame.attach_new_node(lb_bom_de_boca_xnum);
 	np_lb_bom_de_boca_xnum.set_scale(0.06);
@@ -134,11 +136,11 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 
 	stringstream bom_de_boca_andamento;
 	lb_bom_de_boca_andamento = new TextNode("lb_bom_de_boca_andamento");
-	if (lvl_senhor_mordida == 0) {
+	if (lvl_bom_de_boca == 0) {
 		bom_de_boca_andamento<<player->get_achievements()->get_count_species();
 		lb_bom_de_boca_andamento->set_text(bom_de_boca_andamento.str() + " / 4");
 	}
-	else if (lvl_senhor_mordida == 1) {
+	else if (lvl_bom_de_boca == 1) {
 		bom_de_boca_andamento<<player->get_achievements()->get_count_species();
 		lb_bom_de_boca_andamento->set_text(bom_de_boca_andamento.str() + " / 5");
 	}
@@ -151,6 +153,70 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	np_lb_bom_de_boca_andamento.set_scale(0.05);
 	np_lb_bom_de_boca_andamento.set_pos(1.25, 0, 0.75);
 	np_lb_bom_de_boca_andamento.set_color(0, 0, 0, 1);
+
+	// Achievement: Sobrevivente
+	lb_sobrevivente = new TextNode("lb_sobrevivente");
+	lb_sobrevivente->set_text("- Sobrevivente");
+	//lb_sobrevivente->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
+	np_lb_sobrevivente = np_frame.attach_new_node(lb_sobrevivente);
+	np_lb_sobrevivente.set_scale(0.05);
+	np_lb_sobrevivente.set_pos(0.06, 0, 0.65);
+	np_lb_sobrevivente.set_color(0, 0, 0, 1);
+	text_width = lb_sobrevivente->get_width();
+	text_height = lb_sobrevivente->get_height();
+
+	int lvl_sobrevivente = player->get_achievements()->get_lvl_sobrevivente();
+	switch (lvl_sobrevivente) {
+		case 0:
+			create_sobrevivente_stars(white, white, white);
+			hint_sobrevivente_atual = new Hint(np_frame, np_lb_sobrevivente, text_width, text_height, "hint_sobrevivente", "Sobreviva por 4 meses.");
+			break;
+		case 1:
+			create_sobrevivente_stars(yellow, white, white);
+			hint_sobrevivente_atual = new Hint(np_frame, np_lb_sobrevivente, text_width, text_height, "hint_sobrevivente", "Sobreviva por mais 7 meses.");
+			break;
+		case 2:
+			create_sobrevivente_stars(yellow, yellow, white);
+			hint_sobrevivente_atual = new Hint(np_frame, np_lb_sobrevivente, text_width, text_height, "hint_sobrevivente", "Sobreviva por mais 11 meses");
+			break;
+		default:
+			create_sobrevivente_stars(yellow, yellow, yellow);
+			hint_sobrevivente_atual = new Hint(np_frame, np_lb_sobrevivente, text_width, text_height, "hint_sobrevivente", "Sobreviva por mais 11 meses");
+	}
+
+	hint_sobrevivente_1 = new Hint(np_frame, img_sobrevivente_star_1, "hint_sobrevivente", "Ter sobrevivido por 4 meses");
+	hint_sobrevivente_2 = new Hint(np_frame, img_sobrevivente_star_2, "hint_sobrevivente", "Ter sobrevivido por 7 meses");
+	hint_sobrevivente_3 = new Hint(np_frame, img_sobrevivente_star_3, "hint_sobrevivente", "Ter sobrevivido por 11 meses");
+
+	lb_sobrevivente_xnum = new TextNode("lb_sobrevivente_xnum");
+	stringstream sobrevivente_adicionais;
+	sobrevivente_adicionais<<((lvl_sobrevivente - 3) > 0 ? lvl_sobrevivente - 3 : 0);
+	lb_sobrevivente_xnum->set_text("+ " + sobrevivente_adicionais.str());
+	lb_sobrevivente_xnum->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
+	np_lb_sobrevivente_xnum = np_frame.attach_new_node(lb_sobrevivente_xnum);
+	np_lb_sobrevivente_xnum.set_scale(0.06);
+	np_lb_sobrevivente_xnum.set_pos(1.01, 0, 0.63);
+	np_lb_sobrevivente_xnum.set_color(0, 0, 0, 1);
+
+	stringstream sobrevivente_andamento;
+	lb_sobrevivente_andamento = new TextNode("lb_sobrevivente_andamento");
+	if (lvl_sobrevivente == 0) {
+		sobrevivente_andamento<<player->get_achievements()->get_count_sobrevivente();
+		lb_sobrevivente_andamento->set_text(sobrevivente_andamento.str() + " / 4");
+	}
+	else if (lvl_sobrevivente == 1) {
+		sobrevivente_andamento<<player->get_achievements()->get_count_sobrevivente();
+		lb_sobrevivente_andamento->set_text(sobrevivente_andamento.str() + " / 7");
+	}
+	else {
+		sobrevivente_andamento<<player->get_achievements()->get_count_sobrevivente();
+		lb_sobrevivente_andamento->set_text(sobrevivente_andamento.str() + " / 11");
+	}
+	//lb_sobrevivente_andamento->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
+	np_lb_sobrevivente_andamento = np_frame.attach_new_node(lb_sobrevivente_andamento);
+	np_lb_sobrevivente_andamento.set_scale(0.05);
+	np_lb_sobrevivente_andamento.set_pos(1.25, 0, 0.65);
+	np_lb_sobrevivente_andamento.set_color(0, 0, 0, 1);
 }
 
 AchievementsWindow::~AchievementsWindow() {}
@@ -187,4 +253,21 @@ void AchievementsWindow::create_bom_de_boca_stars(string star1, string star2, st
 	img_bom_de_boca_star_3.reparent_to(np_frame);
 	img_bom_de_boca_star_3.set_scale(0.003);
 	img_bom_de_boca_star_3.set_pos(0.96, 0, 0.76);
+}
+
+void AchievementsWindow::create_sobrevivente_stars(string star1, string star2, string star3) {
+	img_sobrevivente_star_1 = ImageRepository::get_instance()->get_image(star1);
+	img_sobrevivente_star_1.reparent_to(np_frame);
+	img_sobrevivente_star_1.set_scale(0.003);
+	img_sobrevivente_star_1.set_pos(0.76, 0, 0.66);
+
+	img_sobrevivente_star_2 = ImageRepository::get_instance()->get_image(star2);
+	img_sobrevivente_star_2.reparent_to(np_frame);
+	img_sobrevivente_star_2.set_scale(0.003);
+	img_sobrevivente_star_2.set_pos(0.86, 0, 0.66);
+
+	img_sobrevivente_star_3 = ImageRepository::get_instance()->get_image(star3);
+	img_sobrevivente_star_3.reparent_to(np_frame);
+	img_sobrevivente_star_3.set_scale(0.003);
+	img_sobrevivente_star_3.set_pos(0.96, 0, 0.66);
 }

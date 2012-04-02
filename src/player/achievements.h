@@ -22,6 +22,9 @@ public:
 	int get_lvl_senhor_mordida();
 	int get_lvl_bom_de_boca();
 	int get_count_species();
+	void inc_meses_sobrevivente();
+	int get_count_sobrevivente();
+	int get_lvl_sobrevivente();
 	void check_edible_specie(Edible::Specie);
 
 private:
@@ -30,6 +33,8 @@ private:
 	vector<Edible::Specie> eaten_species;
 	int lvl_bom_de_boca;
 	int count_species;
+	int lvl_sobrevivente;
+	int count_sobrevivente;
 };
 
 #endif /* ACHIEVEMENTS_H */

@@ -436,6 +436,7 @@ void Player::event_pmonth(const Event*, void *data){
 
 	/* Aumenta a idade do lagarto */
 	player->idade++;
+	player->get_achievements()->inc_meses_sobrevivente();
 
 	/* Só deve ser feita a mudança uma vez: Evento de borda */
 	if(player->lizard_gender == Player::young && player->get_estado_reprodutivo()){

@@ -12,6 +12,8 @@ Achievements::Achievements() {
 	lvl_senhor_mordida = 0;
 	lvl_bom_de_boca = 0;
 	count_species = 0;
+	count_sobrevivente = 0;
+	lvl_sobrevivente = 0;
 }
 
 Achievements::~Achievements() {}
@@ -53,6 +55,31 @@ int Achievements::get_lvl_bom_de_boca() {
 
 int Achievements::get_count_species() {
 	return count_species;
+}
+
+void Achievements::inc_meses_sobrevivente() {
+	count_sobrevivente++;
+
+	if (count_sobrevivente == 4) {
+		count_sobrevivente = 0;
+		lvl_sobrevivente++;
+	}
+	else if (count_sobrevivente == 7) {
+		count_sobrevivente = 0;
+		lvl_sobrevivente++;
+	}
+	else if (count_sobrevivente == 11) {
+		count_sobrevivente = 0;
+		lvl_sobrevivente++;
+	}
+}
+
+int Achievements::get_count_sobrevivente() {
+	return count_sobrevivente;
+}
+
+int Achievements::get_lvl_sobrevivente() {
+	return lvl_sobrevivente;
 }
 
 // verifica a espécie do alimento ingerido
