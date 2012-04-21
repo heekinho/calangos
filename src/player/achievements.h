@@ -25,6 +25,9 @@ public:
 	void inc_meses_sobrevivente();
 	int get_count_sobrevivente();
 	int get_lvl_sobrevivente();
+	void inc_reprodutor();
+	int get_count_reprodutor();
+	int get_lvl_reprodutor();
 	void check_edible_specie(Edible::Specie);
 
 private:
@@ -35,6 +38,8 @@ private:
 	int count_species;
 	int lvl_sobrevivente;
 	int count_sobrevivente;
+	int lvl_reprodutor;
+	int count_reprodutor;
 };
 
 #endif /* ACHIEVEMENTS_H */

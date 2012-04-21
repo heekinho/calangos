@@ -14,6 +14,8 @@ Achievements::Achievements() {
 	count_species = 0;
 	count_sobrevivente = 0;
 	lvl_sobrevivente = 0;
+	count_reprodutor = 0;
+	lvl_reprodutor = 0;
 }
 
 Achievements::~Achievements() {}
@@ -29,7 +31,7 @@ void Achievements::inc_bites() {
 		clear_bites();
 		lvl_senhor_mordida++;
 	}
-	else if (count_bites == 50) {
+	else if (count_bites == 50) { // do lvl 2 para cima
 		clear_bites();
 		lvl_senhor_mordida++;
 	}
@@ -60,15 +62,15 @@ int Achievements::get_count_species() {
 void Achievements::inc_meses_sobrevivente() {
 	count_sobrevivente++;
 
-	if (count_sobrevivente == 4) {
+	if (lvl_sobrevivente == 0 && count_sobrevivente == 4) {
 		count_sobrevivente = 0;
 		lvl_sobrevivente++;
 	}
-	else if (count_sobrevivente == 7) {
+	else if (lvl_sobrevivente == 1 && count_sobrevivente == 7) {
 		count_sobrevivente = 0;
 		lvl_sobrevivente++;
 	}
-	else if (count_sobrevivente == 11) {
+	else if (count_sobrevivente == 11) { // do lvl 2 para cima
 		count_sobrevivente = 0;
 		lvl_sobrevivente++;
 	}
@@ -80,6 +82,31 @@ int Achievements::get_count_sobrevivente() {
 
 int Achievements::get_lvl_sobrevivente() {
 	return lvl_sobrevivente;
+}
+
+int Achievements::get_count_reprodutor() {
+	return count_reprodutor;
+}
+
+int Achievements::get_lvl_reprodutor() {
+	return lvl_reprodutor;
+}
+
+void Achievements::inc_reprodutor() {
+	count_reprodutor++;
+
+	if (lvl_reprodutor == 0 && count_reprodutor == 3) {
+		count_reprodutor = 0;
+		lvl_reprodutor++;
+	}
+	else if (lvl_reprodutor == 1 && count_reprodutor == 6) {
+		count_reprodutor = 0;
+		lvl_reprodutor++;
+	}
+	else if (count_reprodutor == 10) { // do lvl 2 para cima
+		count_reprodutor = 0;
+		lvl_reprodutor++;
+	}
 }
 
 // verifica a espécie do alimento ingerido

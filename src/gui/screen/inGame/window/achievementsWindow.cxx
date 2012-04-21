@@ -88,9 +88,9 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	np_lb_senhor_mordida_andamento.set_scale(0.05);
 	np_lb_senhor_mordida_andamento.set_pos(1.25, 0, 0.85);
 	np_lb_senhor_mordida_andamento.set_color(0, 0, 0, 1);
-	// FIM DO ACHIEVEMENT SENHOR MORDIDA PERFEITA
+	// FIM DO ACHIEVEMENT
 
-	// Achievement: O bom de boca
+	// ACHIEVEMENT: O bom de boca
 	lb_bom_de_boca = new TextNode("lb_bom_de_boca");
 	lb_bom_de_boca->set_text("- O bom de boca");
 	//lb_bom_de_boca->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
@@ -153,8 +153,9 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	np_lb_bom_de_boca_andamento.set_scale(0.05);
 	np_lb_bom_de_boca_andamento.set_pos(1.25, 0, 0.75);
 	np_lb_bom_de_boca_andamento.set_color(0, 0, 0, 1);
+	// FIM DO ACHIEVEMENT
 
-	// Achievement: Sobrevivente
+	// ACHIEVEMENT: Sobrevivente
 	lb_sobrevivente = new TextNode("lb_sobrevivente");
 	lb_sobrevivente->set_text("- Sobrevivente");
 	//lb_sobrevivente->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
@@ -217,6 +218,71 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	np_lb_sobrevivente_andamento.set_scale(0.05);
 	np_lb_sobrevivente_andamento.set_pos(1.25, 0, 0.65);
 	np_lb_sobrevivente_andamento.set_color(0, 0, 0, 1);
+	// FIM DO ACHIEVEMENT
+
+	// ACHIEVEMENT: Reprodutor
+	lb_reprodutor = new TextNode("lb_reprodutor");
+	lb_reprodutor->set_text("- Reprodutor");
+	//lb_reprodutor->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
+	np_lb_reprodutor = np_frame.attach_new_node(lb_reprodutor);
+	np_lb_reprodutor.set_scale(0.05);
+	np_lb_reprodutor.set_pos(0.06, 0, 0.55);
+	np_lb_reprodutor.set_color(0, 0, 0, 1);
+	text_width = lb_reprodutor->get_width();
+	text_height = lb_reprodutor->get_height();
+
+	int lvl_reprodutor = player->get_achievements()->get_lvl_reprodutor();
+	switch (lvl_reprodutor) {
+		case 0:
+			create_reprodutor_stars(white, white, white);
+			hint_reprodutor_atual = new Hint(np_frame, np_lb_reprodutor, text_width, text_height, "hint_reprodutor", "Reproduza 3 vezes.");
+			break;
+		case 1:
+			create_reprodutor_stars(yellow, white, white);
+			hint_reprodutor_atual = new Hint(np_frame, np_lb_reprodutor, text_width, text_height, "hint_reprodutor", "Reproduza 6 vezes.");
+			break;
+		case 2:
+			create_reprodutor_stars(yellow, yellow, white);
+			hint_reprodutor_atual = new Hint(np_frame, np_lb_reprodutor, text_width, text_height, "hint_reprodutor", "Reproduza 10 vezes.");
+			break;
+		default:
+			create_reprodutor_stars(yellow, yellow, yellow);
+			hint_reprodutor_atual = new Hint(np_frame, np_lb_reprodutor, text_width, text_height, "hint_reprodutor", "Reproduza 10 vezes.");
+	}
+
+	hint_reprodutor_1 = new Hint(np_frame, img_reprodutor_star_1, "hint_reprodutor", "Ter reproduzido 3 vezes");
+	hint_reprodutor_2 = new Hint(np_frame, img_reprodutor_star_2, "hint_reprodutor", "Ter reproduzido mais 6 vezes");
+	hint_reprodutor_3 = new Hint(np_frame, img_reprodutor_star_3, "hint_reprodutor", "Ter reproduzido mais 10 vezes");
+
+	lb_reprodutor_xnum = new TextNode("lb_reprodutor_xnum");
+	stringstream reprodutor_adicionais;
+	reprodutor_adicionais<<((lvl_reprodutor - 3) > 0 ? lvl_reprodutor - 3 : 0);
+	lb_reprodutor_xnum->set_text("+ " + reprodutor_adicionais.str());
+	lb_reprodutor_xnum->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
+	np_lb_reprodutor_xnum = np_frame.attach_new_node(lb_reprodutor_xnum);
+	np_lb_reprodutor_xnum.set_scale(0.06);
+	np_lb_reprodutor_xnum.set_pos(1.01, 0, 0.53);
+	np_lb_reprodutor_xnum.set_color(0, 0, 0, 1);
+
+	stringstream reprodutor_andamento;
+	lb_reprodutor_andamento = new TextNode("lb_reprodutor_andamento");
+	if (lvl_reprodutor == 0) {
+		reprodutor_andamento<<player->get_achievements()->get_count_reprodutor();
+		lb_reprodutor_andamento->set_text(reprodutor_andamento.str() + " / 3");
+	}
+	else if (lvl_reprodutor == 1) {
+		reprodutor_andamento<<player->get_achievements()->get_count_reprodutor();
+		lb_reprodutor_andamento->set_text(reprodutor_andamento.str() + " / 6");
+	}
+	else {
+		reprodutor_andamento<<player->get_achievements()->get_count_reprodutor();
+		lb_reprodutor_andamento->set_text(reprodutor_andamento.str() + " / 10");
+	}
+	//lb_reprodutor_andamento->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
+	np_lb_reprodutor_andamento = np_frame.attach_new_node(lb_reprodutor_andamento);
+	np_lb_reprodutor_andamento.set_scale(0.05);
+	np_lb_reprodutor_andamento.set_pos(1.25, 0, 0.55);
+	np_lb_reprodutor_andamento.set_color(0, 0, 0, 1);
 }
 
 AchievementsWindow::~AchievementsWindow() {}
@@ -270,4 +336,21 @@ void AchievementsWindow::create_sobrevivente_stars(string star1, string star2, s
 	img_sobrevivente_star_3.reparent_to(np_frame);
 	img_sobrevivente_star_3.set_scale(0.003);
 	img_sobrevivente_star_3.set_pos(0.96, 0, 0.66);
+}
+
+void AchievementsWindow::create_reprodutor_stars(string star1, string star2, string star3) {
+	img_reprodutor_star_1 = ImageRepository::get_instance()->get_image(star1);
+	img_reprodutor_star_1.reparent_to(np_frame);
+	img_reprodutor_star_1.set_scale(0.003);
+	img_reprodutor_star_1.set_pos(0.76, 0, 0.56);
+
+	img_reprodutor_star_2 = ImageRepository::get_instance()->get_image(star2);
+	img_reprodutor_star_2.reparent_to(np_frame);
+	img_reprodutor_star_2.set_scale(0.003);
+	img_reprodutor_star_2.set_pos(0.86, 0, 0.56);
+
+	img_reprodutor_star_3 = ImageRepository::get_instance()->get_image(star3);
+	img_reprodutor_star_3.reparent_to(np_frame);
+	img_reprodutor_star_3.set_scale(0.003);
+	img_reprodutor_star_3.set_pos(0.96, 0, 0.56);
 }

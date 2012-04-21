@@ -853,6 +853,7 @@ void Player::add_hidratacao_alimento(double ganho_hidratacao_alimento){
 
 void Player::add_ovos(){
 	this->num_ovos++;
+	this->achievements->inc_reprodutor();
 }
 /* ------------------------------------------------------------------------- */
 /* "OUTROS"
