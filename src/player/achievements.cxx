@@ -6,6 +6,7 @@
  */
 
 #include "achievements.h"
+#include "timeControl.h"
 
 Achievements::Achievements() {
 	count_bites = 0;
@@ -16,6 +17,11 @@ Achievements::Achievements() {
 	lvl_sobrevivente = 0;
 	count_reprodutor = 0;
 	lvl_reprodutor = 0;
+	temp_min = 35;
+	temp_max = 40;
+	lvl_temperatura = 0;
+	count_secs_temp = 0;
+	counting_secs_temp = false;
 }
 
 Achievements::~Achievements() {}
@@ -92,6 +98,14 @@ int Achievements::get_lvl_reprodutor() {
 	return lvl_reprodutor;
 }
 
+int Achievements::get_count_secs_temp() {
+	return count_secs_temp;
+}
+
+int Achievements::get_lvl_temperatura() {
+	return lvl_temperatura;
+}
+
 void Achievements::inc_reprodutor() {
 	count_reprodutor++;
 
@@ -132,4 +146,41 @@ void Achievements::check_edible_specie(Edible::Specie specie) {
 				break;
 		}
 	}
+}
+
+void Achievements::checkTemperature(double temperature) {
+	if (!counting_secs_temp) {
+		if (temperature >= temp_min && temperature <= temp_max) {
+			TimeControl::get_instance()->notify("count_seconds_temperature", count_seconds_temperature, this, 1);
+			counting_secs_temp = true;
+		}
+	}
+	else if (temperature < temp_min || temperature > temp_max) {
+		counting_secs_temp = false;
+	}
+}
+
+AsyncTask::DoneStatus Achievements::count_seconds_temperature(GenericAsyncTask* task, void* data) {
+	Achievements* _this = (Achievements*) data;
+	if (!_this->counting_secs_temp) {
+		_this->count_secs_temp = 0;
+		return AsyncTask::DS_done;
+	}
+
+	_this->count_secs_temp++;
+
+	if (_this->lvl_temperatura == 0 && _this->count_secs_temp == 45) {
+		_this->lvl_temperatura++;
+		_this->count_secs_temp = 0;
+	}
+	else if (_this->lvl_temperatura == 1 && _this->count_secs_temp == 60) {
+		_this->lvl_temperatura++;
+		_this->count_secs_temp = 0;
+	}
+	else if (_this->count_secs_temp == 90) {
+		_this->lvl_temperatura++;
+		_this->count_secs_temp = 0;
+	}
+
+	return AsyncTask::DS_again;
 }

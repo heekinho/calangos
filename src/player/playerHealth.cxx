@@ -261,6 +261,8 @@ void Player::event_gasto_energia(const Event*, void *data){
 	player->display();
 	player->atualiza_vector();
 
+	player->get_achievements()->checkTemperature(player->temp_interna);
+
 	/* Verificação de morte do personagem por energia*/
 	if(player->energia < player->energia_minlimite){
 		//Informa morte do personagem por desnutrição.

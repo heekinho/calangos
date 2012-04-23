@@ -28,7 +28,11 @@ public:
 	void inc_reprodutor();
 	int get_count_reprodutor();
 	int get_lvl_reprodutor();
+	int get_count_secs_temp();
+	int get_lvl_temperatura();
 	void check_edible_specie(Edible::Specie);
+	void checkTemperature(double temperature);
+	static AsyncTask::DoneStatus count_seconds_temperature(GenericAsyncTask* task, void* data);
 
 private:
 	int count_bites;
@@ -40,6 +44,11 @@ private:
 	int count_sobrevivente;
 	int lvl_reprodutor;
 	int count_reprodutor;
+	int temp_min;
+	int temp_max;
+	int lvl_temperatura;
+	int count_secs_temp;
+	bool counting_secs_temp;
 };
 
 #endif /* ACHIEVEMENTS_H */

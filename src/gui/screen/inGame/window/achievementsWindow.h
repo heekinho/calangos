@@ -19,6 +19,7 @@ public:
 	void create_bom_de_boca_stars(string star1, string star2, string star3);
 	void create_sobrevivente_stars(string star1, string star2, string star3);
 	void create_reprodutor_stars(string star1, string star2, string star3);
+	void create_temperatura_stars(string star1, string star2, string star3);
 
 private:
 	PT(TextNode) lb_andamento;
@@ -83,6 +84,21 @@ private:
 	NodePath np_lb_reprodutor_xnum;
 	PT(TextNode) lb_reprodutor_andamento;
 	NodePath np_lb_reprodutor_andamento;
+
+	// Achievement: Temperatura
+	PT(TextNode) lb_temperatura;
+	NodePath np_lb_temperatura;
+	PT(Hint) hint_temperatura_atual;
+	PT(Hint) hint_temperatura_1;
+	PT(Hint) hint_temperatura_2;
+	PT(Hint) hint_temperatura_3;
+	NodePath img_temperatura_star_1;
+	NodePath img_temperatura_star_2;
+	NodePath img_temperatura_star_3;
+	PT(TextNode) lb_temperatura_xnum;
+	NodePath np_lb_temperatura_xnum;
+	PT(TextNode) lb_temperatura_andamento;
+	NodePath np_lb_temperatura_andamento;
 };
 
 #endif /* ACHIEVEMENTSWINDOW_H */

@@ -283,6 +283,71 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	np_lb_reprodutor_andamento.set_scale(0.05);
 	np_lb_reprodutor_andamento.set_pos(1.25, 0, 0.55);
 	np_lb_reprodutor_andamento.set_color(0, 0, 0, 1);
+	// FIM DO ACHIEVEMENT REPRODUTOR
+
+	// ACHIEVEMENT: Temperatura
+	lb_temperatura = new TextNode("lb_temperatura");
+	lb_temperatura->set_text("- Temperatura");
+	//lb_temperatura->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
+	np_lb_temperatura = np_frame.attach_new_node(lb_temperatura);
+	np_lb_temperatura.set_scale(0.05);
+	np_lb_temperatura.set_pos(0.06, 0, 0.45);
+	np_lb_temperatura.set_color(0, 0, 0, 1);
+	text_width = lb_temperatura->get_width();
+	text_height = lb_temperatura->get_height();
+
+	int lvl_temperatura = player->get_achievements()->get_lvl_temperatura();
+	switch (lvl_temperatura) {
+		case 0:
+			create_temperatura_stars(white, white, white);
+			hint_temperatura_atual = new Hint(np_frame, np_lb_temperatura, text_width, text_height, "hint_temperatura", "Mantenha sua temperatura entre 35 e 40 graus durante 45 segundos.");
+			break;
+		case 1:
+			create_temperatura_stars(yellow, white, white);
+			hint_temperatura_atual = new Hint(np_frame, np_lb_temperatura, text_width, text_height, "hint_temperatura", "Mantenha sua temperatura entre 35 e 40 graus durante 60 segundos.");
+			break;
+		case 2:
+			create_temperatura_stars(yellow, yellow, white);
+			hint_temperatura_atual = new Hint(np_frame, np_lb_temperatura, text_width, text_height, "hint_temperatura", "Mantenha sua temperatura entre 35 e 40 graus durante 90 segundos.");
+			break;
+		default:
+			create_temperatura_stars(yellow, yellow, yellow);
+			hint_temperatura_atual = new Hint(np_frame, np_lb_temperatura, text_width, text_height, "hint_temperatura", "Mantenha sua temperatura entre 35 e 40 graus durante 90 segundos.");
+	}
+
+	hint_temperatura_1 = new Hint(np_frame, img_temperatura_star_1, "hint_temperatura", "Ter mantido a temperatura entre 35 e 40 graus durante 45 segundos");
+	hint_temperatura_2 = new Hint(np_frame, img_temperatura_star_2, "hint_temperatura", "Ter mantido a temperatura entre 35 e 40 graus durante 60 segundos");
+	hint_temperatura_3 = new Hint(np_frame, img_temperatura_star_3, "hint_temperatura", "Ter mantido a temperatura entre 35 e 40 graus durante 90 segundos");
+
+	lb_temperatura_xnum = new TextNode("lb_temperatura_xnum");
+	stringstream temperatura_adicionais;
+	temperatura_adicionais<<((lvl_temperatura - 3) > 0 ? lvl_temperatura - 3 : 0);
+	lb_temperatura_xnum->set_text("+ " + temperatura_adicionais.str());
+	lb_temperatura_xnum->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
+	np_lb_temperatura_xnum = np_frame.attach_new_node(lb_temperatura_xnum);
+	np_lb_temperatura_xnum.set_scale(0.06);
+	np_lb_temperatura_xnum.set_pos(1.01, 0, 0.43);
+	np_lb_temperatura_xnum.set_color(0, 0, 0, 1);
+
+	stringstream temperatura_andamento;
+	lb_temperatura_andamento = new TextNode("lb_temperatura_andamento");
+	if (lvl_temperatura == 0) {
+		temperatura_andamento<<player->get_achievements()->get_count_secs_temp();
+		lb_temperatura_andamento->set_text(temperatura_andamento.str() + " / 30");
+	}
+	else if (lvl_temperatura == 1) {
+		temperatura_andamento<<player->get_achievements()->get_count_secs_temp();
+		lb_temperatura_andamento->set_text(temperatura_andamento.str() + " / 60");
+	}
+	else {
+		temperatura_andamento<<player->get_achievements()->get_count_secs_temp();
+		lb_temperatura_andamento->set_text(temperatura_andamento.str() + " / 90");
+	}
+	//lb_temperatura_andamento->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
+	np_lb_temperatura_andamento = np_frame.attach_new_node(lb_temperatura_andamento);
+	np_lb_temperatura_andamento.set_scale(0.05);
+	np_lb_temperatura_andamento.set_pos(1.25, 0, 0.45);
+	np_lb_temperatura_andamento.set_color(0, 0, 0, 1);
 }
 
 AchievementsWindow::~AchievementsWindow() {}
@@ -353,4 +418,21 @@ void AchievementsWindow::create_reprodutor_stars(string star1, string star2, str
 	img_reprodutor_star_3.reparent_to(np_frame);
 	img_reprodutor_star_3.set_scale(0.003);
 	img_reprodutor_star_3.set_pos(0.96, 0, 0.56);
+}
+
+void AchievementsWindow::create_temperatura_stars(string star1, string star2, string star3) {
+	img_temperatura_star_1 = ImageRepository::get_instance()->get_image(star1);
+	img_temperatura_star_1.reparent_to(np_frame);
+	img_temperatura_star_1.set_scale(0.003);
+	img_temperatura_star_1.set_pos(0.76, 0, 0.46);
+
+	img_temperatura_star_2 = ImageRepository::get_instance()->get_image(star2);
+	img_temperatura_star_2.reparent_to(np_frame);
+	img_temperatura_star_2.set_scale(0.003);
+	img_temperatura_star_2.set_pos(0.86, 0, 0.46);
+
+	img_temperatura_star_3 = ImageRepository::get_instance()->get_image(star3);
+	img_temperatura_star_3.reparent_to(np_frame);
+	img_temperatura_star_3.set_scale(0.003);
+	img_temperatura_star_3.set_pos(0.96, 0, 0.46);
 }
