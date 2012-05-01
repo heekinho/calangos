@@ -348,6 +348,71 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	np_lb_temperatura_andamento.set_scale(0.05);
 	np_lb_temperatura_andamento.set_pos(1.25, 0, 0.45);
 	np_lb_temperatura_andamento.set_color(0, 0, 0, 1);
+	// FIM DO ACHIEVEMENT TEMPERATURA
+
+	// ACHIEVEMENT: Hidratação
+	lb_hidratacao = new TextNode("lb_hidratacao");
+	lb_hidratacao->set_text("- hidratacao");
+	//lb_hidratacao->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
+	np_lb_hidratacao = np_frame.attach_new_node(lb_hidratacao);
+	np_lb_hidratacao.set_scale(0.05);
+	np_lb_hidratacao.set_pos(0.06, 0, 0.35);
+	np_lb_hidratacao.set_color(0, 0, 0, 1);
+	text_width = lb_hidratacao->get_width();
+	text_height = lb_hidratacao->get_height();
+
+	int lvl_hidratacao = player->get_achievements()->get_lvl_hidratacao();
+	switch (lvl_hidratacao) {
+		case 0:
+			create_hidratacao_stars(white, white, white);
+			hint_hidratacao_atual = new Hint(np_frame, np_lb_hidratacao, text_width, text_height, "hint_hidratacao", "Mantenha sua hidratação maior que 70 durante 60 segundos.");
+			break;
+		case 1:
+			create_hidratacao_stars(yellow, white, white);
+			hint_hidratacao_atual = new Hint(np_frame, np_lb_hidratacao, text_width, text_height, "hint_hidratacao", "Mantenha sua hidratação maior que 80 durante 120 segundos.");
+			break;
+		case 2:
+			create_hidratacao_stars(yellow, yellow, white);
+			hint_hidratacao_atual = new Hint(np_frame, np_lb_hidratacao, text_width, text_height, "hint_hidratacao", "Mantenha sua hidratação maior que 90 durante 180 segundos.");
+			break;
+		default:
+			create_hidratacao_stars(yellow, yellow, yellow);
+			hint_hidratacao_atual = new Hint(np_frame, np_lb_hidratacao, text_width, text_height, "hint_hidratacao", "Mantenha sua hidratação maior que 90 durante 180 segundos.");
+	}
+
+	hint_hidratacao_1 = new Hint(np_frame, img_hidratacao_star_1, "hint_hidratacao", "Ter mantido a hidratação maior que 70 durante 60 segundos");
+	hint_hidratacao_2 = new Hint(np_frame, img_hidratacao_star_2, "hint_hidratacao", "Ter mantido a hidratação maior que 80 durante 120 segundos");
+	hint_hidratacao_3 = new Hint(np_frame, img_hidratacao_star_3, "hint_hidratacao", "Ter mantido a hidratação maior que 90 durante 180 segundos");
+
+	lb_hidratacao_xnum = new TextNode("lb_hidratacao_xnum");
+	stringstream hidratacao_adicionais;
+	hidratacao_adicionais<<((lvl_hidratacao - 3) > 0 ? lvl_hidratacao - 3 : 0);
+	lb_hidratacao_xnum->set_text("+ " + hidratacao_adicionais.str());
+	lb_hidratacao_xnum->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
+	np_lb_hidratacao_xnum = np_frame.attach_new_node(lb_hidratacao_xnum);
+	np_lb_hidratacao_xnum.set_scale(0.06);
+	np_lb_hidratacao_xnum.set_pos(1.01, 0, 0.33);
+	np_lb_hidratacao_xnum.set_color(0, 0, 0, 1);
+
+	stringstream hidratacao_andamento;
+	lb_hidratacao_andamento = new TextNode("lb_hidratacao_andamento");
+	if (lvl_hidratacao == 0) {
+		hidratacao_andamento<<player->get_achievements()->get_count_secs_hyd();
+		lb_hidratacao_andamento->set_text(hidratacao_andamento.str() + " / 60");
+	}
+	else if (lvl_hidratacao == 1) {
+		hidratacao_andamento<<player->get_achievements()->get_count_secs_hyd();
+		lb_hidratacao_andamento->set_text(hidratacao_andamento.str() + " / 120");
+	}
+	else {
+		hidratacao_andamento<<player->get_achievements()->get_count_secs_hyd();
+		lb_hidratacao_andamento->set_text(hidratacao_andamento.str() + " / 180");
+	}
+	//lb_hidratacao_andamento->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
+	np_lb_hidratacao_andamento = np_frame.attach_new_node(lb_hidratacao_andamento);
+	np_lb_hidratacao_andamento.set_scale(0.05);
+	np_lb_hidratacao_andamento.set_pos(1.25, 0, 0.35);
+	np_lb_hidratacao_andamento.set_color(0, 0, 0, 1);
 }
 
 AchievementsWindow::~AchievementsWindow() {}
@@ -435,4 +500,21 @@ void AchievementsWindow::create_temperatura_stars(string star1, string star2, st
 	img_temperatura_star_3.reparent_to(np_frame);
 	img_temperatura_star_3.set_scale(0.003);
 	img_temperatura_star_3.set_pos(0.96, 0, 0.46);
+}
+
+void AchievementsWindow::create_hidratacao_stars(string star1, string star2, string star3) {
+	img_hidratacao_star_1 = ImageRepository::get_instance()->get_image(star1);
+	img_hidratacao_star_1.reparent_to(np_frame);
+	img_hidratacao_star_1.set_scale(0.003);
+	img_hidratacao_star_1.set_pos(0.76, 0, 0.36);
+
+	img_hidratacao_star_2 = ImageRepository::get_instance()->get_image(star2);
+	img_hidratacao_star_2.reparent_to(np_frame);
+	img_hidratacao_star_2.set_scale(0.003);
+	img_hidratacao_star_2.set_pos(0.86, 0, 0.36);
+
+	img_hidratacao_star_3 = ImageRepository::get_instance()->get_image(star3);
+	img_hidratacao_star_3.reparent_to(np_frame);
+	img_hidratacao_star_3.set_scale(0.003);
+	img_hidratacao_star_3.set_pos(0.96, 0, 0.36);
 }

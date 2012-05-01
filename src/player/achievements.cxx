@@ -22,6 +22,10 @@ Achievements::Achievements() {
 	lvl_temperatura = 0;
 	count_secs_temp = 0;
 	counting_secs_temp = false;
+	hyd_min = 70;
+	lvl_hidratacao = 0;
+	count_secs_hyd = 0;
+	counting_secs_hyd = false;
 }
 
 Achievements::~Achievements() {}
@@ -106,6 +110,14 @@ int Achievements::get_lvl_temperatura() {
 	return lvl_temperatura;
 }
 
+int Achievements::get_count_secs_hyd() {
+	return count_secs_hyd;
+}
+
+int Achievements::get_lvl_hidratacao() {
+	return lvl_hidratacao;
+}
+
 void Achievements::inc_reprodutor() {
 	count_reprodutor++;
 
@@ -148,7 +160,7 @@ void Achievements::check_edible_specie(Edible::Specie specie) {
 	}
 }
 
-void Achievements::checkTemperature(double temperature) {
+void Achievements::check_temperature(double temperature) {
 	if (!counting_secs_temp) {
 		if (temperature >= temp_min && temperature <= temp_max) {
 			TimeControl::get_instance()->notify("count_seconds_temperature", count_seconds_temperature, this, 1);
@@ -180,6 +192,45 @@ AsyncTask::DoneStatus Achievements::count_seconds_temperature(GenericAsyncTask* 
 	else if (_this->count_secs_temp == 90) {
 		_this->lvl_temperatura++;
 		_this->count_secs_temp = 0;
+	}
+
+	return AsyncTask::DS_again;
+}
+
+void Achievements::check_hydration(double hydration) {
+	if (!counting_secs_hyd) {
+		if (hydration >= hyd_min) {
+			TimeControl::get_instance()->notify("count_seconds_hydration", count_seconds_hydration, this, 1);
+			counting_secs_hyd = true;
+		}
+	}
+	else if (hydration < hyd_min) {
+		counting_secs_hyd = false;
+	}
+}
+
+AsyncTask::DoneStatus Achievements::count_seconds_hydration(GenericAsyncTask* task, void* data) {
+	Achievements* _this = (Achievements*) data;
+	if (!_this->counting_secs_hyd) {
+		_this->count_secs_hyd = 0;
+		return AsyncTask::DS_done;
+	}
+
+	_this->count_secs_hyd++;
+
+	if (_this->lvl_hidratacao == 0 && _this->count_secs_hyd == 60) {
+		_this->lvl_hidratacao++;
+		_this->hyd_min = 80;
+		_this->count_secs_hyd = 0;
+	}
+	else if (_this->lvl_hidratacao == 1 && _this->count_secs_hyd == 120) {
+		_this->lvl_hidratacao++;
+		_this->hyd_min = 90;
+		_this->count_secs_hyd = 0;
+	}
+	else if (_this->count_secs_hyd == 180) {
+		_this->lvl_hidratacao++;
+		_this->count_secs_hyd = 0;
 	}
 
 	return AsyncTask::DS_again;

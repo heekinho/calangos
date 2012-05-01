@@ -30,9 +30,13 @@ public:
 	int get_lvl_reprodutor();
 	int get_count_secs_temp();
 	int get_lvl_temperatura();
+	int get_count_secs_hyd();
+	int get_lvl_hidratacao();
 	void check_edible_specie(Edible::Specie);
-	void checkTemperature(double temperature);
+	void check_temperature(double temperature);
 	static AsyncTask::DoneStatus count_seconds_temperature(GenericAsyncTask* task, void* data);
+	void check_hydration(double hydration);
+	static AsyncTask::DoneStatus count_seconds_hydration(GenericAsyncTask* task, void* data);
 
 private:
 	int count_bites;
@@ -49,6 +53,10 @@ private:
 	int lvl_temperatura;
 	int count_secs_temp;
 	bool counting_secs_temp;
+	int hyd_min;
+	int lvl_hidratacao;
+	int count_secs_hyd;
+	bool counting_secs_hyd;
 };
 
 #endif /* ACHIEVEMENTS_H */

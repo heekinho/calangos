@@ -20,6 +20,7 @@ public:
 	void create_sobrevivente_stars(string star1, string star2, string star3);
 	void create_reprodutor_stars(string star1, string star2, string star3);
 	void create_temperatura_stars(string star1, string star2, string star3);
+	void create_hidratacao_stars(string star1, string star2, string star3);
 
 private:
 	PT(TextNode) lb_andamento;
@@ -99,6 +100,21 @@ private:
 	NodePath np_lb_temperatura_xnum;
 	PT(TextNode) lb_temperatura_andamento;
 	NodePath np_lb_temperatura_andamento;
+
+	// Achievement: Hidratação
+	PT(TextNode) lb_hidratacao;
+	NodePath np_lb_hidratacao;
+	PT(Hint) hint_hidratacao_atual;
+	PT(Hint) hint_hidratacao_1;
+	PT(Hint) hint_hidratacao_2;
+	PT(Hint) hint_hidratacao_3;
+	NodePath img_hidratacao_star_1;
+	NodePath img_hidratacao_star_2;
+	NodePath img_hidratacao_star_3;
+	PT(TextNode) lb_hidratacao_xnum;
+	NodePath np_lb_hidratacao_xnum;
+	PT(TextNode) lb_hidratacao_andamento;
+	NodePath np_lb_hidratacao_andamento;
 };
 
 #endif /* ACHIEVEMENTSWINDOW_H */
