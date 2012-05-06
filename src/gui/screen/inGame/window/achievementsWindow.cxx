@@ -462,15 +462,15 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	stringstream energia_andamento;
 	lb_energia_andamento = new TextNode("lb_energia_andamento");
 	if (lvl_energia == 0) {
-		energia_andamento<<player->get_achievements()->get_count_secs_hyd();
+		energia_andamento<<player->get_achievements()->get_count_secs_energy();
 		lb_energia_andamento->set_text(energia_andamento.str() + " / 60");
 	}
 	else if (lvl_energia == 1) {
-		energia_andamento<<player->get_achievements()->get_count_secs_hyd();
+		energia_andamento<<player->get_achievements()->get_count_secs_energy();
 		lb_energia_andamento->set_text(energia_andamento.str() + " / 120");
 	}
 	else {
-		energia_andamento<<player->get_achievements()->get_count_secs_hyd();
+		energia_andamento<<player->get_achievements()->get_count_secs_energy();
 		lb_energia_andamento->set_text(energia_andamento.str() + " / 180");
 	}
 	//lb_energia_andamento->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
@@ -478,6 +478,72 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	np_lb_energia_andamento.set_scale(0.05);
 	np_lb_energia_andamento.set_pos(1.25, 0, 0.25);
 	np_lb_energia_andamento.set_color(0, 0, 0, 1);
+	// FIM DO ACHIEVEMENT ENERGIA
+
+	// ACHIEVEMENT: O intocável
+	lb_intocavel = new TextNode("lb_intocavel");
+	lb_intocavel->set_text("- O intocável");
+	//lb_intocavel->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
+	np_lb_intocavel = np_frame.attach_new_node(lb_intocavel);
+	np_lb_intocavel.set_scale(0.05);
+	np_lb_intocavel.set_pos(0.06, 0, 0.15);
+	np_lb_intocavel.set_color(0, 0, 0, 1);
+	text_width = lb_intocavel->get_width();
+	text_height = lb_intocavel->get_height();
+
+	int lvl_intocavel = player->get_achievements()->get_lvl_intocavel();
+	switch (lvl_intocavel) {
+		case 0:
+			create_intocavel_stars(white, white, white);
+			hint_intocavel_atual = new Hint(np_frame, np_lb_intocavel, text_width, text_height, "hint_intocavel", "Permaneça sem receber dano de predadores durante 60 segundos.");
+			break;
+		case 1:
+			create_intocavel_stars(yellow, white, white);
+			hint_intocavel_atual = new Hint(np_frame, np_lb_intocavel, text_width, text_height, "hint_intocavel", "Permaneça sem receber dano de predadores durante 120 segundos.");
+			break;
+		case 2:
+			create_intocavel_stars(yellow, yellow, white);
+			hint_intocavel_atual = new Hint(np_frame, np_lb_intocavel, text_width, text_height, "hint_intocavel", "Permaneça sem receber dano de predadores durante 180 segundos.");
+			break;
+		default:
+			create_intocavel_stars(yellow, yellow, yellow);
+			hint_intocavel_atual = new Hint(np_frame, np_lb_intocavel, text_width, text_height, "hint_intocavel", "Permaneça sem receber dano de predadores durante 180 segundos.");
+	}
+
+	hint_intocavel_1 = new Hint(np_frame, img_intocavel_star_1, "hint_intocavel", "Não ter recebido dano de nenhum predador durante 60 segundos");
+	hint_intocavel_2 = new Hint(np_frame, img_intocavel_star_2, "hint_intocavel", "Não ter recebido dano de nenhum predador durante 120 segundos");
+	hint_intocavel_3 = new Hint(np_frame, img_intocavel_star_3, "hint_intocavel", "Não ter recebido dano de nenhum predador durante 180 segundos");
+
+	lb_intocavel_xnum = new TextNode("lb_intocavel_xnum");
+	stringstream intocavel_adicionais;
+	intocavel_adicionais<<((lvl_intocavel - 3) > 0 ? lvl_intocavel - 3 : 0);
+	lb_intocavel_xnum->set_text("+ " + intocavel_adicionais.str());
+	lb_intocavel_xnum->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
+	np_lb_intocavel_xnum = np_frame.attach_new_node(lb_intocavel_xnum);
+	np_lb_intocavel_xnum.set_scale(0.06);
+	np_lb_intocavel_xnum.set_pos(1.01, 0, 0.13);
+	np_lb_intocavel_xnum.set_color(0, 0, 0, 1);
+
+	stringstream intocavel_andamento;
+	lb_intocavel_andamento = new TextNode("lb_intocavel_andamento");
+	cout<<"seconds untouched = "<<player->get_achievements()->get_count_secs_untouched()<<endl;
+	if (lvl_intocavel == 0) {
+		intocavel_andamento<<player->get_achievements()->get_count_secs_untouched();
+		lb_intocavel_andamento->set_text(intocavel_andamento.str() + " / 60");
+	}
+	else if (lvl_intocavel == 1) {
+		intocavel_andamento<<player->get_achievements()->get_count_secs_untouched();
+		lb_intocavel_andamento->set_text(intocavel_andamento.str() + " / 120");
+	}
+	else {
+		intocavel_andamento<<player->get_achievements()->get_count_secs_untouched();
+		lb_intocavel_andamento->set_text(intocavel_andamento.str() + " / 180");
+	}
+	//lb_intocavel_andamento->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
+	np_lb_intocavel_andamento = np_frame.attach_new_node(lb_intocavel_andamento);
+	np_lb_intocavel_andamento.set_scale(0.05);
+	np_lb_intocavel_andamento.set_pos(1.25, 0, 0.15);
+	np_lb_intocavel_andamento.set_color(0, 0, 0, 1);
 }
 
 AchievementsWindow::~AchievementsWindow() {}
@@ -599,4 +665,21 @@ void AchievementsWindow::create_energia_stars(string star1, string star2, string
 	img_energia_star_3.reparent_to(np_frame);
 	img_energia_star_3.set_scale(0.003);
 	img_energia_star_3.set_pos(0.96, 0, 0.26);
+}
+
+void AchievementsWindow::create_intocavel_stars(string star1, string star2, string star3) {
+	img_intocavel_star_1 = ImageRepository::get_instance()->get_image(star1);
+	img_intocavel_star_1.reparent_to(np_frame);
+	img_intocavel_star_1.set_scale(0.003);
+	img_intocavel_star_1.set_pos(0.76, 0, 0.16);
+
+	img_intocavel_star_2 = ImageRepository::get_instance()->get_image(star2);
+	img_intocavel_star_2.reparent_to(np_frame);
+	img_intocavel_star_2.set_scale(0.003);
+	img_intocavel_star_2.set_pos(0.86, 0, 0.16);
+
+	img_intocavel_star_3 = ImageRepository::get_instance()->get_image(star3);
+	img_intocavel_star_3.reparent_to(np_frame);
+	img_intocavel_star_3.set_scale(0.003);
+	img_intocavel_star_3.set_pos(0.96, 0, 0.16);
 }

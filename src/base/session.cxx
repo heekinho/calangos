@@ -17,6 +17,7 @@ Session* Session::singleSession = NULL;
 #include "inGameScreenManager.h"
 #include "calangosMenuManager.h"
 #include "loadingScreen.h"
+#include "achievements.h"
 
 /*! Constroi uma session default.*/
 //Session::Session(WindowFramework *window) {
@@ -128,6 +129,8 @@ void Session::run(){
 	if (!PStatClient::is_connected())
 		PStatClient::connect();
 #endif
+
+	TimeControl::get_instance()->notify("count_seconds_untouched", Achievements::count_seconds_untouched, player->get_achievements(), 1);
 
 	while(Simdunas::get_framework()->do_frame(Thread::get_current_thread()) && !Session::get_instance()->game_over) {
 		/* O controle de tempo precisa saber o quanto de tempo se passou.

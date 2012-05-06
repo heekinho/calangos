@@ -22,6 +22,7 @@ public:
 	void create_temperatura_stars(string star1, string star2, string star3);
 	void create_hidratacao_stars(string star1, string star2, string star3);
 	void create_energia_stars(string star1, string star2, string star3);
+	void create_intocavel_stars(string star1, string star2, string star3);
 
 private:
 	PT(TextNode) lb_andamento;
@@ -131,6 +132,21 @@ private:
 	NodePath np_lb_energia_xnum;
 	PT(TextNode) lb_energia_andamento;
 	NodePath np_lb_energia_andamento;
+
+	// Achievement: Intocável
+	PT(TextNode) lb_intocavel;
+	NodePath np_lb_intocavel;
+	PT(Hint) hint_intocavel_atual;
+	PT(Hint) hint_intocavel_1;
+	PT(Hint) hint_intocavel_2;
+	PT(Hint) hint_intocavel_3;
+	NodePath img_intocavel_star_1;
+	NodePath img_intocavel_star_2;
+	NodePath img_intocavel_star_3;
+	PT(TextNode) lb_intocavel_xnum;
+	NodePath np_lb_intocavel_xnum;
+	PT(TextNode) lb_intocavel_andamento;
+	NodePath np_lb_intocavel_andamento;
 };
 
 #endif /* ACHIEVEMENTSWINDOW_H */

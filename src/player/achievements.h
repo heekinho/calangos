@@ -34,6 +34,9 @@ public:
 	int get_lvl_hidratacao();
 	int get_count_secs_energy();
 	int get_lvl_energia();
+	int get_count_secs_untouched();
+	int get_lvl_intocavel();
+	void reset_count_secs_untouched();
 	void check_edible_specie(Edible::Specie);
 	void check_temperature(double temperature);
 	static AsyncTask::DoneStatus count_seconds_temperature(GenericAsyncTask* task, void* data);
@@ -41,6 +44,7 @@ public:
 	static AsyncTask::DoneStatus count_seconds_hydration(GenericAsyncTask* task, void* data);
 	void check_energy(double energy);
 	static AsyncTask::DoneStatus count_seconds_energy(GenericAsyncTask* task, void* data);
+	static AsyncTask::DoneStatus count_seconds_untouched(GenericAsyncTask* task, void* data);
 
 private:
 	int count_bites;
@@ -65,6 +69,8 @@ private:
 	int lvl_energia;
 	int count_secs_energy;
 	bool counting_secs_energy;
+	int lvl_intocavel;
+	int count_secs_untouched;
 };
 
 #endif /* ACHIEVEMENTS_H */

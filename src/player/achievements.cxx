@@ -7,6 +7,7 @@
 
 #include "achievements.h"
 #include "timeControl.h"
+#include "pauseScreen.h"
 
 Achievements::Achievements() {
 	count_bites = 0;
@@ -30,6 +31,8 @@ Achievements::Achievements() {
 	lvl_energia = 0;
 	count_secs_energy = 0;
 	counting_secs_energy = false;
+	lvl_intocavel = 0;
+	count_secs_untouched = 0;
 }
 
 Achievements::~Achievements() {}
@@ -130,6 +133,18 @@ int Achievements::get_lvl_energia() {
 	return lvl_energia;
 }
 
+int Achievements::get_count_secs_untouched() {
+	return count_secs_untouched;
+}
+
+int Achievements::get_lvl_intocavel() {
+	return lvl_intocavel;
+}
+
+void Achievements::reset_count_secs_untouched() {
+	count_secs_untouched = 0;
+}
+
 void Achievements::inc_reprodutor() {
 	count_reprodutor++;
 
@@ -191,19 +206,21 @@ AsyncTask::DoneStatus Achievements::count_seconds_temperature(GenericAsyncTask* 
 		return AsyncTask::DS_done;
 	}
 
-	_this->count_secs_temp++;
+	if (!PauseScreen::is_opened) {
+		_this->count_secs_temp++;
 
-	if (_this->lvl_temperatura == 0 && _this->count_secs_temp == 45) {
-		_this->lvl_temperatura++;
-		_this->count_secs_temp = 0;
-	}
-	else if (_this->lvl_temperatura == 1 && _this->count_secs_temp == 60) {
-		_this->lvl_temperatura++;
-		_this->count_secs_temp = 0;
-	}
-	else if (_this->count_secs_temp == 90) {
-		_this->lvl_temperatura++;
-		_this->count_secs_temp = 0;
+		if (_this->lvl_temperatura == 0 && _this->count_secs_temp == 45) {
+			_this->lvl_temperatura++;
+			_this->count_secs_temp = 0;
+		}
+		else if (_this->lvl_temperatura == 1 && _this->count_secs_temp == 60) {
+			_this->lvl_temperatura++;
+			_this->count_secs_temp = 0;
+		}
+		else if (_this->count_secs_temp == 90) {
+			_this->lvl_temperatura++;
+			_this->count_secs_temp = 0;
+		}
 	}
 
 	return AsyncTask::DS_again;
@@ -228,21 +245,23 @@ AsyncTask::DoneStatus Achievements::count_seconds_hydration(GenericAsyncTask* ta
 		return AsyncTask::DS_done;
 	}
 
-	_this->count_secs_hyd++;
+	if (!PauseScreen::is_opened) {
+		_this->count_secs_hyd++;
 
-	if (_this->lvl_hidratacao == 0 && _this->count_secs_hyd == 60) {
-		_this->lvl_hidratacao++;
-		_this->hyd_min = 80;
-		_this->count_secs_hyd = 0;
-	}
-	else if (_this->lvl_hidratacao == 1 && _this->count_secs_hyd == 120) {
-		_this->lvl_hidratacao++;
-		_this->hyd_min = 90;
-		_this->count_secs_hyd = 0;
-	}
-	else if (_this->count_secs_hyd == 180) {
-		_this->lvl_hidratacao++;
-		_this->count_secs_hyd = 0;
+		if (_this->lvl_hidratacao == 0 && _this->count_secs_hyd == 60) {
+			_this->lvl_hidratacao++;
+			_this->hyd_min = 80;
+			_this->count_secs_hyd = 0;
+		}
+		else if (_this->lvl_hidratacao == 1 && _this->count_secs_hyd == 120) {
+			_this->lvl_hidratacao++;
+			_this->hyd_min = 90;
+			_this->count_secs_hyd = 0;
+		}
+		else if (_this->count_secs_hyd == 180) {
+			_this->lvl_hidratacao++;
+			_this->count_secs_hyd = 0;
+		}
 	}
 
 	return AsyncTask::DS_again;
@@ -267,21 +286,46 @@ AsyncTask::DoneStatus Achievements::count_seconds_energy(GenericAsyncTask* task,
 		return AsyncTask::DS_done;
 	}
 
-	_this->count_secs_energy++;
+	if (!PauseScreen::is_opened) {
+		_this->count_secs_energy++;
 
-	if (_this->lvl_energia == 0 && _this->count_secs_energy == 60) {
-		_this->lvl_energia++;
-		_this->energy_min = 80;
-		_this->count_secs_energy = 0;
+		if (_this->lvl_energia == 0 && _this->count_secs_energy == 60) {
+			_this->lvl_energia++;
+			_this->energy_min = 80;
+			_this->count_secs_energy = 0;
+		}
+		else if (_this->lvl_energia == 1 && _this->count_secs_energy == 120) {
+			_this->lvl_energia++;
+			_this->energy_min = 90;
+			_this->count_secs_energy = 0;
+		}
+		else if (_this->count_secs_energy == 180) {
+			_this->lvl_energia++;
+			_this->count_secs_energy = 0;
+		}
 	}
-	else if (_this->lvl_energia == 1 && _this->count_secs_energy == 120) {
-		_this->lvl_energia++;
-		_this->energy_min = 90;
-		_this->count_secs_energy = 0;
-	}
-	else if (_this->count_secs_energy == 180) {
-		_this->lvl_energia++;
-		_this->count_secs_energy = 0;
+
+	return AsyncTask::DS_again;
+}
+
+AsyncTask::DoneStatus Achievements::count_seconds_untouched(GenericAsyncTask* task, void* data) {
+	Achievements* _this = (Achievements*) data;
+
+	if (!PauseScreen::is_opened) {
+		_this->count_secs_untouched++;
+
+		if (_this->lvl_intocavel == 0 && _this->count_secs_untouched == 60) {
+			_this->lvl_intocavel++;
+			_this->count_secs_untouched = 0;
+		}
+		else if (_this->lvl_intocavel == 1 && _this->count_secs_untouched == 120) {
+			_this->lvl_intocavel++;
+			_this->count_secs_untouched = 0;
+		}
+		else if (_this->count_secs_untouched == 180) {
+			_this->lvl_intocavel++;
+			_this->count_secs_untouched = 0;
+		}
 	}
 
 	return AsyncTask::DS_again;

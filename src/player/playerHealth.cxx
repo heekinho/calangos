@@ -844,6 +844,8 @@ void Player::add_energia_alimento(double ganho_energia_alimento){
 	if (ganho_energia_alimento < -0.1) {
 		AudioController::get_instance()->heart_beat(energia, energia_minlimite);
 		AudioController::get_instance()->only_play(AudioRepository::PREDATOR_HIT);
+		cout<<"resetando contador intocavel!"<<endl;
+		player->get_achievements()->reset_count_secs_untouched();
 	}
 
 	this->energia_alimento = this->energia_alimento + ganho_energia_alimento;
