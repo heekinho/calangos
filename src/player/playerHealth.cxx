@@ -263,6 +263,7 @@ void Player::event_gasto_energia(const Event*, void *data){
 
 	player->get_achievements()->check_temperature(player->temp_interna);
 	player->get_achievements()->check_hydration(player->hidratacao);
+	player->get_achievements()->check_energy(player->energia);
 
 	/* Verificação de morte do personagem por energia*/
 	if(player->energia < player->energia_minlimite){

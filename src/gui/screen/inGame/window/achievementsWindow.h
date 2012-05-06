@@ -21,6 +21,7 @@ public:
 	void create_reprodutor_stars(string star1, string star2, string star3);
 	void create_temperatura_stars(string star1, string star2, string star3);
 	void create_hidratacao_stars(string star1, string star2, string star3);
+	void create_energia_stars(string star1, string star2, string star3);
 
 private:
 	PT(TextNode) lb_andamento;
@@ -115,6 +116,21 @@ private:
 	NodePath np_lb_hidratacao_xnum;
 	PT(TextNode) lb_hidratacao_andamento;
 	NodePath np_lb_hidratacao_andamento;
+
+	// Achievement: Energia
+	PT(TextNode) lb_energia;
+	NodePath np_lb_energia;
+	PT(Hint) hint_energia_atual;
+	PT(Hint) hint_energia_1;
+	PT(Hint) hint_energia_2;
+	PT(Hint) hint_energia_3;
+	NodePath img_energia_star_1;
+	NodePath img_energia_star_2;
+	NodePath img_energia_star_3;
+	PT(TextNode) lb_energia_xnum;
+	NodePath np_lb_energia_xnum;
+	PT(TextNode) lb_energia_andamento;
+	NodePath np_lb_energia_andamento;
 };
 
 #endif /* ACHIEVEMENTSWINDOW_H */

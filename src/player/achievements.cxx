@@ -26,6 +26,10 @@ Achievements::Achievements() {
 	lvl_hidratacao = 0;
 	count_secs_hyd = 0;
 	counting_secs_hyd = false;
+	energy_min = 70;
+	lvl_energia = 0;
+	count_secs_energy = 0;
+	counting_secs_energy = false;
 }
 
 Achievements::~Achievements() {}
@@ -116,6 +120,14 @@ int Achievements::get_count_secs_hyd() {
 
 int Achievements::get_lvl_hidratacao() {
 	return lvl_hidratacao;
+}
+
+int Achievements::get_count_secs_energy() {
+	return count_secs_energy;
+}
+
+int Achievements::get_lvl_energia() {
+	return lvl_energia;
 }
 
 void Achievements::inc_reprodutor() {
@@ -231,6 +243,45 @@ AsyncTask::DoneStatus Achievements::count_seconds_hydration(GenericAsyncTask* ta
 	else if (_this->count_secs_hyd == 180) {
 		_this->lvl_hidratacao++;
 		_this->count_secs_hyd = 0;
+	}
+
+	return AsyncTask::DS_again;
+}
+
+void Achievements::check_energy(double energy) {
+	if (!counting_secs_energy) {
+		if (energy >= energy_min) {
+			TimeControl::get_instance()->notify("count_seconds_energy", count_seconds_energy, this, 1);
+			counting_secs_energy = true;
+		}
+	}
+	else if (energy < energy_min) {
+		counting_secs_energy = false;
+	}
+}
+
+AsyncTask::DoneStatus Achievements::count_seconds_energy(GenericAsyncTask* task, void* data) {
+	Achievements* _this = (Achievements*) data;
+	if (!_this->counting_secs_energy) {
+		_this->count_secs_energy = 0;
+		return AsyncTask::DS_done;
+	}
+
+	_this->count_secs_energy++;
+
+	if (_this->lvl_energia == 0 && _this->count_secs_energy == 60) {
+		_this->lvl_energia++;
+		_this->energy_min = 80;
+		_this->count_secs_energy = 0;
+	}
+	else if (_this->lvl_energia == 1 && _this->count_secs_energy == 120) {
+		_this->lvl_energia++;
+		_this->energy_min = 90;
+		_this->count_secs_energy = 0;
+	}
+	else if (_this->count_secs_energy == 180) {
+		_this->lvl_energia++;
+		_this->count_secs_energy = 0;
 	}
 
 	return AsyncTask::DS_again;

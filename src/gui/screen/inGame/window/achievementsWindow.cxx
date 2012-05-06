@@ -413,6 +413,71 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	np_lb_hidratacao_andamento.set_scale(0.05);
 	np_lb_hidratacao_andamento.set_pos(1.25, 0, 0.35);
 	np_lb_hidratacao_andamento.set_color(0, 0, 0, 1);
+	// FIM DO ACHIEVEMENT HIDRATAÇÃO
+
+	// ACHIEVEMENT: Energia
+	lb_energia = new TextNode("lb_energia");
+	lb_energia->set_text("- Energia");
+	//lb_energia->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
+	np_lb_energia = np_frame.attach_new_node(lb_energia);
+	np_lb_energia.set_scale(0.05);
+	np_lb_energia.set_pos(0.06, 0, 0.25);
+	np_lb_energia.set_color(0, 0, 0, 1);
+	text_width = lb_energia->get_width();
+	text_height = lb_energia->get_height();
+
+	int lvl_energia = player->get_achievements()->get_lvl_energia();
+	switch (lvl_energia) {
+		case 0:
+			create_energia_stars(white, white, white);
+			hint_energia_atual = new Hint(np_frame, np_lb_energia, text_width, text_height, "hint_energia", "Mantenha sua energia maior que 70 durante 60 segundos.");
+			break;
+		case 1:
+			create_energia_stars(yellow, white, white);
+			hint_energia_atual = new Hint(np_frame, np_lb_energia, text_width, text_height, "hint_energia", "Mantenha sua energia maior que 80 durante 120 segundos.");
+			break;
+		case 2:
+			create_energia_stars(yellow, yellow, white);
+			hint_energia_atual = new Hint(np_frame, np_lb_energia, text_width, text_height, "hint_energia", "Mantenha sua energia maior que 90 durante 180 segundos.");
+			break;
+		default:
+			create_energia_stars(yellow, yellow, yellow);
+			hint_energia_atual = new Hint(np_frame, np_lb_energia, text_width, text_height, "hint_energia", "Mantenha sua energia maior que 90 durante 180 segundos.");
+	}
+
+	hint_energia_1 = new Hint(np_frame, img_energia_star_1, "hint_energia", "Ter mantido a energia maior que 70 durante 60 segundos");
+	hint_energia_2 = new Hint(np_frame, img_energia_star_2, "hint_energia", "Ter mantido a energia maior que 80 durante 120 segundos");
+	hint_energia_3 = new Hint(np_frame, img_energia_star_3, "hint_energia", "Ter mantido a energia maior que 90 durante 180 segundos");
+
+	lb_energia_xnum = new TextNode("lb_energia_xnum");
+	stringstream energia_adicionais;
+	energia_adicionais<<((lvl_energia - 3) > 0 ? lvl_energia - 3 : 0);
+	lb_energia_xnum->set_text("+ " + energia_adicionais.str());
+	lb_energia_xnum->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
+	np_lb_energia_xnum = np_frame.attach_new_node(lb_energia_xnum);
+	np_lb_energia_xnum.set_scale(0.06);
+	np_lb_energia_xnum.set_pos(1.01, 0, 0.23);
+	np_lb_energia_xnum.set_color(0, 0, 0, 1);
+
+	stringstream energia_andamento;
+	lb_energia_andamento = new TextNode("lb_energia_andamento");
+	if (lvl_energia == 0) {
+		energia_andamento<<player->get_achievements()->get_count_secs_hyd();
+		lb_energia_andamento->set_text(energia_andamento.str() + " / 60");
+	}
+	else if (lvl_energia == 1) {
+		energia_andamento<<player->get_achievements()->get_count_secs_hyd();
+		lb_energia_andamento->set_text(energia_andamento.str() + " / 120");
+	}
+	else {
+		energia_andamento<<player->get_achievements()->get_count_secs_hyd();
+		lb_energia_andamento->set_text(energia_andamento.str() + " / 180");
+	}
+	//lb_energia_andamento->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
+	np_lb_energia_andamento = np_frame.attach_new_node(lb_energia_andamento);
+	np_lb_energia_andamento.set_scale(0.05);
+	np_lb_energia_andamento.set_pos(1.25, 0, 0.25);
+	np_lb_energia_andamento.set_color(0, 0, 0, 1);
 }
 
 AchievementsWindow::~AchievementsWindow() {}
@@ -517,4 +582,21 @@ void AchievementsWindow::create_hidratacao_stars(string star1, string star2, str
 	img_hidratacao_star_3.reparent_to(np_frame);
 	img_hidratacao_star_3.set_scale(0.003);
 	img_hidratacao_star_3.set_pos(0.96, 0, 0.36);
+}
+
+void AchievementsWindow::create_energia_stars(string star1, string star2, string star3) {
+	img_energia_star_1 = ImageRepository::get_instance()->get_image(star1);
+	img_energia_star_1.reparent_to(np_frame);
+	img_energia_star_1.set_scale(0.003);
+	img_energia_star_1.set_pos(0.76, 0, 0.26);
+
+	img_energia_star_2 = ImageRepository::get_instance()->get_image(star2);
+	img_energia_star_2.reparent_to(np_frame);
+	img_energia_star_2.set_scale(0.003);
+	img_energia_star_2.set_pos(0.86, 0, 0.26);
+
+	img_energia_star_3 = ImageRepository::get_instance()->get_image(star3);
+	img_energia_star_3.reparent_to(np_frame);
+	img_energia_star_3.set_scale(0.003);
+	img_energia_star_3.set_pos(0.96, 0, 0.26);
 }
