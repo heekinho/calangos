@@ -1,16 +1,16 @@
 Veja mais sobre o jogo em: http://calangos.sf.net/
 
-LICENÇA:
+LICENÃ‡A:
 
-Copyright (c) 2009, Universidade Estadual de Feira de Santana, Universidade Federal da Bahia, Universidade Católica de Santos.
+Copyright (c) 2009, Universidade Estadual de Feira de Santana, Universidade Federal da Bahia, Universidade CatÃ³lica de Santos.
 
-Este software está licenciado sob a licença CC-GNU GPL:
+Este software estÃ¡ licenciado sob a licenÃ§a CC-GNU GPL:
  
 GPL http://creativecommons.org/licenses/GPL/2.0/ 2.0 
 
-OBSERVAÇÕES
+OBSERVAÃ‡Ã•ES
 
-O jogo Calangos foi desenvolvido com base no motor de jogos Panda3D, distribuído sob a seguinte licença BSD:
+O jogo Calangos foi desenvolvido com base no motor de jogos Panda3D, distribuÃ­do sob a seguinte licenÃ§a BSD:
 
 Panda3D License
 Copyright (c) 2008, Carnegie Mellon University.
