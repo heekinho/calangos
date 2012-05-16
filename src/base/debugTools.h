@@ -9,10 +9,17 @@
 
 #include "simdunas.h"
 
+class Player;
+
 class DebugTools {
 public:
 	DebugTools();
 	virtual ~DebugTools();
+
+	static void update(const Event*, void *data);
+	void update();
+
+	void keep_player_healthy();
 
 	NodePath draw_custom_terrain_wireframe();
 	NodePath draw_indicator(int steps, float radius);

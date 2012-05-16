@@ -8,23 +8,35 @@
 
 #include "simdunas.h"
 #include "lineSegs.h"
+#include "player.h"
 
 DebugTools::DebugTools() {
 	// TODO Auto-generated constructor stub
 	show_foliage_wireframe = false;
 
-
+	/* Cadastra a função de update para o debug */
+	event_handler->add_hook(TimeControl::EV_pass_frame, update, this);
 	configure_input();
 }
 
 DebugTools::~DebugTools() {
-	// TODO Auto-generated destructor stub
+
 }
 
 /*! Configura os controles de debug. Recebe input e encaminha para
  *  o evento apropriado */
 void DebugTools::configure_input(){
 	Simdunas::get_framework()->define_key("v", "Foliage Wireframe", toggle_foliage_wireframe, this);
+}
+
+/*! Recebe o evento a cada frame e encaminha para a função update() */
+void DebugTools::update(const Event*, void *data){
+	((DebugTools*) data)->update();
+}
+
+/*! Realiza as operações desejadas a cada frame */
+void DebugTools::update(){
+	//keep_player_healthy();
 }
 
 
@@ -76,4 +88,13 @@ void DebugTools::toggle_foliage_wireframe(){
 	if(foliage){
 		foliage->set_wireframe((show_foliage_wireframe = !show_foliage_wireframe));
 	}
+}
+
+/*! Espécie de EasterEgg que não deixa o lagarto morrer.
+ *  É bom para debugar pois evita que o lagarto morra de mortes indesejadas
+ *  em algumas situações de desenvolvimento */
+void DebugTools::keep_player_healthy(){
+	player->set_temp_interna(40.0);
+	player->set_energia(100.0);
+	player->set_hidratacao(100.0);
 }
