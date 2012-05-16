@@ -39,7 +39,6 @@ public:
 	static void missed_bite(const Event*, void *data);
 	static void toca_control(const Event*, void *data);
 	static void really_eat(const Event*, void *data);
-    static void chama_pause(const Event*, void *data);
     static void special_control(const Event*, void *data);
     static void bobbing(const Event*, void *data);
     static void reproducao(const Event*, void *data);
@@ -47,10 +46,7 @@ public:
     static void unbury(const Event*, void* data);
 
     //ativa desativa wireframe
-    static void folhagem_control(const Event*, void *data);
     static void root_control(const Event*, void *data);
-
-    void keep_player_healthy();
 
     int last_eating_frame;
     static void eating(const Event*, void *data);
@@ -89,8 +85,6 @@ private:
 
 	map<string,bool> key_map_player;
 
-
-	void morder();
 	void fight(MaleLizard*);
 };
 

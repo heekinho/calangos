@@ -16,7 +16,6 @@
 #include "inGameScreenManager.h"
 #include "audioRepository.h"
 #include "audioController.h"
-#include "pauseScreen.h"
 
 
 /*! Define velocidade de rotação do player em Graus/Segundos.
@@ -115,18 +114,12 @@ PlayerControl::PlayerControl() {
     action = "bury";		Simdunas::get_framework()->define_key("k", "Enterrar-se", bury, this);
     action = "unbury";		Simdunas::get_framework()->define_key("l", "Desenterrar-se", unbury, this);
 
-	action = "pause"; 		Simdunas::get_framework()->define_key("escape", "Pause Game", chama_pause, this);
+//	action = "pause"; 		Simdunas::get_framework()->define_key("escape", "Pause Game", chama_pause, this);
 
 	//CHEATS
 	action = "die";			Simdunas::get_framework()->define_key("control-m", "Easter Egg1", special_control, action);
 	action = "grow-old";	Simdunas::get_framework()->define_key("control-o", "Easter Egg2", special_control, action);
 	action = "info";		Simdunas::get_framework()->define_key("control-i", "Print Info", special_control, action);
-}
-
-void PlayerControl::keep_player_healthy(){
-	player->set_temp_interna(40.0);
-	player->set_energia(100.0);
-	player->set_hidratacao(100.0);
 }
 
 void PlayerControl::special_control(const Event *theEvent, void *data){
@@ -236,9 +229,6 @@ void PlayerControl::update(){
 
 	/* Verifica se tem femeas por perto */
 	p->update_female_around();
-
-	/* Facilita os testes por não deixar o calango morrer das mortes chatas */
-	//keep_player_healthy();
 
 	/* Se o player foi capturado por algum animal não o deixa executar ações */
 	if(p->was_captured()) return;
@@ -489,6 +479,7 @@ void PlayerControl::eat(const Event *evt, void *data){
 			player->get_achievements()->inc_bites();
 		}
 	}
+
 	/* Morder outro lagarto */
 	if (type_of_closest == 2) {
 		Lizard* lizard = dynamic_cast<Lizard*>((ObjetoJogo*) closest);
@@ -641,29 +632,6 @@ void PlayerControl::bobbing(const Event*, void *data){
 	player->play_anim("bobbing");
 
 	AudioController::get_instance()->bobbing();
-}
-
-void PlayerControl::chama_pause(const Event*, void* data){
-	PauseScreen* pause_screen = (PauseScreen*) InGameScreenManager::get_instance()->get_pause_screen().p();
-    //InGameScreenManager::get_instance()->open_screen(pause_screen);
-	cout<<"evento chama pause"<<endl;
-	if (!PauseScreen::is_opened) {
-		cout<<"tela de pause nao esta aberta!"<<endl;
-		pause_screen->show();
-	}
-	else if (PauseScreen::selected_video) {
-		cout<<"esta tocando video! Parando o video agora!"<<endl;
-		InGameScreenManager::get_instance()->stop_video(NULL, InGameScreenManager::get_instance());
-		pause_screen->show();
-	}
-	else {
-		cout<<"tela de pause aberta, fechando a tela"<<endl;
-		pause_screen->show();
-	}
-}
-
-void PlayerControl::morder(){
-	//TODO: NPC piscar (ficar mais claro)
 }
 
 void PlayerControl::event_female_next(const Event *, void *data){

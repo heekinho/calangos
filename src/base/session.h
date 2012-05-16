@@ -29,6 +29,8 @@ public:
 
 //	static void stop_movie(const Event*, void *data);
 
+	static void pause_game(const Event*, void *data);
+
 	void receive_answer(char *ans);
 	int get_causa_mortis();
 

@@ -7,7 +7,7 @@
 #include "audioRepository.h"
 
 #include "stdio.h"
-#include "audioRepository.h"
+
 
 bool Session::instanceFlag = false;
 Session* Session::singleSession = NULL;
@@ -17,6 +17,7 @@ Session* Session::singleSession = NULL;
 #include "inGameScreenManager.h"
 #include "calangosMenuManager.h"
 #include "loadingScreen.h"
+#include "pauseScreen.h"
 #include "achievements.h"
 
 /*! Constroi uma session default.*/
@@ -132,6 +133,9 @@ void Session::run(){
 
 	TimeControl::get_instance()->notify("count_seconds_untouched", Achievements::count_seconds_untouched, player->get_achievements(), 1);
 
+	/* Define a tecla de pause */
+	Simdunas::get_framework()->define_key("escape", "Pause Game", pause_game, this);
+
 	while(Simdunas::get_framework()->do_frame(Thread::get_current_thread()) && !Session::get_instance()->game_over) {
 		/* O controle de tempo precisa saber o quanto de tempo se passou.
 		 * Assim, todos os elementos de jogo que precisam ser atualizados, passam a escutar
@@ -154,7 +158,29 @@ void Session::run(){
 	}
 }
 
-/*A morte do lagarto*/
+
+/*! Pausa o jogo e chama a tela de pause */
+void Session::pause_game(const Event*, void *data){
+	PauseScreen* pause_screen = (PauseScreen*) InGameScreenManager::get_instance()->get_pause_screen().p();
+	//InGameScreenManager::get_instance()->open_screen(pause_screen);
+	cout<<"evento chama pause"<<endl;
+	if (!PauseScreen::is_opened) {
+		cout<<"tela de pause nao esta aberta!"<<endl;
+		pause_screen->show();
+	}
+	else if (PauseScreen::selected_video) {
+		cout<<"esta tocando video! Parando o video agora!"<<endl;
+		InGameScreenManager::get_instance()->stop_video(NULL, InGameScreenManager::get_instance());
+		pause_screen->show();
+	}
+	else {
+		cout<<"tela de pause aberta, fechando a tela"<<endl;
+		pause_screen->show();
+	}
+}
+
+
+/*! A morte do lagarto */
 void Session::player_death(int causa_mortis){
 /* causa_mortis  = 1, desnutrição
  * causa_mortis  = 2, desidratação
