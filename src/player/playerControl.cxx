@@ -35,7 +35,6 @@ const string PlayerControl::EV_player_reproducao = "EV_PLAYER_REPRODUCAO";
 // Para Singleton
 bool PlayerControl::instanceFlag = false;
 PlayerControl* PlayerControl::single = NULL;
-bool PlayerControl::wire_frame_folhagem = false;
 bool PlayerControl::wire_frame_terrain = false;
 bool PlayerControl::mouse_on_button = false;
 
@@ -332,42 +331,6 @@ void PlayerControl::update(){
 #endif
        
 }
-
-/*! Desenha um circulo indicador do tamanho especificado */
-NodePath PlayerControl::draw_indicator(int steps, float radius){
-	PT(Terrain) terrain = Terrain::get_default_terrain();
-
-	LineSegs ls = LineSegs("indicator");
-	ls.set_color(0, 1, 0, 1);
-
-	float step = 360.0 / steps;
-
-	for(int i = 0; i < steps+1; i++){
-		float x = radius*sin(deg_2_rad(step*i));
-		float y = radius*cos(deg_2_rad(step*i));
-		ls.draw_to(x, y, terrain->get_elevation(x, y)+0.001);
-	}
-
-	return NodePath(ls.create());
-}
-
-/*! Monta um wireframe customizado. Apenas para demonstrar o uso */
-NodePath PlayerControl::draw_custom_terrain_wireframe(){
-	PT(Terrain) terrain = Terrain::get_default_terrain();
-
-	LineSegs ls = LineSegs("custom_wire");
-	ls.set_color(0, 1, 0, 1);
-
-	int step_x = 512, step_y = 512;
-
-	for(int i = 0; i < step_x; i++){
-		for(int j = 0; j < step_y; j++){
-			ls.draw_to(i, j, terrain->get_elevation(i, j)+0.001);
-		}
-	}
-	return ls.create();
-}
-
 
 void PlayerControl::move(float velocity){
 	Player *p = player;
@@ -668,22 +631,6 @@ void PlayerControl::root_control(const Event*, void *data){
 	World::get_world()->get_terrain()->get_root().set_render_mode_wireframe();
 	wire_frame_terrain = true;
     }
-
-}
-
-void PlayerControl::folhagem_control(const Event*, void *data){
-
-    if(wire_frame_folhagem){
-	
-	World::get_world()->get_terrain()->get_foliage()->wire_frame_folhas_off();
-	
-	wire_frame_folhagem = false;
-    }else{
-	
-	World::get_world()->get_terrain()->get_foliage()->wire_frame_folhas();
-	wire_frame_folhagem = true;
-    }
-
 
 }
 
