@@ -131,7 +131,7 @@ void Terrain::create_default_terrain(){
 		//terrain->get_root().set_render_mode_wireframe(); //ativa wire_frame do terreno
 		//--------------------------------------------------------------------//
 
-		terrain->folhagem = new foliage();
+		terrain->folhagem = new Foliage();
 
 	}
 

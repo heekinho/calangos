@@ -4,6 +4,8 @@
 #include "objetoJogo.h"
 #include "edibleVegetal.h"
 
+#define MAKE_FOLIAGE 1
+
 namespace Season {
 	enum SeasonType {
 		DRY,

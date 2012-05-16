@@ -718,27 +718,37 @@ void Vegetal::build_forest(){
 			}
 
 			// verifica se foi possivel acrescentar a arvore
-			if( vegetals.size() > old_cont ){
+			if (vegetals.size() > old_cont) {
 				quantidade_arv++;
 				//configura arvore
-				vegetal->set_pos(vegetals[old_cont].get_x(), vegetals[old_cont].get_y(), 0);
+				vegetal->set_pos(vegetals[old_cont].get_x(),
+						vegetals[old_cont].get_y(), 0);
 				vegetal->set_h(rand() % 360);
 
-				vegetal->load_edible_vegetals(vegetal->get_vegetal_name(), current_season);
+				vegetal->load_edible_vegetals(vegetal->get_vegetal_name(),
+						current_season);
 
+#ifdef MAKE_FOLIAGE
 				//coloca folhagem nas arvores que tem uma folhagem para ser colocada
-                            if(vegetal->get_path_folhagem(vegetal->get_vegetal_name()).compare("sem_folhagem") != 0){
-				World::get_world()->get_terrain()->get_foliage()->add_foliage(vegetal->get_path_folhagem(vegetal->get_vegetal_name()),*vegetal);
-			      }
+				if (vegetal->get_path_folhagem(vegetal->get_vegetal_name()).compare("sem_folhagem") != 0) {
+					World::get_world()->get_terrain()->get_foliage()->add_foliage(
+							vegetal->get_path_folhagem(vegetal->get_vegetal_name()), *vegetal);
+				}
+#endif // MAKE_FOLIAGE
+
 				// Sombras
 				PNMImage shadow_image = PNMImage();
 				//TODO: fazer o raio variavel de acordo com a arvore
-				int shadow_radius = datas[ vegetal->get_vegetal_name() + "-shadow-radius"];
-				shadow_image.set_read_size( vegetal->get_radius()+shadow_radius, vegetal->get_radius()+shadow_radius);
+				int shadow_radius = datas[vegetal->get_vegetal_name()
+						+ "-shadow-radius"];
+				shadow_image.set_read_size(
+						vegetal->get_radius() + shadow_radius,
+						vegetal->get_radius() + shadow_radius);
 				shadow_image.read("models/sombra.png");
 
 				//Criar as sombras da árvore.
-                                World::get_world()->get_terrain()->get_shadows()->create_shadow(shadow_image, *vegetal);
+				World::get_world()->get_terrain()->get_shadows()->create_shadow(
+						shadow_image, *vegetal);
 
 				//adiciona vegetal ao terreno
 				World::get_world()->get_terrain()->add_vegetal(vegetal);

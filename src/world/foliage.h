@@ -1,7 +1,6 @@
 /*
  * File:   foliage.h
  * Author: tassalon
- *
  * Created on 19 de Maio de 2011, 11:03
  */
 
@@ -11,16 +10,16 @@
 #include "pnmImage.h"
 #include "textureStage.h"
 #include "texture.h"
+#include "referenceCount.h"
 
-class foliage{
+class Foliage : public ReferenceCount {
 public:
-    foliage();
-    foliage(const foliage& orig);
-    virtual ~foliage();
+    Foliage();
+    Foliage(const Foliage& orig);
+    virtual ~Foliage();
     void add_foliage(string path, NodePath vegetal);
-    static void wire_frame_folhas();
-    static void wire_frame_folhas_off();
 
+    static void set_wireframe(bool enable);
 
 private:
 

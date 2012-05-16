@@ -98,8 +98,7 @@ public:
 	static void init_type() { register_type(_type_handle, "Terrain"); }
 
 	PT(ShadowCard) get_shadows(){ return shadows; };
-	
-        foliage* get_foliage(){return folhagem; };
+	PT(Foliage) get_foliage(){ return folhagem; };
 	LPoint3f get_random_point();
 
 	float get_sampled_elevation(const LPoint2f &reference_point, float radius = 0.1);
@@ -124,7 +123,7 @@ private:
 
 
 	PT(ShadowCard) shadows;
-	foliage* folhagem;
+	PT(Foliage) folhagem;
 	//Water
 	NodePath water;
 	CardMaker* water_maker;
