@@ -591,14 +591,15 @@ void Player::calc_atualizacoes_phora(){
 }
 
 
-/*!Atualiza os valores dos vetores utiliazados para geração dos gráfico*/
+/*! Atualiza os valores dos vetores utilizados para geração dos gráfico */
 void Player::atualiza_vector(){
-
 	Vetores::get_instance()->addElementVectorTemperaturaLagarto(this->temp_interna);
 	Vetores::get_instance()->addElementVectorHidratacaoLagarto(this->hidratacao);
 	Vetores::get_instance()->addElementVectorEnergia(this->energia);
+
 	Vetores::get_instance()->addElementVectorAlimentacao(this->energia_alimento_acumulada);
 	this->energia_alimento_acumulada=0;
+
 	Vetores::get_instance()->addElementVectorGastoEnergeticoTotal(this->gasto_total);
 
 	Vetores::get_instance()->addElementVectorTemperaturaAr(MicroClima::get_instance()->get_temp_ar_sector());
@@ -627,11 +628,6 @@ void Player::atualiza_vector(){
  * ------------------------------------------------------------------------- */
 
 //TODO: Realmente precisa disso aqui? */
-
-/*! Obtém o valor de energia do alimento */
-double Player::get_energia_alimento(){
-	return this->energia_alimento;
-}
 
 /*! Obtém o valor de hidratação do alimento */
 double Player::get_hidratacao_alimento(){
@@ -744,11 +740,6 @@ int Player::get_num_ovos(){
 /* ------------------------------------------------------------------------- */
 /* SETTERS
  * ------------------------------------------------------------------------- */
-
-/*! Define o valor de energia do alimento */
-void Player::set_energia_alimento(double nova_energia_alimento){
-	this->energia_alimento = nova_energia_alimento;
-}
 
 /*! Define o valor de hidratação do alimento */
 void Player::set_hidratacao_alimento(double nova_hidratacao_alimento){

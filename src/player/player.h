@@ -68,7 +68,6 @@ public:
 
 	double get_energia();
 	double get_energia_minlimite();
-	double get_energia_alimento();
 
 	double get_gasto_temp();
 	double get_gasto_basal();
@@ -159,7 +158,6 @@ public:
 	/* ------------------------------------------------------------------------- */
 
 	/* Setters */
-	void set_energia_alimento(double nova_energia_alimento);
 	void set_hidratacao_alimento(double nova_hidratacao_alimento);
 	void set_hidratacao(double nova_hidratacao);
 
