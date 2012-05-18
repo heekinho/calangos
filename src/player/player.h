@@ -16,9 +16,14 @@
 #include "playerProperties.h"
 #include "achievements.h"
 
+#include "playerHealth.h"
+
 // Forward Declaration
 class MicroClima;
 class Vetores;
+class LizardHealthInfo;
+class PlayerHealth;
+
 
 
 //typedef enum {tropidurus , eurolophosaurus, cnemidophorus} LizardEspecie;
@@ -28,8 +33,9 @@ class Vetores;
  * usuário.<br> Representada como objeto de jogo. Suas tarefas de controle, ficam
  * sob responsabilidade da classe playerControl */
 class Player : public AnimatedObjetoJogo {
-
 public:
+	PT(PlayerHealth) player_health;
+
 	// Modelo singleton, ao iniciar utilizar os parametros
 	static PT(Player) get_instance();
 
@@ -201,7 +207,7 @@ public:
 	 * hidrataçao proporcionalmente */
 	void mordida_recebida(int tamanho_lagarto_base);
 
-	/* Enum que corresponde as espécies dos lagartos com os quais o jogador pode jogar */
+	/*! Enum que corresponde as espécies dos lagartos com os quais o jogador pode jogar */
 	enum lizardEpecie {
 		tropidurus,
 		eurolophosaurus,
@@ -209,22 +215,22 @@ public:
 		custom
 	};
 
-	/*Enum que corresponde as grandezas armazenadas no vetor de variáveis de saúde dos lagartos*/
-	enum lizard_variables{
-		TEMP_INTER_IDEAL,//0
-		QNT_H_SEM_ALIMENTO,//1
-		QNT_H_BAIXA_HIDRAT,//2
-		UMID_AFETA_HIDRAT,//3
-		UMID_PARAM,//4
-		TEMP_INT_MAX,//5
-		TEMP_INT_MIN,//6
-		HIDT_MIN,//7
-		ENER_MIN,//8
-		TOLER_TEMP_INTER,//9
-		GASTO_BAIXA_TEMP,//10
-		GASTO_ALTA_TEMP,//11
-		VEL_EQUI_TERM//12
-	};
+//	/*Enum que corresponde as grandezas armazenadas no vetor de variáveis de saúde dos lagartos*/
+//	enum lizard_variables{
+//		TEMP_INTER_IDEAL,//0
+//		QNT_H_SEM_ALIMENTO,//1
+//		QNT_H_BAIXA_HIDRAT,//2
+//		UMID_AFETA_HIDRAT,//3
+//		UMID_PARAM,//4
+//		TEMP_INT_MAX,//5
+//		TEMP_INT_MIN,//6
+//		HIDT_MIN,//7
+//		ENER_MIN,//8
+//		TOLER_TEMP_INTER,//9
+//		GASTO_BAIXA_TEMP,//10
+//		GASTO_ALTA_TEMP,//11
+//		VEL_EQUI_TERM//12
+//	};
 
 	static string get_specie_name(Player::lizardEpecie specie);
 	enum lizardGender {female, male, young};
@@ -387,63 +393,63 @@ private:
 	/* Guarda referencia para os vetores que armazenarão o histórico das variáveis de saúde do lagarto*/
 	Vetores* vetores;
 
-	/*ORDEM: 1 - Tempera interna ideal, 2 - Quantidade de horas sem se alimentar,
-	*3 - Quantidade de horas com baixa hidratação, 4 - Umidade que afeta a hidratação,
-	*5 - Umidade parametro, 6 - Temperatura interna de limite máximo, 7 - Temperatura interna de limite mínimo,
-	*8 - Limite mínimo de hidratação, 9 - Limite mínimo de energia, 10 - Tolerancia de variação da temperatura interna,
-	*11 - Gasto com baixa temperatura, por grau abaixo da ideal, a cada atualização,
-	*12 - Gasto com alta temperatura, por grau abaixo da ideal, a cada atualização,
-	*13 - Velocidade de equilíbrio térmico com o meio */
+//	/*ORDEM: 1 - Tempera interna ideal, 2 - Quantidade de horas sem se alimentar,
+//	*3 - Quantidade de horas com baixa hidratação, 4 - Umidade que afeta a hidratação,
+//	*5 - Umidade parametro, 6 - Temperatura interna de limite máximo, 7 - Temperatura interna de limite mínimo,
+//	*8 - Limite mínimo de hidratação, 9 - Limite mínimo de energia, 10 - Tolerancia de variação da temperatura interna,
+//	*11 - Gasto com baixa temperatura, por grau abaixo da ideal, a cada atualização,
+//	*12 - Gasto com alta temperatura, por grau abaixo da ideal, a cada atualização,
+//	*13 - Velocidade de equilíbrio térmico com o meio */
+//
+//	/* Variáveis do Tropidurus */
+//	static const float temperatura_interna_ideal_trop;
+//	static const float qnt_h_sem_alimento_trop;
+//	static const float qnt_h_baixa_hidrat_trop;
+//	static const float umidade_afeta_hidrat_trop;
+//	static const float umidade_param_trop;
+//	static const float temp_interna_max_trop;
+//	static const float temp_interna_min_trop;
+//	static const float hidrat_min_trop;
+//	static const float energia_min_trop;
+//	static const float faixa_tolerancia_tem_interna_trop;
+//	static const float gasto_baixa_temp_trop;
+//	static const float gasto_alta_temp_trop;
+//	static const float vel_equi_termico_trop;
+//
+//	/* Variáveis do Eurolophosaurus */
+//	static const float temperatura_interna_ideal_euro;
+//	static const float qnt_h_sem_alimento_euro;
+//	static const float qnt_h_baixa_hidrat_euro;
+//	static const float umidade_afeta_hidrat_euro;
+//	static const float umidade_param_euro;
+//	static const float temp_interna_max_euro;
+//	static const float temp_interna_min_euro;
+//	static const float hidrat_min_euro;
+//	static const float energia_min_euro;
+//	static const float faixa_tolerancia_tem_interna_euro;
+//	static const float gasto_baixa_temp_euro;
+//	static const float gasto_alta_temp_euro;
+//	static const float vel_equi_termico_euro;
+//
+//	/* Variáveis do Cnemidophorus */
+//	static const float temperatura_interna_ideal_cnem;
+//	static const float qnt_h_sem_alimento_cnem;
+//	static const float qnt_h_baixa_hidrat_cnem;
+//	static const float umidade_afeta_hidrat_cnem;
+//	static const float umidade_param_cnem;
+//	static const float temp_interna_max_cnem;
+//	static const float temp_interna_min_cnem;
+//	static const float hidrat_min_cnem;
+//	static const float energia_min_cnem;
+//	static const float faixa_tolerancia_tem_interna_cnem;
+//	static const float gasto_baixa_temp_cnem;
+//	static const float gasto_alta_temp_cnem;
+//	static const float vel_equi_termico_cnem;
 
-	/* Variáveis do Tropidurus */
-	static const float temperatura_interna_ideal_trop;
-	static const float qnt_h_sem_alimento_trop;
-	static const float qnt_h_baixa_hidrat_trop;
-	static const float umidade_afeta_hidrat_trop;
-	static const float umidade_param_trop;
-	static const float temp_interna_max_trop;
-	static const float temp_interna_min_trop;
-	static const float hidrat_min_trop;
-	static const float energia_min_trop;
-	static const float faixa_tolerancia_tem_interna_trop;
-	static const float gasto_baixa_temp_trop;
-	static const float gasto_alta_temp_trop;
-	static const float vel_equi_termico_trop;
-
-	/* Variáveis do Eurolophosaurus */
-	static const float temperatura_interna_ideal_euro;
-	static const float qnt_h_sem_alimento_euro;
-	static const float qnt_h_baixa_hidrat_euro;
-	static const float umidade_afeta_hidrat_euro;
-	static const float umidade_param_euro;
-	static const float temp_interna_max_euro;
-	static const float temp_interna_min_euro;
-	static const float hidrat_min_euro;
-	static const float energia_min_euro;
-	static const float faixa_tolerancia_tem_interna_euro;
-	static const float gasto_baixa_temp_euro;
-	static const float gasto_alta_temp_euro;
-	static const float vel_equi_termico_euro;
-
-	/* Variáveis do Cnemidophorus */
-	static const float temperatura_interna_ideal_cnem;
-	static const float qnt_h_sem_alimento_cnem;
-	static const float qnt_h_baixa_hidrat_cnem;
-	static const float umidade_afeta_hidrat_cnem;
-	static const float umidade_param_cnem;
-	static const float temp_interna_max_cnem;
-	static const float temp_interna_min_cnem;
-	static const float hidrat_min_cnem;
-	static const float energia_min_cnem;
-	static const float faixa_tolerancia_tem_interna_cnem;
-	static const float gasto_baixa_temp_cnem;
-	static const float gasto_alta_temp_cnem;
-	static const float vel_equi_termico_cnem;
-
-	/* Vetores que guardarão os valores das variáveis apresentadas acima para cada espécie */
-	static float arrayTropidurus[13];
-	static float arrayEurolophosaurus[13];
-	static float arrayCnemidophorus[13];
+//	/* Vetores que guardarão os valores das variáveis apresentadas acima para cada espécie */
+//	static float arrayTropidurus[13];
+//	static float arrayEurolophosaurus[13];
+//	static float arrayCnemidophorus[13];
 
 	/* Carrega os valores inicias das variáveis para cada espécie */
 	void init_tropidurus_lizard();
@@ -502,6 +508,9 @@ private:
 	bool flag_verify_under_vegetal;//Flag verifica se o método in_under_vegetal foi chamado em um frame
 	bool player_is_under_vegetal;
 	
+	void init_health(lizardEpecie lizard);
+
+
 };
 
 #endif
