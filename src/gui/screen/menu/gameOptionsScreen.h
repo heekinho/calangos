@@ -27,7 +27,7 @@ public:
 	void show();
 	void hide();
 
-	Player::lizardEpecie get_especie();
+//	Player::lizardEpecie get_especie();
 
 	void informa_segundos(string aviso);
 
