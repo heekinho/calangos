@@ -10,12 +10,20 @@ EnergySimulator::EnergySimulator(PT(PlayerHealth) health) : Simulator(health) {
 	_initial_energy = 50;
 }
 
+EnergySimulator::~EnergySimulator(){
+
+}
+
 /*! Realiza a simulação atualizando os gastos de energia */
 void EnergySimulator::update(){
 	update_basal_cost();
 	update_moviment_cost();
 	update_temperature_cost();
 	update_total_cost();
+}
+
+void EnergySimulator::update_energy(){
+
 }
 
 /*! Atualiza o gasto basal do lagarto */

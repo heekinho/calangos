@@ -31,7 +31,11 @@ public:
 	float temperature_tolerance;
 	float max_hours_without_food;
 	float max_hours_with_low_hidration;
+	/* Parece ser o limiar a partir da onde a umidade começa a afetar a hidratação.
+	 * Ex.: = 40.0  ->  umidade do ambiente acima disso não tem efeito de decaimento */
 	float humidity_affects_hidration;
+
+	/* O que é isso? */
 	float humidity_param; // moisture?
 	float min_hydration;
 	float min_energy; // stamina?

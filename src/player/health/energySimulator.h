@@ -12,12 +12,16 @@
 class EnergySimulator : public Simulator {
 public:
 	EnergySimulator(PT(PlayerHealth) health);
+	virtual ~EnergySimulator();
+
 	void update();
 
+protected:
 	void update_basal_cost();
 	void update_moviment_cost();
 	void update_temperature_cost();
 	void update_total_cost();
+	void update_energy();
 
 private:
 	float _energy;
