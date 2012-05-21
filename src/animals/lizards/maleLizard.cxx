@@ -131,7 +131,10 @@ void MaleLizard::chase(){
 		/* Comportamento */
 		look_at(*player);  //TODO: Corrigir depois para não permitir muito giro.
 
-		 if(distance > (eat_thr - (eat_thr / 10))*(eat_thr - (eat_thr / 10))) move(VEL_RUN);
+		 if(distance > (eat_thr - (eat_thr / 10))*(eat_thr - (eat_thr / 10))) {
+			 move(VEL_RUN);
+
+		 }
 	}
 
 }

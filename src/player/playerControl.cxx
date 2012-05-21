@@ -329,15 +329,19 @@ void PlayerControl::move(float velocity){
 		p->loop_anim("walk");
 
 		/* A Letargia influencia na velocidade (decidiu-se por influenciar linearmente */
-		velocity = velocity * (1 - p->get_letargia());
-		p->set_velocity(velocity);
+//		velocity = velocity * (1 - p->get_letargia());
+//		p->set_velocity(velocity);
+//		p->move(velocity*100);
 
-		p->move(velocity*100);
+		/*Multiplicador (*100) retirado desse método e acrescentado no método Player::get_speed_walking
+		 * Porém, playrate  é calculado com velocity sem o multiplicador*/
+		p->move(velocity);
 
 		/* O playrate deve variar de acordo com a velocidade final*/
 //		if(velocity <= VEL_WALK) p->get_anim_control()->find_anim("walk")->set_play_rate(1.0);
 //		else if(velocity > VEL_WALK) p->get_anim_control()->find_anim("walk")->set_play_rate(4.0);
-		float playrate = velocity * 0.15;
+
+		float playrate = velocity/100 * 0.15;//Velocity dividida pelo multiplicador
 		if(playrate > 4) playrate = 4;
 		if(velocity == 0) playrate = 2;
 		p->get_anim_control()->find_anim("walk")->set_play_rate(playrate);

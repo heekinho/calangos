@@ -153,12 +153,23 @@ void Player::set_velocity(double velocity){
 /*! Obtém a velocidade do jogador quando andando */
 float Player::get_speed_walking() const {
 	if(Session::get_instance()->get_level() > 1) return properties.speed;
-	else return (PlayerProperties::max_speed + PlayerProperties::min_speed) * 0.5;
+	else {
+		Player *p = player;
+		/* A Letargia influencia na velocidade (decidiu-se por influenciar linearmente */
+
+		p->set_velocity((PlayerProperties::max_speed + PlayerProperties::min_speed) * 0.5);
+		p->set_velocity(p->get_velocity() * (1 - p->get_letargia()));
+		p->set_velocity(p->get_velocity()*100);//Multiplicador de velocidade
+		return p->get_velocity();
+
+//		return (PlayerProperties::max_speed + PlayerProperties::min_speed) * 0.5;
+	}
 }
 
 /*! Obtém a velocidade do jogador enquanto correndo */
 float Player::get_speed_running() const {
-	return get_speed_walking() * 10;
+//	return get_speed_walking() * 10;
+	return get_speed_walking() * 7;
 }
 
 /*! Mostra algumas informações do player para Debug */
