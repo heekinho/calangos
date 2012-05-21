@@ -158,8 +158,11 @@ void Player::init_health(lizardEpecie lizard){
 	gasto_alta_temp = health.energy_cost_high_temperature;
 	equi_term = health.thermal_equilibrium_speed;
 
+	/* Novo sistema */
 	player_health = new PlayerHealth();
 	player_health->load_health("config/lizard-" + lizard_name + ".prc");
+
+	player_health_simulator = new PlayerHealthSimulator(player_health);
 }
 
 ///*! Carrega os atributos iniciais relacionados à saúde do lagarto*/
@@ -439,10 +442,10 @@ float Player::calc_tamanho_base(float tamanho_real){
 	return 100 * (tamanho_real - get_min_size()) / (get_max_size() - get_min_size());
 }
 
-/*! Obtem a taxa de crescimento */
-float Player::get_taxa_crescimento(){
-	return taxa_crescimento;
-}
+///*! Obtem a taxa de crescimento */
+//float Player::get_taxa_crescimento(){
+//	return taxa_crescimento;
+//}
 
 /*! Deprecated. Obtem o "tamanho base" do lagarto. Este é um valor de 0 a 100,
  *  que representa o tamanho do lagarto em relação ao tamanho máximo que este

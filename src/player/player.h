@@ -17,14 +17,14 @@
 #include "achievements.h"
 
 #include "playerHealth.h"
+#include "playerHealthSimulator.h"
 
 // Forward Declaration
 class MicroClima;
 class Vetores;
 class LizardHealthInfo;
 class PlayerHealth;
-
-
+class PlayerHealthSimulator;
 
 //typedef enum {tropidurus , eurolophosaurus, cnemidophorus} LizardEspecie;
 //typedef enum {female, male, young} LizardGender;
@@ -35,6 +35,8 @@ class PlayerHealth;
 class Player : public AnimatedObjetoJogo {
 public:
 	PT(PlayerHealth) player_health;
+	PT(PlayerHealthSimulator) player_health_simulator;
+
 
 	// Modelo singleton, ao iniciar utilizar os parametros
 	static PT(Player) get_instance();
@@ -127,7 +129,7 @@ public:
 	float calc_tamanho_base(float tamanho_real);
 
 	float get_tamanho_real();
-	float get_taxa_crescimento();
+//	float get_taxa_crescimento();
 
 	void calc_visual_size_factor();
 	float get_visual_size();
