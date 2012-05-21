@@ -20,12 +20,16 @@ PlayerHealth::~PlayerHealth() {
 void PlayerHealth::load_health(const Filename &path){
 	ConfigPage* config_page = load_prc_file(path);
 	string prefix = "calangos-lizard-";
+
+	max_lizard_size = 60; //TODO: Configuração
+	min_lizard_size = 20; //TODO: Configuração
+
 	ideal_temperature = ConfigVariableDouble(prefix + "ideal-temperature", 36);
 	max_temperature = ConfigVariableDouble(prefix + "max-temperature", 45);
 	min_temperature = ConfigVariableDouble(prefix + "min-temperature", 15);
 	temperature_tolerance = ConfigVariableDouble(prefix + "temperature-tolerance", 2);
 	max_hours_without_food = ConfigVariableDouble(prefix + "max-hours-without-food", 160);
-	max_hours_with_low_hidration = ConfigVariableDouble(prefix + "max-hours-with-low-hidration", 40);
+	max_hours_with_low_hydration = ConfigVariableDouble(prefix + "max-hours-with-low-hidration", 40);
 	humidity_affects_hidration = ConfigVariableDouble(prefix + "humidity-affects-hidration", 40);
 	humidity_param = ConfigVariableDouble(prefix + "humidity-param", 40);
 	min_hydration = ConfigVariableDouble(prefix + "min-hydration", 40);

@@ -80,7 +80,7 @@ public:
 //	health.min_temperature = 15;
 //	health.temperature_tolerance = 2;
 //	health.max_hours_without_food = 168;
-//	health.max_hours_with_low_hidration = 48;
+//	health.max_hours_with_low_hydration = 48;
 //	health.humidity_affects_hidration = 40;
 //	health.humidity_param = 10;
 //	health.min_hydration = 45;
@@ -101,7 +101,7 @@ public:
 //	health.min_temperature = 13;
 //	health.temperature_tolerance = 1.5;
 //	health.max_hours_without_food = 190;
-//	health.max_hours_with_low_hidration = 48;
+//	health.max_hours_with_low_hydration = 48;
 //	health.humidity_affects_hidration = 40;
 //	health.humidity_param = 10;
 //	health.min_hydration = 45;
@@ -123,7 +123,7 @@ public:
 //	health.min_temperature = 15;
 //	health.temperature_tolerance = 2;
 //	health.max_hours_without_food = 168;
-//	health.max_hours_with_low_hidration = 48;
+//	health.max_hours_with_low_hydration = 48;
 //	health.humidity_affects_hidration = 40;
 //	health.humidity_param = 10;
 //	health.min_hydration = 45;

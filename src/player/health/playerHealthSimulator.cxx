@@ -74,7 +74,8 @@ void PlayerHealthSimulator::pass_second(){
 	_temperature_simulator->update_lethargy();
 
 	/* Atualiza todos os gastos de energia */
-	_energy_simulator->update();
+	float size_factor = 1.0; /*_morfology_simulator->get_size_factor();*/
+	_energy_simulator->update(_num_updates_per_hour, size_factor);
 
 
 	/* Atualiza hidratação do lagarto */

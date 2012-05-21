@@ -10,7 +10,7 @@ HydrationSimulator::HydrationSimulator(PT(PlayerHealth) health) : Simulator(heal
 	float initial_hydration = 50.0;
 
 	_humidity_factor = 0.0;
-	_humidity_factor_a = -(initial_hydration / health->max_hours_with_low_hidration) / (health->humidity_affects_hidration - health->humidity_param);
+	_humidity_factor_a = -(initial_hydration / health->max_hours_with_low_hydration) / (health->humidity_affects_hidration - health->humidity_param);
 	_humidity_factor_b = -(_humidity_factor_a * (health->humidity_affects_hidration));
 
 	_hydration = initial_hydration;

@@ -24,19 +24,32 @@ public:
 	float temperature;
 
 //protected:
-	/* Valores configuraveis */
+
+	/*! Tamanho máximo que o lagarto pode atingir ao fim da vida. (geral) */
+	float max_lizard_size;
+	/*! Tamanho mínimo que o lagarto pode atingir ao fim da vida. (geral) */
+	float min_lizard_size;
+
+	/*! Temperatura ideal do lagarto sob a qual sua saúde vai ficar ótima */
 	float ideal_temperature;
 	float max_temperature;
 	float min_temperature;
 	float temperature_tolerance;
+
+	/*! Quantidade de horas que o lagarto vive sem alimentação */
 	float max_hours_without_food;
-	float max_hours_with_low_hidration;
-	/* Parece ser o limiar a partir da onde a umidade começa a afetar a hidratação.
-	 * Ex.: = 40.0  ->  umidade do ambiente acima disso não tem efeito de decaimento */
+
+	/*! Quantidade máxima de horas que o lagarto irá sobreviver submetido
+	 *  a uma baixa umidade, definida por "humidity_param". (ex.: 48 horas) */
+	float max_hours_with_low_hydration;
+
+	/*! Limiar a partir da onde a umidade começa a afetar a hidratação.
+	 *  Ex.: = 40.0  ->  umidade do ambiente acima disso não tem efeito de decaimento */
 	float humidity_affects_hidration;
 
-	/* O que é isso? */
-	float humidity_param; // moisture?
+	/*! Parâmetro de baixa umidade usado para indicar a morte do lagarto depois de
+	 *  "max_hours_with_low_hydration" (geralmente 48 horas). */
+	float humidity_param;
 	float min_hydration;
 	float min_energy; // stamina?
 	float energy_cost_low_temperature;

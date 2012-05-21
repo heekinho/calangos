@@ -38,7 +38,8 @@ protected:
 #include "microClima.h"
 #include "player.h"
 
-/*! Obtem x de 0 a 1 considerando o range (a,b) */
+/*! Obtem x de 0 a 1 considerando o range (a,b)
+ *  TODO: Mudar nome. */
 INLINE float compress_range(float a, float b, float x){
 	return (x - a)/(b - a);
 }

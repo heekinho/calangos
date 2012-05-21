@@ -36,8 +36,8 @@ private:
 	float _humidity_factor_b;
 
 	/*! Ao consumir alimentos ele vai acumulando no buffer e só então é consumida.
-	 *  Importante pois o processo de atualização dos gráficos está também interessada
-	 *  nessa informação.
+	 *  Importante pois o processo de atualização dos gráficos pode também estar
+	 *  interessada nessa informação.
 	 *  NOTA: Não estava sendo utilizada */
 	float _food_hydration_buffer;
 };
