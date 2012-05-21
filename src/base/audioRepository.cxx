@@ -139,16 +139,20 @@ AudioRepository::AudioRepository() {
 		  using_security_loop = true;
 	  }
 	  // esse método get_time() não está funcionando. T_T
-	  position_before_stop = current_bgm->get_time();
-	  current_bgm->stop();
+	  if(current_bgm){
+		  position_before_stop = current_bgm->get_time();
+		  current_bgm->stop();
+	  }
   }
 
   void AudioRepository::unpause_bgm() {
 	  if (!is_bgm_enabled || !is_stopped) return;
 
 	  is_stopped = false;
-	  current_bgm->set_time(position_before_stop);
-	  current_bgm->play();
+	  if(current_bgm){
+		  current_bgm->set_time(position_before_stop);
+		  current_bgm->play();
+	  }
   }
 
   void AudioRepository::play_bgm_infinitely(const string& name, float volume) {
