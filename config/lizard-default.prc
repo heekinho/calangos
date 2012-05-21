@@ -1,3 +1,4 @@
+# Estas configurações são carregadas dos seus arquivos específicos.
 calangos-lizard-ideal-temperature 36
 calangos-lizard-max-temperature 45
 calangos-lizard-min-temperature 13
