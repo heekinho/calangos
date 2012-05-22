@@ -13,8 +13,9 @@ TemperatureSimulator::TemperatureSimulator(PT(PlayerHealth) health) : Simulator(
 
 /*! Atualiza a velocidade de equilibrio da temperatura. Varia de acordo com
  *  o tamanho do lagarto */
-void TemperatureSimulator::update_thermal_equilibrium_speed(){
-	//TODO =)
+void TemperatureSimulator::update_thermal_equilibrium_speed(float relative_size){
+	float size_factor = health->thermal_equilibrium_speed * relative_size * 0.8;
+	_current_thermal_equilibrium_speed = health->thermal_equilibrium_speed - size_factor;
 }
 
 /*! Obtem a temperatura externa percebida pelo organismo */
@@ -63,4 +64,41 @@ void TemperatureSimulator::update_lethargy(){
 	if(_temperature > min_ideal_temperature) _lethargy = 0.0;
 	else if(_temperature < health->min_temperature) _lethargy = 1.0;
 	else _lethargy = 1.0 - compress_range(health->min_temperature, min_ideal_temperature, _temperature);
+}
+
+
+float TemperatureSimulator::get_temperature_cost(){
+//	/* Se a temperatura interna estiver abaixo da faixa de tolerância */
+//	if(temp_interna < (this->temp_interna_ideal  - this->variacao_temp_interna)) {
+//		this->gasto_temp = 1/(1+((this->temp_interna_ideal  - this->variacao_temp_interna) - (this->temp_interna))*this->gasto_baixa_temp);
+//	}
+//	else {
+//		/* Se a temperatura interna estiver acima da faixa de tolerância */
+//		if(temp_interna > (this->temp_interna_ideal  + this->variacao_temp_interna)){
+//			this->gasto_temp = 1+(this->temp_interna - (this->temp_interna_ideal  + this->variacao_temp_interna))*this->gasto_alta_temp;
+//		}
+//		else {
+//			/* Temperatura na faixa de tolerância */
+//			this->gasto_temp = 1;
+//		}
+//	}
+
+	/* Aplica tolerância à faixa de temperatura */
+	float min_range_limit = (health->ideal_temperature - health->temperature_tolerance);
+	float max_range_limit = (health->ideal_temperature + health->temperature_tolerance);
+
+	if(_temperature < min_range_limit){
+		/* Temperatura abaixo da faixa de tolerância */
+		float exceeded_temperature = min_range_limit - _temperature;
+		return 1.0 + (health->energy_cost_low_temperature * exceeded_temperature);
+	}
+	else if(_temperature > max_range_limit){
+		/* Temperatura acima da faixa de tolerância */
+		float exceeded_temperature = _temperature - max_range_limit;
+		return 1.0 + (health->energy_cost_high_temperature * exceeded_temperature);
+	}
+	else {
+		/* Temperatura na faixa de tolerância */
+		return 1.0;
+	}
 }

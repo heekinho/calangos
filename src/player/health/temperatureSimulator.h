@@ -13,9 +13,11 @@ class TemperatureSimulator : public Simulator {
 public:
 	TemperatureSimulator(PT(PlayerHealth) health);
 
-	void update_thermal_equilibrium_speed();
+	void update_thermal_equilibrium_speed(float relative_size);
 
 	float perceived_temperature();
+
+	float get_temperature_cost();
 
 	/*! Atualiza a temperatura interna do lagarto */
 	void update_temperature();

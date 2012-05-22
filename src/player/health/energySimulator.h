@@ -14,14 +14,22 @@ public:
 	EnergySimulator(PT(PlayerHealth) health);
 	virtual ~EnergySimulator();
 
-	void update(float updates_per_hour, float size_factor);
+	void update(float updates_per_hour, float relative_size, float temperature_cost);
 
 	void add_food_energy(float food_energy);
 
+	void update_daily_energy_average();
+	float update_monthly_energy_average();
+
+//	void second_update();
+//	void day_update();
+//	void month_update();
+
+
 protected:
-	void update_basal_cost(float updates_per_hour, float size_factor);
+	void update_basal_cost(float updates_per_hour, float relative_size);
 	void update_moviment_cost();
-	void update_temperature_cost();
+	void update_temperature_cost(float temperature_cost);
 	void update_total_cost();
 	void update_energy();
 
@@ -48,6 +56,16 @@ private:
 
 	/*! Energia inicial do lagarto. */
 	float _initial_energy;
+
+
+	int _num_days;
+	int _second_update_count;
+	float _day_energy_buffer;
+//	float _day_energy_average;
+
+	int _day_update_count;
+	float _month_energy_buffer;
+	float _month_energy_average;
 };
 
 #endif /* ENERGYSIMULATOR_H */

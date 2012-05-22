@@ -16,6 +16,15 @@ EnergySimulator::EnergySimulator(PT(PlayerHealth) health) : Simulator(health) {
 	_moviment_cost = 0.0;
 	_temperature_cost = 0.0;
 	_total_cost = 0.0;
+
+	_num_days = 0;
+	_second_update_count = 0;
+	_day_energy_buffer = 0;
+//	_day_energy_average = 0;
+
+	_day_update_count = 0;
+	_month_energy_buffer = 0;
+	_month_energy_average = 0;
 }
 
 EnergySimulator::~EnergySimulator(){
@@ -23,11 +32,13 @@ EnergySimulator::~EnergySimulator(){
 }
 
 /*! Realiza a simulação atualizando os gastos de energia */
-void EnergySimulator::update(float updates_per_hour, float size_factor){
-	update_basal_cost(updates_per_hour, size_factor);
+void EnergySimulator::update(float updates_per_hour, float relative_size, float temperature_cost){
+	update_basal_cost(updates_per_hour, relative_size);
 	update_moviment_cost();
-	update_temperature_cost();
+	update_temperature_cost(temperature_cost);
 	update_total_cost();
+	update_energy();
+	_second_update_count++;
 }
 
 void EnergySimulator::update_energy(){
@@ -39,18 +50,15 @@ void EnergySimulator::update_energy(){
 
 	/* Consome a energia do alimento */
 	_food_energy_buffer = 0.0;
+
+	/* Coloca a energia do segundo no acumulador */
+	_day_energy_buffer += _energy;
 }
 
 /*! Atualiza o gasto basal do lagarto */
-void EnergySimulator::update_basal_cost(float updates_per_hour, float size_factor){
-//		if (Session::get_instance()->get_level() > 1) {
-//			gasto_basal = (ENERGIA_INIT/(num_horas_alimento*atualizacoes_phora))*(1+(5*get_absolute_size_factor()));
-//		} else {
-//			this->gasto_basal = (ENERGIA_INIT/(num_horas_alimento*atualizacoes_phora))*(1+(5*this->tamanho_lagarto_base/100));
-//		}
-
+void EnergySimulator::update_basal_cost(float updates_per_hour, float relative_size){
 	float food_factor = (_initial_energy / (health->max_hours_without_food * updates_per_hour));
-	size_factor = (1 + (5 * size_factor));
+	float size_factor = (1 + (5 * relative_size));
 
 	_basal_cost = food_factor * size_factor;
 }
@@ -61,8 +69,8 @@ void EnergySimulator::update_moviment_cost(){
 }
 
 /*! Atualiza o gasto por temperatura do lagarto */
-void EnergySimulator::update_temperature_cost(){
-
+void EnergySimulator::update_temperature_cost(float temperature_cost){
+	_temperature_cost = temperature_cost;
 }
 
 /*! Calcula o gasto de energia do lagarto.
@@ -78,4 +86,24 @@ void EnergySimulator::add_food_energy(float food_energy){
 
 	/* A energia é consumida instantaneamente, o buffer é só pra o vetor */
 	_energy += food_energy;
+}
+
+void EnergySimulator::update_daily_energy_average(){
+	_num_days++;
+
+	float _day_energy_average = _day_energy_buffer / float(_second_update_count);
+	_month_energy_buffer += _day_energy_average;
+
+	_second_update_count = 0;
+	_day_energy_buffer = 0.0;
+}
+
+float EnergySimulator::update_monthly_energy_average(){
+	float average = _month_energy_buffer / float(_day_update_count);
+
+	_day_update_count = 0;
+	_month_energy_buffer = 0.0;
+	_num_days = 0;
+
+	return average;
 }

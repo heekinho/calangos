@@ -17,8 +17,8 @@ public:
 //	float get_min_size();
 	float get_max_size();
 	float get_size();
-
 	float get_relative_size();
+
 	void update_size(float month_energy_average);
 
 	// Mouth size

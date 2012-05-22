@@ -812,26 +812,26 @@ double Player::get_environment_temp(){
 	}
 }
 
-int Player::get_num_atualizacoes_dia(){
-	return this->num_atualizacoes_dia;
-}
-
-int Player::get_num_dias(){
-	return this->num_dias;
-}
-
-float Player::get_soma_energia_dia(){
-	return this->soma_energia_dia;
-}
-
-
-float Player::get_soma_media_energia_diaria(){
-	return this->soma_media_energia_diaria;
-}
-
-float Player::get_media_energia_mes(){
-	return this->media_energia_mes;
-}
+//int Player::get_num_atualizacoes_dia(){
+//	return this->num_atualizacoes_dia;
+//}
+//
+//int Player::get_num_dias(){
+//	return this->num_dias;
+//}
+//
+//float Player::get_soma_energia_dia(){
+//	return this->soma_energia_dia;
+//}
+//
+//
+//float Player::get_soma_media_energia_diaria(){
+//	return this->soma_media_energia_diaria;
+//}
+//
+//float Player::get_media_energia_mes(){
+//	return this->media_energia_mes;
+//}
 
 int Player::get_idade(){
 	return this->idade;

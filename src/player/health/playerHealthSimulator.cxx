@@ -74,23 +74,28 @@ void PlayerHealthSimulator::pass_second(){
 	_temperature_simulator->update_lethargy();
 
 	/* Atualiza todos os gastos de energia */
-	float size_factor = 1.0; /*_morfology_simulator->get_size_factor();*/
-	_energy_simulator->update(_num_updates_per_hour, size_factor);
+	float relative_size = _morfology_simulator->get_relative_size();
+	float temperature_cost = _temperature_simulator->get_temperature_cost();
+	_energy_simulator->update(_num_updates_per_hour, relative_size, temperature_cost);
 
 
 	/* Atualiza hidratação do lagarto */
 	float relative_humidity = MicroClima::get_instance()->get_umidade_relativa_sector();
 	_hydration_simulator->update_hydration(relative_humidity, _num_updates_per_hour);
-
 }
 
 void PlayerHealthSimulator::pass_day(){
-
+	_energy_simulator->update_daily_energy_average();
 }
 
 void PlayerHealthSimulator::pass_month(){
-	_morfology_simulator->update_size(1.0);
-	_temperature_simulator->update_thermal_equilibrium_speed();
+	float average_energy = _energy_simulator->update_monthly_energy_average();
+
+	_morfology_simulator->update_size(average_energy);
+
+	float relative_size = _morfology_simulator->get_relative_size();
+	_temperature_simulator->update_thermal_equilibrium_speed(relative_size);
+
 }
 
 float PlayerHealthSimulator::get_num_updates_per_hour(){

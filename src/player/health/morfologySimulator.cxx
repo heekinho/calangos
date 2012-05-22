@@ -10,6 +10,9 @@ MorfologySimulator::MorfologySimulator(PT(PlayerHealth) health) : Simulator(heal
 	_ideal_months_to_max_size = 36; //TODO: Configuração
 	_child_size_factor = 0.2; //TODO: Configuração
 
+	//_max_size = health->max_size;
+	//_size = size; _size = _max_size * _child_size_factor;
+
 }
 
 MorfologySimulator::~MorfologySimulator(){
@@ -43,6 +46,9 @@ void MorfologySimulator::update_size(float month_energy_average){
 
 	/* Enfim atualiza o valor do tamanho */
 	_size = _size + real_grow_size;
+
+	/* Agora atualiza o tamanho relativo do lagarto */
+	update_relative_size();
 }
 
 
@@ -59,4 +65,12 @@ float MorfologySimulator::update_relative_size(){
 
 float MorfologySimulator::get_relative_size(){
 	return _relative_size;
+}
+
+float MorfologySimulator::get_size(){
+	return _size;
+}
+
+float MorfologySimulator::get_max_size(){
+	return _max_size;
 }
