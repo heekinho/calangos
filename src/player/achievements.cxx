@@ -33,6 +33,8 @@ Achievements::Achievements() {
 	counting_secs_energy = false;
 	lvl_intocavel = 0;
 	count_secs_untouched = 0;
+	count_guerreiro = 0;
+	lvl_guerreiro = 0;
 }
 
 Achievements::~Achievements() {}
@@ -143,6 +145,14 @@ int Achievements::get_lvl_intocavel() {
 
 void Achievements::reset_count_secs_untouched() {
 	count_secs_untouched = 0;
+}
+
+int Achievements::get_count_guerreiro() {
+	return count_guerreiro;
+}
+
+int Achievements::get_lvl_guerreiro() {
+	return lvl_guerreiro;
 }
 
 void Achievements::inc_reprodutor() {
@@ -329,4 +339,22 @@ AsyncTask::DoneStatus Achievements::count_seconds_untouched(GenericAsyncTask* ta
 	}
 
 	return AsyncTask::DS_again;
+}
+
+void Achievements::inc_guerreiro() {
+	count_guerreiro++;
+	cout<<"count_guerreiro = "<<count_guerreiro<<endl;
+
+	if (lvl_guerreiro == 0 && count_guerreiro == 2) {
+		count_guerreiro = 0;
+		lvl_guerreiro++;
+	}
+	else if (lvl_guerreiro == 1 && count_guerreiro == 5) {
+		count_guerreiro = 0;
+		lvl_guerreiro++;
+	}
+	else if (count_guerreiro == 10) { // do lvl 2 para cima
+		count_guerreiro = 0;
+		lvl_guerreiro++;
+	}
 }

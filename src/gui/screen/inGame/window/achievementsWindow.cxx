@@ -17,7 +17,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	//lb_andamento->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_andamento = np_frame.attach_new_node(lb_andamento);
 	np_lb_andamento.set_scale(0.05);
-	np_lb_andamento.set_pos(1.15, 0, 0.92);
+	np_lb_andamento.set_pos(1.15, 0, 1.02);
 	np_lb_andamento.set_color(0, 0, 0, 1);
 
 	// Achievement: Senhor mordida perfeita
@@ -26,7 +26,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	//lb_senhor_mordida->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_senhor_mordida = np_frame.attach_new_node(lb_senhor_mordida);
 	np_lb_senhor_mordida.set_scale(0.05);
-	np_lb_senhor_mordida.set_pos(0.06, 0, 0.85);
+	np_lb_senhor_mordida.set_pos(0.06, 0, 0.95);
 	np_lb_senhor_mordida.set_color(0, 0, 0, 1);
 	float text_width = lb_senhor_mordida->get_width();
 	float text_height = lb_senhor_mordida->get_height();
@@ -64,7 +64,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	lb_senhor_mordida_xnum->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_senhor_mordida_xnum = np_frame.attach_new_node(lb_senhor_mordida_xnum);
 	np_lb_senhor_mordida_xnum.set_scale(0.06);
-	np_lb_senhor_mordida_xnum.set_pos(1.01, 0, 0.83);
+	np_lb_senhor_mordida_xnum.set_pos(1.01, 0, 0.93);
 	np_lb_senhor_mordida_xnum.set_color(0, 0, 0, 1);
 
 	lb_senhor_mordida_andamento = new TextNode("lb_senhor_mordida_andamento");
@@ -86,7 +86,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	//lb_senhor_mordida_andamento->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_senhor_mordida_andamento = np_frame.attach_new_node(lb_senhor_mordida_andamento);
 	np_lb_senhor_mordida_andamento.set_scale(0.05);
-	np_lb_senhor_mordida_andamento.set_pos(1.25, 0, 0.85);
+	np_lb_senhor_mordida_andamento.set_pos(1.25, 0, 0.95);
 	np_lb_senhor_mordida_andamento.set_color(0, 0, 0, 1);
 	// FIM DO ACHIEVEMENT
 
@@ -96,7 +96,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	//lb_bom_de_boca->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_bom_de_boca = np_frame.attach_new_node(lb_bom_de_boca);
 	np_lb_bom_de_boca.set_scale(0.05);
-	np_lb_bom_de_boca.set_pos(0.06, 0, 0.75);
+	np_lb_bom_de_boca.set_pos(0.06, 0, 0.85);
 	np_lb_bom_de_boca.set_color(0, 0, 0, 1);
 	text_width = lb_bom_de_boca->get_width();
 	text_height = lb_bom_de_boca->get_height();
@@ -131,7 +131,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	lb_bom_de_boca_xnum->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_bom_de_boca_xnum = np_frame.attach_new_node(lb_bom_de_boca_xnum);
 	np_lb_bom_de_boca_xnum.set_scale(0.06);
-	np_lb_bom_de_boca_xnum.set_pos(1.01, 0, 0.73);
+	np_lb_bom_de_boca_xnum.set_pos(1.01, 0, 0.83);
 	np_lb_bom_de_boca_xnum.set_color(0, 0, 0, 1);
 
 	stringstream bom_de_boca_andamento;
@@ -151,7 +151,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	//lb_bom_de_boca_andamento->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_bom_de_boca_andamento = np_frame.attach_new_node(lb_bom_de_boca_andamento);
 	np_lb_bom_de_boca_andamento.set_scale(0.05);
-	np_lb_bom_de_boca_andamento.set_pos(1.25, 0, 0.75);
+	np_lb_bom_de_boca_andamento.set_pos(1.25, 0, 0.85);
 	np_lb_bom_de_boca_andamento.set_color(0, 0, 0, 1);
 	// FIM DO ACHIEVEMENT
 
@@ -161,7 +161,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	//lb_sobrevivente->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_sobrevivente = np_frame.attach_new_node(lb_sobrevivente);
 	np_lb_sobrevivente.set_scale(0.05);
-	np_lb_sobrevivente.set_pos(0.06, 0, 0.65);
+	np_lb_sobrevivente.set_pos(0.06, 0, 0.75);
 	np_lb_sobrevivente.set_color(0, 0, 0, 1);
 	text_width = lb_sobrevivente->get_width();
 	text_height = lb_sobrevivente->get_height();
@@ -196,7 +196,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	lb_sobrevivente_xnum->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_sobrevivente_xnum = np_frame.attach_new_node(lb_sobrevivente_xnum);
 	np_lb_sobrevivente_xnum.set_scale(0.06);
-	np_lb_sobrevivente_xnum.set_pos(1.01, 0, 0.63);
+	np_lb_sobrevivente_xnum.set_pos(1.01, 0, 0.73);
 	np_lb_sobrevivente_xnum.set_color(0, 0, 0, 1);
 
 	stringstream sobrevivente_andamento;
@@ -216,7 +216,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	//lb_sobrevivente_andamento->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_sobrevivente_andamento = np_frame.attach_new_node(lb_sobrevivente_andamento);
 	np_lb_sobrevivente_andamento.set_scale(0.05);
-	np_lb_sobrevivente_andamento.set_pos(1.25, 0, 0.65);
+	np_lb_sobrevivente_andamento.set_pos(1.25, 0, 0.75);
 	np_lb_sobrevivente_andamento.set_color(0, 0, 0, 1);
 	// FIM DO ACHIEVEMENT
 
@@ -226,7 +226,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	//lb_reprodutor->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_reprodutor = np_frame.attach_new_node(lb_reprodutor);
 	np_lb_reprodutor.set_scale(0.05);
-	np_lb_reprodutor.set_pos(0.06, 0, 0.55);
+	np_lb_reprodutor.set_pos(0.06, 0, 0.65);
 	np_lb_reprodutor.set_color(0, 0, 0, 1);
 	text_width = lb_reprodutor->get_width();
 	text_height = lb_reprodutor->get_height();
@@ -261,7 +261,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	lb_reprodutor_xnum->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_reprodutor_xnum = np_frame.attach_new_node(lb_reprodutor_xnum);
 	np_lb_reprodutor_xnum.set_scale(0.06);
-	np_lb_reprodutor_xnum.set_pos(1.01, 0, 0.53);
+	np_lb_reprodutor_xnum.set_pos(1.01, 0, 0.63);
 	np_lb_reprodutor_xnum.set_color(0, 0, 0, 1);
 
 	stringstream reprodutor_andamento;
@@ -281,7 +281,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	//lb_reprodutor_andamento->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_reprodutor_andamento = np_frame.attach_new_node(lb_reprodutor_andamento);
 	np_lb_reprodutor_andamento.set_scale(0.05);
-	np_lb_reprodutor_andamento.set_pos(1.25, 0, 0.55);
+	np_lb_reprodutor_andamento.set_pos(1.25, 0, 0.65);
 	np_lb_reprodutor_andamento.set_color(0, 0, 0, 1);
 	// FIM DO ACHIEVEMENT REPRODUTOR
 
@@ -291,7 +291,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	//lb_temperatura->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_temperatura = np_frame.attach_new_node(lb_temperatura);
 	np_lb_temperatura.set_scale(0.05);
-	np_lb_temperatura.set_pos(0.06, 0, 0.45);
+	np_lb_temperatura.set_pos(0.06, 0, 0.55);
 	np_lb_temperatura.set_color(0, 0, 0, 1);
 	text_width = lb_temperatura->get_width();
 	text_height = lb_temperatura->get_height();
@@ -326,7 +326,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	lb_temperatura_xnum->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_temperatura_xnum = np_frame.attach_new_node(lb_temperatura_xnum);
 	np_lb_temperatura_xnum.set_scale(0.06);
-	np_lb_temperatura_xnum.set_pos(1.01, 0, 0.43);
+	np_lb_temperatura_xnum.set_pos(1.01, 0, 0.53);
 	np_lb_temperatura_xnum.set_color(0, 0, 0, 1);
 
 	stringstream temperatura_andamento;
@@ -346,7 +346,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	//lb_temperatura_andamento->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_temperatura_andamento = np_frame.attach_new_node(lb_temperatura_andamento);
 	np_lb_temperatura_andamento.set_scale(0.05);
-	np_lb_temperatura_andamento.set_pos(1.25, 0, 0.45);
+	np_lb_temperatura_andamento.set_pos(1.25, 0, 0.55);
 	np_lb_temperatura_andamento.set_color(0, 0, 0, 1);
 	// FIM DO ACHIEVEMENT TEMPERATURA
 
@@ -356,7 +356,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	//lb_hidratacao->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_hidratacao = np_frame.attach_new_node(lb_hidratacao);
 	np_lb_hidratacao.set_scale(0.05);
-	np_lb_hidratacao.set_pos(0.06, 0, 0.35);
+	np_lb_hidratacao.set_pos(0.06, 0, 0.45);
 	np_lb_hidratacao.set_color(0, 0, 0, 1);
 	text_width = lb_hidratacao->get_width();
 	text_height = lb_hidratacao->get_height();
@@ -391,7 +391,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	lb_hidratacao_xnum->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_hidratacao_xnum = np_frame.attach_new_node(lb_hidratacao_xnum);
 	np_lb_hidratacao_xnum.set_scale(0.06);
-	np_lb_hidratacao_xnum.set_pos(1.01, 0, 0.33);
+	np_lb_hidratacao_xnum.set_pos(1.01, 0, 0.43);
 	np_lb_hidratacao_xnum.set_color(0, 0, 0, 1);
 
 	stringstream hidratacao_andamento;
@@ -411,7 +411,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	//lb_hidratacao_andamento->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_hidratacao_andamento = np_frame.attach_new_node(lb_hidratacao_andamento);
 	np_lb_hidratacao_andamento.set_scale(0.05);
-	np_lb_hidratacao_andamento.set_pos(1.25, 0, 0.35);
+	np_lb_hidratacao_andamento.set_pos(1.25, 0, 0.45);
 	np_lb_hidratacao_andamento.set_color(0, 0, 0, 1);
 	// FIM DO ACHIEVEMENT HIDRATAÇÃO
 
@@ -421,7 +421,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	//lb_energia->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_energia = np_frame.attach_new_node(lb_energia);
 	np_lb_energia.set_scale(0.05);
-	np_lb_energia.set_pos(0.06, 0, 0.25);
+	np_lb_energia.set_pos(0.06, 0, 0.35);
 	np_lb_energia.set_color(0, 0, 0, 1);
 	text_width = lb_energia->get_width();
 	text_height = lb_energia->get_height();
@@ -456,7 +456,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	lb_energia_xnum->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_energia_xnum = np_frame.attach_new_node(lb_energia_xnum);
 	np_lb_energia_xnum.set_scale(0.06);
-	np_lb_energia_xnum.set_pos(1.01, 0, 0.23);
+	np_lb_energia_xnum.set_pos(1.01, 0, 0.33);
 	np_lb_energia_xnum.set_color(0, 0, 0, 1);
 
 	stringstream energia_andamento;
@@ -476,7 +476,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	//lb_energia_andamento->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_energia_andamento = np_frame.attach_new_node(lb_energia_andamento);
 	np_lb_energia_andamento.set_scale(0.05);
-	np_lb_energia_andamento.set_pos(1.25, 0, 0.25);
+	np_lb_energia_andamento.set_pos(1.25, 0, 0.35);
 	np_lb_energia_andamento.set_color(0, 0, 0, 1);
 	// FIM DO ACHIEVEMENT ENERGIA
 
@@ -486,7 +486,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	//lb_intocavel->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_intocavel = np_frame.attach_new_node(lb_intocavel);
 	np_lb_intocavel.set_scale(0.05);
-	np_lb_intocavel.set_pos(0.06, 0, 0.15);
+	np_lb_intocavel.set_pos(0.06, 0, 0.25);
 	np_lb_intocavel.set_color(0, 0, 0, 1);
 	text_width = lb_intocavel->get_width();
 	text_height = lb_intocavel->get_height();
@@ -521,7 +521,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	lb_intocavel_xnum->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_intocavel_xnum = np_frame.attach_new_node(lb_intocavel_xnum);
 	np_lb_intocavel_xnum.set_scale(0.06);
-	np_lb_intocavel_xnum.set_pos(1.01, 0, 0.13);
+	np_lb_intocavel_xnum.set_pos(1.01, 0, 0.23);
 	np_lb_intocavel_xnum.set_color(0, 0, 0, 1);
 
 	stringstream intocavel_andamento;
@@ -542,8 +542,72 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	//lb_intocavel_andamento->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_intocavel_andamento = np_frame.attach_new_node(lb_intocavel_andamento);
 	np_lb_intocavel_andamento.set_scale(0.05);
-	np_lb_intocavel_andamento.set_pos(1.25, 0, 0.15);
+	np_lb_intocavel_andamento.set_pos(1.25, 0, 0.25);
 	np_lb_intocavel_andamento.set_color(0, 0, 0, 1);
+
+	// ACHIEVEMENT: O Guerreiro
+	lb_guerreiro = new TextNode("lb_guerreiro");
+	lb_guerreiro->set_text("- Guerreiro");
+	//lb_guerreiro->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
+	np_lb_guerreiro = np_frame.attach_new_node(lb_guerreiro);
+	np_lb_guerreiro.set_scale(0.05);
+	np_lb_guerreiro.set_pos(0.06, 0, 0.15);
+	np_lb_guerreiro.set_color(0, 0, 0, 1);
+	text_width = lb_guerreiro->get_width();
+	text_height = lb_guerreiro->get_height();
+
+	int lvl_guerreiro = player->get_achievements()->get_lvl_guerreiro();
+	switch (lvl_guerreiro) {
+		case 0:
+			create_guerreiro_stars(white, white, white);
+			hint_guerreiro_atual = new Hint(np_frame, np_lb_guerreiro, text_width, text_height, "hint_guerreiro", "Espante 2 lagartos machos (necessários 12 meses de vida).");
+			break;
+		case 1:
+			create_guerreiro_stars(yellow, white, white);
+			hint_guerreiro_atual = new Hint(np_frame, np_lb_guerreiro, text_width, text_height, "hint_guerreiro", "Espante 5 lagartos machos (necessários 12 meses de vida).");
+			break;
+		case 2:
+			create_guerreiro_stars(yellow, yellow, white);
+			hint_guerreiro_atual = new Hint(np_frame, np_lb_guerreiro, text_width, text_height, "hint_guerreiro", "Espante 10 lagartos machos (necessários 12 meses de vida).");
+			break;
+		default:
+			create_guerreiro_stars(yellow, yellow, yellow);
+			hint_guerreiro_atual = new Hint(np_frame, np_lb_guerreiro, text_width, text_height, "hint_guerreiro", "Espante 10 lagartos machos (necessários 12 meses de vida).");
+	}
+
+	hint_guerreiro_1 = new Hint(np_frame, img_guerreiro_star_1, "hint_guerreiro", "Ter espantado 2 lagartos machos.");
+	hint_guerreiro_2 = new Hint(np_frame, img_guerreiro_star_2, "hint_guerreiro", "Ter espantado 5 lagartos machos.");
+	hint_guerreiro_3 = new Hint(np_frame, img_guerreiro_star_3, "hint_guerreiro", "Ter espantado 10 lagartos machos.");
+
+	lb_guerreiro_xnum = new TextNode("lb_guerreiro_xnum");
+	stringstream guerreiro_adicionais;
+	guerreiro_adicionais<<((lvl_guerreiro - 3) > 0 ? lvl_guerreiro - 3 : 0);
+	lb_guerreiro_xnum->set_text("+ " + guerreiro_adicionais.str());
+	lb_guerreiro_xnum->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
+	np_lb_guerreiro_xnum = np_frame.attach_new_node(lb_guerreiro_xnum);
+	np_lb_guerreiro_xnum.set_scale(0.06);
+	np_lb_guerreiro_xnum.set_pos(1.01, 0, 0.13);
+	np_lb_guerreiro_xnum.set_color(0, 0, 0, 1);
+
+	stringstream guerreiro_andamento;
+	lb_guerreiro_andamento = new TextNode("lb_guerreiro_andamento");
+	if (lvl_guerreiro == 0) {
+		guerreiro_andamento<<player->get_achievements()->get_count_guerreiro();
+		lb_guerreiro_andamento->set_text(guerreiro_andamento.str() + " / 2");
+	}
+	else if (lvl_guerreiro == 1) {
+		guerreiro_andamento<<player->get_achievements()->get_count_guerreiro();
+		lb_guerreiro_andamento->set_text(guerreiro_andamento.str() + " / 5");
+	}
+	else {
+		guerreiro_andamento<<player->get_achievements()->get_count_guerreiro();
+		lb_guerreiro_andamento->set_text(guerreiro_andamento.str() + " / 10");
+	}
+	//lb_guerreiro_andamento->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
+	np_lb_guerreiro_andamento = np_frame.attach_new_node(lb_guerreiro_andamento);
+	np_lb_guerreiro_andamento.set_scale(0.05);
+	np_lb_guerreiro_andamento.set_pos(1.25, 0, 0.15);
+	np_lb_guerreiro_andamento.set_color(0, 0, 0, 1);
 }
 
 AchievementsWindow::~AchievementsWindow() {}
@@ -552,134 +616,151 @@ void AchievementsWindow::create_senhor_mordida_stars(string star1, string star2,
 	img_senhor_mordida_star_1 = ImageRepository::get_instance()->get_image(star1);
 	img_senhor_mordida_star_1.reparent_to(np_frame);
 	img_senhor_mordida_star_1.set_scale(0.003);
-	img_senhor_mordida_star_1.set_pos(0.76, 0, 0.86);
+	img_senhor_mordida_star_1.set_pos(0.76, 0, 0.96);
 
 	img_senhor_mordida_star_2 = ImageRepository::get_instance()->get_image(star2);
 	img_senhor_mordida_star_2.reparent_to(np_frame);
 	img_senhor_mordida_star_2.set_scale(0.003);
-	img_senhor_mordida_star_2.set_pos(0.86, 0, 0.86);
+	img_senhor_mordida_star_2.set_pos(0.86, 0, 0.96);
 
 	img_senhor_mordida_star_3 = ImageRepository::get_instance()->get_image(star3);
 	img_senhor_mordida_star_3.reparent_to(np_frame);
 	img_senhor_mordida_star_3.set_scale(0.003);
-	img_senhor_mordida_star_3.set_pos(0.96, 0, 0.86);
+	img_senhor_mordida_star_3.set_pos(0.96, 0, 0.96);
 }
 
 void AchievementsWindow::create_bom_de_boca_stars(string star1, string star2, string star3) {
 	img_bom_de_boca_star_1 = ImageRepository::get_instance()->get_image(star1);
 	img_bom_de_boca_star_1.reparent_to(np_frame);
 	img_bom_de_boca_star_1.set_scale(0.003);
-	img_bom_de_boca_star_1.set_pos(0.76, 0, 0.76);
+	img_bom_de_boca_star_1.set_pos(0.76, 0, 0.86);
 
 	img_bom_de_boca_star_2 = ImageRepository::get_instance()->get_image(star2);
 	img_bom_de_boca_star_2.reparent_to(np_frame);
 	img_bom_de_boca_star_2.set_scale(0.003);
-	img_bom_de_boca_star_2.set_pos(0.86, 0, 0.76);
+	img_bom_de_boca_star_2.set_pos(0.86, 0, 0.86);
 
 	img_bom_de_boca_star_3 = ImageRepository::get_instance()->get_image(star3);
 	img_bom_de_boca_star_3.reparent_to(np_frame);
 	img_bom_de_boca_star_3.set_scale(0.003);
-	img_bom_de_boca_star_3.set_pos(0.96, 0, 0.76);
+	img_bom_de_boca_star_3.set_pos(0.96, 0, 0.86);
 }
 
 void AchievementsWindow::create_sobrevivente_stars(string star1, string star2, string star3) {
 	img_sobrevivente_star_1 = ImageRepository::get_instance()->get_image(star1);
 	img_sobrevivente_star_1.reparent_to(np_frame);
 	img_sobrevivente_star_1.set_scale(0.003);
-	img_sobrevivente_star_1.set_pos(0.76, 0, 0.66);
+	img_sobrevivente_star_1.set_pos(0.76, 0, 0.76);
 
 	img_sobrevivente_star_2 = ImageRepository::get_instance()->get_image(star2);
 	img_sobrevivente_star_2.reparent_to(np_frame);
 	img_sobrevivente_star_2.set_scale(0.003);
-	img_sobrevivente_star_2.set_pos(0.86, 0, 0.66);
+	img_sobrevivente_star_2.set_pos(0.86, 0, 0.76);
 
 	img_sobrevivente_star_3 = ImageRepository::get_instance()->get_image(star3);
 	img_sobrevivente_star_3.reparent_to(np_frame);
 	img_sobrevivente_star_3.set_scale(0.003);
-	img_sobrevivente_star_3.set_pos(0.96, 0, 0.66);
+	img_sobrevivente_star_3.set_pos(0.96, 0, 0.76);
 }
 
 void AchievementsWindow::create_reprodutor_stars(string star1, string star2, string star3) {
 	img_reprodutor_star_1 = ImageRepository::get_instance()->get_image(star1);
 	img_reprodutor_star_1.reparent_to(np_frame);
 	img_reprodutor_star_1.set_scale(0.003);
-	img_reprodutor_star_1.set_pos(0.76, 0, 0.56);
+	img_reprodutor_star_1.set_pos(0.76, 0, 0.66);
 
 	img_reprodutor_star_2 = ImageRepository::get_instance()->get_image(star2);
 	img_reprodutor_star_2.reparent_to(np_frame);
 	img_reprodutor_star_2.set_scale(0.003);
-	img_reprodutor_star_2.set_pos(0.86, 0, 0.56);
+	img_reprodutor_star_2.set_pos(0.86, 0, 0.66);
 
 	img_reprodutor_star_3 = ImageRepository::get_instance()->get_image(star3);
 	img_reprodutor_star_3.reparent_to(np_frame);
 	img_reprodutor_star_3.set_scale(0.003);
-	img_reprodutor_star_3.set_pos(0.96, 0, 0.56);
+	img_reprodutor_star_3.set_pos(0.96, 0, 0.66);
 }
 
 void AchievementsWindow::create_temperatura_stars(string star1, string star2, string star3) {
 	img_temperatura_star_1 = ImageRepository::get_instance()->get_image(star1);
 	img_temperatura_star_1.reparent_to(np_frame);
 	img_temperatura_star_1.set_scale(0.003);
-	img_temperatura_star_1.set_pos(0.76, 0, 0.46);
+	img_temperatura_star_1.set_pos(0.76, 0, 0.56);
 
 	img_temperatura_star_2 = ImageRepository::get_instance()->get_image(star2);
 	img_temperatura_star_2.reparent_to(np_frame);
 	img_temperatura_star_2.set_scale(0.003);
-	img_temperatura_star_2.set_pos(0.86, 0, 0.46);
+	img_temperatura_star_2.set_pos(0.86, 0, 0.56);
 
 	img_temperatura_star_3 = ImageRepository::get_instance()->get_image(star3);
 	img_temperatura_star_3.reparent_to(np_frame);
 	img_temperatura_star_3.set_scale(0.003);
-	img_temperatura_star_3.set_pos(0.96, 0, 0.46);
+	img_temperatura_star_3.set_pos(0.96, 0, 0.56);
 }
 
 void AchievementsWindow::create_hidratacao_stars(string star1, string star2, string star3) {
 	img_hidratacao_star_1 = ImageRepository::get_instance()->get_image(star1);
 	img_hidratacao_star_1.reparent_to(np_frame);
 	img_hidratacao_star_1.set_scale(0.003);
-	img_hidratacao_star_1.set_pos(0.76, 0, 0.36);
+	img_hidratacao_star_1.set_pos(0.76, 0, 0.46);
 
 	img_hidratacao_star_2 = ImageRepository::get_instance()->get_image(star2);
 	img_hidratacao_star_2.reparent_to(np_frame);
 	img_hidratacao_star_2.set_scale(0.003);
-	img_hidratacao_star_2.set_pos(0.86, 0, 0.36);
+	img_hidratacao_star_2.set_pos(0.86, 0, 0.46);
 
 	img_hidratacao_star_3 = ImageRepository::get_instance()->get_image(star3);
 	img_hidratacao_star_3.reparent_to(np_frame);
 	img_hidratacao_star_3.set_scale(0.003);
-	img_hidratacao_star_3.set_pos(0.96, 0, 0.36);
+	img_hidratacao_star_3.set_pos(0.96, 0, 0.46);
 }
 
 void AchievementsWindow::create_energia_stars(string star1, string star2, string star3) {
 	img_energia_star_1 = ImageRepository::get_instance()->get_image(star1);
 	img_energia_star_1.reparent_to(np_frame);
 	img_energia_star_1.set_scale(0.003);
-	img_energia_star_1.set_pos(0.76, 0, 0.26);
+	img_energia_star_1.set_pos(0.76, 0, 0.36);
 
 	img_energia_star_2 = ImageRepository::get_instance()->get_image(star2);
 	img_energia_star_2.reparent_to(np_frame);
 	img_energia_star_2.set_scale(0.003);
-	img_energia_star_2.set_pos(0.86, 0, 0.26);
+	img_energia_star_2.set_pos(0.86, 0, 0.36);
 
 	img_energia_star_3 = ImageRepository::get_instance()->get_image(star3);
 	img_energia_star_3.reparent_to(np_frame);
 	img_energia_star_3.set_scale(0.003);
-	img_energia_star_3.set_pos(0.96, 0, 0.26);
+	img_energia_star_3.set_pos(0.96, 0, 0.36);
 }
 
 void AchievementsWindow::create_intocavel_stars(string star1, string star2, string star3) {
 	img_intocavel_star_1 = ImageRepository::get_instance()->get_image(star1);
 	img_intocavel_star_1.reparent_to(np_frame);
 	img_intocavel_star_1.set_scale(0.003);
-	img_intocavel_star_1.set_pos(0.76, 0, 0.16);
+	img_intocavel_star_1.set_pos(0.76, 0, 0.26);
 
 	img_intocavel_star_2 = ImageRepository::get_instance()->get_image(star2);
 	img_intocavel_star_2.reparent_to(np_frame);
 	img_intocavel_star_2.set_scale(0.003);
-	img_intocavel_star_2.set_pos(0.86, 0, 0.16);
+	img_intocavel_star_2.set_pos(0.86, 0, 0.26);
 
 	img_intocavel_star_3 = ImageRepository::get_instance()->get_image(star3);
 	img_intocavel_star_3.reparent_to(np_frame);
 	img_intocavel_star_3.set_scale(0.003);
-	img_intocavel_star_3.set_pos(0.96, 0, 0.16);
+	img_intocavel_star_3.set_pos(0.96, 0, 0.26);
+}
+
+void AchievementsWindow::create_guerreiro_stars(string star1, string star2, string star3) {
+	img_guerreiro_star_1 = ImageRepository::get_instance()->get_image(star1);
+	img_guerreiro_star_1.reparent_to(np_frame);
+	img_guerreiro_star_1.set_scale(0.003);
+	img_guerreiro_star_1.set_pos(0.76, 0, 0.16);
+
+	img_guerreiro_star_2 = ImageRepository::get_instance()->get_image(star2);
+	img_guerreiro_star_2.reparent_to(np_frame);
+	img_guerreiro_star_2.set_scale(0.003);
+	img_guerreiro_star_2.set_pos(0.86, 0, 0.16);
+
+	img_guerreiro_star_3 = ImageRepository::get_instance()->get_image(star3);
+	img_guerreiro_star_3.reparent_to(np_frame);
+	img_guerreiro_star_3.set_scale(0.003);
+	img_guerreiro_star_3.set_pos(0.96, 0, 0.16);
 }

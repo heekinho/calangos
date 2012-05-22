@@ -106,7 +106,10 @@ void MaleLizard::player_did_bobbing(const Event *theEvent, void *data){
 	float fight_prob = (this_lizard->get_tamanho_base() - player->get_tamanho_base()) / 2 + 40.0;
 
 	if (rand() % 100 < fight_prob) this_lizard->set_action("fight", true);
-	else this_lizard->set_action("flee", true);
+	else {
+		player->get_achievements()->inc_reprodutor();
+		this_lizard->set_action("flee", true);
+	}
 }
 
 void MaleLizard::bob(){

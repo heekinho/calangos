@@ -36,6 +36,9 @@ public:
 	int get_lvl_energia();
 	int get_count_secs_untouched();
 	int get_lvl_intocavel();
+	void inc_guerreiro();
+	int get_count_guerreiro();
+	int get_lvl_guerreiro();
 	void reset_count_secs_untouched();
 	void check_edible_specie(Edible::Specie);
 	void check_temperature(double temperature);
@@ -71,6 +74,8 @@ private:
 	bool counting_secs_energy;
 	int lvl_intocavel;
 	int count_secs_untouched;
+	int lvl_guerreiro;
+	int count_guerreiro;
 };
 
 #endif /* ACHIEVEMENTS_H */

@@ -23,6 +23,7 @@ public:
 	void create_hidratacao_stars(string star1, string star2, string star3);
 	void create_energia_stars(string star1, string star2, string star3);
 	void create_intocavel_stars(string star1, string star2, string star3);
+	void create_guerreiro_stars(string star1, string star2, string star3);
 
 private:
 	PT(TextNode) lb_andamento;
@@ -147,6 +148,21 @@ private:
 	NodePath np_lb_intocavel_xnum;
 	PT(TextNode) lb_intocavel_andamento;
 	NodePath np_lb_intocavel_andamento;
+
+	// Achievement: Guerreiro
+	PT(TextNode) lb_guerreiro;
+	NodePath np_lb_guerreiro;
+	PT(Hint) hint_guerreiro_atual;
+	PT(Hint) hint_guerreiro_1;
+	PT(Hint) hint_guerreiro_2;
+	PT(Hint) hint_guerreiro_3;
+	NodePath img_guerreiro_star_1;
+	NodePath img_guerreiro_star_2;
+	NodePath img_guerreiro_star_3;
+	PT(TextNode) lb_guerreiro_xnum;
+	NodePath np_lb_guerreiro_xnum;
+	PT(TextNode) lb_guerreiro_andamento;
+	NodePath np_lb_guerreiro_andamento;
 };
 
 #endif /* ACHIEVEMENTSWINDOW_H */

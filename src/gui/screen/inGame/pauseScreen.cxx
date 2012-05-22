@@ -136,7 +136,7 @@ bool PauseScreen::is_stopped_time() {
 
 
 void PauseScreen::realizacoes_action() {
-	wnd_realizacoes = new AchievementsWindow(get_root(), 1.5, 1, "Realizações", -0.8, -0.8);
+	wnd_realizacoes = new AchievementsWindow(get_root(), 1.5, 1.1, "Realizações", -0.8, -0.8);
 	wnd_realizacoes->set_pos_y(0);
 }
 
