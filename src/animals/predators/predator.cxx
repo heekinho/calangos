@@ -530,7 +530,7 @@ void Predator::bite(){
 		if(hunting_player){
 		/* Diminui energia do player */
 		player->be_bited();
-		player->add_energia_alimento(-1.0);
+		player->add_food_energy(-1.0);
 		GuiManager::get_instance()->piscar_life();
 		}
 	}

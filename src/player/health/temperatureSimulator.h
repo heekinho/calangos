@@ -17,7 +17,11 @@ public:
 
 	float perceived_temperature();
 
+	float get_temperature() const;
 	float get_temperature_cost();
+
+	float get_lethargy() const;
+
 
 	/*! Atualiza a temperatura interna do lagarto */
 	void update_temperature();

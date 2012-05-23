@@ -16,6 +16,9 @@ public:
 
 	void update(float updates_per_hour, float relative_size, float temperature_cost);
 
+	float get_energy() const;
+
+	void add_energy(float energy);
 	void add_food_energy(float food_energy);
 
 	void update_daily_energy_average();

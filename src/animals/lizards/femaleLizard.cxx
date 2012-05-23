@@ -56,7 +56,7 @@ void FemaleLizard::reproduzir(const Event *theEvent, void *data){
                 }
 
                 player->add_ovos();
-                player->add_energia_alimento(-5);
+                player->add_food_energy(-5);
 
                 AudioController::get_instance()->only_play(AudioRepository::REPROD_SUCCESS);
 

@@ -126,8 +126,8 @@ void PlayerControl::special_control(const Event *theEvent, void *data){
 	char *str=(char *)data;
 	PT(Player) me=player;
 
-	if(strcmp(str,"die")==0)
-		me->set_energia(0);
+//	if(strcmp(str,"die")==0)
+//		me->set_energy(0);
 
 	if(strcmp(str,"grow-old")==0)
 		me->event_pmonth(NULL, me);
@@ -140,7 +140,7 @@ void PlayerControl::special_control(const Event *theEvent, void *data){
 //		me->get_anim_control()->write(cout);
 //		render.ls();
 
-		nout << "Ideal Temperature: " << me->get_temp_interna_ideal() << endl;
+		nout << "Ideal Temperature: " << me->get_ideal_temperature() << endl;
 	}
 
 	if(strcmp(str,"shift")==0) PlayerControl::get_instance()->key_map_player["shift"] = true;
@@ -377,14 +377,14 @@ void PlayerControl::eat(const Event *evt, void *data){
 	/* Falha na ação comer por baixa temperatura */
 	bool eat_fail = false;
 
-	int range = (int) (player->get_temp_interna_ideal() - player->get_temp_interna_minlimite());
-	int sorteio = rand()%range + player->get_temp_interna_minlimite();
+	int range = (int) (player->get_ideal_temperature() - player->get_min_temperature());
+	int sorteio = rand()%range + player->get_min_temperature();
 
-	if(sorteio > player->get_temp_interna()) {
+	if(sorteio > player->get_temperature()) {
 		nout << "Temperatura baixa - falha na ação de comer..." << endl;
 		event_handler->add_hook(TimeControl::EV_pass_frame, missed_bite, NULL);
 		eat_fail = true;
-		player->add_energia_alimento(-0.1);
+		player->add_food_energy(-0.1);
 		player->get_achievements()->clear_bites();
 		return;
 	}
@@ -498,7 +498,7 @@ void PlayerControl::eat(const Event *evt, void *data){
 	}
 
 	/* Se for uma mordida sem sucesso: -0.1 de energia */
-	if(!eatsuccess) player->add_energia_alimento(-0.1);
+	if(!eatsuccess) player->add_food_energy(-0.1);
 }
 
 /*! Fica esperando o frame certo para comer */

@@ -13,8 +13,8 @@ EnergySimulator::EnergySimulator(PT(PlayerHealth) health) : Simulator(health) {
 	_food_energy_buffer = 0.0;
 
 	_basal_cost = 0.0;
-	_moviment_cost = 0.0;
-	_temperature_cost = 0.0;
+	_moviment_cost = 1.0;
+	_temperature_cost = 1.0;
 	_total_cost = 0.0;
 
 	_num_days = 0;
@@ -78,6 +78,18 @@ void EnergySimulator::update_temperature_cost(float temperature_cost){
  * Gasto Total = Gasto Basal * Gasto por Temperatura */
 void EnergySimulator::update_total_cost(){
 	_total_cost = _basal_cost * ( _temperature_cost * _moviment_cost );
+}
+
+/*! Retorna a energia do lagarto (de 0 a 100) */
+float EnergySimulator::get_energy() const {
+	return _energy;
+}
+
+/*! Adiciona energia ao lagarto. Note que para adicionar energia proveniente
+ *  de alimentos deve-se utilizar add_food_energy pois alguns sistemas precisam
+ *  obter essa informação específica (ex.: gráficos) */
+void EnergySimulator::add_energy(float energy){
+	_energy += energy;
 }
 
 /*! Adiciona energia proveniente de algum alimento. */

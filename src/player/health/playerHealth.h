@@ -7,7 +7,8 @@
 #ifndef PLAYERHEALTH_H
 #define PLAYERHEALTH_H
 
-#include "simdunas.h"
+//#include "simdunas.h"
+#include "pandabase.h"
 #include "referenceCount.h"
 
 /*! Se tornará um facade depois? Fazer uso dos simuladores? */

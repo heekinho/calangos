@@ -22,6 +22,12 @@ HydrationSimulator::~HydrationSimulator(){
 }
 
 
+/* Retorna a hidratação do lagarto */
+float HydrationSimulator::get_hydration() const {
+	return _hydration;
+}
+
+
 /*! Calcula a hidratação do lagarto, sendo dada por:
  *  hidratação = hidratação - fatorUmidade + hidratacaoAlimento */
 void HydrationSimulator::update_hydration(float relative_humitidy_of_sector, float updates_per_hour){

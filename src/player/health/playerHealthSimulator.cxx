@@ -6,13 +6,16 @@
 
 #include "playerHealthSimulator.h"
 
+#include "player.h"
 #include "timeControl.h"
-
+#include "playerHealth.h"
 #include "energySimulator.h"
 #include "temperatureSimulator.h"
 #include "morfologySimulator.h"
 #include "hydrationSimulator.h"
 #include "dietSimulator.h"
+
+#include "microClima.h"
 
 NotifyCategoryDef(player_health, "");
 
@@ -105,3 +108,23 @@ float PlayerHealthSimulator::get_num_updates_per_hour(){
 //void PlayerHealthSimulator::configure_events(){
 //
 //}
+
+PT(EnergySimulator) PlayerHealthSimulator::get_energy_simulator() const {
+	return _energy_simulator;
+}
+
+PT(TemperatureSimulator) PlayerHealthSimulator::get_temperature_simulator() const {
+	return _temperature_simulator;
+}
+
+PT(MorfologySimulator) PlayerHealthSimulator::get_morfology_simulator() const {
+	return _morfology_simulator;
+}
+
+PT(HydrationSimulator) PlayerHealthSimulator::get_hydration_simulator() const {
+	return _hydration_simulator;
+}
+
+PT(DietSimulator) PlayerHealthSimulator::get_diet_simulator() const {
+	return _diet_simulator;
+}

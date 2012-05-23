@@ -29,14 +29,14 @@ void PlayerHealth::load_health(const Filename &path){
 	min_temperature = ConfigVariableDouble(prefix + "min-temperature", 15);
 	temperature_tolerance = ConfigVariableDouble(prefix + "temperature-tolerance", 2);
 	max_hours_without_food = ConfigVariableDouble(prefix + "max-hours-without-food", 160);
-	max_hours_with_low_hydration = ConfigVariableDouble(prefix + "max-hours-with-low-hidration", 40);
+	max_hours_with_low_hydration = ConfigVariableDouble(prefix + "max-hours-with-low-hidration", 48);
 	humidity_affects_hidration = ConfigVariableDouble(prefix + "humidity-affects-hidration", 40);
-	humidity_param = ConfigVariableDouble(prefix + "humidity-param", 40);
-	min_hydration = ConfigVariableDouble(prefix + "min-hydration", 40);
+	humidity_param = ConfigVariableDouble(prefix + "humidity-param", 10);
+	min_hydration = ConfigVariableDouble(prefix + "min-hydration", 45);
 	min_energy = ConfigVariableDouble(prefix + "min-energy", 4);
-	energy_cost_low_temperature = ConfigVariableDouble(prefix + "energy-cost-low-temperature", 10);
-	energy_cost_high_temperature = ConfigVariableDouble(prefix + "energy-cost-high-temperature", 10);
-	thermal_equilibrium_speed = ConfigVariableDouble(prefix + "thermal-equilibrium-speed", 10);
+	energy_cost_low_temperature = ConfigVariableDouble(prefix + "energy-cost-low-temperature", 0.06);
+	energy_cost_high_temperature = ConfigVariableDouble(prefix + "energy-cost-high-temperature", 0.08);
+	thermal_equilibrium_speed = ConfigVariableDouble(prefix + "thermal-equilibrium-speed", 0.1);
 
 	config_page->write(nout);
 	unload_prc_file(config_page);

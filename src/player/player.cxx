@@ -6,6 +6,7 @@
 #include "simdunas.h"
 #include "audioController.h"
 
+
 #define DEBUG_PLAYER 0
 
 PlayerProperties Player::properties;
@@ -133,8 +134,8 @@ void Player::eat(Edible* food, int type){
 	nutritional_value = nutritional_value * 3;
 
 	nout << "Valor nutricional depois da modulação: " << nutritional_value << endl;
-	add_energia_alimento(nutritional_value);
-	add_hidratacao_alimento(food->get_hydration_value());
+	add_food_energy(nutritional_value);
+	add_food_hydration(food->get_hydration_value());
 }
 
 
@@ -158,7 +159,7 @@ float Player::get_speed_walking() const {
 		/* A Letargia influencia na velocidade (decidiu-se por influenciar linearmente */
 
 		p->set_velocity((PlayerProperties::max_speed + PlayerProperties::min_speed) * 0.5);
-		p->set_velocity(p->get_velocity() * (1 - p->get_letargia()));
+		p->set_velocity(p->get_velocity() * (1 - p->get_lethargy()));
 		p->set_velocity(p->get_velocity()*100);//Multiplicador de velocidade
 		return p->get_velocity();
 
@@ -172,16 +173,16 @@ float Player::get_speed_running() const {
 	return get_speed_walking() * 7;
 }
 
-/*! Mostra algumas informações do player para Debug */
-void Player::display(){
-#if(DEBUG_PLAYER)
-	cout << "\nHora: " << TimeControl::get_instance()->get_hora() << ":" << TimeControl::get_instance()->get_minuto() << "\nTemperatura interna do lagarto: " << player->get_temp_interna() <<
-			"\nGasto com temperatura interna: " << player->get_gasto_temp() << "\nGasto basal: " << player->get_gasto_basal()
-			<< "\nGasto total: " << player->get_gasto_total() << "\nFatorUmidade: " << player->fator_umidade << "\nHidrata��o: "
-			<< player->get_hidratacao() << "\nEnergia do lagarto: "
-			<< player->get_energia() << endl;
-#endif
-}
+///*! Mostra algumas informações do player para Debug */
+//void Player::display(){
+//#if(DEBUG_PLAYER)
+//	cout << "\nHora: " << TimeControl::get_instance()->get_hora() << ":" << TimeControl::get_instance()->get_minuto() << "\nTemperatura interna do lagarto: " << player->get_temp_interna() <<
+//			"\nGasto com temperatura interna: " << player->gasto_temp << "\nGasto basal: " << player->gasto_basal
+//			<< "\nGasto total: " << player->get_gasto_total() << "\nFatorUmidade: " << player->fator_umidade << "\nHidratação: "
+//			<< player->get_hidratacao() << "\nEnergia do lagarto: "
+//			<< player->get_energia() << endl;
+//#endif
+//}
 
 /*! Carrega o Player */
 void Player::load_player(){

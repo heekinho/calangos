@@ -20,11 +20,14 @@ void TemperatureSimulator::update_thermal_equilibrium_speed(float relative_size)
 
 /*! Obtem a temperatura externa percebida pelo organismo */
 float TemperatureSimulator::perceived_temperature(){
-	if(/*in_toca*/1) return MicroClima::get_instance()->get_temp_toca_sector();
+	if(/*in_toca*/0) return MicroClima::get_instance()->get_temp_toca_sector();
 	return MicroClima::get_instance()->get_temp_solo_sector();
 }
 
-
+/*! Retorna a letargia do lagarto */
+float TemperatureSimulator::get_lethargy() const {
+	return _lethargy;
+}
 
 /*! Atualiza a temperatura interna do lagarto */
 void TemperatureSimulator::update_temperature(){
@@ -40,6 +43,8 @@ void TemperatureSimulator::update_temperature(){
 	/* Aplica-se a nova temperatura interna do lagarto */
 	_temperature = _temperature + dt;
 
+
+	cout << "Equilibrio termico" << _current_thermal_equilibrium_speed << endl;
 
 	//AudioController::get_instance()->warning_temp(_temperature, perceived_temperature(),
 	//		health->min_temperature, health->max_temperature);
@@ -66,39 +71,34 @@ void TemperatureSimulator::update_lethargy(){
 	else _lethargy = 1.0 - compress_range(health->min_temperature, min_ideal_temperature, _temperature);
 }
 
+/*! Retorna a temperatura do lagarto */
+float TemperatureSimulator::get_temperature() const {
+	return _temperature;
+}
 
+/*! Obtém o custo (fator de modulação) sobre o gasto basal que a temperatura excerce.
+ *  Ex1.: Um lagarto em alta temperatura retorna 1.5. Aumenta o gasto basal em 50%.
+ *  Ex2.: Um lagarto em baixa temperatura retorna 0.6. Reduz o gasto basal em 40%.*/
 float TemperatureSimulator::get_temperature_cost(){
-//	/* Se a temperatura interna estiver abaixo da faixa de tolerância */
-//	if(temp_interna < (this->temp_interna_ideal  - this->variacao_temp_interna)) {
-//		this->gasto_temp = 1/(1+((this->temp_interna_ideal  - this->variacao_temp_interna) - (this->temp_interna))*this->gasto_baixa_temp);
-//	}
-//	else {
-//		/* Se a temperatura interna estiver acima da faixa de tolerância */
-//		if(temp_interna > (this->temp_interna_ideal  + this->variacao_temp_interna)){
-//			this->gasto_temp = 1+(this->temp_interna - (this->temp_interna_ideal  + this->variacao_temp_interna))*this->gasto_alta_temp;
-//		}
-//		else {
-//			/* Temperatura na faixa de tolerância */
-//			this->gasto_temp = 1;
-//		}
-//	}
-
 	/* Aplica tolerância à faixa de temperatura */
 	float min_range_limit = (health->ideal_temperature - health->temperature_tolerance);
 	float max_range_limit = (health->ideal_temperature + health->temperature_tolerance);
 
 	if(_temperature < min_range_limit){
-		/* Temperatura abaixo da faixa de tolerância */
-		float exceeded_temperature = min_range_limit - _temperature;
-		return 1.0 + (health->energy_cost_low_temperature * exceeded_temperature);
+		/* Temperatura abaixo da faixa de tolerância. O lagarto vai gastar cada vez
+		 * menos energia. A modulação faz com que haja diminuição do gasto total */
+		float dt = min_range_limit - _temperature;
+		return 1.0 / (1.0 + (dt * health->energy_cost_low_temperature));
 	}
 	else if(_temperature > max_range_limit){
 		/* Temperatura acima da faixa de tolerância */
-		float exceeded_temperature = _temperature - max_range_limit;
-		return 1.0 + (health->energy_cost_high_temperature * exceeded_temperature);
+		float dt = _temperature - max_range_limit;
+		return 1.0 + (dt * health->energy_cost_high_temperature);
 	}
 	else {
-		/* Temperatura na faixa de tolerância */
+		/* Temperatura na faixa de tolerância não exerce influência no gasto (não modula) */
 		return 1.0;
 	}
+
+	return 1.0;
 }

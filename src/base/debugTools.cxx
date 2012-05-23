@@ -94,7 +94,7 @@ void DebugTools::toggle_foliage_wireframe(){
  *  É bom para debugar pois evita que o lagarto morra de mortes indesejadas
  *  em algumas situações de desenvolvimento */
 void DebugTools::keep_player_healthy(){
-	player->set_temp_interna(40.0);
-	player->set_energia(100.0);
-	player->set_hidratacao(100.0);
+//	player->set_temp_interna(40.0);
+//	player->set_energy(100.0);
+//	player->set_hydration(100.0);
 }

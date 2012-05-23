@@ -8,10 +8,15 @@
 #define PLAYERHEALTHSIMULATOR_H
 
 #include "simdunas.h"
-#include "playerHealth.h"
 #include "referenceCount.h"
 
 class PlayerHealth;
+class Player;
+class EnergySimulator;
+class TemperatureSimulator;
+class MorfologySimulator;
+class HydrationSimulator;
+class DietSimulator;
 
 /*! Interface para rodar os simuladores de dinâmica */
 class Simulator : public ReferenceCount {
@@ -35,8 +40,6 @@ protected:
 	PT(PlayerHealth) health;
 };
 
-#include "microClima.h"
-#include "player.h"
 
 /*! Obtem x de 0 a 1 considerando o range (a,b)
  *  TODO: Mudar nome. */
@@ -51,11 +54,6 @@ INLINE float clamp(float a, float b, float x){
 	return x;
 }
 
-class EnergySimulator;
-class TemperatureSimulator;
-class MorfologySimulator;
-class HydrationSimulator;
-class DietSimulator;
 
 #include "notifyCategoryProxy.h"
 NotifyCategoryDecl(player_health, EXPCL_PANDA_EVENT, EXPTP_PANDA_EVENT);
@@ -77,6 +75,12 @@ public:
 	void pass_month();
 	static void event_pass_month(const Event *, void * data);
 
+
+	PT(EnergySimulator) get_energy_simulator() const;
+	PT(TemperatureSimulator) get_temperature_simulator() const;
+	PT(MorfologySimulator) get_morfology_simulator() const;
+    PT(HydrationSimulator) get_hydration_simulator() const;
+    PT(DietSimulator) get_diet_simulator() const;
 
 protected:
 	float get_num_updates_per_hour();

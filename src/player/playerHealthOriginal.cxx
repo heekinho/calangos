@@ -3,6 +3,14 @@
 #include "textureStageCollection.h"
 #include "audioController.h"
 
+#include "playerHealth.h"
+#include "playerHealthSimulator.h"
+#include "energySimulator.h"
+#include "temperatureSimulator.h"
+#include "morfologySimulator.h"
+#include "hydrationSimulator.h"
+#include "dietSimulator.h"
+
 /* Bloco de constantes
  * ------------------------------------------------------------------------- */
 /* Idade, em meses, na qual o lagarto poderá se reproduzir */
@@ -23,140 +31,9 @@
 
 #include "load_prc_file.h"
 
-/* Refatorando a parte de informações internas do lagarto */
-class LizardHealthInfo {
-public:
-	float ideal_temperature;
-	float max_temperature;
-	float min_temperature;
-	float temperature_tolerance;
-
-	float max_hours_without_food;
-	float max_hours_with_low_hidration;
-
-	float humidity_affects_hidration;
-	float humidity_param; // moisture?
-
-	float min_hydration;
-//	float max_hydration;
-
-	float min_energy; // stamina?
-	float energy_cost_low_temperature;
-	float energy_cost_high_temperature;
-
-	float thermal_equilibrium_speed;
-
-	/*! Carrega as informações do lagarto a partir de um arquivo de configuração */
-	void load_health_info(const string &path){
-		ConfigPage* config_page = load_prc_file(path);
-		string prefix = "calangos-lizard-";
-		ideal_temperature = ConfigVariableDouble(prefix + "ideal-temperature", 36);
-		max_temperature = ConfigVariableDouble(prefix + "max-temperature", 45);
-		min_temperature = ConfigVariableDouble(prefix + "min-temperature", 15);
-		temperature_tolerance = ConfigVariableDouble(prefix + "temperature-tolerance", 2);
-		max_hours_without_food = ConfigVariableDouble(prefix + "max-hours-without-food", 160);
-		max_hours_with_low_hidration = ConfigVariableDouble(prefix + "max-hours-with-low-hidration", 40);
-		humidity_affects_hidration = ConfigVariableDouble(prefix + "humidity-affects-hidration", 40);
-		humidity_param = ConfigVariableDouble(prefix + "humidity-param", 40);
-		min_hydration = ConfigVariableDouble(prefix + "min-hydration", 40);
-		min_energy = ConfigVariableDouble(prefix + "min-energy", 4);
-		energy_cost_low_temperature = ConfigVariableDouble(prefix + "energy-cost-low-temperature", 10);
-		energy_cost_high_temperature = ConfigVariableDouble(prefix + "energy-cost-high-temperature", 10);
-		thermal_equilibrium_speed = ConfigVariableDouble(prefix + "thermal-equilibrium-speed", 10);
-
-		config_page->write(nout);
-		unload_prc_file(config_page);
-	}
-};
-
-
-
-///*! Talvez essas informações deveriam ficar em um arquivo */
-//LizardHealthInfo get_tropidurus_health_info(){
-//	LizardHealthInfo health;
-//
-//	health.ideal_temperature = 38;
-//	health.max_temperature = 50;
-//	health.min_temperature = 15;
-//	health.temperature_tolerance = 2;
-//	health.max_hours_without_food = 168;
-//	health.max_hours_with_low_hydration = 48;
-//	health.humidity_affects_hidration = 40;
-//	health.humidity_param = 10;
-//	health.min_hydration = 45;
-//	health.min_energy = 5;
-//	health.energy_cost_low_temperature = 0.05;
-//	health.energy_cost_high_temperature = 0.05;
-//	health.thermal_equilibrium_speed = 0.1;
-//
-//	return health;
-//}
-//
-///*! Talvez essas informações deveriam ficar em um arquivo */
-//LizardHealthInfo get_eurolophosaurus_health_info(){
-//	LizardHealthInfo health;
-//
-//	health.ideal_temperature = 36;
-//	health.max_temperature = 45;
-//	health.min_temperature = 13;
-//	health.temperature_tolerance = 1.5;
-//	health.max_hours_without_food = 190;
-//	health.max_hours_with_low_hydration = 48;
-//	health.humidity_affects_hidration = 40;
-//	health.humidity_param = 10;
-//	health.min_hydration = 45;
-//	health.min_energy = 3; /* Não deveria ser 0? */
-//	health.energy_cost_low_temperature = 0.06;
-//	health.energy_cost_high_temperature = 0.08;
-//	health.thermal_equilibrium_speed = 0.1;
-//
-//	return health;
-//}
-//
-//
-///*! Talvez essas informações deveriam ficar em um arquivo */
-//LizardHealthInfo get_cnemidophorus_health_info(){
-//	LizardHealthInfo health;
-//
-//	health.ideal_temperature = 40;
-//	health.max_temperature = 50;
-//	health.min_temperature = 15;
-//	health.temperature_tolerance = 2;
-//	health.max_hours_without_food = 168;
-//	health.max_hours_with_low_hydration = 48;
-//	health.humidity_affects_hidration = 40;
-//	health.humidity_param = 10;
-//	health.min_hydration = 45;
-//	health.min_energy = 5; /* Não deveria ser 0? */
-//	health.energy_cost_low_temperature = 0.06;
-//	health.energy_cost_high_temperature = 0.06;
-//	health.thermal_equilibrium_speed = 0.1;
-//
-//	return health;
-//}
-
-
 /*! Inicializa a simulação de saúde dependendo do tipo de lagarto */
 void Player::init_health(lizardEpecie lizard){
-	LizardHealthInfo health = LizardHealthInfo();
 	string lizard_name = get_specie_name(lizard);
-	health.load_health_info("config/lizard-" + lizard_name + ".prc");
-
-	/*  Warning: Essa função é de transição e não será usada por muito tempo */
-	num_horas_alimento = health.max_hours_without_food;
-	temp_interna_ideal = health.ideal_temperature;
-	gasto_basal = ENERGIA_INIT / (num_horas_alimento * atualizacoes_phora);
-	a_fator_umidade = -(HIDRATACAO_INIT / health.max_hours_with_low_hidration) / (health.humidity_affects_hidration - health.humidity_param);
-	b_fator_umidade = -(a_fator_umidade * (health.humidity_affects_hidration));
-	temp_interna =  health.ideal_temperature;
-	temp_interna_maxlimite =  health.max_temperature;
-	temp_interna_minlimite = health.min_temperature;
-	hidratacao_minlimite = health.min_hydration;
-	energia_minlimite = health.min_energy;
-	variacao_temp_interna = health.temperature_tolerance;
-	gasto_baixa_temp = health.energy_cost_low_temperature;
-	gasto_alta_temp = health.energy_cost_high_temperature;
-	equi_term = health.thermal_equilibrium_speed;
 
 	/* Novo sistema */
 	player_health = new PlayerHealth();
@@ -165,67 +42,7 @@ void Player::init_health(lizardEpecie lizard){
 	player_health_simulator = new PlayerHealthSimulator(player_health);
 }
 
-///*! Carrega os atributos iniciais relacionados à saúde do lagarto*/
-///* Parâmetros da espécie Tropidurus */
-//const float Player::temperatura_interna_ideal_trop = 38;
-//const float Player::qnt_h_sem_alimento_trop = 168;
-//const float Player::qnt_h_baixa_hidrat_trop = 48;
-//const float Player::umidade_afeta_hidrat_trop = 40;
-//const float Player::umidade_param_trop = 10;
-//const float Player::temp_interna_max_trop = 50;
-//const float Player::temp_interna_min_trop = 15;
-//const float Player::hidrat_min_trop = 45;
-//const float Player::energia_min_trop = 5;
-//const float Player::faixa_tolerancia_tem_interna_trop = 2;
-//const float Player::gasto_baixa_temp_trop = 0.05;
-//const float Player::gasto_alta_temp_trop = 0.05;
-//const float Player::vel_equi_termico_trop = 0.1;
-//
-///* Parâmetros da espécie Eurolophosaurus */
-//const float Player::temperatura_interna_ideal_euro = 36;
-//const float Player::qnt_h_sem_alimento_euro = 190;
-//const float Player::qnt_h_baixa_hidrat_euro = 48;
-//const float Player::umidade_afeta_hidrat_euro = 40;
-//const float Player::umidade_param_euro = 10;
-//const float Player::temp_interna_max_euro = 45;
-//const float Player::temp_interna_min_euro = 13;
-//const float Player::hidrat_min_euro = 40;
-//const float Player::energia_min_euro = 3;
-//const float Player::faixa_tolerancia_tem_interna_euro = 1.5;
-//const float Player::gasto_baixa_temp_euro = 0.06;
-//const float Player::gasto_alta_temp_euro = 0.08;
-//const float Player::vel_equi_termico_euro = 0.1;
-//
-///* Parâmetros da espécie Cnemidophorus */
-//const float Player::temperatura_interna_ideal_cnem = 40;
-//const float Player::qnt_h_sem_alimento_cnem = 168;
-//const float Player::qnt_h_baixa_hidrat_cnem = 48;
-//const float Player::umidade_afeta_hidrat_cnem = 40;
-//const float Player::umidade_param_cnem = 10;
-//const float Player::temp_interna_max_cnem = 50;
-//const float Player::temp_interna_min_cnem = 15;
-//const float Player::hidrat_min_cnem = 45;
-//const float Player::energia_min_cnem = 5;
-//const float Player::faixa_tolerancia_tem_interna_cnem = 2;
-//const float Player::gasto_baixa_temp_cnem = 0.06;
-//const float Player::gasto_alta_temp_cnem = 0.06;
-//const float Player::vel_equi_termico_cnem = 0.1;
 
-
-///* Carrega os valores inicias para a espécie Tropidurus */
-//float Player::arrayTropidurus[13] = {temperatura_interna_ideal_trop, qnt_h_sem_alimento_trop, qnt_h_baixa_hidrat_trop,
-//		umidade_afeta_hidrat_trop, umidade_param_trop, temp_interna_max_trop, temp_interna_min_trop, hidrat_min_trop,
-//		energia_min_trop, faixa_tolerancia_tem_interna_trop, gasto_baixa_temp_trop, gasto_alta_temp_trop, vel_equi_termico_trop};
-//
-///* Carrega os valores inicias para a espécie Europhosaurus */
-//float Player::arrayEurolophosaurus[13] = {temperatura_interna_ideal_euro, qnt_h_sem_alimento_euro, qnt_h_baixa_hidrat_euro,
-//		umidade_afeta_hidrat_euro, umidade_param_euro, temp_interna_max_euro, temp_interna_min_euro, hidrat_min_euro, energia_min_euro,
-//		faixa_tolerancia_tem_interna_euro, gasto_baixa_temp_euro, gasto_alta_temp_euro, vel_equi_termico_euro};
-//
-///* Carrega os valores inicias para a espécie Cnemidosphorus */
-//float Player::arrayCnemidophorus[13] = {temperatura_interna_ideal_cnem, qnt_h_sem_alimento_cnem, qnt_h_baixa_hidrat_cnem,
-//		umidade_afeta_hidrat_cnem, umidade_param_cnem, temp_interna_max_cnem, temp_interna_min_cnem, hidrat_min_cnem, energia_min_cnem,
-//		faixa_tolerancia_tem_interna_cnem, gasto_baixa_temp_cnem, gasto_alta_temp_cnem, vel_equi_termico_cnem};
 
 /*! Carrega informações customizadas da saúde do lagarto (para fase 2) */
 void Player::load_custom_health(){
@@ -242,7 +59,7 @@ void Player::load_custom_health(){
 								  (properties.max_speed - properties.min_speed);
 
 		/* Configura a temperatura ideal */
-		set_temp_interna_ideal(properties.ideal_tempature);
+//		set_temp_interna_ideal(properties.ideal_tempature);
 
 		/* Configura a capacidade de se enterrar */
 		/* Seria melhor deixar em properties ao invés de criar uma nova variável? */
@@ -252,37 +69,15 @@ void Player::load_custom_health(){
 
 void Player::load_health(int especie){
 	calc_visual_size_factor();
-	calc_atualizacoes_phora();
-	lizardEpecie lizard = lizardEpecie(especie);
 
-//	if(lizard == tropidurus){
-//		init_tropidurus_lizard();
-//	}else if(lizard == eurolophosaurus){
-//		init_eurolophosaurus_lizard();
-//	}else{
-//		init_cnemidophorus_lizard();
-//	}
+	lizardEpecie lizard = lizardEpecie(especie);
 	init_health(lizard);
 
 	load_custom_health();
 
-	equi_term_atual = equi_term;
-	//valores que independem da espécie do lagarto	
-	energia = ENERGIA_INIT;
-	hidratacao = HIDRATACAO_INIT;
-	energia_alimento = 0;
-	energia_alimento_acumulada=0;
-	y_fator_umidade = 0;
-	fator_umidade = 0;
-	letargia = 0;
-	//considera o lagarto parado no início do jogo
-	gasto_movimento = 1;
 
-	num_atualizacoes_dia = 0;
-	soma_energia_dia = 0;
-	soma_media_energia_diaria = 0;
-	num_dias = 0;
-	media_energia_mes = 0;
+//	//considera o lagarto parado no início do jogo
+	gasto_movimento = 1;
 
 	/* Passado pelo editor ou hardcoded para outras fases */
 	max_size = get_max_lizards_size();
@@ -297,105 +92,40 @@ void Player::load_health(){
 	load_health(eurolophosaurus);
 }
 
-///* Inicializando lagartos */
-//void Player::init_eurolophosaurus_lizard(){
-//	num_horas_alimento = Player::arrayEurolophosaurus[QNT_H_SEM_ALIMENTO];
-//	temp_interna_ideal = Player::arrayEurolophosaurus[TEMP_INTER_IDEAL];
-//	gasto_basal = ENERGIA_INIT / (num_horas_alimento * atualizacoes_phora);
-//	a_fator_umidade = -(HIDRATACAO_INIT / Player::arrayEurolophosaurus[QNT_H_BAIXA_HIDRAT]) / (Player::arrayEurolophosaurus[UMID_AFETA_HIDRAT] - Player::arrayEurolophosaurus[UMID_PARAM]);
-//	b_fator_umidade = -(a_fator_umidade * (Player::arrayEurolophosaurus[UMID_AFETA_HIDRAT]));
-//	temp_interna =  Player::arrayEurolophosaurus[TEMP_INTER_IDEAL];
-//	temp_interna_maxlimite =  Player::arrayEurolophosaurus[TEMP_INT_MAX];
-//	temp_interna_minlimite = Player::arrayEurolophosaurus[TEMP_INT_MIN];
-//	hidratacao_minlimite = Player::arrayEurolophosaurus[HIDT_MIN];
-//	energia_minlimite = Player::arrayEurolophosaurus[ENER_MIN];
-//	variacao_temp_interna = Player::arrayEurolophosaurus[TOLER_TEMP_INTER];
-//	gasto_baixa_temp = Player::arrayEurolophosaurus[GASTO_BAIXA_TEMP];
-//	gasto_alta_temp = Player::arrayEurolophosaurus[GASTO_ALTA_TEMP];
-//	equi_term = Player::arrayEurolophosaurus[VEL_EQUI_TERM];
-//}
-//
-//void Player::init_tropidurus_lizard(){
-//
-//	num_horas_alimento = Player::arrayTropidurus[QNT_H_SEM_ALIMENTO];
-//	temp_interna_ideal = Player::arrayTropidurus[TEMP_INTER_IDEAL];
-//	gasto_basal = ENERGIA_INIT / (num_horas_alimento * atualizacoes_phora);
-//	a_fator_umidade = -(HIDRATACAO_INIT / Player::arrayTropidurus[QNT_H_BAIXA_HIDRAT]) / (Player::arrayTropidurus[UMID_AFETA_HIDRAT] - Player::arrayTropidurus[UMID_PARAM]);
-//	b_fator_umidade = -(a_fator_umidade * (Player::arrayTropidurus[UMID_AFETA_HIDRAT]));
-//	temp_interna =  Player::arrayTropidurus[TEMP_INTER_IDEAL];
-//	temp_interna_maxlimite =  Player::arrayTropidurus[TEMP_INT_MAX];
-//	temp_interna_minlimite = Player::arrayTropidurus[TEMP_INT_MIN];
-//	hidratacao_minlimite = Player::arrayTropidurus[HIDT_MIN];
-//	energia_minlimite = Player::arrayTropidurus[ENER_MIN];
-//	variacao_temp_interna = Player::arrayTropidurus[TOLER_TEMP_INTER];
-//	gasto_baixa_temp = Player::arrayTropidurus[GASTO_BAIXA_TEMP];
-//	gasto_alta_temp = Player::arrayTropidurus[GASTO_ALTA_TEMP];
-//	equi_term = Player::arrayTropidurus[VEL_EQUI_TERM];
-//}
-//
-//void Player::init_cnemidophorus_lizard(){
-//
-//	num_horas_alimento = Player::arrayCnemidophorus[QNT_H_SEM_ALIMENTO];
-//	temp_interna_ideal = Player::arrayCnemidophorus[TEMP_INTER_IDEAL];
-//	gasto_basal = ENERGIA_INIT / (num_horas_alimento * atualizacoes_phora);
-//	a_fator_umidade = -(HIDRATACAO_INIT / Player::arrayCnemidophorus[QNT_H_BAIXA_HIDRAT]) / (Player::arrayCnemidophorus[UMID_AFETA_HIDRAT] - Player::arrayCnemidophorus[UMID_PARAM]);
-//	b_fator_umidade = -(a_fator_umidade * (Player::arrayCnemidophorus[UMID_AFETA_HIDRAT]));
-//	temp_interna =  Player::arrayCnemidophorus[TEMP_INTER_IDEAL];
-//	temp_interna_maxlimite =  Player::arrayCnemidophorus[TEMP_INT_MAX];
-//	temp_interna_minlimite = Player::arrayCnemidophorus[TEMP_INT_MIN];
-//	hidratacao_minlimite = Player::arrayCnemidophorus[HIDT_MIN];
-//	energia_minlimite = Player::arrayCnemidophorus[ENER_MIN];
-//	variacao_temp_interna = Player::arrayCnemidophorus[TOLER_TEMP_INTER];
-//	gasto_baixa_temp = Player::arrayCnemidophorus[GASTO_BAIXA_TEMP];
-//	gasto_alta_temp = Player::arrayCnemidophorus[GASTO_ALTA_TEMP];
-//	equi_term = Player::arrayCnemidophorus[VEL_EQUI_TERM];
-//}
-
 /* EVENTOS
  * ------------------------------------------------------------------------- */
 
 /* Evento chamado a cada minuto virtual para atualização dos valores */
 void Player::event_gasto_energia(const Event*, void *data){
-	/* Chama as funções para atualizar a saúde do lagarto */
-	//WARNING: Ordem é importante
-	player->calc_temp_interna();
-	player->calc_letargia();
-	player->calc_gasto_temp();
-	player->calc_gasto_basal();
-	player->calc_gasto_total();
-	player->calc_y_fator_umidade();
-	player->calc_fator_umidade();
-	player->calc_hidratacao();
-	player->calc_energia();
-	player->display();
 	player->atualiza_vector();
 
-	player->get_achievements()->check_temperature(player->temp_interna);
-	player->get_achievements()->check_hydration(player->hidratacao);
-	player->get_achievements()->check_energy(player->energia);
+	player->get_achievements()->check_temperature(player->get_temperature());
+	player->get_achievements()->check_hydration(player->get_hydration());
+	player->get_achievements()->check_energy(player->get_energy());
 
 	/* Verificação de morte do personagem por energia*/
-	if(player->energia < player->energia_minlimite){
+	//TODO: Não deveria ser energia = 0? Faz sentido esse min limite?
+	if(player->get_energy() < player->get_min_energy()){
 		//Informa morte do personagem por desnutrição.
 		Session::get_instance()->player_death(1);
 	}else{
 		/* Verificação de morte do personagem por temperatura interna */
-		if(player->temp_interna >= player->temp_interna_maxlimite){
+		if(player->get_temperature() >= player->get_max_temperature()){
 			Session::get_instance()->player_death(3);
 		}else {
 			//Verifica se a morte foi por baixa temperatura
-			if(player->temp_interna < player->temp_interna_minlimite){
+			if(player->get_temperature() < player->get_min_temperature()){
 				Session::get_instance()->player_death(4);
 			}else{
 				/* Verificação de morte do lagarto por desidratação */
-				if(player->hidratacao < player->hidratacao_minlimite){
+				if(player->get_hydration() < player->get_min_hydration()){
 					Session::get_instance()->player_death(2);
 				}
 			}
 		}
 	}
-	player->num_atualizacoes_dia++;
-	player->soma_energia_dia = player->soma_energia_dia + player->energia;
+//	player->num_atualizacoes_dia++;
+//	player->soma_energia_dia = player->soma_energia_dia + player->energia;
 }
 
 /*! Obtém o tamanho máximo que o player poderá atingir. Este é o valor que deve
@@ -473,12 +203,6 @@ void Player::calc_tamanho_lagarto_real(float media_energia_mensal){
 	tamanho_lagarto_real = tamanho_lagarto_real + add_tamanho;
 	if(tamanho_lagarto_real > get_max_lizards_size()) tamanho_lagarto_real = get_max_lizards_size();
 	tamanho_lagarto_base = calc_tamanho_base(tamanho_lagarto_real);
-
-	if (Session::get_instance()->get_level() > 1) {
-		equi_term_atual = equi_term - (equi_term * get_absolute_size_factor() * 0.8);
-	} else {
-		this->equi_term_atual = this->equi_term - (this->equi_term * (this->tamanho_lagarto_base / 100) * 0.8);
-	}
 }
 
 /*! Calcula o fator pelo qual o tamanho especificado para lagarto deverá ser
@@ -507,9 +231,9 @@ void Player::calc_visual_size_factor(){
 
 /*! Obtém o tamanho visual do lagarto */
 float Player::get_visual_size(){
-	nout << visual_size_factor * tamanho_lagarto_real << endl;
-	nout << "Tamanho real: " << tamanho_lagarto_real << endl;
-	nout << "Visual size Factor: " << visual_size_factor << endl;
+//	nout << visual_size_factor * tamanho_lagarto_real << endl;
+//	nout << "Tamanho real: " << tamanho_lagarto_real << endl;
+//	nout << "Visual size Factor: " << visual_size_factor << endl;
 	return visual_size_factor * tamanho_lagarto_real;
 }
 
@@ -517,35 +241,14 @@ float Player::get_visual_size(){
 /*! Na passagem do dia, faz a média diária de energia, e armazena a soma.
  *   Essa média servirá para determinar o quanto o lagarto irá crescer na passagem de um mês.*/
 void Player::event_pday(const Event*, void *data){
-	player->num_dias++;
 
-	/* Calcula a média de energia do dia corrente */
-	float media_energia_hoje = player->soma_energia_dia/player->num_atualizacoes_dia;
-
-	/* Soma as médias de energia de cada dia, para na passagem do mês seja feita uma média diária do mês */
-	player->soma_media_energia_diaria = player->soma_media_energia_diaria + media_energia_hoje;
-
-	player->num_atualizacoes_dia = 0;
-	player->soma_energia_dia = 0;
 }
 
 /*! Na passagem do mês, faz a média de energia dos dias do mês que passou.
  *  Essa média servirá para determinar o quanto o lagarto irá crescer na passagem do mês.*/
 void Player::event_pmonth(const Event*, void *data){
-	/* Calcula a média de energia diária do mês */
-	player->media_energia_mes = player->soma_media_energia_diaria/player->num_dias;
-
-	player->num_dias = 0;
-	player->soma_media_energia_diaria = 0;
-
-	/* Calcula o quanto o lagarto vai crescer, tomando como parâmetro a média
-	 * diária de energia do lagarto durante o mês que passou.*/
-	player->calc_tamanho_lagarto_real(player->media_energia_mes);
-
 	/* Ajusta o novo tamanho do personagem */
 	player->set_scale(render, player->get_visual_size());
-	//	player->set_scale(render, player->tamanho_lagarto_real);
-	//player->set_length(100 * player->tamanho_lagarto_real, true);
 
 	/* Aumenta a idade do lagarto */
 	player->idade++;
@@ -573,143 +276,17 @@ void Player::event_pmonth(const Event*, void *data){
 	}
 }
 
-/* ------------------------------------------------------------------------- */
-/* CÁLCULOS
- * ------------------------------------------------------------------------- */
-
-/*! Calcula o valor de energia do lagarto
- *  A energia do lagarto é dada por:
- *  Energia Atual - Gasto Total + Energia Adquirida por ingestão de alimentos */
-void Player::calc_energia(){
-
-	double energia_temp = 0;
-	/* Calcula a energia e faz o corte se necessário */
-	energia_temp = this->energia - this->gasto_total + this->energia_alimento;
-
-	if(energia_temp < 100) this->energia = energia_temp;
-	else this->energia = 100;
-
-	/* Energia do alimento já consumida */
-	this->energia_alimento = 0;
-
-}
-
-/*! Calcula o gasto de energia por temperatura do lagarto. */
-void Player::calc_gasto_temp(){
-
-	/* Se a temperatura interna estiver abaixo da faixa de tolerância */
-	if(temp_interna < (this->temp_interna_ideal  - this->variacao_temp_interna)) {
-		this->gasto_temp = 1/(1+((this->temp_interna_ideal  - this->variacao_temp_interna) - (this->temp_interna))*this->gasto_baixa_temp);
-	}
-	else {
-		/* Se a temperatura interna estiver acima da faixa de tolerância */
-		if(temp_interna > (this->temp_interna_ideal  + this->variacao_temp_interna)){
-			this->gasto_temp = 1+(this->temp_interna - (this->temp_interna_ideal  + this->variacao_temp_interna))*this->gasto_alta_temp;
-		}
-		else {
-			/* Temperatura na faixa de tolerância */
-			this->gasto_temp = 1;
-		}
-	}
-}
-
-/*! Calcula o gasto de energia do lagarto.
- * O gasto de energia do lagarto é dado por:
- * Gasto Total = Gasto Basal * Gasto por Temperatura */
-void Player::calc_gasto_total(){
-	this->gasto_total = this->gasto_basal*this->gasto_temp*this->gasto_movimento;
-}
-
-/*! Calcula o gasto de energia inerente ao lagarto */
-void Player::calc_gasto_basal(){
-	if (Session::get_instance()->get_level() > 1) {
-		gasto_basal = (ENERGIA_INIT/(num_horas_alimento*atualizacoes_phora))*(1+(5*get_absolute_size_factor()));
-	} else {
-		this->gasto_basal = (ENERGIA_INIT/(num_horas_alimento*atualizacoes_phora))*(1+(5*this->tamanho_lagarto_base/100));
-	}
-}
-
-/*! Calcula a temperatura interna do lagarto */
-void Player::calc_temp_interna(){
-	float temp_toca = MicroClima::get_instance()->get_temp_toca_sector();
-	float temp_solo = MicroClima::get_instance()->get_temp_solo_sector();
-
-	if(in_toca){
-		temp_interna = this->temp_interna + this->equi_term_atual*(temp_toca - this->temp_interna);
-		AudioController::get_instance()->warning_temp(temp_interna, temp_toca, temp_interna_minlimite, temp_interna_maxlimite);
-	}
-	else {
-		/* Se tiver enterrado diminui a inércia térmica */
-		float fator_diminuir_inercia = is_buried() ? 1.8 : 1.0;
-		/* Variação de temperatura com inércia térmica */
-		float dtemp = (equi_term_atual * fator_diminuir_inercia) * (temp_solo - temp_interna);
-		temp_interna = temp_interna + dtemp;
-
-		AudioController::get_instance()->warning_temp(temp_interna, temp_solo, temp_interna_minlimite, temp_interna_maxlimite);
-	}
-}
-
-/*! Calcula a letargia do lagarto
- * 0 - Nenhuma letargia (temperatura interna maior que a ideal)
- * 1 - Total letargia - culmina na morte do lagarto */
-void Player::calc_letargia(){
-	double menor_temp_ideal = this->temp_interna_ideal - this->variacao_temp_interna;
-
-	//TODO: Chamar morte do lagarto quando a letargia for = 1?
-	if(this->temp_interna > menor_temp_ideal) letargia = 0;
-	else if(this->temp_interna < temp_interna_minlimite) letargia = 1;
-	else letargia = 1 - ( (this->temp_interna - temp_interna_minlimite) / (menor_temp_ideal - temp_interna_minlimite) );
-}
-
-
-
-/*! Calcula a hidratação do lagarto
- * A hidratação do lagarto é dada por:
- * Hidratação = Hidratação - Fator Umidade + Hidratação adquirida */
-void Player::calc_hidratacao(){
-
-	double hidratacao_temp = this->hidratacao - this->fator_umidade + this->hidratacao_alimento;
-	if(hidratacao_temp < 100) this->hidratacao = hidratacao_temp;
-	else this->hidratacao = 100;
-
-	/* Hidratação já consumida */
-	this->hidratacao_alimento = 0;
-
-	AudioController::get_instance()->warning_hydrat(hidratacao, hidratacao_minlimite);
-
-}
-
-/*! Calcula o valor de decaímento caso as atualizações fossem de hora em hora */
-void Player::calc_y_fator_umidade(){
-
-	double umidade_temp = MicroClima::get_instance()->get_umidade_relativa_sector();
-	if(umidade_temp < 40) this->y_fator_umidade = a_fator_umidade*umidade_temp + b_fator_umidade;
-	else this->y_fator_umidade = 0;
-}
-
-/*! Calcula o fator umidade
- * Armazena em quanto o valor da hidratação vai cair a cada atualização de variáveis
- * com base no valor da umidade relativa da microregião em que o lagarto se encontra */
-void Player::calc_fator_umidade(){
-	this->fator_umidade = this->y_fator_umidade/this->atualizacoes_phora;
-}
-
-void Player::calc_atualizacoes_phora(){
-	this->atualizacoes_phora = 60*((3*60.0)/(24*60)); //3 min por dia
-	//this->atualizacoes_phora = 60*(TimeControl::get_instance()->get_seconds_min());
-}
-
 
 /*! Atualiza os valores dos vetores utilizados para geração dos gráfico */
 void Player::atualiza_vector(){
-	Vetores::get_instance()->addElementVectorTemperaturaLagarto(this->temp_interna);
-	Vetores::get_instance()->addElementVectorHidratacaoLagarto(this->hidratacao);
-	Vetores::get_instance()->addElementVectorEnergia(this->energia);
+	Vetores::get_instance()->addElementVectorTemperaturaLagarto(get_temperature());
+	Vetores::get_instance()->addElementVectorHidratacaoLagarto(get_hydration());
+	Vetores::get_instance()->addElementVectorEnergia(get_energy());
 
-	Vetores::get_instance()->addElementVectorAlimentacao(this->energia_alimento_acumulada);
-	this->energia_alimento_acumulada=0;
+//	Vetores::get_instance()->addElementVectorAlimentacao(this->energia_alimento_acumulada);
+//	this->energia_alimento_acumulada=0;
 
-	Vetores::get_instance()->addElementVectorGastoEnergeticoTotal(this->gasto_total);
+//	Vetores::get_instance()->addElementVectorGastoEnergeticoTotal(this->gasto_total);
 
 	Vetores::get_instance()->addElementVectorTemperaturaAr(MicroClima::get_instance()->get_temp_ar_sector());
 	if(in_toca){
@@ -732,78 +309,6 @@ void Player::atualiza_vector(){
 #endif
 }
 
-/* ------------------------------------------------------------------------- */
-/* GETTERS
- * ------------------------------------------------------------------------- */
-
-//TODO: Realmente precisa disso aqui? */
-
-/*! Obtém o valor de hidratação do alimento */
-double Player::get_hidratacao_alimento(){
-	return this->hidratacao_alimento;
-}
-
-/*! Obtém o valor de hidratação do lagarto */
-double Player::get_hidratacao(){
-	return this->hidratacao;
-}
-
-/*! Obtém o valor de gasto de energia inerente ao lagarto */
-double Player::get_gasto_basal(){
-	return this->gasto_basal;
-}
-
-/*! Obtém o valor de gasto de energia relativo à temperatura */
-double Player::get_gasto_temp(){
-	return this->gasto_temp;
-}
-
-/*! Obtém o valor total em gastos */
-double Player::get_gasto_total(){
-	return this->gasto_total;
-}
-
-/*! Obtém o valor de energia do lagarto */
-double Player::get_energia(){
-	return this->energia;
-}
-
-/*! Obtém o valor de temperatura interna do lagarto */
-double Player::get_temp_interna(){
-	return this->temp_interna;
-}
-
-/*! Obtém o valor ideal de temperatura interna do lagarto */
-double Player::get_temp_interna_ideal(){
-	return this->temp_interna_ideal;
-}
-
-/*! Obtém o valor máximo aceitável de temperatura interna do lagarto */
-double Player::get_temp_interna_maxlimite(){
-	return this->temp_interna_maxlimite;
-}
-
-/*! Obtém o valor mínimo aceitável de temperatura interna do lagarto */
-double Player::get_temp_interna_minlimite(){
-	return this->temp_interna_minlimite;
-}
-
-/*! Obtém o valor mínimo aceitável de temperatura interna do lagarto */
-double Player::get_letargia(){
-	return this->letargia;
-}
-
-/*! Obtém o valor mínimo aceitável de hidratação do lagarto */
-double Player::get_hidratacao_minlimite(){
-	return this->hidratacao_minlimite;
-}
-
-/*! Obtém o valor mínimo aceitável de energia do lagarto */
-double Player::get_energia_minlimite(){
-	return this->energia_minlimite;
-}
-
-
 double Player::get_environment_temp(){
 	if(in_toca){
 		return MicroClima::get_instance()->get_temp_toca_sector();
@@ -811,27 +316,6 @@ double Player::get_environment_temp(){
 		return MicroClima::get_instance()->get_temp_solo_sector();
 	}
 }
-
-//int Player::get_num_atualizacoes_dia(){
-//	return this->num_atualizacoes_dia;
-//}
-//
-//int Player::get_num_dias(){
-//	return this->num_dias;
-//}
-//
-//float Player::get_soma_energia_dia(){
-//	return this->soma_energia_dia;
-//}
-//
-//
-//float Player::get_soma_media_energia_diaria(){
-//	return this->soma_media_energia_diaria;
-//}
-//
-//float Player::get_media_energia_mes(){
-//	return this->media_energia_mes;
-//}
 
 int Player::get_idade(){
 	return this->idade;
@@ -846,56 +330,6 @@ int Player::get_num_ovos(){
 	return this->num_ovos;
 }
 
-/* ------------------------------------------------------------------------- */
-/* SETTERS
- * ------------------------------------------------------------------------- */
-
-/*! Define o valor de hidratação do alimento */
-void Player::set_hidratacao_alimento(double nova_hidratacao_alimento){
-	this->hidratacao_alimento = nova_hidratacao_alimento;
-}
-
-/*! Define o valor de hidratação do lagarto */
-void Player::set_hidratacao(double nova_hidratacao){
-	if(nova_hidratacao > 100) hidratacao = 100;
-	if(nova_hidratacao < 0) hidratacao = 0;
-	this->hidratacao = nova_hidratacao;
-}
-
-/*! Define o valor de energia do lagarto */
-void Player::set_energia(double nova_energia){
-	this->energia = nova_energia;
-}
-
-/*! Define o valor de temperatura interna do lagarto */
-void Player::set_temp_interna(double nova_temp_interna){
-	this->temp_interna = nova_temp_interna;
-}
-
-/*! Define o valor ideal de temperatura interna do lagarto */
-void Player::set_temp_interna_ideal(double nova_temp_interna_ideal){
-	this->temp_interna_ideal = nova_temp_interna_ideal;
-}
-
-/*! Define o valor máximo aceitável de temperatura interna do lagarto */
-void Player::set_temp_interna_maxlimite(double nova_temp_interna_maxlimite){
-	this->temp_interna_maxlimite = nova_temp_interna_maxlimite;
-}
-
-/*! Define o valor mínimo aceitável de temperatura interna do lagarto */
-void Player::set_temp_interna_minlimite(double nova_temp_interna_minlimite){
-	this->temp_interna_minlimite = nova_temp_interna_minlimite;
-}
-
-/*! Define o valor mínimo aceitável de hidratação do lagarto */
-void Player::set_hidratacao_minlimite(double nova_hidratacao_minlimite){
-	this->hidratacao_minlimite = nova_hidratacao_minlimite;
-}
-
-/*! Define o valor mínimo aceitável de energia do lagarto */
-void Player::set_energia_minlimite(double nova_energia_minlimite){
-	this->energia_minlimite = nova_energia_minlimite;
-}
 
 /* Vai fazer o gasto do lagarto igual ao basal */
 void Player::set_lagarto_parado(){
@@ -934,29 +368,6 @@ void Player::set_lagarto_correndo(){
 	}
 }
 
-/* ------------------------------------------------------------------------- */
-/* "ADDERS"
- * ------------------------------------------------------------------------- */
-
-/*! Adiciona um valor de energia relativo ao alimento em questão */
-
-void Player::add_energia_alimento(double ganho_energia_alimento){
-	if (ganho_energia_alimento < -0.1) {
-		AudioController::get_instance()->heart_beat(energia, energia_minlimite);
-		AudioController::get_instance()->only_play(AudioRepository::PREDATOR_HIT);
-		cout<<"resetando contador intocavel!"<<endl;
-		player->get_achievements()->reset_count_secs_untouched();
-	}
-
-	this->energia_alimento = this->energia_alimento + ganho_energia_alimento;
-	this->energia_alimento_acumulada+=ganho_energia_alimento;
-}
-
-/*! Adiciona um valor de hidratação relativo ao alimento em questão */
-void Player::add_hidratacao_alimento(double ganho_hidratacao_alimento){
-	this->hidratacao_alimento = this->hidratacao_alimento + ganho_hidratacao_alimento;
-}
-
 void Player::add_ovos(){
 	this->num_ovos++;
 	this->achievements->inc_reprodutor();
@@ -965,15 +376,98 @@ void Player::add_ovos(){
 /* "OUTROS"
  * ------------------------------------------------------------------------- */
 
-void Player::mordida_recebida(int tamanho_lagarto_base){
-	//energia e hidratação que o lagarto retira do outro em uma mordida é igual a 5% do seu temanho(0-100)
-	float ener_hidr_perdida = tamanho_lagarto_base/20;
+void Player::mordida_recebida(int lizard_relative_size){
+	//TODO: Corrigir o lizard_relative_size
+	float lost_energy = lizard_relative_size * 0.05;
+	if(lost_energy <= 0) return;
 
-	if (ener_hidr_perdida > 0) {
-		AudioController::get_instance()->heart_beat(energia, energia_minlimite);
+	add_energy(-lost_energy);
+	AudioController::get_instance()->heart_beat(get_energy(), get_min_energy());
+	GuiManager::get_instance()->piscar_life();
+}
+
+
+/* ------------------------------------------------------------------------- */
+/* Facade adders
+ * ------------------------------------------------------------------------- */
+/*! Adiciona um valor de energia relativo ao alimento em questão */
+
+void Player::add_energy(float energy){
+	player_health_simulator->get_energy_simulator()->add_energy(energy);
+}
+
+void Player::add_food_energy(float food_energy){
+	if (food_energy < -0.1) {
+		AudioController::get_instance()->heart_beat(get_energy(), get_min_energy());
+		AudioController::get_instance()->only_play(AudioRepository::PREDATOR_HIT);
+		cout << "Resetando contador intocavel!" << endl;
+		player->get_achievements()->reset_count_secs_untouched();
 	}
 
-	this->energia = this->energia - ener_hidr_perdida;
-	//this->hidratacao = this->hidratacao - ener_hidr_perdida;
-	GuiManager::get_instance()->piscar_life();
+	player_health_simulator->get_energy_simulator()->add_food_energy(food_energy);
+//	this->energia_alimento = this->energia_alimento + food_energy;
+//	this->energia_alimento_acumulada+=food_energy;
+}
+
+/*! Adiciona um valor de hidratação relativo ao alimento em questão */
+void Player::add_food_hydration(float food_hydration){
+	player_health_simulator->get_hydration_simulator()->add_food_hydration(food_hydration);
+}
+
+
+/* ------------------------------------------------------------------------- */
+/* Facade - getters
+ * ------------------------------------------------------------------------- */
+/*! Obtém o valor de energia do lagarto.
+ *  @see EnergySimulator.get_energy() */
+float Player::get_energy() const {
+	return player_health_simulator->get_energy_simulator()->get_energy();
+}
+
+/*! Obtém o valor mínimo de energia que o lagarto pode ter antes de morrer.
+ *  @see PlayerHealth.min_energy */
+float Player::get_min_energy() const {
+	return player_health->min_energy;
+}
+
+/*! Obtém o valor de hidratação do lagarto
+ *  @see HydrationSimulator.get_hydration() */
+float Player::get_hydration() const {
+	return player_health_simulator->get_hydration_simulator()->get_hydration();
+}
+
+/*! Obtém o valor mínimo de hidratação que o lagarto pode ter antes de morrer
+ *  @see PlayerHealth.min_hydration */
+float Player::get_min_hydration() const {
+	return player_health->min_hydration;
+}
+
+/*! Obtém o valor de temperatura interna do lagarto */
+float Player::get_temperature() const {
+	return player_health_simulator->get_temperature_simulator()->get_temperature();
+}
+
+/*! Obtém o valor ideal de temperatura interna do lagarto */
+float Player::get_ideal_temperature() const {
+	return player_health->ideal_temperature;
+}
+
+/*! Obtém o valor máximo aceitável de temperatura interna do lagarto */
+float Player::get_max_temperature() const {
+	return player_health->max_temperature;
+}
+
+/*! Obtém o valor mínimo aceitável de temperatura interna do lagarto */
+float Player::get_min_temperature() const {
+	return player_health->min_temperature;
+}
+
+/*! Obtém o valor mínimo aceitável de temperatura interna do lagarto */
+float Player::get_lethargy() const {
+	return player_health_simulator->get_temperature_simulator()->get_lethargy();
+}
+
+/*! Obtém o tamanho relativo do lagarto, de 0 a 1, sendo 0 o menor e 1 o maior */
+float Player::get_relative_size() const {
+	return player_health_simulator->get_morfology_simulator()->get_relative_size();
 }

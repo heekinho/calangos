@@ -300,31 +300,31 @@ void GuiManager::update_gui(const Event*, void *data) {
 	GameStatusBar* game_status_bar = _this->game_status_bar;
 	if (!is_game_over) {
 		//this_guiManager->my_bar.set_value(this_guiManager->my_bar.get_value() - 0.01, 0.02, 0.22);
-		game_status_bar->get_life_bar().set_value((player->get_energia() / 100), 0.02, 0.22);
+		game_status_bar->get_life_bar().set_value((player->get_energy() / 100), 0.02, 0.22);
 		//A barra varia de -9.5 até 9.5, por isso 0.19 * valor_de_hidratação.
-		game_status_bar->get_hidratacao_scroll_bar().set_value(0.19 * (player->get_hidratacao()));
-		sprintf(_this->string_hidratacao, "%.1f", player->get_hidratacao());
+		game_status_bar->get_hidratacao_scroll_bar().set_value(0.19 * (player->get_hydration()));
+		sprintf(_this->string_hidratacao, "%.1f", player->get_hydration());
 		game_status_bar->get_label_hidratacao()->set_text(_this->string_hidratacao);
 
 		//FAZENDO OS CALCULOS PRA PARAMETRIZAR A TEMPERATURA DO LAGARTO
-		if (player->get_temp_interna() < player->get_temp_interna_maxlimite()) {
-			float passo = (17 - 2) / (player->get_temp_interna_maxlimite() - player->get_temp_interna_minlimite());
-			game_status_bar->get_temperatura_scroll_bar().set_value((3 + ((player->get_temp_interna() - player->get_temp_interna_minlimite()) * passo) - 2*passo));
-			//cout << (3 + ((player->get_temp_interna() - player->get_temp_interna_minlimite()) * passo)) << endl;
-			sprintf(_this->string_temperatura, "%.1f", player->get_temp_interna());
+		if (player->get_temperature() < player->get_max_temperature()) {
+			float passo = (17 - 2) / (player->get_max_temperature() - player->get_min_temperature());
+			game_status_bar->get_temperatura_scroll_bar().set_value((3 + ((player->get_temperature() - player->get_min_temperature()) * passo) - 2*passo));
+			//cout << (3 + ((player->get_temperature() - player->get_min_temperature()) * passo)) << endl;
+			sprintf(_this->string_temperatura, "%.1f", player->get_temperature());
 			game_status_bar->get_label_temperatura()->set_text(_this->string_temperatura);
 		} else {
-			if (player->get_temp_interna() > player->get_temp_interna_minlimite() && player->get_temp_interna() < player->get_temp_interna_maxlimite()) {
-				float passo = (17 - 2) / (player->get_temp_interna_maxlimite() - player->get_temp_interna_minlimite());
-				game_status_bar->get_temperatura_scroll_bar().set_value(3 + ((player->get_temp_interna() - player->get_temp_interna_minlimite()) * passo));
-				//cout << (3 + ((player->get_temp_interna() - player->get_temp_interna_minlimite()) * passo)) << endl;
-				sprintf(_this->string_temperatura, "%.1f", player->get_temp_interna());
+			if (player->get_temperature() > player->get_min_temperature() && player->get_temperature() < player->get_max_temperature()) {
+				float passo = (17 - 2) / (player->get_max_temperature() - player->get_min_temperature());
+				game_status_bar->get_temperatura_scroll_bar().set_value(3 + ((player->get_temperature() - player->get_min_temperature()) * passo));
+				//cout << (3 + ((player->get_temperature() - player->get_min_temperature()) * passo)) << endl;
+				sprintf(_this->string_temperatura, "%.1f", player->get_temperature());
 				game_status_bar->get_label_temperatura()->set_text(_this->string_temperatura);
 			} else {
-				float passo = (17 - 2) / (player->get_temp_interna_maxlimite() - player->get_temp_interna_minlimite());
-				game_status_bar->get_temperatura_scroll_bar().set_value((3 + ((player->get_temp_interna() - player->get_temp_interna_minlimite()) * passo) + 2 * passo));
-				//cout << (3 + ((player->get_temp_interna() - 15) * passo)) << endl;
-				sprintf(_this->string_temperatura, "%.1f", player->get_temp_interna());
+				float passo = (17 - 2) / (player->get_max_temperature() - player->get_min_temperature());
+				game_status_bar->get_temperatura_scroll_bar().set_value((3 + ((player->get_temperature() - player->get_min_temperature()) * passo) + 2 * passo));
+				//cout << (3 + ((player->get_temperature() - 15) * passo)) << endl;
+				sprintf(_this->string_temperatura, "%.1f", player->get_temperature());
 				game_status_bar->get_label_temperatura()->set_text(_this->string_temperatura);
 			}
 		}
@@ -360,7 +360,7 @@ void GuiManager::update_gui(const Event*, void *data) {
 		sprintf(_this->string_umidade, "%.1f", MicroClima::get_instance()->get_umidade_relativa_sector());
 		game_status_bar->get_label_umidade()->set_text(_this->string_umidade);
 
-		sprintf(_this->string_vida, "%.1f", player->get_energia());
+		sprintf(_this->string_vida, "%.1f", player->get_energy());
 		game_status_bar->get_label_life()->set_text(_this->string_vida);
 
 		sprintf(_this->string_count_egg, "%d", player->get_num_ovos());

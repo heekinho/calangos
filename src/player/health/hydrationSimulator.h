@@ -14,6 +14,7 @@ public:
 	HydrationSimulator(PT(PlayerHealth) health);
 	virtual ~HydrationSimulator();
 
+	float get_hydration() const;
 
 	void add_food_hydration(float food_hydration);
 
