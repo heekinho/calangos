@@ -10,7 +10,7 @@
 //struct PlayerProperties {
 class PlayerProperties {
 public:
-	PlayerProperties(){};
+	PlayerProperties();
 //	virtual ~PlayerProperties(){};
 
 //private:
@@ -19,6 +19,8 @@ public:
 	/* PT(Texture) color_pattern; */
 
 	/* Características do lagarto */
+	static const float min_body_size;
+	static const float max_body_size;
 	float body_size;
 
 	float head_size;

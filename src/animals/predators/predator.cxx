@@ -602,7 +602,7 @@ float Predator::get_visibility(){
 	float contrast = 1.0 - (player->get_indice_camuflagem() * get_visibility_factor());
 
 	/* Fator de 0 a 1 do tamanho do player em relação ao maior/menor lagartos */
-	float size_factor = player->get_absolute_size_factor();
+	float size_factor = player->get_relative_size();
 
 	/* A distância de visibilidade aumenta com os fatores */
 	float dmax = 3 + (contrast * 2) + (size_factor * 2);

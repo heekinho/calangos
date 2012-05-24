@@ -100,7 +100,7 @@ void Lizard::load_lizards(){
 			//0.0021 = 0.0025 - 0.0004 => tamanho máximo - tamanho mínimo
 			lizard->scale_temp = ((0.0021/100)* lizard->get_energia()) + 0.0004;
 			lizard->set_tamanho_real(ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.0001));
-			lizard->set_tamanho_base(player->calc_tamanho_base(lizard->get_tamanho_real()));
+			lizard->set_tamanho_base(player->calculate_lizards_relative_size(lizard->get_tamanho_real())*100);
 			//lizard->scale = ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.0001);
 		}
 		else if(gender == 1){
@@ -113,7 +113,7 @@ void Lizard::load_lizards(){
 			//0.0021 = 0.0025 - 0.0004 => tamanho máximo - tamanho mínimo
 			lizard->scale_temp = ((0.0021/100)* lizard->get_energia()) + 0.0004;
 			lizard->set_tamanho_real(ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.0001));
-			lizard->set_tamanho_base(player->calc_tamanho_base(lizard->get_tamanho_real()));
+			lizard->set_tamanho_base(player->calculate_lizards_relative_size(lizard->get_tamanho_real())*100);
 			//lizard->scale = ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.0001);
 		}
 		else {
@@ -128,7 +128,7 @@ void Lizard::load_lizards(){
 			//0.0021 = 0.0025 - 0.0004 => tamanho máximo - tamanho mínimo
 			lizard->scale_temp = ((0.0021/100)* lizard->get_energia()) + 0.0004;
 			lizard->set_tamanho_real(ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.0001));
-			lizard->set_tamanho_base(player->calc_tamanho_base(lizard->get_tamanho_real()));
+			lizard->set_tamanho_base(player->calculate_lizards_relative_size(lizard->get_tamanho_real())*100);
 			//lizard->scale = ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.00001);
 		}
 

@@ -10,9 +10,10 @@ MorfologySimulator::MorfologySimulator(PT(PlayerHealth) health) : Simulator(heal
 	_ideal_months_to_max_size = 36; //TODO: Configuração
 	_child_size_factor = 0.2; //TODO: Configuração
 
-	//_max_size = health->max_size;
-	//_size = size; _size = _max_size * _child_size_factor;
+	_max_size = Player::properties.body_size;
+	_size = _max_size * _child_size_factor;
 
+	update_relative_size();
 }
 
 MorfologySimulator::~MorfologySimulator(){
@@ -46,20 +47,25 @@ void MorfologySimulator::update_size(float month_energy_average){
 
 	/* Enfim atualiza o valor do tamanho */
 	_size = _size + real_grow_size;
+	_size = clamp(0, _max_size, _size);
 
 	/* Agora atualiza o tamanho relativo do lagarto */
 	update_relative_size();
 }
 
 
+float MorfologySimulator::calculate_relative_size(float lizard_size) const {
+	float a = health->min_lizard_size * _child_size_factor;
+	float b = health->max_lizard_size;
+	return compress_range(a, b, _size);
+}
+
 /*! Atualiza o tamanho relativo do lagarto, de 0 a 1, que varia do menor tamanho de lagarto
  *  possível (ie. _min_lizard_size * _child_size_factor) e o tamanho máximo de lagarto
  *  (ie. _max_lizard_size), de forma normalizada, é claro. [0, 1].
  *  Esse update é uma forma de cache apenas. */
 float MorfologySimulator::update_relative_size(){
-	float a = health->min_lizard_size * _child_size_factor;
-	float b = health->max_lizard_size;
-	_relative_size = compress_range(a, b, _size);
+	_relative_size = calculate_relative_size(_size);
 }
 
 

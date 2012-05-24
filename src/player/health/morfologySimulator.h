@@ -21,6 +21,7 @@ public:
 
 	void update_size(float month_energy_average);
 
+	float calculate_relative_size(float lizard_size) const;
 	// Mouth size
 protected:
 	float update_relative_size();

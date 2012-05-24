@@ -9,7 +9,7 @@
 
 #define DEBUG_PLAYER 0
 
-PlayerProperties Player::properties;
+PlayerProperties Player::properties = PlayerProperties();
 bool Player::instanceFlag = false;
 PT(Player) Player::single = NULL;
 float Player::nivel_camuflagem_terreno_dia = 0;
@@ -20,18 +20,6 @@ float Player::nivel_camuflagem_folhagem = 0;
 Player::lizardEpecie Player::lizard_specie = Player::eurolophosaurus;
 Player::lizardGender Player::lizard_gender = Player::young;
 
-/*! Realiza diversos testes */
-void Player::update_debug(){
-	nout << "get_size: " << get_size() << endl;
-	nout << "get_tamanho_base: " << get_tamanho_base() << endl;
-	nout << "get_tamanho_real: " << get_tamanho_real() << endl;
-	nout << "mouth_size: " << get_mouth_size() << endl;
-}
-
-/*! Recebe o evento de passagem de tempo e encaminha para update_debug() */
-void Player::update_debug(const Event*, void* data){
-	((Player*)data)->update_debug();
-}
 
 Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_animated_model(
 		Player::get_specie_name(Player::lizard_specie) + "/" +
@@ -67,9 +55,6 @@ Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_anim
 		event_handler->add_hook("EV_SEGUNDO_REAL", event_psegundo_camuflagem, this);
 
 	}
-
-	/* Chama o evento de debug */
-	Simdunas::get_framework()->define_key("control-d", "debug", update_debug, this);
 
 	event_handler->add_hook(TimeControl::EV_pass_frame, false_flag_under_vegetal, this);
 
@@ -196,7 +181,7 @@ void Player::load_player(){
 	player->nivel_camuflagem_terreno_noite = ModelRepository::get_instance()->get_nivel_camuflagem_terreno_noite();
 
 	/* Atualiza tamanho do player */
-	player->set_scale(player->get_visual_size());
+//	player->set_scale(player->get_visual_size());
 	player->set_pos(255,255, 0);
 
 	/* Posicionamento inicial do Player */
@@ -380,8 +365,8 @@ void Player::set_buried(bool is_buried){
 float Player::get_mouth_size() {
 	//	return _mouth_size;
 
-	float real_head_size = properties.head_size * get_tamanho_real() * 0.2;
-	return real_head_size * 0.8;
+//	float real_head_size = properties.head_size * get_tamanho_real() * 0.2;
+//	return real_head_size * 0.8;
 }
 
 ///*! Define o tamanho da boca do lagarto */
@@ -432,6 +417,20 @@ void Player::set_predator(PT(Predator) other){
 	}
 
 
+}
+
+/* ------------------------------------------------------------------------- */
+/* "OUTROS"
+ * ------------------------------------------------------------------------- */
+
+void Player::mordida_recebida(int lizard_relative_size){
+	//TODO: Corrigir o lizard_relative_size
+	float lost_energy = lizard_relative_size * 0.05;
+	if(lost_energy <= 0) return;
+
+	add_energy(-lost_energy);
+	AudioController::get_instance()->heart_beat(get_energy(), get_min_energy());
+	GuiManager::get_instance()->piscar_life();
 }
 
 PT(Predator) Player::get_predator(){
