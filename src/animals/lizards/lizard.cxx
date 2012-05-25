@@ -9,6 +9,7 @@
 #include "youngLizard.h"
 
 #include "collision.h"
+#include "climaTempo.h"
 
 #define VEL_WALK 1000.0
 //#define VEL_RUN 5000.0

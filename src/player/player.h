@@ -1,30 +1,35 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "pandaFramework.h"
-#include "windowFramework.h"
-#include "simdunas.h"
-#include "objetoJogo.h"
-#include "playerControl.h"
-#include "setor.h"
-#include "microClima.h"
-#include "vetores.h"
-#include "femaleLizard.h"
-#include "edible.h"
-#include "predator.h"
+//#include "pandaFramework.h"
+//#include "windowFramework.h"
 
-#include "playerHealth.h"
-#include "playerHealthSimulator.h"
+#include "animatedObjetoJogo.h"
+//#include "simdunas.h"
+//#include "objetoJogo.h"
+//#include "playerControl.h"
+//#include "setor.h"
+//#include "microClima.h"
+//#include "vetores.h"
+//#include "femaleLizard.h"
+#include "edible.h"
+//#include "predator.h"
+//
+//#include "playerHealth.h"
+//#include "playerHealthSimulator.h"
 #include "playerProperties.h"
 #include "achievements.h"
 
 // Forward Declaration
+//class AnimatedObjetoJogo;
 class MicroClima;
 class Vetores;
-class LizardHealthInfo;
 
 class PlayerHealth;
 class PlayerHealthSimulator;
+
+class FemaleLizard;
+class Predator;
 
 //typedef enum {tropidurus , eurolophosaurus, cnemidophorus} LizardEspecie;
 //typedef enum {female, male, young} LizardGender;
@@ -89,11 +94,20 @@ public:
 
 
 	int get_idade();
-
 	PT(Achievements) get_achievements();
 
-/* FEATURE: Tamanho do lagarto */
-public:
+
+	enum PlayerDeathType {
+		PDT_NOT_DEAD,
+		PDT_MALNUTRITION,
+		PDT_DEHYDRATION,
+		PDT_HIGH_TEMPERATURE,
+		PDT_LOW_TEMPERATURE,
+		PDT_OLD_AGE
+	};
+	Player::PlayerDeathType check_death() const;
+
+
 	/* Obtém o tamanho mínimo e máximo de lagartos permitidos. */
 	float calculate_lizards_relative_size(float lizard_size) const;
 	static float get_min_lizards_size();
@@ -157,7 +171,7 @@ public:
 	};
 
 	static string get_specie_name(Player::lizardEpecie specie);
-	enum lizardGender {female, male, young};
+	enum lizardGender { female, male, young };
 	static string get_gender_name(Player::lizardGender gender);
 
 	/* Variáveis que armazenarão espécie e sexo/idade da lagarto */

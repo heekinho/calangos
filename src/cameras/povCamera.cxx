@@ -4,6 +4,10 @@
 #include "mouseWatcher.h"
 #include "mouseButton.h"
 
+#include "world.h"
+#include "terrain.h"
+#include "timeControl.h"
+
 PovCamera::PovCamera(PT(Camera) camera) : CameraNode(camera){
 	this->reparent_to(*object);
 

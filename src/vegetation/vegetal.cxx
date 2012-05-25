@@ -10,6 +10,7 @@
 #include "nodePath.h"
 #include "collision.h"
 #include "edibleVegetal.h"
+#include "world.h"
 
 map<string,PT(Vegetal)> Vegetal::models;
 map<string,int> Vegetal::datas;

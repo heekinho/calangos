@@ -11,6 +11,11 @@
 #include "hydrationSimulator.h"
 #include "dietSimulator.h"
 
+#include "vetores.h"
+#include "microClima.h"
+#include "guiManager.h"
+#include "texturePool.h"
+
 /* Bloco de constantes
  * ------------------------------------------------------------------------- */
 /* Idade, em meses, na qual o lagarto poderá se reproduzir */
@@ -48,12 +53,6 @@ void Player::init_health(lizardEpecie lizard){
 void Player::load_custom_health(){
 
 	if(Session::get_instance()->get_level() > 1){
-//		nout << "-------------------------------------------" << endl;
-//		nout << "Ant Diet" << " : " << properties.ant_diet << endl;
-//		nout << "Plant Diet" << " : " << properties.plant_diet << endl;
-//		nout << "Others Diet" << " : " << properties.general_diet << endl;
-//		nout << "-------------------------------------------" << endl;
-
 		/* Configurações para a fase 2 */
 		/* Dá um valor de 0 a 1 para as possíveis escolhas de velocidade */
 		velocity_factor = (properties.speed - properties.min_speed) /
@@ -105,107 +104,26 @@ void Player::event_gasto_energia(const Event*, void *data){
 	player->get_achievements()->check_hydration(player->get_hydration());
 	player->get_achievements()->check_energy(player->get_energy());
 
-	/* Verificação de morte do personagem por energia*/
-	//TODO: Não deveria ser energia = 0? Faz sentido esse min limite?
-	if(player->get_energy() < player->get_min_energy()){
-		//Informa morte do personagem por desnutrição.
-		Session::get_instance()->player_death(1);
-	}else{
-		/* Verificação de morte do personagem por temperatura interna */
-		if(player->get_temperature() >= player->get_max_temperature()){
-			Session::get_instance()->player_death(3);
-		}else {
-			//Verifica se a morte foi por baixa temperatura
-			if(player->get_temperature() < player->get_min_temperature()){
-				Session::get_instance()->player_death(4);
-			}else{
-				/* Verificação de morte do lagarto por desidratação */
-				if(player->get_hydration() < player->get_min_hydration()){
-					Session::get_instance()->player_death(2);
-				}
-			}
-		}
-	}
-//	player->num_atualizacoes_dia++;
-//	player->soma_energia_dia = player->soma_energia_dia + player->energia;
+	Player::PlayerDeathType death = player->check_death();
+	if(death != Player::PDT_NOT_DEAD) Session::get_instance()->player_death(death);
 }
 
-///*! Obtém o tamanho máximo que o player poderá atingir. Este é o valor que deve
-// *  ser especificado no editor de personagens */
-//float Player::get_max_size(){
-//	return max_size;
-//}
-//
-//float Player::get_min_size(){
-//	return max_size * 0.2;
-//}
-//
-///*! Obtém o tamanho (comprimento) máximo de lagarto permitido. Em centímetros.
-// * Este valor é especificado com o lagarto em sua idade máxima */
-//float Player::get_max_lizards_size(){
-//	return 0.6;
-//}
-//
-///*! Obtém o tamanho (comprimento) mínimo de lagarto permitido. Em centímetros.
-// *  Este valor é especificado com o lagarto em sua idade máxima */
-//float Player::get_min_lizards_size(){
-//	return 0.2;
-//}
-//
-///*! Obtém um fator de 0 a 1, representando o tamanho do lagarto em comparação
-// *  com o menor e maior lagartos possíveis */
-//float Player::get_absolute_size_factor(){
-//	return (get_tamanho_real() - get_min_lizards_size() * 0.2) /
-//			(get_max_lizards_size() - get_min_lizards_size());
-//}
-//
-/////*! Obtém o fator tamanho baseado no tamanho máximo e mínimo que o lagarto pode
-//// * atingir. Em outras palavras é relativo ao tamanho máximo do jogador, e não
-//// * ao tamanho máximo de lagartos existentes */
-////float Player::get_relative_size_factor(){
-////	return (get_tamanho_real() - get_min_lizards_size()) /
-////			(get_max_lizards_size() - get_min_lizards_size());
-////}
-//
-///*! Calcula, com base no menor tamanho possível e maior tamanho possível para
-// *  os lagartos, um valor de 0 a 100 (e não de 0 a 1).
-// *  Ou seja, retorna uma espécie de valor normalizado com base em um tamanho */
-//float Player::calc_tamanho_base(float tamanho_real){
-//	return 100 * (tamanho_real - get_min_size()) / (get_max_size() - get_min_size());
-//}
-//
-/////*! Obtem a taxa de crescimento */
-////float Player::get_taxa_crescimento(){
-////	return taxa_crescimento;
-////}
-//
-///*! Deprecated. Obtem o "tamanho base" do lagarto. Este é um valor de 0 a 100,
-// *  que representa o tamanho do lagarto em relação ao tamanho máximo que este
-// *  lagarto pode atingir */
-//float Player::get_tamanho_base(){
-//	return this->tamanho_lagarto_base;
-//}
-//
-///*! Obtém o tamanho real do lagarto */
-//float Player::get_tamanho_real(){
-//	return this->tamanho_lagarto_real;
-//}
-//
-///*! Calcula o tamanho real do lagarto, além de atualizar várias variáveis
-// *  importantes da dinâmica interna do lagarto */
-//void Player::calc_tamanho_lagarto_real(float media_energia_mensal){
-//	if(media_energia_mensal < 90){
-//		this->taxa_crescimento = media_energia_mensal/100;
-//	} else {
-//		this->taxa_crescimento = 1;
-//	}
-//
-//	float add_tamanho = ((get_max_size() - get_min_size())/MESES_TAMANHO_MAXIMO)*this->taxa_crescimento;
-//
-//	tamanho_lagarto_real = tamanho_lagarto_real + add_tamanho;
-//	if(tamanho_lagarto_real > get_max_lizards_size()) tamanho_lagarto_real = get_max_lizards_size();
-//	tamanho_lagarto_base = calc_tamanho_base(tamanho_lagarto_real);
-//}
+/*! Verifica se o player morreu e retorna o tipo de morte.
+ *  Se não morreu retorna Player::PDT_NOT_DEAD */
+Player::PlayerDeathType Player::check_death() const {
+	if(player->get_energy() <= player->get_min_energy())
+		return Player::PDT_MALNUTRITION;
+	if(player->get_temperature() >= player->get_max_temperature())
+		return Player::PDT_HIGH_TEMPERATURE;
+	if(player->get_temperature() <= player->get_min_temperature())
+		return Player::PDT_LOW_TEMPERATURE;
+	if(player->get_hydration() < player->get_min_hydration())
+		return Player::PDT_DEHYDRATION;
+	if (player->idade >= IDADE_MORTE)
+		return Player::PDT_OLD_AGE;
+
+	return Player::PDT_NOT_DEAD;
+}
 
 /*! Calcula o fator pelo qual o tamanho especificado para lagarto deverá ser
  *  multiplicado, uma vez que os modelos vem com escalas distorcidas e por
@@ -280,10 +198,7 @@ void Player::event_pmonth(const Event*, void *data){
 		player->lizard_gender = Player::male;
 	}
 
-	/* Verifica se o personagem chegou na idade máxima */
-	if (player->idade >= IDADE_MORTE) {
-		Session::get_instance()->player_death(5);
-	}
+
 }
 
 
@@ -469,6 +384,7 @@ float Player::get_relative_size() const {
 	return player_health_simulator->get_morfology_simulator()->get_relative_size();
 }
 
+/*! Obtém o tamanho em centímentros do lagarto */
 float Player::get_size() const {
 	return player_health_simulator->get_morfology_simulator()->get_size();
 }

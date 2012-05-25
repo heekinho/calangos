@@ -8,6 +8,7 @@
 #define DIETSIMULATOR_H
 
 #include "playerHealthSimulator.h"
+#include "playerHealth.h"
 
 class DietSimulator : public Simulator {
 public:

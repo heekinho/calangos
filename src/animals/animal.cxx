@@ -1,8 +1,11 @@
 #include "animal.h"
 
-#include "modelRepository.h"
-#include "terrain.h"
 #include "simdunas.h"
+#include "world.h"
+#include "terrain.h"
+
+#include "modelRepository.h"
+#include "timeControl.h"
 
 /* Animais a serem carregados */
 #include "prey.h"

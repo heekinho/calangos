@@ -4,7 +4,7 @@
 #include "cardMaker.h"
 #include "referenceCount.h"
 #include "typedReferenceCount.h"
-
+#include "texturePool.h"
 
 
 PT(Terrain)  Terrain::terrain = NULL;

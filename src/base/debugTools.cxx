@@ -9,6 +9,9 @@
 #include "simdunas.h"
 #include "lineSegs.h"
 #include "player.h"
+#include "foliage.h"
+#include "world.h"
+#include "terrain.h"
 
 DebugTools::DebugTools() {
 	// TODO Auto-generated constructor stub

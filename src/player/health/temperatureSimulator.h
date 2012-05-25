@@ -8,6 +8,7 @@
 #define TEMPERATURESIMULATOR_H
 
 #include "playerHealthSimulator.h"
+#include "playerHealth.h"
 
 class TemperatureSimulator : public Simulator {
 public:

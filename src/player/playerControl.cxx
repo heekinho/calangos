@@ -16,6 +16,8 @@
 #include "inGameScreenManager.h"
 #include "audioRepository.h"
 #include "audioController.h"
+#include "world.h"
+#include "guiManager.h"
 
 
 /*! Define velocidade de rotação do player em Graus/Segundos.

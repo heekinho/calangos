@@ -3,6 +3,7 @@
 #include "cameraControl.h"
 #include "simdunas.h"
 #include "player.h"
+#include "playerControl.h"
 #include"pStatTimer.h"
 
 #include "geometricBoundingVolume.h"

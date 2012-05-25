@@ -1,13 +1,24 @@
 #include "predator.h"
-#include "player.h"
 
-#include "flyingPredator.h"
+#include "guiManager.h"
+#include "world.h"
+//#include "player.h"
+//
+//#include "flyingPredator.h"
 #include "modelRepository.h"
-
 #include "collision.h"
-#include "antialiasAttrib.h"
-#include "audioController.h"
-#include "animal.h"
+#include "lineSegs.h"
+
+//#include "antialiasAttrib.h"
+//#include "audioController.h"
+//#include "animal.h"
+//
+////#include "nodePath.h"
+////#include "mouseWatcher.h"
+////#include "mouseWatcherGroup.h"
+
+
+
 
 bool Predator::pursuing = false;
 
@@ -100,7 +111,7 @@ Predator::Predator(NodePath node, Predator::types_predator type) : Animal(node){
 		debug_visibility_circle.set_depth_write(false);
 		debug_visibility_circle.reparent_to(render);
 		debug_visibility_circle.show();
-		debug_visibility_circle.set_antialias(AntialiasAttrib::M_line);
+//		debug_visibility_circle.set_antialias(AntialiasAttrib::M_line);
 	}
 
 }

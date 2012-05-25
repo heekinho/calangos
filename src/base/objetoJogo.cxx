@@ -3,6 +3,8 @@
 #include "setor.h"
 #include "session.h"
 #include "simdunas.h"
+#include "world.h"
+#include "terrain.h"
 
 #include <cmath>
 

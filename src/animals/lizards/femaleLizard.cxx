@@ -4,6 +4,10 @@
 #include "audioController.h"
 #include "audioRepository.h"
 
+#include "timeControl.h"
+#include "playerControl.h"
+#include "setor.h"
+
 #define VEL_WALK 1000.0
 #define VEL_RUN 5000.0
 

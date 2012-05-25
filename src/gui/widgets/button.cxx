@@ -11,6 +11,7 @@
 #include "mouseButton.h"
 #include "timeControl.h"
 #include "videoManager.h"
+#include "playerControl.h"
 
 bool Button::play_button = true;
 

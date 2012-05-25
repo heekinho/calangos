@@ -1,6 +1,9 @@
 #include "tocaCamera.h"
 #include "simdunas.h"
 
+#include "cameraControl.h"
+#include "playerControl.h"
+
 TocaCamera::TocaCamera(PT(Camera) camera) : CameraNode(camera){
 	this->reparent_to(*object);
 	set_h(*this, 180);

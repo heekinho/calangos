@@ -7,7 +7,10 @@
 
 #include "audioController.h"
 #include "timeControl.h"
+#include "simdunas.h"
 #include "player.h"
+#include "guiManager.h"
+#include "playerControl.h"
 
 PT(AudioController) AudioController::instance = NULL;
 

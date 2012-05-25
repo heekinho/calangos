@@ -9,6 +9,8 @@
 #include "pauseScreen.h"
 #include "imageRepository.h"
 #include "audioController.h"
+#include "mouseWatcher.h"
+#include "mouseWatcherGroup.h"
 
 #define ABS(a)		(((a) < 0) ? -(a) : (a))
 #define LIMITE_SUPERIOR_TEMP_LAGARTO 45.0
@@ -139,14 +141,14 @@ GuiManager::GuiManager() {
 	status_seta = false;
 
 	img_arrow_predator_position = ImageRepository::get_instance()->get_image("predator_left");
-	img_arrow_predator_position.reparent_to(render2d);
+	img_arrow_predator_position.reparent_to(window->get_render_2d());
 	img_arrow_predator_position.hide();
 
 	//Toca
 	moldura_toca = window->load_model(aspect2d, "models/objects/toca.png");
 	event_handler->add_hook(PlayerControl::EV_player_enter_toca, mostra_moldura_toca, this);
 	event_handler->add_hook(PlayerControl::EV_player_outof_toca, esconde_moldura_toca, this);
-	moldura_toca.reparent_to(render2d);
+	moldura_toca.reparent_to(window->get_render_2d());
 	moldura_toca.set_scale(0.0792, 0.095, 0.1);
 	moldura_toca.set_pos(-0.21, 0.0, 0.0);
 	moldura_toca.hide();
@@ -1562,7 +1564,7 @@ void GuiManager::set_predator_location_img(string image_name) {
 	bool hidden = img_arrow_predator_position.is_hidden();
 	img_arrow_predator_position.remove_node();
 	img_arrow_predator_position = ImageRepository::get_instance()->get_image(image_name);
-	img_arrow_predator_position.reparent_to(render2d);
+	img_arrow_predator_position.reparent_to(window->get_render_2d());
 	img_arrow_predator_position.set_scale(0.01);
 	img_arrow_predator_position.set_pos(0, 0, -0.7);
 	if (hidden) {

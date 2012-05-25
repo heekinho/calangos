@@ -1,6 +1,9 @@
 #include "flyingPredatorCamera.h"
 
 #include "cameraControl.h"
+#include "world.h"
+#include "terrain.h"
+#include "timeControl.h"
 
 /*! Camera de captura do player pelo predador */
 FlyingPredatorCamera::FlyingPredatorCamera(PT(Camera) camera) : CameraNode(camera){

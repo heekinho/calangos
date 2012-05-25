@@ -110,7 +110,7 @@ int main(int argc, char *argv[]) {
 // houve a necessidade de capturar eventos de mouse no render_2d.
 void Simdunas::setup_clickable_render_2d() {
 	PGTop* top = new PGTop("clickable_render_2d");
-	Simdunas::set_clickable_render_2d(render2d.attach_new_node(top));
+	Simdunas::set_clickable_render_2d(window->get_render_2d().attach_new_node(top));
 
 	// Tell the PGTop about our MouseWatcher object, so the PGui
 	// system can operate.

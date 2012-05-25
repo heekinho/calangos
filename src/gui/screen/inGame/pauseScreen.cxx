@@ -14,6 +14,7 @@
 #include "audioController.h"
 #include "achievementsWindow.h"
 #include "videosWindow.h"
+#include "guiManager.h"
 
 bool PauseScreen::selected_video = false;
 bool PauseScreen::is_opened = false;

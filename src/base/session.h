@@ -3,20 +3,20 @@
 
 //#define PSTATS  //se quiser rodar o pstats é só descomentar aqui
 
-#include "cIntervalManager.h"
-#include "world.h"
-#include "guiManager.h"
-#include "timeControl.h"
-#include "climaTempo.h"
-#include "microClima.h"
-#include "cameraControl.h"
+//#include "cIntervalManager.h"
+//#include "world.h"
+//#include "guiManager.h"
+//#include "timeControl.h"
+//#include "climaTempo.h"
+//#include "microClima.h"
+//#include "cameraControl.h"
 #include "player.h"
-#include "playerControl.h"
+//#include "playerControl.h"
 //#include "menu.h"
 
-class GuiManager;
-class MicroClima;
-class ClimaTempo;
+//class GuiManager;
+//class MicroClima;
+//class ClimaTempo;
 //class PlayerControl;
 
 class Session {
@@ -25,14 +25,15 @@ public:
 	
 	void run();
 
-	void player_death(int);
+	void player_death(Player::PlayerDeathType death);
+	Player::PlayerDeathType get_player_death_status() const;
 
 //	static void stop_movie(const Event*, void *data);
 
 	static void pause_game(const Event*, void *data);
 
 	void receive_answer(char *ans);
-	int get_causa_mortis();
+//	int get_causa_mortis();
 
 	void stop_animations();
 
@@ -65,8 +66,9 @@ private:
 	/* Converter para enum depois? */
 	int level;
 
+	Player::PlayerDeathType _player_death_status;
 
-	int causa_mortis;
+//	int causa_mortis;
 	vector<string> stage_info; // informações sobre as etapas de carregamento.
 	bool finished_loading;
 	void end_session();

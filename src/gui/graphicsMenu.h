@@ -14,6 +14,7 @@
 #include "vetores.h"
 
 class Graphics;
+class Hint;
 
 class GraphicsMenu : public ReferenceCount {
 public:

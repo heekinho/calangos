@@ -9,6 +9,7 @@
 #include "simdunas.h"
 #include "imageRepository.h"
 #include "timeControl.h"
+#include "mouseWatcher.h"
 
 /*
  * - parent = NodePath ao qual o hint será vinculado (parent.attach_new_node)

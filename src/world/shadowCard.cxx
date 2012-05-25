@@ -2,6 +2,7 @@
 
 #include "terrain.h"
 #include "setor.h"
+#include "world.h"
 
 TypeHandle ShadowCard::_type_handle;
 

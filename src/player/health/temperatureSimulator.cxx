@@ -5,6 +5,7 @@
  */
 
 #include "temperatureSimulator.h"
+#include "microClima.h"
 
 TemperatureSimulator::TemperatureSimulator(PT(PlayerHealth) health) : Simulator(health) {
 	_temperature = 40; //TODO: Initial temperature

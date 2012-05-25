@@ -4,6 +4,7 @@
 
 #include "character.h"
 #include "world.h"
+#include "terrain.h"
 
 #include "cameraControl.h"
 #include "flyingPredatorCamera.h"

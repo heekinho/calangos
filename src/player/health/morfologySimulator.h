@@ -8,6 +8,7 @@
 #define MORFOLOGYSIMULATOR_H
 
 #include "playerHealthSimulator.h"
+#include "playerHealth.h"
 
 class MorfologySimulator : public Simulator {
 public:

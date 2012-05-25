@@ -11,6 +11,7 @@ using namespace std;
 #include "session.h"
 #include "guiLayer.h"
 #include "fontPool.h"
+#include "timeControl.h"
 
 class Session;
 
@@ -71,7 +72,7 @@ public:
 
 #define window Simdunas::get_window()
 #define render window->get_render()
-#define render2d window->get_render_2d()
+//#define render2d window->get_render_2d()
 #define aspect2d window->get_aspect_2d()
 #define clickable_render2d Simdunas::get_clickable_render_2d()
 

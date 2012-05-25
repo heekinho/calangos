@@ -1,6 +1,7 @@
 #include "frog.h"
 
 #include "modelRepository.h"
+#include "world.h"
 #include "terrain.h"
 #include "audioController.h"
 

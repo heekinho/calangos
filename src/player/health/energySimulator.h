@@ -8,6 +8,7 @@
 #define ENERGYSIMULATOR_H
 
 #include "playerHealthSimulator.h"
+#include "playerHealth.h"
 
 class EnergySimulator : public Simulator {
 public:

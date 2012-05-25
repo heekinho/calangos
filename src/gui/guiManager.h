@@ -1,10 +1,10 @@
 #ifndef GUIMANAGER_H
 #define GUIMANAGER_H
 
+#include <queue>
+
 #include "pandaFramework.h"
 #include "eventHandler.h"
-#include "mouseWatcher.h"
-#include "mouseWatcherGroup.h"
 #include "timeControl.h"
 #include "pgVirtualFrame.h"
 #include "pgButton.h"
@@ -48,6 +48,7 @@ public:
     static void esconde_moldura_toca(const Event*, void *data);
     static void unload_gui();
 	void notifyGameOver();
+
     void liga_led_estado_reprodutivo();
     void desliga_led_estado_reprodutivo();
     void hide_frameNode();

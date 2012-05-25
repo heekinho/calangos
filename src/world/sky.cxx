@@ -7,6 +7,8 @@
 
 #include "sky.h"
 
+#include "climaTempo.h"
+#include "cameraControl.h"
 
 #include "simdunas.h"
 #include "timeControl.h"

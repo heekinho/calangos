@@ -18,6 +18,8 @@
 
 TypeHandle MicroClima::_type_handle;
 
+#include "world.h"
+
 bool MicroClima::instanceFlag = false;
 PT(MicroClima) MicroClima::single = NULL;
 

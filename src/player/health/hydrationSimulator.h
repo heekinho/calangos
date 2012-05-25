@@ -8,6 +8,7 @@
 #define HYDRATIONSIMULATOR_H
 
 #include "playerHealthSimulator.h"
+#include "playerHealth.h"
 
 class HydrationSimulator : public Simulator {
 public:

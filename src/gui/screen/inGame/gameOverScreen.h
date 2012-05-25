@@ -34,9 +34,9 @@ private:
 	PT(Button) btn_restart;
 	NodePath np_btn_restart;
 	PT(PGButton) btn_graph;
-	enum Causa_Mortis {
-	        DESNUTRICAO = 1, DESIDRATACAO, ALTA_TEMPERATURA, BAIXA_TEMPERATURA, MORTE_IDADE
-	};
+//	enum Causa_Mortis {
+//	        DESNUTRICAO = 1, DESIDRATACAO, ALTA_TEMPERATURA, BAIXA_TEMPERATURA, MORTE_IDADE
+//	};
 };
 
 #undef ACTION

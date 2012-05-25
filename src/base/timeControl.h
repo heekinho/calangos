@@ -71,7 +71,7 @@ public:
 	static void event_pminute(const Event *, void *data);
 	static void event_phour(const Event *, void *data);
 	static void event_pday(const Event *, void *data);
-	static void event_pmonth(const Event *, void *data);
+	static void event_pmonth(const Event *, void *data);not
 	static void event_pyear(const Event *, void *data);
 
 	// Inicializados no cxx por ser non-integral

@@ -1,6 +1,7 @@
 #ifndef PREDATOR_H
 #define PREDATOR_H
 
+#include "simdunas.h"
 #include "animatedObjetoJogo.h"
 #include "animal.h"
 
@@ -23,8 +24,6 @@ public:
 		pursuing_act,
 		biting,
 	};
-
-
 
 
 	Predator(NodePath node,Predator::types_predator type);

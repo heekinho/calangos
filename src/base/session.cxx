@@ -1,3 +1,5 @@
+#include "cIntervalManager.h"
+
 #include "session.h"
 
 #include "guiManager.h"
@@ -20,10 +22,15 @@ Session* Session::singleSession = NULL;
 #include "pauseScreen.h"
 #include "achievements.h"
 
+#include "world.h"
+#include "cameraControl.h"
+
 /*! Constroi uma session default.*/
 //Session::Session(WindowFramework *window) {
 Session::Session() {
+	_player_death_status = Player::PDT_NOT_DEAD;
 	level = 1;
+
 	finished_loading = false;
 	stage_info.push_back("Criando Repositorio de Modelos...");
 	stage_info.push_back("Criando Repositorio de Imagens...");
@@ -91,7 +98,6 @@ void Session::init_session(int process_stage){
 			GuiManager::get_instance();
 			GuiManager::get_instance()->hide_frameNode();
 			InGameScreenManager::get_instance();
-			causa_mortis = -1;
 			break;
 		case 10:
 			/* Redistribui animais para setores próximos ao player */
@@ -118,7 +124,10 @@ void Session::run(){
 
 	GuiManager::get_instance()->show_frameNode();
 	InGameScreenManager::get_instance()->get_game_interface_screen()->show();
-	causa_mortis = -1;
+//	causa_mortis = -1;
+	_player_death_status = Player::PDT_NOT_DEAD;
+
+
 	Simdunas::get_framework()->do_frame(Thread::get_current_thread());
 
 	/* Loop principal do programa */
@@ -181,24 +190,18 @@ void Session::pause_game(const Event*, void *data){
 
 
 /*! A morte do lagarto */
-void Session::player_death(int causa_mortis){
-/* causa_mortis  = 1, desnutrição
- * causa_mortis  = 2, desidratação
- * causa_mortis  = 3, alta temperatura
- * causa_mortis  = 4, baixa temperatura
- * causa_mortis  = 5, idade maxima
- **depois fazer enum**/
-
+void Session::player_death(Player::PlayerDeathType death){
 	/* Pequeno bugfix para não permitir múltiplas mortes */
-	if(this->causa_mortis > 0) {
-		nout << "Só é permitido morrer uma vez! lol" << endl;
+	if(_player_death_status != Player::PDT_NOT_DEAD) {
+		nout << "Já tá morto! Só é permitido morrer uma vez! lol" << endl;
 		return;
 	}
 
 	stop_animations();
 
 	//cout << endl << "Morreu!" << endl;
-	this->causa_mortis = causa_mortis;
+//	this->causa_mortis = causa_mortis;
+	_player_death_status = death;
 
 	/* TODO: Deveria ser feito por evento */
 	GuiManager::get_instance()->notifyGameOver();
@@ -206,6 +209,10 @@ void Session::player_death(int causa_mortis){
 	/* Pára o tempo */
 	TimeControl::get_instance()->set_stop_time(true);
 	InGameScreenManager::get_instance()->open_screen(InGameScreenManager::get_instance()->get_game_over_screen());
+}
+
+Player::PlayerDeathType Session::get_player_death_status() const {
+	return _player_death_status;
 }
 
 void Session::receive_answer(char *ans){
@@ -252,11 +259,6 @@ void Session::end_session(){
 /*! Tem o intuito de parar todas as animações. TODO: Ainda não faz a funcionalidade */
 void Session::stop_animations(){
 	player->get_anim_control()->stop_all();
-}
-
-/*! Retorna a causa da morte do lagarto */
-int Session::get_causa_mortis(){
-	return this->causa_mortis;
 }
 
 Session* Session::get_instance() {

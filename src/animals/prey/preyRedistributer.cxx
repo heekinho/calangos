@@ -9,6 +9,7 @@
 #include "prey.h"
 
 #include "groupPrey.h"
+#include "playerControl.h"
 
 const float PreyRedistributer::dist_min = 5.0;
 const float PreyRedistributer::dist_mid = 6.0;

@@ -9,6 +9,7 @@
 #define ACHIEVEMENTSWINDOW_H
 
 #include "window.h"
+#include "hint.h"
 
 class AchievementsWindow : public Window {
 public:

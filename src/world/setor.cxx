@@ -1,6 +1,9 @@
 #include "setor.h"
 
 #include "player.h"
+#include "world.h"
+#include "terrain.h"
+
 TypeHandle Setor::_type_handle;
 
 Setor::Setor(LPoint2d inicio, LPoint2d fim, int indice){

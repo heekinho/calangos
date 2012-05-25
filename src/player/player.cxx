@@ -5,7 +5,14 @@
 #include "textureStageCollection.h"
 #include "simdunas.h"
 #include "audioController.h"
+#include "femaleLizard.h"
 
+#include "world.h"
+#include "setor.h"
+#include "guiManager.h"
+
+#include "playerHealth.h"
+#include "playerHealthSimulator.h"
 
 #define DEBUG_PLAYER 0
 

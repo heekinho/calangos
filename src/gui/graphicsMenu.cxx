@@ -7,6 +7,7 @@
 
 #include "graphicsMenu.h"
 #include "imageRepository.h"
+#include "hint.h"
 
 GraphicsMenu::GraphicsMenu(NodePath menu_frame_np) {
 	//Inicia o objeto vetores.

@@ -14,6 +14,7 @@
 #include "tocaCamera.h"
 #include "freeCamera.h"
 
+#include "eventQueue.h"
 
 /* Controle Singleton */
 PT(CameraControl) CameraControl::single = NULL;

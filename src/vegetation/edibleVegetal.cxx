@@ -2,6 +2,7 @@
 
 #include "modelRepository.h"
 #include "lodNode.h"
+#include "simdunas.h"
 
 NodePath EdibleVegetal::vegetals_food_placeholder = NodePath("Edible Vegetals Placeholder");
 map<string, PT(EdibleVegetal)> EdibleVegetal::vegetals;

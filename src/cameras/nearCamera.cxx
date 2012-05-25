@@ -1,5 +1,7 @@
 #include "nearCamera.h"
 #include "simdunas.h"
+#include "world.h"
+#include "terrain.h"
 
 NearCamera::NearCamera(PT(Camera) camera) : CameraNode(camera){
 	this->reparent_to(render);

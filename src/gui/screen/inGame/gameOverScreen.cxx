@@ -11,6 +11,7 @@
 
 #include "simdunas.h"
 #include "inGameScreenManager.h"
+#include "session.h"
 
 
 GameOverScreen::GameOverScreen(PT(ScreenManager) manager) : Screen(manager){
@@ -73,38 +74,41 @@ void GameOverScreen::unload() {
 
 void GameOverScreen::show() {
 	Screen::show();
-	int morte = Session::get_instance()->get_causa_mortis(); //pegando causa da morte
+	Player::PlayerDeathType death = Session::get_instance()->get_player_death_status();
 
-	switch (morte) {//mostrando causa da morte
-		case DESNUTRICAO:
+	/* Mostrando a causada da morte do player */
+	switch (death) {
+		case Player::PDT_MALNUTRITION:
 			indica_morte = window->load_model(get_root(), "models/buttons/desnutricao.png");
 			indica_morte.set_scale(0.065, 0.0, 0.09);
 			indica_morte.set_pos(-0.05, 0.0, 0.45);
 			break;
 
-		case ALTA_TEMPERATURA:
+		case Player::PDT_HIGH_TEMPERATURE:
 			cout<<"entrou aqui em temperatura alta. xD"<<endl;
 			indica_morte = window->load_model(get_root(), "models/buttons/temperatura_alta.png");
 			indica_morte.set_scale(0.065, 0.0, 0.09);
 			indica_morte.set_pos(-0.1, 0.0, 0.45);
 			break;
 
-		case BAIXA_TEMPERATURA:
+		case Player::PDT_LOW_TEMPERATURE:
 			indica_morte = window->load_model(get_root(), "models/buttons/temperatura_baixa.png");
 			indica_morte.set_scale(0.065, 0.0, 0.09);
 			indica_morte.set_pos(-0.1, 0.0, 0.45);
 			break;
 
-		case MORTE_IDADE:
+		case Player::PDT_OLD_AGE:
 			indica_morte = window->load_model(get_root(), "models/buttons/morte_idade.png");
 			indica_morte.set_scale(0.065, 0.0, 0.09);
 			indica_morte.set_pos(-0.1, 0.0, 0.45);
 			break;
 
-		case DESIDRATACAO:
+		case Player::PDT_DEHYDRATION:
 			indica_morte = window->load_model(get_root(), "models/buttons/desidratacao.png");
 			indica_morte.set_scale(0.065, 0.0, 0.09);
 			indica_morte.set_pos(-0.05, 0.0, 0.45);
+			break;
+		default:
 			break;
 	}
 }

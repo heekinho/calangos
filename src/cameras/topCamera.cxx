@@ -1,13 +1,14 @@
 #include "topCamera.h"
 
 #include "simdunas.h"
+#include "timeControl.h"
 
 TopCamera::TopCamera(PT(Camera) camera) : CameraNode(camera){
 	this->min_zoom = 30;
 	this->max_zoom = 1500;
 	this->current_zoom = 50;
 
-	this->arrow = window->load_model(render2d, "models/green_arrow.png");
+	this->arrow = window->load_model(window->get_render_2d(), "models/green_arrow.png");
 	this->arrow.set_scale(0.005);
 	this->arrow.set_alpha_scale(0.3);
 	this->arrow.hide();

@@ -1,6 +1,8 @@
 #include "closeCamera.h"
 
 #include "simdunas.h"
+#include "timeControl.h"
+
 #include "mouseWatcher.h"
 #include "mouseButton.h"
 
