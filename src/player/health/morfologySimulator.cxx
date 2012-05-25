@@ -49,6 +49,8 @@ void MorfologySimulator::update_size(float month_energy_average){
 	_size = _size + real_grow_size;
 	_size = clamp(0, _max_size, _size);
 
+	cout << "Size: " <<  _size << endl;
+
 	/* Agora atualiza o tamanho relativo do lagarto */
 	update_relative_size();
 }

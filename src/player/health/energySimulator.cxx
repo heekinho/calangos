@@ -111,6 +111,9 @@ void EnergySimulator::update_daily_energy_average(){
 }
 
 float EnergySimulator::update_monthly_energy_average(){
+	/* BUGFIX: Corrige para o debug quando cresce muito rápido */
+	if(_day_update_count == 0) return _energy;
+
 	float average = _month_energy_buffer / float(_day_update_count);
 
 	_day_update_count = 0;

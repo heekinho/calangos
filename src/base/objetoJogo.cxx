@@ -109,6 +109,27 @@ void ObjetoJogo::set_screen_status_enabled(bool enabled){
 
 #include "accumulatedAttribs.h"
 #include "sceneGraphReducer.h"
+
+/* Tratamento melhor sobre o "tamanho" do objeto.
+ * Métodos relacionados com o tamanho real (e não scale) do objeto*/
+
+
+/*! Calcula o fator pelo qual o tamanho especificado para lagarto deverá ser
+ *  multiplicado, uma vez que os modelos vem com escalas distorcidas e por
+ *  alguma razão, o flatten_light() torna inativa as animações, mesmo com o
+ *  binding posterior. Também fica mais fácil criar distorções entre o tamanho
+ *  real e o tamanho aparente das entidades */
+float ObjetoJogo::calculate_visual_size_factor(const NodePath &entity){
+	/* Calcula o tamanho real do lagarto */
+	LPoint3f min, max;
+	calc_tight_bounds(min, max);
+	float length = (max - min).get_y();
+
+	/* Retorna o fator */
+	return (entity.get_sy() / length);
+}
+
+
 /*! Obtém o tamanho real do objeto a partir do tight_bounds dele */
 void ObjetoJogo::calc_size_from_bounds(){
 	LPoint3f min, max;

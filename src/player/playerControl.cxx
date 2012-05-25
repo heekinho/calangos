@@ -131,8 +131,8 @@ void PlayerControl::special_control(const Event *theEvent, void *data){
 //	if(strcmp(str,"die")==0)
 //		me->set_energy(0);
 
-	if(strcmp(str,"grow-old")==0)
-		me->event_pmonth(NULL, me);
+//	if(strcmp(str,"grow-old")==0)
+//		me->event_pmonth(NULL, me);
 
 	if(strcmp(str,"info")==0){
 //		World::get_world()->get_terrain()->remove_all_edible_vegetals();

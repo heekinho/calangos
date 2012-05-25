@@ -10,6 +10,8 @@
 #include <iostream>
 using namespace std;
 
+class NodePath;
+
 class LizardBase {
 public:
 	enum LizardSpecies {

@@ -64,8 +64,7 @@ public:
 	void update_pr();
 
 
-	/* Tratamento melhor sobre o "tamanho" do objeto.
-	 * Métodos relacionados com o tamanho real (e não scale) do objeto*/
+	float calculate_visual_size_factor(const NodePath &entity);
 	void calc_size_from_bounds();
 	INLINE LVecBase3f get_size() const;
 	INLINE float get_width() const;

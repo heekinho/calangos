@@ -261,8 +261,8 @@ public:
 	float get_max_size() const;
 	float get_relative_size() const;
 	float calculate_lizards_relative_size(float lizard_size) const;
-	void calculate_visual_size_factor();
-	float get_visual_size() const;
+//	void calculate_visual_size_factor();
+//	float get_visual_size() const;
 
 private:
 

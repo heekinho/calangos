@@ -6,6 +6,10 @@
 
 #include "lizardBase.h"
 
+
+#include "nodePath.h"
+
+
 LizardBase::LizardBase(LizardSpecies species, LizardGender gender){
 	_species = species;
 	_gender = gender;

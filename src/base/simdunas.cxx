@@ -18,6 +18,7 @@
 #include "pgTop.h"
 #include "loadingScreen.h"
 #include "audioController.h"
+#include "debugTools.h"
 
 //TODO: Colocar constants: modelpath, soundpath, imagepath, texturepath.
 
@@ -28,6 +29,9 @@ GuiLayer* Simdunas::pixel2d = NULL;
 NodePath Simdunas::clickable_render_2d = NULL;
 bool Simdunas::play_clicked = false;
 TextFont* Simdunas::game_font = FontPool::load_font("models/gui/fonts/suplexcomic-large");
+
+
+PT(DebugTools) debug;
 
 int main(int argc, char *argv[]) {
 	/* Carrega o arquivo de configuração do jogo */
@@ -57,6 +61,10 @@ int main(int argc, char *argv[]) {
 	// Define a janela, o framework, manipulação e geração de eventos e constrói uma nova sessão.
 	Simdunas::set_window(framework.open_window(/*properties*/));
 	Simdunas::set_framework(window->get_panda_framework());
+
+
+	debug = new DebugTools();
+
 
 	Session::get_instance();
 	//Simdunas::set_session(new Session());

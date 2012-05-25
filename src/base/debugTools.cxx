@@ -7,6 +7,7 @@
 #include "debugTools.h"
 
 #include "simdunas.h"
+#include "timeControl.h"
 #include "lineSegs.h"
 #include "player.h"
 #include "foliage.h"
@@ -14,11 +15,19 @@
 #include "terrain.h"
 
 DebugTools::DebugTools() {
+	nout << "Criando DebugTools" << endl;
+
 	// TODO Auto-generated constructor stub
 	show_foliage_wireframe = false;
 
 	/* Cadastra a função de update para o debug */
 	event_handler->add_hook(TimeControl::EV_pass_frame, update, this);
+	event_handler->add_hook(TimeControl::EV_pass_day, update_day, this);
+	event_handler->add_hook(TimeControl::EV_pass_month, update_month, this);
+
+	char* action = "grow-old";
+	Simdunas::get_framework()->define_key("control-o", "Easter Egg2", special_control, action);
+
 	configure_input();
 }
 
@@ -40,6 +49,32 @@ void DebugTools::update(const Event*, void *data){
 /*! Realiza as operações desejadas a cada frame */
 void DebugTools::update(){
 	//keep_player_healthy();
+}
+
+/*! Recebe o evento a cada dia e encaminha para a função update() */
+void DebugTools::update_day(const Event*, void *data){
+	((DebugTools*) data)->update_day();
+}
+
+/*! Realiza as operações desejadas a cada dia */
+void DebugTools::update_day(){
+	//keep_player_healthy();
+}
+
+
+/*! Recebe o evento a cada mês e encaminha para a função update() */
+void DebugTools::update_month(const Event*, void *data){
+	((DebugTools*) data)->update_month();
+}
+
+/*! Realiza as operações desejadas a cada mês */
+void DebugTools::update_month(){
+	//keep_player_healthy();
+}
+
+void DebugTools::special_control(const Event*, void *data){
+	event_queue->queue_event(new Event(TimeControl::EV_pass_day));
+	event_queue->queue_event(new Event(TimeControl::EV_pass_month));
 }
 
 
