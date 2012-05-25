@@ -17,7 +17,10 @@ Prey::Prey(NodePath node) : Animal(node) {
 	this->living_tree = NULL;
 	this->radius_thr = 1.5;
 	this->fleing = false;
-	set_velocity(0.085);
+
+	/*set_velocity(0.085);
+		 * Nova velocidade multiplicada pelo multiplicador de deslocamento 0.2*/
+	 set_velocity(0.017);
 };
 
 /*! Realiza o carremento das presas */

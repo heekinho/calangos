@@ -150,8 +150,13 @@ float Player::get_speed_walking() const {
 		Player *p = player;
 		/* A Letargia influencia na velocidade (decidiu-se por influenciar linearmente */
 
-		p->set_velocity((PlayerProperties::max_speed + PlayerProperties::min_speed) * 0.5);
+//<<<<<<< player.cxx
+//		p->set_velocity((PlayerProperties::max_speed + PlayerProperties::min_speed) * 0.5);
+		//Multiplicador de deslocamento 0.2
+
+		p->set_velocity((PlayerProperties::max_speed + PlayerProperties::min_speed) * 0.5 * 0.2);
 		p->set_velocity(p->get_velocity() * (1 - p->get_lethargy()));
+//>>>>>>> 1.47
 		p->set_velocity(p->get_velocity()*100);//Multiplicador de velocidade
 		return p->get_velocity();
 

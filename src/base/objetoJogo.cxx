@@ -232,8 +232,11 @@ void ObjetoJogo::move(float velocity) {
 /*! Calcula a posição onde o objeto estará caso se mova com a velocidade indicada */
 LPoint3f ObjetoJogo::calculate_pos(float velocity, bool use_z){
 	float elapsed = TimeControl::get_instance()->get_elapsed_time();
-	float dy = this->get_scale().get_x() * velocity * elapsed * 0.2;
 
+/*	float dy = this->get_scale().get_x() * velocity * elapsed * 0.2;
+ *  Valor 0.2 retirado da fórmula e multiplicado em todas as velocidades dos animais.*/
+
+	float dy = this->get_scale().get_x() * velocity * elapsed;
 	return (this->get_pos() + get_orientation(use_z) * dy);
 }
 

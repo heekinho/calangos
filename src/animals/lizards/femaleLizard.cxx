@@ -4,12 +4,16 @@
 #include "audioController.h"
 #include "audioRepository.h"
 
+//#define VEL_WALK 1000.0
+#define VEL_WALK 200.0 // 1000*0.2 , multiplicador de deslocamento
+//#define VEL_RUN 4000.0
+#define VEL_RUN 800.0 //
+
 #include "timeControl.h"
 #include "playerControl.h"
 #include "setor.h"
 
-#define VEL_WALK 1000.0
-#define VEL_RUN 5000.0
+
 
 #define MAXDEGREE 100
 #define PROBTHR 80

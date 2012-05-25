@@ -31,7 +31,11 @@ float Predator::dist_to_bite = 0.3;
 
 
 Predator::Predator(NodePath node, Predator::types_predator type) : Animal(node){
-	set_velocity(350.0);
+
+	/*set_velocity(350.0);
+	 * Nova velocidade multiplicada pelo multiplicador de deslocamento 0.2*/
+	set_velocity(70.0);
+
 	//adiciona solido de colisão aos predadores (ficou legal esses valores para altura e raio)
 	collision::get_instance()->collisionNpcFast(&node, 0, 0, 20, 10);
 
