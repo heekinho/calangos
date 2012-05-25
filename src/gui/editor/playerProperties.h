@@ -7,6 +7,8 @@
 #ifndef PLAYERPROPERTIES_H
 #define PLAYERPROPERTIES_H
 
+#include "lizardBase.h"
+
 //struct PlayerProperties {
 class PlayerProperties {
 public:
@@ -15,7 +17,10 @@ public:
 
 //private:
 	/* Informações do modelo do lagarto */
-	int  lizard_type;
+	//int  lizard_type;
+	LizardBase::LizardSpecies species;
+	LizardBase::LizardGender gender;
+
 	/* PT(Texture) color_pattern; */
 
 	/* Características do lagarto */

@@ -18,11 +18,7 @@ public:
 	virtual ~PlayerHealth();
 
 	void load_health(const Filename &path);
-
-
-
-
-	float temperature;
+//	float temperature;
 
 //protected:
 

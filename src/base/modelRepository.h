@@ -9,7 +9,7 @@
 #include "objetoJogo.h"
 #include "animatedObjetoJogo.h"
 
-#include "player.h"
+//#include "player.h"
 
 
 /*! Um ModelRepository armazena os modelos e abstrai o recurso de instancing do Panda3D */

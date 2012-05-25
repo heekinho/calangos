@@ -4,17 +4,9 @@
 #include "animal.h"
 #include "vegetal.h"
 #include "predator.h"
+#include "lizardBase.h"
 
-
-namespace LizardEspecie {
-	enum lizardEpecie {tropidurus , eurolophosaurus, cnemidophorus};
-}
-
-namespace LizardGender {
-	enum lizardGender {female, male, young};
-}
-
-class Lizard : public Animal{
+class Lizard : public Animal, public LizardBase {
 public:
 	Lizard(NodePath node);
 
@@ -26,14 +18,9 @@ public:
 	static void check_temp(const Event *theEvent, void *data);
 
 	void init();
-        void isMale();
-        void isFemale();
 
 	static void load_lizards();
 	virtual void change_sector(PT(Setor) new_sector);
-
-	LizardGender::lizardGender get_gender(){ return gender; };
-	void set_gender(LizardGender::lizardGender gender){ this->gender = gender; };
 
 	float get_tamanho_base();
 	float get_tamanho_real();
@@ -80,7 +67,7 @@ protected:
 	/* Mapeia as ações */
 	map<string, bool> actions;
 
-	LizardGender::lizardGender gender;
+//	LizardGender::lizardGender gender;
 	float tamanho_real;
 	float tamanho_base;
 	float energia;

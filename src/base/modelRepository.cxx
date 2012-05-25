@@ -1,6 +1,7 @@
 #include "modelRepository.h"
 
 #include "simdunas.h"
+#include "player.h"
 
 #define PALETTIZE_VEGETABLES 0
 
@@ -43,13 +44,15 @@ void ModelRepository::load_models(){
 	/* Informa o path do lagarto a ser carregado */
 	string lizard_name;
 
-	lizard_name = Player::get_specie_name(Player::lizard_specie) + "/" + Player::get_gender_name(Player::female);
+	/* Player não está criado ainda. Porém properties já deve estar pronto. */
+	Player::LizardSpecies species = Player::properties.species;
+	lizard_name = Player::get_species_name(species) + "/" + Player::get_gender_name(Player::LG_female);
 	load_player_models(lizard_name);
 
-	lizard_name = Player::get_specie_name(Player::lizard_specie) + "/" + Player::get_gender_name(Player::male);
+	lizard_name = Player::get_species_name(species) + "/" + Player::get_gender_name(Player::LG_male);
 	load_player_models(lizard_name);
 
-	lizard_name = Player::get_specie_name(Player::lizard_specie) + "/" + Player::get_gender_name(Player::young);
+	lizard_name = Player::get_species_name(species) + "/" + Player::get_gender_name(Player::LG_young);
 	load_player_models(lizard_name);
 
 

@@ -27,7 +27,7 @@ public:
 	void show();
 	void hide();
 
-//	Player::lizardEpecie get_especie();
+//	Player::LizardEpecie get_especie();
 
 	void informa_segundos(string aviso);
 
@@ -40,7 +40,7 @@ private:
 	NodePath np_slide;
 	NodePath img_escolha_especie;
 	NodePath marcador;
-//	static Player::lizardEpecie especie;
+//	static Player::LizardEpecie especie;
 	NodePath tropidurus, eurolophosasurus, cnemidophorus; //lagarto andando
 	PT(TextNode) lb_num_minutos;
 	NodePath np_lb_num_minutos;

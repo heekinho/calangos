@@ -34,7 +34,7 @@ void MaleLizard::init() {
     maleSymbol.set_z(posZ + 100);
     maleSymbol.set_billboard_point_eye(0);
 
-    set_gender(LizardGender::male);
+    set_gender(Lizard::LG_male);
 
 
 
@@ -57,7 +57,7 @@ void MaleLizard::act(){
 
 			/* Paciência tem limite... Parte para morder o player */
 			// TODO: Consertar essa bagunça de enums.
-			if(player->lizard_gender != Player::young) set_action("fight", true);
+			if(!player->is_young()) set_action("fight", true);
 		}
 	}
 
@@ -82,7 +82,7 @@ void MaleLizard::act(){
 		/* Aqui se verifica as condições para começar uma briga */
 		/* "Se o player tem femea próximo dele, e eu tow perto dele, logo tem femea perto de mim..."
 		 * Evita-se assim ter que calcular toda santa hora as distâncias e etc. Só consulto a flag... */
-		if(player->has_female_around() && player->lizard_gender != Player::young){
+		if(player->has_female_around() && !player->is_young()){
 			bob();
 			last_bobbing_done = global_clock->get_real_time();
 			waiting_player_decide = true;

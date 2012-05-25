@@ -26,6 +26,9 @@ const float PlayerProperties::max_lizard_density = 100.0;
 PlayerProperties::PlayerProperties(){
 	/* PT(Texture) color_pattern; */
 
+	species = LizardBase::LS_eurolophosaurus;
+	gender = LizardBase::LG_young;
+
 	/* Características do lagarto */
 	body_size = 30.0; // Configuration.
 	head_size;

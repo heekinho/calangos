@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
 		/* FIX: Se o usuário já fechou a janela, não executar mais nada do jogo */
 		if(!window->get_graphics_window()->get_properties().get_open()) return 0;
 
-		Player::lizard_gender = Player::young;
+//		Player::lizard_gender = Player::LG_YOUNG;
 
 		//		/* Inicia uma sessão padrão */
 		//		Session::get_instance()->run();

@@ -13,7 +13,7 @@
 #include "editorTextureScreen.h"
 #include "collision.h"
 
-//Player::lizardEpecie GameOptionsScreen::especie = Player::eurolophosaurus; //a especie default
+//Player::LizardEpecie GameOptionsScreen::especie = Player::LS_eurolophosaurus; //a especie default
 
 GameOptionsScreen::GameOptionsScreen(PT(ScreenManager) manager) : Screen(manager) {
 	load();
@@ -220,7 +220,7 @@ void GameOptionsScreen::load() {
 
 
 	event_handler->add_hook(slide->get_adjust_event(), slide_action, this);
-	//o lagarto default é o eurolophosaurus
+	//o lagarto default é o LS_eurolophosaurus
 	eurolophosaurus_action();
 
 
@@ -285,15 +285,15 @@ void GameOptionsScreen::unload() {
 void GameOptionsScreen::show() {
 	Screen::show();
 
-	switch (Player::lizard_specie) {//mostrando especie q tava selecionada
-		case Player::tropidurus :
+	switch (Player::properties.species) {//mostrando especie q tava selecionada
+		case Player::LS_tropidurus :
 			tropidurus.show();
 			break;
-		case Player::eurolophosaurus :
+		case Player::LS_eurolophosaurus :
 			eurolophosasurus.show();
 			break;
 
-		case Player::cnemidophorus :
+		case Player::LS_cnemidophorus :
 			cnemidophorus.show();
 			break;
 	}
@@ -302,21 +302,21 @@ void GameOptionsScreen::show() {
 void GameOptionsScreen::hide() {
 	Screen::hide();
 
-	switch (Player::lizard_specie) {//mostrando especie q tava selecionada
-		case Player::tropidurus :
+	switch (Player::properties.species) {//mostrando especie q tava selecionada
+		case Player::LS_tropidurus :
 			tropidurus.hide();
 			break;
-		case Player::eurolophosaurus :
+		case Player::LS_eurolophosaurus :
 			eurolophosasurus.hide();
 			break;
 
-		case Player::cnemidophorus :
+		case Player::LS_cnemidophorus :
 			cnemidophorus.hide();
 			break;
 	}
 }
 
-//Player::lizardEpecie GameOptionsScreen::get_especie() {
+//Player::LizardEpecie GameOptionsScreen::get_especie() {
 //	return especie;
 //}
 
@@ -366,15 +366,15 @@ void GameOptionsScreen::informa_segundos(string aviso) {
 }
 
 void GameOptionsScreen::tropidurus_action() {
-	switch (Player::lizard_specie) {
-		case Player::cnemidophorus :
+	switch (Player::properties.species) {
+		case Player::LS_cnemidophorus :
 			cnemidophorus.hide();
 			break;
-		case Player::eurolophosaurus :
+		case Player::LS_eurolophosaurus :
 			eurolophosasurus.hide();
 			break;
 	}
-	Player::lizard_specie = Player::tropidurus;
+	Player::properties.species = Player::LS_tropidurus;
 	marcador.set_pos(4.0, 0.0, -2.2); //movendo o marcador
 	tropidurus.set_scale(0.04, 0.04, 0.04);
 	tropidurus.set_pos(4, 35, -2);
@@ -382,16 +382,16 @@ void GameOptionsScreen::tropidurus_action() {
 }
 
 void GameOptionsScreen::eurolophosaurus_action() {
-	switch (Player::lizard_specie) {
-		case Player::tropidurus :
+	switch (Player::properties.species) {
+		case Player::LS_tropidurus :
 			tropidurus.hide();
 			break;
-		case Player::cnemidophorus :
+		case Player::LS_cnemidophorus :
 			cnemidophorus.hide();
 			break;
 	}
 
-	Player::lizard_specie = Player::eurolophosaurus;
+	Player::properties.species = Player::LS_eurolophosaurus;
 	marcador.set_pos(4.0, 0.0, -4.7); //movendo o marcador
 	eurolophosasurus.set_scale(0.04, 0.04, 0.04);
 	eurolophosasurus.set_pos(4, 35, -2);
@@ -399,15 +399,15 @@ void GameOptionsScreen::eurolophosaurus_action() {
 }
 
 void GameOptionsScreen::cnemidophorus_action() {
-	switch (Player::lizard_specie) {
-		case Player::tropidurus :
+	switch (Player::properties.species) {
+		case Player::LS_tropidurus :
 			tropidurus.hide();
 			break;
-		case Player::eurolophosaurus :
+		case Player::LS_eurolophosaurus :
 			eurolophosasurus.hide();
 			break;
 	}
-	Player::lizard_specie = Player::cnemidophorus;
+	Player::properties.species = Player::LS_cnemidophorus;
 	marcador.set_pos(4.0, 0.0, -7.2); //movendo o marcador
 	cnemidophorus.set_scale(0.04, 0.04, 0.04);
 	cnemidophorus.set_pos(4, 35, -2);
@@ -443,7 +443,7 @@ void GameOptionsScreen::slide_action() {
 //
 //	hide();  //limpa o menu de configuração
 //
-//	Player::lizard_specie = Player::custom;  //determina que o jogador irá jogar com o lagarto personalizado
+//	Player::lizard_specie = Player::LE_CUSTOM;  //determina que o jogador irá jogar com o lagarto personalizado
 //
 //	// show_tela_personalizar(c); //apresenta o menu de edição de cores do lagarto
 //	//apresenta os botões jogar e voltar

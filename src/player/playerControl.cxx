@@ -489,7 +489,7 @@ void PlayerControl::eat(const Event *evt, void *data){
 	/* Morder outro lagarto */
 	if (type_of_closest == 2) {
 		Lizard* lizard = dynamic_cast<Lizard*>((ObjetoJogo*) closest);
-		if (lizard->get_gender() == LizardGender::male) {
+		if (lizard->is_male()) {
 			MaleLizard* male_lizard = (MaleLizard*) lizard;
 
 			if (dist_to_target < act_dist_thr) {
@@ -647,7 +647,7 @@ void PlayerControl::event_female_next(const Event *, void *data){
 		for (it = lizards->begin(); it != lizards->end(); ++it) {
 			PT(Lizard) npcf = *it;
 			// e for fêmea e estiver próxima
-			if((npcf->get_gender() == LizardGender::female) && (npcf->get_distance_squared(player->get_pos()) < DISTANCE_FEMALE*DISTANCE_FEMALE)){
+			if((npcf->is_female()) && (npcf->get_distance_squared(player->get_pos()) < DISTANCE_FEMALE*DISTANCE_FEMALE)){
 				PT(FemaleLizard) female = (PT(FemaleLizard))((FemaleLizard*)(Lizard*) npcf);
 				if(!female->reproduziu) female->set_frames_stopped(120);
 			}

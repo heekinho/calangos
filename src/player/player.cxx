@@ -24,13 +24,14 @@ float Player::nivel_camuflagem_terreno_noite = 0;
 float Player::nivel_camuflagem_sombra = 0;
 float Player::nivel_camuflagem_folhagem = 0;
 
-Player::lizardEpecie Player::lizard_specie = Player::eurolophosaurus;
-Player::lizardGender Player::lizard_gender = Player::young;
+//LizardBase::LizardSpecies Player::lizard_specie = LizardBase::LS_eurolophosaurus;
+//LizardBase::LizardGender Player::lizard_gender = LizardBase::LG_young;
 
 
 Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_animated_model(
-		Player::get_specie_name(Player::lizard_specie) + "/" +
-		Player::get_gender_name(lizard_gender))){
+		get_species_name(properties.species) + "/" + get_gender_name(properties.gender))),
+		LizardBase(properties.species, properties.gender) {
+
 	in_toca = false;
 	_toca = NULL;
 
@@ -46,7 +47,7 @@ Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_anim
 	achievements = new Achievements();
 
 	//int especie = Menu::get_instance()->get_especie();
-	load_health(lizard_specie);
+	load_health(/*properties.species*/);
 
 	event_handler->add_hook(TimeControl::EV_segundo_real, event_gasto_energia, this);
 	event_handler->add_hook(TimeControl::EV_pass_day, event_pday, this);
@@ -83,24 +84,24 @@ Player::~Player() {
 	//this->~ObjetoJogo();
 }
 
-string Player::get_specie_name(Player::lizardEpecie specie){
-	switch(specie){
-		case(Player::tropidurus): return "tropidurus";
-		case(Player::eurolophosaurus): return "eurolophosaurus";
-		case(Player::cnemidophorus): return "cnemidophorus";
-		case(Player::custom): return "custom";
-	}
-	return NULL;
-}
-
-string Player::get_gender_name(Player::lizardGender gender){
-	switch(gender){
-		case(Player::young): return "young";
-		case(Player::male): return "male";
-		case(Player::female): return "female";
-	}
-	return NULL;
-}
+//string Player::get_species_name(Player::LizardEpecie specie){
+//	switch(specie){
+//		case(Player::LE_TROPIDURUS): return "tropidurus";
+//		case(Player::LE_EUROLOPHOSAURUS): return "eurolophosaurus";
+//		case(Player::LE_CNEMIDOPHORUS): return "cnemidophorus";
+//		case(Player::LE_CUSTOM): return "custom";
+//	}
+//	return NULL;
+//}
+//
+//string Player::get_gender_name(Player::LizardGender gender){
+//	switch(gender){
+//		case(Player::LG_YOUNG): return "young";
+//		case(Player::LG_MALE): return "male";
+//		case(Player::LG_FEMALE): return "female";
+//	}
+//	return NULL;
+//}
 
 /*! Ao comer um objeto, a respectiva hidratacao e energia eh adquirida */
 /* type: 0:formiga   1:plantas 2:outros */
@@ -306,7 +307,7 @@ void Player::update_female_around(){
 	SectorItems<PT(Lizard)>::iterator it;
 	for (it = lizards->begin(); it != lizards->end(); ++it) {
 		PT(Lizard) lizard = *it;
-		if(lizard->get_gender() == LizardGender::female){
+		if(lizard->is_female()){
 			//float distance_player_to_female = (lizard->get_pos() - get_pos()).length();
 			float distance_player_to_female = lizard->get_distance_squared(*player);
 			if(distance_player_to_female < get_female_thr()*get_female_thr()){

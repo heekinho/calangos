@@ -22,32 +22,12 @@
 #define IDADE_REPRODUTIVA 12
 /* Idade, em meses, em que o lagarto deve morrer */
 #define IDADE_MORTE 36
-/* Energia e hidratação iniciais */
-#define ENERGIA_INIT 50.0
-#define HIDRATACAO_INIT 50.0
-
-/* Tempo (em meses virtuais) em que o lagarto poderá chegar ao tamanho máximo */
-#define MESES_TAMANHO_MAXIMO 36
-
 
 /* Debugar */
 #define DEBUG_PHEALTH 0
 /* ------------------------------------------------------------------------- */
 
 #include "load_prc_file.h"
-
-/*! Inicializa a simulação de saúde dependendo do tipo de lagarto */
-void Player::init_health(lizardEpecie lizard){
-	string lizard_name = get_specie_name(lizard);
-
-	/* Novo sistema */
-	player_health = new PlayerHealth();
-	player_health->load_health("config/lizard-" + lizard_name + ".prc");
-
-	player_health_simulator = new PlayerHealthSimulator(player_health);
-}
-
-
 
 /*! Carrega informações customizadas da saúde do lagarto (para fase 2) */
 void Player::load_custom_health(){
@@ -67,30 +47,25 @@ void Player::load_custom_health(){
 	}
 }
 
-void Player::load_health(int especie){
-	lizardEpecie lizard = lizardEpecie(especie);
-	init_health(lizard);
+void Player::load_health(){
+	string lizard_name = get_species_name();
+
+	/* Novo sistema */
+	player_health = new PlayerHealth();
+	/* if fase1 ... */
+	player_health->load_health("config/lizard-" + lizard_name + ".prc");
+
+	player_health_simulator = new PlayerHealthSimulator(player_health);
 
 	load_custom_health();
 
-
 //	//considera o lagarto parado no início do jogo
 	gasto_movimento = 1;
-
-//	/* Passado pelo editor ou hardcoded para outras fases */
-//	max_size = get_max_lizards_size();
-//	tamanho_lagarto_real = get_min_size(); // Pelo editor
-//	tamanho_lagarto_base = calc_tamanho_base(tamanho_lagarto_real);
-
 	idade = 0;
 	num_ovos = 0;
 
 	calculate_visual_size_factor();
 	set_scale(render, get_visual_size());
-}
-
-void Player::load_health(){
-	load_health(eurolophosaurus);
 }
 
 /* EVENTOS
@@ -183,7 +158,7 @@ void Player::event_pmonth(const Event*, void *data){
 	player->get_achievements()->inc_meses_sobrevivente();
 
 	/* Só deve ser feita a mudança uma vez: Evento de borda */
-	if(player->lizard_gender == Player::young && player->get_estado_reprodutivo()){
+	if(player->is_young() && player->get_estado_reprodutivo()){
 		/* Deveria mandar evento */
 		GuiManager::get_instance()->liga_led_estado_reprodutivo();
 
@@ -191,11 +166,12 @@ void Player::event_pmonth(const Event*, void *data){
 			PT(TextureStage) ts = player->find_all_texture_stages().get_texture_stage(0);
 			ts->set_mode(TextureStage::M_modulate);
 			PT(Texture) tex = TexturePool::load_texture("models/lizards/"
-					+ player->get_specie_name(player->lizard_specie)
+					+ player->get_species_name()
 					+ "/male/texture.jpg");
 			player->set_texture(ts, tex, 2);
 		}
-		player->lizard_gender = Player::male;
+
+		player->set_gender(LizardBase::LG_male);
 	}
 
 
@@ -293,7 +269,7 @@ void Player::set_lagarto_correndo(){
 	}
 }
 
-void Player::add_ovos(){
+void Player::add_eggs(){
 	this->num_ovos++;
 	this->achievements->inc_reprodutor();
 }

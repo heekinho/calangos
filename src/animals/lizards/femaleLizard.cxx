@@ -32,7 +32,7 @@ void FemaleLizard::init() {
     float posZ = femaleSymbol.get_z();
     femaleSymbol.set_z(posZ + 100);
     femaleSymbol.set_billboard_point_eye(0);
-    set_gender(LizardGender::female);
+    set_gender(Lizard::LG_female);
 
     event_handler->add_hook(PlayerControl::EV_player_reproducao, reproduzir, (void *) this);
 }
@@ -56,14 +56,14 @@ void FemaleLizard::reproduzir(const Event *theEvent, void *data){
             	SectorItems<PT(Lizard)>::iterator it;
             	for(it = lizards->begin(); it != lizards->end(); ++it){
             		PT(Lizard) clizard = *it;
-                    if (clizard->get_gender() == LizardGender::male) {
+                    if (clizard->is_male()) {
                         PT(Lizard) male = clizard;
                         if ((this_female->get_pos() - male->get_pos()).length() < 2) return;
 
                     }
                 }
 
-                player->add_ovos();
+                player->add_eggs();
                 player->add_food_energy(-5);
 
                 AudioController::get_instance()->only_play(AudioRepository::REPROD_SUCCESS);

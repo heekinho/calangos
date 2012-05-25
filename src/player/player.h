@@ -19,6 +19,9 @@
 //#include "playerHealthSimulator.h"
 #include "playerProperties.h"
 #include "achievements.h"
+//#include "lizard.h"
+
+#include "lizardBase.h"
 
 // Forward Declaration
 //class AnimatedObjetoJogo;
@@ -31,14 +34,20 @@ class PlayerHealthSimulator;
 class FemaleLizard;
 class Predator;
 
-//typedef enum {tropidurus , eurolophosaurus, cnemidophorus} LizardEspecie;
-//typedef enum {female, male, young} LizardGender;
-
 /*! A classe Player é responsável por criar o Jogador que será controlado pelo
  * usuário.<br> Representada como objeto de jogo. Suas tarefas de controle, ficam
  * sob responsabilidade da classe playerControl */
-class Player : public AnimatedObjetoJogo {
+class Player : public AnimatedObjetoJogo, public LizardBase {
 public:
+	enum PlayerDeathType {
+		PDT_NOT_DEAD,
+		PDT_MALNUTRITION,
+		PDT_DEHYDRATION,
+		PDT_HIGH_TEMPERATURE,
+		PDT_LOW_TEMPERATURE,
+		PDT_OLD_AGE
+	};
+
 	PT(PlayerHealth) player_health;
 	PT(PlayerHealthSimulator) player_health_simulator;
 
@@ -50,7 +59,9 @@ public:
 	static PT(Player) get_instance();
 
 	static void load_player();
+	void load_health();
 	void load_custom_health();
+
 
 	//Descarrega qualquer referência de objeto da classe player da memória, para que possa ser recriado
 	static void unload_player();
@@ -96,30 +107,7 @@ public:
 	int get_idade();
 	PT(Achievements) get_achievements();
 
-
-	enum PlayerDeathType {
-		PDT_NOT_DEAD,
-		PDT_MALNUTRITION,
-		PDT_DEHYDRATION,
-		PDT_HIGH_TEMPERATURE,
-		PDT_LOW_TEMPERATURE,
-		PDT_OLD_AGE
-	};
 	Player::PlayerDeathType check_death() const;
-
-
-	/* Obtém o tamanho mínimo e máximo de lagartos permitidos. */
-	float calculate_lizards_relative_size(float lizard_size) const;
-	static float get_min_lizards_size();
-	static float get_max_lizards_size();
-
-	float get_max_size() const;
-	float get_size() const;
-
-	void calculate_visual_size_factor();
-	float get_visual_size() const;
-
-
 
 	static void event_psegundo_camuflagem(const Event *, void *data);
 	static void false_flag_under_vegetal(const Event *, void *data);
@@ -162,25 +150,9 @@ public:
 	 * hidrataçao proporcionalmente */
 	void mordida_recebida(int tamanho_lagarto_base);
 
-	/*! Enum que corresponde as espécies dos lagartos com os quais o jogador pode jogar */
-	enum lizardEpecie {
-		tropidurus,
-		eurolophosaurus,
-		cnemidophorus,
-		custom
-	};
-
-	static string get_specie_name(Player::lizardEpecie specie);
-	enum lizardGender { female, male, young };
-	static string get_gender_name(Player::lizardGender gender);
-
-	/* Variáveis que armazenarão espécie e sexo/idade da lagarto */
-	static Player::lizardEpecie lizard_specie;
-	static Player::lizardGender lizard_gender;
-
 	/* Incrementa em 1, a quantidade de ovos desse lagarto.
 	 * Esse valor está associado ao sucesso do lagarto nas reproduções (quanto mais melhor).*/
-	void add_ovos();
+	void add_eggs();
 
 	/* Corrige a orientação dos modelos */
 	virtual int is_inverted(){ return -1; };
@@ -207,14 +179,6 @@ private:
 	int idade;
 	/* Número de ovos */
 	int num_ovos;
-
-	/* Carrega os parâmetros iniciais de saúde do lagarto. O lagarto default
-	 * para carregar a saúde é o Eurolophosaurus */
-	void load_health();
-
-	/* Carrega os parâmetros iniciais de saúde do lagarto, cuja espécie foi
-	 * passada como parâmetro. */
-	void load_health(int especie);
 
 	/* Armazena os valores das variáveis 'finais' (energia, hidratação, temperatura interna) no vetor
 	 * da classe vector. Esses valores servirão para a geração dos gráficos no tempo. */
@@ -274,8 +238,6 @@ public:
 private:
 	bool flag_verify_under_vegetal;//Flag verifica se o método in_under_vegetal foi chamado em um frame
 	bool player_is_under_vegetal;
-	
-	void init_health(lizardEpecie lizard);
 
 public:
 	void add_energy(float energy);
@@ -291,7 +253,16 @@ public:
 	float get_max_temperature() const;
 	float get_min_temperature() const;
 	float get_lethargy() const;
+
+	/* Obtém o tamanho mínimo e máximo de lagartos permitidos. */
+	static float get_min_lizards_size();
+	static float get_max_lizards_size();
+	float get_size() const;
+	float get_max_size() const;
 	float get_relative_size() const;
+	float calculate_lizards_relative_size(float lizard_size) const;
+	void calculate_visual_size_factor();
+	float get_visual_size() const;
 
 private:
 
