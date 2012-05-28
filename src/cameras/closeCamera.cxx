@@ -10,7 +10,7 @@ CloseCamera::CloseCamera(PT(Camera) camera) : CameraNode(camera){
 	this->reparent_to(*object);
 	set_scale(1/object->get_transform()->get_uniform_scale());
 
-	start_point = LPoint3f(0, 600, 100);
+	start_point = LPoint3f(0, 600, 200);
 	activate();
 }
 

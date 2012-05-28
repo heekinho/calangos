@@ -74,6 +74,4 @@ private:
 	void end_session();
 };
 
-
-
 #endif

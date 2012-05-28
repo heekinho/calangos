@@ -1,25 +1,10 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-//#include "pandaFramework.h"
-//#include "windowFramework.h"
-
 #include "animatedObjetoJogo.h"
-//#include "simdunas.h"
-//#include "objetoJogo.h"
-//#include "playerControl.h"
-//#include "setor.h"
-//#include "microClima.h"
-//#include "vetores.h"
-//#include "femaleLizard.h"
 #include "edible.h"
-//#include "predator.h"
-//
-//#include "playerHealth.h"
-//#include "playerHealthSimulator.h"
 #include "playerProperties.h"
 #include "achievements.h"
-//#include "lizard.h"
 
 #include "lizardBase.h"
 
@@ -27,10 +12,8 @@
 //class AnimatedObjetoJogo;
 class MicroClima;
 class Vetores;
-
 class PlayerHealth;
 class PlayerHealthSimulator;
-
 class FemaleLizard;
 class Predator;
 
@@ -46,6 +29,19 @@ public:
 		PDT_HIGH_TEMPERATURE,
 		PDT_LOW_TEMPERATURE,
 		PDT_OLD_AGE
+	};
+
+	enum PlayerState {
+		PA_idle,
+		PA_walking,
+		PA_running,
+		PA_eating,
+		PA_bobbing,
+		PA_reproducing,
+		PA_buried,
+		PA_in_hole,
+		PA_fighting,
+		PA_died
 	};
 
 	PT(PlayerHealth) player_health;
@@ -261,8 +257,6 @@ public:
 	float get_max_size() const;
 	float get_relative_size() const;
 	float calculate_lizards_relative_size(float lizard_size) const;
-//	void calculate_visual_size_factor();
-//	float get_visual_size() const;
 
 private:
 

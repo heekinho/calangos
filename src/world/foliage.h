@@ -27,12 +27,10 @@ private:
     int block_size;
     PT(Texture) folhagem_texture;
     PT(TextureStage) folhagem_stage;
-    PNMImage *TodaFolhagem;
+    //PNMImage *TodaFolhagem;
 
     static NodePath folhas;
     //int indice;
-
-
 };
 
 #endif	/* FOLIAGE_H */

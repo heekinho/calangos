@@ -101,40 +101,6 @@ Player::PlayerDeathType Player::check_death() const {
 	return Player::PDT_NOT_DEAD;
 }
 
-///*! Calcula o fator pelo qual o tamanho especificado para lagarto deverá ser
-// *  multiplicado, uma vez que os modelos vem com escalas distorcidas e por
-// *  alguma razão, o flatten_light() torna inativa as animações, mesmo com o
-// *  binding posterior. Também fica mais fácil criar distorções entre o tamanho
-// *  real e o tamanho aparente do lagarto */
-//void Player::calculate_visual_size_factor(){
-//	/* Queremos obter o tamanho do lagarto sem nenhum transform */
-//	CPT(TransformState) transform = get_transform();
-//	clear_transform();
-//
-//	/* Calcula o tamanho real do lagarto */
-//	LPoint3f min, max;
-//	calc_tight_bounds(min, max);
-//	float length = (max - min).get_y();
-//
-//	/* Define o fator */
-//	visual_size_factor = 1.0 / length;
-//
-//	nout << "Visual size factor: " << visual_size_factor << endl;
-//
-//	/* Coloca o transform de volta */
-//	set_transform(transform);
-//}
-//
-///*! Obtém o tamanho visual do lagarto */
-//float Player::get_visual_size() const {
-////	nout << visual_size_factor * tamanho_lagarto_real << endl;
-////	nout << "Tamanho real: " << tamanho_lagarto_real << endl;
-////	nout << "Visual size Factor: " << visual_size_factor << endl;
-//
-//	/* get_size() está em cm */
-//	return visual_size_factor * (get_size() * 0.01);
-//}
-
 /*! TODO: Esse tipo de coisa não deveria ser estático */
 float Player::calculate_lizards_relative_size(float lizard_size) const {
 	return player_health_simulator->get_morfology_simulator()->calculate_relative_size(lizard_size);
@@ -151,9 +117,7 @@ void Player::event_pday(const Event*, void *data){
  *  Essa média servirá para determinar o quanto o lagarto irá crescer na passagem do mês.*/
 void Player::event_pmonth(const Event*, void *data){
 	/* Ajusta o novo tamanho do personagem */
-//	player->set_scale(render, player->get_visual_size());
-//	player->set_size(0.2);
-	player->set_length(player->get_size()*0.01);
+	player->set_length(player->get_size() * 0.01);
 
 	/* Aumenta a idade do lagarto */
 	player->idade++;
@@ -175,8 +139,6 @@ void Player::event_pmonth(const Event*, void *data){
 
 		player->set_gender(LizardBase::LG_male);
 	}
-
-
 }
 
 

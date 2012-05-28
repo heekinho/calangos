@@ -21,7 +21,7 @@ Foliage::Foliage(const Foliage& orig) {
 }
 
 Foliage::~Foliage() {
-	delete TodaFolhagem;
+	//delete TodaFolhagem;
 	folhagem_stage = NULL;
 	folhagem_texture = NULL;
 
