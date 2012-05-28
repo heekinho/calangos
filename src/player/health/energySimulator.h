@@ -29,6 +29,8 @@ public:
 //	void day_update();
 //	void month_update();
 
+	float get_food_energy_buffer() const;
+	float get_total_cost() const;
 
 protected:
 	void update_basal_cost(float updates_per_hour, float relative_size);

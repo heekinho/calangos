@@ -100,6 +100,16 @@ void EnergySimulator::add_food_energy(float food_energy){
 	_energy += food_energy;
 }
 
+/*! Retorna o consumo de alimentação no último ciclo de simulação */
+float EnergySimulator::get_food_energy_buffer() const {
+	return _food_energy_buffer;
+}
+
+/*! Retorna o gasto energético total do último ciclo de simulação */
+float EnergySimulator::get_total_cost() const {
+	return _total_cost;
+}
+
 void EnergySimulator::update_daily_energy_average(){
 	_num_days++;
 
