@@ -24,9 +24,6 @@ float Player::nivel_camuflagem_terreno_noite = 0;
 float Player::nivel_camuflagem_sombra = 0;
 float Player::nivel_camuflagem_folhagem = 0;
 
-//LizardBase::LizardSpecies Player::lizard_specie = LizardBase::LS_eurolophosaurus;
-//LizardBase::LizardGender Player::lizard_gender = LizardBase::LG_young;
-
 
 Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_animated_model(
 		get_species_name(properties.species) + "/" + get_gender_name(properties.gender))),
@@ -84,25 +81,6 @@ Player::~Player() {
 	//this->~ObjetoJogo();
 }
 
-//string Player::get_species_name(Player::LizardEpecie specie){
-//	switch(specie){
-//		case(Player::LE_TROPIDURUS): return "tropidurus";
-//		case(Player::LE_EUROLOPHOSAURUS): return "eurolophosaurus";
-//		case(Player::LE_CNEMIDOPHORUS): return "cnemidophorus";
-//		case(Player::LE_CUSTOM): return "custom";
-//	}
-//	return NULL;
-//}
-//
-//string Player::get_gender_name(Player::LizardGender gender){
-//	switch(gender){
-//		case(Player::LG_YOUNG): return "young";
-//		case(Player::LG_MALE): return "male";
-//		case(Player::LG_FEMALE): return "female";
-//	}
-//	return NULL;
-//}
-
 /*! Ao comer um objeto, a respectiva hidratacao e energia eh adquirida */
 /* type: 0:formiga   1:plantas 2:outros */
 void Player::eat(Edible* food, int type){
@@ -149,19 +127,11 @@ float Player::get_speed_walking() const {
 	if(Session::get_instance()->get_level() > 1) return properties.speed;
 	else {
 		Player *p = player;
-		/* A Letargia influencia na velocidade (decidiu-se por influenciar linearmente */
-
-//<<<<<<< player.cxx
-//		p->set_velocity((PlayerProperties::max_speed + PlayerProperties::min_speed) * 0.5);
-		//Multiplicador de deslocamento 0.2
-
+		/* A Letargia influencia na velocidade (decidiu-se por influenciar linearmente) */
 		p->set_velocity((PlayerProperties::max_speed + PlayerProperties::min_speed) * 0.5 * 0.2);
 		p->set_velocity(p->get_velocity() * (1 - p->get_lethargy()));
-//>>>>>>> 1.47
-		p->set_velocity(p->get_velocity()*100);//Multiplicador de velocidade
+		p->set_velocity(p->get_velocity()*100); // Multiplicador de velocidade
 		return p->get_velocity();
-
-//		return (PlayerProperties::max_speed + PlayerProperties::min_speed) * 0.5;
 	}
 }
 
