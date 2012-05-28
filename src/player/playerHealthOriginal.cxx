@@ -141,7 +141,6 @@ float Player::calculate_lizards_relative_size(float lizard_size) const {
 }
 
 
-
 /*! Na passagem do dia, faz a média diária de energia, e armazena a soma.
  *   Essa média servirá para determinar o quanto o lagarto irá crescer na passagem de um mês.*/
 void Player::event_pday(const Event*, void *data){
@@ -187,16 +186,17 @@ void Player::atualiza_vector(){
 	Vetores::get_instance()->addElementVectorHidratacaoLagarto(get_hydration());
 	Vetores::get_instance()->addElementVectorEnergia(get_energy());
 
-//	Vetores::get_instance()->addElementVectorAlimentacao(this->energia_alimento_acumulada);
-//	this->energia_alimento_acumulada=0;
+	float food_energy = player_health_simulator->get_energy_simulator()->get_food_energy_buffer();
+	Vetores::get_instance()->addElementVectorAlimentacao(food_energy);
 
-//	Vetores::get_instance()->addElementVectorGastoEnergeticoTotal(this->gasto_total);
+	float total_cost = player_health_simulator->get_energy_simulator()->get_total_cost();
+	Vetores::get_instance()->addElementVectorGastoEnergeticoTotal(total_cost);
 
 	Vetores::get_instance()->addElementVectorTemperaturaAr(MicroClima::get_instance()->get_temp_ar_sector());
 	if(in_toca){
-		Vetores::get_instance()->addElementVectorTemperaturaSolo(MicroClima::get_instance()->get_temp_solo_sector());
-	} else {
 		Vetores::get_instance()->addElementVectorTemperaturaSolo(MicroClima::get_instance()->get_temp_toca_sector());
+	} else {
+		Vetores::get_instance()->addElementVectorTemperaturaSolo(MicroClima::get_instance()->get_temp_solo_sector());
 	}
 	Vetores::get_instance()->addElementVectorUmidadeAmbiente(MicroClima::get_instance()->get_umidade_relativa_sector());
 
