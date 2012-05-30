@@ -19,6 +19,10 @@
 //class ClimaTempo;
 //class PlayerControl;
 
+#include "referenceCount.h"
+
+class History;
+
 class Session {
 public:
 	static Session* get_instance();
@@ -48,7 +52,13 @@ public:
 	int get_level(){ return level; };
 	void set_level(int level) { this->level = level; };
 
+
+	PT(History) history() const;
+
 private:
+
+	PT(History) _history;
+
 
 	Session();
 	static bool instanceFlag;

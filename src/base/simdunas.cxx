@@ -33,7 +33,33 @@ TextFont* Simdunas::game_font = FontPool::load_font("models/gui/fonts/suplexcomi
 
 PT(DebugTools) debug;
 
+#include "history.h"
+
+//void test(){
+//	History h;
+////	h.test[History::HI_enum_size-1];
+//	for(int i = 0; i < 300; i++){
+//		h.add_element(History::HI_energy, i);
+//	}
+//
+//	const list<float> &test = h.get_list(History::HI_energy);
+//	list<float>::const_iterator it;
+//	for(it = test.begin(); it != test.end(); it++){
+//		nout << (*it) << endl;
+//	}
+//
+//	nout << "test size: " << h.get_size(History::HI_energy) << endl;
+//	nout << "smallest: " << h.get_smallest_element(History::HI_energy);
+//	nout << "largest: " << h.get_largest_element(History::HI_energy);
+//}
+
 int main(int argc, char *argv[]) {
+//	test();
+//	cout << "funcionou" << endl;
+//	cout.flush();
+//
+//	return 0;
+
 	/* Carrega o arquivo de configuração do jogo */
 #if DEBUG
 	load_prc_file("myConfig-Calangos-develop.prc");

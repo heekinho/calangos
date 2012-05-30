@@ -6,13 +6,15 @@
 #include "simdunas.h"
 #include "pgVirtualFrame.h"
 #include "textNode.h"
-#include <queue>
+//#include <queue>
+#include "history.h"
 
-class Vetores;
+//class Vetores;
 
 class Graphics : public TypedReferenceCount {
 public:
-    Graphics(NodePath pai, queue<double> vetorXtmp, queue<double> vetorYtmp, double limiteSuperiorXTmp, double limiteInferiorXTmp, double limiteSuperiorYTmp, double limiteInferiorYTmp, bool tipoTempoTmp);
+//    Graphics(NodePath pai, queue<double> vetorXtmp, queue<double> vetorYtmp, double limiteSuperiorXTmp, double limiteInferiorXTmp, double limiteSuperiorYTmp, double limiteInferiorYTmp, bool tipoTempoTmp);
+	Graphics(NodePath pai, History::HList* vetorXtmp, History::HList* vetorYtmp, double limiteSuperiorXTmp, double limiteInferiorXTmp, double limiteSuperiorYTmp, double limiteInferiorYTmp, bool tipoTempoTmp);
     ~Graphics();
     void create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp);
     void set_Position_Graphic(float x, float y);
@@ -50,8 +52,8 @@ private:
     NodePath graphic_titulo_eixoX_np;
     TextNode* graphic_titulo_eixoY;
     NodePath graphic_titulo_eixoY_np;
-    queue<double> vetorX;
-    queue<double> vetorY;
+    History::HList* vetorX;
+    History::HList* vetorY;
     double limiteSuperiorX;
     double limiteInferiorX;
     double limiteSuperiorY;
@@ -61,8 +63,6 @@ private:
     char stringMarcacaoX3[8];
     char stringMarcacaoX4[8];
     char stringMarcacaoX5[8];
-
-
 };
 
 #endif

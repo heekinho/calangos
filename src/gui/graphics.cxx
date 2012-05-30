@@ -80,12 +80,18 @@ Graphics::~Graphics() {
 //double limiteSuperiorYTmp: Valor maximo do eixo Y.
 //double limiteInferiorYTmp: Valor minimo do eixo Y.
 //bool tipoTempoTmp: Indica se é grafico de tempo (tipoTempoTmp = true) ou se é do tipo variavel por variavel (tipoTempoTmp = false).
-Graphics::Graphics(NodePath paiNode, queue<double> vetorXtmp, queue<double> vetorYtmp,  double limiteSuperiorXTmp, double limiteInferiorXTmp, double limiteSuperiorYTmp, double limiteInferiorYTmp, bool tipoTempoTmp){
+Graphics::Graphics(NodePath paiNode, History::HList* vetorXtmp, History::HList* vetorYtmp,  double limiteSuperiorXTmp, double limiteInferiorXTmp, double limiteSuperiorYTmp, double limiteInferiorYTmp, bool tipoTempoTmp){
 
-    vetorX = vetorXtmp;
-    vetorY = vetorYtmp;
+	/* Cria cópia (através do operador =) */
+    vetorX = new History::HList(*vetorXtmp);
+    vetorY = new History::HList(*vetorYtmp);
 
     tipoTempo = tipoTempoTmp;
+
+	if(limiteInferiorYTmp == limiteSuperiorYTmp) {
+		limiteInferiorYTmp -= 2.0;
+		limiteSuperiorYTmp += 2.0;
+	}
 
     limiteSuperiorX = limiteSuperiorXTmp;
     limiteInferiorX = limiteInferiorXTmp;
@@ -172,8 +178,8 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
     } else {
         if (tamanhoVetorX > 0) {
             escalaX = (0.63) / (limiteSuperiorX - limiteInferiorX);//((100 * 0.0063) / limiteSuperiorX);
-            posicaoX = vetorX.front();
-            vetorX.pop();
+            posicaoX = vetorX->front();
+            vetorX->pop_front();
             if (posicaoX > limiteSuperiorX){
                 posicaoX = limiteSuperiorX;
             }
@@ -187,8 +193,8 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
 
     //Se o vetor Y não for vazio ele coloca a linha do grafico na posição inicial.
 	if (tamanhoVetorY > 0) {
-        posicaoY = vetorY.front();
-        vetorY.pop();
+        posicaoY = vetorY->front();
+        vetorY->pop_front();
         linha_grafico->reset();
         if (tipoTempo) {
             linha_grafico->move_to((posicaoX * escalaX), 0.0, ((posicaoY - limiteInferiorY) * escalaY));
@@ -198,14 +204,14 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
     }
 
 	//Verifica qual o maior valor do vetor X.
-    queue<double> listaTemp (this->vetorX);
+	History::HList listaTemp (*this->vetorX);
     double maior = listaTemp.front();
     int tamanhoFor = listaTemp.size();
 
     for(int i = 1; i < tamanhoFor; i++){
         if(listaTemp.front() > maior)
             maior = listaTemp.front();
-        listaTemp.pop();
+        listaTemp.pop_front();
     }
 
 	//Gera os valores das marcações dos eixos do grafico.
@@ -253,14 +259,14 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
      */
     if ((tamanhoVetorY > 0) & (tamanhoVetorX > 0)) {
         for (int i = 1; i < tamanhoVetorX; i++) {
-            posicaoY = vetorY.front();
-            vetorY.pop();
+            posicaoY = vetorY->front();
+            vetorY->pop_front();
             if (tipoTempo) {
                 posicaoX = posicaoX + escalaX;
                 linha_grafico->draw_to(posicaoX, 0.0, ((posicaoY - limiteInferiorY) * escalaY));
             } else {
-                posicaoX = vetorX.front();
-                vetorX.pop();
+                posicaoX = vetorX->front();
+                vetorX->pop_front();
                 if (posicaoX > limiteSuperiorX) {
                     posicaoX = limiteSuperiorX;
                 }

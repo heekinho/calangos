@@ -34,7 +34,6 @@ public:
 	virtual void run_pass_hour(){};
 	virtual void run_pass_month(){};
 	virtual void run_pass_year(){};
- // Tarefas de acumulação para os vetores.
 
 protected:
 	PT(PlayerHealth) health;

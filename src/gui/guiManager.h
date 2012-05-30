@@ -18,6 +18,8 @@
 #include "gameStatusBar.h"
 #include "graphicsMenu.h"
 
+#include "history.h"
+
 class Player;
 class GraphicsMenu;
 //class Graphics;
@@ -34,6 +36,8 @@ public:
     static void init_type() {
         register_type(_type_handle, "GuiManager");
     }
+
+
 
     void make_frame();
      void piscar_life();//método que ira controlar o calango piscante..
@@ -77,6 +81,14 @@ public:
     void activate_predator_alert(Predator* pursuer);
 
 private:
+    PT(History) history;
+
+    void configure_chart_x(History::HistoryItem item, const string &chart_caption, float min_x, float max_x);
+    void configure_chart_x(History::HistoryItem item, const string &chart_caption);
+
+    void configure_chart_y(History::HistoryItem item, const string &chart_caption, float min_y, float max_y);
+    void configure_chart_y(History::HistoryItem item, const string &chart_caption);
+
     static const int TEMP_INTERNA;
     static const int HIDRATACAO;
     static const int TEMP_AR;
@@ -156,8 +168,9 @@ private:
 	void print_queue_values(queue<double> qx, queue<double> qy);
 	int var_x;
 	int var_y;
-	queue<double> x_values;
-	queue<double> y_values;
+
+	/*queue<double>*/ History::HList* x_values;
+	/*queue<double>*/ History::HList* y_values;
 };
 
 #endif

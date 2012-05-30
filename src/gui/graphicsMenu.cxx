@@ -8,10 +8,12 @@
 #include "graphicsMenu.h"
 #include "imageRepository.h"
 #include "hint.h"
+#include "session.h"
 
 GraphicsMenu::GraphicsMenu(NodePath menu_frame_np) {
-	//Inicia o objeto vetores.
-	vector = Vetores::get_instance();
+//	//Inicia o objeto vetores.
+//	vector = Vetores::get_instance();
+	history = Session::get_instance()->history();
 
 	make_tipo_graf(menu_frame_np);
 
@@ -24,20 +26,21 @@ GraphicsMenu::GraphicsMenu(NodePath menu_frame_np) {
 	build_options();
 	make_menu_graf_variavel();
 
-	set_vetor_x(vector->getVectorTemperaturaAr());
-	set_vetor_y(vector->getVectorTemperaturaAr());
+	set_vetor_x(history->get_list(History::HI_world_temperature));
+	set_vetor_y(history->get_list(History::HI_world_temperature));
 
 	set_legenda_x((string) "Temp do ar");
 	set_legenda_y((string) "Temp do ar");
-	set_limite_superior_x(vector->getLargestElement(vetor_x));//45;
-	set_vetor_x(vector->getVectorTemperaturaAr());
-	set_limite_inferior_x(vector->getSmallestElement(vetor_x));//9;
+	set_limite_superior_x(History::get_largest_element(vetor_x));//45;
+	set_vetor_x(history->get_list(History::HI_world_temperature));
+	set_limite_inferior_x(History::get_smallest_element(vetor_x));//9;
 
-	set_limite_superior_y(vector->getLargestElement(vetor_y));//45;
-	set_vetor_y(vector->getVectorTemperaturaAr());
-	set_limite_inferior_y(vector->getSmallestElement(vetor_y));//9;
-	set_tamanho_vetor_x(vector->getSizeVectorTemperaturaAr());
-	set_tamanho_vetor_y(vector->getSizeVectorTemperaturaAr());
+	set_limite_superior_y(History::get_largest_element(vetor_y));//45;
+	set_vetor_y(history->get_list(History::HI_world_temperature));
+	set_limite_inferior_y(History::get_smallest_element(vetor_y));//9;
+
+	set_tamanho_vetor_x(history->get_size(History::HI_world_temperature));
+	set_tamanho_vetor_y(history->get_size(History::HI_world_temperature));
 
 	set_graphic_variavel(new Graphics((get_option_frame_np()), vetor_x, vetor_y, limite_superior_x, limite_inferior_x, limite_superior_y, limite_inferior_y, false));
 	graphicVariavel->set_Position_Graphic(0.2, 0.6);
@@ -311,19 +314,19 @@ PT(Graphics) GraphicsMenu::get_graphic8() {
 	return graphic8;
 }
 
-queue<double> GraphicsMenu::get_vetor_x() {
+History::HList* GraphicsMenu::get_vetor_x() {
 	return vetor_x;
 }
 
-void GraphicsMenu::set_vetor_x(queue<double> vetor) {
+void GraphicsMenu::set_vetor_x(History::HList* vetor) {
 	vetor_x = vetor;
 }
 
-queue<double> GraphicsMenu::get_vetor_y() {
+History::HList* GraphicsMenu::get_vetor_y() {
 	return vetor_y;
 }
 
-void GraphicsMenu::set_vetor_y(queue<double> vetor) {
+void GraphicsMenu::set_vetor_y(History::HList* vetor) {
 	vetor_y = vetor;
 }
 
@@ -391,9 +394,9 @@ void GraphicsMenu::set_tamanho_vetor_y(double tamanho) {
 	tamanho_vetor_y = tamanho;
 }
 
-Vetores* GraphicsMenu::get_vector() {
-	return vector;
-}
+//Vetores* GraphicsMenu::get_vector() {
+//	return vector;
+//}
 
 // Monta a parte do topo onde tem escrito "Tipo do Grafico" (label, leds e botões)
 void GraphicsMenu::make_tipo_graf(NodePath menu_frame_np) {
@@ -1093,118 +1096,137 @@ void GraphicsMenu::init_graphics() {
 	graphic8->hide();
 }
 
-//Constroi o grafico de temperatura interna X tempo.
-void GraphicsMenu::novo_grafico1_TempInterna() {
-	print_queue_values(vector->getVectorTemperaturaLagarto(), "TEMPERATURA INTERNA");
-	graphic = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorTemperaturaLagarto(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaLagarto()), vector->getSmallestElement(vector->getVectorTemperaturaLagarto()), true);
-	graphic->set_Position_Graphic(0.4, 1.0);
-	graphic->set_scale(0.86);
-	graphic->set_Titulo_Grafico("Temperatura Interna");
-	graphic->set_Titulo_EixoX("Tempo (h)");
-	graphic->set_Titulo_EixoY("Temperatura (C)");
-	graphic->create_Graphic(vector->getSizeVectorTempo(), vector->getSizeVectorTemperaturaLagarto());
+void GraphicsMenu::make_new_chart(History::HistoryItem item, PT(Graphics) &chart,
+		const string &title, const string &x_axis, const string &y_axis){
+	history->output(History::HI_player_hydration, title, cout);
+
+	History::HList* time_list = history->get_list(History::HI_time);
+	History::HList* item_list = history->get_list(item);
+	float largest_element = history->get_largest_element(item);
+	float smallest_element = history->get_smallest_element(item);
+
+	chart = new Graphics((option_frame_np), time_list, item_list, 0, 0, largest_element, smallest_element, true);
+	chart->set_Position_Graphic(0.4, 1.0);
+	chart->set_scale(0.86);
+	chart->set_Titulo_Grafico(title);
+	chart->set_Titulo_EixoX(x_axis);
+	chart->set_Titulo_EixoY(y_axis);
+	chart->create_Graphic(history->get_size(History::HI_time), history->get_size(item));
 }
 
-void GraphicsMenu::print_queue_values(queue<double> q, string name) {
-	cout<<"### IMPRIMINDO VETOR DE "<<name<<" ###"<<endl;
-	queue<double> q2;
-	int size = q.size();
-	for (int i = 0; i < size; i++) {
-		cout<<"value["<<i<<"] = "<<q.front()<<endl;
-		q2.push(q.front());
-		q.pop();
-	}
+//Constroi o grafico de temperatura interna X tempo.
+void GraphicsMenu::novo_grafico1_TempInterna() {
+//	print_queue_values(vector->getVectorTemperaturaLagarto(), "TEMPERATURA INTERNA");
+//	history->output(History::HI_player_hydration, "Temperatura interna", cout);
+//	graphic = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorTemperaturaLagarto(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaLagarto()), vector->getSmallestElement(vector->getVectorTemperaturaLagarto()), true);
+//	graphic->set_Position_Graphic(0.4, 1.0);
+//	graphic->set_scale(0.86);
+//	graphic->set_Titulo_Grafico("Temperatura Interna");
+//	graphic->set_Titulo_EixoX("Tempo (h)");
+//	graphic->set_Titulo_EixoY("Temperatura (C)");
+//	graphic->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorTemperaturaLagarto());
 
-	while (!q2.empty()) {
-		q.push(q2.front());
-		q2.pop();
-	}
-	cout<<"###############################################"<<endl;
+	make_new_chart(History::HI_player_temperature, graphic, "Temperatura Interna", "Tempo (h)", "Temperatura (C)");
 }
 
 //Constroi o grafico de hidratacao X tempo.
 void GraphicsMenu::novo_grafico2_Hidratacao() {
-	print_queue_values(vector->getVectorHidratacaoLagarto(), "HIDRATAÇÃO");
-	graphic2 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorHidratacaoLagarto(), 0, 0, 100, 0, true);
-	graphic2->set_Position_Graphic(0.4, 1.0);
-	graphic2->set_scale(0.86);
-	graphic2->set_Titulo_Grafico("Hidratacao do lagarto");
-	graphic2->set_Titulo_EixoX("Tempo (h)");
-	graphic2->set_Titulo_EixoY("Hidratacao (%)");
-	graphic2->create_Graphic(vector->getSizeVectorTempo(), vector->getSizeVectorHidratacaoLagarto());
+//	print_queue_values(vector->getVectorHidratacaoLagarto(), "HIDRATAÇÃO");
+//	history->output(History::HI_player_hydration, "Hidratação", cout);
+//	graphic2 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorHidratacaoLagarto(), 0, 0, 100, 0, true);
+//	graphic2->set_Position_Graphic(0.4, 1.0);
+//	graphic2->set_scale(0.86);
+//	graphic2->set_Titulo_Grafico("Hidratacao do lagarto");
+//	graphic2->set_Titulo_EixoX("Tempo (h)");
+//	graphic2->set_Titulo_EixoY("Hidratacao (%)");
+//	graphic2->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorHidratacaoLagarto());
+
+	make_new_chart(History::HI_player_hydration, graphic2, "Hidratação do Lagarto", "Tempo (h)", "Hidratação (%)");
 }
 
 //Constroi o grafico de temperatura do ar X tempo.
 void GraphicsMenu::novo_grafico3_TempAr() {
-	print_queue_values(vector->getVectorTemperaturaAr(), "TEMPERATURA DO AR");
-	graphic3 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorTemperaturaAr(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaAr()), vector->getSmallestElement(vector->getVectorTemperaturaAr()), true);
-	graphic3->set_Position_Graphic(0.4, 1.0);
-	graphic3->set_scale(0.86);
-	graphic3->set_Titulo_Grafico("Temperatura do ar.");
-	graphic3->set_Titulo_EixoX("Tempo (h)");
-	graphic3->set_Titulo_EixoY("Temperatura (c)");
-	graphic3->create_Graphic(vector->getSizeVectorTempo(), vector->getSizeVectorTemperaturaAr());
+//	print_queue_values(vector->getVectorTemperaturaAr(), "TEMPERATURA DO AR");
+//	history->output(History::HI_player_hydration, "Temperatura do ar", cout);
+//	graphic3 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorTemperaturaAr(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaAr()), vector->getSmallestElement(vector->getVectorTemperaturaAr()), true);
+//	graphic3->set_Position_Graphic(0.4, 1.0);
+//	graphic3->set_scale(0.86);
+//	graphic3->set_Titulo_Grafico("Temperatura do ar.");
+//	graphic3->set_Titulo_EixoX("Tempo (h)");
+//	graphic3->set_Titulo_EixoY("Temperatura (c)");
+//	graphic3->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorTemperaturaAr());
+
+	make_new_chart(History::HI_world_temperature, graphic3, "Temperatura do ar", "Tempo (h)", "Temperatura (C)");
 }
 
 //Constroi o grafico de umidade X tempo.
 void GraphicsMenu::novo_grafico4_Umidade() {
-	print_queue_values(vector->getVectorUmidadeAmbiente(), "UMIDADE");
-	graphic4 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorUmidadeAmbiente(), 0, 0, 100, 0, true);
-	graphic4->set_Position_Graphic(0.4, 1.0);
-	graphic4->set_scale(0.86);
-	graphic4->set_Titulo_Grafico("Umidade do ar.");
-	graphic4->set_Titulo_EixoX("Tempo (h)");
-	graphic4->set_Titulo_EixoY("Umidade");
-	graphic4->create_Graphic(vector->getSizeVectorTempo(), vector->getSizeVectorUmidadeAmbiente());
+//	print_queue_values(vector->getVectorUmidadeAmbiente(), "UMIDADE");
+//	history->output(History::HI_player_hydration, "Umidade", cout);
+//	graphic4 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorUmidadeAmbiente(), 0, 0, 100, 0, true);
+//	graphic4->set_Position_Graphic(0.4, 1.0);
+//	graphic4->set_scale(0.86);
+//	graphic4->set_Titulo_Grafico("Umidade do ar.");
+//	graphic4->set_Titulo_EixoX("Tempo (h)");
+//	graphic4->set_Titulo_EixoY("Umidade");
+//	graphic4->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorUmidadeAmbiente());
+	make_new_chart(History::HI_world_humidity, graphic4, "Umidade do ar", "Tempo (h)", "Umidade");
 }
 
 //Constroi o grafico de temperatura do solo X tempo.
 void GraphicsMenu::novo_grafico5_TempSolo() {
-	print_queue_values(vector->getVectorTemperaturaSolo(), "TEMPERATURA DO SOLO");
-	graphic5 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorTemperaturaSolo(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaSolo()), vector->getSmallestElement(vector->getVectorTemperaturaSolo()), true);
-	graphic5->set_Position_Graphic(0.4, 1.0);
-	graphic5->set_scale(0.86);
-	graphic5->set_Titulo_Grafico("Temperatura do Solo");
-	graphic5->set_Titulo_EixoX("Tempo (h)");
-	graphic5->set_Titulo_EixoY("Temperatura (C)");
-	graphic5->create_Graphic(vector->getSizeVectorTempo(), vector->getSizeVectorTemperaturaSolo());
+//	print_queue_values(vector->getVectorTemperaturaSolo(), "TEMPERATURA DO SOLO");
+//	history->output(History::HI_player_hydration, "Temperatura do solo", cout);
+//	graphic5 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorTemperaturaSolo(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaSolo()), vector->getSmallestElement(vector->getVectorTemperaturaSolo()), true);
+//	graphic5->set_Position_Graphic(0.4, 1.0);
+//	graphic5->set_scale(0.86);
+//	graphic5->set_Titulo_Grafico("Temperatura do Solo");
+//	graphic5->set_Titulo_EixoX("Tempo (h)");
+//	graphic5->set_Titulo_EixoY("Temperatura (C)");
+//	graphic5->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorTemperaturaSolo());
+	make_new_chart(History::HI_soil_temperature, graphic5, "Temperatura do solo", "Tempo (h)", "Temperatura (C)");
 }
 
 //Constroi o grafico de alimentacao X tempo.
 void GraphicsMenu::novo_grafico6_Alimentacao() {
-	print_queue_values(vector->getVectorAlimentacao(), "ALIMENTAÇÃO");
-	graphic6 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorAlimentacao(), 0, 0, vector->getLargestElement(vector->getVectorAlimentacao()), vector->getSmallestElement(vector->getVectorAlimentacao()), true);
-	graphic6->set_Position_Graphic(0.4, 1.0);
-	graphic6->set_scale(0.86);
-	graphic6->set_Titulo_Grafico("Alimentacao");
-	graphic6->set_Titulo_EixoX("Tempo (h)");
-	graphic6->set_Titulo_EixoY("Alimentacao");
-	graphic6->create_Graphic(vector->getSizeVectorTempo(), vector->getSizeVectorAlimentacao());
+//	print_queue_values(vector->getVectorAlimentacao(), "ALIMENTAÇÃO");
+//	history->output(History::HI_player_hydration, "Alimentação", cout);
+//	graphic6 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorAlimentacao(), 0, 0, vector->getLargestElement(vector->getVectorAlimentacao()), vector->getSmallestElement(vector->getVectorAlimentacao()), true);
+//	graphic6->set_Position_Graphic(0.4, 1.0);
+//	graphic6->set_scale(0.86);
+//	graphic6->set_Titulo_Grafico("Alimentacao");
+//	graphic6->set_Titulo_EixoX("Tempo (h)");
+//	graphic6->set_Titulo_EixoY("Alimentacao");
+//	graphic6->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorAlimentacao());
+	make_new_chart(History::HI_feeding, graphic6, "Alimentação", "Tempo (h)", "Alimentação");
 }
 
 //Constroi o grafico de energia X tempo.
 void GraphicsMenu::novo_grafico7_Energia() {
-	print_queue_values(vector->getVectorEnergia(), "ENERGIA");
-	graphic7 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorEnergia(), 0, 0, 100, 0, true);
-	graphic7->set_Position_Graphic(0.4, 1.0);
-	graphic7->set_scale(0.86);
-	graphic7->set_Titulo_Grafico("Energia");
-	graphic7->set_Titulo_EixoX("Tempo (h)");
-	graphic7->set_Titulo_EixoY("Energia");
-	graphic7->create_Graphic(vector->getSizeVectorTempo(), vector->getSizeVectorEnergia());
-
+//	print_queue_values(vector->getVectorEnergia(), "ENERGIA");
+//	history->output(History::HI_player_hydration, "Energia", cout);
+//	graphic7 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorEnergia(), 0, 0, 100, 0, true);
+//	graphic7->set_Position_Graphic(0.4, 1.0);
+//	graphic7->set_scale(0.86);
+//	graphic7->set_Titulo_Grafico("Energia");
+//	graphic7->set_Titulo_EixoX("Tempo (h)");
+//	graphic7->set_Titulo_EixoY("Energia");
+//	graphic7->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorEnergia());
+	make_new_chart(History::HI_energy, graphic7, "Energia", "Tempo (h)", "Energia");
 }
 
 //Constroi o grafico de gasto energetico X tempo.
 void GraphicsMenu::novo_grafico8_GastoEnergetico() {
-	print_queue_values(vector->getVectorGastoEnergeticoTotal(), "GASTO ENERGÉTICO");
-	graphic8 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorGastoEnergeticoTotal(), 0, 0, vector->getLargestElement(vector->getVectorGastoEnergeticoTotal()), vector->getSmallestElement(vector->getVectorGastoEnergeticoTotal()), true);
-	graphic8->set_Position_Graphic(0.4, 1.0);
-	graphic8->set_scale(0.86);
-	graphic8->set_Titulo_Grafico("Gasto energetico");
-	graphic8->set_Titulo_EixoX("Tempo (h)");
-	graphic8->set_Titulo_EixoY("Gasto energetico");
-	graphic8->create_Graphic(vector->getSizeVectorTempo(), vector->getSizeVectorGastoEnergiticoTotal());
+//	print_queue_values(vector->getVectorGastoEnergeticoTotal(), "GASTO ENERGÉTICO");
+//	history->output(History::HI_player_hydration, "Gasto Energético", cout);
+//	graphic8 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorGastoEnergeticoTotal(), 0, 0, vector->getLargestElement(vector->getVectorGastoEnergeticoTotal()), vector->getSmallestElement(vector->getVectorGastoEnergeticoTotal()), true);
+//	graphic8->set_Position_Graphic(0.4, 1.0);
+//	graphic8->set_scale(0.86);
+//	graphic8->set_Titulo_Grafico("Gasto energetico");
+//	graphic8->set_Titulo_EixoX("Tempo (h)");
+//	graphic8->set_Titulo_EixoY("Gasto energetico");
+//	graphic8->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorGastoEnergiticoTotal());
+	make_new_chart(History::HI_total_energy_cost, graphic8, "Gasto energetico", "Tempo (h)", "Gasto Energetico");
 }
 
 //Desliga as luzes que indicam quais graficos estao ativos no painel de tempo.

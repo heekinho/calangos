@@ -1,5 +1,7 @@
 #include "cIntervalManager.h"
 
+#include "history.h"
+
 #include "session.h"
 
 #include "guiManager.h"
@@ -31,6 +33,8 @@ Session::Session() {
 	_player_death_status = Player::PDT_NOT_DEAD;
 	level = 1;
 
+	_history = new CalangosHistory();
+
 	finished_loading = false;
 	stage_info.push_back("Criando Repositorio de Modelos...");
 	stage_info.push_back("Criando Repositorio de Imagens...");
@@ -48,14 +52,15 @@ Session::Session() {
 
 /*! Inicia os controles da sessao e tals... */
 void Session::init_session(int process_stage){
+	nout << stage_info[process_stage] << endl;
 	switch (process_stage) {
 		case 0:
 			/* Sistema de Repositório de Modelos */
-			nout << "Criando Repositorio de Modelos..." << endl;
+//			nout << "Criando Repositorio de Modelos..." << endl;
 			ModelRepository::get_instance()->load_models();
 			break;
 		case 1:
-			nout << "Criando Repositorio de Imagens..." << endl;
+//			nout << "Criando Repositorio de Imagens..." << endl;
 			ImageRepository::get_instance();
 			break;
 		case 2:
@@ -64,44 +69,44 @@ void Session::init_session(int process_stage){
 			// retirar essa etapa
 			break;
 		case 3:
-			nout << "Criando Controle de Tempo..." << endl;
+//			nout << "Criando Controle de Tempo..." << endl;
 			TimeControl::get_instance();
 			break;
 		case 4:
 			/* Cria um player padrão... */
-			nout << "Carregando Jogador..." << endl;
+//			nout << "Carregando Jogador..." << endl;
 			Player::load_player();
 			break;
 		case 5:
 			/* Cria um controle de tempo e um mundo padrão... */
-			nout << "Criando Mundo..." << endl;
+//			nout << "Criando Mundo..." << endl;
 			World::get_world();
 			World::load_enviroment();
 			break;
 		case 6:
 			/* inicializa clima e microclima */
-			nout << "Inicializando Clima e Microclima..." << endl;
+//			nout << "Inicializando Clima e Microclima..." << endl;
 			ClimaTempo::get_instance();
 			MicroClima::get_instance();
 			break;
 		case 7:
-			nout << "Criando Controle do Jogador..." << endl;
+//			nout << "Criando Controle do Jogador..." << endl;
 			PlayerControl::get_instance();
 			break;
 		case 8:
-			nout << "Criando Controle de Camera..." << endl;
+//			nout << "Criando Controle de Camera..." << endl;
 			CameraControl::get_instance();
 			break;
 		case 9:
 			/* Cria a Interface Grafica */
-			nout << "Criando Interface..." << endl;
+//			nout << "Criando Interface..." << endl;
 			GuiManager::get_instance();
 			GuiManager::get_instance()->hide_frameNode();
 			InGameScreenManager::get_instance();
 			break;
 		case 10:
 			/* Redistribui animais para setores próximos ao player */
-			nout << "Distribuindo animais..." << endl;
+//			nout << "Distribuindo animais..." << endl;
 			player->change_sector(player->get_setor());
 			finished_loading = true;
 			break;
@@ -244,8 +249,8 @@ void Session::end_session(){
 	nout << "Destruindo ""mundo""..." << endl;
 	World::unload_world();
 
-	nout << "Destruindo vetores..." << endl;
-	Vetores::unload_vetores();
+//	nout << "Destruindo vetores..." << endl;
+//	Vetores::unload_vetores();
 
 
 	nout << "Destruindo Controle de Camera..." << endl;
@@ -281,3 +286,7 @@ bool Session::is_finished_loading() {
 //void Session::stop_movie(const Event*, void* data){
 //	Menu::get_instance()->stop_movie(NULL,Menu::get_instance());
 //}
+
+PT(History) Session::history() const {
+	return _history;
+}

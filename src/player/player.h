@@ -11,7 +11,7 @@
 // Forward Declaration
 //class AnimatedObjetoJogo;
 class MicroClima;
-class Vetores;
+//class Vetores;
 class PlayerHealth;
 class PlayerHealthSimulator;
 class FemaleLizard;
@@ -180,8 +180,8 @@ private:
 	 * da classe vector. Esses valores servirão para a geração dos gráficos no tempo. */
 	void atualiza_vector();
 
-	/* Guarda referencia para os vetores que armazenarão o histórico das variáveis de saúde do lagarto*/
-	Vetores* vetores;
+//	/* Guarda referencia para os vetores que armazenarão o histórico das variáveis de saúde do lagarto*/
+//	Vetores* vetores;
 
 public:
 	/* Procura fêmeas em um raio próximo */

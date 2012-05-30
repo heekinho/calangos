@@ -11,10 +11,13 @@
 #include "pandaFramework.h"
 #include "pgVirtualFrame.h"
 #include "graphics.h"
-#include "vetores.h"
+//#include "vetores.h"
+
+#include "history.h"
 
 class Graphics;
 class Hint;
+//class History;
 
 class GraphicsMenu : public ReferenceCount {
 public:
@@ -109,10 +112,10 @@ public:
 	PT(Graphics) get_graphic7();
 	PT(Graphics) get_graphic8();
 
-	queue<double> get_vetor_x();
-	void set_vetor_x(queue<double> vetor);
-	queue<double> get_vetor_y();
-	void set_vetor_y(queue<double> vetor);
+	History::HList* get_vetor_x();
+	void set_vetor_x(History::HList* vetor);
+	History::HList* get_vetor_y();
+	void set_vetor_y(History::HList* vetor);
 	string get_legenda_x();
 	void set_legenda_x(string legenda);
 	string get_legenda_y();
@@ -130,7 +133,7 @@ public:
     double get_tamanho_vetor_y();
     void set_tamanho_vetor_y(double tamanho);
 
-    Vetores* get_vector();
+//    Vetores* get_vector();
 
 	void make_tipo_graf(NodePath menu_frame_np);
 	void make_txt_tipo_graf(NodePath menu_frame_np);
@@ -167,6 +170,9 @@ public:
 	void hide_all_graphics();
 	void build_options();
 	void init_graphics();
+
+	void make_new_chart(History::HistoryItem item, PT(Graphics) &chart,
+			const string &title, const string &x_axis, const string &y_axis);
 	void novo_grafico1_TempInterna();
 	void novo_grafico2_Hidratacao();
 	void novo_grafico3_TempAr();
@@ -341,8 +347,9 @@ private:
     NodePath grafico_variavel_frame_np;
 
 	//CONFIGURAÇÕES DOS GRAFICOS DE VARIAVEIS.
-    queue<double> vetor_x;
-    queue<double> vetor_y;
+    History::HList* vetor_x;
+    History::HList* vetor_y;
+
     string legenda_x;
     string legenda_y;
     double limite_superior_x;
@@ -352,9 +359,8 @@ private:
     double tamanho_vetor_x;
     double tamanho_vetor_y;
 
-    Vetores* vector;
-
-    void print_queue_values(queue<double> q, string name);
+//    Vetores* vector;
+    PT(History) history;
 
 };
 
