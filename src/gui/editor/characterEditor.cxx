@@ -208,7 +208,7 @@ void CharacterEditor::configure_controls(){
 	float min, max;
 
 	/* Tamanho do corpo. Obtém o range de valores do tamanho do lagarto em centímetros */
-	min = PlayerProperties::max_body_size;
+	min = PlayerProperties::min_body_size;
 	max = PlayerProperties::max_body_size;
 	body_size = make_entry_slider(entry, "Tamanho do corpo", text_generator, min, max, valign += offset, (max + min)*0.5, "cm");
 

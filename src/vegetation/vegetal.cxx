@@ -341,9 +341,13 @@ void Vegetal::add_data(const string &map_name, int value){
 void Vegetal::load_vegetals(int density) {
 	load_default_model_and_data();
 
-	//Vegetal::vegetals_placeholder = render.attach_new_node("Vegetals Placeholder");
-	//Vegetal::vegetals_placeholder.reparent_to(render);
+	Vegetal::vegetals_placeholder.reparent_to(render);
 	Vegetal::visible_vegetals_placeholder.reparent_to(render);
+
+	//Vegetal::vegetals_placeholder.reparent_to(render);
+//	Vegetal::vegetals_placeholder = NodePath("vegetals group");
+//	Vegetal::visible_vegetals_placeholder.reparent_to(render);
+
 
 	int terrain_x_size = (int) World::get_world()->get_terrain()->get_x_size();
 	int terrain_y_size = (int) World::get_world()->get_terrain()->get_y_size();
@@ -386,6 +390,11 @@ void Vegetal::unload_vegetals() {
 	models.clear();
 
 	vegetals_placeholder.remove_node();
+	visible_vegetals_placeholder.remove_node();
+
+	/*! Recarrega já aqui pois remove_node() coloca o NodePath para empty. */
+	Vegetal::vegetals_placeholder = NodePath("Vegetals Placeholder");
+	Vegetal::visible_vegetals_placeholder = NodePath("Visible Vegetals Placeholder");
 }
 
 /*! Dá flatten no animais por setores. */

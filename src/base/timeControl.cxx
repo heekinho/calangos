@@ -403,16 +403,17 @@ PT(TimeControl) TimeControl::get_instance(){
 }
 
 void TimeControl::unload_timeControl(){
-	cout<<"Unload time control"<<endl;
+	cout << "Unload time control" << endl;
 	
 	//Retiranda os hooks adicionados
-	TimeControl::get_instance()->p_handler->remove_hooks(TimeControl::get_instance()->EV_pass_day);
-	TimeControl::get_instance()->p_handler->remove_hooks(TimeControl::get_instance()->EV_pass_frame);
-	TimeControl::get_instance()->p_handler->remove_hooks(TimeControl::get_instance()->EV_pass_frame_gui_options);
-	TimeControl::get_instance()->p_handler->remove_hooks(TimeControl::get_instance()->EV_pass_hour);
-	TimeControl::get_instance()->p_handler->remove_hooks(TimeControl::get_instance()->EV_pass_minute);
-	TimeControl::get_instance()->p_handler->remove_hooks(TimeControl::get_instance()->EV_pass_month);
-	TimeControl::get_instance()->p_handler->remove_hooks(TimeControl::get_instance()->EV_pass_year);
+	TimeControl::get_instance()->p_handler->remove_hooks_with(TimeControl::get_instance());
+//	TimeControl::get_instance()->p_handler->remove_hooks(TimeControl::get_instance()->EV_pass_day);
+//	TimeControl::get_instance()->p_handler->remove_hooks(TimeControl::get_instance()->EV_pass_frame);
+//	TimeControl::get_instance()->p_handler->remove_hooks(TimeControl::get_instance()->EV_pass_frame_gui_options);
+//	TimeControl::get_instance()->p_handler->remove_hooks(TimeControl::get_instance()->EV_pass_hour);
+//	TimeControl::get_instance()->p_handler->remove_hooks(TimeControl::get_instance()->EV_pass_minute);
+//	TimeControl::get_instance()->p_handler->remove_hooks(TimeControl::get_instance()->EV_pass_month);
+//	TimeControl::get_instance()->p_handler->remove_hooks(TimeControl::get_instance()->EV_pass_year);
 
 	TimeControl::instanceFlag = false;
 	TimeControl::single = NULL;

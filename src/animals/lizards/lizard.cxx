@@ -228,6 +228,8 @@ void Lizard::flee(const NodePath &other){
 
 /*! se esconder na árvore mais próxima dele */
 bool Lizard::hide_from_predator(){
+	cout << this->get_setor()->vegetals()->size() << endl;
+
 	//Atualização de árvore mais proxima
 	this->arvore_da_sombra = this->get_setor()->vegetals()->get_closest_to(this->get_pos());
 //	if(this->arvore_da_sombra == NULL){
