@@ -413,7 +413,8 @@ void Player::mordida_recebida(int lizard_relative_size){
 
 	add_energy(-lost_energy);
 	AudioController::get_instance()->heart_beat(get_energy(), get_min_energy());
-	GuiManager::get_instance()->piscar_life();
+/*	GuiManager::get_instance()->piscar_life();
+ * Piscar_life já é chamado anteriormente*/
 }
 
 PT(Predator) Player::get_predator(){

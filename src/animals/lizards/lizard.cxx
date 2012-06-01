@@ -72,7 +72,7 @@ void Lizard::load_lizards(){
 
 	/* Para a primeira fase continua o que estava.
 	 * TODO: Existe um property padrão para não precisar fazer esse if? */
-	float lizard_density = 30;//Valor inicial de densidade 30
+	float lizard_density = 300;//Valor inicial de densidade 30
 
 	/* A partir da segunda fase os valores são customizados */
 	if(Session::get_instance()->get_level() > 1){
@@ -95,8 +95,12 @@ void Lizard::load_lizards(){
 		if(gender == 0) {
 			gender_name = "male";
 			string lizard_name = player_specie + "/" + gender_name;
+
 			NodePath base_lizard = (*ModelRepository::get_instance()->get_animated_model(lizard_name)).copy_to(NodePath());
 			lizard = new MaleLizard(base_lizard);
+
+			lizard->set_species(player->get_species());
+			lizard->set_gender(LizardBase::LG_male);
 
 			lizard->energia = ClimaTempo::get_instance()->random_normal(60, 20);
 			//0.0021 = 0.0025 - 0.0004 => tamanho máximo - tamanho mínimo
@@ -108,8 +112,12 @@ void Lizard::load_lizards(){
 		else if(gender == 1){
 			gender_name = "female";
 			string lizard_name = player_specie + "/" + gender_name;
+
 			NodePath base_lizard = (*ModelRepository::get_instance()->get_animated_model(lizard_name)).copy_to(NodePath());
 			lizard = new FemaleLizard(base_lizard);
+
+			lizard->set_species(player->get_species());
+			lizard->set_gender(LizardBase::LG_female);
 
 			lizard->energia = ClimaTempo::get_instance()->random_normal(60, 20);
 			//0.0021 = 0.0025 - 0.0004 => tamanho máximo - tamanho mínimo
@@ -124,6 +132,10 @@ void Lizard::load_lizards(){
 			NodePath base_lizard = (*ModelRepository::get_instance()->get_animated_model(lizard_name)).copy_to(NodePath());
 			// TODO: Qual comportamento dos Youngs?
 			lizard = new YoungLizard(base_lizard);
+
+			lizard->set_species(player->get_species());
+			lizard->set_gender(LizardBase::LG_young);
+
 
 			//como os lagartos jovens não irão brigar, a energia serve apenas para determinar o tamanho
 			lizard->energia = ClimaTempo::get_instance()->random_normal(10, 3);
@@ -140,7 +152,7 @@ void Lizard::load_lizards(){
 		lizard->set_scale(lizard->tamanho_real);
 		//lizard->set_scale(0.0003);
 		//lizard->set_hpr(180,0,0);
-		lizard->set_velocity(500);
+		lizard->set_velocity(100);//Não utilizada
 
 		World::get_world()->get_terrain()->add_lizard(lizard);
 		lizard->loop_anim("walk", true);
