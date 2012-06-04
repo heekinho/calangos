@@ -9,7 +9,7 @@ são atualizadas a cada hora virtual.*/
 #include "eventHandler.h"
 #include "simdunas.h"
 
-class ClimaTempo : public TypedReferenceCount{
+class ClimaTempo : public ReferenceCount {
 
 public:
 	ClimaTempo();
@@ -92,14 +92,9 @@ public:
 	//ponteiro para gravar os dados do vector em arquivo texto
 	FILE *arquivo;
 
-	// Typed Object
-	static TypeHandle get_class_type() { return _type_handle; }
-	static void init_type() { register_type(_type_handle, "ClimaTempo"); }
-
 private:
 	static bool instanceFlag;
 	static PT(ClimaTempo) single;
-	static TypeHandle _type_handle;
 };
 
 #endif

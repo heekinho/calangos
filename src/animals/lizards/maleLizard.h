@@ -6,7 +6,7 @@
 class MaleLizard : public Lizard {
 public:
     MaleLizard(NodePath node);
-   ~MaleLizard();
+    virtual ~MaleLizard();
 
     void init();
 
@@ -23,7 +23,7 @@ private:
     virtual void bob();
     //virtual void flee();
 
-    NodePath maleSymbol;
+    NodePath male_symbol;
 
     double last_bobbing_done;
     bool waiting_player_decide;

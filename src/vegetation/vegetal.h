@@ -24,7 +24,7 @@ namespace Area {
 
 class Vegetal : public ObjetoJogo {
 public:
-	~Vegetal();
+	virtual ~Vegetal();
 
 	static NodePath vegetals_placeholder;
 	static NodePath visible_vegetals_placeholder;
@@ -56,7 +56,7 @@ public:
 	
 	void set_vegetal_name(string name);
 	string get_vegetal_name();
-        string get_path_folhagem(string vegetal);
+    string get_path_folhagem(string vegetal);
 	
 	void set_vegetal_season(Season::SeasonType type);
 	Season::SeasonType get_vegetal_season();
@@ -85,6 +85,7 @@ public:
 	static const int VEGETAL_PERCENT_HIGH_AREA = 30;
 
 	static void update_show_hide();
+
 private:
 	Vegetal();
 	Vegetal(const string &model);
@@ -101,8 +102,8 @@ private:
 	
 
 	static vector<string> vegetals_name;
-	static map<string,PT(Vegetal)> models;
-	static map<string,int> datas;
+	static map<string, PT(Vegetal)> models;
+	static map<string, int> datas;
 	static map<Season::SeasonType,string> seasons;
 	
 	static void configure_change_season_event();

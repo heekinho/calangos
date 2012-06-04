@@ -52,15 +52,15 @@ NodePath(window->load_model(render, model)) {
 	next_sky_stage = new TextureStage("next_sky_stage");
 	current_sky_stage = new TextureStage("current_sky_stage");
 
-	this->skies = new TextureCollection();
+	skies = TextureCollection();
 
 	//ATENTION: Verificar ENUM ao mudar aki.
-	this->skies->add_texture(TexturePool::load_texture("models/skies/amanhecer.jpg"));
-	this->skies->add_texture(TexturePool::load_texture("models/skies/tarde.jpg"));
-	this->skies->add_texture(TexturePool::load_texture("models/skies/entardecer.jpg"));
-	this->skies->add_texture(TexturePool::load_texture("models/skies/noite.jpg"));
-	this->skies->add_texture(TexturePool::load_texture("models/skies/nublado.jpg"));
-	this->skies->add_texture(TexturePool::load_texture("models/skies/chuvoso.jpg"));
+	skies.add_texture(TexturePool::load_texture("models/skies/amanhecer.jpg"));
+	skies.add_texture(TexturePool::load_texture("models/skies/tarde.jpg"));
+	skies.add_texture(TexturePool::load_texture("models/skies/entardecer.jpg"));
+	skies.add_texture(TexturePool::load_texture("models/skies/noite.jpg"));
+	skies.add_texture(TexturePool::load_texture("models/skies/nublado.jpg"));
+	skies.add_texture(TexturePool::load_texture("models/skies/chuvoso.jpg"));
 
 	/* Configuração Inicial */
 	int hora = TimeControl::get_instance()->get_hora();
@@ -119,7 +119,7 @@ NodePath(window->load_model(render, model)) {
 	//condição inicial do ambiente (noite)
 	//aplicando a luz na raiz da cena (todos os objetos da cena serão atingidos)
 	this->noite = new AmbientLight("noite");
-	render.set_light(this->noite);
+	render.set_light(NodePath(this->noite));
 
 	//verificando se a hora de início é dia ou noite para setar a luz do ambiente
 	if ((hora >= 19 && hora <= 23) || (hora >= 0 && hora < 6)) {
@@ -230,15 +230,12 @@ void Sky::anda_sol(double pos) {
 
 void Sky::change_sky(int new_sky, int previous_sky) {
 	//troca a textura atual pela próxima
-	set_texture(current_sky_stage, skies->get_texture(previous_sky));
-	set_texture(next_sky_stage, skies->get_texture(new_sky));
+	set_texture(current_sky_stage, skies.get_texture(previous_sky));
+	set_texture(next_sky_stage, skies.get_texture(new_sky));
 
 }
 
 void Sky::fade(int minuto, int hora) {
-
-    
-
     hora_anterior = hora_atual;
     hora_atual = hora;
     minuto_anterior_sombra = minuto_atual_sombra;

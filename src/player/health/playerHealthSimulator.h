@@ -40,20 +40,6 @@ protected:
 };
 
 
-/*! Obtem x de 0 a 1 considerando o range (a,b)
- *  TODO: Mudar nome. */
-INLINE float compress_range(float a, float b, float x){
-	return (x - a)/(b - a);
-}
-
-/*! Obtem x clamped no range [a , b] */
-INLINE float clamp(float a, float b, float x){
-	if(x < a) return a;
-	if(x > b) return b;
-	return x;
-}
-
-
 #include "notifyCategoryProxy.h"
 NotifyCategoryDecl(player_health, EXPCL_PANDA_EVENT, EXPTP_PANDA_EVENT);
 

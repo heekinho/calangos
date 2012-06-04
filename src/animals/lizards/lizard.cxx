@@ -9,6 +9,7 @@
 #include "youngLizard.h"
 
 #include "collision.h"
+#include "utils.h"
 #include "climaTempo.h"
 
 //#define VEL_WALK 1000.0
@@ -102,10 +103,10 @@ void Lizard::load_lizards(){
 			lizard->set_species(player->get_species());
 			lizard->set_gender(LizardBase::LG_male);
 
-			lizard->energia = ClimaTempo::get_instance()->random_normal(60, 20);
+			lizard->energia = gaussian_random(60, 20);
 			//0.0021 = 0.0025 - 0.0004 => tamanho máximo - tamanho mínimo
 			lizard->scale_temp = ((0.0021/100)* lizard->get_energia()) + 0.0004;
-			lizard->set_tamanho_real(ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.0001));
+			lizard->set_tamanho_real(gaussian_random(lizard->scale_temp, 0.0001));
 			lizard->set_tamanho_base(player->calculate_lizards_relative_size(lizard->get_tamanho_real())*100);
 			//lizard->scale = ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.0001);
 		}
@@ -119,10 +120,10 @@ void Lizard::load_lizards(){
 			lizard->set_species(player->get_species());
 			lizard->set_gender(LizardBase::LG_female);
 
-			lizard->energia = ClimaTempo::get_instance()->random_normal(60, 20);
+			lizard->energia = gaussian_random(60, 20);
 			//0.0021 = 0.0025 - 0.0004 => tamanho máximo - tamanho mínimo
 			lizard->scale_temp = ((0.0021/100)* lizard->get_energia()) + 0.0004;
-			lizard->set_tamanho_real(ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.0001));
+			lizard->set_tamanho_real(gaussian_random(lizard->scale_temp, 0.0001));
 			lizard->set_tamanho_base(player->calculate_lizards_relative_size(lizard->get_tamanho_real())*100);
 			//lizard->scale = ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.0001);
 		}
@@ -138,10 +139,10 @@ void Lizard::load_lizards(){
 
 
 			//como os lagartos jovens não irão brigar, a energia serve apenas para determinar o tamanho
-			lizard->energia = ClimaTempo::get_instance()->random_normal(10, 3);
+			lizard->energia = gaussian_random(10, 3);
 			//0.0021 = 0.0025 - 0.0004 => tamanho máximo - tamanho mínimo
 			lizard->scale_temp = ((0.0021/100)* lizard->get_energia()) + 0.0004;
-			lizard->set_tamanho_real(ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.0001));
+			lizard->set_tamanho_real(gaussian_random(lizard->scale_temp, 0.0001));
 			lizard->set_tamanho_base(player->calculate_lizards_relative_size(lizard->get_tamanho_real())*100);
 			//lizard->scale = ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.00001);
 		}
@@ -240,7 +241,7 @@ void Lizard::flee(const NodePath &other){
 
 /*! se esconder na árvore mais próxima dele */
 bool Lizard::hide_from_predator(){
-	cout << this->get_setor()->vegetals()->size() << endl;
+//	cout << this->get_setor()->vegetals()->size() << endl;
 
 	//Atualização de árvore mais proxima
 	this->arvore_da_sombra = this->get_setor()->vegetals()->get_closest_to(this->get_pos());

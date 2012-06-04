@@ -5,6 +5,7 @@
  */
 
 #include "morfologySimulator.h"
+#include "utils.h"
 
 MorfologySimulator::MorfologySimulator(PT(PlayerHealth) health) : Simulator(health) {
 	_ideal_months_to_max_size = 36; //TODO: Configuração

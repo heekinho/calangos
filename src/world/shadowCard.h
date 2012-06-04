@@ -9,7 +9,7 @@
 #include "setor.h"
 
 
-class ShadowCard : public TypedReferenceCount {
+class ShadowCard : public ReferenceCount {
 public:
 	ShadowCard(LPoint2f img_size, LPoint2f obj_size);
 	~ShadowCard();
@@ -33,15 +33,12 @@ public:
 	PNMImage* get_folhagem_channel(){ return shadows_channel; };
 	void update_active_shadows();
 
-
-        void create_folhagem(PNMImage &folhagem, double x, double y);
+	void create_folhagem(PNMImage &folhagem, double x, double y);
 
 private:
 	double alpha;
 
 	PNMImage* shadows_channel;
-	PNMImage* folhagem_channel;
-        PNMImage* all_channels123;
 	PNMImage* active_shadows;
 
 	PT(TextureStage) shadow_stage;
@@ -50,20 +47,7 @@ private:
 	LPoint2f _convert_coordinates(LPoint2f old_point);
 	LPoint2f obj_size;
 
-        LPoint2f _convert_coordinates_folhagem(LPoint2f old_point);
-/* Controle de Typed Reference Counting */
-
-public:
-	virtual TypeHandle get_type() const { return get_class_type(); }
-	virtual TypeHandle force_init_type() { init_type(); return get_class_type(); }
-	static TypeHandle get_class_type() { return _type_handle; }
-	static void init_type() {
-		TypedReferenceCount::init_type();
-		register_type(_type_handle, "ShadowCard", TypedReferenceCount::get_class_type());
-	}
-
-private:
-	static TypeHandle _type_handle;
+	LPoint2f _convert_coordinates_folhagem(LPoint2f old_point);
 };
 
 #endif

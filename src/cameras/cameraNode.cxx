@@ -23,6 +23,15 @@ CameraNode::CameraNode(PT(Camera) camera) : NodePath(camera){
 	update_configs(NULL, this);
 }
 
+/* Destrói o CameraNode */
+CameraNode::~CameraNode(){
+	event_handler->remove_hooks_with(this);
+
+	this->object = NULL;
+	this->remove_node();
+}
+
+
 /*! Verifica se um objeto está visível na tela, mesmo parcialmente */
 bool CameraNode::is_in_view(const NodePath& object){
 	/* Teste */
@@ -56,13 +65,6 @@ void CameraNode::update_configs(const Event*, void *data){
 
 
 
-/* Destrói o CameraNode */
-CameraNode::~CameraNode(){
-	event_handler->remove_hooks_with(this);
-
-	this->object = NULL;
-	this->remove_node();
-}
 
 /*! É chamado para configurar os eventos que serão ouvidos para se chamar o update() */
 void CameraNode::set_hooks(){

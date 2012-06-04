@@ -3,12 +3,13 @@
 
 #include "pandaFramework.h"
 #include "objetoJogo.h"
-#include "typedReferenceCount.h"
+#include "referenceCount.h"
 
 /*! A classe CameraControl é responsável, como o próprio nome indica, pelo controle da camera.*/
 //class CameraNode;
 #include "cameraNode.h"
-class CameraControl : public TypedReferenceCount {
+
+class CameraControl : public ReferenceCount {
 public:
 	~CameraControl();
 
@@ -48,13 +49,6 @@ public:
 private:
 	CameraControl(PT(ObjetoJogo) objeto);
 	static PT(CameraControl) single;
-
-/* Controle de Reference Counting */
-public:
-   static TypeHandle get_class_type() { return _type_handle; }
-   static void init_type() { register_type(_type_handle, "CameraControl"); }
-private:
-    static TypeHandle _type_handle;
 };
 
 #endif

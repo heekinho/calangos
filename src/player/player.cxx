@@ -78,7 +78,7 @@ PT(Player) Player::get_instance() {
 
 /* Destrutor da classe Player */
 Player::~Player() {
-	//this->~ObjetoJogo();
+
 }
 
 /*! Ao comer um objeto, a respectiva hidratacao e energia eh adquirida */

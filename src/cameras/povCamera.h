@@ -7,6 +7,7 @@
 class PovCamera : public CameraNode {
 public:
 	PovCamera(PT(Camera) camera);
+	virtual ~PovCamera();
 
 	virtual void set_hooks();
 	virtual void unset_hooks();

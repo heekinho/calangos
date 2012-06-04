@@ -18,7 +18,13 @@
 #define MAXDEGREE 100
 #define PROBTHR 80
 
-FemaleLizard::FemaleLizard(NodePath node) : Lizard(node){ init(); }
+FemaleLizard::FemaleLizard(NodePath node) : Lizard(node) {
+	init();
+}
+
+FemaleLizard::~FemaleLizard(){
+	female_symbol.remove_node();
+}
 
 void FemaleLizard::init() {
     reproduziu = false;
@@ -27,11 +33,10 @@ void FemaleLizard::init() {
     //Lizard::isFemale();
 	away_from_player = false;
 
-    femaleSymbol = window->load_model(*this, "models/lizards/symbols/female.png");
-    femaleSymbol.set_scale(2.0);
-    float posZ = femaleSymbol.get_z();
-    femaleSymbol.set_z(posZ + 100);
-    femaleSymbol.set_billboard_point_eye(0);
+    female_symbol = window->load_model(*this, "models/lizards/symbols/female.png");
+    female_symbol.set_scale(2.0);
+    female_symbol.set_z(female_symbol.get_z() + 100);
+    female_symbol.set_billboard_point_eye(0);
     set_gender(Lizard::LG_female);
 
     event_handler->add_hook(PlayerControl::EV_player_reproducao, reproduzir, (void *) this);

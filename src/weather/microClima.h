@@ -15,7 +15,7 @@ class PlayerControl;
 * atualiza os valores base, gerados pela classe climaTempo, quanto de movimentação do personagem, pois,
 * a depender de onde ele esteja (exposto ao Sol, na sombra, em alguma toca), os valores de temperatura e
 * umidade relativa do ar mudam. */
-class MicroClima : public TypedReferenceCount{
+class MicroClima : public ReferenceCount {
 
 public:
 	MicroClima();
@@ -34,9 +34,6 @@ public:
 	static void unload_microClima();
 
 	FILE *arquivo;
-	// Typed Object
-	static TypeHandle get_class_type() { return _type_handle; }
-	static void init_type() { register_type(_type_handle, "MicroClima"); }
 
 private:
 	void atualizar_variaveis();
@@ -53,8 +50,6 @@ private:
 
 	static bool instanceFlag;
 	static PT(MicroClima) single;
-
-	static TypeHandle _type_handle;
 };
 
 #endif

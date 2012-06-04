@@ -11,7 +11,7 @@
 #include "nodePath.h"
 #include "world.h"
 
-NodePath Foliage::folhas = NULL;
+NodePath Foliage::folhas;
 
 Foliage::Foliage() {
 
@@ -24,6 +24,7 @@ Foliage::~Foliage() {
 	//delete TodaFolhagem;
 	folhagem_stage = NULL;
 	folhagem_texture = NULL;
+	folhas.remove_node();
 
 }
 

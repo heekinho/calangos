@@ -42,6 +42,11 @@ bool PlayerControl::mouse_on_button = false;
 PlayerControl::~PlayerControl() {
 	event_handler->remove_hooks_with(this);
 	instanceFlag = false;
+
+	indicator.remove_node();
+	line_indicator.remove_node();
+	_female_indicator.remove_node();
+	_toca_indicator.remove_node();
 }
 
 

@@ -5,9 +5,10 @@
 
 class Prey;
 
-class GroupPrey : public TypedReferenceCount {
+class GroupPrey : public ReferenceCount {
 public:
 	GroupPrey();
+	virtual ~GroupPrey();
 
 	bool is_master_leader(PT(Prey) prey);
 	void calc_leaders();

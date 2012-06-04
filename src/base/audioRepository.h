@@ -1,16 +1,19 @@
 /* 
  * File:   audioRepository.h
  * Author: fladmy
- *
  * Created on 21 de Fevereiro de 2011, 11:24
  */
 
 #ifndef AUDIOREPOSITORY_H
 #define	AUDIOREPOSITORY_H
+
 #include <string>
 #include <map>
 #include "audioManager.h"
 #include "audioSound.h"
+#include "genericAsyncTask.h"
+
+class Event;
 
 using std::string;
 

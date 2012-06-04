@@ -9,12 +9,14 @@
 #define PREYREDISTRIBUTER_H
 
 #include "simdunas.h"
+#include "referenceCount.h"
+
 class Prey;
 
-class PreyRedistributer {
+class PreyRedistributer : public ReferenceCount {
 public:
 	PreyRedistributer(list<PT(Prey)> preys);
-	~PreyRedistributer();
+	virtual ~PreyRedistributer();
 
 	static void update_redistribution(const Event* evt, void* data){
 		((PreyRedistributer*) data)->update_redistribution();

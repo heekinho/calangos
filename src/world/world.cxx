@@ -6,7 +6,6 @@
 #include "modelRepository.h"
 
 PT(World)  World::_world = NULL;
-TypeHandle World::_type_handle;
 
 /*! Constrói o mundo no qual se passará o jogo. O mundo será composto de
  * um terreno, céu e diversos outros elementos. */

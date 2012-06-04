@@ -9,7 +9,7 @@ class TopCamera : public CameraNode {
 public:
 
 	TopCamera(PT(Camera) camera);
-	~TopCamera();
+	virtual ~TopCamera();
 
 	virtual void update();
 	virtual bool activate();

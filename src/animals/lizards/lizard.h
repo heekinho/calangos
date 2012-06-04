@@ -10,7 +10,7 @@ class Lizard : public Animal, public LizardBase {
 public:
 	Lizard(NodePath node);
 
-	~Lizard();
+	virtual ~Lizard();
 
 	virtual void act();
 //	virtual void new_act();

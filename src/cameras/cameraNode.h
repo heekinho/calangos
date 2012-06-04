@@ -14,7 +14,7 @@ class CameraNode : public NodePath, public TypedReferenceCount {
 
 public:
 	CameraNode(PT(Camera) camera);
-	~CameraNode();
+	virtual ~CameraNode();
 
 	static void update_configs(const Event*, void *data);
 

@@ -43,7 +43,11 @@ Setor::Setor(LPoint2d inicio, LPoint2d fim, int indice){
 
 //Setor::Setor(){}
 
-Setor::~Setor() {}
+Setor::~Setor() {
+	_vegetals.remove_node();
+	_root.remove_node();
+
+}
 
 ///*! Lançado na movimentação dos NPCs */
 //void Setor::npc_moving(const Event* evt, void *data){

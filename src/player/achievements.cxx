@@ -37,7 +37,9 @@ Achievements::Achievements() {
 	lvl_guerreiro = 0;
 }
 
-Achievements::~Achievements() {}
+Achievements::~Achievements() {
+	eaten_species.clear();
+}
 
 void Achievements::inc_bites() {
 	count_bites++;

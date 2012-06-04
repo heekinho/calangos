@@ -14,7 +14,7 @@ public:
 	Animal(NodePath node);
 	static void load_animals();
 
-	~Animal();
+	virtual ~Animal();
 	static void unload_animals();
 
 	static void act(const Event*, void *data);

@@ -24,6 +24,10 @@ PovCamera::PovCamera(PT(Camera) camera) : CameraNode(camera){
 	World::get_world()->get_terrain()->update_node_z(dummy);
 }
 
+PovCamera::~PovCamera(){
+	dummy.remove_node();
+}
+
 bool PovCamera::activate(){
 	this->CameraNode::activate();
 	//this->object->set_alpha_scale(0);

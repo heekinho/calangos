@@ -74,8 +74,6 @@ void Player::load_health(){
 
 /* Evento chamado a cada minuto virtual para atualização dos valores */
 void Player::event_gasto_energia(const Event*, void *data){
-	player->atualiza_vector();
-
 	player->get_achievements()->check_temperature(player->get_temperature());
 	player->get_achievements()->check_hydration(player->get_hydration());
 	player->get_achievements()->check_energy(player->get_energy());
@@ -139,40 +137,6 @@ void Player::event_pmonth(const Event*, void *data){
 
 		player->set_gender(LizardBase::LG_male);
 	}
-}
-
-
-///*! Atualiza os valores dos vetores utilizados para geração dos gráfico */
-void Player::atualiza_vector(){
-//	Vetores::get_instance()->addElementVectorTemperaturaLagarto(get_temperature());
-//	Vetores::get_instance()->addElementVectorHidratacaoLagarto(get_hydration());
-//	Vetores::get_instance()->addElementVectorEnergia(get_energy());
-//
-//	float food_energy = player_health_simulator->get_energy_simulator()->get_food_energy_buffer();
-//	Vetores::get_instance()->addElementVectorAlimentacao(food_energy);
-//
-//	float total_cost = player_health_simulator->get_energy_simulator()->get_total_cost();
-//	Vetores::get_instance()->addElementVectorGastoEnergeticoTotal(total_cost);
-//
-//	Vetores::get_instance()->addElementVectorTemperaturaAr(MicroClima::get_instance()->get_temp_ar_sector());
-//	if(in_toca){
-//		Vetores::get_instance()->addElementVectorTemperaturaSolo(MicroClima::get_instance()->get_temp_toca_sector());
-//	} else {
-//		Vetores::get_instance()->addElementVectorTemperaturaSolo(MicroClima::get_instance()->get_temp_solo_sector());
-//	}
-//	Vetores::get_instance()->addElementVectorUmidadeAmbiente(MicroClima::get_instance()->get_umidade_relativa_sector());
-//
-//	Vetores::get_instance()->addElementVectorTempo(TimeControl::get_instance()->get_hora_generica());
-//
-//#if(DEBUG_PHEALTH)
-//	cout << endl << "A temperatura interna do lagarto eh: " << this->temp_interna << endl;
-//	cout << endl << "A temperatura interna do lagarto adicionada ao vetor foi: " << vetores->getLastElementTemperaturaLagarto() << endl;
-//	cout << endl << "O tamanho do vetor de temperatura interna do lagarto eh: " << vetores->getSizeVectorTemperaturaLagarto() << endl;
-//
-//	cout << endl << "A temperatura do ambiente eh: " << MicroClima::get_instance()->get_temp_ar_sector() << endl;
-//	cout << endl << "A temperatura do ambiente adicionada ao vetor foi: " << vetores->getLastElementTemperaturaAr() << endl;
-//	cout << endl << "O tamanho do vetor de temperatura do ambiente eh: " << vetores->getSizeVectorTemperaturaAr() << endl;
-//#endif
 }
 
 double Player::get_environment_temp(){

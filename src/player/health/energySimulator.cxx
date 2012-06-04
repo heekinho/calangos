@@ -5,6 +5,7 @@
  */
 
 #include "energySimulator.h"
+#include "utils.h"
 
 EnergySimulator::EnergySimulator(PT(PlayerHealth) health) : Simulator(health) {
 	_initial_energy = 50;

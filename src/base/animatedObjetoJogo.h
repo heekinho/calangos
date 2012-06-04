@@ -13,7 +13,7 @@ public:
 	AnimatedObjetoJogo(PT(ObjetoJogo) object);
 	AnimatedObjetoJogo(PT(AnimatedObjetoJogo) object);
 
-	~AnimatedObjetoJogo();
+	virtual ~AnimatedObjetoJogo();
 };
 
 #endif

@@ -27,7 +27,7 @@ public:
 
 
 	Predator(NodePath node,Predator::types_predator type);
-	~Predator();
+	virtual ~Predator();
 
 	static void load_predators();
 

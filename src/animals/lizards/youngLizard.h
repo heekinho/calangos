@@ -6,9 +6,9 @@
 class YoungLizard : public Lizard {
 public:
     YoungLizard(NodePath node);
-   ~YoungLizard();
+	virtual ~YoungLizard();
 
-    void init();
+	void init();
 };
 
 #endif

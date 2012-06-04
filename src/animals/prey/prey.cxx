@@ -23,6 +23,10 @@ Prey::Prey(NodePath node) : Animal(node) {
 	 set_velocity(0.017);
 };
 
+Prey::~Prey(){
+
+}
+
 /*! Realiza o carremento das presas */
 void Prey::load_prey(){
 	float factor = 0.0001;

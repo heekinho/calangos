@@ -20,7 +20,7 @@ public:
 	ObjetoJogo(NodePath node);
 	ObjetoJogo(PT(ObjetoJogo) object);
 
-	~ObjetoJogo();
+	virtual ~ObjetoJogo();
 
 
 	static const string EV_object_move;

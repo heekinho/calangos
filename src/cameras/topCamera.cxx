@@ -24,7 +24,7 @@ TopCamera::TopCamera(PT(Camera) camera) : CameraNode(camera){
 
 
 TopCamera::~TopCamera(){
-	this->arrow.remove_node();
+	arrow.remove_node();
 }
 
 bool TopCamera::activate(){

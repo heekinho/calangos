@@ -8,10 +8,10 @@
 #include "ambientLight.h"
 #include "referenceCount.h"
 
-class Sky : public NodePath,  public TypedReferenceCount{
+class Sky : public NodePath,  public TypedReferenceCount {
 public:
 	
-    ~Sky();
+    virtual ~Sky();
 	static PT(Sky) get_default_sky();
 
 	enum {
@@ -45,11 +45,14 @@ public:
 
 private:
     Sky(const string &model);
-	TextureCollection *skies;
-	TextureStage *next_sky_stage, *current_sky_stage;
+	TextureCollection skies;
+
+	PT(TextureStage) next_sky_stage;
+	PT(TextureStage) current_sky_stage;
+
 	int current_sky, next_sky;
     static float seta;
-    AmbientLight *noite;
+    PT(AmbientLight) noite;
     static PT(Sky) sky;
     static TypeHandle _type_handle;
 

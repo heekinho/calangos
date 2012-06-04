@@ -4,8 +4,6 @@
 #include "setor.h"
 #include "world.h"
 
-TypeHandle ShadowCard::_type_handle;
-
 ShadowCard::ShadowCard(LPoint2f img_size, LPoint2f obj_size) {
 	this->obj_size = obj_size;
 
@@ -29,6 +27,8 @@ ShadowCard::~ShadowCard(){
 	delete shadows_channel;
 	shadow_stage = NULL;
 	shadow_tex = NULL;
+
+	delete active_shadows;
 }
 
 

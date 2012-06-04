@@ -10,7 +10,7 @@ class FlyingPredatorCamera;
 class FlyingPredator : public Predator {
 public:
 	FlyingPredator(NodePath node, Predator::types_predator type);
-	~FlyingPredator();
+	virtual ~FlyingPredator();
 
 	static void load_predators();
 	static void load_predator(Predator::types_predator types, int qtd, float scale, int orientation = -1);

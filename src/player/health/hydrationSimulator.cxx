@@ -5,6 +5,7 @@
  */
 
 #include "hydrationSimulator.h"
+#include "utils.h"
 
 HydrationSimulator::HydrationSimulator(PT(PlayerHealth) health) : Simulator(health) {
 	float initial_hydration = 50.0;

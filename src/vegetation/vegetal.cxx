@@ -62,6 +62,7 @@ Vegetal::Vegetal(PT(Vegetal) base_vegetal) : ObjetoJogo(vegetals_placeholder.att
 //}
 
 Vegetal::~Vegetal(){
+
 }
 
 /*! Configura um vegetal a partir de informações de um vegetal base */

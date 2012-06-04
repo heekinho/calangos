@@ -22,7 +22,9 @@ EdibleVegetal::EdibleVegetal(PT(EdibleVegetal) base_vegetal)
 	configure_vegetal(base_vegetal);
 }
 
-EdibleVegetal::~EdibleVegetal(){}
+EdibleVegetal::~EdibleVegetal(){
+
+}
 
 /*! Configura o vegetal de acordo com o modelo de vegetal passado */
 void EdibleVegetal::configure_vegetal(PT(EdibleVegetal) base_vegetal){

@@ -13,7 +13,7 @@
 
 class PlayerControl {
 public:
-	~PlayerControl();
+	virtual ~PlayerControl();
 
 	//Singleton
 	static PlayerControl* get_instance();

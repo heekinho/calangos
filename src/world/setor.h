@@ -13,11 +13,11 @@
 
 #include "sectorItems.h"
 
-class Setor : public TypedReferenceCount,public NodePath {
+class Setor : public TypedReferenceCount, public NodePath {
 public:
 	Setor(LPoint2d inicio, LPoint2d fim, int indice);
 
-	~Setor();
+	virtual ~Setor();
 	void unload_sector();
 
 //	static void npc_moving(const Event* evt, void *data);

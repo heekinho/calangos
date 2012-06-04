@@ -19,9 +19,6 @@
 /* Controle Singleton */
 PT(CameraControl) CameraControl::single = NULL;
 
-/* Controle de Reference Counting */
-TypeHandle CameraControl::_type_handle;
-
 /*! Obtém o Controle de Camera */
 PT(CameraControl) CameraControl::get_instance(){
 	if(!single) {
@@ -33,9 +30,10 @@ PT(CameraControl) CameraControl::get_instance(){
 
 /*! Destrói o Controle de Cameras */
 CameraControl::~CameraControl(){
-	for(int i = 0; i < cameras.size(); i++){
-		cameras[i]->remove_node();
-	}
+	/* O destrutor de cameras é que chama remove_node */
+//	for(int i = 0; i < cameras.size(); i++){
+//		cameras[i]->remove_node();
+//	}
 
 	cameras.clear();
 	display_region = NULL;

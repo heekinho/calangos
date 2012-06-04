@@ -13,6 +13,8 @@ class PreyRedistributer;
 class Prey : public Animal, public Edible {
 public:
 	Prey(NodePath node);
+	virtual ~Prey();
+
 	static void load_prey();
 
 	static void load_prey_specie(const string name, int qtd, double scale, int living_tree_prob, float nutricional, float hidratacao, bool comp_group = false, int n = 0);
@@ -61,7 +63,7 @@ protected:
 	float radius_thr;
 	bool has_living_tree;
 public:
-	GroupPrey* _group;
+	PT(GroupPrey) _group;
 	PT(Prey) leader;
 };
 

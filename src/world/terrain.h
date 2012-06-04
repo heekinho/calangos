@@ -31,7 +31,7 @@ public:
 	Terrain(const string &name = "UNDEFINED_TERRAIN");
 	static PT(Terrain) get_default_terrain();
 	
-	~Terrain();
+	virtual ~Terrain();
 
 	void add_animal(PT(Animal) animal);
 	void add_prey(PT(Prey) prey);

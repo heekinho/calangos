@@ -14,7 +14,7 @@ namespace EdibleT {
 
 class EdibleVegetal : public ObjetoJogo, public Edible {
 public:
-	~EdibleVegetal();
+	virtual ~EdibleVegetal();
 	
 	static PT(EdibleVegetal) get_edible_vegetal(string name, EdibleT::EdibleType type);
 

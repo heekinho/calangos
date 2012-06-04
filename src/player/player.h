@@ -49,7 +49,7 @@ public:
 
 	static PlayerProperties properties;
 
-	~Player();
+	virtual ~Player();
 
 	// Modelo singleton, ao iniciar utilizar os parametros
 	static PT(Player) get_instance();
@@ -175,13 +175,6 @@ private:
 	int idade;
 	/* Número de ovos */
 	int num_ovos;
-
-	/* Armazena os valores das variáveis 'finais' (energia, hidratação, temperatura interna) no vetor
-	 * da classe vector. Esses valores servirão para a geração dos gráficos no tempo. */
-	void atualiza_vector();
-
-//	/* Guarda referencia para os vetores que armazenarão o histórico das variáveis de saúde do lagarto*/
-//	Vetores* vetores;
 
 public:
 	/* Procura fêmeas em um raio próximo */

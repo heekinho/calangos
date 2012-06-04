@@ -4,10 +4,7 @@
 using namespace std;
 
 #include "climaTempo.h"
-
-/*Inicializando constante que será utilizado em sorteio normal com um valor
-* aleatório, situado entre 0 e 1*/
-#define RAND_UNIFORME (double)rand()/(double)RAND_MAX
+#include "utils.h"
 
 /*Quantidade maxima de chuvas no historico de 4 localidades proximas as
 dunas, ocorrido em Morpara, marco de 1960*/
@@ -15,8 +12,6 @@ dunas, ocorrido em Morpara, marco de 1960*/
 #define PI 3.141592653589793
 
 #define DEBUG_CTEMPO 0
-
-TypeHandle ClimaTempo::_type_handle;
 
 /*Inicializando informações do singleton*/
 bool ClimaTempo::instanceFlag = false;
@@ -42,6 +37,7 @@ ClimaTempo::ClimaTempo() {
 e, ao reiniciá-lo, garante-se que um novo objeto da classe será gerado.*/
 ClimaTempo::~ClimaTempo() {
 	instanceFlag = false;
+	//if(arquivo) delete arquivo;
 }
 
 /*Método chamado quando o evento de passagem de hora é lançado.  
@@ -53,17 +49,6 @@ void ClimaTempo::event_phour_temp(const Event*, void *data){
 		cout << "\n Hora: " << TimeControl::get_instance()->get_hora() << "\n Temperatura do ar: " << ClimaTempo::get_instance()->tempArControl << "\n Temperatura do solo: " << ClimaTempo::get_instance()->tempSoloControl << "\n Temperatura das tocas: " << ClimaTempo::get_instance()->temTocaControl << "\n Chuva: " << ClimaTempo::get_instance()->qtChuva << endl;
 	#endif
 }
-
-/*Método que recebe esperança (ou média) e variância (ou desvio padrão), e retorna um número
-*gerado a partir de um sorteio normal (ou gaussiano)*/
-double ClimaTempo::random_normal(double esp,double var)
-{
-	double u1=RAND_UNIFORME;
-	double u2=RAND_UNIFORME;
-	double z=sqrt(-2.0*log(u1))*cos(2*PI*u2);
-	return esp+var*z;
-};
-
 
 /*Método que calcula e retorna a temperatura do ar na hora 'hour', de acordo com os outros argumenos recebidos pela função */
 double ClimaTempo::temp_ar_single(int hour, float nextMin, float nextMax, float nextVariation, float tminToday, float tmaxToday, float variationToday){
@@ -208,49 +193,49 @@ void ClimaTempo::ambient_control(int hour, int month){
 			initialization = 1;
 
 			//varia�ao do dia anterior
-			this->variationPrev = random_normal(7 , 2);
+			this->variationPrev = gaussian_random(7 , 2);
 			//variacao de hoje
-			this->variationToday = random_normal(7 , 2);
+			this->variationToday = gaussian_random(7 , 2);
 			//variacao de amanha
-			this->nextVariation = random_normal(7 , 2);
+			this->nextVariation = gaussian_random(7 , 2);
 			// variacao daqui a dois dias
-			this->nextVariation2 = random_normal(7 , 2);
+			this->nextVariation2 = gaussian_random(7 , 2);
 
 			/* usa das medias e desvios padrao das temperaturas maximas e minimas dos meses de dezembro a abril, que sao iguais,
 			para gerar numeros aleatorios que representarao temperaraturas maximas e minimas para esses meses*/
 			if (month < 5 || month == 12){
-				this->maxPrev = random_normal(31.5, 3);
-				this->minPrev = random_normal(19.5, 3);
-				this->tmaxToday = random_normal(31.5, 3);
-				this->tminToday = random_normal(19.5, 3);
-				this->nextMax = random_normal(31.5, 3);
-				this->nextMin = random_normal(19.5, 3);
-				this->nextMax2 = random_normal(31.5, 3);
-				this->nextMin2 = random_normal(19.5, 3);
+				this->maxPrev = gaussian_random(31.5, 3);
+				this->minPrev = gaussian_random(19.5, 3);
+				this->tmaxToday = gaussian_random(31.5, 3);
+				this->tminToday = gaussian_random(19.5, 3);
+				this->nextMax = gaussian_random(31.5, 3);
+				this->nextMin = gaussian_random(19.5, 3);
+				this->nextMax2 = gaussian_random(31.5, 3);
+				this->nextMin2 = gaussian_random(19.5, 3);
 			}else {
 				//para os meses de maio a agosto, a media da temperatura minima muda, entao eh necessario um outro tratamento
 				if(month > 4 && month < 9){
-					 this->maxPrev = random_normal(31.5, 3);
-					 this->minPrev = random_normal(16.5, 3);
-					 this->tmaxToday = random_normal(31.5, 3);
-					 this->tminToday = random_normal(16.5, 3);
-					 this->nextMax = random_normal(31.5, 3);
-					 this->nextMin = random_normal(16.5, 3);
-					 this->nextMax2 = random_normal(31.5, 3);
-					 this->nextMin2 = random_normal(16.5, 3);
+					 this->maxPrev = gaussian_random(31.5, 3);
+					 this->minPrev = gaussian_random(16.5, 3);
+					 this->tmaxToday = gaussian_random(31.5, 3);
+					 this->tminToday = gaussian_random(16.5, 3);
+					 this->nextMax = gaussian_random(31.5, 3);
+					 this->nextMin = gaussian_random(16.5, 3);
+					 this->nextMax2 = gaussian_random(31.5, 3);
+					 this->nextMin2 = gaussian_random(16.5, 3);
 
 				}else {
 					/*da mesma forma, para os meses de setembro a novembro, a media da temperatura maxima aumenta, sendo necessario
 					outro tratamento.*/
 					if(month > 8 && month < 12){
-						this->maxPrev = random_normal(34.5, 3);
-						this->minPrev = random_normal(19.5, 3);
-						this->tmaxToday = random_normal(34.5, 3);
-						this->tminToday = random_normal(19.5, 3);
-						this->nextMax = random_normal(34.5, 3);
-						this->nextMin = random_normal(19.5, 3);
-						this->nextMax2 = random_normal(34.5, 3);
-						this->nextMin2 = random_normal(19.5, 3);
+						this->maxPrev = gaussian_random(34.5, 3);
+						this->minPrev = gaussian_random(19.5, 3);
+						this->tmaxToday = gaussian_random(34.5, 3);
+						this->tminToday = gaussian_random(19.5, 3);
+						this->nextMax = gaussian_random(34.5, 3);
+						this->nextMin = gaussian_random(19.5, 3);
+						this->nextMax2 = gaussian_random(34.5, 3);
+						this->nextMin2 = gaussian_random(19.5, 3);
 					}
 				}
 			}
@@ -265,18 +250,18 @@ void ClimaTempo::ambient_control(int hour, int month){
 			this->variationPrev = this->variationToday;
 			this->variationToday = this->nextVariation;
 			this->nextVariation = this->nextVariation2;
-			this->nextVariation2 = random_normal(7 , 2);
+			this->nextVariation2 = gaussian_random(7 , 2);
 			if (month < 5 || month == 12){
-				this->nextMax2 = random_normal(31.5, 3);
-				this->nextMin2 = random_normal(19.5, 3);
+				this->nextMax2 = gaussian_random(31.5, 3);
+				this->nextMin2 = gaussian_random(19.5, 3);
 			}else{
 				if(month > 4 && month < 9){
-					this->nextMax2 = random_normal(31.5, 3);
-					this->nextMin2 = random_normal(16.5, 3);
+					this->nextMax2 = gaussian_random(31.5, 3);
+					this->nextMin2 = gaussian_random(16.5, 3);
 				}else{
 					if(month > 8 && month < 12){
-						this->nextMax2 = random_normal(34.5, 3);
-						this->nextMin2 = random_normal(19.5, 3);
+						this->nextMax2 = gaussian_random(34.5, 3);
+						this->nextMin2 = gaussian_random(19.5, 3);
 					}
 				}
 			}
@@ -332,7 +317,7 @@ double ClimaTempo::prob_chuva(int mes){
 	double qt_chuva_dia_pedido = 0;
 	//Probabilidade de ocorrencia de chuvas para qualquer dia naquele mes
 	double prob_chuva_dia = 0;
-	qt_chuva_mes_temp = random_normal(matriz[mes-1],matriz[mes+11]);
+	qt_chuva_mes_temp = gaussian_random(matriz[mes-1],matriz[mes+11]);
 	//para evitar valores negativos do sorteio
 	qt_chuva_mes = sqrt(qt_chuva_mes_temp*qt_chuva_mes_temp);
 	prob_chuva_dia = qt_chuva_mes/QT_CHUVA_MAX;
@@ -343,7 +328,7 @@ double ClimaTempo::prob_chuva(int mes){
 	//Se o a probabilidade de chuva for maior que o número sorteado
 	if (prob_chuva_dia >= count){
 		//Faz sorteio da quantidade de chuvas para o dia
-		qt_chuva_dia_pedido = random_normal(matriz[mes-1],matriz[mes+11])/(prob_chuva_dia*30);
+		qt_chuva_dia_pedido = gaussian_random(matriz[mes-1],matriz[mes+11])/(prob_chuva_dia*30);
 	}
 	return sqrt(qt_chuva_dia_pedido*qt_chuva_dia_pedido);
 }

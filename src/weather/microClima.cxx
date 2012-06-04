@@ -16,8 +16,6 @@
 
 #define DEBUG_MCLIMA 0
 
-TypeHandle MicroClima::_type_handle;
-
 #include "world.h"
 
 bool MicroClima::instanceFlag = false;
@@ -25,10 +23,10 @@ PT(MicroClima) MicroClima::single = NULL;
 
 MicroClima::~MicroClima(){
 	instanceFlag = false;
+//	if(arquivo)	delete arquivo;
 }
 
 MicroClima::MicroClima(){
-
 	/*Inicializa as variáveis com os mesmos valores das variáveis ambientais de climaTempo.
 	*É como inicializar o lagarto no meio de uma duna, sem sombras. Isso é corrigido rápidamente
 	*se o lagarto estiver em outro lugar.*/

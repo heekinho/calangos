@@ -12,11 +12,16 @@
 #define MAXDEGREE 100
 #define PROBTHR 80
 
-MaleLizard::MaleLizard(NodePath node) : Lizard(node){ init(); }
 const double MaleLizard::BOBBING_WAITING_TIME = 3.0;
+
+MaleLizard::MaleLizard(NodePath node) : Lizard(node) {
+	init();
+}
+
 
 MaleLizard::~MaleLizard(){
 	event_handler->remove_hook(PlayerControl::EV_player_bobbing, player_did_bobbing, (void *) this);
+	male_symbol.remove_node();
 }
 
 void MaleLizard::init() {
@@ -24,21 +29,17 @@ void MaleLizard::init() {
     //bind_anims(node());
     last_bobbing_done = 0;
     waiting_player_decide = false;
+    eat_thr = 0.3;
 
     PT(AnimControl) ac = get_anim_control()->find_anim("fast_bite");
     if(ac != NULL) ac->set_play_rate(1.5);
 
-    maleSymbol = window->load_model(*this, "models/lizards/symbols/male.png");
-    maleSymbol.set_scale(2.0);
-    float posZ = maleSymbol.get_z();
-    maleSymbol.set_z(posZ + 100);
-    maleSymbol.set_billboard_point_eye(0);
+    male_symbol = window->load_model(*this, "models/lizards/symbols/male.png");
+    male_symbol.set_scale(2.0);
+    male_symbol.set_z(male_symbol.get_z() + 100);
+    male_symbol.set_billboard_point_eye(0);
 
     set_gender(Lizard::LG_male);
-
-
-
-    this->eat_thr = 0.3;
 }
 
 void MaleLizard::act(){

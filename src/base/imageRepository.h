@@ -3,12 +3,11 @@
 
 #include <string>
 #include <vector>
-
 #include "nodePathCollection.h"
-
+#include "referenceCount.h"
 
 /*! Um ImageRepository armazena as imagens e abstrai o recurso de instancing do Panda3D */
-class ImageRepository {
+class ImageRepository : public ReferenceCount {
 public:
 	// Singleton
 	static ImageRepository* get_instance();

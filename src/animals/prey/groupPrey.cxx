@@ -1,6 +1,12 @@
 #include "groupPrey.h"
 
-GroupPrey::GroupPrey(){}
+GroupPrey::GroupPrey(){
+
+}
+
+GroupPrey::~GroupPrey(){
+	group.clear();
+}
 
 /*! Verifica se a presa é líder *supremo* do grupo */
 bool GroupPrey::is_master_leader(PT(Prey) prey){
