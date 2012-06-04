@@ -14,7 +14,6 @@
 #include "microClima.h"
 #include "textNode.h"
 #include "graphics.h"
-//#include "vetores.h"
 #include "gameStatusBar.h"
 #include "graphicsMenu.h"
 

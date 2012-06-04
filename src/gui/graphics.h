@@ -9,8 +9,6 @@
 //#include <queue>
 #include "history.h"
 
-//class Vetores;
-
 class Graphics : public TypedReferenceCount {
 public:
 //    Graphics(NodePath pai, queue<double> vetorXtmp, queue<double> vetorYtmp, double limiteSuperiorXTmp, double limiteInferiorXTmp, double limiteSuperiorYTmp, double limiteInferiorYTmp, bool tipoTempoTmp);

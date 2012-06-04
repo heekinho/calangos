@@ -83,8 +83,6 @@ private:
 	int tempo_na_sombra;
 
 	PT(Vegetal) arvore_da_sombra;
-
-
 };
 
 #endif

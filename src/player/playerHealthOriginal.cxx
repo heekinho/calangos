@@ -11,7 +11,6 @@
 #include "hydrationSimulator.h"
 #include "dietSimulator.h"
 
-//#include "vetores.h"
 #include "microClima.h"
 #include "guiManager.h"
 #include "texturePool.h"

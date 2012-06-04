@@ -3,7 +3,6 @@
 #include "graphics.h"
 #include "guiManager.h"
 #include "mouseButton.h"
-//#include "vetores.h"
 #include "playerControl.h"
 #include "inGameScreenManager.h"
 #include "pauseScreen.h"

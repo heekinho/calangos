@@ -249,13 +249,8 @@ void Session::end_session(){
 	nout << "Destruindo ""mundo""..." << endl;
 	World::unload_world();
 
-//	nout << "Destruindo vetores..." << endl;
-//	Vetores::unload_vetores();
-
-
 	nout << "Destruindo Controle de Camera..." << endl;
 	CameraControl::unload();
-
 
 	nout << "Destruindo Player..." << endl;
 	Player::unload_player();

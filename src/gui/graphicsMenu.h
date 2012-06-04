@@ -11,7 +11,6 @@
 #include "pandaFramework.h"
 #include "pgVirtualFrame.h"
 #include "graphics.h"
-//#include "vetores.h"
 
 #include "history.h"
 
@@ -132,8 +131,6 @@ public:
     void set_tamanho_vetor_x(double tamanho);
     double get_tamanho_vetor_y();
     void set_tamanho_vetor_y(double tamanho);
-
-//    Vetores* get_vector();
 
 	void make_tipo_graf(NodePath menu_frame_np);
 	void make_txt_tipo_graf(NodePath menu_frame_np);
@@ -359,9 +356,7 @@ private:
     double tamanho_vetor_x;
     double tamanho_vetor_y;
 
-//    Vetores* vector;
     PT(History) history;
-
 };
 
 #endif /* GRAPHICSMENU_H */

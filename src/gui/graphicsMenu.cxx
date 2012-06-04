@@ -11,8 +11,6 @@
 #include "session.h"
 
 GraphicsMenu::GraphicsMenu(NodePath menu_frame_np) {
-//	//Inicia o objeto vetores.
-//	vector = Vetores::get_instance();
 	history = Session::get_instance()->history();
 
 	make_tipo_graf(menu_frame_np);
@@ -393,10 +391,6 @@ double GraphicsMenu::get_tamanho_vetor_y() {
 void GraphicsMenu::set_tamanho_vetor_y(double tamanho) {
 	tamanho_vetor_y = tamanho;
 }
-
-//Vetores* GraphicsMenu::get_vector() {
-//	return vector;
-//}
 
 // Monta a parte do topo onde tem escrito "Tipo do Grafico" (label, leds e botões)
 void GraphicsMenu::make_tipo_graf(NodePath menu_frame_np) {

@@ -11,7 +11,6 @@
 // Forward Declaration
 //class AnimatedObjetoJogo;
 class MicroClima;
-//class Vetores;
 class PlayerHealth;
 class PlayerHealthSimulator;
 class FemaleLizard;
