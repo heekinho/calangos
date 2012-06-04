@@ -149,10 +149,13 @@ void MaleLizard::chase(){
 
 }
 
-void MaleLizard::be_bited(){
+void MaleLizard::be_bited(float relative_size){
 	Lizard::be_bited();
+	this->energia = this->energia - (relative_size * 5);
+
 	set_action("fight", true);
 }
+
 
 void MaleLizard::bite(){
 	/* Manter simples por enquanto */

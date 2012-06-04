@@ -13,7 +13,7 @@ public:
     static void player_did_bobbing(const Event *theEvent, void *data);
     static const double BOBBING_WAITING_TIME;// = 3.0;
 
-    virtual void be_bited();
+    virtual void be_bited(float relative_size);
 private:
     virtual void act();
 

@@ -104,6 +104,7 @@ void Lizard::load_lizards(){
 			lizard->set_gender(LizardBase::LG_male);
 
 			lizard->energia = gaussian_random(60, 20);
+
 			//0.0021 = 0.0025 - 0.0004 => tamanho máximo - tamanho mínimo
 			lizard->scale_temp = ((0.0021/100)* lizard->get_energia()) + 0.0004;
 			lizard->set_tamanho_real(gaussian_random(lizard->scale_temp, 0.0001));

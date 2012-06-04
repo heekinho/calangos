@@ -498,8 +498,8 @@ void PlayerControl::eat(const Event *evt, void *data){
 			MaleLizard* male_lizard = (MaleLizard*) lizard;
 
 			if (dist_to_target < act_dist_thr) {
-				male_lizard->be_bited();
-				male_lizard->set_energia(male_lizard->get_energia() - 10);
+
+				male_lizard->be_bited(player->get_relative_size());
 			}
 		}
 	}

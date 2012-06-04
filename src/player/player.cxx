@@ -406,9 +406,9 @@ void Player::set_predator(PT(Predator) other){
 /* "OUTROS"
  * ------------------------------------------------------------------------- */
 
-void Player::mordida_recebida(int lizard_relative_size){
+void Player::mordida_recebida(int lizard_tamanho_base){
 	//TODO: Corrigir o lizard_relative_size
-	float lost_energy = lizard_relative_size * 0.05;
+	float lost_energy = lizard_tamanho_base * 0.05;
 	if(lost_energy <= 0) return;
 
 	add_energy(-lost_energy);
