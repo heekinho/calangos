@@ -298,17 +298,17 @@ void PlayerControl::update(){
 
 		indicator.set_pos(_closest_biteable->get_pos());
 		indicator.set_z(max.get_z() + 0.01);
-		indicator.show();
+		indicator.unstash();
 	}
-	else indicator.hide();
+	else indicator.stash();
 
 	/* Condição deveria estar em um método comum com entrar na toca, mas... */
 	if(_closest_toca && p->get_distance_squared(*_closest_toca) < p->get_toca_thr()*p->get_toca_thr()){
-		_toca_indicator.show();
 		_toca_indicator.set_pos(_closest_toca->get_pos());
 		_toca_indicator.set_z(_toca_indicator.get_z() + 0.15);
+		_toca_indicator.unstash();
 	}
-	else _toca_indicator.hide();
+	else _toca_indicator.stash();
 
 
 	if(_closest_female){
@@ -318,10 +318,10 @@ void PlayerControl::update(){
 		//closest_object->calc_tight_bounds(min, max);
 		_closest_female->calc_tight_bounds(min, max);
 		_female_indicator.set_z(max.get_z() + 0.01);
-		_female_indicator.show();
+		_female_indicator.unstash();
 	}
         
-	else _female_indicator.hide();
+	else _female_indicator.stash();
 
 #ifdef PSTATS
         t.~PStatTimer();
@@ -602,7 +602,7 @@ void PlayerControl::toca_control(const Event*, void *data){
 			PT(ObjetoJogo) toca = *it;
 			LVector3f player_to_toca = player->get_pos() - toca->get_pos();
 			if(player_to_toca.length() < player->get_toca_thr()){
-				toca->hide();
+				toca->stash();
 				player->set_in_toca(true);
 				player->set_toca(toca);
 				event_queue->queue_event(new Event(PlayerControl::EV_player_enter_toca));
@@ -612,7 +612,7 @@ void PlayerControl::toca_control(const Event*, void *data){
 		}
 	}
 	else {
-		if(player->get_toca()) player->get_toca()->show();
+		if(player->get_toca()) player->get_toca()->unstash();
 
 		player->set_in_toca(false);
 		player->set_toca(NULL);

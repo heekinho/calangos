@@ -342,7 +342,7 @@ void Vegetal::add_data(const string &map_name, int value){
 void Vegetal::load_vegetals(int density) {
 	load_default_model_and_data();
 
-	Vegetal::vegetals_placeholder.reparent_to(render);
+//	Vegetal::vegetals_placeholder.reparent_to(render);		// Don't render that!
 	Vegetal::visible_vegetals_placeholder.reparent_to(render);
 
 	//Vegetal::vegetals_placeholder.reparent_to(render);
@@ -478,8 +478,8 @@ void Vegetal::update_show_hide(){
 //		else
 //			sector->hide_vegetals();
 
-		if(sector->is_player_neighbor()) sector->_vegetals.show();
-		else sector->_vegetals.hide();
+		if(sector->is_player_neighbor()) sector->_vegetals.unstash();
+		else sector->_vegetals.stash();
 	}
 	World::get_world()->get_terrain()->get_shadows()->update_active_shadows();
 }

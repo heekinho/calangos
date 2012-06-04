@@ -11,7 +11,7 @@ TopCamera::TopCamera(PT(Camera) camera) : CameraNode(camera){
 	this->arrow = window->load_model(window->get_render_2d(), "models/green_arrow.png");
 	this->arrow.set_scale(0.005);
 	this->arrow.set_alpha_scale(0.3);
-	this->arrow.hide();
+	this->arrow.stash();
 
 	Simdunas::get_framework()->define_key("+", "Zoom In", zoom_in, this);
 	Simdunas::get_framework()->define_key("-", "Zoom Out", zoom_out, this);
@@ -29,13 +29,13 @@ TopCamera::~TopCamera(){
 
 bool TopCamera::activate(){
 	CameraNode::activate();
-	this->arrow.show();
+	this->arrow.unstash();
 	return true;
 }
 
 bool TopCamera::deactivate(){
 	CameraNode::deactivate();
-	this->arrow.hide();
+	this->arrow.stash();
 	return true;
 }
 
