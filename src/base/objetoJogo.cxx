@@ -247,7 +247,7 @@ void ObjetoJogo::has_moved(){
 void ObjetoJogo::move(float velocity) {
 	/* Verifica posição e se o movimento for valido, o faça! */
 	LPoint3f desloc = calculate_pos(velocity, true);
-	if(World::get_world()->get_terrain()->has_inside(desloc)) this->set_pos(desloc);
+	if(World::get_world()->get_terrain()->has_inside(desloc)) this->set_fluid_pos(desloc);
 }
 
 /*! Calcula a posição onde o objeto estará caso se mova com a velocidade indicada */
