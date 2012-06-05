@@ -25,8 +25,16 @@ DebugTools::DebugTools() {
 	event_handler->add_hook(TimeControl::EV_pass_day, update_day, this);
 	event_handler->add_hook(TimeControl::EV_pass_month, update_month, this);
 
-	char* action = "grow-old";
-	Simdunas::get_framework()->define_key("control-o", "Easter Egg2", special_control, action);
+	char* action;
+
+	action = "grow-old";
+	Simdunas::get_framework()->define_key("control-o", "EasterEgg - Grow Old", special_control, action);
+
+	action = "kill-player";
+	Simdunas::get_framework()->define_key("control-k", "EasterEgg - Kill Player", special_control, action);
+
+	action = "see-graphs";
+	Simdunas::get_framework()->define_key("control-g", "See Scene Graphs", special_control, action);
 
 	configure_input();
 }
@@ -73,8 +81,30 @@ void DebugTools::update_month(){
 }
 
 void DebugTools::special_control(const Event*, void *data){
-	event_queue->queue_event(new Event(TimeControl::EV_pass_day));
-	event_queue->queue_event(new Event(TimeControl::EV_pass_month));
+	char* action = (char*) data;
+
+	if(strcmp(action, "grow-old") == 0){
+		event_queue->queue_event(new Event(TimeControl::EV_pass_day));
+		event_queue->queue_event(new Event(TimeControl::EV_pass_month));
+	}
+
+	if(strcmp(action, "kill-player") == 0){
+		player->add_energy(-player->get_energy());
+	}
+
+	if(strcmp(action, "see-graphs") == 0){
+		nout << "======== Begin of Render ======== " << endl;
+		window->get_render().ls();
+		nout << "======== End of Render ======== " << endl;
+
+		nout << "======== Begin of Render 2d ======== " << endl;
+		window->get_render_2d().ls();
+		nout << "======== End of Render 2d ======== " << endl;
+
+//		nout << "======== Begin of Render 2d ======== " << endl;
+//		window->get_aspect_2d().ls();
+//		nout << "======== End of Render 2d ======== " << endl;
+	}
 }
 
 
