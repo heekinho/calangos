@@ -29,7 +29,7 @@ PNMImage editorTextureScreen::mascara = PNMImage("models/lizards/custom/young/te
 PNMImage editorTextureScreen::textura_original = PNMImage("models/lizards/custom/young/teiu.jpg");
 
 
-editorTextureScreen::editorTextureScreen(PT(ScreenManager) manager) : Screen(manager){//construtor
+editorTextureScreen::editorTextureScreen(PT(ScreenManager) manager) : Screen(manager){
     load();
 }
 

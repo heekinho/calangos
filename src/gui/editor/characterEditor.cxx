@@ -110,7 +110,8 @@ public:
 CharacterEditor::CharacterEditor(PT(ScreenManager) manager) : Screen(manager){
 	gui = Simdunas::get_pixel_2d();
 
-	load(); hide();
+	load();
+	hide();
 }
 
 CharacterEditor::~CharacterEditor(){
