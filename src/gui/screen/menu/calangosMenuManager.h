@@ -36,7 +36,7 @@ public:
 
 	void create_menus();
 	void unload_menus();
-	PT(TextFont) get_default_font();
+	virtual PT(TextFont) get_default_font();
 
 private:
 	CalangosMenuManager();
