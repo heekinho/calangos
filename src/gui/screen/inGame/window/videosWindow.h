@@ -25,6 +25,8 @@ public:
 	ACTION(habitat_action);
 
 private:
+	void open_video(const string &video_path);
+
 	PT(ScreenManager) manager;
 
 	PT(Button) btn_lagartos;		NodePath np_btn_lagartos;		NodePath img_video_lagartos;

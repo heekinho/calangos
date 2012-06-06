@@ -9,12 +9,14 @@
 #include "pauseScreen.h"
 #include "gameOverScreen.h"
 #include "gameInterfaceScreen.h"
+#include "videoManager.h"
 
 PT(InGameScreenManager) InGameScreenManager::instance = NULL;
 
 InGameScreenManager::InGameScreenManager() : ScreenManager() {
 	/* Carrega uma fonte estática */
 	default_menu_font = FontPool::load_font("models/gui/fonts/suplexcomic-large");
+	video_manager = new VideoManager();
 	create_menus();
 }
 
@@ -36,6 +38,10 @@ void InGameScreenManager::create_menus(){
  *  outras fontes sejam utilizadas. */
 PT(TextFont) InGameScreenManager::get_default_font(){
 	return default_menu_font;
+}
+
+PT(VideoManager) InGameScreenManager::get_video_manager() const {
+	return video_manager;
 }
 
 PT(Screen) InGameScreenManager::get_pause_screen() {

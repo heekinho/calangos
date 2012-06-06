@@ -10,6 +10,7 @@
 #include "pauseScreen.h"
 #include "inGameScreenManager.h"
 #include "imageRepository.h"
+#include "videoManager.h"
 
 VideosWindow::VideosWindow(NodePath parent, PT(ScreenManager) manager, float width, float height, string title, float pos_x, float pos_y) : Window(parent, width, height, title, pos_x, pos_y) {
 	this->manager = manager;
@@ -48,37 +49,34 @@ VideosWindow::VideosWindow(NodePath parent, PT(ScreenManager) manager, float wid
 
 VideosWindow::~VideosWindow() {}
 
-void VideosWindow::lagartos_action() {
+void VideosWindow::open_video(const string &video_path){
+	nout << "VideosWindows::open_video" << endl;
+
 	PauseScreen::selected_video = true;
 	InGameScreenManager::get_instance()->get_pause_screen()->hide();
 	AudioController::get_instance()->get_audio_repository()->pause_bgm();
-	manager->play_video("models/videos/clipe_1_lagartos_mpeg4.avi");
+
+	/* Toca o vídeo */
+	PT(VideoManager) video_manager = InGameScreenManager::get_instance()->get_video_manager();
+	video_manager->play_video(video_path);
+}
+
+void VideosWindow::lagartos_action() {
+	open_video("models/videos/clipe_1_lagartos_mpeg4.avi");
 }
 
 void VideosWindow::predadores_action() {
-	PauseScreen::selected_video = true;
-	InGameScreenManager::get_instance()->get_pause_screen()->hide();
-	AudioController::get_instance()->get_audio_repository()->pause_bgm();
-	manager->play_video("models/videos/clipe_2_predadores_mpeg4.avi");
+	open_video("models/videos/clipe_2_predadores_mpeg4.avi");
 }
 
 void VideosWindow::presas_action() {
-	PauseScreen::selected_video = true;
-	InGameScreenManager::get_instance()->get_pause_screen()->hide();
-	AudioController::get_instance()->get_audio_repository()->pause_bgm();
-	manager->play_video("models/videos/clipe_3_presas_mpeg4.avi");
+	open_video("models/videos/clipe_3_presas_mpeg4.avi");
 }
 
 void VideosWindow::clima_action() {
-	PauseScreen::selected_video = true;
-	InGameScreenManager::get_instance()->get_pause_screen()->hide();
-	AudioController::get_instance()->get_audio_repository()->pause_bgm();
-	manager->play_video("models/videos/clipe_5_variacoes_climaticas_mpeg4.avi");
+	open_video("models/videos/clipe_5_variacoes_climaticas_mpeg4.avi");
 }
 
 void VideosWindow::habitat_action() {
-	PauseScreen::selected_video = true;
-	InGameScreenManager::get_instance()->get_pause_screen()->hide();
-	AudioController::get_instance()->get_audio_repository()->pause_bgm();
-	manager->play_video("models/videos/clipe_4_habitat_mpeg4.avi");
+	open_video("models/videos/clipe_4_habitat_mpeg4.avi");
 }
