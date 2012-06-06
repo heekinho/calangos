@@ -14,6 +14,12 @@
 #include "button.h"
 #include "event.h"
 
+#include "pandaVersion.h"
+#include "luse.h"
+#if (PANDA_MAJOR_VERSION >= 1 && PANDA_MINOR_VERSION < 8)
+	typedef Colorf LColorf;
+	typedef RGBColord LRGBColord;
+#endif
 typedef void EventCallbackFunction(const Event *, void *);
 
 class ScreenManager;

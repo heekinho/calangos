@@ -73,7 +73,7 @@ void Lizard::load_lizards(){
 
 	/* Para a primeira fase continua o que estava.
 	 * TODO: Existe um property padrão para não precisar fazer esse if? */
-	float lizard_density = 90;//Valor inicial de densidade 30
+	float lizard_density = 30;//Valor inicial de densidade 30
 
 	/* A partir da segunda fase os valores são customizados */
 	if(Session::get_instance()->get_level() > 1){

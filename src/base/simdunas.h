@@ -65,10 +65,9 @@ private:
 
 #include "pandaVersion.h"
 #include "luse.h"
-
 #if (PANDA_MAJOR_VERSION >= 1 && PANDA_MINOR_VERSION < 8)
-	typedef LColorf Colorf
-	typedef LRGBColord RGBColord
+	typedef Colorf LColorf;
+	typedef RGBColord LRGBColord;
 #endif
 
 //#define camera_np window->get_camera_group()
