@@ -1,8 +1,7 @@
 /*
  * videoManager.h
- *
- *  Created on: Apr 22, 2011
- *      Author: jonatas
+ * Created on: Apr 22, 2011
+ * Author: jonatas
  */
 
 #ifndef VIDEOMANAGER_H
@@ -22,11 +21,15 @@ public:
 
 	PT(AudioManager) get_audio_manager();
 	PT(AudioSound) get_audio_sound();
-	void play(string path);
-	void stop();
 	static bool is_playing();
 
+	void play_video(const string &path);
+	static void stop_video(const Event*, void* data);
+
 private:
+	void play(const string &path);
+	void stop();
+
 	PT(AudioSound) audio_sound;
 	PT(AudioManager) audio_manager;
 	PT(MovieTexture) movie_texture;

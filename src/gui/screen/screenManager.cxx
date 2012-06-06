@@ -7,13 +7,14 @@
 #include "screenManager.h"
 #include "screen.h"
 
+#include "textFont.h"
+
 // TODO: Tirar essa depedencia. Talvez fazer aquela ideia de GameFramework.
 #include "simdunas.h"
 #include "audioController.h"
 
 ScreenManager::ScreenManager(){
 	active_screen = NULL;
-	video_manager = new VideoManager();
 }
 
 ScreenManager::~ScreenManager(){
@@ -23,9 +24,13 @@ ScreenManager::~ScreenManager(){
 //	screens.clear();
 }
 
-PT(VideoManager) ScreenManager::get_video_manager() {
-	return video_manager;
+void ScreenManager::unload(){
+	active_screen = NULL;
 }
+
+//PT(VideoManager) ScreenManager::get_video_manager() {
+//	return video_manager;
+//}
 
 /*! Obtém a tela ativa no momento */
 PT(Screen) ScreenManager::get_active_screen(){
@@ -45,7 +50,7 @@ void ScreenManager::open_screen(PT(Screen) screen){
 
 	/* Faz a substituição propriamente dita das telas */
 	set_active_screen(screen);
-	get_active_screen()->show();
+	if(screen) get_active_screen()->show();
 }
 
 /*! Geralmente chamado por open_screen para fechar a tela atual dando espaço
@@ -65,33 +70,6 @@ EventQueue* ScreenManager::get_event_queue(){
 	return event_queue;
 }
 
-void ScreenManager::play_video(string path) {
-	Simdunas::get_framework()->define_key("escape", "stop_video", stop_video, this);
-	if (active_screen != NULL) {
-		active_screen->hide();
-	}
-
-	video_manager->play(path);
-	//event_handler->add_hook(video_manager->get_audio_sound()->get_finished_event(), stop_video, this);
-}
-
-void ScreenManager::stop_video(const Event*, void* data) {
-	cout<<"Apertei ESC!"<<endl;
-	ScreenManager* _this = (ScreenManager*) data;
-	if (_this->video_manager->get_audio_sound() != NULL && _this->video_manager->is_playing()) {
-		cout<<"Parando o video!"<<endl;
-
-		//event_handler->remove_hook(_this->video_manager->get_audio_sound()->get_finished_event(), stop_video, _this);
-
-		_this->video_manager->stop();
-		AudioController::get_instance()->get_audio_repository()->unpause_bgm();
-
-		if (_this->active_screen != NULL) {
-			_this->active_screen->show();
-		}
-	}
-}
-
-bool ScreenManager::is_playing_video() {
-	return video_manager->is_playing();
+PT(TextFont) ScreenManager::get_default_font(){
+	return TextNode::get_default_font();
 }

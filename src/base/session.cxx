@@ -184,7 +184,7 @@ void Session::pause_game(const Event*, void *data){
 	}
 	else if (PauseScreen::selected_video) {
 		cout<<"esta tocando video! Parando o video agora!"<<endl;
-		InGameScreenManager::get_instance()->stop_video(NULL, InGameScreenManager::get_instance());
+//		InGameScreenManager::get_instance()->stop_video(NULL, InGameScreenManager::get_instance());
 		pause_screen->show();
 	}
 	else {

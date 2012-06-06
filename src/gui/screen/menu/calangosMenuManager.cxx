@@ -26,12 +26,16 @@ CalangosMenuManager::CalangosMenuManager() : ScreenManager() {
 	/* Carrega uma fonte estática */
 	default_menu_font = FontPool::load_font("models/gui/fonts/suplexcomic-large");
 	create_menus();
-	// a loading_screen é carregada separadamente porque no caso de um reinício de jogo, somente ela
-	// precisará ser recarregada.
+
+	/* Só carrega agora o MainMenu */
+	main_menu = new StartMenu(this);
+
+	/* A loading_screen é carregada separadamente porque no caso de um
+	 * reinício de jogo, somente ela precisará ser recarregada. */
 	set_loading_screen(new LoadingScreen(this));
 	open_screen(main_menu);
 
-	play_video("models/videos/vinheta_opcao_1_mpeg4.avi");
+	//play_video("models/videos/vinheta_opcao_1_mpeg4.avi");
 }
 
 PT(CalangosMenuManager) CalangosMenuManager::get_instance() {

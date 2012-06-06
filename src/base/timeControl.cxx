@@ -9,7 +9,7 @@
 #include "collision.h"
 #include "calangosMenuManager.h"
 #include "inGameScreenManager.h"
-
+#include "videoManager.h"
 
 #include <iostream>
 #include <stdlib.h>
@@ -149,9 +149,12 @@ void TimeControl::event_pyear(const Event *, void *data){
 void TimeControl::update_time_control(float elapsed_time){
 	_elapsed_time = elapsed_time;
 
+	/* TODO: Tirar isso daqui */
+	PT(VideoManager) video_manager = InGameScreenManager::get_instance()->get_video_manager();
 	/* Caso esteja tocando um vídeo será necessário atualizar a cada frame */
-	if(InGameScreenManager::get_instance()->is_playing_video()){
-		InGameScreenManager::get_instance()->get_video_manager()->get_audio_manager()->update();
+	if(video_manager->is_playing()){
+		video_manager->get_audio_manager()->update();
+		//return?
 	}
 
 

@@ -36,8 +36,6 @@ PT(DebugTools) debug;
 #include "gameSession.h"
 
 int main(int argc, char *argv[]) {
-
-
 	/* Carrega o arquivo de configuração do jogo */
 #if DEBUG
 	load_prc_file("myConfig-Calangos-develop.prc");
@@ -66,22 +64,8 @@ int main(int argc, char *argv[]) {
 	Simdunas::set_window(framework.open_window(/*properties*/));
 	Simdunas::set_framework(window->get_panda_framework());
 
+	PT(Thread) current_thread = Thread::get_current_thread();
 
-	debug = new DebugTools();
-
-//	PT(GameSession) game_session = new GameSession();
-//	game_session->verify_references();
-//	game_session->_debug_tools = debug;
-//	game_session->verify_references();
-//	cout.flush();
-//	nout << "Closing..." << endl;
-//	return 0;
-
-
-
-
-	Session::get_instance();
-	//Simdunas::set_session(new Session());
 
 	// Verifica se a janela abriu direitin :)
 	if (window != (WindowFramework *) NULL) {
@@ -94,18 +78,57 @@ int main(int argc, char *argv[]) {
 
 		Simdunas::setup_clickable_render_2d();
 
-		AudioController::get_instance();
+		/* O vídeo deve ser a primeira coisa a ser rodado. Sem maior espera */
+//		PT(ScreenManager) initial_manager = new ScreenManager();
+//		PT(VideoScreen) video_screen = new VideoScreen(initial_manager);
+//		initial_manager->open_screen((PT(Screen)) video_screen);
 
-		PT(CalangosMenuManager) menu_manager = CalangosMenuManager::get_instance();
-//		menu_manager->get_sound()->play();
-		Thread *current_thread = Thread::get_current_thread();
-		while(Simdunas::get_framework()->do_frame(current_thread) && !Simdunas::is_play_clicked()){
+		PT(VideoManager) video_manager = new VideoManager();
+
+		string video_path = "models/videos/vinheta_opcao_1_mpeg4.avi";
+		video_manager->play_video(video_path);
+		nout << "Starting Video" << endl;
+
+		while (video_manager->is_playing()) {
 			Simdunas::get_framework()->do_frame(current_thread);
-			if (menu_manager->is_playing_video()) {
-				menu_manager->get_video_manager()->get_audio_manager()->update();
-			}
+			video_manager->get_audio_manager()->update();
 		}
 
+//		/* Descarrega o manager */
+//		initial_manager->unload();
+//		nout << "Video Screen Ref Count: " << video_screen->get_ref_count() << endl;
+//		nout << "Initial Manager: " << initial_manager->get_ref_count() << endl;
+//		video_screen = NULL;
+//		initial_manager = NULL;
+
+//		return 0;
+
+//		debug = new DebugTools();
+//	//	PT(GameSession) game_session = new GameSession();
+//	//	game_session->verify_references();
+//	//	game_session->_debug_tools = debug;
+//	//	game_session->verify_references();
+//	//	cout.flush();
+//	//	nout << "Closing..." << endl;
+//	//	return 0;
+//
+//		/* Pode criar a sessão. A inicialização é depois. */
+//		Session::get_instance();
+//		//Simdunas::set_session(new Session());
+//
+//		AudioController::get_instance();
+
+		PT(CalangosMenuManager) menu_manager = CalangosMenuManager::get_instance();
+
+////		menu_manager->get_sound()->play();
+//		Thread *current_thread = Thread::get_current_thread();
+		while(!Simdunas::is_play_clicked()){
+			Simdunas::get_framework()->do_frame(current_thread);
+//			if (menu_manager->is_playing_video()) {
+//				menu_manager->get_video_manager()->get_audio_manager()->update();
+//			}
+		}
+//
 		Simdunas::get_framework()->do_frame(current_thread);
 
 		/* FIX: Se o usuário já fechou a janela, não executar mais nada do jogo */
