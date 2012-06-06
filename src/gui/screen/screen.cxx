@@ -57,7 +57,7 @@ void Screen::hide(){
  *  alguma opção sem marcar, um valor default será atribuído. Este método é
  *  chamado, na maioria das vezes, assim que um NodePath é criado */
 void Screen::configure_component(NodePath &np, const LVecBase3f &size,
-		const LPoint3f &pos, const LVecBase3f &hpr, const Colorf &color){
+		const LPoint3f &pos, const LVecBase3f &hpr, const LColorf &color){
 	np.set_scale(size);
 	np.set_pos(pos);
 	np.set_hpr(hpr);

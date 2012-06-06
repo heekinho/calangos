@@ -16,7 +16,7 @@ VideoManager::~VideoManager() {
 	audio_manager = NULL;
 	audio_sound = NULL;
 	movie_texture = NULL;
-	card_maker = NULL;
+//	card_maker = NULL;
 	np_card_maker.remove_node();
 }
 
@@ -34,10 +34,11 @@ void VideoManager::play(string path) {
 	movie_texture = new MovieTexture("movie_texture");
 	movie_texture->read(path);
 
-	card_maker = new CardMaker("video");
-	card_maker->set_frame_fullscreen_quad();
-	card_maker->set_uv_range(movie_texture);
-	np_card_maker = NodePath(card_maker->generate());
+	CardMaker card_maker = CardMaker("video");
+	card_maker.set_frame_fullscreen_quad();
+	card_maker.set_uv_range(movie_texture);
+
+	np_card_maker = NodePath(card_maker.generate());
 	np_card_maker.reparent_to(window->get_render_2d());
 	np_card_maker.set_texture(movie_texture);
 
@@ -54,7 +55,7 @@ void VideoManager::stop() {
 	audio_sound->stop();
 	movie_texture->clear();
 	np_card_maker.remove_node();
-	free(card_maker);
+//	delete card_maker;
 }
 
 bool VideoManager::is_playing() {

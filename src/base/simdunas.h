@@ -63,6 +63,14 @@ private:
 #define global_clock ClockObject::get_global_clock()
 
 
+#include "pandaVersion.h"
+#include "luse.h"
+
+#if (PANDA_MAJOR_VERSION >= 1 && PANDA_MINOR_VERSION < 8)
+	typedef LColorf Colorf
+	typedef LRGBColord RGBColord
+#endif
+
 //#define camera_np window->get_camera_group()
 //#define camera DCAST(Camera, window->get_camera(0))
 

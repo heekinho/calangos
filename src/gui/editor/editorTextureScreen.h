@@ -42,7 +42,7 @@ public:
 
 	virtual ~editorTextureScreen();
 
-	void change_texture(RGBColord cor, int mask_x); //altera a textura inicial de um lagarto
+	void change_texture(LRGBColord cor, int mask_x); //altera a textura inicial de um lagarto
 	//eventos dos botões da primeira coluna da paleta de cores
 	static void print_green(const Event*, void *data);
 	static void print_green2(const Event*, void *data);

@@ -30,7 +30,7 @@ private:
 	PT(AudioSound) audio_sound;
 	PT(AudioManager) audio_manager;
 	PT(MovieTexture) movie_texture;
-	CardMaker* card_maker;
+//	CardMaker* card_maker;
 	NodePath np_card_maker;
 	static bool playing;
 };

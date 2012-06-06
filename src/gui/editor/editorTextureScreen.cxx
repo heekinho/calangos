@@ -553,8 +553,8 @@ void editorTextureScreen::Paleta_cores( int  qtde_coluna) {
 void editorTextureScreen::print_red2(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
     
-    //RGBColord cor = RGBColord(0.31,0.556,0.58);
-    RGBColord cor = RGBColord(config->botao_red_np.get_color().get_x(),config->botao_red_np.get_color().get_y(),config->botao_red_np.get_color().get_z());
+    //LRGBColord cor = LRGBColord(0.31,0.556,0.58);
+    LRGBColord cor = LRGBColord(config->botao_red_np.get_color().get_x(),config->botao_red_np.get_color().get_y(),config->botao_red_np.get_color().get_z());
     config->change_texture( cor,2);
     config->mudar_marcador(-1.2, 0.0, 0.5);
     //atribuindo pesos para camuflagem
@@ -566,7 +566,7 @@ void editorTextureScreen::print_red2(const Event*, void *data) {
 
 void editorTextureScreen::print_green(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(config->botao_green_np.get_color().get_x(),config->botao_green_np.get_color().get_y(),config->botao_green_np.get_color().get_z());
+    LRGBColord cor = LRGBColord(config->botao_green_np.get_color().get_x(),config->botao_green_np.get_color().get_y(),config->botao_green_np.get_color().get_z());
 
     config->change_texture(cor,2);
     config->mudar_marcador(-1.2, 0.0, 0.4);
@@ -578,7 +578,7 @@ void editorTextureScreen::print_green(const Event*, void *data) {
 }
 void editorTextureScreen::print_red(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(config->botao_blue_np.get_color().get_x(),config->botao_blue_np.get_color().get_y(),config->botao_blue_np.get_color().get_z());
+    LRGBColord cor = LRGBColord(config->botao_blue_np.get_color().get_x(),config->botao_blue_np.get_color().get_y(),config->botao_blue_np.get_color().get_z());
 
     config->change_texture( cor, 2);
     config->mudar_marcador(-1.2, 0.0, 0.3);
@@ -590,7 +590,7 @@ void editorTextureScreen::print_red(const Event*, void *data) {
 }
 void editorTextureScreen::print_white(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(config->botao_white_np.get_color().get_x(),config->botao_white_np.get_color().get_y(),config->botao_white_np.get_color().get_z());
+    LRGBColord cor = LRGBColord(config->botao_white_np.get_color().get_x(),config->botao_white_np.get_color().get_y(),config->botao_white_np.get_color().get_z());
 
     config->change_texture( cor,2);
     config->mudar_marcador(-1.2, 0.0, 0.2);
@@ -603,7 +603,7 @@ void editorTextureScreen::print_white(const Event*, void *data) {
 
 void editorTextureScreen::print_yellow(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-       RGBColord cor = RGBColord(config->botao_yellow_np.get_color().get_x(),config->botao_yellow_np.get_color().get_y(),config->botao_yellow_np.get_color().get_z());
+       LRGBColord cor = LRGBColord(config->botao_yellow_np.get_color().get_x(),config->botao_yellow_np.get_color().get_y(),config->botao_yellow_np.get_color().get_z());
 
     config->change_texture(cor, 2);
     config->mudar_marcador(-1.2, 0.0, 0.1); //posição que deverá ficar o marcador
@@ -616,7 +616,7 @@ void editorTextureScreen::print_yellow(const Event*, void *data) {
 
 void editorTextureScreen::print_green2(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-     RGBColord cor = RGBColord(config->botao_green2_np.get_color().get_x(),config->botao_green2_np.get_color().get_y(),config->botao_green2_np.get_color().get_z());
+     LRGBColord cor = LRGBColord(config->botao_green2_np.get_color().get_x(),config->botao_green2_np.get_color().get_y(),config->botao_green2_np.get_color().get_z());
     config->change_texture( cor, 2);
     config->mudar_marcador(-1.2, 0.0, 0.0);
         //atribuindo pesos para camuflagem
@@ -628,7 +628,7 @@ void editorTextureScreen::print_green2(const Event*, void *data) {
 
 void editorTextureScreen::print_brown(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(config->botao_brown_np.get_color().get_x(),config->botao_brown_np.get_color().get_y(),config->botao_brown_np.get_color().get_z());
+    LRGBColord cor = LRGBColord(config->botao_brown_np.get_color().get_x(),config->botao_brown_np.get_color().get_y(),config->botao_brown_np.get_color().get_z());
 
     config->change_texture( cor,2);
     config->mudar_marcador(-1.2, 0.0, -0.1);
@@ -641,7 +641,7 @@ void editorTextureScreen::print_brown(const Event*, void *data) {
 void editorTextureScreen::print_black(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
 
-    RGBColord cor = RGBColord(config->botao_black_np.get_color().get_x(),config->botao_black_np.get_color().get_y(),config->botao_black_np.get_color().get_z());
+    LRGBColord cor = LRGBColord(config->botao_black_np.get_color().get_x(),config->botao_black_np.get_color().get_y(),config->botao_black_np.get_color().get_z());
 
     config->change_texture( cor, 2);
     config->mudar_marcador(-1.2, 0.0, -0.2);
@@ -656,7 +656,7 @@ void editorTextureScreen::print_black(const Event*, void *data) {
 //métodos que pintam a area cinza da mascara
 void editorTextureScreen::print2_red2(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(config->botao2_red_np.get_color().get_x(),config->botao2_red_np.get_color().get_y(),config->botao2_red_np.get_color().get_z());
+    LRGBColord cor = LRGBColord(config->botao2_red_np.get_color().get_x(),config->botao2_red_np.get_color().get_y(),config->botao2_red_np.get_color().get_z());
     config->change_texture( cor, 1);
     config->mudar_marcador2(-1.05, 0.0, 0.5);
  //atribuindo pesos para camuflagem
@@ -669,7 +669,7 @@ void editorTextureScreen::print2_red2(const Event*, void *data) {
 
 void editorTextureScreen::print2_green(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-     RGBColord cor = RGBColord(config->botao2_green_np.get_color().get_x(),config->botao2_green_np.get_color().get_y(),config->botao2_green_np.get_color().get_z());
+     LRGBColord cor = LRGBColord(config->botao2_green_np.get_color().get_x(),config->botao2_green_np.get_color().get_y(),config->botao2_green_np.get_color().get_z());
 
     config->change_texture( cor, 1);
     config->mudar_marcador2(-1.05, 0.0, 0.4);
@@ -681,7 +681,7 @@ void editorTextureScreen::print2_green(const Event*, void *data) {
 }
 void editorTextureScreen::print2_red(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-        RGBColord cor = RGBColord(config->botao2_blue_np.get_color().get_x(),config->botao2_blue_np.get_color().get_y(),config->botao2_blue_np.get_color().get_z());
+        LRGBColord cor = LRGBColord(config->botao2_blue_np.get_color().get_x(),config->botao2_blue_np.get_color().get_y(),config->botao2_blue_np.get_color().get_z());
 
     config->change_texture(cor, 1);
     config->mudar_marcador2(-1.05, 0.0, 0.3);
@@ -693,7 +693,7 @@ void editorTextureScreen::print2_red(const Event*, void *data) {
 }
 void editorTextureScreen::print2_white(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(config->botao2_white_np.get_color().get_x(),config->botao2_white_np.get_color().get_y(),config->botao2_white_np.get_color().get_z());
+    LRGBColord cor = LRGBColord(config->botao2_white_np.get_color().get_x(),config->botao2_white_np.get_color().get_y(),config->botao2_white_np.get_color().get_z());
     config->change_texture(cor, 1);
     config->mudar_marcador2(-1.05, 0.0, 0.2);
       //atribuindo pesos para camuflagem
@@ -705,7 +705,7 @@ void editorTextureScreen::print2_white(const Event*, void *data) {
 
 void editorTextureScreen::print2_yellow(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-       RGBColord cor = RGBColord(config->botao2_yellow_np.get_color().get_x(),config->botao2_yellow_np.get_color().get_y(),config->botao2_yellow_np.get_color().get_z());
+       LRGBColord cor = LRGBColord(config->botao2_yellow_np.get_color().get_x(),config->botao2_yellow_np.get_color().get_y(),config->botao2_yellow_np.get_color().get_z());
 
     config->change_texture( cor, 1);
     config->mudar_marcador2(-1.05, 0.0, 0.1);
@@ -719,7 +719,7 @@ void editorTextureScreen::print2_yellow(const Event*, void *data) {
 
 void editorTextureScreen::print2_green2(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(config->botao2_green2_np.get_color().get_x(),config->botao2_green2_np.get_color().get_y(),config->botao2_green2_np.get_color().get_z());
+    LRGBColord cor = LRGBColord(config->botao2_green2_np.get_color().get_x(),config->botao2_green2_np.get_color().get_y(),config->botao2_green2_np.get_color().get_z());
 
     config->change_texture(cor, 1);
     config->mudar_marcador2(-1.05, 0.0, 0.0);
@@ -733,7 +733,7 @@ void editorTextureScreen::print2_green2(const Event*, void *data) {
 
 void editorTextureScreen::print2_brown(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(config->botao2_brown_np.get_color().get_x(),config->botao2_brown_np.get_color().get_y(),config->botao2_brown_np.get_color().get_z());
+    LRGBColord cor = LRGBColord(config->botao2_brown_np.get_color().get_x(),config->botao2_brown_np.get_color().get_y(),config->botao2_brown_np.get_color().get_z());
 
     config->change_texture(cor, 1);
     config->mudar_marcador2(-1.05, 0.0, -0.1);
@@ -745,7 +745,7 @@ void editorTextureScreen::print2_brown(const Event*, void *data) {
 }
 void editorTextureScreen::print2_black(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-        RGBColord cor = RGBColord(config->botao2_black_np.get_color().get_x(),config->botao2_black_np.get_color().get_y(),config->botao2_black_np.get_color().get_z());
+        LRGBColord cor = LRGBColord(config->botao2_black_np.get_color().get_x(),config->botao2_black_np.get_color().get_y(),config->botao2_black_np.get_color().get_z());
 
     config->change_texture( cor, 1);
     config->mudar_marcador2(-1.05, 0.0, -0.2);
@@ -760,7 +760,7 @@ void editorTextureScreen::print2_black(const Event*, void *data) {
 //métodos que pintam a area cinza escuro da mascara (botões da terceira coluna da palata de cores)
 void editorTextureScreen::print3_red2(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-        RGBColord cor = RGBColord(config->botao3_red_np.get_color().get_x(),config->botao3_red_np.get_color().get_y(),config->botao3_red_np.get_color().get_z());
+        LRGBColord cor = LRGBColord(config->botao3_red_np.get_color().get_x(),config->botao3_red_np.get_color().get_y(),config->botao3_red_np.get_color().get_z());
 
     config->change_texture(cor, 3);
     config->mudar_marcador3(-0.9, 0.0, 0.5);
@@ -773,7 +773,7 @@ void editorTextureScreen::print3_red2(const Event*, void *data) {
 
 void editorTextureScreen::print3_green(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(config->botao3_green_np.get_color().get_x(),config->botao3_green_np.get_color().get_y(),config->botao3_green_np.get_color().get_z());
+    LRGBColord cor = LRGBColord(config->botao3_green_np.get_color().get_x(),config->botao3_green_np.get_color().get_y(),config->botao3_green_np.get_color().get_z());
     config->change_texture(cor, 3);
     config->mudar_marcador3(-0.9, 0.0, 0.4);
          //atribuindo pesos para camuflagem
@@ -786,7 +786,7 @@ void editorTextureScreen::print3_green(const Event*, void *data) {
 
 void editorTextureScreen::print3_red(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(config->botao3_blue_np.get_color().get_x(),config->botao3_blue_np.get_color().get_y(),config->botao3_blue_np.get_color().get_z());
+    LRGBColord cor = LRGBColord(config->botao3_blue_np.get_color().get_x(),config->botao3_blue_np.get_color().get_y(),config->botao3_blue_np.get_color().get_z());
 
     config->change_texture( cor, 3);
      config->mudar_marcador3(-0.9, 0.0, 0.3);
@@ -798,7 +798,7 @@ void editorTextureScreen::print3_red(const Event*, void *data) {
 }
 void editorTextureScreen::print3_white(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(config->botao3_white_np.get_color().get_x(),config->botao3_white_np.get_color().get_y(),config->botao3_white_np.get_color().get_z());
+    LRGBColord cor = LRGBColord(config->botao3_white_np.get_color().get_x(),config->botao3_white_np.get_color().get_y(),config->botao3_white_np.get_color().get_z());
 
     config->change_texture( cor, 3);
     config->mudar_marcador3(-0.9, 0.0, 0.2);
@@ -810,7 +810,7 @@ void editorTextureScreen::print3_white(const Event*, void *data) {
 }
 void editorTextureScreen::print3_yellow(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-   RGBColord cor = RGBColord(config->botao3_yellow_np.get_color().get_x(),config->botao3_yellow_np.get_color().get_y(),config->botao3_yellow_np.get_color().get_z());
+   LRGBColord cor = LRGBColord(config->botao3_yellow_np.get_color().get_x(),config->botao3_yellow_np.get_color().get_y(),config->botao3_yellow_np.get_color().get_z());
 
     config->change_texture(cor, 3);
     config->mudar_marcador3(-0.9, 0.0, 0.1);
@@ -822,7 +822,7 @@ void editorTextureScreen::print3_yellow(const Event*, void *data) {
 }
 void editorTextureScreen::print3_green2(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(config->botao3_green2_np.get_color().get_x(),config->botao3_green2_np.get_color().get_y(),config->botao3_green2_np.get_color().get_z());
+    LRGBColord cor = LRGBColord(config->botao3_green2_np.get_color().get_x(),config->botao3_green2_np.get_color().get_y(),config->botao3_green2_np.get_color().get_z());
 
     config->change_texture(cor, 3);
     config->mudar_marcador3(-0.9, 0.0, 0.0);
@@ -834,7 +834,7 @@ void editorTextureScreen::print3_green2(const Event*, void *data) {
 }
 void editorTextureScreen::print3_brown(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(config->botao3_brown_np.get_color().get_x(),config->botao3_brown_np.get_color().get_y(),config->botao3_brown_np.get_color().get_z());
+    LRGBColord cor = LRGBColord(config->botao3_brown_np.get_color().get_x(),config->botao3_brown_np.get_color().get_y(),config->botao3_brown_np.get_color().get_z());
 
     config->change_texture( cor, 3);
     config->mudar_marcador3(-0.9, 0.0, -0.1);
@@ -846,7 +846,7 @@ void editorTextureScreen::print3_brown(const Event*, void *data) {
 }
 void editorTextureScreen::print3_black(const Event*, void *data) {
     editorTextureScreen * config = (editorTextureScreen*) data;
-    RGBColord cor = RGBColord(config->botao3_black_np.get_color().get_x(),config->botao3_black_np.get_color().get_y(),config->botao3_black_np.get_color().get_z());
+    LRGBColord cor = LRGBColord(config->botao3_black_np.get_color().get_x(),config->botao3_black_np.get_color().get_y(),config->botao3_black_np.get_color().get_z());
 
     config->change_texture(cor, 3);
     config->mudar_marcador3(-0.9, 0.0, -0.2);
@@ -865,7 +865,7 @@ void editorTextureScreen::print_standard(int camadas) {
        marcador_camada2.hide();
        marcador_camada3.hide();
 	
-       RGBColord cor = RGBColord(botao_green2_np.get_color().get_x(),botao_green2_np.get_color().get_y(),botao_green2_np.get_color().get_z());
+       LRGBColord cor = LRGBColord(botao_green2_np.get_color().get_x(),botao_green2_np.get_color().get_y(),botao_green2_np.get_color().get_z());
 	change_texture(cor, 0); //pinta toda a textura inicialmente de verde
 
 
@@ -917,7 +917,7 @@ void editorTextureScreen::mudar_marcador3(float a,float b,float c){
     marcador_camada3.show();
 }
 
-void editorTextureScreen::change_texture(RGBColord cor, int mask_x) {
+void editorTextureScreen::change_texture(LRGBColord cor, int mask_x) {
 
       //esse int mask_x representa a parte da mascara que o jogador deseja pintar (1 = cinza,
       //2 = branca, 3 = cinza escuro, 0 = todas (branco, cinza e cinza escuro)
@@ -937,24 +937,24 @@ void editorTextureScreen::change_texture(RGBColord cor, int mask_x) {
     		float bright = mask.get_bright(i, j); //pega o brilho da mascara a cada pixel
 
                 if(bright > 0.1 && print_mask == 0){ //se for pra pintar todo o lagarto...
-                    result_image.set_xel(i, j, RGBColord(cor.get_x()*image.get_red(i, j),
+                    result_image.set_xel(i, j, LRGBColord(cor.get_x()*image.get_red(i, j),
 											   cor.get_y()*image.get_green(i, j) ,
 											   cor.get_z()*image.get_blue(i, j)));
                 }
                else if(bright > 0.6 && bright <= 0.85 && print_mask == 1){  //se for cinza claro
-    			//RGBColord c = RGBColord(0, 0, 1);
-    			result_image.set_xel(i, j, RGBColord(cor.get_x()*image.get_red(i, j),
+    			//LRGBColord c = LRGBColord(0, 0, 1);
+    			result_image.set_xel(i, j, LRGBColord(cor.get_x()*image.get_red(i, j),
 											   cor.get_y()*image.get_green(i, j) ,
 											   cor.get_z()*image.get_blue(i, j)));
     		}
                 else if(bright > 0.85 && print_mask == 2){ //se for branco
-                    result_image.set_xel(i, j, RGBColord(cor.get_x()*image.get_red(i, j),
+                    result_image.set_xel(i, j, LRGBColord(cor.get_x()*image.get_red(i, j),
 											   cor.get_y()*image.get_green(i, j),
 											   cor.get_z()*image.get_blue(i, j)));
 
                 }
                 else if(bright > 0.1 && bright <= 0.6 && print_mask == 3){ //se for cinza escuro
-                    result_image.set_xel(i, j, RGBColord(cor.get_x()*image.get_red(i, j),
+                    result_image.set_xel(i, j, LRGBColord(cor.get_x()*image.get_red(i, j),
 											   cor.get_y()*image.get_green(i, j),
 											   cor.get_z()*image.get_blue(i, j)));
 

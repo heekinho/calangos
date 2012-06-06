@@ -37,7 +37,7 @@ public:
 
 	static void configure_component(NodePath &np,
 		const LVecBase3f &size = LVecBase3f(1), const LPoint3f &pos = LPoint3f(0),
-		const LVecBase3f &hpr = LVector3f(0), const Colorf &color = Colorf(1));
+		const LVecBase3f &hpr = LVector3f(0), const LColorf &color = LColorf(1));
 
 	void default_button_config(PT(Button) button, NodePath &np,
 			const string &text, LVecBase3f pos, EventCallbackFunction *action);

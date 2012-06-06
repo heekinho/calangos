@@ -52,7 +52,7 @@ CameraControl::CameraControl(PT(ObjetoJogo) object){
 	this->accept_user_input = true;
 
 	this->display_region = window->get_graphics_window()->get_active_display_region(0);
-	this->display_region->set_clear_color(Colorf(0,0,0,1));
+	this->display_region->set_clear_color(LColorf(0,0,0,1));
 
 	this->configure_user_input();
 	this->create_cameras();
