@@ -41,7 +41,7 @@ protected:
 
 
 #include "notifyCategoryProxy.h"
-NotifyCategoryDecl(player_health, EXPCL_PANDA_EVENT, EXPTP_PANDA_EVENT);
+NotifyCategoryDeclNoExport(player_health);
 
 /* TODO: Mudar nome para PlayerHealthManager para não ficar ambiguo com outros simuladores? */
 class PlayerHealthSimulator : public ReferenceCount {
