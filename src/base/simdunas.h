@@ -13,6 +13,10 @@ using namespace std;
 #include "fontPool.h"
 #include "timeControl.h"
 
+
+#include "notifyCategoryProxy.h"
+NotifyCategoryDeclNoExport(simdunas);
+
 class Session;
 
 class Simdunas {

@@ -30,6 +30,7 @@ NodePath Simdunas::clickable_render_2d = NULL;
 bool Simdunas::play_clicked = false;
 TextFont* Simdunas::game_font = FontPool::load_font("models/gui/fonts/suplexcomic-large");
 
+NotifyCategoryDef(simdunas, "");
 
 PT(DebugTools) debug;
 
@@ -51,7 +52,8 @@ int main(int argc, char *argv[]) {
 
 	PandaFramework framework;
 	framework.open_framework(argc, argv);
-	/*AJUSTAR NOME DA VERSÃO A CADA RELEASE*/
+
+	/* TODO: Ajustar nome a cada versão do release */
 	framework.set_window_title("Simdunas v2.0 alpha");
 
 
