@@ -118,15 +118,23 @@ PlayerControl::PlayerControl() {
 //	action = "wireFrameFolhagem";   		Simdunas::get_framework()->define_key("m", "wireFrameFolhagem", folhagem_control, this);
     action = "reproduzir";	Simdunas::get_framework()->define_key("r", "Reproduzir", reproducao, this);
 
-    action = "bury";		Simdunas::get_framework()->define_key("k", "Enterrar-se", bury, this);
-    action = "unbury";		Simdunas::get_framework()->define_key("l", "Desenterrar-se", unbury, this);
-
 //	action = "pause"; 		Simdunas::get_framework()->define_key("escape", "Pause Game", chama_pause, this);
 
 	//CHEATS
 	action = "die";			Simdunas::get_framework()->define_key("control-m", "Easter Egg1", special_control, action);
 	action = "grow-old";	Simdunas::get_framework()->define_key("control-o", "Easter Egg2", special_control, action);
 	action = "info";		Simdunas::get_framework()->define_key("control-i", "Print Info", special_control, action);
+
+
+	/* Bury Actions. Sem necessidade de perguntar a fase. Pergunta se possui a habilidade */
+	if(player->has_bury_ability()){
+		/* Configura input */
+	    action = "bury";		Simdunas::get_framework()->define_key("k", "Enterrar-se", bury_action, this);
+//	    action = "unbury";		Simdunas::get_framework()->define_key("l", "Desenterrar-se", unbury, this);
+
+	    /* Configura evento de ação completa */
+	    event_handler->add_hook("calangos-unbury-action-complete", unbury_action_complete, this);
+	}
 }
 
 void PlayerControl::special_control(const Event *theEvent, void *data){
@@ -660,47 +668,47 @@ void PlayerControl::event_female_next(const Event *, void *data){
 	}
 }
 
-#include "cLerpNodePathInterval.h"
-PT(CLerpNodePathInterval) color_interval;
-void fadeout(){
-	color_interval = new CLerpNodePathInterval("color_interval", 1, CLerpInterval::BT_no_blend, true, false, *player, render);
-	color_interval->set_end_color_scale(LVecBase4f(0,0,0,0));
-	color_interval->start();
+/*! Completa a ação de desenterrar do lagarto, invertendo o estado */
+void PlayerControl::unbury_action_complete(const Event*, void* data){
+	player->set_buried(false);
 }
 
-void fadein(){
-	color_interval = new CLerpNodePathInterval("color_interval", 1, CLerpInterval::BT_no_blend, true, false, *player, render);
-	color_interval->set_end_color_scale(LVecBase4f(1,1,1,1));
-	color_interval->start();
+/*! Faz com que o lagarto se enterre na areia */
+void PlayerControl::fadeout(){
+	_bury_interval = new CLerpNodePathInterval("bury interval", 1, CLerpInterval::BT_no_blend, true, false, *player, NodePath());
+	_bury_interval->set_end_pos(player->get_pos(render) - LVecBase3f(0, 0, player->get_height() * 0.55));
+	_bury_interval->start();
 }
 
-/*! Comando para se enterrar */
-void PlayerControl::bury(const Event*, void* data){
-	if(Session::get_instance()->get_level() > 1){
+/*! Faz com que o lagarto se desenterre da areia */
+void PlayerControl::fadein(){
+	/* Cria um interval para fazer o fading da ação de se enterrar */
+	_bury_interval = new CLerpNodePathInterval("bury interval", 1, CLerpInterval::BT_no_blend, true, false, *player, NodePath());
+	_bury_interval->set_done_event("calangos-unbury-action-complete");
+	_bury_interval->set_end_pos(player->get_pos(render) + LVecBase3f(0, 0, player->get_height() * 0.55));
+	_bury_interval->start();
+}
+
+void PlayerControl::bury_action(const Event*, void* data){
+	((PlayerControl*)data)->bury_action();
+}
+
+void PlayerControl::bury_action(){
+	/* Se já está executando o interval, não permitir nova execução */
+	if(_bury_interval && _bury_interval->is_playing()) return;
+
+	if(!player->is_buried()){
 		/* Parar animações */
 		player->get_anim_control()->stop_all();
 
-		/* Enterrar e bloquear movimentação */
-		player->set_buried(true);
-
 		/* Fade out */
 		fadeout();
+
+		/* Já pode considerar o player enterrado */
+		player->set_buried(true);
 	}
 	else {
-		nout << "A capacidade de se enterrar não está disponível na fase 1." << endl;
-	}
-}
-
-/*! Comando para se desenterrar */
-void PlayerControl::unbury(const Event*, void* data){
-	if(Session::get_instance()->get_level() > 1){
-		/* Enterrar e bloquear movimentação */
-		player->set_buried(false);
-
-		/* Fade in */
+		/* Faz o fading e só considera o player desenterrado quando acabar o fading */
 		fadein();
-	}
-	else {
-		nout << "A capacidade de se enterrar não está disponível na fase 1." << endl;
 	}
 }

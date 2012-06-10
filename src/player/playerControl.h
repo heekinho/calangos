@@ -10,6 +10,7 @@
 //Forward Declaration, Para referencia circular
 //class Player;
 //class Session;
+#include "cLerpNodePathInterval.h"
 
 class PlayerControl {
 public:
@@ -42,8 +43,7 @@ public:
     static void special_control(const Event*, void *data);
     static void bobbing(const Event*, void *data);
     static void reproducao(const Event*, void *data);
-    static void bury(const Event*, void* data);
-    static void unbury(const Event*, void* data);
+
 
     //ativa desativa wireframe
     static void root_control(const Event*, void *data);
@@ -65,6 +65,14 @@ public:
 
 	static bool mouse_on_button;
 private:
+	/* Para o fadein e fadeout do bury */
+	PT(CLerpNodePathInterval) _bury_interval;
+    void bury_action();
+    static void bury_action(const Event*, void* data);
+	static void unbury_action_complete(const Event*, void* data);
+	void fadein();
+	void fadeout();
+
 	PT(ObjetoJogo) _closest_biteable;
 
 	NodePath _female_indicator;
