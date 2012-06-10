@@ -11,7 +11,8 @@ PT(World)  World::_world = NULL;
  * um terreno, céu e diversos outros elementos. */
 World::World(){
 	Terrain::get_default_terrain();
-    Sky::get_default_sky();
+
+	_sky = new Sky("models/skybox");
 }
 
 /*! Obtém o mundo (ou constrói um padrão se ainda não existir) */
@@ -22,7 +23,7 @@ PT(World) World::get_world(){
 
 /*! Descarrega o mundo */
 void World::unload_world(){
-    Sky::unload_skybox();
+//    Sky::unload_skybox();
     _world = NULL;
 }
 
@@ -74,6 +75,6 @@ PT(Terrain) World::get_terrain(){
 }
 
 /*! Retorna o skybox associado ao mundo */
-PT(Sky) World::get_skybox(){
-	return Sky::get_default_sky();
+PT(Sky) World::get_sky(){
+	return _sky;
 }

@@ -10,63 +10,71 @@
 
 class Sky : public NodePath,  public TypedReferenceCount {
 public:
-	
+    Sky(const string &model);
     virtual ~Sky();
-	static PT(Sky) get_default_sky();
 
-	enum {
-		AMANHECER, TARDE, ENTARDECER, NOITE, NUBLADO, CHUVOSO
+    /* Tipos de texturas possíveis para o céu */
+	enum SkyTexture {
+		ST_amanhecer,
+		ST_tarde,
+		ST_entardecer,
+		ST_noite,
+		ST_nublado,
+		ST_chuvoso
+	};
+
+	enum SkyStatus {
+		SS_day,
+		SS_rainy_day,
+		SS_night,
+		SS_rainy_night
 	};
 
 	static void update_transform(const Event* evt, void* data);
 
-	static void update_sol(const Event*, void *data);
-	void anda_sol(double);
+	void update_sun();
+	static void update_sun(const Event*, void *data);
+
+	void update_sun_pos(double);
 	void change_sky(int new_sky, int next_sky);
 	void fade(int minuto, int hora);
 
-    static void unload_skybox();
+//    static void unload_skybox();
+
+	/* Resolvendo ambiguidades */
+    static TypeHandle get_class_type() { return NodePath::get_class_type(); }
+	static void init_type() { NodePath::init_type(); }
+private:
+	SkyStatus _current_status;
+
+	TextureCollection skies;
+
+	/* Nós precisamos de dois estágios para fazer o cross fading */
+	PT(TextureStage) next_sky_stage;
+	PT(TextureStage) current_sky_stage;
+
+	int next_sky;
+	int current_sky;
+
+    float seta;
+    PT(AmbientLight) _ambient_light;
+
 
 	/* private */
 	NodePath sol;
 	float x, y;
-	static float aux;
-	static float z;
-        
-       // Typed Object
-    static TypeHandle get_class_type() { return _type_handle; }
-	static void init_type() { register_type(_type_handle, "Sky"); }
+	float aux;
+	float z;
 
-	static const int STATUS_DAY;
-	static const int STATUS_RAINY_DAY;
-	static const int STATUS_NIGHT;
-	static const int STATUS_RAINY_NIGHT;
-	static int current_status;
+	bool flag_sol;				//flag para ajudar a controlar o aparecimento do sol
+	int hora_atual;				//hora_atual e hora_anterior vão ajudar no fade das texturas
+	int hora_anterior;
+	int minuto_atual;			//ajudar a controlar o deslocamento do sol pelo ceu
+	int minuto_anterior;
+	float limite;
+	int minuto_atual_sombra;		//ajudar a controlar a sombra
+	int minuto_anterior_sombra;
 
-private:
-    Sky(const string &model);
-	TextureCollection skies;
-
-	PT(TextureStage) next_sky_stage;
-	PT(TextureStage) current_sky_stage;
-
-	int current_sky, next_sky;
-    static float seta;
-    PT(AmbientLight) noite;
-    static PT(Sky) sky;
-    static TypeHandle _type_handle;
-
-	static bool flag_sol;				//flag para ajudar a controlar o aparecimento do sol
-	static int hora_atual;				//hora_atual e hora_anterior vão ajudar no fade das texturas
-	static int hora_anterior;
-	static int minuto_atual;			//ajudar a controlar o deslocamento do sol pelo ceu
-	static int minuto_anterior;
-	static float limite;
-	static int minuto_atual_sombra;		//ajudar a controlar a sombra
-	static int minuto_anterior_sombra;
-
-
-    
 };
 
 #endif
