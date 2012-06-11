@@ -9,7 +9,7 @@
 #include "utils.h"
 
 TemperatureSimulator::TemperatureSimulator(PT(PlayerHealth) health) : Simulator(health) {
-	_temperature = 40; //TODO: Initial temperature
+	_temperature = health->ideal_temperature;
 	_current_thermal_equilibrium_speed = health->thermal_equilibrium_speed;
 }
 

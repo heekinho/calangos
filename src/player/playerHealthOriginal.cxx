@@ -30,33 +30,37 @@
 
 /*! Carrega informações customizadas da saúde do lagarto (para fase 2) */
 void Player::load_custom_health(){
+	player_health->ideal_temperature = properties.ideal_tempature;
 
-	if(Session::get_instance()->get_level() > 1){
-		/* Configurações para a fase 2 */
-		/* Dá um valor de 0 a 1 para as possíveis escolhas de velocidade */
-		velocity_factor = (properties.speed - properties.min_speed) /
-								  (properties.max_speed - properties.min_speed);
+	/* Configurações para a fase 2 */
+	/* Dá um valor de 0 a 1 para as possíveis escolhas de velocidade */
+	velocity_factor = (properties.speed - properties.min_speed) /
+							  (properties.max_speed - properties.min_speed);
 
-		/* Configura a temperatura ideal */
+
+
+	/* Configura a temperatura ideal */
 //		set_temp_interna_ideal(properties.ideal_tempature);
 
-		/* Configura a capacidade de se enterrar */
-		/* Seria melhor deixar em properties ao invés de criar uma nova variável? */
-		set_bury_ability(properties.bury_ability);
-	}
+	/* Configura a capacidade de se enterrar */
+	/* Seria melhor deixar em properties ao invés de criar uma nova variável? */
+	set_bury_ability(properties.bury_ability);
 }
 
 void Player::load_health(){
 	string lizard_name = get_species_name();
 
-	/* Novo sistema */
 	player_health = new PlayerHealth();
-	/* if fase1 ... */
 	player_health->load_health("config/lizard-" + lizard_name + ".prc");
+
+	/* Novo sistema */
+	if(Session::get_instance()->get_level() > 1){
+		/* Sobreescres os parametros de configuração que o editor quiser */
+		load_custom_health();
+	}
 
 	player_health_simulator = new PlayerHealthSimulator(player_health);
 
-	load_custom_health();
 
 //	//considera o lagarto parado no início do jogo
 	gasto_movimento = 1;
