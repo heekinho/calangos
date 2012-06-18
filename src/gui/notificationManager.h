@@ -16,9 +16,12 @@ public:
 	virtual ~NotificationManager();
 
 	static void show_notification(string message);
-	static AsyncTask::DoneStatus delay_hide_notification(GenericAsyncTask* task, void* data);
 
 private:
+	static AsyncTask::DoneStatus delay_hide_notification(GenericAsyncTask* task, void* data);
+	static void fadein(NodePath np);
+	static AsyncTask::DoneStatus fadeout(GenericAsyncTask* task, void* data);
+
 	static deque<NodePath> notifications;
 
 };
