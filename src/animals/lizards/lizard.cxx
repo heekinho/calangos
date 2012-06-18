@@ -119,10 +119,33 @@ void Lizard::load_lizards(){
 		lizard->set_species(Player::properties.species);
 
 		/* TODO: Rever como Angelo pediu. Sortear idade e energia e calcular o tamanho. */
-		if(gender == LG_young) lizard->set_energia(gaussian_random(25, 15));
-		else lizard->set_energia(gaussian_random(60, 20));
+		if(gender == LG_young) {
+			lizard->set_energia(gaussian_random(25, 15));
 
-		lizard->set_tamanho_real(random(PlayerProperties::min_body_size * 0.2, PlayerProperties::max_body_size) * 0.01);
+			//Sorteio da idade
+			int x =(int) gaussian_random(6, 2);
+			if(x > 12){
+				lizard->age = 11;
+			}			else{lizard->age = x;}
+			if(x < 1){
+				lizard->age = 1;
+			}			else{lizard->age = x;}
+		}
+		else {
+			lizard->set_energia(gaussian_random(60, 20));
+
+			//Sorteio da idade
+			int x =(int) gaussian_random(24, 10);
+			if(x > 36){
+				lizard->age = 36;
+			}			else{lizard->age = x;}
+			if(x < 12){
+				lizard->age = 12;
+			}			else{lizard->age = x;}
+		}
+
+//		lizard->set_tamanho_real(random(PlayerProperties::min_body_size * 0.2, PlayerProperties::max_body_size) * 0.01);
+		lizard->set_tamanho_real(lizard->calculate_inicial_size());
 		lizard->set_tamanho_base(player->calculate_lizards_relative_size(lizard->get_tamanho_real()));
 		lizard->set_length(lizard->get_tamanho_real());
 
@@ -140,6 +163,25 @@ void Lizard::load_lizards(){
 	}
 }
 
+
+float Lizard::calculate_inicial_size(){
+	/* Obtem a taxa de crescimento de 0 a 1 */
+	float growing_rate = this->energia * 0.01;
+
+	/* Acima de 90% já deixamos 100% de crescimento */
+	if(growing_rate >= 0.9) growing_rate = 1.0;
+
+	/* Obtem o crescimento ideal e real */
+
+	float min_size = PlayerProperties::max_body_size * 0.2; //Max_Size * Child_size_factor
+	float ideal_grow_size = (PlayerProperties::max_body_size - min_size) / 36;//_ideal_months_to_max_size = 36
+	float real_grow_size = ideal_grow_size * growing_rate;
+
+	/* Enfim atualiza o valor do tamanho */
+	float size = min_size  +(real_grow_size * this->age);
+	return size/100; //Tamanho inicial
+
+}
 
 void Lizard::check_temp(const Event *theEvent, void *data){
 	Lizard* this_lizard = (Lizard*) data;

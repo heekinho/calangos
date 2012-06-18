@@ -257,7 +257,7 @@ LPoint3f ObjetoJogo::calculate_pos(float velocity, bool use_z){
 /*	float dy = this->get_scale().get_x() * velocity * elapsed * 0.2;
  *  Valor 0.2 retirado da fórmula e multiplicado em todas as velocidades dos animais.*/
 
-	float dy = this->get_scale().get_x() * velocity * elapsed;
+	float dy = get_length() * velocity * elapsed;
 	return (this->get_pos() + get_orientation(use_z) * dy);
 }
 

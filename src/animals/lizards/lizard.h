@@ -71,6 +71,7 @@ protected:
 	float tamanho_real;
 	float tamanho_base;
 	float energia;
+	float age;
 	float scale_temp;
 	float scale;
 
@@ -83,6 +84,8 @@ private:
 	int tempo_na_sombra;
 
 	PT(Vegetal) arvore_da_sombra;
+
+	float calculate_inicial_size();
 };
 
 #endif

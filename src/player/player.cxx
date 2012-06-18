@@ -43,6 +43,7 @@ Player::Player() : AnimatedObjetoJogo(ModelRepository::get_instance()->get_anima
 
 	achievements = new Achievements();
 
+
 	//int especie = Menu::get_instance()->get_especie();
 	load_health(/*properties.species*/);
 

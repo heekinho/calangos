@@ -105,7 +105,7 @@ int main(int argc, char *argv[]) {
 
 //		return 0;
 
-//		debug = new DebugTools();
+		debug = new DebugTools();
 //	//	PT(GameSession) game_session = new GameSession();
 //	//	game_session->verify_references();
 //	//	game_session->_debug_tools = debug;
