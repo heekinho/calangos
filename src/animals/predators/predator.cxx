@@ -30,12 +30,7 @@ float Predator::dist_to_bite = 0.3;
 
 
 
-Predator::Predator(NodePath node, Predator::types_predator type) : Animal(node){
-
-	/*set_velocity(350.0);
-	 * Nova velocidade multiplicada pelo multiplicador de deslocamento 0.2*/
-	set_velocity(70.0);
-
+Predator::Predator(NodePath node, Predator::PredatorID type) : Animal(node){
 	//adiciona solido de colisão aos predadores (ficou legal esses valores para altura e raio)
 	collision::get_instance()->collisionNpcFast(&node, 0, 0, 20, 10);
 
@@ -47,7 +42,7 @@ Predator::Predator(NodePath node, Predator::types_predator type) : Animal(node){
 //	this->prey = NULL;
 
 	//Estado inicial do predador
-	act_state = Predator::walking;
+	act_state = Predator::AS_walking;
 	hunting_lizard = false;
 	hunting_player = false;
 	closest_to_player = false;
@@ -59,31 +54,31 @@ Predator::Predator(NodePath node, Predator::types_predator type) : Animal(node){
 	// eat_thr original = 0.3
 	//distance_pursuit original = 10
 	switch(type){
-		case(Predator::teiu):
+		case(Predator::ID_teiu):
 										this->set_distance_pursuit(10);
 		this->set_distance_bite(0.3);
 		break;
-		case(Predator::siriema):
+		case(Predator::ID_siriema):
 										this->set_distance_pursuit(10);
 		this->set_distance_bite(0.3);
 		break;
-		case(Predator::gato):
+		case(Predator::ID_gato):
 										this->set_distance_pursuit(10);
 		this->set_distance_bite(0.3);
 		break;
-		case(Predator::raposa):
+		case(Predator::ID_raposa):
 										this->set_distance_pursuit(10);
 		this->set_distance_bite(0.3);
 		break;
-		case(Predator::jararaca):
+		case(Predator::ID_jararaca):
 										this->set_distance_pursuit(10);
 		this->set_distance_bite(0.3);
 		break;
-		case(Predator::colubridae):
+		case(Predator::ID_colubridae):
 										this->set_distance_pursuit(10);
 		this->set_distance_bite(0.3);
 		break;
-		case(Predator::coruja):
+		case(Predator::ID_coruja):
 										this->set_distance_pursuit(10);
 		this->set_distance_bite(0.3);
 		break;
@@ -124,43 +119,33 @@ Predator::~Predator(){}
 
 /*! Carrega todos os predadores do jogo */
 void Predator::load_predators(){
-	ModelRepository::get_instance()->get_animated_model("teiu")->set_length(0.60);
-	Predator::load_predator(Predator::teiu, 7, 0.004, -1);
-
-	ModelRepository::get_instance()->get_animated_model("siriema")->set_height(0.60);
-	Predator::load_predator(Predator::siriema, 7, 0.03, -1);
-
-	ModelRepository::get_instance()->get_animated_model("raposa")->set_length(0.80);
-	Predator::load_predator(Predator::raposa, 6, 0.01, -1, Animal::A_night); // Testing
-//	Predator::load_predator(Predator::raposa, 20, 0.01, -1, Animal::A_night); // Testing
-
-	ModelRepository::get_instance()->get_animated_model("gato")->set_length(0.40);
-	Predator::load_predator(Predator::gato, 9, 0.01, -1);
-
-//		ModelRepository::get_instance()->get_animated_model("jararaca")->set_length(0.60);
-//	ModelRepository::get_instance()->get_animated_model("jararaca")->set_length(0.40);
-//		Predator::load_predator(Predator::jararaca, 50, 0.01, -1);
-
-//		ModelRepository::get_instance()->get_animated_model("colubridae")->set_length(0.50);
-//		ModelRepository::get_instance()->get_animated_model("colubridae")->set_length(0.30);
-//		Predator::load_predator(Predator::colubridae, 50, 0.01, -1 );
-
-
-		//FlyingPredator::load_predators();
+	Predator::load_predator(Predator::ID_teiu);
+	Predator::load_predator(Predator::ID_siriema);
+	Predator::load_predator(Predator::ID_raposa, Animal::A_night); // Testing
+	Predator::load_predator(Predator::ID_gato);
+//	Predator::load_predator(Predator::jararaca);
+//	Predator::load_predator(Predator::colubridae);
 }
 
 
 /*! Carrega uma quantidade de predadores com comportamento padrão, de determinado tipo */
-void Predator::load_predator(Predator::types_predator type , int qtd, float scale,
-		int orientation, Activity activity){
-	//ModelRepository::get_instance()->get_animated_model(model)->set_scale(scale);
+void Predator::load_predator(Predator::PredatorID type, Activity activity){
+	string predator_name = get_predator_type(type);
 
-	string tipo_predador = Predator::get_predator_type(type);//Tipo de Predador
+	/* Pegando configuração do arquivo */
+	float length = ConfigVariableDouble("calangos-length-" + predator_name, 0.4);
+	float density = ConfigVariableDouble("calangos-density-" + predator_name, 7.0);
+	float speed = ConfigVariableDouble("calangos-speed-" + predator_name, 0.7);
+	int orientation = ConfigVariableInt("calangos-orientation-" + predator_name, -1);
+	
+	/* Configurando o arquivo de modelo */
+	PT(AnimatedObjetoJogo) model = ModelRepository::get_instance()->get_animated_model(predator_name);
+	model->set_length(length);
 
 	PT(Terrain) terrain = World::get_world()->get_terrain();
-	for(int i = 0; i < qtd; i++){
+	for(int i = 0; i < density; i++){
 		/* Carrega e cria uma cópia (deep) do modelo */
-		NodePath base_predator = ModelRepository::get_instance()->get_animated_model(tipo_predador)->copy_to(NodePath());
+		NodePath base_predator = model->copy_to(NodePath());
 		PT(Predator) predator = new Predator(base_predator, type);
 
 		predator->bind_anims(predator->node());
@@ -169,6 +154,7 @@ void Predator::load_predator(Predator::types_predator type , int qtd, float scal
 		predator->set_h(rand()%360);
 		predator->set_pos(terrain->get_random_point());
 		predator->set_orientation(orientation);
+		predator->set_velocity(speed);
 
 		/* Adiciona o predator ao terreno e ao render */
 		terrain->add_predator(predator);
@@ -189,7 +175,7 @@ void Predator::act(){
 	if(Session::get_instance()->get_level() == 1){
 		//Se o predador não estiver nas proximidades do player, ele apenas andará
 		if(!(this->get_setor()==player->get_setor() || this->get_setor()->get_is_closest_sector())){
-			this->act_state = Predator::walking;
+			this->act_state = Predator::AS_walking;
 			play_anim("andar");
 			Animal::act();
 
@@ -197,18 +183,18 @@ void Predator::act(){
 
 		else{
 			switch(act_state){
-				case(Predator::walking):
+				case(Predator::AS_walking):
 						play_anim("andar");
 						Animal::act();
 						break;
 
-				case(Predator::pursuing_act):
+				case(Predator::AS_pursuing):
 						if(this->prey != NULL){
 						pursuit(*this->prey);
 						}
 					break;
 
-				case(Predator::biting):
+				case(Predator::AS_biting):
 				bite();
 			}
 
@@ -231,25 +217,25 @@ void Predator::event_psegundo_change_state(const Event *, void *data){
  * Podem ser: caminhando, perseguindo, mordendo*/
 void Predator::change_state(){
 	switch(act_state){
-		case(Predator::walking):
+		case(Predator::AS_walking):
 				if(find_prey()){
-					act_state = Predator::pursuing_act;
+					act_state = Predator::AS_pursuing;
 //					if(hunting_player){
 //						pursuing = true;
 //						AudioController::get_instance()->predator_pursuing();
 //						GuiManager::get_instance()->activate_predator_alert(this);
 //					}
-					if(predator_to_prey < Predator::dist_to_bite){ act_state = Predator::biting; }
+					if(predator_to_prey < Predator::dist_to_bite){ act_state = Predator::AS_biting; }
 				}
 
 			break;
 
-		case(Predator::pursuing_act):
+		case(Predator::AS_pursuing):
 				if(hunting_player){//Presa é o player
 
 					if(player->is_under_vegetal() || player->is_in_toca()){
 
-						act_state = Predator::walking;
+						act_state = Predator::AS_walking;
 						hunting_player = false;
 						player->set_hunted(false);
 						player->set_predator(NULL);
@@ -259,7 +245,7 @@ void Predator::change_state(){
 					}
 
 					if(get_distance_squared(*player) > 10*10){
-						act_state = Predator::walking;
+						act_state = Predator::AS_walking;
 						hunting_player = false;
 						player->set_hunted(false);
 						player->set_predator(NULL);
@@ -274,7 +260,7 @@ void Predator::change_state(){
 						float dist_first_pred = player->get_distance_squared(player->get_predator()->get_pos());
 
 						if(dist_first_pred < 5*5){//Closest_predator muito próximo
-							act_state = Predator::walking;
+							act_state = Predator::AS_walking;
 							hunting_player = false;
 							break;
 							}
@@ -301,7 +287,7 @@ void Predator::change_state(){
 				if(hunting_lizard){//Presa é um lizard
 					Lizard* presa = (Lizard*) prey.p();
 					if(presa->get_distance_squared(presa->get_arvore_da_sombra()->get_pos()) < Predator::dist_player_hide){
-						act_state = Predator::walking;
+						act_state = Predator::AS_walking;
 						hunting_lizard = false;
 						this->prey->set_hunted(false);
 
@@ -309,7 +295,7 @@ void Predator::change_state(){
 					}
 
 					if(this->get_distance_squared(prey->get_pos()) > 10*10){//Verificar se a presa não está muito distante do predador
-						act_state = Predator::walking;
+						act_state = Predator::AS_walking;
 						hunting_lizard = false;
 						this->prey->set_hunted(false);
 
@@ -319,14 +305,14 @@ void Predator::change_state(){
 				}
 				//Atualizando distancia para a presa
 				predator_to_prey = this->get_distance_squared(*prey);
-				if(predator_to_prey < Predator::dist_to_bite){ act_state = Predator::biting; }
+				if(predator_to_prey < Predator::dist_to_bite){ act_state = Predator::AS_biting; }
 			break;
 
-		case(Predator::biting):
+		case(Predator::AS_biting):
 				//Atualizando distancia para a presa
 				predator_to_prey = this->get_distance_squared(*prey);
 				if(predator_to_prey > Predator::dist_to_bite){
-					act_state = Predator::pursuing_act;
+					act_state = Predator::AS_pursuing;
 				}
 	}
 }
@@ -369,7 +355,7 @@ bool Predator::find_prey(){
 				}
 				else{//Caso não, ele verifica se o primeiro predador está muito próximo
 						if(dist_first_pred < 5*5){//Desista
-						this->act_state = Predator::walking;
+						this->act_state = Predator::AS_walking;
 						}
 						else{//Continue
 							this->prey = player;
@@ -417,7 +403,7 @@ bool Predator::find_prey(){
 
 										//Predador está mais próximo que o primeiro predador
 										this->prey = lizard;
-										lizard->get_predator()->set_state(Predator::walking);
+										lizard->get_predator()->set_state(Predator::AS_walking);
 										lizard->set_predator(this);
 										this->prey->set_hunted(true);
 										predator_to_prey = distance_squared_lizard;
@@ -661,15 +647,15 @@ void Predator::set_type_predator(string type){
 }
 
 
-string Predator::get_predator_type(Predator::types_predator type){
+string Predator::get_predator_type(Predator::PredatorID type){
 	switch(type){
-		case(Predator::teiu):return"teiu";
-		case(Predator::siriema):return"siriema";
-		case(Predator::gato):return"gato";
-		case(Predator::raposa):return"raposa";
-		case(Predator::jararaca):return"jararaca";
-		case(Predator::colubridae):return"colubridae";
-		case(Predator::coruja):return"coruja";
+		case(Predator::ID_teiu):return "teiu";
+		case(Predator::ID_siriema):return "siriema";
+		case(Predator::ID_gato):return "gato";
+		case(Predator::ID_raposa):return "raposa";
+		case(Predator::ID_jararaca):return "jararaca";
+		case(Predator::ID_colubridae):return "colubridae";
+		case(Predator::ID_coruja):return "coruja";
 	}
 	return NULL;
 }
@@ -685,19 +671,19 @@ bool Predator::get_closest_player(){
 }
 
 /*Define o estado de ação do predador*/
-void Predator::set_state(Predator::act_states state){
+void Predator::set_state(Predator::ActState  state){
 	this->act_state = state;
 }
 
-Predator::act_states Predator::get_state(){
+Predator::ActState  Predator::get_state(){
 	return act_state;
 }
 /*Obtém o estado de ação do predador*/
 
-void Predator::set_tipo_predator_enum(Predator::types_predator type){
+void Predator::set_tipo_predator_enum(Predator::PredatorID type){
 	this->tipo_predator_enum = type;
 }
 
-Predator::types_predator Predator::get_tipo_predator_enum(){
+Predator::PredatorID Predator::get_tipo_predator_enum(){
 	return this->tipo_predator_enum;
 }

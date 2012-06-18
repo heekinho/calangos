@@ -6,6 +6,7 @@ Animable::Animable(){
 
 /*! Responsável pela identificação e bind correto das animações. */
 void Animable::bind_anims(PT(PandaNode) node){
+	anims.clear_anims();
 	auto_bind(node, anims, PartGroup::HMF_ok_part_extra |
 			PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
 }

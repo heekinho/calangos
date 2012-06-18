@@ -9,30 +9,29 @@
 class Predator : public Animal {
 public:
 
-	enum types_predator{
-		teiu,
-		siriema,
-		gato,
-		raposa,
-		jararaca,
-		colubridae,
-		coruja
+	enum PredatorID {
+		ID_teiu,
+		ID_siriema,
+		ID_gato,
+		ID_raposa,
+		ID_jararaca,
+		ID_colubridae,
+		ID_coruja
 	};
 
-	enum act_states{
-		walking,
-		pursuing_act,
-		biting,
+	enum ActState {
+		AS_walking,
+		AS_pursuing,
+		AS_biting,
 	};
 
 
-	Predator(NodePath node,Predator::types_predator type);
+	Predator(NodePath node,Predator::PredatorID type);
 	virtual ~Predator();
 
 	static void load_predators();
 
-	static void load_predator(Predator::types_predator type, int qtd, float scale,
-			int orientation = -1, Activity activity = Animal::A_day);
+	static void load_predator(Predator::PredatorID type, Activity activity = Animal::A_day);
 
 	static void event_psegundo_change_state(const Event *, void *data);
 	void change_state();
@@ -49,15 +48,15 @@ public:
 
 	/*Tipos de predadores*/
 
-	types_predator tipo_predator_enum;
+	PredatorID tipo_predator_enum;
 
-	static string get_predator_type(Predator::types_predator type);
+	static string get_predator_type(Predator::PredatorID type);
 
-	void set_tipo_predator_enum(Predator::types_predator type);
-	Predator::types_predator get_tipo_predator_enum();
+	void set_tipo_predator_enum(Predator::PredatorID type);
+	Predator::PredatorID get_tipo_predator_enum();
 
-	Predator::act_states get_state();
-	void set_state(Predator::act_states);
+	Predator::ActState  get_state();
+	void set_state(Predator::ActState );
 
 	virtual float get_visibility();
 
@@ -99,7 +98,7 @@ private:
 
 	void act_fase_2();
 
-	act_states act_state; //Estado atual do predador
+	ActState  act_state; //Estado atual do predador
 
 	void pursuit();
 	void pursuit(const NodePath &other);

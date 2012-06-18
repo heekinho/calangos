@@ -4,11 +4,6 @@
 #include "player.h"
 #include "guiManager.h"
 
-//#define VEL_WALK 1000.0
-#define VEL_WALK 200.0 // 1000*0.2 , multiplicador de deslocamento
-//#define VEL_RUN 4000.0
-#define VEL_RUN 800.0 //
-
 #define MAXDEGREE 100
 #define PROBTHR 80
 
@@ -25,7 +20,7 @@ MaleLizard::~MaleLizard(){
 }
 
 void MaleLizard::init() {
-    Lizard::init();
+    //Lizard::init();
     //bind_anims(node());
     last_bobbing_done = 0;
     waiting_player_decide = false;
@@ -35,8 +30,8 @@ void MaleLizard::init() {
     if(ac != NULL) ac->set_play_rate(1.5);
 
     male_symbol = window->load_model(*this, "models/lizards/symbols/male.png");
-    male_symbol.set_scale(2.0);
-    male_symbol.set_z(male_symbol.get_z() + 100);
+    male_symbol.set_scale(0.007);
+    male_symbol.set_z(get_height() * 1.2);
     male_symbol.set_billboard_point_eye(0);
 
     set_gender(Lizard::LG_male);
@@ -106,7 +101,7 @@ void MaleLizard::player_did_bobbing(const Event *theEvent, void *data){
 
 	this_lizard->waiting_player_decide = false;
 
-	float fight_prob = (this_lizard->get_tamanho_base() - (player->get_relative_size()*100)) / 2 + 40.0;
+	float fight_prob = (this_lizard->get_tamanho_base() - player->get_relative_size()) / 2 + 40.0;
 
 	if (rand() % 100 < fight_prob) this_lizard->set_action("fight", true);
 	else {
@@ -124,7 +119,7 @@ void MaleLizard::bob(){
 void MaleLizard::wander(){
 	if(!stay_quiet()){
 		if(rand()%PROBTHR == 34) set_h(*this, rand()%MAXDEGREE - (MAXDEGREE/2));
-		this->move(VEL_WALK);
+		this->move(get_velocity());
 	}
 }
 
@@ -142,8 +137,7 @@ void MaleLizard::chase(){
 //
 //		 }
 		 if(distance > (eat_thr )*(eat_thr )) {
-			 move(VEL_RUN);
-
+			 move(get_velocity()*4);
 		 }
 	}
 

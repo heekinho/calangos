@@ -94,7 +94,7 @@ void collision::collisionNpcSlow(NodePath* node, float x, float y, float z, floa
     CollisionNode* cNode = new CollisionNode("NPC");
     cNode->add_solid(new CollisionSphere(x, y, z, raio));
     NodePath npc = node->attach_new_node(cNode);
-     //  npc.show();
+       npc.show();
       pusher.add_collider(npc, *node);
       collTravSlow->add_collider(npc , &pusher);
 

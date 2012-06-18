@@ -25,8 +25,8 @@ float Player::nivel_camuflagem_sombra = 0;
 float Player::nivel_camuflagem_folhagem = 0;
 
 
-Player::Player() : AnimatedObjetoJogo(*ModelRepository::get_instance()->get_animated_model(
-		get_species_name(properties.species) + "/" + get_gender_name(properties.gender))),
+Player::Player() : AnimatedObjetoJogo(ModelRepository::get_instance()->get_animated_model(
+		get_species_name(properties.species) + "/" + get_gender_name(properties.gender))->copy_to(NodePath())),
 		LizardBase(properties.species, properties.gender) {
 
 	in_toca = false;
@@ -128,9 +128,9 @@ float Player::get_speed_walking() const {
 	else {
 		Player *p = player;
 		/* A Letargia influencia na velocidade (decidiu-se por influenciar linearmente) */
-		p->set_velocity((PlayerProperties::max_speed + PlayerProperties::min_speed) * 0.5 * 0.2);
-		p->set_velocity(p->get_velocity() * (1 - p->get_lethargy()));
-		p->set_velocity(p->get_velocity()*100); // Multiplicador de velocidade
+//		p->set_velocity((PlayerProperties::max_speed + PlayerProperties::min_speed) * 0.5);
+		p->set_velocity(properties.speed * (1.0 - p->get_lethargy()));
+//		p->set_velocity(p->get_velocity()*100); // Multiplicador de velocidade
 		return p->get_velocity();
 	}
 }
@@ -138,22 +138,13 @@ float Player::get_speed_walking() const {
 /*! Obtém a velocidade do jogador enquanto correndo */
 float Player::get_speed_running() const {
 //	return get_speed_walking() * 10;
-	return get_speed_walking() * 7;
+	return get_speed_walking() * 5;
 }
-
-///*! Mostra algumas informações do player para Debug */
-//void Player::display(){
-//#if(DEBUG_PLAYER)
-//	cout << "\nHora: " << TimeControl::get_instance()->get_hora() << ":" << TimeControl::get_instance()->get_minuto() << "\nTemperatura interna do lagarto: " << player->get_temp_interna() <<
-//			"\nGasto com temperatura interna: " << player->gasto_temp << "\nGasto basal: " << player->gasto_basal
-//			<< "\nGasto total: " << player->get_gasto_total() << "\nFatorUmidade: " << player->fator_umidade << "\nHidratação: "
-//			<< player->get_hidratacao() << "\nEnergia do lagarto: "
-//			<< player->get_energia() << endl;
-//#endif
-//}
 
 /*! Carrega o Player */
 void Player::load_player(){
+	player->bind_anims(player->node());
+
 	/* Cria nó de colisão para o player */
 	collision::get_instance()->playerCollision(player);
 
@@ -408,7 +399,7 @@ void Player::set_predator(PT(Predator) other){
 
 void Player::mordida_recebida(int lizard_tamanho_base){
 	//TODO: Corrigir o lizard_relative_size
-	float lost_energy = lizard_tamanho_base * 0.05;
+	float lost_energy = lizard_tamanho_base * 5.0;
 	if(lost_energy <= 0) return;
 
 	add_energy(-lost_energy);

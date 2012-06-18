@@ -26,7 +26,8 @@ Animal::Animal(NodePath node) : AnimatedObjetoJogo(node) {
 
 	/*this->velocity = 0.01;
 	 * Nova velocidade multiplicada pelo multiplicador de deslocamento 0.2*/
-	this->velocity = 0.002;
+//	this->velocity = 0.002;
+	this->_velocity = 1.0;
 
 	this->stay_x_frame_stoped = 0;
 	event_handler->add_hook(TimeControl::EV_pass_frame, act, this);

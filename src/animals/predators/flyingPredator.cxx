@@ -12,7 +12,7 @@
 PT(FlyingPredatorCamera) FlyingPredator::flying_predator_camera;
 
 /*! Constrói um predador voador */
-FlyingPredator::FlyingPredator(NodePath node, Predator::types_predator type) : Predator(node, type){
+FlyingPredator::FlyingPredator(NodePath node, Predator::PredatorID type) : Predator(node, type){
 	find("**/+CollisionNode").remove_node();
 	_player_captured = false;
 	_chasing_player = false;
@@ -29,12 +29,12 @@ void FlyingPredator::load_predators(){
 	flying_predator_camera = new FlyingPredatorCamera(new Camera("Flying Predator Camera"));
 	CameraControl::get_instance()->get_cameras()->push_back((PT(CameraNode)) flying_predator_camera);
 
-	FlyingPredator::load_predator(Predator::coruja, 20, 0.03, -1);
+	FlyingPredator::load_predator(Predator::ID_coruja, 20, 0.03, -1);
 }
 
 
 /*! Carrega uma quantidade de predadores voadores, da espécie especificada */
-void FlyingPredator::load_predator(Predator::types_predator type, int qtd, float scale, int orientation){
+void FlyingPredator::load_predator(Predator::PredatorID type, int qtd, float scale, int orientation){
 
 
 	string tipo_predador = Predator::get_predator_type(type);//Tipo de Predador

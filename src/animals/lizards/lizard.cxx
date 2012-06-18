@@ -12,20 +12,15 @@
 #include "utils.h"
 #include "climaTempo.h"
 
-//#define VEL_WALK 1000.0
-#define VEL_WALK 200.0 // 1000*0.2 , multiplicador de deslocamento
-//#define VEL_RUN 4000.0
-#define VEL_RUN 800.0 //
-
 #define MAXDEGREE 100
 #define PROBTHR 80
 
 
 Lizard::Lizard(NodePath node) : Animal(node){
-	bind_anims(this->node());
+//	bind_anims(this->node());
 	init();
-        //adiciona solido de colisão aos NPCs
-       collision::get_instance()->collisionNpcSlow(&node, 0, 0, 0, 100.0);
+	//adiciona solido de colisão aos NPCs
+	//collision::get_instance()->collisionNpcSlow(&node, 0, 0, get_height()*0.5, /*100.0*/get_height()*0.25);
 }
 
 Lizard::~Lizard(){
@@ -35,6 +30,9 @@ Lizard::~Lizard(){
 
 void Lizard::init(){
 	bind_anims(node());
+
+	/* TODO: Conferir */
+	set_velocity(1);
 
 //	set_blend(true, true, PartBundle::BT_normalized_linear);
 
@@ -73,7 +71,7 @@ void Lizard::load_lizards(){
 
 	/* Para a primeira fase continua o que estava.
 	 * TODO: Existe um property padrão para não precisar fazer esse if? */
-	float lizard_density = 30;//Valor inicial de densidade 30
+	float lizard_density = ConfigVariableInt("calangos-density-lizards", 30);
 
 	/* A partir da segunda fase os valores são customizados */
 	if(Session::get_instance()->get_level() > 1){
@@ -83,90 +81,61 @@ void Lizard::load_lizards(){
 	/* Ter calangos do tipo do player */
 	string player_specie = Player::get_species_name(Player::properties.species);
 
+	string lizard_names[] = {
+			player_specie + "/" + get_gender_name((LizardGender) 0),
+			player_specie + "/" + get_gender_name((LizardGender) 1),
+			player_specie + "/" + get_gender_name((LizardGender) 2)
+	};
+
+	NodePath lizard_models[3];
+	lizard_models[LG_female] = ModelRepository::get_instance()->get_animated_model(lizard_names[LG_female])->copy_to(NodePath());
+	lizard_models[LG_male] = ModelRepository::get_instance()->get_animated_model(lizard_names[LG_male])->copy_to(NodePath());
+	lizard_models[LG_young] = ModelRepository::get_instance()->get_animated_model(lizard_names[LG_young])->copy_to(NodePath());
+
+	for(int i = 0; i < 3; i++){
+		PT(Lizard) lizard = new Lizard(lizard_models[i]);
+		lizard->set_length(1);
+		lizard->clear_model_nodes();
+		lizard->flatten_strong();
+		lizard->calc_size_from_bounds();
+		lizard->bind_anims(lizard->node());
+	}
+
 	for(int i = 0; i < lizard_density; i++){
 		LPoint3f point = World::get_world()->get_terrain()->get_random_point();
 
 		/* Pronto... para criar instancias separadas, sem instancing... */
 
+		LizardGender gender = LizardGender(rand() % 3);
+		NodePath base_lizard = lizard_models[gender].copy_to(NodePath());//(*ModelRepository::get_instance()->get_animated_model(lizard_names[gender])).copy_to(NodePath());
+
+		/* Cria o lagarto baseado no gênero */
 		PT(Lizard) lizard;
-		string gender_name;
-		int gender = rand()%3;
+		if(gender == LG_male) lizard = new MaleLizard(base_lizard);
+		else if(gender == LG_female) lizard = new FemaleLizard(base_lizard);
+		else lizard = new Lizard(base_lizard);
 
+		lizard->set_gender(gender); // Não precisa
+		lizard->set_species(Player::properties.species);
 
-		if(gender == 0) {
-			gender_name = "male";
-			string lizard_name = player_specie + "/" + gender_name;
+		/* TODO: Rever como Angelo pediu. Sortear idade e energia e calcular o tamanho. */
+		if(gender == LG_young) lizard->set_energia(gaussian_random(25, 15));
+		else lizard->set_energia(gaussian_random(60, 20));
 
-			NodePath base_lizard = (*ModelRepository::get_instance()->get_animated_model(lizard_name)).copy_to(NodePath());
-			lizard = new MaleLizard(base_lizard);
+		lizard->set_tamanho_real(random(PlayerProperties::min_body_size * 0.2, PlayerProperties::max_body_size) * 0.01);
+		lizard->set_tamanho_base(player->calculate_lizards_relative_size(lizard->get_tamanho_real()));
+		lizard->set_length(lizard->get_tamanho_real());
 
-			lizard->set_species(player->get_species());
-			lizard->set_gender(LizardBase::LG_male);
+		nout << lizard->_size << endl;
+		nout << lizard->get_scale() << endl;
 
-			lizard->energia = gaussian_random(60, 20);
-
-			//0.0021 = 0.0025 - 0.0004 => tamanho máximo - tamanho mínimo
-			lizard->scale_temp = ((0.0021/100)* lizard->get_energia()) + 0.0004;
-			lizard->set_tamanho_real(gaussian_random(lizard->scale_temp, 0.0001));
-			lizard->set_tamanho_base(player->calculate_lizards_relative_size(lizard->get_tamanho_real())*100);
-			//lizard->scale = ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.0001);
-		}
-		else if(gender == 1){
-			gender_name = "female";
-			string lizard_name = player_specie + "/" + gender_name;
-
-			NodePath base_lizard = (*ModelRepository::get_instance()->get_animated_model(lizard_name)).copy_to(NodePath());
-			lizard = new FemaleLizard(base_lizard);
-
-			lizard->set_species(player->get_species());
-			lizard->set_gender(LizardBase::LG_female);
-
-			lizard->energia = gaussian_random(60, 20);
-			//0.0021 = 0.0025 - 0.0004 => tamanho máximo - tamanho mínimo
-			lizard->scale_temp = ((0.0021/100)* lizard->get_energia()) + 0.0004;
-			lizard->set_tamanho_real(gaussian_random(lizard->scale_temp, 0.0001));
-			lizard->set_tamanho_base(player->calculate_lizards_relative_size(lizard->get_tamanho_real())*100);
-			//lizard->scale = ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.0001);
-		}
-		else {
-			gender_name = "young";
-			string lizard_name = player_specie + "/" + gender_name;
-			NodePath base_lizard = (*ModelRepository::get_instance()->get_animated_model(lizard_name)).copy_to(NodePath());
-			// TODO: Qual comportamento dos Youngs?
-			lizard = new YoungLizard(base_lizard);
-
-			lizard->set_species(player->get_species());
-			lizard->set_gender(LizardBase::LG_young);
-
-
-			//como os lagartos jovens não irão brigar, a energia serve apenas para determinar o tamanho
-			lizard->energia = gaussian_random(10, 3);
-			//0.0021 = 0.0025 - 0.0004 => tamanho máximo - tamanho mínimo
-			lizard->scale_temp = ((0.0021/100)* lizard->get_energia()) + 0.0004;
-			lizard->set_tamanho_real(gaussian_random(lizard->scale_temp, 0.0001));
-			lizard->set_tamanho_base(player->calculate_lizards_relative_size(lizard->get_tamanho_real())*100);
-			//lizard->scale = ClimaTempo::get_instance()->random_normal(lizard->scale_temp, 0.00001);
-		}
-
-		//cout << "Scale: " << lizard->tamanho_real << endl;
 		lizard->set_pos(point);
 		lizard->set_h(rand()%360);
-		lizard->set_scale(lizard->tamanho_real);
-		//lizard->set_scale(0.0003);
-		//lizard->set_hpr(180,0,0);
-		lizard->set_velocity(100);//Não utilizada
 
 		World::get_world()->get_terrain()->add_lizard(lizard);
-		lizard->loop_anim("walk", true);
-
-		//lizard->wrt_reparent_to(Terrain::create_default_terrain()->no_setores[->get_setor_from_pos(lizard->get_x(),lizard->get_y())->get_indice()].node());
-                //lizard->reparent_to(render);
-
 		lizard->reparent_to(lizard->get_setor()->get_root());
 
-		//lizard->tamanho = ClimaTempo::get_instance()->random_normal(60, 20);
-		//lizard->energia = ClimaTempo::get_instance()->random_normal(60, 20);
-
+		lizard->loop_anim("walk", true);
 		lizard->set_action("walk");
 	}
 }
@@ -235,7 +204,7 @@ void Lizard::flee(const NodePath &other){
 		look_at(other);  //TODO: Corrigir depois para não permitir muito giro.
 		set_h(*this, 180); // Corrige modelo errado
 
-		this->move(VEL_RUN);
+		this->move(get_velocity()*4);
 
 //	}
 }
@@ -258,7 +227,7 @@ bool Lizard::hide_from_predator(){
 
 				play_anim("walk");
 				look_at(*arvore_da_sombra);
-				this->move(VEL_RUN);
+				this->move(get_velocity()*4);
 				return true;
 			}
 	}

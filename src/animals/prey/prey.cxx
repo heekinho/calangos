@@ -17,10 +17,7 @@ Prey::Prey(NodePath node) : Animal(node) {
 	this->living_tree = NULL;
 	this->radius_thr = 1.5;
 	this->fleing = false;
-
-	/*set_velocity(0.085);
-		 * Nova velocidade multiplicada pelo multiplicador de deslocamento 0.2*/
-	 set_velocity(0.017);
+	set_velocity(ConfigVariableDouble("calangos-speed-prey", 0.8));
 };
 
 Prey::~Prey(){
@@ -65,12 +62,15 @@ void Prey::configure_prey_model(const string name, double scale){
 
 	//ModelRepository::get_instance()->get_animated_model(name)->set_scale(scale);
 	//ModelRepository::get_instance()->get_model(name)->set_scale(scale);
-	scale = ModelRepository::get_instance()->get_model(name)->get_length()/2;
+	//scale = ModelRepository::get_instance()->get_model(name)->get_length()/2;
 }
 
 /*! Configura a presa de acordo com os valores passados */
 void Prey::configure_prey(const string name, int living_tree_prob, float nutricional, float hidratacao){
 	ModelRepository::get_instance()->get_animated_model(name)->instance_to(*this);
+
+	/* Precisa atualizar o tamanho, já que é instanciado */
+	calc_size_from_bounds();
 
 	/* Guarda a informação para uso na troca de modelo animado/não-animado */
 	set_tag("model_name", name);
@@ -128,8 +128,7 @@ void Prey::load_prey_specie(const string name, int qtd, double scale, int living
 			}
 			npc->_group->calc_leaders();
 		}
-		else
-		{
+		else {
 			npc->_group = NULL;
 		}
 		//=====================================================//

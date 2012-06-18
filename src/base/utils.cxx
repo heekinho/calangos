@@ -15,7 +15,13 @@ using namespace std;
 #define RAND_UNIFORME ((double)rand()/(double)RAND_MAX)
 #define PI 3.141592653589793
 
-/*! Método que recebe esperança (ou média) e variância (ou desvio padrão),
+/*! Retornna um número aleatório de min a max */
+double random(double min, double max){
+	double range = max - min;
+	return (double(rand())/double(RAND_MAX)) * range + min;
+}
+
+/*! Recebe esperança (ou média) e variância (ou desvio padrão),
  * e retorna um número gerado a partir de um sorteio normal (ou gaussiano) */
 double gaussian_random(double expectation, double deviation){
 	double u1 = RAND_UNIFORME;
@@ -23,6 +29,7 @@ double gaussian_random(double expectation, double deviation){
 	double z = sqrt(-2.0 * log(u1)) * cos(2 * PI * u2);
 	return expectation + (deviation * z);
 }
+
 
 /*! Obtem x de 0 a 1 considerando o range (a,b)
  *  TODO: Mudar nome. */

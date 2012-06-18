@@ -9,6 +9,8 @@
 Frog::Frog(NodePath node) : Animal(node){
 	jumps = 0;
 	jumping = false;
+
+	set_velocity(ConfigVariableDouble("calangos-speed-frog", 4));
 }
 
 /*! Carrega todos os sapos */
@@ -25,10 +27,6 @@ void Frog::load_frogs(){
 		/* Define a posição e orientação aleatória, além da velocidade */
 		frog->set_pos(terrain->get_random_point());
 		frog->set_h(rand()%360);
-
-	/*	frog->set_velocity(2300);
-		 * Nova velocidade multiplicada pelo multiplicador de deslocamento 0.2*/
-		frog->set_velocity(460);
 
 		/* Conclui a referencia com o modelo e animação */
 		//ModelRepository::get_instance()->get_model("sapo")->instance_to(*frog);

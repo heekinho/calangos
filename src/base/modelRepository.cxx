@@ -298,9 +298,7 @@ void ModelRepository::add_animated_model(const string &name, const string &path,
 	PT(AnimatedObjetoJogo) object = new AnimatedObjetoJogo(path + model + filetype);
 	object->set_name(name);
 
-
 	for(int i = 0; i < num_anims; i++) window->load_model(*object, Filename(path + anims[i] + filetype));
-
 
 	/* Bind Anims */
 	object->bind_anims(object->node());

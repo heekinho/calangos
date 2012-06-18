@@ -13,8 +13,6 @@
 #include "playerControl.h"
 #include "setor.h"
 
-
-
 #define MAXDEGREE 100
 #define PROBTHR 80
 
@@ -29,13 +27,13 @@ FemaleLizard::~FemaleLizard(){
 void FemaleLizard::init() {
     reproduziu = false;
 	
-	Lizard::init();
+//	Lizard::init();
     //Lizard::isFemale();
 	away_from_player = false;
 
     female_symbol = window->load_model(*this, "models/lizards/symbols/female.png");
-    female_symbol.set_scale(2.0);
-    female_symbol.set_z(female_symbol.get_z() + 100);
+    female_symbol.set_scale(0.007);
+    female_symbol.set_z(get_height() * 1.2);
     female_symbol.set_billboard_point_eye(0);
     set_gender(Lizard::LG_female);
 

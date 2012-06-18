@@ -30,8 +30,8 @@ public:
 
 	/* Ações relacionadas ao movimento */
 	/* Precisava mesmo ser virtual??? =/ */
-	virtual float get_velocity() const { return velocity; };
-	virtual void set_velocity(float velocity) { this->velocity = velocity; };
+	virtual float get_velocity() const { return _velocity; };
+	virtual void set_velocity(float velocity) { this->_velocity = velocity; };
 
 	Activity get_activity() const;
 	void set_activity(Activity activity);
@@ -46,7 +46,7 @@ protected:
 	virtual int stay_quiet();
 	int stay_x_frame_stoped;
 
-	float velocity;
+	float _velocity;
 	Activity activity;
 };
 
