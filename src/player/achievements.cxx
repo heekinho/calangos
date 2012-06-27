@@ -8,6 +8,7 @@
 #include "achievements.h"
 #include "timeControl.h"
 #include "pauseScreen.h"
+#include "notificationManager.h"
 
 Achievements::Achievements() {
 	count_bites = 0;
@@ -46,17 +47,24 @@ void Achievements::inc_bites() {
 
 	if (lvl_senhor_mordida == 0 && count_bites == 10) {
 		clear_bites();
-		lvl_senhor_mordida++;
+		inc_lvl_senhor_mordida();
 	}
 	else if (lvl_senhor_mordida == 1 && count_bites == 25) {
 		clear_bites();
-		lvl_senhor_mordida++;
+		inc_lvl_senhor_mordida();
 	}
 	else if (count_bites == 50) { // do lvl 2 para cima
 		clear_bites();
-		lvl_senhor_mordida++;
+		inc_lvl_senhor_mordida();
 	}
 	cout<<"incrementando o contador de mordidas"<<endl;
+}
+
+void Achievements::inc_lvl_senhor_mordida() {
+	lvl_senhor_mordida++;
+	stringstream lvl_senhor_mordida_str;
+	lvl_senhor_mordida_str<<lvl_sobrevivente;
+	NotificationManager::show_notification("Você acaba concluir o nível " + lvl_senhor_mordida_str.str() + " da realização: Senhor Mordida Perfeita");
 }
 
 void Achievements::clear_bites() {
@@ -85,16 +93,23 @@ void Achievements::inc_meses_sobrevivente() {
 
 	if (lvl_sobrevivente == 0 && count_sobrevivente == 4) {
 		count_sobrevivente = 0;
-		lvl_sobrevivente++;
+		inc_lvl_sobrevivente();
 	}
 	else if (lvl_sobrevivente == 1 && count_sobrevivente == 7) {
 		count_sobrevivente = 0;
-		lvl_sobrevivente++;
+		inc_lvl_sobrevivente();
 	}
 	else if (count_sobrevivente == 11) { // do lvl 2 para cima
 		count_sobrevivente = 0;
-		lvl_sobrevivente++;
+		inc_lvl_sobrevivente();
 	}
+}
+
+void Achievements::inc_lvl_sobrevivente() {
+	lvl_sobrevivente++;
+	stringstream lvl_sobrevivente_str;
+	lvl_sobrevivente_str<<lvl_sobrevivente;
+	NotificationManager::show_notification("Você acaba concluir o nível " + lvl_sobrevivente_str.str() + " da realização: O sobrevivente");
 }
 
 int Achievements::get_count_sobrevivente() {
@@ -162,16 +177,23 @@ void Achievements::inc_reprodutor() {
 
 	if (lvl_reprodutor == 0 && count_reprodutor == 3) {
 		count_reprodutor = 0;
-		lvl_reprodutor++;
+		inc_lvl_reprodutor();
 	}
 	else if (lvl_reprodutor == 1 && count_reprodutor == 6) {
 		count_reprodutor = 0;
-		lvl_reprodutor++;
+		inc_lvl_reprodutor();
 	}
 	else if (count_reprodutor == 10) { // do lvl 2 para cima
 		count_reprodutor = 0;
-		lvl_reprodutor++;
+		inc_lvl_reprodutor();
 	}
+}
+
+void Achievements::inc_lvl_reprodutor() {
+	lvl_reprodutor++;
+	stringstream lvl_reprodutor_str;
+	lvl_reprodutor_str<<lvl_sobrevivente;
+	NotificationManager::show_notification("Você acaba concluir o nível " + lvl_reprodutor_str.str() + " da realização: O reprodutor");
 }
 
 // verifica a espécie do alimento ingerido
@@ -197,6 +219,14 @@ void Achievements::check_edible_specie(Edible::Specie specie) {
 				break;
 		}
 	}
+}
+
+// parei aqui. ^^ (falta chamar esse método ainda)
+void Achievements::inc_lvl_bom_de_boca() {
+	lvl_bom_de_boca++;
+	stringstream lvl_bom_de_boca_str;
+	lvl_bom_de_boca_str<<lvl_sobrevivente;
+	NotificationManager::show_notification("Você acaba concluir o nível " + lvl_bom_de_boca_str.str() + " da realização: O bom de boca");
 }
 
 void Achievements::check_temperature(double temperature) {

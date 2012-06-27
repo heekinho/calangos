@@ -20,14 +20,18 @@ public:
 	void clear_bites();
 	int get_count_bites();
 	int get_lvl_senhor_mordida();
+	void inc_lvl_senhor_mordida();
 	int get_lvl_bom_de_boca();
+	void inc_lvl_bom_de_boca();
 	int get_count_species();
 	void inc_meses_sobrevivente();
 	int get_count_sobrevivente();
 	int get_lvl_sobrevivente();
+	void inc_lvl_sobrevivente();
 	void inc_reprodutor();
 	int get_count_reprodutor();
 	int get_lvl_reprodutor();
+	void inc_lvl_reprodutor();
 	int get_count_secs_temp();
 	int get_lvl_temperatura();
 	int get_count_secs_hyd();

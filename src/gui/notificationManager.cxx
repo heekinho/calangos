@@ -21,6 +21,8 @@ NotificationManager::~NotificationManager() {}
 void NotificationManager::show_notification(string message) {
 	PT(TextNode) text = new TextNode("text");
 	text->set_text(message);
+	text->set_shadow(0.06, 0.06);
+	text->set_shadow_color(0, 0, 0, 1);
 
 	//float text_width = text->get_width();
 	//float text_height = text->get_height();
@@ -32,7 +34,7 @@ void NotificationManager::show_notification(string message) {
 
 	NodePath np_text = aspect2d.attach_new_node(text);
 	np_text.set_scale(0.05);
-	np_text.set_color(1, 1, 1, 0, 0);
+	np_text.set_color_scale(1, 1, 1, 0, 0);
 
 	fadein(np_text);
 	TimeControl::get_instance()->notify("delay_fadeout_notification", fadeout, NULL, 3);
@@ -55,13 +57,13 @@ AsyncTask::DoneStatus NotificationManager::delay_hide_notification(GenericAsyncT
 
 void NotificationManager::fadein(NodePath np) {
 	PT(CLerpNodePathInterval) fade_interval = new CLerpNodePathInterval("fadein notif", 1, CLerpNodePathInterval::BT_no_blend, true, false, np, NodePath());
-	fade_interval->set_end_color(LVecBase4f(1, 1, 1, 1));
+	fade_interval->set_end_color_scale(LVecBase4f(1, 1, 1, 1));
 	fade_interval->start();
 }
 
 AsyncTask::DoneStatus NotificationManager::fadeout(GenericAsyncTask* task, void* data) {
 	NodePath np = notifications.front();
 	PT(CLerpNodePathInterval) fade_interval = new CLerpNodePathInterval("fadeout notif", 1, CLerpNodePathInterval::BT_no_blend, true, false, np, NodePath());
-	fade_interval->set_end_color(LVecBase4f(1, 1, 1, 0));
+	fade_interval->set_end_color_scale(LVecBase4f(1, 1, 1, 0));
 	fade_interval->start();
 }
