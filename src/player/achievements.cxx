@@ -214,18 +214,17 @@ void Achievements::check_edible_specie(Edible::Specie specie) {
 			case 4:
 			case 9:
 			case 14:
-				lvl_bom_de_boca++;
+				inc_lvl_bom_de_boca();
 				count_species = 0;
 				break;
 		}
 	}
 }
 
-// parei aqui. ^^ (falta chamar esse método ainda)
 void Achievements::inc_lvl_bom_de_boca() {
 	lvl_bom_de_boca++;
 	stringstream lvl_bom_de_boca_str;
-	lvl_bom_de_boca_str<<lvl_sobrevivente;
+	lvl_bom_de_boca_str<<lvl_bom_de_boca;
 	NotificationManager::show_notification("Você acaba concluir o nível " + lvl_bom_de_boca_str.str() + " da realização: O bom de boca");
 }
 
@@ -252,20 +251,27 @@ AsyncTask::DoneStatus Achievements::count_seconds_temperature(GenericAsyncTask* 
 		_this->count_secs_temp++;
 
 		if (_this->lvl_temperatura == 0 && _this->count_secs_temp == 45) {
-			_this->lvl_temperatura++;
+			_this->inc_lvl_temperatura();
 			_this->count_secs_temp = 0;
 		}
 		else if (_this->lvl_temperatura == 1 && _this->count_secs_temp == 60) {
-			_this->lvl_temperatura++;
+			_this->inc_lvl_temperatura();
 			_this->count_secs_temp = 0;
 		}
 		else if (_this->count_secs_temp == 90) {
-			_this->lvl_temperatura++;
+			_this->inc_lvl_temperatura();
 			_this->count_secs_temp = 0;
 		}
 	}
 
 	return AsyncTask::DS_again;
+}
+
+void Achievements::inc_lvl_temperatura() {
+	lvl_temperatura++;
+	stringstream lvl_temperatura_str;
+	lvl_temperatura_str<<lvl_temperatura;
+	NotificationManager::show_notification("Você acaba concluir o nível " + lvl_temperatura_str.str() + " da realização: Temperatura");
 }
 
 void Achievements::check_hydration(double hydration) {
@@ -291,22 +297,29 @@ AsyncTask::DoneStatus Achievements::count_seconds_hydration(GenericAsyncTask* ta
 		_this->count_secs_hyd++;
 
 		if (_this->lvl_hidratacao == 0 && _this->count_secs_hyd == 60) {
-			_this->lvl_hidratacao++;
+			_this->inc_lvl_hidratacao();
 			_this->hyd_min = 80;
 			_this->count_secs_hyd = 0;
 		}
 		else if (_this->lvl_hidratacao == 1 && _this->count_secs_hyd == 120) {
-			_this->lvl_hidratacao++;
+			_this->inc_lvl_hidratacao();
 			_this->hyd_min = 90;
 			_this->count_secs_hyd = 0;
 		}
 		else if (_this->count_secs_hyd == 180) {
-			_this->lvl_hidratacao++;
+			_this->inc_lvl_hidratacao();
 			_this->count_secs_hyd = 0;
 		}
 	}
 
 	return AsyncTask::DS_again;
+}
+
+void Achievements::inc_lvl_hidratacao() {
+	lvl_hidratacao++;
+	stringstream lvl_hidratacao_str;
+	lvl_hidratacao_str<<lvl_hidratacao;
+	NotificationManager::show_notification("Você acaba concluir o nível " + lvl_hidratacao_str.str() + " da realização: Hidratação");
 }
 
 void Achievements::check_energy(double energy) {
@@ -332,22 +345,29 @@ AsyncTask::DoneStatus Achievements::count_seconds_energy(GenericAsyncTask* task,
 		_this->count_secs_energy++;
 
 		if (_this->lvl_energia == 0 && _this->count_secs_energy == 60) {
-			_this->lvl_energia++;
+			_this->inc_lvl_energia();
 			_this->energy_min = 80;
 			_this->count_secs_energy = 0;
 		}
 		else if (_this->lvl_energia == 1 && _this->count_secs_energy == 120) {
-			_this->lvl_energia++;
+			_this->inc_lvl_energia();
 			_this->energy_min = 90;
 			_this->count_secs_energy = 0;
 		}
 		else if (_this->count_secs_energy == 180) {
-			_this->lvl_energia++;
+			_this->inc_lvl_energia();
 			_this->count_secs_energy = 0;
 		}
 	}
 
 	return AsyncTask::DS_again;
+}
+
+void Achievements::inc_lvl_energia() {
+	lvl_energia++;
+	stringstream lvl_energia_str;
+	lvl_energia_str<<lvl_energia;
+	NotificationManager::show_notification("Você acaba concluir o nível " + lvl_energia_str.str() + " da realização: Energia");
 }
 
 AsyncTask::DoneStatus Achievements::count_seconds_untouched(GenericAsyncTask* task, void* data) {
@@ -357,20 +377,27 @@ AsyncTask::DoneStatus Achievements::count_seconds_untouched(GenericAsyncTask* ta
 		_this->count_secs_untouched++;
 
 		if (_this->lvl_intocavel == 0 && _this->count_secs_untouched == 60) {
-			_this->lvl_intocavel++;
+			_this->inc_lvl_intocavel();
 			_this->count_secs_untouched = 0;
 		}
 		else if (_this->lvl_intocavel == 1 && _this->count_secs_untouched == 120) {
-			_this->lvl_intocavel++;
+			_this->inc_lvl_intocavel();
 			_this->count_secs_untouched = 0;
 		}
 		else if (_this->count_secs_untouched == 180) {
-			_this->lvl_intocavel++;
+			_this->inc_lvl_intocavel();
 			_this->count_secs_untouched = 0;
 		}
 	}
 
 	return AsyncTask::DS_again;
+}
+
+void Achievements::inc_lvl_intocavel() {
+	lvl_intocavel++;
+	stringstream lvl_intocavel_str;
+	lvl_intocavel_str<<lvl_intocavel;
+	NotificationManager::show_notification("Você acaba concluir o nível " + lvl_intocavel_str.str() + " da realização: O intocável");
 }
 
 void Achievements::inc_guerreiro() {
@@ -379,14 +406,21 @@ void Achievements::inc_guerreiro() {
 
 	if (lvl_guerreiro == 0 && count_guerreiro == 2) {
 		count_guerreiro = 0;
-		lvl_guerreiro++;
+		inc_lvl_guerreiro();
 	}
 	else if (lvl_guerreiro == 1 && count_guerreiro == 5) {
 		count_guerreiro = 0;
-		lvl_guerreiro++;
+		inc_lvl_guerreiro();
 	}
 	else if (count_guerreiro == 10) { // do lvl 2 para cima
 		count_guerreiro = 0;
-		lvl_guerreiro++;
+		inc_lvl_guerreiro();
 	}
+}
+
+void Achievements::inc_lvl_guerreiro() {
+	lvl_guerreiro++;
+	stringstream lvl_guerreiro_str;
+	lvl_guerreiro_str<<lvl_guerreiro;
+	NotificationManager::show_notification("Você acaba concluir o nível " + lvl_guerreiro_str.str() + " da realização: Guerreiro");
 }

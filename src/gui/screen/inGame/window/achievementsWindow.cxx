@@ -333,7 +333,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	lb_temperatura_andamento = new TextNode("lb_temperatura_andamento");
 	if (lvl_temperatura == 0) {
 		temperatura_andamento<<player->get_achievements()->get_count_secs_temp();
-		lb_temperatura_andamento->set_text(temperatura_andamento.str() + " / 30");
+		lb_temperatura_andamento->set_text(temperatura_andamento.str() + " / 45");
 	}
 	else if (lvl_temperatura == 1) {
 		temperatura_andamento<<player->get_achievements()->get_count_secs_temp();
