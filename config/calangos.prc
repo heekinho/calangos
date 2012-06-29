@@ -52,7 +52,7 @@ calangos-density-gato 9
 ###########################################################
 ### Configuração dos Lagartos (Coespecíficos)           ###
 ###########################################################
-calangos-density-lizards 300
+calangos-density-lizards 30
 
 
 ###########################################################
