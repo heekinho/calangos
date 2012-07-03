@@ -988,6 +988,7 @@ void GraphicsMenu::hide_menu_graf_variavel() {
 
 //Torna visivel o painel que contem os botoes para ativar os graficos de tempo.
 void GraphicsMenu::show_menu_graf_tempo() {
+	hide_all_led_on();
 	label_txt_tipo_graf.show();
 	np_btn_graf_tempo.show();
 	led_on_graf_tempo.show();
@@ -1017,6 +1018,17 @@ void GraphicsMenu::show_menu_graf_tempo() {
 	np_btn_gasto_energetico.show();
 	img_btn_gasto_energetico.show();
 	led_off_gasto_energetico.show();
+}
+
+void GraphicsMenu::hide_all_led_on() {
+	led_on_alimentacao.hide();
+	led_on_energia.hide();
+	led_on_gasto_energetico.hide();
+	led_on_hidratacao.hide();
+	led_on_temp_ar.hide();
+	led_on_temp_interna.hide();
+	led_on_temp_solo.hide();
+	led_on_umidade.hide();
 }
 
 //Faz com que os graficos nao fiquem visiveis.

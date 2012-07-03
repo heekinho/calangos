@@ -162,6 +162,7 @@ public:
 	void hide_menu_graf_variavel();
 	void show_all_option_graphics();
 	void show_menu_graf_tempo();
+	void hide_all_led_on();
 	void show_menu_graf_variavel();
 
 	void hide_all_graphics();
