@@ -9,8 +9,6 @@
 #include "fontPool.h"
 #include "imageRepository.h"
 
-// TODO colocar os outros achievements
-// TODO se essa janela for aberta apenas com o jogo pausado, ajeitar para ter apenas uma variavel de estrela para cada achievement
 AchievementsWindow::AchievementsWindow(NodePath parent, float width, float height, string title, float pos_x, float pos_y) : Window(parent, width, height, title, pos_x, pos_y) {
 	lb_andamento = new TextNode("lb_andamento");
 	lb_andamento->set_text("ANDAMENTO");
@@ -610,7 +608,127 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	np_lb_guerreiro_andamento.set_color(0, 0, 0, 1);
 }
 
-AchievementsWindow::~AchievementsWindow() {}
+AchievementsWindow::~AchievementsWindow() {
+	hint_bom_de_boca_1 = NULL;
+	hint_bom_de_boca_2 = NULL;
+	hint_bom_de_boca_3 = NULL;
+	hint_bom_de_boca_atual = NULL;
+	hint_energia_1 = NULL;
+	hint_energia_2 = NULL;
+	hint_energia_3 = NULL;
+	hint_energia_atual = NULL;
+	hint_guerreiro_1 = NULL;
+	hint_guerreiro_2 = NULL;
+	hint_guerreiro_3 = NULL;
+	hint_guerreiro_atual = NULL;
+	hint_hidratacao_1 = NULL;
+	hint_hidratacao_2 = NULL;
+	hint_hidratacao_3 = NULL;
+	hint_hidratacao_atual = NULL;
+	hint_intocavel_1 = NULL;
+	hint_intocavel_2 = NULL;
+	hint_intocavel_3 = NULL;
+	hint_intocavel_atual = NULL;
+	hint_reprodutor_1 = NULL;
+	hint_reprodutor_2 = NULL;
+	hint_reprodutor_3 = NULL;
+	hint_reprodutor_atual = NULL;
+	hint_senhor_mordida_1 = NULL;
+	hint_senhor_mordida_2 = NULL;
+	hint_senhor_mordida_3 = NULL;
+	hint_senhor_mordida_atual = NULL;
+	hint_sobrevivente_1 = NULL;
+	hint_sobrevivente_2 = NULL;
+	hint_sobrevivente_3 = NULL;
+	hint_sobrevivente_atual = NULL;
+	hint_temperatura_1 = NULL;
+	hint_temperatura_2 = NULL;
+	hint_temperatura_3 = NULL;
+	hint_temperatura_atual = NULL;
+	lb_andamento = NULL;
+	lb_bom_de_boca = NULL;
+	lb_bom_de_boca_andamento = NULL;
+	lb_bom_de_boca_xnum = NULL;
+	lb_energia = NULL;
+	lb_energia_andamento = NULL;
+	lb_energia_xnum = NULL;
+	lb_guerreiro = NULL;
+	lb_guerreiro_andamento = NULL;
+	lb_guerreiro_xnum = NULL;
+	lb_hidratacao = NULL;
+	lb_hidratacao_andamento = NULL;
+	lb_hidratacao_xnum = NULL;
+	lb_intocavel = NULL;
+	lb_intocavel_andamento = NULL;
+	lb_intocavel_xnum = NULL;
+	lb_reprodutor = NULL;
+	lb_reprodutor_andamento = NULL;
+	lb_reprodutor_xnum = NULL;
+	lb_senhor_mordida = NULL;
+	lb_senhor_mordida_andamento = NULL;
+	lb_senhor_mordida_xnum = NULL;
+	lb_sobrevivente = NULL;
+	lb_sobrevivente_andamento = NULL;
+	lb_sobrevivente_xnum = NULL;
+	lb_temperatura = NULL;
+	lb_temperatura_andamento = NULL;
+	lb_temperatura_xnum = NULL;
+	np_lb_andamento.remove_node();
+	np_lb_bom_de_boca.remove_node();
+	np_lb_bom_de_boca_andamento.remove_node();
+	np_lb_bom_de_boca_xnum.remove_node();
+	np_lb_energia.remove_node();
+	np_lb_energia_andamento.remove_node();
+	np_lb_energia_xnum.remove_node();
+	np_lb_guerreiro.remove_node();
+	np_lb_guerreiro_andamento.remove_node();
+	np_lb_guerreiro_xnum.remove_node();
+	np_lb_hidratacao.remove_node();
+	np_lb_hidratacao_andamento.remove_node();
+	np_lb_hidratacao_xnum.remove_node();
+	np_lb_intocavel.remove_node();
+	np_lb_intocavel_andamento.remove_node();
+	np_lb_intocavel_xnum.remove_node();
+	np_lb_reprodutor.remove_node();
+	np_lb_reprodutor_andamento.remove_node();
+	np_lb_reprodutor_xnum.remove_node();
+	np_lb_senhor_mordida.remove_node();
+	np_lb_senhor_mordida_andamento.remove_node();
+	np_lb_senhor_mordida_xnum.remove_node();
+	np_lb_sobrevivente.remove_node();
+	np_lb_sobrevivente_andamento.remove_node();
+	np_lb_sobrevivente_xnum.remove_node();
+	np_lb_temperatura.remove_node();
+	np_lb_temperatura_andamento.remove_node();
+	np_lb_temperatura_xnum.remove_node();
+	img_bom_de_boca_star_1.remove_node();
+	img_bom_de_boca_star_2.remove_node();
+	img_bom_de_boca_star_3.remove_node();
+	img_energia_star_1.remove_node();
+	img_energia_star_2.remove_node();
+	img_energia_star_3.remove_node();
+	img_guerreiro_star_1.remove_node();
+	img_guerreiro_star_2.remove_node();
+	img_guerreiro_star_3.remove_node();
+	img_hidratacao_star_1.remove_node();
+	img_hidratacao_star_2.remove_node();
+	img_hidratacao_star_3.remove_node();
+	img_intocavel_star_1.remove_node();
+	img_intocavel_star_2.remove_node();
+	img_intocavel_star_3.remove_node();
+	img_reprodutor_star_1.remove_node();
+	img_reprodutor_star_2.remove_node();
+	img_reprodutor_star_3.remove_node();
+	img_senhor_mordida_star_1.remove_node();
+	img_senhor_mordida_star_2.remove_node();
+	img_senhor_mordida_star_3.remove_node();
+	img_sobrevivente_star_1.remove_node();
+	img_sobrevivente_star_2.remove_node();
+	img_sobrevivente_star_3.remove_node();
+	img_temperatura_star_1.remove_node();
+	img_temperatura_star_2.remove_node();
+	img_temperatura_star_3.remove_node();
+}
 
 void AchievementsWindow::create_senhor_mordida_stars(string star1, string star2, string star3) {
 	img_senhor_mordida_star_1 = ImageRepository::get_instance()->get_image(star1);

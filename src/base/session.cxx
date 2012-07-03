@@ -18,7 +18,6 @@ Session* Session::singleSession = NULL;
 
 #include "memoryUsage.h"
 #include "memoryUsagePointers.h"
-#include "inGameScreenManager.h"
 #include "calangosMenuManager.h"
 #include "loadingScreen.h"
 #include "pauseScreen.h"
@@ -26,6 +25,7 @@ Session* Session::singleSession = NULL;
 
 #include "world.h"
 #include "cameraControl.h"
+#include "inGameScreenManager.h"
 
 /*! Constroi uma session default.*/
 //Session::Session(WindowFramework *window) {
@@ -128,7 +128,6 @@ void Session::run(){
 	//	}
 
 	GuiManager::get_instance()->show_frameNode();
-	InGameScreenManager::get_instance()->get_game_interface_screen()->show();
 //	causa_mortis = -1;
 	_player_death_status = Player::PDT_NOT_DEAD;
 

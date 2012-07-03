@@ -116,7 +116,10 @@ void Hint::buildHint(string msg) {
 }
 
 Hint::~Hint() {
-
+	btn = NULL;
+	text = NULL;
+	np_btn.remove_node();
+	np_text.remove_node();
 }
 
 void Hint::enter_event(const Event*, void *data) {
