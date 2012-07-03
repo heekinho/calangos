@@ -159,6 +159,7 @@ void AudioController::warning_temp(double intern_temp, double extern_temp, doubl
 		if (intern_temp < extern_temp) {
 			is_still_dangerous_temp = true;
 			flag_stop_warning = false;
+			// faz com que seja verificado a cada 3 segundos se ainda está em perigo por causa da temperatura
 			TimeControl::get_instance()->notify("dangerous_temp_verifier", dangerous_temp_verifier, this, 3);
 			audio_repository->play_sound(AudioRepository::WARNING, false, 0.5);
 		}
@@ -229,19 +230,23 @@ void AudioController::heart_beat(double energy, double min_energy) {
 	}
 }
 
+/*! Toca o som da "arrancada" (dash) do player (quando o player começa a correr) */
 void AudioController::running() {
 	if (is_running) return;
 
 	is_running = true;
 	audio_repository->play_sound(AudioRepository::DASH);
+	// programa o método finish_dash para ser invocado quando o som de dash tiver terminado
 	TimeControl::get_instance()->notify("dash_finish", finish_dash, this, audio_repository->get_audio(AudioRepository::DASH)->length());
 }
 
+/*! Para o som de quando o player está correndo */
 void AudioController::stop_running() {
 	is_running = false;
 	audio_repository->get_audio(AudioRepository::RUNNING)->stop();
 }
 
+/*! Toca o som que fica tocando enquanto o lagarto está correndo */
 AsyncTask::DoneStatus AudioController::finish_dash(GenericAsyncTask* task, void* data) {
 	AudioController* _this = (AudioController*) data;
 	_this->audio_repository->play_sound(AudioRepository::RUNNING);
@@ -249,6 +254,7 @@ AsyncTask::DoneStatus AudioController::finish_dash(GenericAsyncTask* task, void*
 	return AsyncTask::DS_done;
 }
 
+/*! Toca o som repetidamente de quando o lagarto está correndo */
 AsyncTask::DoneStatus AudioController::loop_running(GenericAsyncTask* task, void* data) {
 	AudioController* _this = (AudioController*) data;
 
@@ -259,6 +265,7 @@ AsyncTask::DoneStatus AudioController::loop_running(GenericAsyncTask* task, void
 	return AsyncTask::DS_again;
 }
 
+/*! Verifica se a temperatura interna ainda está perigosa */
 AsyncTask::DoneStatus AudioController::dangerous_temp_verifier(GenericAsyncTask* task, void* data) {
 	AudioController* _this = (AudioController*) data;
 	if (_this->is_still_dangerous_temp) return AsyncTask::DS_again;
@@ -267,6 +274,7 @@ AsyncTask::DoneStatus AudioController::dangerous_temp_verifier(GenericAsyncTask*
 	return AsyncTask::DS_done;
 }
 
+/*! Toca o som de alerta */
 void AudioController::play_warning() {
 	audio_repository->play_sound("warning2", false, 0.2);
 }
