@@ -107,6 +107,7 @@ void Lizard::load_lizards(){
 		/* Pronto... para criar instancias separadas, sem instancing... */
 
 		LizardGender gender = LizardGender(rand() % 3);
+
 		NodePath base_lizard = lizard_models[gender].copy_to(NodePath());//(*ModelRepository::get_instance()->get_animated_model(lizard_names[gender])).copy_to(NodePath());
 
 		/* Cria o lagarto baseado no gênero */

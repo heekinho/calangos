@@ -6,6 +6,7 @@
 #include "simdunas.h"
 #include "audioController.h"
 #include "femaleLizard.h"
+#include "maleLizard.h"
 
 #include "world.h"
 #include "setor.h"
@@ -40,6 +41,7 @@ Player::Player() : AnimatedObjetoJogo(ModelRepository::get_instance()->get_anima
 	_captured = false;
 	_is_buried = false;
 	hunted = false;
+	_adversary = NULL;
 
 	achievements = new Achievements();
 
@@ -262,6 +264,16 @@ bool Player::has_female_around() const {
 PT(FemaleLizard) Player::get_courted_female() const {
 	return _courted_female;
 }
+/*!Verifica com quem player está lutando (lizard)*/
+PT(MaleLizard) Player::get_adversary(){
+	return _adversary;
+}
+/*Define com qual outro lizard o player está lutando*/
+void Player::set_adversary(PT(MaleLizard) other){
+	this->_adversary = other;
+}
+
+
 
 /*! Recalcula qual a fêmea próxima do player para interação */
 void Player::update_female_around(){

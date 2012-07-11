@@ -15,6 +15,7 @@ class PlayerHealth;
 class PlayerHealthSimulator;
 class FemaleLizard;
 class Predator;
+class MaleLizard;
 
 /*! A classe Player é responsável por criar o Jogador que será controlado pelo
  * usuário.<br> Representada como objeto de jogo. Suas tarefas de controle, ficam
@@ -202,6 +203,7 @@ public:
 private:
 	bool _bury_ability;
 	bool _is_buried;
+	PT(MaleLizard) _adversary;
 
 
 
@@ -222,6 +224,8 @@ public:
 	 * Utilizado pelo o event da passagem do frame*/
 	void set_false_verify_under_vegetal();
 
+	void set_adversary(PT(MaleLizard) other);
+	PT(MaleLizard) get_adversary();
 
 private:
 	bool flag_verify_under_vegetal;//Flag verifica se o método in_under_vegetal foi chamado em um frame

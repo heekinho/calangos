@@ -53,26 +53,76 @@ void MaleLizard::act(){
 
 			/* Paciência tem limite... Parte para morder o player */
 			// TODO: Consertar essa bagunça de enums.
-			if(!player->is_young()) set_action("fight", true);
+			if(!player->is_young()){
+				set_action("fight", true);
+
 		}
 	}
 
+		}
+
+	/*Se o player estiver sendo caçado por um predador, os lizards não irão atacar*/
+	if(player->get_hunted()){
+		set_action("walk", true);
+		player->set_adversary(NULL);
+//		cout<<"Player está sendo caçado, vou correr"<<endl;
+		}
+	/*Se o player se distânciar muito do lizard, a perseguição acaba*/
 	if(distance > (1.25 * flee_max_dist)*(1.25 * flee_max_dist)){
 		set_action("walk", true);
+//		player->set_adversary(NULL);
+
 	}
+
 	if(is_action_active("flee") || this->get_energia() < 20){
 		if(distance < flee_max_dist*flee_max_dist) flee();
 		else {
 			energia = 50;
 			set_action("walk", true);
+			player->set_adversary(NULL);
+
 		}
 
 		waiting_player_decide = false;
 	}
 	else if(is_action_active("fight")){
-		/* Round One: FIGHT! */
-		if(distance < eat_thr*eat_thr) bite();
-		else chase();
+
+		if(player->get_adversary() == NULL){
+			/*Se o player já não estiver lutando com nenhum outro lizard, este pode ser o adversário*/
+			player->set_adversary(this);
+			/* Round One: FIGHT! */
+			if(distance < eat_thr*eat_thr){
+				bite();
+			}
+			else chase();
+		}
+
+		else{
+			if(player->get_adversary() == this){
+				/*Continua a luta, se o adversário do player ainda for este lizard*/
+
+				if(distance < eat_thr*eat_thr){
+					bite();
+				}
+
+				else{
+					chase();
+				}
+
+				if(distance > (1.25 * flee_max_dist)*(1.25 * flee_max_dist)){
+					set_action("walk", true);
+
+					player->set_adversary(NULL);
+				}
+
+
+			}
+
+			else{
+
+				set_action("walk", true);
+			}
+		}
 	}
 	else if(distance < bobbing_dist_thr*bobbing_dist_thr && !waiting_player_decide){
 		/* Aqui se verifica as condições para começar uma briga */
@@ -137,17 +187,19 @@ void MaleLizard::chase(){
 //
 //		 }
 		 if(distance > (eat_thr )*(eat_thr )) {
-			 move(get_velocity()*4);
+			 move(get_velocity()*3);
 		 }
 	}
 
 }
 
 void MaleLizard::be_bited(float relative_size){
+
 	Lizard::be_bited();
 	this->energia = this->energia - (relative_size * 5);
-
+//	this->energia = this->energia - 15;
 	set_action("fight", true);
+//	GuiManager::get_instance()->piscar_life();
 }
 
 

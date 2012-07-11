@@ -182,9 +182,13 @@ void ObjetoJogo::set_height(float height, bool proportional){
 
 
 void ObjetoJogo::be_bited(){
-	bite_blink_counter = 10;
+
 	/* O delay inicial varia de predator e deve ser ajustado posteriormente */
-	TimeControl::get_instance()->notify("blink object", blink, this, 0.5);
+	if(bite_blink_counter <= 0 ){
+		bite_blink_counter = 10;
+		TimeControl::get_instance()->notify("blink object", blink, this, 0.5);
+	}
+	bite_blink_counter = 10;
 }
 
 AsyncTask::DoneStatus ObjetoJogo::blink(GenericAsyncTask* task, void* data){
@@ -197,7 +201,7 @@ AsyncTask::DoneStatus ObjetoJogo::blink(GenericAsyncTask* task, void* data){
 	me->blink();
 
 	/* Já piscou demais. Hora de parar */
-	if(--me->bite_blink_counter == 0){
+	if(--me->bite_blink_counter <= 0){
 		me->show();
 		me->set_color_scale(LVecBase4f(1.0));
 

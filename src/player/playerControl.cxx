@@ -505,9 +505,13 @@ void PlayerControl::eat(const Event *evt, void *data){
 		if (lizard->is_male()) {
 			MaleLizard* male_lizard = (MaleLizard*) lizard;
 
-			if (dist_to_target < act_dist_thr) {
+//			if (dist_to_target < act_dist_thr) {
+			/*Multiplicação por um fator de 3 como é feito com  a presas, somente o act_dist_thr
+			 * dificilmente o player acertava um ataque*/
+			if (dist_to_target < act_dist_thr*3) {
 
 				male_lizard->be_bited(player->get_relative_size());
+				cout<<"Relative: "<<player->get_relative_size()<<endl;
 			}
 		}
 	}
