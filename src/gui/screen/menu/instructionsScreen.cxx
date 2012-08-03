@@ -48,11 +48,13 @@ void InstructionsScreen::unload() {
 	btn_back = NULL;
 }
 
+/*! Evento de click no botão "Controles". Abre a tela de instruções sobre os controles. */
 void InstructionsScreen::controles_action(){
 	nout << "Tela de intruções de controles..." << endl;
 	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_key_instructions_screen());
 }
 
+/*! Evento de click no botão "Indicadores". Abre a tela de instruções sobre os indicadores. */
 void InstructionsScreen::indicadores_action(){
 	nout << "Tela de instruções sobre os indicadores..." << endl;
 	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_indicators_screen());

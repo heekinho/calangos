@@ -42,6 +42,7 @@ AudioRepository::AudioRepository() {
  void AudioRepository::load_audio(){
 	 nout <<"Criando Repositorio de Sons..." << endl;
      //para adicionar mais sons é só inserir aqui
+	 //tem muita coisa comentada aqui porque eu ficava testando outros sons. Deixei aqui para caso alguém queira testar também. ^^
      //add_audio("mordida","models/sounds/EAT1.WAV");
      //add_audio("mordida","models/sounds/eating.wav");
      //add_audio("mordida","models/sounds/funny_bite.wav");

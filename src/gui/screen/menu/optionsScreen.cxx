@@ -56,19 +56,22 @@ void OptionsScreen::unload() {
 	btn_back = NULL;
 }
 
+/*! Evento de click no botão "Video". Abre a tela de configurações de vídeo. */
 void OptionsScreen::video_action(){
 	nout << "Tela de video..." << endl;
-	//manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_loading_screen());
+	// ainda não implementada
 }
 
+/*! Evento de click no botão "Audio". Abre a tela de configurações de áudio. */
 void OptionsScreen::audio_action(){
 	nout << "Tela de audio..." << endl;
 	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_audio_options_screen());
 }
 
+/*! Evento de click no botão "Controles". Abre a tela de configuração de controles */
 void OptionsScreen::controles_action(){
 	nout << "Tela de controles..." << endl;
-	//manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_credits_screen());
+	// ainda não implementada
 }
 
 void OptionsScreen::jogo_action(){

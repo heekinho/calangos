@@ -1,9 +1,3 @@
-/*
- *  gameOverScreen.cxx
- *  Created on: 09/05/2011
- *  Author: jonatas
- */
-
 #include "gameOverScreen.h"
 #include "fontPool.h"
 

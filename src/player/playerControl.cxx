@@ -596,7 +596,7 @@ void PlayerControl::unload_player_control(){
 	event_handler->remove_hooks("mouse1");
 	event_handler->remove_hooks("space");
 	event_handler->remove_hooks("t");
-	event_handler->remove_hooks("escape");
+	//event_handler->remove_hooks("escape");
 	event_handler->remove_hooks("m");
 
 	single = NULL;

@@ -9,6 +9,9 @@
 #include "fontPool.h"
 #include "imageRepository.h"
 
+/*!
+ * Constrói a janela de Achievements. Os parâmetros são simplesmente repassados para a superclasse (Window).
+ */
 AchievementsWindow::AchievementsWindow(NodePath parent, float width, float height, string title, float pos_x, float pos_y) : Window(parent, width, height, title, pos_x, pos_y) {
 	lb_andamento = new TextNode("lb_andamento");
 	lb_andamento->set_text("ANDAMENTO");

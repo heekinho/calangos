@@ -26,6 +26,7 @@ PT(InGameScreenManager) InGameScreenManager::get_instance() {
 	return instance;
 }
 
+/*! Instancia as screens */
 void InGameScreenManager::create_menus(){
 	pause_screen = new PauseScreen(this);
 	game_over_screen = new GameOverScreen(this);

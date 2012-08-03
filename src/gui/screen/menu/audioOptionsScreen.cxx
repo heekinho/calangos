@@ -149,11 +149,13 @@ void AudioOptionsScreen::load(){
 	configure_default_back_button(((CalangosMenuManager*)(manager.p()))->get_options_screen());
 }
 
+/*! Evento de quando a barra do slider é movida. O novo valor para o volume dos efeitos sonoros é atualizado. */
 void AudioOptionsScreen::slide_action() {
 	float value = slide->get_value();
 	AudioController::get_instance()->get_audio_repository()->set_sfx_volume_percent(value / 100.0);
 }
 
+/*! Evento de click no botão "+" dos efeitos sonoros. Aumenta 1 no valor do volume dos efeitos sonoros. */
 void AudioOptionsScreen::increase_volume_action() {
 	float value = slide->get_value();
 	cout<<"value = "<<value<<endl;
@@ -163,6 +165,7 @@ void AudioOptionsScreen::increase_volume_action() {
 	slide->set_value(value);
 }
 
+/*! Evento de click no botão "-" dos efeitos sonoros. Diminui 1 no valor do volume dos efeitos sonoros. */
 void AudioOptionsScreen::decrease_volume_action() {
 	float value = slide->get_value();
 	cout<<"value = "<<value<<endl;
@@ -172,6 +175,7 @@ void AudioOptionsScreen::decrease_volume_action() {
 	slide->set_value(value);
 }
 
+/*! Evento de click no botão que desabilita os efeitos sonoros. */
 void AudioOptionsScreen::disable_sfx() {
 	np_btn_sfx_enabled.hide();
 	np_btn_sfx_disabled.show();
@@ -181,6 +185,7 @@ void AudioOptionsScreen::disable_sfx() {
 	AudioController::get_instance()->get_audio_repository()->set_sfx_enabled(false);
 }
 
+/*! Evento de click no botão que habilita os efeitos sonoros. */
 void AudioOptionsScreen::enable_sfx() {
 	np_btn_sfx_enabled.show();
 	np_btn_sfx_disabled.hide();
@@ -190,11 +195,13 @@ void AudioOptionsScreen::enable_sfx() {
 	AudioController::get_instance()->get_audio_repository()->set_sfx_enabled(true);
 }
 
+/*! Evento de quando a barra do slider é movida. O novo valor para o volume das músicas de fundo é atualizado. */
 void AudioOptionsScreen::slide_action_2() {
 	float value = slide_2->get_value();
 	AudioController::get_instance()->get_audio_repository()->set_bgm_volume_percent(value / 100.0);
 }
 
+/*! Evento de click no botão "+" das músicas de fundo. Aumenta 1 no valor do volume das músicas de fundo. */
 void AudioOptionsScreen::increase_volume_action_2() {
 	float value = slide_2->get_value();
 	cout<<"value = "<<value<<endl;
@@ -204,6 +211,7 @@ void AudioOptionsScreen::increase_volume_action_2() {
 	slide_2->set_value(value);
 }
 
+/*! Evento de click no botão "-" das músicas de fundo. Diminui 1 no valor do volume das músicas de fundo. */
 void AudioOptionsScreen::decrease_volume_action_2() {
 	float value = slide_2->get_value();
 	cout<<"value = "<<value<<endl;
@@ -213,6 +221,7 @@ void AudioOptionsScreen::decrease_volume_action_2() {
 	slide_2->set_value(value);
 }
 
+/*! Evento de click no botão que desabilita as músicas de fundo. */
 void AudioOptionsScreen::disable_bgm() {
 	np_btn_bgm_enabled.hide();
 	np_btn_bgm_disabled.show();
@@ -222,6 +231,7 @@ void AudioOptionsScreen::disable_bgm() {
 	AudioController::get_instance()->get_audio_repository()->set_bgm_enabled(false);
 }
 
+/*! Evento de click no botão que habilita as músicas de fundo. */
 void AudioOptionsScreen::enable_bgm() {
 	np_btn_bgm_enabled.show();
 	np_btn_bgm_disabled.hide();

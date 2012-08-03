@@ -320,6 +320,7 @@ void GameOptionsScreen::hide() {
 //	return especie;
 //}
 
+/*! Evento de click no botão "+" do slider. Aumenta 1 no valor dos minutos/hora do jogo. */
 void GameOptionsScreen::slide_direita_action() {
 	int minuto_dia_virtual = TimeControl::get_instance()->get_virtual_time_hour();
 	if (minuto_dia_virtual < 60) {
@@ -341,6 +342,7 @@ void GameOptionsScreen::slide_direita_action() {
 	}
 }
 
+/*! Evento de click no botão "-" do slider. Diminui 1 no valor dos minutos/hora do jogo. */
 void GameOptionsScreen::slide_esquerda_action() {
 	int minuto_dia_virtual = TimeControl::get_instance()->get_virtual_time_hour();
 	if (minuto_dia_virtual > 1) {
@@ -365,6 +367,7 @@ void GameOptionsScreen::informa_segundos(string aviso) {
 	lb_num_minutos->set_text(aviso);
 }
 
+/*! Evento de click no botão "Tropidurus". Seleciona a espécie Tropidurus. */
 void GameOptionsScreen::tropidurus_action() {
 	switch (Player::properties.species) {
 		case Player::LS_cnemidophorus :
@@ -381,6 +384,7 @@ void GameOptionsScreen::tropidurus_action() {
 	tropidurus.show();
 }
 
+/*! Evento de click no botão "Eurolophosaurus". Seleciona a espécie Eurolophosaurus. */
 void GameOptionsScreen::eurolophosaurus_action() {
 	switch (Player::properties.species) {
 		case Player::LS_tropidurus :
@@ -398,6 +402,7 @@ void GameOptionsScreen::eurolophosaurus_action() {
 	eurolophosasurus.show();
 }
 
+/*! Evento de click no botão "Cnemidophorus". Seleciona a espécie Cnemidophorus. */
 void GameOptionsScreen::cnemidophorus_action() {
 	switch (Player::properties.species) {
 		case Player::LS_tropidurus :
@@ -428,6 +433,7 @@ void GameOptionsScreen::colisao_action() {
     }
 }
 
+/*! Evento de quando a barra do slider é movida. O novo valor para os minutos/hora do jogo é atualizado. */
 void GameOptionsScreen::slide_action() {
     int minuto_dia_virtual = (int) slide->get_value();
     TimeControl::get_instance()->set_virtual_time_hour(minuto_dia_virtual);

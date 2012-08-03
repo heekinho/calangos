@@ -82,7 +82,7 @@ void LoadingScreen::unload() {
 }
 
 
-// Posiciona os objetos na tela.
+/*! Posiciona os objetos na tela. */
 void LoadingScreen::attach_objects() {
 	set_root(Simdunas::get_clickable_render_2d().attach_new_node("loadingScreen"));
 	np_frame.reparent_to(get_root());
@@ -120,6 +120,7 @@ void LoadingScreen::attach_objects() {
 	np_btn_comecar.hide();
 }
 
+/*! Faz as chamadas para cada etapa de carregamento do jogo e atualiza a tela informando qual etapa está sendo carregada. */
 void LoadingScreen::loading_process() {
 	int process_stage = 0;
 	while (!Session::get_instance()->is_finished_loading()) {
@@ -133,7 +134,8 @@ void LoadingScreen::loading_process() {
 	loading_completed();
 }
 
-
+/*! Mostra o botão de começar e esconde as labels de progresso do carregamento. Também aguarda até que o botão
+ * "Começar" seja clicado */
 void LoadingScreen::loading_completed() {
 	np_lb_carregando.hide();
 	lb_info_processo->set_text("Concluído.");
@@ -141,6 +143,7 @@ void LoadingScreen::loading_completed() {
 	np_frame.set_alpha_scale(0.5);
 	np_btn_comecar.show();
 
+	// espera até que o usuário tenha clicado no botão "Começar"
 	while (!start) {
 		Simdunas::get_framework()->do_frame(Thread::get_current_thread());
 	}
@@ -148,7 +151,7 @@ void LoadingScreen::loading_completed() {
 	Session::get_instance()->run();
 }
 
-
+/*! Evento de click no botão "Começar". Sinaliza que foi clicado através do flag. */
 void LoadingScreen::start_game() {
 //	LoadingScreen* _this = (LoadingScreen*) data;
 //	_this->set_start(true);

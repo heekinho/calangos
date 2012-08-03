@@ -19,7 +19,7 @@
 bool PauseScreen::selected_video = false;
 bool PauseScreen::is_opened = false;
 
-/*! O menu é carregado e escondido. O manager é responsável por escolher o menu */
+/*! A screen é carregada e escondida. O manager é responsável por escolher a screen */
 PauseScreen::PauseScreen(PT(ScreenManager) manager) : Screen(manager){
 	load();
 	hide();
@@ -65,24 +65,25 @@ void PauseScreen::load(){
 	default_button_config(btn_sair, np_btn_sair, "Sair", LVecBase3f(0.4, 0, -0.9), sair_action);
 }
 
+/*! Controla o evento de pause, tanto para pausar quanto para despausar. */
 void PauseScreen::pause_event() {
 	if (stopped_time) {
-		cout<<"tempo estava parado"<<endl;
 		TimeControl::get_instance()->set_stop_time(false); //se o jogo estiver pausado, ao pressionar esc novamente volta ao normal
-		stopped_time = false;
-		is_opened = false;
-		hide();
+		stopped_time = false; // o tempo do jogo foi despausado
+		hide(); // esconde a tela de pause
+		is_opened = false; // a tela de pause já não está mais aberta
 	} else {
-		is_opened = true;
-		cout<<"tempo não estava parado"<<endl;
+		// o tempo não estava parado
 		Session::get_instance()->stop_animations();
 		if (!TimeControl::get_instance()->get_stop_time()) {//se o tempo ja estiver parado ele naum pausa o jogo
 			//load();
-			cout<<"mostrando tela de pause novamente"<<endl;
+			// mostrando tela de pause novamente
 			Screen::show();
 			TimeControl::get_instance()->set_stop_time(true);
 			stopped_time = true;
 		}
+
+		is_opened = true; // a tela de pause está aberta
 	}
 }
 
@@ -106,10 +107,20 @@ void PauseScreen::unload() {
 	btn_clima = NULL;
 }
 
+/*! Método chamado pela classe Session quando o botão ESC é pressionado */
 void PauseScreen::show() {
+	/*
+	 * Verifica se a janela de realizações estava aberta e se não foi selecionado vídeo algum, para poder chamar
+	 * o destrutor dela. Essa verificação é feita pois, caso a pessoa tenha aberto a janela de realizações e depois
+	 * tenha apertado ESC, quando ele apertar ESC novamente o que deve aparecer é apenas a tela inicial de pause.
+	 * Caso o jogador tenha selecionado um vídeo com a janela de realizações aberta, então quando ele apertar ESC
+	 * o vídeo será fechado, não vai entrar nesse if e, portanto, voltará para a tela de pause com a janela de
+	 * realizações ainda aberta.
+	 */
 	if (wnd_realizacoes != NULL && !selected_video)
 		wnd_realizacoes = NULL;
 
+	// verificação feita pelo mesmo motivo explicado acima.
 	if (wnd_videos != NULL && !selected_video)
 		wnd_videos = NULL;
 
@@ -135,20 +146,23 @@ bool PauseScreen::is_stopped_time() {
 	return stopped_time;
 }
 
-
+/*! Evento de click no botão "Realizações". Abre a janela de realizações. */
 void PauseScreen::realizacoes_action() {
 	wnd_realizacoes = new AchievementsWindow(get_root(), 1.5, 1.1, "Realizações", -0.8, -0.8);
 	wnd_realizacoes->set_pos_y(0);
 }
 
+/*! Evento de click no botão "Videos". Abre a janela de vídeos. */
 void PauseScreen::videos_action() {
 	wnd_videos = new VideosWindow(get_root(), manager, 2, 1.3, "Vídeos", -1, -0.8);
 }
 
+/*! Evento de click no botão "Continuar". Despausa o jogo e fecha a tela de pause. */
 void PauseScreen::continuar_action() {
 	pause_event();
 }
 
+/*! Evento de click no botão "Sair". Fecha o jogo. */
 void PauseScreen::sair_action() {
 	//	Session::get_instance()->end_session();
 

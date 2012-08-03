@@ -29,6 +29,10 @@ PT(AudioSound) VideoManager::get_audio_sound() {
 	return audio_sound;
 }
 
+/*!
+ * Começa a exibir um vídeo.
+ * @param path Caminho do vídeo que será exibido
+ */
 void VideoManager::play(const string &path) {
 	playing = true;
 
@@ -51,6 +55,7 @@ void VideoManager::play(const string &path) {
 	audio_sound->play();
 }
 
+/*! Interrompe a exibição do vídeo */
 void VideoManager::stop() {
 	playing = false;
 	audio_sound->stop();
@@ -58,6 +63,11 @@ void VideoManager::stop() {
 	np_card_maker.remove_node();
 }
 
+/*!
+ * Manda o vídeo ser exibido e adiciona dois eventos para que o vídeo seja fechado quando terminar ou caso o jogador
+ * pressione a tecla ESC.
+ * @param path Caminho do vídeo que será exibido
+ */
 void VideoManager::play_video(const string &path) {
 	play(path);
 	Simdunas::get_framework()->define_key("escape", "stop_video", stop_video, this);
@@ -73,6 +83,7 @@ void VideoManager::stop_video(const Event*, void* data) {
 		event_handler->remove_hook(_this->get_audio_sound()->get_finished_event(), stop_video, _this);
 
 		_this->stop();
+		// volta a tocar a música de fundo
 		AudioController::get_instance()->get_audio_repository()->unpause_bgm();
 	}
 }
