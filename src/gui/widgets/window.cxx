@@ -9,7 +9,7 @@
 #include "fontPool.h"
 #include "mouseButton.h"
 
-//TODO efeito ao abrir
+//TODO implementar algum efeito para quando a janela abrir (tipo um fade).
 Window::Window(NodePath parent, float width, float height, string title, float pos_x, float pos_y) {
 	this->width = width;
 	this->height = height;
