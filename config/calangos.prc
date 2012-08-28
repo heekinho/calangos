@@ -24,7 +24,20 @@ calangos-load-gui 1
 ###########################################################
 calangos-speed-prey 0.8 #TODO: Separar entre as presas
 
-#calangos-density-formiga 
+calangos-density-aranha 10 
+
+calangos-density-besouro 14
+
+calangos-density-grilo 6
+
+calangos-groups-cupim 1
+calangos-density-cupim 10
+
+calangos-groups-formiga 2
+calangos-density-formiga 12
+
+calangos-groups-larva 1
+calangos-density-larva 5
 
 calangos-speed-frog 4
 
@@ -52,7 +65,8 @@ calangos-density-gato 9
 ###########################################################
 ### Configuração dos Lagartos (Coespecíficos)           ###
 ###########################################################
-calangos-density-lizards 30
+calangos-density-lizards 45
+calangos-speed-lizards 0.75
 
 
 ###########################################################

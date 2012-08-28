@@ -60,20 +60,19 @@ void MaleLizard::act(){
 	}
 
 		}
-
 	/*Se o player estiver sendo caçado por um predador, os lizards não irão atacar*/
 	if(player->get_hunted()){
 		set_action("walk", true);
 		player->set_adversary(NULL);
-//		cout<<"Player está sendo caçado, vou correr"<<endl;
+
 		}
 	/*Se o player se distânciar muito do lizard, a perseguição acaba*/
 	if(distance > (1.25 * flee_max_dist)*(1.25 * flee_max_dist)){
 		set_action("walk", true);
-//		player->set_adversary(NULL);
 
 	}
-
+/*------------------------------------------------------------------------------
+ * Verificação de continuação de briga com o lagarto do jogador*/
 	if(is_action_active("flee") || this->get_energia() < 20){
 		if(distance < flee_max_dist*flee_max_dist) flee();
 		else {
@@ -102,16 +101,19 @@ void MaleLizard::act(){
 				/*Continua a luta, se o adversário do player ainda for este lizard*/
 
 				if(distance < eat_thr*eat_thr){
+					/*Se ele estiver próximo ao player*/
 					bite();
 				}
 
-				else{
+				else if(distance < (1.25 * flee_max_dist)*(1.25 * flee_max_dist)){
+					/*Se ele estiver distante do player, mas ainda no raio de visão
+					 * ele continua a perseguição*/
 					chase();
 				}
 
 				if(distance > (1.25 * flee_max_dist)*(1.25 * flee_max_dist)){
+					/*Se ele estiver muito distante, ele desiste da luta*/
 					set_action("walk", true);
-
 					player->set_adversary(NULL);
 				}
 
@@ -119,7 +121,6 @@ void MaleLizard::act(){
 			}
 
 			else{
-
 				set_action("walk", true);
 			}
 		}

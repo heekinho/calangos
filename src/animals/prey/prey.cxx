@@ -30,23 +30,31 @@ void Prey::load_prey(){
 
 	nout << "Carregando Aranhas..." << endl;
 	//Spider::load_spiders(1000);
-	load_prey_specie("aranha", 10, 2*factor, 20, 3, 3.5);
+	int quan_aranha = ConfigVariableDouble("calangos-density-aranha", 10);
+	load_prey_specie("aranha", quan_aranha, 2*factor, 20, 3, 3.5);
 
+	int quan_besouro = ConfigVariableDouble("calangos-density-besouro", 14);
 	nout << "Carregando Besouros..." << endl;
-	load_prey_specie("besouro", 14, 2*factor, 70, 4, 4.5);
+	load_prey_specie("besouro", quan_besouro, 2*factor, 70, 4, 4.5);
 
-	nout << "Carregando Cupins..." << endl;
-	load_prey_specie("cupim", /*13*/1, 1*factor, 100, 5, 2.5, true, 10);
-
-	nout << "Carregando Formigas..." << endl;
-	//load_prey_specie("formiga", 150, 0.0002, 80, 2, 2.5);
-	load_prey_specie("formiga", /*15*/2, 2*factor, 80, 2, 2.5, true, 12);
-
+	int quan_grilo = ConfigVariableDouble("calangos-density-grilo", 6);
 	nout << "Carregando Grilo..." << endl;
-	load_prey_specie("grilo", 6, 2*factor, 60, 3, 4);
+	load_prey_specie("grilo", quan_grilo, 2*factor, 60, 3, 4);
 
+	int grupo_cupim = ConfigVariableDouble("calangos-groups-cupim", 1);
+	int quan_cupim = ConfigVariableDouble("calangos-density-grilo", 10);
+	nout << "Carregando Cupins..." << endl;
+	load_prey_specie("cupim", /*13*/grupo_cupim, 1*factor, 100, 5, 2.5, true, quan_cupim);
+
+	int grupo_formiga = ConfigVariableDouble("calangos-groups-formiga", 2);
+	int quan_formiga = ConfigVariableDouble("calangos-density-grilo", 12);
+	nout << "Carregando Formigas..." << endl;
+	load_prey_specie("formiga", /*15*/grupo_formiga, 2*factor, 80, 2, 2.5, true, quan_formiga);
+
+	int grupo_larva = ConfigVariableDouble("calangos-groups-larva", 1);
+	int quan_larva = ConfigVariableDouble("calangos-density-grilo", 5);
 	nout << "Carregando Larvas..." << endl;
-	load_prey_specie("larva", /*8*/1, 2*factor, 100, 7, 5.5, true, 5);
+	load_prey_specie("larva", /*8*/grupo_larva, 2*factor, 100, 7, 5.5, true, quan_larva);
 
 	PT(Terrain) terrain = World::get_world()->get_terrain();
 	redistributer = new PreyRedistributer(terrain->list_prey);

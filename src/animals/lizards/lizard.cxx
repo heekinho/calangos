@@ -32,7 +32,9 @@ void Lizard::init(){
 	bind_anims(node());
 
 	/* TODO: Conferir */
-	set_velocity(1);
+	float veloc = ConfigVariableDouble("calangos-speed-lizards", 0.75);
+
+	set_velocity(veloc);
 
 //	set_blend(true, true, PartBundle::BT_normalized_linear);
 
@@ -219,11 +221,10 @@ void Lizard::act(){
 	}
 	//Se o lizard estiver sendo caçado
 	if(hunted){
-			//flee(*predator);
+
 		if(this->hide_from_predator()){
 			flee(*predator);
 		}
-
 
 	}
 	else{
