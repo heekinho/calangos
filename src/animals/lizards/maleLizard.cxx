@@ -114,6 +114,7 @@ void MaleLizard::act(){
 				if(distance > (1.25 * flee_max_dist)*(1.25 * flee_max_dist)){
 					/*Se ele estiver muito distante, ele desiste da luta*/
 					set_action("walk", true);
+
 					player->set_adversary(NULL);
 				}
 

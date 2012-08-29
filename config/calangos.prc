@@ -24,20 +24,32 @@ calangos-load-gui 1
 ###########################################################
 calangos-speed-prey 0.8 #TODO: Separar entre as presas
 
-calangos-density-aranha 10 
+calangos-density-aranha 10
+calangos-nutri-aranha 2.5
+calangos-hidra-aranha 3 
 
-calangos-density-besouro 14
+calangos-density-besouro 12
+calangos-nutri-besouro 3
+calangos-hidra-besouro 3.5
 
 calangos-density-grilo 6
+calangos-nutri-grilo 2.5
+calangos-hidra-grilo 3
 
 calangos-groups-cupim 1
-calangos-density-cupim 10
+calangos-density-cupim 8
+calangos-nutri-cupim 3.5
+calangos-hidra-cupim 2
 
 calangos-groups-formiga 2
-calangos-density-formiga 12
+calangos-density-formiga 9
+calangos-nutri-formiga 1.5
+calangos-hidra-formiga 2
 
 calangos-groups-larva 1
-calangos-density-larva 5
+calangos-density-larva 4.5
+calangos-nutri-larva 5
+calangos-hidra-larva 3.5
 
 calangos-speed-frog 4
 
@@ -55,7 +67,7 @@ calangos-speed-siriema 1.6
 calangos-density-siriema 7
 
 calangos-length-raposa 0.8
-calangos-speed-raposa 1.9
+calangos-speed-raposa 1.7
 calangos-density-raposa 6
 
 calangos-length-gato 0.4

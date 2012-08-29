@@ -38,8 +38,7 @@ Predator::Predator(NodePath node, Predator::PredatorID type) : Animal(node){
 	type_predator = Predator::get_predator_type(type);
 	set_tipo_predator_enum(type);
 
-	//Presa
-//	this->prey = NULL;
+
 
 	//Estado inicial do predador
 	act_state = Predator::AS_walking;
@@ -220,11 +219,7 @@ void Predator::change_state(){
 		case(Predator::AS_walking):
 				if(find_prey()){
 					act_state = Predator::AS_pursuing;
-//					if(hunting_player){
-//						pursuing = true;
-//						AudioController::get_instance()->predator_pursuing();
-//						GuiManager::get_instance()->activate_predator_alert(this);
-//					}
+
 					if(predator_to_prey < Predator::dist_to_bite){ act_state = Predator::AS_biting; }
 				}
 
