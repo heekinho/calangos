@@ -347,6 +347,7 @@ void GameStatusBar::make_estado_reprodutivo(NodePath menu_frame_np) {
 	np_label_egg_count.set_color(0.0, 0.0, 0.0, 1,0);
 
 	hint_estado_reprodutivo = new Hint(menu_frame_np, estado_reprodutivo, "hint_estado_reprodutivo", "Estado Reprodutivo");
+	hint_egg = new Hint(menu_frame_np, egg, "hint_egg", "Número de Reproduções");
 }
 
 // Quantidade de meses de vida do calango
