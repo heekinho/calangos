@@ -16,7 +16,7 @@
 
 class VideoManager : public TypedReferenceCount {
 public:
-	VideoManager();
+	static PT(VideoManager) get_instance();
 	virtual ~VideoManager();
 
 	PT(AudioManager) get_audio_manager();
@@ -24,9 +24,12 @@ public:
 	static bool is_playing();
 
 	void play_video(const string &path);
+	void play_openning(const string &path);
 	static void stop_video(const Event*, void* data);
 
 private:
+	static PT(VideoManager) instance;
+	VideoManager();
 	void play(const string &path);
 	void stop();
 

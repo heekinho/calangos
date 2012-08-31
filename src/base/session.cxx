@@ -26,6 +26,7 @@ Session* Session::singleSession = NULL;
 #include "world.h"
 #include "cameraControl.h"
 #include "inGameScreenManager.h"
+#include "videoManager.h"
 
 /*! Constroi uma session default.*/
 //Session::Session(WindowFramework *window) {
@@ -184,7 +185,7 @@ void Session::pause_game(const Event*, void *data){
 	}
 	else if (PauseScreen::selected_video) {
 		cout<<"esta tocando video! Parando o video agora!"<<endl;
-//		InGameScreenManager::get_instance()->stop_video(NULL, InGameScreenManager::get_instance());
+		VideoManager::stop_video(NULL, NULL);
 		pause_screen->show();
 	}
 	else {

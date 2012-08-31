@@ -9,6 +9,7 @@
 #include "audioController.h"
 
 bool VideoManager::playing = false;
+PT(VideoManager) VideoManager::instance = NULL;
 
 VideoManager::VideoManager() {
 }
@@ -19,6 +20,13 @@ VideoManager::~VideoManager() {
 	movie_texture = NULL;
 //	card_maker = NULL;
 	np_card_maker.remove_node();
+}
+
+PT(VideoManager) VideoManager::get_instance() {
+	if (instance == NULL) {
+		instance = new VideoManager();
+	}
+	return instance;
 }
 
 PT(AudioManager) VideoManager::get_audio_manager() {
@@ -70,19 +78,23 @@ void VideoManager::stop() {
  */
 void VideoManager::play_video(const string &path) {
 	play(path);
-	Simdunas::get_framework()->define_key("escape", "stop_video", stop_video, this);
-	event_handler->add_hook(audio_sound->get_finished_event(), stop_video, this);
+	event_handler->add_hook(audio_sound->get_finished_event(), Session::pause_game, NULL);
 }
 
-void VideoManager::stop_video(const Event*, void* data) {
+void VideoManager::play_openning(const string &path) {
+	play(path);
+	event_handler->add_hook(audio_sound->get_finished_event(), stop_video, NULL);
+}
+
+void VideoManager::stop_video(const Event* evt, void* data) {
 	cout << "VideoManager::stop_video() - Apertei ESC! " << endl;
-	VideoManager* _this = (VideoManager*) data;
-	if (_this->get_audio_sound() != NULL && _this->is_playing()) {
+	if (VideoManager::get_instance()->get_audio_sound() != NULL && VideoManager::get_instance()->is_playing()) {
 		cout << "Parando o video!" << endl;
 
-		event_handler->remove_hook(_this->get_audio_sound()->get_finished_event(), stop_video, _this);
+		event_handler->remove_hook(VideoManager::get_instance()->get_audio_sound()->get_finished_event(), Session::pause_game, NULL);
+		event_handler->remove_hook(VideoManager::get_instance()->get_audio_sound()->get_finished_event(), stop_video, NULL);
 
-		_this->stop();
+		VideoManager::get_instance()->stop();
 		// volta a tocar a música de fundo
 		AudioController::get_instance()->get_audio_repository()->unpause_bgm();
 	}

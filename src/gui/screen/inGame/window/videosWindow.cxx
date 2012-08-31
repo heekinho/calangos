@@ -57,8 +57,7 @@ void VideosWindow::open_video(const string &video_path){
 	AudioController::get_instance()->get_audio_repository()->pause_bgm();
 
 	/* Toca o vídeo */
-	PT(VideoManager) video_manager = InGameScreenManager::get_instance()->get_video_manager();
-	video_manager->play_video(video_path);
+	VideoManager::get_instance()->play_video(video_path);
 }
 
 void VideosWindow::lagartos_action() {

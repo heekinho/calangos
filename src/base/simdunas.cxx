@@ -85,16 +85,17 @@ int main(int argc, char *argv[]) {
 //		PT(VideoScreen) video_screen = new VideoScreen(initial_manager);
 //		initial_manager->open_screen((PT(Screen)) video_screen);
 
-		PT(VideoManager) video_manager = new VideoManager();
-
 		string video_path = "models/videos/vinheta_opcao_1_mpeg4.avi";
-		video_manager->play_video(video_path);
+		Simdunas::get_framework()->define_key("escape", "stop_video", VideoManager::stop_video, VideoManager::get_instance());
+		VideoManager::get_instance()->play_openning(video_path);
 		nout << "Starting Video" << endl;
 
-		while (video_manager->is_playing()) {
+		while (VideoManager::get_instance()->is_playing()) {
 			Simdunas::get_framework()->do_frame(current_thread);
-			video_manager->get_audio_manager()->update();
+			VideoManager::get_instance()->get_audio_manager()->update();
 		}
+
+		event_handler->remove_hook("escape", VideoManager::stop_video, VideoManager::get_instance());
 
 //		/* Descarrega o manager */
 //		initial_manager->unload();
