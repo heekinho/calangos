@@ -37,6 +37,7 @@ public:
 
 	// Testando... Mesmo que não vá ficar aqui.
 	static void eat(const Event*, void *data);
+	static void click_bite(const Event*, void *data);
 	static void missed_bite(const Event*, void *data);
 	static void toca_control(const Event*, void *data);
 	static void really_eat(const Event*, void *data);
@@ -61,7 +62,7 @@ public:
 
 	NodePath line_indicator;
 
-
+	void set_click_bite_active(bool active);
 
 	static bool mouse_on_button;
 private:
@@ -88,6 +89,8 @@ private:
 	/* Controle do Singleton */
 	static bool instanceFlag;
 	static PlayerControl *single;
+
+	static bool click_bite_active;
 
 	PlayerControl();
 

@@ -38,6 +38,7 @@ bool PlayerControl::instanceFlag = false;
 PlayerControl* PlayerControl::single = NULL;
 bool PlayerControl::wire_frame_terrain = false;
 bool PlayerControl::mouse_on_button = false;
+bool PlayerControl::click_bite_active = true;
 
 PlayerControl::~PlayerControl() {
 	event_handler->remove_hooks_with(this);
@@ -109,7 +110,7 @@ PlayerControl::PlayerControl() {
 	action = "shift";		Simdunas::get_framework()->define_key("shift", "SHIFT", special_control, action);
 	action = "shift-up";	Simdunas::get_framework()->define_key("shift-up", "SHIFTUP", special_control, action);
 
-	action = "mouse1";  	Simdunas::get_framework()->define_key("mouse1", "Player Bite", eat, this);
+	action = "mouse1";  	Simdunas::get_framework()->define_key("mouse1", "Player Bite", click_bite, this);
 	action = "bite";  		Simdunas::get_framework()->define_key("space", "Player Bite", eat, this);
 	action = "bobbing";  	Simdunas::get_framework()->define_key("b", "Bobbing", bobbing, this);
 	action = "toca";   		Simdunas::get_framework()->define_key("t", "Toca Control", toca_control, this);
@@ -371,6 +372,14 @@ struct EdibleInfo {
 	int type;
 	PT(Setor) sector; /* Necessário pois o player se move por um tempo */
 };
+
+void PlayerControl::set_click_bite_active(bool active) {
+	click_bite_active = active;
+}
+
+void PlayerControl::click_bite(const Event *evt, void *data){
+	if (click_bite_active) eat(evt, data);
+}
 
 /*! Efetua acao de comer. Verifica se tem algum npc em volta e come */
 void PlayerControl::eat(const Event *evt, void *data){

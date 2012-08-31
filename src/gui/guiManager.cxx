@@ -196,7 +196,17 @@ GuiManager::GuiManager() {
 	event_handler->add_hook(graphics_menu->get_btn_alimentacao_v()->get_click_event(MouseButton::one()), click_event_vBotao6_grafico_Alimentacao, this);
 	event_handler->add_hook(graphics_menu->get_btn_energia_v()->get_click_event(MouseButton::one()), click_event_vBotao7_grafico_Energia,this);
 	event_handler->add_hook(graphics_menu->get_btn_gasto_energetico_v()->get_click_event(MouseButton::one()), click_event_vBotao8_grafico_GastoEnergetico,this);
+	event_handler->add_hook(menu_frame->get_within_event(), mouse_on_game_status_bar, this);
+	event_handler->add_hook(menu_frame->get_without_event(), mouse_off_game_status_bar, this);
 	//cout<<"teste4" << endl;
+}
+
+void GuiManager::mouse_on_game_status_bar(const Event*, void *data) {
+	PlayerControl::get_instance()->set_click_bite_active(false);
+}
+
+void GuiManager::mouse_off_game_status_bar(const Event*, void *data) {
+	PlayerControl::get_instance()->set_click_bite_active(true);
 }
 
 //DESENHA O FRAME-----------------------------------------------------------
@@ -206,6 +216,7 @@ void GuiManager::make_frame() {
 	PGFrameStyle style = menu_frame->get_frame_style(menu_frame->get_state());
 	style.set_type(PGFrameStyle::T_flat);
 	menu_frame->set_frame_style(menu_frame->get_state(), style);
+	menu_frame->set_active(true);
 
 	menu_frame_np = NodePath(menu_frame);
 	menu_frame_np.reparent_to(Simdunas::get_clickable_render_2d());

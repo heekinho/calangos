@@ -128,6 +128,7 @@ void Session::run(){
 	//	}
 
 	GuiManager::get_instance()->show_frameNode();
+
 //	causa_mortis = -1;
 	_player_death_status = Player::PDT_NOT_DEAD;
 

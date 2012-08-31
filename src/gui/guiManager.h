@@ -75,6 +75,8 @@ public:
     static void click_event_vBotao6_grafico_Alimentacao(const Event*, void *data);
     static void click_event_vBotao7_grafico_Energia(const Event*, void *data);
     static void click_event_vBotao8_grafico_GastoEnergetico(const Event*, void *data);
+    static void mouse_on_game_status_bar(const Event*, void *data);
+    static void mouse_off_game_status_bar(const Event*, void *data);
 
     GameStatusBar* get_game_status_bar();
     void activate_predator_alert(Predator* pursuer);
