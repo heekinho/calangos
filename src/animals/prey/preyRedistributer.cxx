@@ -24,6 +24,7 @@ PreyRedistributer::PreyRedistributer(list<PT(Prey)> preys){
 
 /*! Destrutor do sistema de redistribuição */
 PreyRedistributer::~PreyRedistributer(){
+	event_handler->remove_hooks_with(this);
 	_preys.clear();
 }
 

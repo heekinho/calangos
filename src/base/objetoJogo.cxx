@@ -13,7 +13,7 @@ const string ObjetoJogo::EV_object_move = "EV_OBJECTMOVE";
 TypeHandle ObjetoJogo::_type_handle;
 
 /*! Construtor Default da classe ObjetoJogo. */
-ObjetoJogo::ObjetoJogo(){
+ObjetoJogo::ObjetoJogo() : NodePath("ObjetoJogo"){
 	init();
 }
 
@@ -54,6 +54,7 @@ void ObjetoJogo::init(){
 /* Destrói o ObjetoJogo */
 ObjetoJogo::~ObjetoJogo(){
 	remove_node();
+	event_handler->remove_hooks_with(this);
 }
 
 /*! Retorna o setor no qual o objeto se encontra */

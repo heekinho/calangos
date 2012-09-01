@@ -21,7 +21,8 @@ Prey::Prey(NodePath node) : Animal(node) {
 };
 
 Prey::~Prey(){
-
+	nout << "Destruindo Presa!" << endl;
+	event_handler->remove_hooks_with(this);
 }
 
 /*! Realiza o carremento das presas */

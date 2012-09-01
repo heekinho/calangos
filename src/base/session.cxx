@@ -169,7 +169,7 @@ void Session::run(){
 		CalangosMenuManager::get_instance()->set_loading_screen(new LoadingScreen(CalangosMenuManager::get_instance().p()));
 		CalangosMenuManager::get_instance()->open_screen(CalangosMenuManager::get_instance()->get_loading_screen());
 		((LoadingScreen*) CalangosMenuManager::get_instance()->get_loading_screen().p())->loading_process();
-		this->run();
+//		this->run();
 	}
 }
 
