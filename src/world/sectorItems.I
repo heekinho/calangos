@@ -21,7 +21,7 @@ INLINE PT(Setor) SectorItems<Type>::get_sector() {
 
 /*! Obtém o objeto mais próximo ao ponto de referência. */
 template<class Type>
-INLINE Type SectorItems<Type>::get_closest_to(LPoint3f ref) {
+INLINE Type SectorItems<Type>::get_closest_to(const LPoint3f &ref) {
 	float dist = INT_MAX;
 	Type closest = NULL;
 
@@ -71,4 +71,11 @@ INLINE void SectorItems<Type>::remove(const Type& item) {
 	list<Type>::remove(item);
 }
 
-
+/*! Remove determinado elemento da lista e o exclui usando delete! */
+template<class Type>
+INLINE void SectorItems<Type>::deep_clear() {
+	typename list<Type>::iterator it;
+	for (it = list<Type>::begin(); it != list<Type>::end(); ++it) {
+		delete (*it);
+	}
+}

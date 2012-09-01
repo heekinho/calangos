@@ -14,7 +14,7 @@ public:
 
 	INLINE void set_sector(PT(Setor) sector);
 	INLINE PT(Setor) get_sector();
-	Type get_closest_to(LPoint3f ref);
+	Type get_closest_to(const LPoint3f &ref);
 
     INLINE void push_front(const Type& item);
     INLINE void push_back(const Type& item);
@@ -22,6 +22,8 @@ public:
 	INLINE void pop_front();
 	INLINE void pop_back();
     INLINE void remove(const Type& item);
+
+    INLINE void deep_clear();
 private:
     PT(Setor) _sector;
 };
