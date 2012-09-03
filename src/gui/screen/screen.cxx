@@ -44,13 +44,13 @@ PT(ScreenManager) Screen::get_screen_manager() const {
 /*! Mostra o menu */
 void Screen::show(){
 	Button::play_button = false;
-	root.show();
+	root.unstash();
 	TimeControl::get_instance()->notify("reactivate button sounds", Button::reactivate_button_sounds, this, 0.05);
 }
 
 /*! Esconde o menu */
 void Screen::hide(){
-	root.hide();
+	root.stash();
 }
 
 /*! Define algumas características básicas do NodePath. Note que ao deixar
