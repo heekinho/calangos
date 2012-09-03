@@ -58,7 +58,7 @@ public:
 	Predator::ActState  get_state();
 	void set_state(Predator::ActState );
 
-	virtual float get_visibility();
+	virtual float get_visibility(LizardBase* lizard );
 
 	float get_visibility_distance() const;
 	void set_visibility_distance(float visibility_distance);

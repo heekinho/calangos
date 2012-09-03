@@ -60,7 +60,7 @@ void MorfologySimulator::update_size(float month_energy_average){
 float MorfologySimulator::calculate_relative_size(float lizard_size) const {
 	float a = health->min_lizard_size * _child_size_factor;
 	float b = health->max_lizard_size;
-	return compress_range(a, b, _size);
+	return compress_range(a, b, lizard_size);
 }
 
 /*! Atualiza o tamanho relativo do lagarto, de 0 a 1, que varia do menor tamanho de lagarto

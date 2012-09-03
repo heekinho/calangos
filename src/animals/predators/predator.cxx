@@ -97,20 +97,20 @@ Predator::Predator(NodePath node, Predator::PredatorID type) : Animal(node){
 		circle.draw_to(x, 0, y);
 	}
 
-	/* Carrega apenas para a fase 2 para parar de irritar a equipe. =) */
-	// Muito obrigado. by: Jubaz hehe =D
-	if(Session::get_instance()->get_level() > 1){
-		/* Debug Visibility Circle */
-		debug_visibility_circle = NodePath(circle.create(false));
-		debug_visibility_circle.set_p(90);
-		debug_visibility_circle.flatten_light();
-		debug_visibility_circle.set_bin("fixed", 40);
-		debug_visibility_circle.set_depth_test(false);
-		debug_visibility_circle.set_depth_write(false);
-		debug_visibility_circle.reparent_to(render);
-		debug_visibility_circle.show();
-//		debug_visibility_circle.set_antialias(AntialiasAttrib::M_line);
-	}
+//	/* Carrega apenas para a fase 2 para parar de irritar a equipe. =) */
+//	// Muito obrigado. by: Jubaz hehe =D
+//	if(Session::get_instance()->get_level() > 1){
+//		/* Debug Visibility Circle */
+//		debug_visibility_circle = NodePath(circle.create(false));
+//		debug_visibility_circle.set_p(90);
+//		debug_visibility_circle.flatten_light();
+//		debug_visibility_circle.set_bin("fixed", 40);
+//		debug_visibility_circle.set_depth_test(false);
+//		debug_visibility_circle.set_depth_write(false);
+//		debug_visibility_circle.reparent_to(render);
+//		debug_visibility_circle.show();
+////		debug_visibility_circle.set_antialias(AntialiasAttrib::M_line);
+//	}
 
 }
 
@@ -171,7 +171,7 @@ void Predator::load_predator(Predator::PredatorID type, Activity activity){
  * certa distância ele parte para o ataque */
 void Predator::act(){
 
-	if(Session::get_instance()->get_level() == 1){
+//	if(Session::get_instance()->get_level() == 1){
 		//Se o predador não estiver nas proximidades do player, ele apenas andará
 		if(!(this->get_setor()==player->get_setor() || this->get_setor()->get_is_closest_sector())){
 			this->act_state = Predator::AS_walking;
@@ -198,12 +198,12 @@ void Predator::act(){
 			}
 
 		}
-	}
+//	}
 
-	else{
-		//Nova ação para a fase 2
-		act_fase_2();
-	}
+//	else{
+//		//Nova ação para a fase 2
+//		act_fase_2();
+//	}
 
 }
 
@@ -234,8 +234,6 @@ void Predator::change_state(){
 						hunting_player = false;
 						player->set_hunted(false);
 						player->set_predator(NULL);
-//						AudioController::get_instance()->pursuit_finished();
-//						pursuing = false;
 						break;
 					}
 
@@ -244,8 +242,6 @@ void Predator::change_state(){
 						hunting_player = false;
 						player->set_hunted(false);
 						player->set_predator(NULL);
-//						AudioController::get_instance()->pursuit_finished();
-//						pursuing = false;
 						break;
 					}
 
@@ -329,7 +325,8 @@ bool Predator::find_prey(){
 
 	if(!player->is_under_vegetal() && !player->is_in_toca()){
 
-		if(distance_squared_player < Predator::dist_to_hunt){
+//		if(distance_squared_player < Predator::dist_to_hunt){
+		if(distance_squared_player < this->get_visibility(player)){
 
 			if(player->get_hunted() && player->get_predator() != NULL){//Player está sendo caçado
 
@@ -377,9 +374,11 @@ bool Predator::find_prey(){
 
 //Verifica os outros calangos
 	for(it = lizard_list->begin(); it!= lizard_list->end(); ++it){
-		PT(Lizard) lizard = *it;
+		PT(Lizard) lizard = (*it);
 		distance_squared_lizard = get_distance_squared(*lizard);
-		if(distance_squared_lizard < Predator::dist_to_hunt){//Verifica se a presa está próxima
+//		if(distance_squared_lizard < Predator::dist_to_hunt){
+		if(distance_squared_lizard < this->get_visibility(lizard)){
+			//Verifica se a presa está próxima
 			if(lizard->get_arvore_da_sombra() != NULL){
 				if(lizard->get_distance_squared(lizard->get_arvore_da_sombra()->get_pos()) < Predator::dist_player_hide){continue;}
 			}
@@ -454,6 +453,8 @@ void Predator::act_fase_2(){
 
 	/* Pergunta: A presa deve poder ser perseguida por mais de um predador?
 	 * Além da questão biológica, precisa-se testar a questão de jogabilidade */
+
+
 	float distance = this->get_distance_pursuit();
 		float eat_thr = this->get_distance_bite();
 
@@ -465,27 +466,33 @@ void Predator::act_fase_2(){
 	/* Apenas verifica o que já foi definido pela checagem de tempos em tempos.
 	 * Ao contrário da verificação essa parte é executada todos os frames para
 	 * os predadores ativos */
-	float dist_visibility = get_visibility();
-	if(dist < dist_visibility){
-		if(!this->get_anim_control()->is_playing("comer")) play_anim("andar");
-		pursuit();
-	}
-	else {
-		play_anim("andar");
-		if(dist > 10.0) Animal::act();
-		else Animal::move(get_velocity());
-	}
+//	float dist_visibility = get_visibility();
+//	if(dist < dist_visibility){
+//		if(!this->get_anim_control()->is_playing("comer")) play_anim("andar");
+//		pursuit();
+//	}
+//	else {
+//		play_anim("andar");
+//		if(dist > 10.0) Animal::act();
+//		else Animal::move(get_velocity());
+//	}
+//
+//
 
-	/* Atualiza o círculo para debug */
-	debug_visibility_circle.set_pos(get_pos(render));
-	debug_visibility_circle.set_quat(get_quat(render));
-	if(dist_visibility == 0) debug_visibility_circle.hide();
-	else debug_visibility_circle.set_scale(dist_visibility);
 
-	bool is_night = TimeControl::get_instance()->is_night();
-	if(is_night && (get_activity() == A_day) || (!is_night && (get_activity() == A_night))){
-		debug_visibility_circle.hide();
-	} else debug_visibility_circle.show();
+
+//
+//
+//	/* Atualiza o círculo para debug */
+//	debug_visibility_circle.set_pos(get_pos(render));
+//	debug_visibility_circle.set_quat(get_quat(render));
+//	if(dist_visibility == 0) debug_visibility_circle.hide();
+//	else debug_visibility_circle.set_scale(dist_visibility);
+//
+//	bool is_night = TimeControl::get_instance()->is_night();
+//	if(is_night && (get_activity() == A_day) || (!is_night && (get_activity() == A_night))){
+//		debug_visibility_circle.hide();
+//	} else debug_visibility_circle.show();
 }
 
 
@@ -584,26 +591,38 @@ void Predator::set_distance_bite(float distance){
  * onde:
  * - dcontraste é o ganho de distância para quando o contraste for máximo (1)
  * - dtam é o ganho de distância para quando o tamanho for máximo (1). */
-float Predator::get_visibility(){
-	bool is_night = TimeControl::get_instance()->is_night();
+float Predator::get_visibility(LizardBase* lizard){
 
-	/* Separado por legibilidade. Se não estiver no período ativo anula a visibilidade */
-	if(is_night && (get_activity() == A_day)) return 0.0;
-	if(!is_night && (get_activity() == A_night)) return 0.0;
+	if(Session::get_instance()->get_level() == 1){
+		return 10;
+	}
 
-	/* Calcula o fator exercido pela distância */
-	float distance = get_distance(*player);
+	else{
+		bool is_night = TimeControl::get_instance()->is_night();
 
-	/* Obtém fator exercido pela camuflagem do player na visibilidade */
-	float contrast = 1.0 - (player->get_indice_camuflagem() * get_visibility_factor());
+		/* Separado por legibilidade. Se não estiver no período ativo anula a visibilidade */
+		if(is_night && (get_activity() == A_day)) return 0.0;
+		if(!is_night && (get_activity() == A_night)) return 0.0;
 
-	/* Fator de 0 a 1 do tamanho do player em relação ao maior/menor lagartos */
-	float size_factor = player->get_relative_size();
+		/* Calcula o fator exercido pela distância */
+//		float distance = get_distance(lizard);
 
-	/* A distância de visibilidade aumenta com os fatores */
-	float dmax = 3 + (contrast * 2) + (size_factor * 2);
+		/* Obtém fator exercido pela camuflagem do player na visibilidade */
+		float contrast = 1.0 - (lizard->get_indice_camuflagem() * get_visibility_factor());
 
-	return dmax;
+		/* Fator de 0 a 1 do tamanho do player em relação ao maior/menor lagartos */
+		float size_factor = lizard->get_relative_size();
+//		cout<<"Relative size: "<<lizard->get_relative_size()<<endl;
+
+		/* A distância de visibilidade aumenta com os fatores */
+		int multi = 5;
+		/*Valor que multiplica o tamanho do lagarto e determina a facilidade com que os
+		 * predadores lhe enxergam*/
+		float dmax = 3 + (contrast * 2) + (size_factor * multi);
+		cout<<"Dmax: "<<dmax<<endl;
+
+		return dmax;
+	}
 }
 
 /*! Obtém o fator de visibilidade do predador, verificando se é dia ou noite */

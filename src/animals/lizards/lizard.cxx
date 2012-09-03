@@ -148,12 +148,16 @@ void Lizard::load_lizards(){
 		}
 
 //		lizard->set_tamanho_real(random(PlayerProperties::min_body_size * 0.2, PlayerProperties::max_body_size) * 0.01);
-		lizard->set_tamanho_real(lizard->calculate_inicial_size());
-		lizard->set_tamanho_base(player->calculate_lizards_relative_size(lizard->get_tamanho_real()));
-		lizard->set_length(lizard->get_tamanho_real());
+//		lizard->set_tamanho_real(lizard->calculate_inicial_size());
+		float tamanho_real = lizard->calculate_inicial_size();
+		float relat_size = player->calculate_lizards_relative_size(tamanho_real*100);
+		lizard->set_relative_size(relat_size);
+//		nout << "Tama:" << relat_size << endl;
+//		nout << "Tamareal:" << tamanho_real << endl;
+		lizard->set_length(tamanho_real);
 
-		nout << lizard->_size << endl;
-		nout << lizard->get_scale() << endl;
+//		nout << lizard->_size << endl;
+//		nout << lizard->get_scale() << endl;
 
 		lizard->set_pos(point);
 		lizard->set_h(rand()%360);
@@ -312,15 +316,16 @@ PT(Predator) Lizard::get_predator(){
 }
 
 
-float Lizard::get_tamanho_base(){
+float Lizard::get_relative_size(){
 	return this->tamanho_base;
+	nout << "Entrou" << endl;
 }
 
 float Lizard::get_tamanho_real(){
 	return this->tamanho_real;
 }
 
-void Lizard::set_tamanho_base(float novo_tamanho_base){
+void Lizard::set_relative_size(float novo_tamanho_base){
 	this->tamanho_base = novo_tamanho_base;
 }
 

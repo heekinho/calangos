@@ -47,14 +47,14 @@ calangos-nutri-formiga 1.5
 calangos-hidra-formiga 2
 
 calangos-groups-larva 1
-calangos-density-larva 4.5
+calangos-density-larva 4
 calangos-nutri-larva 5
 calangos-hidra-larva 3.5
 
 calangos-speed-frog 4
 
 ###########################################################
-### Configuração dos Predadores                         ###
+### Configuração dos Predadores       		            ###
 ###########################################################
 #calangos-orientation-predator -1 # default
 
@@ -64,18 +64,18 @@ calangos-density-teiu 7
 
 calangos-length-siriema 0.6
 calangos-speed-siriema 1.6
-calangos-density-siriema 7
+calangos-density-siriema 6
 
 calangos-length-raposa 0.8
 calangos-speed-raposa 1.7
-calangos-density-raposa 6
+calangos-density-raposa 7
 
 calangos-length-gato 0.4
 calangos-speed-gato 1.3
 calangos-density-gato 9
 
 ###########################################################
-### Configuração dos Lagartos (Coespecíficos)           ###
+### Configuração dos Lagartos (Coespecíficos, FASE 1)   ###
 ###########################################################
 calangos-density-lizards 45
 calangos-speed-lizards 0.75

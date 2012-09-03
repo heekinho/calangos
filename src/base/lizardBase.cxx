@@ -58,6 +58,17 @@ string LizardBase::get_gender_name() const {
 	return LizardBase::get_gender_name(_gender);
 }
 
+float LizardBase::get_indice_camuflagem(){
+	return 0;
+}
+
+float LizardBase::get_relative_size() {
+	return this->relative_size;
+}
+
+void LizardBase::set_relative_size(float relative_size){
+	this->relative_size = relative_size;
+}
 
 string LizardBase::get_species_name(LizardBase::LizardSpecies specie){
 	switch(specie){

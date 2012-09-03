@@ -192,7 +192,7 @@ public:
 	void set_predator(PT(Predator) other);
 	PT(Predator) get_predator();
 
-	float get_indice_camuflagem() const;
+	virtual float get_indice_camuflagem() const;
 
 	bool is_buried() const;
 	void set_buried(bool is_buried);
@@ -251,7 +251,7 @@ public:
 	static float get_max_lizards_size();
 	float get_size() const;
 	float get_max_size() const;
-	float get_relative_size() const;
+	virtual float get_relative_size();
 	float calculate_lizards_relative_size(float lizard_size) const;
 
 private:

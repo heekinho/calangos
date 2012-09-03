@@ -22,11 +22,12 @@ public:
 	static void load_lizards();
 	virtual void change_sector(PT(Setor) new_sector);
 
-	float get_tamanho_base();
+
+	virtual float get_relative_size();
 	float get_tamanho_real();
 
-	void set_tamanho_base(float novo_tamanho_base);//(float tamanho){ this->tamanho = tamanho; };
-	void set_tamanho_real(float novo_tamanho_real);
+	virtual void set_relative_size(float novo_tamanho_base);//(float tamanho){ this->tamanho = tamanho; };
+	virtual void set_tamanho_real(float novo_tamanho_real);
 
 	float get_energia(){ return energia; };
 	void set_energia(float energia){ this->energia = energia; };

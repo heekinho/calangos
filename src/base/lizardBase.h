@@ -8,6 +8,7 @@
 #define LIZARDBASE_H
 
 #include <iostream>
+
 using namespace std;
 
 class NodePath;
@@ -46,10 +47,20 @@ public:
 	bool is_male() const;
 	bool is_female() const;
 
+	virtual float get_indice_camuflagem();
+
+	virtual float get_relative_size();
+	virtual void set_relative_size(float relative_size);
+
+protected:
+	float relative_size;
+
 private:
 	LizardBase::LizardSpecies _species;
 	LizardBase::LizardGender _gender;
 
+
 };
+
 
 #endif /* LIZARDBASE_H */

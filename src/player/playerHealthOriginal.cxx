@@ -288,7 +288,7 @@ float Player::get_lethargy() const {
 }
 
 /*! Obtém o tamanho relativo do lagarto, de 0 a 1, sendo 0 o menor e 1 o maior */
-float Player::get_relative_size() const {
+float Player::get_relative_size() {
 	return player_health_simulator->get_morfology_simulator()->get_relative_size();
 }
 
