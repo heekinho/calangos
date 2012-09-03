@@ -29,11 +29,12 @@ public:
 private:
 	PT(PGVirtualFrame) frame_tela;
 	NodePath np_frame_tela;
-	NodePath logo;
-	NodePath indica_morte;
 	PT(Button) btn_restart;
 	NodePath np_btn_restart;
-	PT(PGButton) btn_graph;
+	PT(TextNode) lb_fim_do_jogo;
+	NodePath np_lb_fim_do_jogo;
+	PT(TextNode) lb_indica_morte;
+	NodePath np_lb_indica_morte;
 //	enum Causa_Mortis {
 //	        DESNUTRICAO = 1, DESIDRATACAO, ALTA_TEMPERATURA, BAIXA_TEMPERATURA, MORTE_IDADE
 //	};
