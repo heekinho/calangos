@@ -128,7 +128,7 @@ void Animal::set_activity(Animal::Activity activity){
 /*! Redistribui os animais em setores mais próximos do player. */
 void Animal::redistribute_animals(){
 	#if(DEBUG_ANIMAL)
-		nout << "Redistribuindo Animais" << endl;
+		simdunas_cat.debug() << "Redistribuindo Animais" << endl;
 	#endif
 
 	PT(Terrain) terrain = World::get_world()->get_terrain();

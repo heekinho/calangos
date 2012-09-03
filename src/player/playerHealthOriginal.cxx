@@ -186,7 +186,7 @@ void Player::set_lagarto_andando(){
 
 	if(Session::get_instance()->get_level() > 1){
 		this->gasto_movimento = get_cost_multiplier(get_speed_walking());
-		//nout << gasto_movimento << endl;
+		//simdunas_cat.debug() << gasto_movimento << endl;
 	}
 }
 
@@ -196,7 +196,7 @@ void Player::set_lagarto_correndo(){
 
 	if(Session::get_instance()->get_level() > 1){
 		this->gasto_movimento = get_cost_multiplier(get_speed_running());
-		//nout << gasto_movimento << endl;
+		//simdunas_cat.debug() << gasto_movimento << endl;
 		//this->gasto_movimento = (this->gasto_movimento * (1.0 + velocity_factor)) - (range * 0.5);
 	}
 }
@@ -220,7 +220,7 @@ void Player::add_food_energy(float food_energy){
 	if (food_energy < -0.1) {
 		AudioController::get_instance()->heart_beat(get_energy(), get_min_energy());
 		AudioController::get_instance()->only_play(AudioRepository::PREDATOR_HIT);
-		cout << "Resetando contador intocavel!" << endl;
+		simdunas_cat.debug() << "Resetando contador intocavel!" << endl;
 		player->get_achievements()->reset_count_secs_untouched();
 	}
 

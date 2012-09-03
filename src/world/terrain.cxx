@@ -12,7 +12,7 @@ TypeHandle Terrain::_type_handle;
 
 // Constroi um novo terreno com o nome especificado
 Terrain::Terrain(const string &name) : GeoMipTerrain (name) {
-	nout << "Criando Terreno..." << endl;
+	simdunas_cat.debug() << "Criando Terreno..." << endl;
 	escala = 1;
 
 	//window->set_wireframe(true);
@@ -74,7 +74,7 @@ PT(Terrain) Terrain::get_default_terrain(){
 
 
 void Terrain::create_default_terrain(){
-	cout<< "1 create_defalt_terrain chamado "<< endl;
+	simdunas_cat.debug()<< "1 create_defalt_terrain chamado "<< endl;
 	if(terrain==NULL){
 		// Cria o Terreno -----------------------------------------------------//
 		terrain = new Terrain("Default_Dunas_Enviroment");
@@ -147,7 +147,7 @@ void Terrain::draw_map(){
 	//#### método que tenta modificar posição do terreno para resolver o problema de sobre posição com as folhagens (sem sucesso)
 	NodePathCollection nodePathCollection = terrain->get_root().find_all_matches("**/+GeomNode");
 
-	cout << "Quantidade de nodePath:  " << nodePathCollection.size() << endl; //retornou 64
+	simdunas_cat.debug() << "Quantidade de nodePath:  " << nodePathCollection.size() << endl; //retornou 64
 	for (int i = 0; i < nodePathCollection.size(); ++i)
 	{
 
@@ -175,13 +175,13 @@ void Terrain::draw_map(){
 			//convertendo para posição real do terreno
 			float pos_x = (v.get_x() + 32) + 64*index_x;
 			float pos_y = (v.get_y() + 32) + 64*index_y;
-			//    cout << "indices (x,y)" << x <<  y << endl;
+			//    simdunas_cat.debug() << "indices (x,y)" << x <<  y << endl;
 
 			float pos_z = terrain->get_elevation(pos_x, pos_y)/16;
 
 			if(pos_z != v.get_z()){ //Em nenhum momento entra nesse if
-				cout << "Coordenadas x,y,z e novo_z" << endl;
-				cout << v.get_x() << ", "  <<   v.get_y()  << ", "  << v.get_z() << " e "  << pos_z << endl;
+				simdunas_cat.debug() << "Coordenadas x,y,z e novo_z" << endl;
+				simdunas_cat.debug() << v.get_x() << ", "  <<   v.get_y()  << ", "  << v.get_z() << " e "  << pos_z << endl;
 			}
 
 			vertexWriter.set_data3f(v.get_x() , v.get_y() , pos_z); //faz modificação
@@ -241,7 +241,7 @@ PT(Setor) Terrain::get_setor_from_pos(LPoint2d pos){
 /*! Obtem um setor a partir de um determinado ponto */
 PT(Setor) Terrain::get_setor_from_pos(int x, int y){
 
-	//cout << "posicao: " << pos.get_x() << " , " << pos.get_y() << endl;
+	//simdunas_cat.debug() << "posicao: " << pos.get_x() << " , " << pos.get_y() << endl;
 	int column = (int) x/(get_x_size()/NUM_SECTORS_X);
 	int line = (int) y/(get_y_size()/NUM_SECTORS_Y);
 
@@ -399,11 +399,11 @@ void Terrain::update_adjacent_sectors(PT(Setor) s){
 
 
 	//
-	//	nout << "neighbors(" << player->get_setor()->get_indice() << "): ";
+	//	simdunas_cat.debug() << "neighbors(" << player->get_setor()->get_indice() << "): ";
 	//	for(int i = 0; i < neighborhood.size(); i++){
-	//		nout << neighborhood.at(i)->get_indice() << " ";
+	//		simdunas_cat.debug() << neighborhood.at(i)->get_indice() << " ";
 	//	}
-	//	nout << endl;
+	//	simdunas_cat.debug() << endl;
 }
 
 /*! Atualiza a posição Z do objeto. Como parametro opcional, um offset,
@@ -459,9 +459,9 @@ void Terrain::init_sectors(){
 /*! Para Debug */
 void Terrain::print_sectors(){
 	for (unsigned int i = 0; i < _setores.size(); i++ ){
-		cout << "\n Setor: " << _setores.at(i)->get_indice() << endl;
-		cout << "posicao inicio : " << _setores.at(i)->get_pos_start().get_x() <<  " , " << _setores.at(i)->get_pos_start().get_y() << endl;
-		cout << "posicao final : " <<  _setores.at(i)->get_pos_end().get_x() << " , " << _setores.at(i)->get_pos_end().get_y() << endl;
+		simdunas_cat.debug() << "\n Setor: " << _setores.at(i)->get_indice() << endl;
+		simdunas_cat.debug() << "posicao inicio : " << _setores.at(i)->get_pos_start().get_x() <<  " , " << _setores.at(i)->get_pos_start().get_y() << endl;
+		simdunas_cat.debug() << "posicao final : " <<  _setores.at(i)->get_pos_end().get_x() << " , " << _setores.at(i)->get_pos_end().get_y() << endl;
 	}
 }
 

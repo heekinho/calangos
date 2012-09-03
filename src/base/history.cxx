@@ -92,7 +92,7 @@ void CalangosHistory::update(const Event*, void* data){
 }
 
 void CalangosHistory::update(){
-	//nout << "CalangosHistory Update" << endl;
+	//simdunas_cat.debug() << "CalangosHistory Update" << endl;
 	PT(TimeControl) time_control = TimeControl::get_instance();
 	add_element(History::HI_time, time_control->get_hora_generica());
 

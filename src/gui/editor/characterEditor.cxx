@@ -119,7 +119,7 @@ CharacterEditor::~CharacterEditor(){
 }
 
 void CharacterEditor::load(){
-	nout << "Carregando Editor de Personagens" << endl;
+	simdunas_cat.debug() << "Carregando Editor de Personagens" << endl;
 
 	configure_controls();
 
@@ -128,7 +128,7 @@ void CharacterEditor::load(){
 }
 
 void CharacterEditor::unload(){
-	nout << "Descarregando Editor de Personagens" << endl;
+	simdunas_cat.debug() << "Descarregando Editor de Personagens" << endl;
 }
 
 void CharacterEditor::show(){
@@ -295,7 +295,7 @@ void CharacterEditor::pattern_action_performed(){
 	}
 	else {
 		/* Carrega o editor de textura */
-		nout << "Loading Pattern Editor" << endl;
+		simdunas_cat.debug() << "Loading Pattern Editor" << endl;
 		manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_editor_texture_screen());
 	}
 }

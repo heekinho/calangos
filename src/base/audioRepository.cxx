@@ -40,7 +40,7 @@ AudioRepository::AudioRepository() {
 }
 
  void AudioRepository::load_audio(){
-	 nout <<"Criando Repositorio de Sons..." << endl;
+	 simdunas_cat.debug() <<"Criando Repositorio de Sons..." << endl;
      //para adicionar mais sons é só inserir aqui
 	 //tem muita coisa comentada aqui porque eu ficava testando outros sons. Deixei aqui para caso alguém queira testar também. ^^
      //add_audio("mordida","models/sounds/EAT1.WAV");
@@ -112,7 +112,7 @@ AudioRepository::AudioRepository() {
  }
 
   AsyncTask::DoneStatus AudioRepository::sound_finished(GenericAsyncTask* task, void* data) {
-	  cout<<"SOUND_FINISHED!"<<endl;
+	  simdunas_cat.debug()<<"SOUND_FINISHED!"<<endl;
 	  AudioSound* a_sound = (AudioSound*) data;
 	  a_sound->stop();
 	  playing = false;
@@ -124,7 +124,7 @@ AudioRepository::AudioRepository() {
 
 	  loops_remaining = loops;
 	  TimeControl::get_instance()->notify("finished_bgm_" + name, bgm_finished, bgm[name], bgm[name]->length());
-	  cout<<"bgm_volume_percent = "<<bgm_volume_percent<<endl;
+	  simdunas_cat.debug()<<"bgm_volume_percent = "<<bgm_volume_percent<<endl;
 	  bgm[name]->set_volume(volume * bgm_volume_percent);
 	  bgm[name]->set_loop(true);
 	  bgm[name]->play();
@@ -173,7 +173,7 @@ AudioRepository::AudioRepository() {
   }
 
   AsyncTask::DoneStatus AudioRepository::bgm_finished(GenericAsyncTask* task, void* data) {
-	  cout<<"BGM_FINISHED!"<<endl;
+	  simdunas_cat.debug()<<"BGM_FINISHED!"<<endl;
 	  if (is_stopped) return AsyncTask::DS_again;
 
 	  AudioSound* a_sound = (AudioSound*) data;

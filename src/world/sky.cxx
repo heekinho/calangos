@@ -343,8 +343,8 @@ void Sky::fade(int minuto, int hora) {
     }
 
 
-    //cout<<"Hora: "<<TimeControl::get_instance()->get_hora()<<"Minuto : "<<TimeControl::get_instance()->get_minuto()<<endl;
-    //cout<<"Seta: "<<seta<<endl;
+    //simdunas_cat.debug()<<"Hora: "<<TimeControl::get_instance()->get_hora()<<"Minuto : "<<TimeControl::get_instance()->get_minuto()<<endl;
+    //simdunas_cat.debug()<<"Seta: "<<seta<<endl;
     if (ClimaTempo::get_instance()->get_chuva_today() != 0) {
         if (hora != 16 && hora != 5) {//se o dia tiver chuvoso só faz o fade, se a hora for diferente de 16 e 7
             seta = 1 - (0.0166 * minuto); //deixando indepedente do minuto virtual, caso de saltos de alguns minutos continua certo. Porém se saltar mais de uma hora vai da pau!!!

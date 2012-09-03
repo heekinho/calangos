@@ -15,7 +15,7 @@
 #include "terrain.h"
 
 DebugTools::DebugTools() {
-	nout << "Criando DebugTools" << endl;
+	simdunas_cat.debug() << "Criando DebugTools" << endl;
 
 	// TODO Auto-generated constructor stub
 	show_foliage_wireframe = false;
@@ -101,17 +101,17 @@ void DebugTools::special_control(const Event*, void *data){
 	}
 
 	if(strcmp(action, "see-graphs") == 0){
-		nout << "======== Begin of Render ======== " << endl;
+		simdunas_cat.debug() << "======== Begin of Render ======== " << endl;
 		window->get_render().ls();
-		nout << "======== End of Render ======== " << endl;
+		simdunas_cat.debug() << "======== End of Render ======== " << endl;
 
-		nout << "======== Begin of Render 2d ======== " << endl;
+		simdunas_cat.debug() << "======== Begin of Render 2d ======== " << endl;
 		window->get_render_2d().ls();
-		nout << "======== End of Render 2d ======== " << endl;
+		simdunas_cat.debug() << "======== End of Render 2d ======== " << endl;
 
-//		nout << "======== Begin of Render 2d ======== " << endl;
+//		simdunas_cat.debug() << "======== Begin of Render 2d ======== " << endl;
 //		window->get_aspect_2d().ls();
-//		nout << "======== End of Render 2d ======== " << endl;
+//		simdunas_cat.debug() << "======== End of Render 2d ======== " << endl;
 	}
 }
 

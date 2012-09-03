@@ -69,7 +69,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	np_lb_senhor_mordida_xnum.set_color(0, 0, 0, 1);
 
 	lb_senhor_mordida_andamento = new TextNode("lb_senhor_mordida_andamento");
-	cout<<"test = "<<player->get_achievements()->get_count_bites() + " / 10"<<endl;
+	simdunas_cat.debug()<<"test = "<<player->get_achievements()->get_count_bites() + " / 10"<<endl;
 	stringstream out;
 	if (lvl_senhor_mordida == 0) {
 		out<<player->get_achievements()->get_count_bites();
@@ -527,7 +527,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 
 	stringstream intocavel_andamento;
 	lb_intocavel_andamento = new TextNode("lb_intocavel_andamento");
-	cout<<"seconds untouched = "<<player->get_achievements()->get_count_secs_untouched()<<endl;
+	simdunas_cat.debug()<<"seconds untouched = "<<player->get_achievements()->get_count_secs_untouched()<<endl;
 	if (lvl_intocavel == 0) {
 		intocavel_andamento<<player->get_achievements()->get_count_secs_untouched();
 		lb_intocavel_andamento->set_text(intocavel_andamento.str() + " / 60");

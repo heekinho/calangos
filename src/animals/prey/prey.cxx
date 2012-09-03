@@ -21,7 +21,7 @@ Prey::Prey(NodePath node) : Animal(node) {
 };
 
 Prey::~Prey(){
-	nout << "Destruindo Presa!" << endl;
+	simdunas_cat.debug() << "Destruindo Presa!" << endl;
 	event_handler->remove_hooks_with(this);
 }
 
@@ -29,7 +29,7 @@ Prey::~Prey(){
 void Prey::load_prey(){
 	float factor = 0.0001;
 
-	nout << "Carregando Aranhas..." << endl;
+	simdunas_cat.debug() << "Carregando Aranhas..." << endl;
 
 	int quan_aranha = ConfigVariableInt("calangos-density-aranha", 10);
 	float nutri_aranha = ConfigVariableDouble("calangos-nutri-aranha", 3);
@@ -37,7 +37,7 @@ void Prey::load_prey(){
 
 	load_prey_specie("aranha", quan_aranha, 2*factor, 20, nutri_aranha, hidra_aranha);
 
-	nout << "Carregando Besouros..." << endl;
+	simdunas_cat.debug() << "Carregando Besouros..." << endl;
 
 	int quan_besouro = ConfigVariableInt("calangos-density-besouro", 14);
 	float nutri_besouro = ConfigVariableDouble("calangos-nutri-besouro", 4);
@@ -46,7 +46,7 @@ void Prey::load_prey(){
 
 	load_prey_specie("besouro", quan_besouro, 2*factor, 70, nutri_besouro, hidra_besouro);
 
-	nout << "Carregando Grilo..." << endl;
+	simdunas_cat.debug() << "Carregando Grilo..." << endl;
 
 	int quan_grilo = ConfigVariableInt("calangos-density-grilo", 6);
 	float nutri_grilo = ConfigVariableDouble("calangos-nutri-grilo", 3);
@@ -54,7 +54,7 @@ void Prey::load_prey(){
 
 	load_prey_specie("grilo", quan_grilo, 2*factor, 60, nutri_grilo, hidra_grilo);
 
-	nout << "Carregando Cupins..." << endl;
+	simdunas_cat.debug() << "Carregando Cupins..." << endl;
 
 	int grupo_cupim = ConfigVariableInt("calangos-groups-cupim", 1);
 	int quan_cupim = ConfigVariableInt("calangos-density-cupim", 10);
@@ -63,7 +63,7 @@ void Prey::load_prey(){
 
 	load_prey_specie("cupim", grupo_cupim, 1*factor, 100, nutri_cupim, hidra_cupim, true, quan_cupim);
 
-	nout << "Carregando Formigas..." << endl;
+	simdunas_cat.debug() << "Carregando Formigas..." << endl;
 
 	int grupo_formiga = ConfigVariableInt("calangos-groups-formiga", 2);
 	int quan_formiga = ConfigVariableInt("calangos-density-formiga", 12);
@@ -72,7 +72,7 @@ void Prey::load_prey(){
 
 	load_prey_specie("formiga", grupo_formiga, 2*factor, 80, nutri_formiga, hidra_formiga, true, quan_formiga);
 
-	nout << "Carregando Larvas..." << endl;
+	simdunas_cat.debug() << "Carregando Larvas..." << endl;
 
 	int grupo_larva = ConfigVariableInt("calangos-groups-larva", 1);
 	int quan_larva = ConfigVariableInt("calangos-density-larva", 5);

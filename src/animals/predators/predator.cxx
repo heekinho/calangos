@@ -612,14 +612,14 @@ float Predator::get_visibility(LizardBase* lizard){
 
 		/* Fator de 0 a 1 do tamanho do player em relação ao maior/menor lagartos */
 		float size_factor = lizard->get_relative_size();
-//		cout<<"Relative size: "<<lizard->get_relative_size()<<endl;
+//		simdunas_cat.debug()<<"Relative size: "<<lizard->get_relative_size()<<endl;
 
 		/* A distância de visibilidade aumenta com os fatores */
 		int multi = 5;
 		/*Valor que multiplica o tamanho do lagarto e determina a facilidade com que os
 		 * predadores lhe enxergam*/
 		float dmax = 3 + (contrast * 2) + (size_factor * multi);
-		cout<<"Dmax: "<<dmax<<endl;
+		simdunas_cat.debug()<<"Dmax: "<<dmax<<endl;
 
 		return dmax;
 	}

@@ -46,7 +46,7 @@ void TemperatureSimulator::update_temperature(){
 	_temperature = _temperature + dt;
 
 
-	//cout << "Equilibrio termico" << _current_thermal_equilibrium_speed << endl;
+	//simdunas_cat.debug() << "Equilibrio termico" << _current_thermal_equilibrium_speed << endl;
 	//AudioController::get_instance()->warning_temp(_temperature, perceived_temperature(),
 	//		health->min_temperature, health->max_temperature);
 	//AudioController::get_instance()->warning_temp(temp_interna, temp_toca, temp_interna_minlimite, temp_interna_maxlimite);

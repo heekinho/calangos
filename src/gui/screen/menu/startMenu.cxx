@@ -81,20 +81,20 @@ void StartMenu::hide() {
 
 /*! Ação do botão jogar */
 void StartMenu::play_action(){
-	nout << "Carregando Jogo..." << endl;
+	simdunas_cat.debug() << "Carregando Jogo..." << endl;
 	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_level_selection_screen());
 	//Simdunas::set_play_clicked(true);
 }
 
 /*! Carrega menu de opções */
 void StartMenu::options_action(){
-	nout << "Carregando Opções..." << endl;
+	simdunas_cat.debug() << "Carregando Opções..." << endl;
 	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_options_screen());
 }
 
 /*! Carrega menu de instruções */
 void StartMenu::instructions_action(){
-	nout << "Carregando Instruções..." << endl;
+	simdunas_cat.debug() << "Carregando Instruções..." << endl;
 	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_instructions_screen());
 }
 

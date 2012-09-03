@@ -37,7 +37,7 @@ void LevelSelectionScreen::unload() {
 
 /*! Aciona carregamento da fase 1 */
 void LevelSelectionScreen::level_one_action(){
-	nout << "Carregando Fase 1" << endl;
+	simdunas_cat.debug() << "Carregando Fase 1" << endl;
 	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_loading_screen());
 	Simdunas::set_play_clicked(true);
 

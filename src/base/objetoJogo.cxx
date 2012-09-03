@@ -97,7 +97,7 @@ void ObjetoJogo::update_screen_status(bool show){
 //	ObjetoJogo* this_object = ((ObjetoJogo*)data);
 //	if(this_object != NULL && !this_object->is_empty() && this_object->get_error_type() == NodePath::ET_ok){
 //		PT(CameraNode) cn = CameraControl::get_instance()->get_cameras()->at(0);
-//		nout << cn->is_in_view(*this_object) << endl;
+//		simdunas_cat.debug() << cn->is_in_view(*this_object) << endl;
 //		//this_object->update_screen_status(/*cn->is_in_view(*this_object)*/true);
 //	}
 //}
@@ -345,7 +345,7 @@ bool ObjetoJogo::under_vegetal(){
 	}
 
 	if(!animal_is_under_vegetal) {
-//		cout<<"False"<<endl;
+//		simdunas_cat.debug()<<"False"<<endl;
 		return false;
 	}
 
@@ -377,7 +377,7 @@ void ObjetoJogo::update_subsector(){
 	float pos_y = this->get_y();
 
 	float x_start = sector->get_pos_start().get_x();
-	//cout<
+	//simdunas_cat.debug()<
 	float y_start = sector->get_pos_start().get_y();
 	float x_end = sector->get_pos_end().get_x();
 	float y_end = sector->get_pos_end().get_y();

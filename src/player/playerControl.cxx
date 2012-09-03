@@ -153,10 +153,10 @@ void PlayerControl::special_control(const Event *theEvent, void *data){
 //		Vegetal::vegetals_placeholder.flatten_strong();
 //		render.analyze();
 //		render.ls();
-//		me->get_anim_control()->write(cout);
+//		me->get_anim_control()->write(simdunas_cat.debug());
 //		render.ls();
 
-		nout << "Ideal Temperature: " << me->get_ideal_temperature() << endl;
+		simdunas_cat.debug() << "Ideal Temperature: " << me->get_ideal_temperature() << endl;
 	}
 
 	if(strcmp(str,"shift")==0) PlayerControl::get_instance()->key_map_player["shift"] = true;
@@ -405,7 +405,7 @@ void PlayerControl::eat(const Event *evt, void *data){
 	int sorteio = rand()%range + player->get_min_temperature();
 
 	if(sorteio > player->get_temperature()) {
-		nout << "Temperatura baixa - falha na ação de comer..." << endl;
+		simdunas_cat.debug() << "Temperatura baixa - falha na ação de comer..." << endl;
 		event_handler->add_hook(TimeControl::EV_pass_frame, missed_bite, NULL);
 		eat_fail = true;
 		player->add_food_energy(-0.1);
@@ -429,7 +429,7 @@ void PlayerControl::eat(const Event *evt, void *data){
 	/* Se o tipo não for reconhecido, cai fora. Era pra fazer if, mas... */
 	if(type_of_closest == -1) {
 		event_handler->add_hook(TimeControl::EV_pass_frame, missed_bite, NULL);
-		cout<<"tipo de alimento não reconhecido?"<<endl;
+		simdunas_cat.debug()<<"tipo de alimento não reconhecido?"<<endl;
 		player->get_achievements()->clear_bites();
 		return;
 	}
@@ -520,7 +520,7 @@ void PlayerControl::eat(const Event *evt, void *data){
 			if (dist_to_target < act_dist_thr*3) {
 
 				male_lizard->be_bited(player->get_relative_size());
-				cout<<"Relative: "<<player->get_relative_size()<<endl;
+				simdunas_cat.debug()<<"Relative: "<<player->get_relative_size()<<endl;
 			}
 		}
 	}

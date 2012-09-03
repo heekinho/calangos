@@ -69,7 +69,7 @@ void Lizard::init(){
 *Os jovens (considerados abaixo de um ano) não devem ter o símbolo em cima deles,
 *para indicar que eles não podem fazer reprodução nem brigar.*/
 void Lizard::load_lizards(){
-	nout << "Loading Lizards... " << endl;
+	simdunas_cat.debug() << "Loading Lizards... " << endl;
 
 	/* Para a primeira fase continua o que estava.
 	 * TODO: Existe um property padrão para não precisar fazer esse if? */
@@ -152,12 +152,12 @@ void Lizard::load_lizards(){
 		float tamanho_real = lizard->calculate_inicial_size();
 		float relat_size = player->calculate_lizards_relative_size(tamanho_real*100);
 		lizard->set_relative_size(relat_size);
-//		nout << "Tama:" << relat_size << endl;
-//		nout << "Tamareal:" << tamanho_real << endl;
+//		simdunas_cat.debug() << "Tama:" << relat_size << endl;
+//		simdunas_cat.debug() << "Tamareal:" << tamanho_real << endl;
 		lizard->set_length(tamanho_real);
 
-//		nout << lizard->_size << endl;
-//		nout << lizard->get_scale() << endl;
+//		simdunas_cat.debug() << lizard->_size << endl;
+//		simdunas_cat.debug() << lizard->get_scale() << endl;
 
 		lizard->set_pos(point);
 		lizard->set_h(rand()%360);
@@ -216,7 +216,7 @@ void Lizard::act(){
 		if(! World::get_world()->get_terrain()->get_shadows()->is_in_shadow(*this)){
 			look_at(*arvore_da_sombra);
 			move(get_velocity()*1.5);
-//			cout<<"Tamanho"<<this->get_scale().get_x()<<endl;
+//			simdunas_cat.debug()<<"Tamanho"<<this->get_scale().get_x()<<endl;
 			return;
 		}
 	}
@@ -259,7 +259,7 @@ void Lizard::flee(const NodePath &other){
 
 /*! se esconder na árvore mais próxima dele */
 bool Lizard::hide_from_predator(){
-//	cout << this->get_setor()->vegetals()->size() << endl;
+//	simdunas_cat.debug() << this->get_setor()->vegetals()->size() << endl;
 
 	//Atualização de árvore mais proxima
 	this->arvore_da_sombra = this->get_setor()->vegetals()->get_closest_to(this->get_pos());
@@ -318,7 +318,7 @@ PT(Predator) Lizard::get_predator(){
 
 float Lizard::get_relative_size(){
 	return this->tamanho_base;
-	nout << "Entrou" << endl;
+	simdunas_cat.debug() << "Entrou" << endl;
 }
 
 float Lizard::get_tamanho_real(){

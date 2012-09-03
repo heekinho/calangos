@@ -158,7 +158,7 @@ void AudioOptionsScreen::slide_action() {
 /*! Evento de click no botão "+" dos efeitos sonoros. Aumenta 1 no valor do volume dos efeitos sonoros. */
 void AudioOptionsScreen::increase_volume_action() {
 	float value = slide->get_value();
-	cout<<"value = "<<value<<endl;
+	simdunas_cat.debug()<<"value = "<<value<<endl;
 	if (value == 100) return;
 	value += 1;
 	AudioController::get_instance()->get_audio_repository()->set_sfx_volume_percent(value / 100.0);
@@ -168,7 +168,7 @@ void AudioOptionsScreen::increase_volume_action() {
 /*! Evento de click no botão "-" dos efeitos sonoros. Diminui 1 no valor do volume dos efeitos sonoros. */
 void AudioOptionsScreen::decrease_volume_action() {
 	float value = slide->get_value();
-	cout<<"value = "<<value<<endl;
+	simdunas_cat.debug()<<"value = "<<value<<endl;
 	if (value == 0) return;
 	value -= 1;
 	AudioController::get_instance()->get_audio_repository()->set_sfx_volume_percent(value / 100.0);
@@ -204,7 +204,7 @@ void AudioOptionsScreen::slide_action_2() {
 /*! Evento de click no botão "+" das músicas de fundo. Aumenta 1 no valor do volume das músicas de fundo. */
 void AudioOptionsScreen::increase_volume_action_2() {
 	float value = slide_2->get_value();
-	cout<<"value = "<<value<<endl;
+	simdunas_cat.debug()<<"value = "<<value<<endl;
 	if (value == 100) return;
 	value += 1;
 	AudioController::get_instance()->get_audio_repository()->set_bgm_volume_percent(value / 100.0);
@@ -214,7 +214,7 @@ void AudioOptionsScreen::increase_volume_action_2() {
 /*! Evento de click no botão "-" das músicas de fundo. Diminui 1 no valor do volume das músicas de fundo. */
 void AudioOptionsScreen::decrease_volume_action_2() {
 	float value = slide_2->get_value();
-	cout<<"value = "<<value<<endl;
+	simdunas_cat.debug()<<"value = "<<value<<endl;
 	if (value == 0) return;
 	value -= 1;
 	AudioController::get_instance()->get_audio_repository()->set_bgm_volume_percent(value / 100.0);

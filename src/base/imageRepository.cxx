@@ -29,7 +29,7 @@ ImageRepository::~ImageRepository(){
 
 
 void ImageRepository::load_images(){
-	nout << endl << "Carregando imagens" << endl;
+	simdunas_cat.debug() << endl << "Carregando imagens" << endl;
 
 	add_image("diaEnoite", "models/gui/diaEnoite.png");
 	add_image("ponteiro", "models/gui/ponteiro.png");

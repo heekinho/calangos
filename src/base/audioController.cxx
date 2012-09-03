@@ -99,9 +99,9 @@ void AudioController::frog(PT(Frog) frog) {
 	bool in_range = make_audio3d(6, *frog, AudioRepository::FROG);
 	// verifica se está dentro da distância e se o som do sapo já não está sendo tocado
 	if (in_range && !frog_delay) {
-		//cout<<"TOCANDO SOM DO SAPO!!!"<<endl;
-		//cout<<"balance = "<<audio_repository->get_audio("frog")->get_balance()<<endl;
-		//cout<<"volume do sapo = "<<audio_repository->get_audio("frog")->get_volume()<<endl;
+		//simdunas_cat.debug()<<"TOCANDO SOM DO SAPO!!!"<<endl;
+		//simdunas_cat.debug()<<"balance = "<<audio_repository->get_audio("frog")->get_balance()<<endl;
+		//simdunas_cat.debug()<<"volume do sapo = "<<audio_repository->get_audio("frog")->get_volume()<<endl;
 		audio_repository->play_sound("frog");
 		frog_delay = true;
 		// toca o som do sapo a cada 4 segundos
@@ -127,7 +127,7 @@ bool AudioController::make_audio3d(int max_dist, NodePath obj, string audio_name
 	else {
 		LVector3f right = player->get_net_transform()->get_quat().get_right();
 		float balance = player2obj.dot(right) / dist;
-		//cout<<"Balance antes = "<<balance<<endl;
+		//simdunas_cat.debug()<<"Balance antes = "<<balance<<endl;
 		float volume = 1 - (dist / max_dist);
 		PT(AudioSound) audio = audio_repository->get_audio(audio_name);
 		// o set_balance não está funcionando pois não tinha sido implementado pelo panda (a versão verificada foi: 1.7.2)

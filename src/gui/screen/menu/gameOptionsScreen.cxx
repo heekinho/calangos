@@ -109,7 +109,7 @@ void GameOptionsScreen::load() {
 //	for (int i = 0; i < TimeControl::get_instance()->get_virtual_time_hour(); i++) {
 //		//                            const Event *ev_direita = new Event(btn_mais->get_click_event(MouseButton::one()));
 //		//                            event_queue->queue_event(ev_direita);
-//		//  cout<<"Minuto dia virtual: "<<config->minuto_dia_virtual<<endl;
+//		//  simdunas_cat.debug()<<"Minuto dia virtual: "<<config->minuto_dia_virtual<<endl;
 //
 //		//melhor que ficar enfileirando eventos!!!
 //		slide_direita_action();
@@ -335,8 +335,8 @@ void GameOptionsScreen::slide_direita_action() {
 
 		informa_segundos(st);
 
-		/*cout<<"Valor :"<<(int)d->slid->get_value()<<endl;
-            cout<<"Valor Minuto_dia_Virtual Direita:"<<d->minuto_dia_virtual<<endl;*/
+		/*simdunas_cat.debug()<<"Valor :"<<(int)d->slid->get_value()<<endl;
+            simdunas_cat.debug()<<"Valor Minuto_dia_Virtual Direita:"<<d->minuto_dia_virtual<<endl;*/
 
 		slide->set_value(minuto_dia_virtual);
 	}
@@ -357,8 +357,8 @@ void GameOptionsScreen::slide_esquerda_action() {
 
 		informa_segundos(st);
 
-		/*cout<<"Valor :"<<(int)d->slid->get_value()<<endl;
-            cout<<"Valor Minuto_dia_Virtual Esquerda:"<<d->minuto_dia_virtual<<endl;*/
+		/*simdunas_cat.debug()<<"Valor :"<<(int)d->slid->get_value()<<endl;
+            simdunas_cat.debug()<<"Valor Minuto_dia_Virtual Esquerda:"<<d->minuto_dia_virtual<<endl;*/
 		slide->set_value(minuto_dia_virtual);
 	}
 }
@@ -461,7 +461,7 @@ void GameOptionsScreen::slide_action() {
 //}
 //
 //void GameOptionsScreen::jogar_action() {
-//	nout << "Carregando Jogo..." << endl;
+//	simdunas_cat.debug() << "Carregando Jogo..." << endl;
 //
 //	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_loading_screen());
 //

@@ -97,9 +97,9 @@ void GameOverScreen::restart(const Event*, void* data) {
 	_this->np_lb_fim_do_jogo.remove_node();
 	_this->np_lb_indica_morte.remove_node();
 	//    m->nod_sair.hide();
-	cout << "final r" << endl;
+	simdunas_cat.debug() << "final r" << endl;
 
-	cout << "PASSSOU RESTART" << endl;
+	simdunas_cat.debug() << "PASSSOU RESTART" << endl;
 
 
 	Session::get_instance()->receive_answer("r");

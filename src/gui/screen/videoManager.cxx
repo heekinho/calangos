@@ -87,9 +87,9 @@ void VideoManager::play_openning(const string &path) {
 }
 
 void VideoManager::stop_video(const Event* evt, void* data) {
-	cout << "VideoManager::stop_video() - Apertei ESC! " << endl;
+	simdunas_cat.debug() << "VideoManager::stop_video() - Apertei ESC! " << endl;
 	if (VideoManager::get_instance()->get_audio_sound() != NULL && VideoManager::get_instance()->is_playing()) {
-		cout << "Parando o video!" << endl;
+		simdunas_cat.debug() << "Parando o video!" << endl;
 
 		event_handler->remove_hook(VideoManager::get_instance()->get_audio_sound()->get_finished_event(), Session::pause_game, NULL);
 		event_handler->remove_hook(VideoManager::get_instance()->get_audio_sound()->get_finished_event(), stop_video, NULL);

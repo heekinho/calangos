@@ -39,7 +39,7 @@ ModelRepository::~ModelRepository(){
  * manter esta tarefa centralizada. */
 void ModelRepository::load_models(){
 	// Personagens
-	nout << endl << "Carregando PCs" << endl;
+	simdunas_cat.debug() << endl << "Carregando PCs" << endl;
 
 	/* Informa o path do lagarto a ser carregado */
 	string lizard_name;
@@ -57,7 +57,7 @@ void ModelRepository::load_models(){
 
 
 	// Animais
-	nout << endl << "Carregando NPCs" << endl;
+	simdunas_cat.debug() << endl << "Carregando NPCs" << endl;
 
 	/* Outros Animais */
 	add_model("sapo", "models/npcs/sapo");
@@ -107,12 +107,12 @@ void ModelRepository::load_models(){
 
 
 	/* Vegetais */
-	nout << endl << "Carregando Vegetais" << endl;
+	simdunas_cat.debug() << endl << "Carregando Vegetais" << endl;
 	load_vegetals();
 
 
 	/* Objects */
-	nout << endl << "Carregando Objetos" << endl;
+	simdunas_cat.debug() << endl << "Carregando Objetos" << endl;
 	add_model("cerca", "models/objects/cerca");
 	add_model("casa1", "models/objects/casa1");
 	add_model("casa2", "models/objects/casa2");
@@ -167,7 +167,7 @@ void ModelRepository::load_vegetals(){
 		//(OK) Murici-fruto
 		//(OK) xique-xique-fruto
 
-		nout << endl << "Carregando Vegetais Comestiveis" << endl;
+		simdunas_cat.debug() << endl << "Carregando Vegetais Comestiveis" << endl;
 		add_model("copaifera-flor","models/vegetation/Copaifera/flor_copaifera");
 		add_model("jatropha-flor","models/vegetation/Jatropha/flor_jatropha");
 		add_model("eugenia-flor","models/vegetation/Eugenia/eugenia_flor");
@@ -220,7 +220,7 @@ void ModelRepository::palettize_mod(){
 	add_model("harpochilus-chuvoso", path + "harpochilus_model");
 	add_model("jatropha-chuvoso", path + "jatropha_flores_frutos");
 
-	nout << endl << "Carregando Vegetais Comestiveis" << endl;
+	simdunas_cat.debug() << endl << "Carregando Vegetais Comestiveis" << endl;
 	add_model("copaifera-flor", path + "flor_copaifera");
 	add_model("jatropha-flor", path + "flor_jatropha");
 	add_model("eugenia-flor", path + "eugenia_flor");
@@ -260,7 +260,7 @@ PT(AnimatedObjetoJogo) ModelRepository::get_animated_model(const string &name){
 /*! Obtém uma instância de um modelo do repositório */
 PT(ObjetoJogo) ModelRepository::get_model_instance(const string &name){
 	if(get_model(name) != NULL) return new ObjetoJogo(get_model(name));
-	else nout << "O modelo \"" << name << "\" não existe." << endl;
+	else simdunas_cat.debug() << "O modelo \"" << name << "\" não existe." << endl;
 
 	return NULL;
 }
@@ -269,7 +269,7 @@ PT(ObjetoJogo) ModelRepository::get_model_instance(const string &name){
 /*! Obtém uma instância animada de um modelo do repositório */
 PT(AnimatedObjetoJogo) ModelRepository::get_animated_model_instance(const string &name){
 	if(get_animated_model(name) != NULL) return new AnimatedObjetoJogo(get_animated_model(name));
-	else nout << "O modelo \"" << name << "\" não existe." << endl;
+	else simdunas_cat.debug() << "O modelo \"" << name << "\" não existe." << endl;
 
 	return NULL;
 }

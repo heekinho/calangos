@@ -569,7 +569,7 @@ void Vegetal::load_edible_vegetal_model(string name, int quant_flower, int quant
 		//sorteia posicao mais perto ou mais longe da arvore
 		radius_size = static_cast<int>(get_radius());
 		float radius = (rand()%radius_size) + 1;
-		//cout << "radius: " << radius << endl;
+		//simdunas_cat.debug() << "radius: " << radius << endl;
 		int variation = (rand() % 10) -5;
 		param+=variation;
 
@@ -683,7 +683,7 @@ string Vegetal::get_name_area(Area::AreaType area)
 		return "-high";
 		break;
 	default:
-		cout << "Erro em get_name_area() na classe Center" << endl;
+		simdunas_cat.debug() << "Erro em get_name_area() na classe Center" << endl;
 		exit(1);
 	}
 }
@@ -820,9 +820,9 @@ void Vegetal::build_forest(){
 				float x = fabs( generate_elements_buffer[i].get_x() - generate_elements_buffer[j].get_x() );
 				float y = fabs( generate_elements_buffer[i].get_y() - generate_elements_buffer[j].get_y() );
 				int radius = tree_distance + generate_elements_buffer[i].get_z() + generate_elements_buffer[j].get_z();
-				nout << "(" << x << "," << y << "," << radius << ") ";
+				simdunas_cat.debug() << "(" << x << "," << y << "," << radius << ") ";
 			}
-			nout << endl << endl;
+			simdunas_cat.debug() << endl << endl;
 		*/
 
 		//limpa buffer com com todas as posicoes de arvore
@@ -833,14 +833,14 @@ void Vegetal::build_forest(){
 //	Terrain* __terrain = World::get_world()->get_terrain();
 //	for(int i = 0; i < __terrain->MAX_SETORES; i++){
 //		Setor* __setor = __terrain->get_setor(i);
-//		nout << "SetorID: " << "(" << i << "): " << &(*__setor) << endl;
+//		simdunas_cat.debug() << "SetorID: " << "(" << i << "): " << &(*__setor) << endl;
 //		SectorItems<PT(Vegetal)>* __vegetals = __setor->vegetals();
-//		nout << "VegetablesID: " << &(*__vegetals) << endl;
-//		nout << "Quantidade de Vegetais: " << __vegetals->size() << endl;
+//		simdunas_cat.debug() << "VegetablesID: " << &(*__vegetals) << endl;
+//		simdunas_cat.debug() << "Quantidade de Vegetais: " << __vegetals->size() << endl;
 //	}
 
-	cout << "quantidade de centros gerados: " << centers.size() << endl;
-	cout << "quantidade de arvores geradas: " << quantidade_arv << endl;
+	simdunas_cat.debug() << "quantidade de centros gerados: " << centers.size() << endl;
+	simdunas_cat.debug() << "quantidade de arvores geradas: " << quantidade_arv << endl;
 	
 	// Adiciona um pouco de transparencia ao canal das sombras.
 	World::get_world()->get_terrain()->get_shadows()->add_transparency_to_shadows(0.5);

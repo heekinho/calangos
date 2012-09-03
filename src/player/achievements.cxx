@@ -57,7 +57,7 @@ void Achievements::inc_bites() {
 		clear_bites();
 		inc_lvl_senhor_mordida();
 	}
-	cout<<"incrementando o contador de mordidas"<<endl;
+	simdunas_cat.debug()<<"incrementando o contador de mordidas"<<endl;
 }
 
 void Achievements::inc_lvl_senhor_mordida() {
@@ -69,7 +69,7 @@ void Achievements::inc_lvl_senhor_mordida() {
 
 void Achievements::clear_bites() {
 	count_bites = 0;
-	cout<<"zerando o contador de mordidas"<<endl;
+	simdunas_cat.debug()<<"zerando o contador de mordidas"<<endl;
 }
 
 int Achievements::get_count_bites() {
@@ -402,7 +402,7 @@ void Achievements::inc_lvl_intocavel() {
 
 void Achievements::inc_guerreiro() {
 	count_guerreiro++;
-	cout<<"count_guerreiro = "<<count_guerreiro<<endl;
+	simdunas_cat.debug()<<"count_guerreiro = "<<count_guerreiro<<endl;
 
 	if (lvl_guerreiro == 0 && count_guerreiro == 2) {
 		count_guerreiro = 0;

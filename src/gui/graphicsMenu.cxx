@@ -1104,7 +1104,7 @@ void GraphicsMenu::init_graphics() {
 
 void GraphicsMenu::make_new_chart(History::HistoryItem item, PT(Graphics) &chart,
 		const string &title, const string &x_axis, const string &y_axis){
-	history->output(History::HI_player_hydration, title, cout);
+	history->output(History::HI_player_hydration, title, simdunas_cat.debug());
 
 	History::HList* time_list = history->get_list(History::HI_time);
 	History::HList* item_list = history->get_list(item);
@@ -1123,7 +1123,7 @@ void GraphicsMenu::make_new_chart(History::HistoryItem item, PT(Graphics) &chart
 //Constroi o grafico de temperatura interna X tempo.
 void GraphicsMenu::novo_grafico1_TempInterna() {
 //	print_queue_values(vector->getVectorTemperaturaLagarto(), "TEMPERATURA INTERNA");
-//	history->output(History::HI_player_hydration, "Temperatura interna", cout);
+//	history->output(History::HI_player_hydration, "Temperatura interna", simdunas_cat.debug());
 //	graphic = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorTemperaturaLagarto(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaLagarto()), vector->getSmallestElement(vector->getVectorTemperaturaLagarto()), true);
 //	graphic->set_Position_Graphic(0.4, 1.0);
 //	graphic->set_scale(0.86);
@@ -1138,7 +1138,7 @@ void GraphicsMenu::novo_grafico1_TempInterna() {
 //Constroi o grafico de hidratacao X tempo.
 void GraphicsMenu::novo_grafico2_Hidratacao() {
 //	print_queue_values(vector->getVectorHidratacaoLagarto(), "HIDRATAÇÃO");
-//	history->output(History::HI_player_hydration, "Hidratação", cout);
+//	history->output(History::HI_player_hydration, "Hidratação", simdunas_cat.debug());
 //	graphic2 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorHidratacaoLagarto(), 0, 0, 100, 0, true);
 //	graphic2->set_Position_Graphic(0.4, 1.0);
 //	graphic2->set_scale(0.86);
@@ -1153,7 +1153,7 @@ void GraphicsMenu::novo_grafico2_Hidratacao() {
 //Constroi o grafico de temperatura do ar X tempo.
 void GraphicsMenu::novo_grafico3_TempAr() {
 //	print_queue_values(vector->getVectorTemperaturaAr(), "TEMPERATURA DO AR");
-//	history->output(History::HI_player_hydration, "Temperatura do ar", cout);
+//	history->output(History::HI_player_hydration, "Temperatura do ar", simdunas_cat.debug());
 //	graphic3 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorTemperaturaAr(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaAr()), vector->getSmallestElement(vector->getVectorTemperaturaAr()), true);
 //	graphic3->set_Position_Graphic(0.4, 1.0);
 //	graphic3->set_scale(0.86);
@@ -1168,7 +1168,7 @@ void GraphicsMenu::novo_grafico3_TempAr() {
 //Constroi o grafico de umidade X tempo.
 void GraphicsMenu::novo_grafico4_Umidade() {
 //	print_queue_values(vector->getVectorUmidadeAmbiente(), "UMIDADE");
-//	history->output(History::HI_player_hydration, "Umidade", cout);
+//	history->output(History::HI_player_hydration, "Umidade", simdunas_cat.debug());
 //	graphic4 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorUmidadeAmbiente(), 0, 0, 100, 0, true);
 //	graphic4->set_Position_Graphic(0.4, 1.0);
 //	graphic4->set_scale(0.86);
@@ -1182,7 +1182,7 @@ void GraphicsMenu::novo_grafico4_Umidade() {
 //Constroi o grafico de temperatura do solo X tempo.
 void GraphicsMenu::novo_grafico5_TempSolo() {
 //	print_queue_values(vector->getVectorTemperaturaSolo(), "TEMPERATURA DO SOLO");
-//	history->output(History::HI_player_hydration, "Temperatura do solo", cout);
+//	history->output(History::HI_player_hydration, "Temperatura do solo", simdunas_cat.debug());
 //	graphic5 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorTemperaturaSolo(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaSolo()), vector->getSmallestElement(vector->getVectorTemperaturaSolo()), true);
 //	graphic5->set_Position_Graphic(0.4, 1.0);
 //	graphic5->set_scale(0.86);
@@ -1196,7 +1196,7 @@ void GraphicsMenu::novo_grafico5_TempSolo() {
 //Constroi o grafico de alimentacao X tempo.
 void GraphicsMenu::novo_grafico6_Alimentacao() {
 //	print_queue_values(vector->getVectorAlimentacao(), "ALIMENTAÇÃO");
-//	history->output(History::HI_player_hydration, "Alimentação", cout);
+//	history->output(History::HI_player_hydration, "Alimentação", simdunas_cat.debug());
 //	graphic6 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorAlimentacao(), 0, 0, vector->getLargestElement(vector->getVectorAlimentacao()), vector->getSmallestElement(vector->getVectorAlimentacao()), true);
 //	graphic6->set_Position_Graphic(0.4, 1.0);
 //	graphic6->set_scale(0.86);
@@ -1210,7 +1210,7 @@ void GraphicsMenu::novo_grafico6_Alimentacao() {
 //Constroi o grafico de energia X tempo.
 void GraphicsMenu::novo_grafico7_Energia() {
 //	print_queue_values(vector->getVectorEnergia(), "ENERGIA");
-//	history->output(History::HI_player_hydration, "Energia", cout);
+//	history->output(History::HI_player_hydration, "Energia", simdunas_cat.debug());
 //	graphic7 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorEnergia(), 0, 0, 100, 0, true);
 //	graphic7->set_Position_Graphic(0.4, 1.0);
 //	graphic7->set_scale(0.86);
@@ -1224,7 +1224,7 @@ void GraphicsMenu::novo_grafico7_Energia() {
 //Constroi o grafico de gasto energetico X tempo.
 void GraphicsMenu::novo_grafico8_GastoEnergetico() {
 //	print_queue_values(vector->getVectorGastoEnergeticoTotal(), "GASTO ENERGÉTICO");
-//	history->output(History::HI_player_hydration, "Gasto Energético", cout);
+//	history->output(History::HI_player_hydration, "Gasto Energético", simdunas_cat.debug());
 //	graphic8 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorGastoEnergeticoTotal(), 0, 0, vector->getLargestElement(vector->getVectorGastoEnergeticoTotal()), vector->getSmallestElement(vector->getVectorGastoEnergeticoTotal()), true);
 //	graphic8->set_Position_Graphic(0.4, 1.0);
 //	graphic8->set_scale(0.86);

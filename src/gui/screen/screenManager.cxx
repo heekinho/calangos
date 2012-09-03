@@ -18,7 +18,7 @@ ScreenManager::ScreenManager(){
 }
 
 ScreenManager::~ScreenManager(){
-	nout << "Deleting ScreenManager" << endl;
+	simdunas_cat.debug() << "Deleting ScreenManager" << endl;
 //	for(ScreenIterator it = screens.begin(); it != screens.end(); it++)
 //		(*it).second = NULL;
 //	screens.clear();

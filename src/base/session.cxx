@@ -53,61 +53,61 @@ Session::Session() {
 
 /*! Inicia os controles da sessao e tals... */
 void Session::init_session(int process_stage){
-	nout << stage_info[process_stage] << endl;
+	simdunas_cat.debug() << stage_info[process_stage] << endl;
 	switch (process_stage) {
 		case 0:
 			/* Sistema de Repositório de Modelos */
-//			nout << "Criando Repositorio de Modelos..." << endl;
+//			simdunas_cat.debug() << "Criando Repositorio de Modelos..." << endl;
 			ModelRepository::get_instance()->load_models();
 			break;
 		case 1:
-//			nout << "Criando Repositorio de Imagens..." << endl;
+//			simdunas_cat.debug() << "Criando Repositorio de Imagens..." << endl;
 			ImageRepository::get_instance();
 			break;
 		case 2:
-			//nout <<"Criando Repositodio de Sons..." << endl;
+			//simdunas_cat.debug() <<"Criando Repositodio de Sons..." << endl;
 			//audioRepository::get_instance();
 			// retirar essa etapa
 			break;
 		case 3:
-//			nout << "Criando Controle de Tempo..." << endl;
+//			simdunas_cat.debug() << "Criando Controle de Tempo..." << endl;
 			TimeControl::get_instance();
 			break;
 		case 4:
 			/* Cria um player padrão... */
-//			nout << "Carregando Jogador..." << endl;
+//			simdunas_cat.debug() << "Carregando Jogador..." << endl;
 			Player::load_player();
 			break;
 		case 5:
 			/* Cria um controle de tempo e um mundo padrão... */
-//			nout << "Criando Mundo..." << endl;
+//			simdunas_cat.debug() << "Criando Mundo..." << endl;
 			World::get_world();
 			World::load_enviroment();
 			break;
 		case 6:
 			/* inicializa clima e microclima */
-//			nout << "Inicializando Clima e Microclima..." << endl;
+//			simdunas_cat.debug() << "Inicializando Clima e Microclima..." << endl;
 			ClimaTempo::get_instance();
 			MicroClima::get_instance();
 			break;
 		case 7:
-//			nout << "Criando Controle do Jogador..." << endl;
+//			simdunas_cat.debug() << "Criando Controle do Jogador..." << endl;
 			PlayerControl::get_instance();
 			break;
 		case 8:
-//			nout << "Criando Controle de Camera..." << endl;
+//			simdunas_cat.debug() << "Criando Controle de Camera..." << endl;
 			CameraControl::get_instance();
 			break;
 		case 9:
 			/* Cria a Interface Grafica */
-//			nout << "Criando Interface..." << endl;
+//			simdunas_cat.debug() << "Criando Interface..." << endl;
 			GuiManager::get_instance();
 			GuiManager::get_instance()->hide_frameNode();
 			InGameScreenManager::get_instance();
 			break;
 		case 10:
 			/* Redistribui animais para setores próximos ao player */
-//			nout << "Distribuindo animais..." << endl;
+//			simdunas_cat.debug() << "Distribuindo animais..." << endl;
 			player->change_sector(player->get_setor());
 			finished_loading = true;
 			break;
@@ -139,7 +139,7 @@ void Session::run(){
 	/* Loop principal do programa */
 	Session::get_instance()->game_over = false;
 	//Menu::get_instance()->hide_tela_over();
-	nout << "Iniciando Jogo... Fase: " << get_level() << endl;
+	simdunas_cat.debug() << "Iniciando Jogo... Fase: " << get_level() << endl;
 
 #ifdef PSTATS
 	if (!PStatClient::is_connected())
@@ -159,7 +159,7 @@ void Session::run(){
 		CIntervalManager::get_global_ptr()->step();
 	}
 	if(Session::get_instance()->game_over){
-		cout<<" Reiniciando o Jogo..." << endl;
+		simdunas_cat.debug()<<" Reiniciando o Jogo..." << endl;
 		this->end_session();
 
 //		/* Colocando o evento para parar os vídeos das vinhetas
@@ -178,18 +178,18 @@ void Session::run(){
 void Session::pause_game(const Event*, void *data){
 	PauseScreen* pause_screen = (PauseScreen*) InGameScreenManager::get_instance()->get_pause_screen().p();
 	//InGameScreenManager::get_instance()->open_screen(pause_screen);
-	cout<<"evento chama pause"<<endl;
+	simdunas_cat.debug()<<"evento chama pause"<<endl;
 	if (!PauseScreen::is_opened) {
-		cout<<"tela de pause nao esta aberta!"<<endl;
+		simdunas_cat.debug()<<"tela de pause nao esta aberta!"<<endl;
 		pause_screen->show();
 	}
 	else if (PauseScreen::selected_video) {
-		cout<<"esta tocando video! Parando o video agora!"<<endl;
+		simdunas_cat.debug()<<"esta tocando video! Parando o video agora!"<<endl;
 		VideoManager::stop_video(NULL, NULL);
 		pause_screen->show();
 	}
 	else {
-		cout<<"tela de pause aberta, fechando a tela"<<endl;
+		simdunas_cat.debug()<<"tela de pause aberta, fechando a tela"<<endl;
 		pause_screen->show();
 	}
 }
@@ -199,13 +199,13 @@ void Session::pause_game(const Event*, void *data){
 void Session::player_death(Player::PlayerDeathType death){
 	/* Pequeno bugfix para não permitir múltiplas mortes */
 	if(_player_death_status != Player::PDT_NOT_DEAD) {
-		nout << "Já tá morto! Só é permitido morrer uma vez! lol" << endl;
+		simdunas_cat.debug() << "Já tá morto! Só é permitido morrer uma vez! lol" << endl;
 		return;
 	}
 
 	stop_animations();
 
-	//cout << endl << "Morreu!" << endl;
+	//simdunas_cat.debug() << endl << "Morreu!" << endl;
 //	this->causa_mortis = causa_mortis;
 	_player_death_status = death;
 
@@ -223,37 +223,37 @@ Player::PlayerDeathType Session::get_player_death_status() const {
 
 void Session::receive_answer(char *ans){
 	if(strcmp(ans, "r") == 0){
-		//cout << "Pressionao Botão de Restar" << endl;
+		//simdunas_cat.debug() << "Pressionao Botão de Restar" << endl;
 		Session::get_instance()->game_over = true;
 	}
 }
 
 void Session::end_session(){
-	nout << "Destruindo Tempo..." << endl;
+	simdunas_cat.debug() << "Destruindo Tempo..." << endl;
 	TimeControl::unload_timeControl();
 
-	nout << "Destruindo Interface..." << endl;
+	simdunas_cat.debug() << "Destruindo Interface..." << endl;
 	GuiManager::unload_gui();
 
-	nout << "Destruindo PlayerControl..." << endl;
+	simdunas_cat.debug() << "Destruindo PlayerControl..." << endl;
 	PlayerControl::unload_player_control();
 
-	nout << "Destruindo Microclima..." << endl;
+	simdunas_cat.debug() << "Destruindo Microclima..." << endl;
 	MicroClima::unload_microClima();
 
-	nout << "Destruindo ClimaTempo..." << endl;
+	simdunas_cat.debug() << "Destruindo ClimaTempo..." << endl;
 	ClimaTempo::unload_climaTempo();
 
-	nout << "Destruindo ambiente de jogo..." << endl;
+	simdunas_cat.debug() << "Destruindo ambiente de jogo..." << endl;
 	World::unload_enviroment();
 
-	nout << "Destruindo ""mundo""..." << endl;
+	simdunas_cat.debug() << "Destruindo ""mundo""..." << endl;
 	World::unload_world();
 
-	nout << "Destruindo Controle de Camera..." << endl;
+	simdunas_cat.debug() << "Destruindo Controle de Camera..." << endl;
 	CameraControl::unload();
 
-	nout << "Destruindo Player..." << endl;
+	simdunas_cat.debug() << "Destruindo Player..." << endl;
 	Player::unload_player();
 }
 

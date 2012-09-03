@@ -73,7 +73,7 @@ bool GuiManager::is_showing_arrow_predator = false;
 //Destrutor: Somente coloca os objetos graphics igual a null devido ao
 //fato da classe guiManager ser PT.
 GuiManager::~GuiManager(){
-	cout<< "\n inicio do destrutor... " << endl;
+	simdunas_cat.debug()<< "\n inicio do destrutor... " << endl;
 	graphics_menu->get_graphic() = NULL;
 	graphics_menu->get_graphic2() = NULL;
 	graphics_menu->get_graphic3() = NULL;
@@ -82,7 +82,7 @@ GuiManager::~GuiManager(){
 	graphics_menu->get_graphic6() = NULL;
 	graphics_menu->get_graphic7() = NULL;
 	graphics_menu->get_graphic8() = NULL;
-	cout<< "\n fim do destrutor..." << endl;
+	simdunas_cat.debug()<< "\n fim do destrutor..." << endl;
 }
 
 //Padrão singleton
@@ -198,7 +198,7 @@ GuiManager::GuiManager() {
 	event_handler->add_hook(graphics_menu->get_btn_gasto_energetico_v()->get_click_event(MouseButton::one()), click_event_vBotao8_grafico_GastoEnergetico,this);
 	event_handler->add_hook(menu_frame->get_within_event(), mouse_on_game_status_bar, this);
 	event_handler->add_hook(menu_frame->get_without_event(), mouse_off_game_status_bar, this);
-	//cout<<"teste4" << endl;
+	//simdunas_cat.debug()<<"teste4" << endl;
 }
 
 void GuiManager::mouse_on_game_status_bar(const Event*, void *data) {
@@ -324,20 +324,20 @@ void GuiManager::update_gui(const Event*, void *data) {
 		if (player->get_temperature() < player->get_max_temperature()) {
 			float passo = (17 - 2) / (player->get_max_temperature() - player->get_min_temperature());
 			game_status_bar->get_temperatura_scroll_bar().set_value((3 + ((player->get_temperature() - player->get_min_temperature()) * passo) - 2*passo));
-			//cout << (3 + ((player->get_temperature() - player->get_min_temperature()) * passo)) << endl;
+			//simdunas_cat.debug() << (3 + ((player->get_temperature() - player->get_min_temperature()) * passo)) << endl;
 			sprintf(_this->string_temperatura, "%.1f", player->get_temperature());
 			game_status_bar->get_label_temperatura()->set_text(_this->string_temperatura);
 		} else {
 			if (player->get_temperature() > player->get_min_temperature() && player->get_temperature() < player->get_max_temperature()) {
 				float passo = (17 - 2) / (player->get_max_temperature() - player->get_min_temperature());
 				game_status_bar->get_temperatura_scroll_bar().set_value(3 + ((player->get_temperature() - player->get_min_temperature()) * passo));
-				//cout << (3 + ((player->get_temperature() - player->get_min_temperature()) * passo)) << endl;
+				//simdunas_cat.debug() << (3 + ((player->get_temperature() - player->get_min_temperature()) * passo)) << endl;
 				sprintf(_this->string_temperatura, "%.1f", player->get_temperature());
 				game_status_bar->get_label_temperatura()->set_text(_this->string_temperatura);
 			} else {
 				float passo = (17 - 2) / (player->get_max_temperature() - player->get_min_temperature());
 				game_status_bar->get_temperatura_scroll_bar().set_value((3 + ((player->get_temperature() - player->get_min_temperature()) * passo) + 2 * passo));
-				//cout << (3 + ((player->get_temperature() - 15) * passo)) << endl;
+				//simdunas_cat.debug() << (3 + ((player->get_temperature() - 15) * passo)) << endl;
 				sprintf(_this->string_temperatura, "%.1f", player->get_temperature());
 				game_status_bar->get_label_temperatura()->set_text(_this->string_temperatura);
 			}
@@ -347,20 +347,20 @@ void GuiManager::update_gui(const Event*, void *data) {
 		if (player->get_environment_temp() < LIMITE_INFERIOR_TEMP_AMBIENTE) {
 			float passo = (17 - 2) / (LIMITE_SUPERIOR_TEMP_AMBIENTE - LIMITE_INFERIOR_TEMP_AMBIENTE);
 			game_status_bar->get_temperatura_ambiente_scroll_bar().set_value((3 + ((player->get_environment_temp() - LIMITE_INFERIOR_TEMP_AMBIENTE) * passo) - 2*passo));
-			//cout << (3 + ((player->get_environment_temp() - LIMITE_INFERIOR_TEMP_AMBIENTE) * passo)) << endl;
+			//simdunas_cat.debug() << (3 + ((player->get_environment_temp() - LIMITE_INFERIOR_TEMP_AMBIENTE) * passo)) << endl;
 			sprintf(_this->string_temp_amb, "%.1f", player->get_environment_temp());
 			game_status_bar->get_label_temperatura_ambiente()->set_text(_this->string_temp_amb);
 		} else {
 			if (player->get_environment_temp() > LIMITE_INFERIOR_TEMP_AMBIENTE && player->get_environment_temp() < LIMITE_SUPERIOR_TEMP_AMBIENTE) {
 				float passo = (17 - 2) / (LIMITE_SUPERIOR_TEMP_AMBIENTE - LIMITE_INFERIOR_TEMP_AMBIENTE);
 				game_status_bar->get_temperatura_ambiente_scroll_bar().set_value(3 + ((player->get_environment_temp() - LIMITE_INFERIOR_TEMP_AMBIENTE) * passo));
-				//cout << (3 + ((player->get_environment_temp() - LIMITE_INFERIOR_TEMP_AMBIENTE) * passo)) << endl;
+				//simdunas_cat.debug() << (3 + ((player->get_environment_temp() - LIMITE_INFERIOR_TEMP_AMBIENTE) * passo)) << endl;
 				sprintf(_this->string_temp_amb, "%.1f", player->get_environment_temp());
 				game_status_bar->get_label_temperatura_ambiente()->set_text(_this->string_temp_amb);
 			} else {
 				float passo = (17 - 2) / (LIMITE_SUPERIOR_TEMP_AMBIENTE - LIMITE_INFERIOR_TEMP_AMBIENTE);
 				game_status_bar->get_temperatura_ambiente_scroll_bar().set_value((3 + ((player->get_environment_temp() - LIMITE_INFERIOR_TEMP_AMBIENTE) * passo) + 2 * passo));
-				//cout << (3 + ((player->get_environment_temp() - LIMITE_INFERIOR_TEMP_AMBIENTE) * passo)) << endl;
+				//simdunas_cat.debug() << (3 + ((player->get_environment_temp() - LIMITE_INFERIOR_TEMP_AMBIENTE) * passo)) << endl;
 				sprintf(_this->string_temp_amb, "%.1f", player->get_environment_temp());
 				game_status_bar->get_label_temperatura_ambiente()->set_text(_this->string_temp_amb);
 			}
@@ -675,11 +675,11 @@ void GuiManager::print_queue_values(queue<double> qx, queue<double> qy) {
 			break;
 	}
 
-	cout<<"### IMPRIMINDO VALORES DO GRÁFICO DE "<<name_x<<" x "<<name_y<<" ###"<<endl;
+	simdunas_cat.debug()<<"### IMPRIMINDO VALORES DO GRÁFICO DE "<<name_x<<" x "<<name_y<<" ###"<<endl;
 	queue<double> qx2;
 	queue<double> qy2;
 	while (!qx.empty()) {
-		cout<<"("<<qx.front()<<","<<qy.front()<<")"<<endl;
+		simdunas_cat.debug()<<"("<<qx.front()<<","<<qy.front()<<")"<<endl;
 		qx2.push(qx.front());
 		qx.pop();
 		qy2.push(qy.front());
@@ -695,7 +695,7 @@ void GuiManager::print_queue_values(queue<double> qx, queue<double> qy) {
 		qy.push(qy2.front());
 		qy2.pop();
 	}
-	cout<<"###############################################"<<endl;
+	simdunas_cat.debug()<<"###############################################"<<endl;
 }
 
 /* Não foi projetado direito então duplica-se os códigos abaixo =/
@@ -780,7 +780,7 @@ void GuiManager::click_event_botao1_grafico_TempInterna(const Event*, void *data
 
 	if (grafico_tempo_ativo) {
 		if (_this->grafico1Baixo || _this->grafico1Cima) {
-			//cout << "entrou no IF da temperatura" << endl;
+			//simdunas_cat.debug() << "entrou no IF da temperatura" << endl;
 			_this->graphics_menu->get_graphic()->hide();
 			_this->graphics_menu->get_led_on_temp_interna().hide();
 			_this->graphics_menu->get_led_off_temp_interna().show();
@@ -793,7 +793,7 @@ void GuiManager::click_event_botao1_grafico_TempInterna(const Event*, void *data
 				_this->graficoPosicao1 = false;
 			}
 		} else {
-			//cout << "entrou no ELSE da temperatura" << endl;
+			//simdunas_cat.debug() << "entrou no ELSE da temperatura" << endl;
 			if (!_this->graficoPosicao1) {
 				_this->graphics_menu->novo_grafico1_TempInterna();
 				_this->grafico1Cima = true;
@@ -848,7 +848,7 @@ void GuiManager::click_event_botao2_grafico_Hidratacao(const Event*, void* data)
 
 	if (grafico_tempo_ativo) {
 		if (_this->grafico2Baixo || _this->grafico2Cima) {
-			//cout << "entrou no IF da temperatura" << endl;
+			//simdunas_cat.debug() << "entrou no IF da temperatura" << endl;
 			_this->graphics_menu->get_graphic2()->hide();
 			_this->graphics_menu->get_led_on_hidratacao().hide();
 			_this->graphics_menu->get_led_off_hidratacao().show();
@@ -861,7 +861,7 @@ void GuiManager::click_event_botao2_grafico_Hidratacao(const Event*, void* data)
 				_this->graficoPosicao1 = false;
 			}
 		} else {
-			//cout << "entrou no ELSE da temperatura" << endl;
+			//simdunas_cat.debug() << "entrou no ELSE da temperatura" << endl;
 			if (!_this->graficoPosicao1) {
 				_this->graphics_menu->novo_grafico2_Hidratacao();
 				_this->grafico2Cima = true;
@@ -915,7 +915,7 @@ void GuiManager::click_event_botao3_grafico_TempAr(const Event*, void* data) {
 
 	if (grafico_tempo_ativo) {
 		if (_this->grafico3Baixo || _this->grafico3Cima) {
-			//cout << "entrou no IF da temperatura_ambiente" << endl;
+			//simdunas_cat.debug() << "entrou no IF da temperatura_ambiente" << endl;
 			_this->graphics_menu->get_graphic3()->hide();
 			_this->graphics_menu->get_led_on_temp_ar().hide();
 			_this->graphics_menu->get_led_off_temp_ar().show();
@@ -928,7 +928,7 @@ void GuiManager::click_event_botao3_grafico_TempAr(const Event*, void* data) {
 				_this->graficoPosicao1 = false;
 			}
 		} else {
-			//cout << "entrou no ELSE da temperatura_ambiente" << endl;
+			//simdunas_cat.debug() << "entrou no ELSE da temperatura_ambiente" << endl;
 			if (!_this->graficoPosicao1) {
 				_this->graphics_menu->novo_grafico3_TempAr();
 				_this->grafico3Cima = true;
@@ -984,7 +984,7 @@ void GuiManager::click_event_botao4_grafico_Umidade(const Event*, void* data) {
 		if (_this->grafico4Baixo || _this->grafico4Cima) {
 			_this->graphics_menu->get_led_on_umidade().hide();
 			_this->graphics_menu->get_led_off_umidade().show();
-			//cout << "entrou no IF da umidade" << endl;
+			//simdunas_cat.debug() << "entrou no IF da umidade" << endl;
 			_this->graphics_menu->get_graphic4()->hide();
 			if (_this->grafico4Baixo) {
 				_this->grafico4Baixo = false;
@@ -995,7 +995,7 @@ void GuiManager::click_event_botao4_grafico_Umidade(const Event*, void* data) {
 				_this->graficoPosicao1 = false;
 			}
 		} else {
-			//cout << "entrou no ELSE da umidade" << endl;
+			//simdunas_cat.debug() << "entrou no ELSE da umidade" << endl;
 			if (!_this->graficoPosicao1) {
 				_this->graphics_menu->novo_grafico4_Umidade();
 				_this->grafico4Cima = true;
@@ -1049,7 +1049,7 @@ void GuiManager::click_event_botao5_grafico_TempSolo(const Event*, void* data) {
 
 	if (grafico_tempo_ativo) {
 		if (_this->grafico5Baixo || _this->grafico5Cima) {
-			//cout << "entrou no IF da temperatura" << endl;
+			//simdunas_cat.debug() << "entrou no IF da temperatura" << endl;
 			_this->graphics_menu->get_graphic5()->hide();
 			_this->graphics_menu->get_led_on_temp_solo().hide();
 			_this->graphics_menu->get_led_off_temp_solo().show();
@@ -1062,7 +1062,7 @@ void GuiManager::click_event_botao5_grafico_TempSolo(const Event*, void* data) {
 				_this->graficoPosicao1 = false;
 			}
 		} else {
-			//cout << "entrou no ELSE da temperatura" << endl;
+			//simdunas_cat.debug() << "entrou no ELSE da temperatura" << endl;
 			if (!_this->graficoPosicao1) {
 				_this->graphics_menu->novo_grafico5_TempSolo();
 				_this->grafico5Cima = true;
@@ -1181,7 +1181,7 @@ void GuiManager::click_event_botao7_grafico_Energia(const Event*, void* data) {
 
 	if (grafico_tempo_ativo) {
 		if (_this->grafico7Baixo || _this->grafico7Cima) {
-			//cout << "entrou no IF da temperatura_ambiente" << endl;
+			//simdunas_cat.debug() << "entrou no IF da temperatura_ambiente" << endl;
 			_this->graphics_menu->get_graphic7()->hide();
 			_this->graphics_menu->get_led_on_energia().hide();
 			_this->graphics_menu->get_led_off_energia().show();
@@ -1194,7 +1194,7 @@ void GuiManager::click_event_botao7_grafico_Energia(const Event*, void* data) {
 				_this->graficoPosicao1 = false;
 			}
 		} else {
-			//cout << "entrou no ELSE da temperatura_ambiente" << endl;
+			//simdunas_cat.debug() << "entrou no ELSE da temperatura_ambiente" << endl;
 			if (!_this->graficoPosicao1) {
 				_this->graphics_menu->novo_grafico7_Energia();
 				_this->grafico7Cima = true;
@@ -1250,7 +1250,7 @@ void GuiManager::click_event_botao8_grafico_GastoEnergetico(const Event*, void* 
 		if (_this->grafico8Baixo || _this->grafico8Cima) {
 			_this->graphics_menu->get_led_on_gasto_energetico().hide();
 			_this->graphics_menu->get_led_off_gasto_energetico().show();
-			//cout << "entrou no IF da umidade" << endl;
+			//simdunas_cat.debug() << "entrou no IF da umidade" << endl;
 			_this->graphics_menu->get_graphic8()->hide();
 			if (_this->grafico8Baixo) {
 				_this->grafico8Baixo = false;
@@ -1261,7 +1261,7 @@ void GuiManager::click_event_botao8_grafico_GastoEnergetico(const Event*, void* 
 				_this->graficoPosicao1 = false;
 			}
 		} else {
-			//cout << "entrou no ELSE da umidade" << endl;
+			//simdunas_cat.debug() << "entrou no ELSE da umidade" << endl;
 			if (!_this->graficoPosicao1) {
 				_this->graphics_menu->novo_grafico8_GastoEnergetico();
 				_this->grafico8Cima = true;
@@ -1636,7 +1636,7 @@ void GuiManager::show_predator_location(void* data) {
 	right.normalize();
 	player2obj.normalize();
 	float angle = right.angle_deg(player2obj);
-	//cout<<"angulo = "<<angle<<endl;
+	//simdunas_cat.debug()<<"angulo = "<<angle<<endl;
 	LPoint3f pos_player = player->get_pos(player->node());
 	LPoint3f pos_predador = pursuer->get_pos(player->node());
 

@@ -78,7 +78,7 @@ void GuiLayer::configure_marker_nodes(){
 
 /*! Evento recebido ao ocorrer eventos de janela */
 void GuiLayer::window_event(){
-	nout << "Window Event: Atualizando GuiLayer" << endl;
+	//nout << "Window Event: Atualizando GuiLayer" << endl;
 	adjust_aspect_ratio();
 
 	/* Atualiza o gui2d e seus marcadores*/

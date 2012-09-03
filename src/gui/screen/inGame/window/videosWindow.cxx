@@ -50,7 +50,7 @@ VideosWindow::VideosWindow(NodePath parent, PT(ScreenManager) manager, float wid
 VideosWindow::~VideosWindow() {}
 
 void VideosWindow::open_video(const string &video_path){
-	nout << "VideosWindows::open_video" << endl;
+	simdunas_cat.debug() << "VideosWindows::open_video" << endl;
 
 	PauseScreen::selected_video = true;
 	InGameScreenManager::get_instance()->get_pause_screen()->hide();

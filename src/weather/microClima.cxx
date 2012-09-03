@@ -54,7 +54,7 @@ void MicroClima::event_player_hour_move(const Event*, void *data){
 	if((World::get_world()->get_terrain()->get_shadows()->is_in_shadow(*player, 0.1)) && (TimeControl::get_instance()->get_hora() > 6) && (TimeControl::get_instance()->get_hora() < 20)){
 		
 		#if(DEBUG_MCLIMA)
-			cout << "\n Atualizando Microclima" << endl;
+			simdunas_cat.debug() << "\n Atualizando Microclima" << endl;
 		#endif
 
 		/*Fatores calculados para uma redução razoável e válida dos valores das variáveis ambientais, em relação
@@ -100,10 +100,10 @@ void MicroClima::event_player_hour_move(const Event*, void *data){
 			fprintf(arquivo, "%f\n", temTocaControl);
 			fclose(arquivo);
 		}*/
-		cout << "\n Temperatura do ar da microregiao: " << MicroClima::get_instance()->temp_ar_sector << endl;
-		cout << " Temperatura do solo da microregiao: " << MicroClima::get_instance()->temp_solo_sector << endl;
-		cout << " Temperatura da toca da microregiao: " << MicroClima::get_instance()->temp_toca_sector << endl;
-		cout << " Umidade relativa do ar: " << MicroClima::get_instance()->umidade_relativa_sector << endl;
+		simdunas_cat.debug() << "\n Temperatura do ar da microregiao: " << MicroClima::get_instance()->temp_ar_sector << endl;
+		simdunas_cat.debug() << " Temperatura do solo da microregiao: " << MicroClima::get_instance()->temp_solo_sector << endl;
+		simdunas_cat.debug() << " Temperatura da toca da microregiao: " << MicroClima::get_instance()->temp_toca_sector << endl;
+		simdunas_cat.debug() << " Umidade relativa do ar: " << MicroClima::get_instance()->umidade_relativa_sector << endl;
 	#endif
 }
 
@@ -133,7 +133,7 @@ void MicroClima::unload_microClima(){
 PT(MicroClima) MicroClima::get_instance(){
 	if(!instanceFlag){
 		#if(DEBUG_MCLIMA)
-			cout << "\n single mclima\n " << endl;
+			simdunas_cat.debug() << "\n single mclima\n " << endl;
 		#endif
 		single = new MicroClima();
         instanceFlag = true;

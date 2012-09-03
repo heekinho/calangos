@@ -52,7 +52,7 @@ void FlyingPredatorCamera::update(){
 
 /*! Por enquanto não se desabilita esta camera. */
 bool FlyingPredatorCamera::deactivate(){
-	nout << "Não implementado! Desabilitando camera" << endl;
+	simdunas_cat.debug() << "Não implementado! Desabilitando camera" << endl;
 	return false;
 }
 

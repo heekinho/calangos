@@ -58,19 +58,19 @@ void OptionsScreen::unload() {
 
 /*! Evento de click no botão "Video". Abre a tela de configurações de vídeo. */
 void OptionsScreen::video_action(){
-	nout << "Tela de video..." << endl;
+	simdunas_cat.debug() << "Tela de video..." << endl;
 	// ainda não implementada
 }
 
 /*! Evento de click no botão "Audio". Abre a tela de configurações de áudio. */
 void OptionsScreen::audio_action(){
-	nout << "Tela de audio..." << endl;
+	simdunas_cat.debug() << "Tela de audio..." << endl;
 	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_audio_options_screen());
 }
 
 /*! Evento de click no botão "Controles". Abre a tela de configuração de controles */
 void OptionsScreen::controles_action(){
-	nout << "Tela de controles..." << endl;
+	simdunas_cat.debug() << "Tela de controles..." << endl;
 	// ainda não implementada
 }
 

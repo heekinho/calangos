@@ -58,7 +58,7 @@ TimeControl::TimeControl() {
 	p_handler = EventHandler::get_global_event_handler();
 
 	#if(DEBUG_TCONTROL)
-		cout << "hour = " << hour << " day = " << day << " month = " << month << " year = "<< year << endl;
+		simdunas_cat.debug() << "hour = " << hour << " day = " << day << " month = " << month << " year = "<< year << endl;
 	#endif
 	// Adiciona os "listeners"
 	p_handler->add_hook(EV_pass_frame_gui_options, event_pframe_gui_options, this);
@@ -86,7 +86,7 @@ void TimeControl::event_pframe(const Event *, void *data){
 	PT(TimeControl) time = (PT(TimeControl))(TimeControl*)data;
 
 	
-	//cout << "\n passed an frame"  << "\nelapsed_time: " << time->especial_count << endl;
+	//simdunas_cat.debug() << "\n passed an frame"  << "\nelapsed_time: " << time->especial_count << endl;
 
 	/* Como diria o Angra: "Tempo que passou, não vai mais voltar, tudo que se foi..."
 	 * Ou seja: Os seguintes hooks podem ser excluídos pois o tempo não volta... :P */
@@ -103,46 +103,46 @@ void TimeControl::event_psegundo_real(const Event *evt, void *data){
 	PT(TimeControl) time = (PT(TimeControl))(TimeControl*)data;
 
 #if(DEBUG_TCONTROL)
-		cout << "\n passed an real second" << endl;
+		simdunas_cat.debug() << "\n passed an real second" << endl;
 	#endif
 	//A cada segundo verifica se houve colisão dos Lagartos NPCs com os demais objetos
 	
                 
-	//cout << "\n PASSOU 1 SEGUNDO" << endl;
+	//simdunas_cat.debug() << "\n PASSOU 1 SEGUNDO" << endl;
 }
 
 void TimeControl::event_pminute(const Event *, void *data){
 	PT(TimeControl) time = (PT(TimeControl))(TimeControl*)data;
 	#if(DEBUG_TCONTROL)
-		cout << "\n passed an minute"  << time->get_minuto() << endl;
+		simdunas_cat.debug() << "\n passed an minute"  << time->get_minuto() << endl;
 	#endif
 }
 
 void TimeControl::event_phour(const Event *, void *data){
 	PT(TimeControl) time = (PT(TimeControl))(TimeControl*)data;
 	#if(DEBUG_TCONTROL)
-		cout << "\n passed an hour = " << time->get_hora() << endl;
+		simdunas_cat.debug() << "\n passed an hour = " << time->get_hora() << endl;
 	#endif
 }
 
 void TimeControl::event_pday(const Event *, void *data){
 	PT(TimeControl) time = (PT(TimeControl))(TimeControl*)data;
 	#if(DEBUG_TCONTROL)
-		cout << "\n passed a day = " << time->get_dia() << endl;
+		simdunas_cat.debug() << "\n passed a day = " << time->get_dia() << endl;
 	#endif
 }
 
 void TimeControl::event_pmonth(const Event *, void *data){
 	PT(TimeControl) time = (PT(TimeControl))(TimeControl*)data;
 	#if(DEBUG_TCONTROL)
-		cout << "\n passed a month = " << time->get_mes() << endl;
+		simdunas_cat.debug() << "\n passed a month = " << time->get_mes() << endl;
 	#endif
 }
 
 void TimeControl::event_pyear(const Event *, void *data){
 	PT(TimeControl) time = (PT(TimeControl))(TimeControl*)data;
 	#if(DEBUG_TCONTROL)
-		cout << "\n passed an year = " << time->get_ano() << endl;
+		simdunas_cat.debug() << "\n passed an year = " << time->get_ano() << endl;
 	#endif
 }
 
@@ -396,7 +396,7 @@ float TimeControl::get_vminute_count(){
 PT(TimeControl) TimeControl::get_instance(){
 	if(!instanceFlag) {
 		#if(DEBUG_TCONTROL)
-			cout << "\n single tcontrol\n " << endl;
+			simdunas_cat.debug() << "\n single tcontrol\n " << endl;
 		#endif
 		single = new TimeControl();
         instanceFlag = true;
@@ -405,7 +405,7 @@ PT(TimeControl) TimeControl::get_instance(){
 }
 
 void TimeControl::unload_timeControl(){
-	cout << "Unload time control" << endl;
+	simdunas_cat.debug() << "Unload time control" << endl;
 	
 	//Retiranda os hooks adicionados
 	TimeControl::get_instance()->p_handler->remove_hooks_with(TimeControl::get_instance());

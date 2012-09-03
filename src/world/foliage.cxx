@@ -46,8 +46,8 @@ void Foliage::add_foliage(string path, NodePath vegetal){
 		 {
 		 NodePath nodePath = nodePathCollection[i];
 		 PT(GeomNode) geomNode = DCAST(GeomNode, nodePath.node());
-		 // cout<< "qtd de geoms"<< endl;
-		 // cout<< geomNode->get_num_geoms()<< endl;
+		 // simdunas_cat.debug()<< "qtd de geoms"<< endl;
+		 // simdunas_cat.debug()<< geomNode->get_num_geoms()<< endl;
 		 PT(GeomVertexData)  vdata2 = geomNode->modify_geom(i)->modify_vertex_data();
 
 		 GeomVertexWriter vertexWriter2 = GeomVertexWriter(vdata2, "vertex");
@@ -57,8 +57,8 @@ void Foliage::add_foliage(string path, NodePath vegetal){
 		 {
 		 const LVecBase3f& v = vertex2.get_data3f();
 		 vertexWriter2.set_data3f(v.get_x() , v.get_y() , 0); //faz modificação
-		 //   cout << "Coordenadas Modificadas" << endl;
-		 // cout << pos_z <<  ", "  << ", "  <<  z_tree  << ", "  << (pos_z - z_tree) << endl;
+		 //   simdunas_cat.debug() << "Coordenadas Modificadas" << endl;
+		 // simdunas_cat.debug() << pos_z <<  ", "  << ", "  <<  z_tree  << ", "  << (pos_z - z_tree) << endl;
 		 }
 		 }
 
@@ -130,8 +130,8 @@ void Foliage::add_foliage(string path, NodePath vegetal){
 
 			//writer_color.set_data4f(0, 0, 1, 1);
 
-			//   cout << "Coordenadas Modificadas" << endl;
-			// cout << pos_z <<  ", "  << ", "  <<  z_tree  << ", "  << (pos_z - z_tree) << endl;
+			//   simdunas_cat.debug() << "Coordenadas Modificadas" << endl;
+			// simdunas_cat.debug() << pos_z <<  ", "  << ", "  <<  z_tree  << ", "  << (pos_z - z_tree) << endl;
 
 		}
 	}

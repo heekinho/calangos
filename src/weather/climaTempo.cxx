@@ -46,7 +46,7 @@ void ClimaTempo::event_phour_temp(const Event*, void *data){
 
 	ClimaTempo::get_instance()->ambient_control(TimeControl::get_instance()->get_hora(), TimeControl::get_instance()->get_mes());
 	#if(DEBUG_CTEMPO)
-		cout << "\n Hora: " << TimeControl::get_instance()->get_hora() << "\n Temperatura do ar: " << ClimaTempo::get_instance()->tempArControl << "\n Temperatura do solo: " << ClimaTempo::get_instance()->tempSoloControl << "\n Temperatura das tocas: " << ClimaTempo::get_instance()->temTocaControl << "\n Chuva: " << ClimaTempo::get_instance()->qtChuva << endl;
+		simdunas_cat.debug() << "\n Hora: " << TimeControl::get_instance()->get_hora() << "\n Temperatura do ar: " << ClimaTempo::get_instance()->tempArControl << "\n Temperatura do solo: " << ClimaTempo::get_instance()->tempSoloControl << "\n Temperatura das tocas: " << ClimaTempo::get_instance()->temTocaControl << "\n Chuva: " << ClimaTempo::get_instance()->qtChuva << endl;
 	#endif
 }
 
@@ -269,7 +269,7 @@ void ClimaTempo::ambient_control(int hour, int month){
 	}
 
 	#if(DEBUG_CTEMPO)
-		cout << "\n TMaxToday = " <<  this->tmaxToday << "\n TMinToday = " << this->tminToday << "\n TMinNext = " << this->nextMin << "\n TMinPrev = " << this->minPrev << "\n VariationToday = " << this->variationToday << endl;
+		simdunas_cat.debug() << "\n TMaxToday = " <<  this->tmaxToday << "\n TMinToday = " << this->tminToday << "\n TMinNext = " << this->nextMin << "\n TMinPrev = " << this->minPrev << "\n VariationToday = " << this->variationToday << endl;
 	#endif
 
 	//Atualiza os valores das variáveis ambientais
@@ -363,7 +363,7 @@ void ClimaTempo::unload_climaTempo(){
 PT(ClimaTempo) ClimaTempo::get_instance(){
 	if(!instanceFlag) {
 		#if(DEBUG_CTEMPO)
-			cout << "\n single ctempo\n " << endl;
+			simdunas_cat.debug() << "\n single ctempo\n " << endl;
 		#endif
 		single = new ClimaTempo();
         instanceFlag = true;

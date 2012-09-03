@@ -17,9 +17,9 @@
 
 #define VERIFY_REFERENCES(member_name) \
 	if(member_name.is_null()) \
-		cout << #member_name << " is null!" << endl; \
+		simdunas_cat.debug() << #member_name << " is null!" << endl; \
 	else \
-		cout << "refcount of " << #member_name << " is: " << member_name->get_ref_count() << endl;
+		simdunas_cat.debug() << "refcount of " << #member_name << " is: " << member_name->get_ref_count() << endl;
 
 
 GameSession::GameSession() {
@@ -32,6 +32,6 @@ GameSession::~GameSession() {
 }
 
 void GameSession::verify_references(){
-//	cout << "_debug_tools" << _debug_tools->get_ref_count()is_null() << endl;
+//	simdunas_cat.debug() << "_debug_tools" << _debug_tools->get_ref_count()is_null() << endl;
 	VERIFY_REFERENCES(_debug_tools);
 }

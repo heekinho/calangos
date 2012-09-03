@@ -34,43 +34,43 @@ void World::unload_world(){
 /*! Carrega o ambiente (terreno, rio, vegetação etc) */
 void World::load_enviroment(){
 	/* Carrega limites do terreno */
-	nout << "Carregando Limites do Terreno..." << endl;
+	simdunas_cat.debug() << "Carregando Limites do Terreno..." << endl;
 	World::get_world()->get_terrain()->load_terrain_limit();
 
-	nout << "Carregando Rio..." << endl;
+	simdunas_cat.debug() << "Carregando Rio..." << endl;
 	/* Carrega o rio */
 	World::get_world()->get_terrain()->load_water();
 
 	/* Carrega vegetais. */
-	nout << "Distribuindo Vegetacao..." << endl;
+	simdunas_cat.debug() << "Distribuindo Vegetacao..." << endl;
 	Vegetal::load_vegetals();
-	nout << "Juntando vegetação..." << endl;
+	simdunas_cat.debug() << "Juntando vegetação..." << endl;
 	/* NOTA: Não pode fazer isso pq da mudança de estação */
 //	Vegetal::flatten_vegetals();
-//	nout << endl;
+//	simdunas_cat.debug() << endl;
 
 	/* Carrega os NPCs. */
-	nout << "Distribuindo Animais..." << endl;
+	simdunas_cat.debug() << "Distribuindo Animais..." << endl;
 	Animal::load_animals();
-	nout << endl;
+	simdunas_cat.debug() << endl;
 
 	/* Carrega tocas */
-	nout << "Carregando Tocas..." << endl;
+	simdunas_cat.debug() << "Carregando Tocas..." << endl;
 	World::get_world()->get_terrain()->load_tocas();
 
 }
 
 /*! Descarrega o ambiente */
 void World::unload_enviroment(){
-	nout << "Descarregando Animais..." << endl;
+	simdunas_cat.debug() << "Descarregando Animais..." << endl;
 	Animal::unload_animals();
-	nout << endl;
+	simdunas_cat.debug() << endl;
 
-	nout << "Descarregando Vegetação..." << endl;
+	simdunas_cat.debug() << "Descarregando Vegetação..." << endl;
 	Vegetal::unload_vegetals();
-	nout << endl;
+	simdunas_cat.debug() << endl;
 
-	nout << "Descarregando Toca e Terreno..." << endl;
+	simdunas_cat.debug() << "Descarregando Toca e Terreno..." << endl;
 	World::get_world()->get_terrain()->unload_terrain();
 }
 

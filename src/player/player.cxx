@@ -54,7 +54,7 @@ Player::Player() : AnimatedObjetoJogo(ModelRepository::get_instance()->get_anima
 	event_handler->add_hook(TimeControl::EV_pass_month, event_pmonth, this);
 
 	if(ModelRepository::get_instance()->get_lagarto_personalizado()){
-		nout << "teste" << endl;
+		simdunas_cat.debug() << "teste" << endl;
 		PT(TextureStage) ts = find_all_texture_stages().get_texture_stage(0);
 		ts->set_mode(TextureStage::M_modulate);
 		set_texture(ts, ModelRepository::get_instance()->get_lagarto_personalizado(), 10);
@@ -89,11 +89,11 @@ Player::~Player() {
 void Player::eat(Edible* food, int type){
 	achievements->check_edible_specie(food->get_specie_value());
 
-	nout << "type: " << type << " : ";
-	nout << "ant: " << properties.ant_diet << " : " << properties.plant_diet << " : " << properties.general_diet << endl;
+	simdunas_cat.debug() << "type: " << type << " : ";
+	simdunas_cat.debug() << "ant: " << properties.ant_diet << " : " << properties.plant_diet << " : " << properties.general_diet << endl;
 
 	float nutritional_value = food->get_nutritional_value();
-	nout << "Valor nutricional antes da modulação: " << nutritional_value << endl;
+	simdunas_cat.debug() << "Valor nutricional antes da modulação: " << nutritional_value << endl;
 
 	if(Session::get_instance()->get_level() > 1){
 		if(type == 0) nutritional_value = food->get_nutritional_value() * properties.ant_diet * 0.01;
@@ -107,7 +107,7 @@ void Player::eat(Edible* food, int type){
 
 	nutritional_value = nutritional_value * 3;
 
-	nout << "Valor nutricional depois da modulação: " << nutritional_value << endl;
+	simdunas_cat.debug() << "Valor nutricional depois da modulação: " << nutritional_value << endl;
 	add_food_energy(nutritional_value);
 	add_food_hydration(food->get_hydration_value());
 }
@@ -229,7 +229,7 @@ bool Player::was_captured() const {
 void Player::be_captured(){
 	_captured = true;
 	get_anim_control()->stop_all();
-	nout << "Player foi capturado" << endl;
+	simdunas_cat.debug() << "Player foi capturado" << endl;
 }
 
 /*! Verifica se o player encontra-se em uma toca */
@@ -332,7 +332,7 @@ bool Player::is_buried() const {
 void Player::set_buried(bool is_buried){
 	if(!_bury_ability && is_buried){
 		/* Informa que o player não possui a capacidade de se enterrar */
-		nout << "Player não possui capacidade de se enterrar!" << endl;
+		simdunas_cat.debug() << "Player não possui capacidade de se enterrar!" << endl;
 	}
 	else if(_bury_ability && is_buried && !_is_buried){
 		/* O player pode ser enterrado. Define o player como tal */
@@ -432,7 +432,7 @@ bool Player::is_under_vegetal(){
 		/*Caso a verificação já tenha ocorrido em um frame, não ocorrerá novamente no mesmo frame,
 		 *o método retorna o que já foi calculado */
 
-		//cout<<"Calculado no mesmo frame"<<endl;
+		//simdunas_cat.debug()<<"Calculado no mesmo frame"<<endl;
 		return player_is_under_vegetal;
 	}
 	flag_verify_under_vegetal = true;
@@ -447,7 +447,7 @@ bool Player::is_under_vegetal(){
 		PT(Vegetal) vegetal = *it;
 		LVector3f player_to_vegetal = player->get_pos() - vegetal->get_pos();
 		if (player_to_vegetal.length_squared() < Predator::dist_player_hide){
-			//					cout<<"Vegetal no mesmo setor"<<endl;
+			//					simdunas_cat.debug()<<"Vegetal no mesmo setor"<<endl;
 			player_is_under_vegetal =true;
 			return player_is_under_vegetal;
 		}

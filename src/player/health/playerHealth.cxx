@@ -7,8 +7,9 @@
 #include "playerHealth.h"
 #include "load_prc_file.h"
 
+#include "simdunas.h"
+
 PlayerHealth::PlayerHealth() {
-	nout << "Construindo PlayerHealth" << endl;
 
 }
 
@@ -38,6 +39,6 @@ void PlayerHealth::load_health(const Filename &path){
 	energy_cost_high_temperature = ConfigVariableDouble(prefix + "energy-cost-high-temperature", 0.08);
 	thermal_equilibrium_speed = ConfigVariableDouble(prefix + "thermal-equilibrium-speed", 0.1);
 
-	config_page->write(nout);
+	config_page->write(simdunas_cat.debug());
 	unload_prc_file(config_page);
 }

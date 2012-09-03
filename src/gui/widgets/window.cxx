@@ -52,7 +52,7 @@ Window::Window(NodePath parent, float width, float height, string title, float p
 }
 
 Window::~Window() {
-	cout<<"Destruindo a window"<<endl;
+	simdunas_cat.debug()<<"Destruindo a window"<<endl;
 	frame = NULL;
 	header_frame = NULL;
 	header = NULL;
@@ -64,7 +64,7 @@ Window::~Window() {
 }
 
 void Window::close_action() {
-	cout<<"fechando a janela!"<<endl;
+	simdunas_cat.debug()<<"fechando a janela!"<<endl;
 	frame = NULL;
 	header_frame = NULL;
 	header = NULL;

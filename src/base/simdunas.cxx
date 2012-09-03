@@ -88,7 +88,7 @@ int main(int argc, char *argv[]) {
 		string video_path = "models/videos/vinheta_opcao_1_mpeg4.avi";
 		Simdunas::get_framework()->define_key("escape", "stop_video", VideoManager::stop_video, VideoManager::get_instance());
 		VideoManager::get_instance()->play_openning(video_path);
-		nout << "Starting Video" << endl;
+		simdunas_cat.debug() << "Starting Video" << endl;
 
 		while (VideoManager::get_instance()->is_playing()) {
 			Simdunas::get_framework()->do_frame(current_thread);
@@ -99,8 +99,8 @@ int main(int argc, char *argv[]) {
 
 //		/* Descarrega o manager */
 //		initial_manager->unload();
-//		nout << "Video Screen Ref Count: " << video_screen->get_ref_count() << endl;
-//		nout << "Initial Manager: " << initial_manager->get_ref_count() << endl;
+//		simdunas_cat.debug() << "Video Screen Ref Count: " << video_screen->get_ref_count() << endl;
+//		simdunas_cat.debug() << "Initial Manager: " << initial_manager->get_ref_count() << endl;
 //		video_screen = NULL;
 //		initial_manager = NULL;
 
@@ -111,8 +111,8 @@ int main(int argc, char *argv[]) {
 //	//	game_session->verify_references();
 //	//	game_session->_debug_tools = debug;
 //	//	game_session->verify_references();
-//	//	cout.flush();
-//	//	nout << "Closing..." << endl;
+//	//	simdunas_cat.debug().flush();
+//	//	simdunas_cat.debug() << "Closing..." << endl;
 //	//	return 0;
 //
 //		/* Pode criar a sessão. A inicialização é depois. */
@@ -145,7 +145,7 @@ int main(int argc, char *argv[]) {
 		LoadingScreen* loading_screen = (LoadingScreen*) menu_manager->get_loading_screen().p();
 		loading_screen->loading_process();
 	} else {
-		nout << "Nao foi possivel carregar a janela" << endl;
+		simdunas_cat.debug() << "Nao foi possivel carregar a janela" << endl;
 	}
 
 	Simdunas::get_framework()->close_framework();
