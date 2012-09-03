@@ -99,6 +99,7 @@ void EnergySimulator::add_food_energy(float food_energy){
 
 	/* A energia é consumida instantaneamente, o buffer é só pra o vetor */
 	_energy += food_energy;
+	if(_energy > 100){_energy = 100;}
 }
 
 /*! Retorna o consumo de alimentação no último ciclo de simulação */
