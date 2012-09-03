@@ -4,8 +4,6 @@
 #include "objetoJogo.h"
 #include "edibleVegetal.h"
 
-#define MAKE_FOLIAGE 1
-
 namespace Season {
 	enum SeasonType {
 		DRY,
@@ -26,7 +24,7 @@ class Vegetal : public ObjetoJogo {
 public:
 	virtual ~Vegetal();
 
-	static NodePath vegetals_placeholder;
+//	static NodePath vegetals_placeholder;
 	static NodePath visible_vegetals_placeholder;
 
 	static void configure_show_hide_event();

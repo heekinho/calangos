@@ -13,7 +13,7 @@
 
 #include "sectorItems.h"
 
-class Setor : public TypedReferenceCount, public NodePath {
+class Setor : public TypedReferenceCount/*, public NodePath */{
 public:
 	Setor(LPoint2d inicio, LPoint2d fim, int indice);
 
@@ -39,10 +39,7 @@ public:
 	//void init_setor();
 	bool has_inside(LPoint2d point);
 
-	NodePath _vegetals;
-
-	void hide_vegetals();
-	void show_vegetals();
+//	NodePath _vegetals;
 
 	NodePath get_root();
 

@@ -3,6 +3,7 @@
 #include "player.h"
 #include "world.h"
 #include "terrain.h"
+#include "boundingBox.h"
 
 TypeHandle Setor::_type_handle;
 
@@ -13,25 +14,36 @@ Setor::Setor(LPoint2d inicio, LPoint2d fim, int indice){
 	this->_player_sector_neighbor = false;
 	this->_player_closest_sector = false;
 
-	_vegetals = NodePath("sectorVegetals");
-	_vegetals.reparent_to(Vegetal::visible_vegetals_placeholder);
+//	_vegetals = NodePath("sectorVegetals");
+//	_vegetals.reparent_to(Vegetal::visible_vegetals_placeholder);
 
 	//	// Deve receber eventos de movimento de npc, para atualizar setores por exemplo.
 	//	std::stringstream npc_moving_name;
 	//	npc_moving_name << "ev_npc_moving_on_sector_" << _indice;
 	//	event_handler->add_hook(npc_moving_name.str(), npc_moving, this);
 
-	// Deve gerar eventos indicando proximidade do player, para npc se movimentar, por exemplo.
+	/* Deve gerar eventos indicando proximidade do player, para npc se movimentar, por exemplo. */
 	std::stringstream sector_event_name;
 	sector_event_name << "ev_player_next_to_sector_" << indice;
 	EV_player_next = sector_event_name.str();
 
-	// Quando o player deixa de ser vizinho, é preciso lançar um evento.
+	/* Quando o player deixa de ser vizinho, é preciso lançar um evento. */
 	std::stringstream not_next_event_name;
 	not_next_event_name << "ev_player_not_next_to_sector_" << indice;
 	EV_player_not_next = sector_event_name.str();
 
-	_root = render.attach_new_node("Sector Root NodePath");
+	/* Nomeia o setor de acordo */
+	std::stringstream sector_name;
+	sector_name << "Sector " << indice;
+	_root = render.attach_new_node(sector_name.str());
+
+//	/* Fixa o bounding box dos setores para evitar ficar recalculando */
+//	PT(BoundingBox) bounding_box = new BoundingBox(LPoint3(inicio[0], inicio[1], -10), LPoint3(fim[0], fim[1], 50));
+//	_root.node()->set_bounds_type(BoundingVolume::BT_box);
+//	_root.node()->set_bounds(bounding_box);
+////	_root.show_tight_bounds();
+////	_root.show_bounds();
+////	_root.node()->set_final(true);
 
 	_animal_list = SectorItems<PT(Animal)>(this);
 	_prey_list = SectorItems<PT(Prey)>(this);
@@ -39,14 +51,22 @@ Setor::Setor(LPoint2d inicio, LPoint2d fim, int indice){
 	_vegetal_list = SectorItems<PT(Vegetal)>(this);
 	_edible_vegetal_list = SectorItems<PT(EdibleVegetal)>(this);
 	_lizard_list = SectorItems<PT(Lizard)>(this);
+	_toca_list = SectorItems<PT(ObjetoJogo)>(this);
+
+	_animal_list.get_root().reparent_to(_root);
+	_prey_list.get_root().reparent_to(_root);
+	_predator_list.get_root().reparent_to(_root);
+	_vegetal_list.get_root().reparent_to(_root);
+	_edible_vegetal_list.get_root().reparent_to(_root);
+	_lizard_list.get_root().reparent_to(_root);
+	_toca_list.get_root().reparent_to(_root);
 }
 
 //Setor::Setor(){}
 
 Setor::~Setor() {
-	_vegetals.remove_node();
+//	_vegetals.remove_node();
 	_root.remove_node();
-
 }
 
 ///*! Lançado na movimentação dos NPCs */
@@ -140,4 +160,11 @@ LPoint2d Setor::get_random_pos_inside(){
 
 void Setor::unload_sector(){
 	event_handler->remove_hooks_with(this);
+
+	_animal_list.deep_clear();
+	_prey_list.deep_clear();
+	_predator_list.deep_clear();
+	_vegetal_list.deep_clear();
+	_edible_vegetal_list.deep_clear();
+	_lizard_list.deep_clear();
 }

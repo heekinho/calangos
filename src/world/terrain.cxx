@@ -510,6 +510,11 @@ void Terrain::load_tocas(){
 		SectorItems<PT(Vegetal)>* vegetal_list = setor->vegetals();
 		SectorItems<PT(ObjetoJogo)>* toca_list = setor->tocas();
 		SectorItems<PT(Vegetal)>::iterator it;
+
+		stringstream ss;
+		ss << "Batched Tocas " << i;
+		NodePath batched_tocas = NodePath(ss.str());
+
 		for (it = vegetal_list->begin(); it != vegetal_list->end(); ++it){
 			PT(Vegetal) vegetal = (*it);
 			double x = vegetal->get_x();
@@ -519,16 +524,29 @@ void Terrain::load_tocas(){
 
 			if (elevation < 1 && elevation_toca < 1){
 				toca_list->push_back( ModelRepository::get_instance()->get_model_instance("toca") );
-				toca_list->back()->reparent_to(render);
+				//toca_list->back()->reparent_to(render);
 				toca_list->back()->set_pos(x+1, y+1, 0);
 				toca_list->back()->set_scale(0.001);
+
+				NodePath toca = toca_list->back()->instance_to(NodePath("toca"));
+				toca.reparent_to(batched_tocas);
+
 				if (toca_list->size() > 10){
 					break;
 				}
 
 			}
 		}
+
+		/* Flatten Tocas */
+		batched_tocas.clear_model_nodes();
+		batched_tocas.flatten_strong();
+
+		setor->tocas()->get_root().node()->remove_all_children();
+		batched_tocas.reparent_to(setor->tocas()->get_root());
 	}
+
+
 
 }
 

@@ -24,7 +24,17 @@ public:
     INLINE void remove(const Type& item);
 
     INLINE void deep_clear();
+
+    INLINE NodePath get_root() const {
+    	return _root;
+    }
+
+    INLINE void set_root(NodePath np) const {
+    	_root = np;
+    }
+
 private:
+    NodePath _root;
     PT(Setor) _sector;
 };
 

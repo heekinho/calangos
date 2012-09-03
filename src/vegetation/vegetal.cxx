@@ -1,5 +1,7 @@
 #include "pnmImageHeader.h"
 
+//#define MAKE_FOLIAGE
+
 #include "vegetal.h"
 
 #include "setor.h"
@@ -31,7 +33,7 @@ vector<PT(Vegetal)> Vegetal::low_area;
 
 Season::SeasonType Vegetal::current_season = Season::DRY;
 
-NodePath Vegetal::vegetals_placeholder = NodePath("Vegetals Placeholder");
+//NodePath Vegetal::vegetals_placeholder = NodePath("Vegetals Placeholder");
 NodePath Vegetal::visible_vegetals_placeholder = NodePath("Vegetals Placeholder");
 
 Vegetal::Vegetal(){}
@@ -40,11 +42,11 @@ Vegetal::Vegetal(NodePath node) : ObjetoJogo(node) {
 
 }
 
-Vegetal::Vegetal(PT(ObjetoJogo) base_object) : ObjetoJogo(vegetals_placeholder.attach_new_node("VegetalPlaceholder")){
+Vegetal::Vegetal(PT(ObjetoJogo) base_object) : ObjetoJogo(/*vegetals_placeholder.attach_new_node("VegetalPlaceholder")*/){
 	base_object->instance_to(*this);
 }
 
-Vegetal::Vegetal(PT(Vegetal) base_vegetal) : ObjetoJogo(vegetals_placeholder.attach_new_node("VegetalPlaceholder")){
+Vegetal::Vegetal(PT(Vegetal) base_vegetal) : ObjetoJogo(/*vegetals_placeholder.attach_new_node("VegetalPlaceholder")*/){
 	base_vegetal->instance_to(*this);
 	configure_vegetal(base_vegetal);
 }
@@ -295,7 +297,9 @@ void Vegetal::add_vegetal_model(const string &name, float radius, float scale, f
 	{
 		string posfix = current->second;
 		const string &map_name = name + posfix;
-		PT(Vegetal) especie = new Vegetal(*ModelRepository::get_instance()->get_model(map_name));
+
+		PT(ObjetoJogo) species_model = ModelRepository::get_instance()->get_model(map_name);
+		PT(Vegetal) especie = new Vegetal(*species_model);
 
 		/* Adiciona colisão a todos os vegetais */
 		/* TODO: esses valores de raios não estão perfeitos ainda */
@@ -349,7 +353,6 @@ void Vegetal::load_vegetals(int density) {
 //	Vegetal::vegetals_placeholder = NodePath("vegetals group");
 //	Vegetal::visible_vegetals_placeholder.reparent_to(render);
 
-
 	int terrain_x_size = (int) World::get_world()->get_terrain()->get_x_size();
 	int terrain_y_size = (int) World::get_world()->get_terrain()->get_y_size();
 
@@ -381,20 +384,48 @@ void Vegetal::load_vegetals(int density) {
 
 /*! Remove todos os vegetais e comestíveis*/
 void Vegetal::unload_vegetals() {
+//	static Season::SeasonType current_season;
+//	static vector<string> vegetals_name;
+//	static map<string, PT(Vegetal)> models;
+//	static map<string, int> datas;
+//	static map<Season::SeasonType,string> seasons;
+	//Distribuicao Vegetal
+//	static LPoint2d point_max;
+//	static vector<LVecBase3f> generate_elements_buffer;
+//	static int tree_distance, center_distance;
+//	static int tree_points, center_points;
+//	static int center_edge;
+//	static vector<PT(Vegetal)> low_area;
+
+	/* PUTZ!!! Tudo estático. =/ */
+	current_season = Season::DRY;
+	vegetals_name.clear();
+	models.clear();
+	datas.clear();
+	seasons.clear();
+	point_max = LPoint2d();
+	generate_elements_buffer.clear();
+	tree_distance = 0;
+	center_distance = 0;
+	tree_points = 0;
+	center_points = 0;
+	center_edge = 0;
+	low_area.clear();
+
 	// Removendo os vegetais dos setores
 	// O Garbage do Panda (PT) já cuida de deletar
 	for (int cont = 0; cont < Terrain::MAX_SETORES; cont++){
 		World::get_world()->get_terrain()->get_setor(cont)->vegetals()->clear();
-		World::get_world()->get_terrain()->get_setor(cont)->_vegetals.remove_node();
+//		World::get_world()->get_terrain()->get_setor(cont)->_vegetals.remove_node();
 		World::get_world()->get_terrain()->get_setor(cont)->edible_vegetals()->clear();
 	}
 	models.clear();
 
-	vegetals_placeholder.remove_node();
+//	vegetals_placeholder.remove_node();
 	visible_vegetals_placeholder.remove_node();
 
 	/*! Recarrega já aqui pois remove_node() coloca o NodePath para empty. */
-	Vegetal::vegetals_placeholder = NodePath("Vegetals Placeholder");
+//	Vegetal::vegetals_placeholder = NodePath("Vegetals Placeholder");
 	Vegetal::visible_vegetals_placeholder = NodePath("Visible Vegetals Placeholder");
 }
 
@@ -409,16 +440,23 @@ void Vegetal::flatten_vegetals(){
 	PT(Terrain) terrain = World::get_world()->get_terrain();
 
 	for(int i = 0; i < Terrain::MAX_SETORES; i++){
+		NodePath vegetables = NodePath("Vegetables");
+
 		PT(Setor) sector = terrain->get_setor(i);
 		SectorItems<PT(Vegetal)>::iterator it = sector->vegetals()->begin();
 		while(it != sector->vegetals()->end()){
 			//(*it)->detach_node(); // Não fazer isso!!
 			NodePath vegetal = (*it)->instance_to(NodePath("Vegetal Copy"));
-			vegetal.reparent_to(sector->_vegetals);
+			vegetal.reparent_to(vegetables);
+//			vegetal.reparent_to(sector->_vegetals);
 			it++;
 		}
-		sector->_vegetals.clear_model_nodes();
-		sector->_vegetals.flatten_strong();
+
+		vegetables.clear_model_nodes();
+		vegetables.flatten_strong();
+
+		sector->vegetals()->get_root().node()->remove_all_children();
+		vegetables.reparent_to(sector->vegetals()->get_root());
 	}
 }
 
@@ -447,15 +485,16 @@ void Vegetal::change_season(Season::SeasonType season){
 			model_name += seasons[current_season];
 
 			//sorteia chance do vegetal mudar na estacao
-			if( rand() % 100 < datas[model_name] )
-			{
+			if( rand() % 100 < datas[model_name] ){
 				PT(Vegetal) new_vegetal =  new Vegetal( models[model_name] );
 
 				new_vegetal->configure_position(*it);
 				new_vegetal->configure_vegetal(*it);
 
-				*it = NULL;
+				(*it)->detach_node();
+				*it = NULL; // delete (*it) ??? Alguma presa pode ter referencia, e não faz mal continuar... ¬¬
 				*it = new_vegetal;
+				new_vegetal->reparent_to(vegetals->get_root());
 
 				//sorteia frutos
 				(*it)->load_edible_vegetals(new_vegetal->get_vegetal_name(), season);
@@ -478,8 +517,9 @@ void Vegetal::update_show_hide(){
 //		else
 //			sector->hide_vegetals();
 
-		if(sector->is_player_neighbor()) sector->_vegetals.unstash();
-		else sector->_vegetals.stash();
+
+		if(sector->is_player_neighbor()) sector->vegetals()->get_root().unstash();
+		else sector->vegetals()->get_root().stash();
 	}
 	World::get_world()->get_terrain()->get_shadows()->update_active_shadows();
 }
@@ -524,8 +564,7 @@ void Vegetal::load_edible_vegetal_model(string name, int quant_flower, int quant
 	Divide 359 graus pela quantidade de frutos e posiciona cada uma
 	na posicao achada
 	*/
-	for(int c = 0; c < quant; param+=(360.0/quant), c++ )
-	{
+	for(int c = 0; c < quant; param+=(360.0/quant), c++ ){
 
 		//sorteia posicao mais perto ou mais longe da arvore
 		radius_size = static_cast<int>(get_radius());
@@ -764,6 +803,7 @@ void Vegetal::build_forest(){
 				//adiciona vegetal ao terreno
 				World::get_world()->get_terrain()->add_vegetal(vegetal);
 				cont_tree++;
+//				vegetal->reparent_to(render); //TESTE!
 			}
 			else
 			{
@@ -789,6 +829,15 @@ void Vegetal::build_forest(){
 		generate_elements_buffer.clear();
 	}
 
+//	/* Debug Master para Reiniciar */
+//	Terrain* __terrain = World::get_world()->get_terrain();
+//	for(int i = 0; i < __terrain->MAX_SETORES; i++){
+//		Setor* __setor = __terrain->get_setor(i);
+//		nout << "SetorID: " << "(" << i << "): " << &(*__setor) << endl;
+//		SectorItems<PT(Vegetal)>* __vegetals = __setor->vegetals();
+//		nout << "VegetablesID: " << &(*__vegetals) << endl;
+//		nout << "Quantidade de Vegetais: " << __vegetals->size() << endl;
+//	}
 
 	cout << "quantidade de centros gerados: " << centers.size() << endl;
 	cout << "quantidade de arvores geradas: " << quantidade_arv << endl;

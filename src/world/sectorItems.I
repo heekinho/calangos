@@ -5,6 +5,7 @@
 template<class Type>
 INLINE SectorItems<Type>::SectorItems(PT(Setor) sector) {
 	_sector = sector;
+	_root = NodePath(typeid(Type).name());
 }
 
 /*! Define o setor associado à esta lista de elementos */
@@ -41,6 +42,7 @@ template<class Type>
 INLINE void SectorItems<Type>::push_front(const Type& item) {
 	item->set_setor(_sector);
 	list<Type>::push_front(item);
+	item->reparent_to(_root);
 }
 
 /*! Insere elementos no final da lista */
@@ -48,12 +50,14 @@ template<class Type>
 INLINE void SectorItems<Type>::push_back(const Type& item) {
 	item->set_setor(_sector);
 	list<Type>::push_back(item);
+	item->reparent_to(_root);
 }
 
 /*! Remove o primeiro elemento da lista */
 template<class Type>
 INLINE void SectorItems<Type>::pop_front() {
 	if(list<Type>::front()) list<Type>::front()->set_setor(NULL);
+	list<Type>::front()->reparent_to(NodePath(""));
 	list<Type>::pop_front();
 }
 
@@ -61,6 +65,7 @@ INLINE void SectorItems<Type>::pop_front() {
 template<class Type>
 INLINE void SectorItems<Type>::pop_back() {
 	if(list<Type>::back()) list<Type>::back()->set_setor(NULL);
+	list<Type>::back()->reparent_to(NodePath(""));
 	list<Type>::pop_back();
 }
 

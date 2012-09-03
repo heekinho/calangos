@@ -36,6 +36,9 @@ DebugTools::DebugTools() {
 	action = "see-graphs";
 	Simdunas::get_framework()->define_key("control-g", "See Scene Graphs", special_control, action);
 
+	action = "custom";
+	Simdunas::get_framework()->define_key("control-c", "Custom", special_control, action);
+
 	configure_input();
 }
 
@@ -90,6 +93,11 @@ void DebugTools::special_control(const Event*, void *data){
 
 	if(strcmp(action, "kill-player") == 0){
 		player->add_energy(-player->get_energy());
+	}
+
+	if(strcmp(action, "custom") == 0){
+//		EdibleVegetal::vegetals_food_placeholder.stash();
+		Simdunas::get_clickable_render_2d().stash();
 	}
 
 	if(strcmp(action, "see-graphs") == 0){

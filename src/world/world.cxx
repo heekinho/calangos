@@ -17,12 +17,16 @@ World::World(){
 
 /*! Obtém o mundo (ou constrói um padrão se ainda não existir) */
 PT(World) World::get_world(){
-	if (!_world) _world = new World();
+	if (!_world)
+		_world = new World();
 	return _world;
 }
 
 /*! Descarrega o mundo */
 void World::unload_world(){
+	event_handler->remove_hooks_with(_world->_sky);
+	//    delete world->_sky; // Mesmo sendo reference counted (talvez os eventos não o excluam =/)
+
 //    Sky::unload_skybox();
     _world = NULL;
 }
@@ -41,8 +45,9 @@ void World::load_enviroment(){
 	nout << "Distribuindo Vegetacao..." << endl;
 	Vegetal::load_vegetals();
 	nout << "Juntando vegetação..." << endl;
-	Vegetal::flatten_vegetals();
-	nout << endl;
+	/* NOTA: Não pode fazer isso pq da mudança de estação */
+//	Vegetal::flatten_vegetals();
+//	nout << endl;
 
 	/* Carrega os NPCs. */
 	nout << "Distribuindo Animais..." << endl;
