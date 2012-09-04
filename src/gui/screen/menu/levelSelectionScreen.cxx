@@ -15,7 +15,6 @@ LevelSelectionScreen::LevelSelectionScreen(PT(ScreenManager) manager) : Screen(m
 }
 
 LevelSelectionScreen::~LevelSelectionScreen() {
-	unload();
 }
 
 void LevelSelectionScreen::load(){
@@ -24,15 +23,6 @@ void LevelSelectionScreen::load(){
 	default_button_config(btn_level_one, np_btn_level_one, "Fase 1", LVecBase3f(0, 0, 0.1), level_one_action);
 	default_button_config(btn_level_two, np_btn_level_two, "Fase 2", LVecBase3f(0, 0, -0.1), level_two_action);
 	configure_default_back_button(((CalangosMenuManager*)(manager.p()))->get_main_menu());
-}
-
-void LevelSelectionScreen::unload() {
-	btn_back = NULL;
-	btn_level_one = NULL;
-	btn_level_two = NULL;
-	np_btn_back.remove_node();
-	np_btn_level_one.remove_node();
-	np_btn_level_two.remove_node();
 }
 
 /*! Aciona carregamento da fase 1 */

@@ -20,7 +20,6 @@ public:
 	~InstructionsScreen();
 
 	void load();
-	void unload();
 
 private:
 

@@ -36,7 +36,6 @@ public:
 	~StartMenu();
 
 	void load();
-	void unload();
 	void show();
 	void hide();
 

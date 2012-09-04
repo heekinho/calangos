@@ -20,7 +20,6 @@ public:
 	~OptionsScreen();
 
 	void load();
-	void unload();
 
 private:
 

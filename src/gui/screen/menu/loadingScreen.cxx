@@ -22,7 +22,6 @@ LoadingScreen::LoadingScreen(PT(ScreenManager) manager) : Screen(manager) {
 
 
 LoadingScreen::~LoadingScreen() {
-	unload();
 }
 
 
@@ -59,26 +58,6 @@ void LoadingScreen::load() {
 	lb_info_processo->set_font(manager->get_default_font());
 
 	btn_comecar = new Button("btn_comecar", "Começar", manager->get_default_font(), 0.17);
-}
-
-
-void LoadingScreen::unload() {
-//	np_frame.remove_node();
-	np_lb_objetivo.remove_node();
-	np_lb_descricao_objetivo.remove_node();
-	np_lb_carregando.remove_node();
-	np_btn_comecar.remove_node();
-	np_lb_processo.remove_node();
-	np_lb_info_processo.remove_node();
-	lb_objetivo = NULL;
-	lb_descricao_objetivo = NULL;
-	lb_carregando = NULL;
-	btn_comecar = NULL;
-	lb_processo = NULL;
-	lb_info_processo = NULL;
-	np_frame.remove_node();
-	frame = NULL;
-	btn_back = NULL;
 }
 
 
@@ -147,8 +126,6 @@ void LoadingScreen::loading_completed() {
 	while (!start) {
 		Simdunas::get_framework()->do_frame(Thread::get_current_thread());
 	}
-	unload();
-	Session::get_instance()->run();
 }
 
 /*! Evento de click no botão "Começar". Sinaliza que foi clicado através do flag. */

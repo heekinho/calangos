@@ -19,7 +19,6 @@ StartMenu::StartMenu(PT(ScreenManager) manager) : Screen(manager){
 }
 
 StartMenu::~StartMenu() {
-	unload();
 }
 
 /*! Carrega o menu principal */
@@ -49,24 +48,6 @@ void StartMenu::load(){
 	default_button_config(btn_instructions, np_instructions, "Instruções", LVecBase3f(0, 0, -0.3), instructions_action);
 	default_button_config(btn_credits, np_credits, "Créditos", LVecBase3f(0, 0, -0.5), credits_action);
 	default_button_config(btn_exit, np_exit, "Sair", LVecBase3f(0, 0, -0.7), exit_action);
-}
-
-void StartMenu::unload() {
-	btn_back = NULL;
-	btn_credits = NULL;
-	btn_exit = NULL;
-	btn_instructions = NULL;
-	btn_options = NULL;
-	btn_play = NULL;
-	anims.clear_anims();
-	np_btn_back.remove_node();
-	np_credits.remove_node();
-	np_exit.remove_node();
-	np_instructions.remove_node();
-	np_lagarto.remove_node();
-	np_logo.remove_node();
-	np_options.remove_node();
-	np_play.remove_node();
 }
 
 void StartMenu::show() {

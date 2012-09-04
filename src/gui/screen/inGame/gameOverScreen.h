@@ -21,7 +21,6 @@ public:
 	~GameOverScreen();
 
 	void load();
-	void unload();
 	void show();
 
 	static void restart(const Event*, void* data);

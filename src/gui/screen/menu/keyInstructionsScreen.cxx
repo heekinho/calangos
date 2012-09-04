@@ -19,7 +19,6 @@ KeyInstructionsScreen::KeyInstructionsScreen(PT(ScreenManager) manager) : Screen
 }
 
 KeyInstructionsScreen::~KeyInstructionsScreen() {
-	unload();
 }
 
 void KeyInstructionsScreen::load(){
@@ -43,14 +42,6 @@ void KeyInstructionsScreen::load(){
 	//construindo o botão instruções
 
 	configure_default_back_button(((CalangosMenuManager*)(manager.p()))->get_instructions_screen());
-}
-
-void KeyInstructionsScreen::unload() {
-	img_teclas.remove_node();
-	np_lb_teclas.remove_node();
-	np_btn_back.remove_node();
-	lb_teclas = NULL;
-	btn_back = NULL;
 }
 
 void KeyInstructionsScreen::show() {

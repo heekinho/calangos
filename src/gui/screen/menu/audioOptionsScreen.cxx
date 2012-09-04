@@ -21,7 +21,7 @@ AudioOptionsScreen::AudioOptionsScreen(PT(ScreenManager) manager) : Screen(manag
 }
 
 AudioOptionsScreen::~AudioOptionsScreen() {
-	unload();
+
 }
 
 void AudioOptionsScreen::load(){
@@ -239,27 +239,4 @@ void AudioOptionsScreen::enable_bgm() {
 	btn_menos_2->set_active(true);
 	slide_2->set_active(true);
 	AudioController::get_instance()->get_audio_repository()->set_bgm_enabled(true);
-}
-
-void AudioOptionsScreen::unload() {
-	np_lb_titulo.remove_node();
-	np_btn_mais.remove_node();
-	np_btn_menos.remove_node();
-	np_slide.remove_node();
-	np_btn_back.remove_node();
-	lb_titulo = NULL;
-	lb_efeitos_sonoros = NULL;
-	slide = NULL;
-	btn_mais = NULL;
-	btn_menos = NULL;
-
-	np_btn_mais_2.remove_node();
-	np_btn_menos_2.remove_node();
-	np_slide_2.remove_node();
-	lb_musicas = NULL;
-	slide_2 = NULL;
-	btn_mais_2 = NULL;
-	btn_menos_2 = NULL;
-
-	btn_back = NULL;
 }

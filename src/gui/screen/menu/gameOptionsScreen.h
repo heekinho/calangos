@@ -23,7 +23,6 @@ public:
 	virtual ~GameOptionsScreen();
 
 	void load();
-	void unload();
 	void show();
 	void hide();
 

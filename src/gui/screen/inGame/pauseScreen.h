@@ -21,7 +21,6 @@ public:
 	~PauseScreen();
 
 	void load();
-	void unload();
 	void show();
 	void hide();
 

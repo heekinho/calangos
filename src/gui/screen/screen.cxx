@@ -23,6 +23,7 @@ Screen::Screen(PT(ScreenManager) manager){
 /*! Efetua alguma limpeza necessária */
 Screen::~Screen(){
 	simdunas_cat.debug() << "Destruindo Screen" << endl;
+	root.remove_node();
 }
 
 

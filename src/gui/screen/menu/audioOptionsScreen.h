@@ -20,7 +20,6 @@ public:
 	~AudioOptionsScreen();
 
 	void load();
-	void unload();
 
 private:
 

@@ -16,7 +16,6 @@ CreditsScreen::CreditsScreen(PT(ScreenManager) manager) : Screen(manager) {
 }
 
 CreditsScreen::~CreditsScreen() {
-	unload();
 }
 
 void CreditsScreen::load() {
@@ -25,12 +24,6 @@ void CreditsScreen::load() {
     img_credit.set_pos(0.0, 0.0, 0.06);
 
     configure_default_back_button(((CalangosMenuManager*) manager.p())->get_main_menu());
-}
-
-void CreditsScreen::unload() {
-	btn_back = NULL;
-	img_credit.remove_node();
-	np_btn_back.remove_node();
 }
 
 void CreditsScreen::show() {

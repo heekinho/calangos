@@ -121,7 +121,7 @@ int main(int argc, char *argv[]) {
 //
 //		AudioController::get_instance();
 
-		PT(CalangosMenuManager) menu_manager = CalangosMenuManager::get_instance();
+		CalangosMenuManager::get_instance();
 
 ////		menu_manager->get_sound()->play();
 //		Thread *current_thread = Thread::get_current_thread();
@@ -141,9 +141,9 @@ int main(int argc, char *argv[]) {
 
 		//		/* Inicia uma sessão padrão */
 		//		Session::get_instance()->run();
+		((LoadingScreen*)CalangosMenuManager::get_instance()->get_loading_screen().p())->loading_process();
 		CalangosMenuManager::get_instance()->unload_menus();
-		LoadingScreen* loading_screen = (LoadingScreen*) menu_manager->get_loading_screen().p();
-		loading_screen->loading_process();
+		Session::get_instance()->run();
 	} else {
 		simdunas_cat.debug() << "Nao foi possivel carregar a janela" << endl;
 	}

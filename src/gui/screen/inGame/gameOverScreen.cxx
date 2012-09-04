@@ -14,7 +14,6 @@ GameOverScreen::GameOverScreen(PT(ScreenManager) manager) : Screen(manager){
 }
 
 GameOverScreen::~GameOverScreen() {
-	unload();
 }
 
 void GameOverScreen::load(){
@@ -49,15 +48,6 @@ void GameOverScreen::load(){
 	np_lb_indica_morte.set_color(1, 1, 1, 1, 0);
 
 	default_button_config(btn_restart, np_btn_restart, "Reiniciar", LVecBase3f(0, 0, 0), restart);
-}
-
-void GameOverScreen::unload() {
-	np_frame_tela.remove_node();
-	np_btn_restart.remove_node();
-	np_lb_fim_do_jogo.remove_node();
-	np_lb_indica_morte.remove_node();
-	btn_restart = NULL;
-	frame_tela = NULL;
 }
 
 void GameOverScreen::show() {

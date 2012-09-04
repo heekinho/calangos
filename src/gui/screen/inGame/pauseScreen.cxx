@@ -26,7 +26,6 @@ PauseScreen::PauseScreen(PT(ScreenManager) manager) : Screen(manager){
 }
 
 PauseScreen::~PauseScreen() {
-	unload();
 }
 
 void PauseScreen::load(){
@@ -85,26 +84,6 @@ void PauseScreen::pause_event() {
 
 		is_opened = true; // a tela de pause está aberta
 	}
-}
-
-void PauseScreen::unload() {
-	stopped_time = false;
-//	titulo.remove_node();
-//	img_videos.remove_node();
-	np_btn_clima.remove_node();
-	np_btn_continuar.remove_node();
-	np_btn_habitat.remove_node();
-	np_btn_lagartos.remove_node();
-	np_btn_predadores.remove_node();
-	np_btn_presas.remove_node();
-	np_btn_sair.remove_node();
-	btn_continuar = NULL;
-	btn_sair = NULL;
-	btn_habitat = NULL;
-	btn_lagartos = NULL;
-	btn_predadores = NULL;
-	btn_presas = NULL;
-	btn_clima = NULL;
 }
 
 /*! Método chamado pela classe Session quando o botão ESC é pressionado */

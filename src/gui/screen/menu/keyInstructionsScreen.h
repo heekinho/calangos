@@ -20,7 +20,6 @@ public:
 	~KeyInstructionsScreen();
 
 	void load();
-	void unload();
 	void show();
 	void hide();
 

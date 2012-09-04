@@ -22,7 +22,6 @@ public:
 	virtual ~IndicatorsScreen();
 
 	void load();
-	void unload();
 	void show();
 	void hide();
 

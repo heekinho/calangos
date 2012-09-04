@@ -35,7 +35,6 @@ public:
 	void set_start(bool flag);
 
 	void load();
-	void unload();
 	void loading_completed();
 	void loading_process();
 

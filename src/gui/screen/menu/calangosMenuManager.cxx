@@ -71,6 +71,8 @@ void CalangosMenuManager::unload_menus() {
 	character_editor = NULL;
 	texture_screen = NULL;
 	audio_options_screen = NULL;
+	set_active_screen(NULL);
+	loading_screen = NULL;
 }
 
 

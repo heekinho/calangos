@@ -19,7 +19,6 @@ public:
 	~LevelSelectionScreen();
 
 	void load();
-	void unload();
 
 private:
 	/* Componentes do Menu */

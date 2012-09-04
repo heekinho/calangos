@@ -35,8 +35,6 @@ public:
 
 	/*! É chamado geralmente no método create_menu de algum manager */
 	virtual void load() = 0;
-	/*! É chamado geralmente quando um certo manager não é mais necessário */
-	virtual void unload() = 0;
 
 	NodePath get_root();
 	void set_root(NodePath new_root);

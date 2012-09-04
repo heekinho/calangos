@@ -19,7 +19,6 @@ OptionsScreen::OptionsScreen(PT(ScreenManager) manager) : Screen(manager){
 }
 
 OptionsScreen::~OptionsScreen() {
-	unload();
 }
 
 void OptionsScreen::load(){
@@ -39,21 +38,6 @@ void OptionsScreen::load(){
 	//default_button_config(btn_jogo, np_btn_jogo, "Jogo", LVecBase3f(0, 0, -0.5), jogo_action);
 	default_button_config(btn_jogo, np_btn_jogo, "Jogo", LVecBase3f(0, 0, -0.1), jogo_action);
 	configure_default_back_button(((CalangosMenuManager*) manager.p())->get_main_menu());
-}
-
-void OptionsScreen::unload() {
-	np_lb_titulo.remove_node();
-	np_btn_audio.remove_node();
-	//np_btn_controles.remove_node();
-	np_btn_jogo.remove_node();
-	//np_btn_video.remove_node();
-	np_btn_back.remove_node();
-	lb_titulo = NULL;
-	btn_audio = NULL;
-	//btn_controles = NULL;
-	btn_jogo = NULL;
-	//btn_video = NULL;
-	btn_back = NULL;
 }
 
 /*! Evento de click no botão "Video". Abre a tela de configurações de vídeo. */

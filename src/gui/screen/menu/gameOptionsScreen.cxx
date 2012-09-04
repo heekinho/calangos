@@ -21,7 +21,6 @@ GameOptionsScreen::GameOptionsScreen(PT(ScreenManager) manager) : Screen(manager
 }
 
 GameOptionsScreen::~GameOptionsScreen() {
-	unload();
 }
 
 void GameOptionsScreen::load() {
@@ -238,48 +237,6 @@ void GameOptionsScreen::load() {
 	letra << TimeControl::get_instance()->get_virtual_time_hour();
 	std::string st(letra.str());
 	informa_segundos(st);
-}
-
-void GameOptionsScreen::unload() {
-	img_btn_cnemidophorus.remove_node();
-	img_btn_colisao.remove_node();
-	img_btn_eurolophosaurus.remove_node();
-	img_btn_mais.remove_node();
-	img_btn_menos.remove_node();
-//	img_btn_personalizar.remove_node();
-	img_btn_tropidurus.remove_node();
-	img_colisao_ativada.remove_node();
-	img_colisao_desativada.remove_node();
-	img_escolha_especie.remove_node();
-	img_frase_relogio.remove_node();
-	img_tempo.remove_node();
-	img_titulo.remove_node();
-	np_btn_cnemidophorus.remove_node();
-	np_btn_colisao.remove_node();
-	np_btn_eurolophosaurus.remove_node();
-//	np_btn_jogar.remove_node();
-	np_btn_mais.remove_node();
-	np_btn_menos.remove_node();
-//	np_btn_personalizar.remove_node();
-	np_btn_tropidurus.remove_node();
-	np_lb_num_minutos.remove_node();
-	np_slide.remove_node();
-	marcador.remove_node();
-	tropidurus.remove_node();
-	eurolophosasurus.remove_node();
-	cnemidophorus.remove_node();
-	np_btn_back.remove_node();
-	slide = NULL;
-	lb_num_minutos = NULL;
-	btn_cnemidophorus = NULL;
-	btn_colisao = NULL;
-	btn_eurolophosaurus = NULL;
-//	btn_jogar = NULL;
-	btn_mais = NULL;
-	btn_menos = NULL;
-//	btn_personalizar = NULL;
-	btn_tropidurus = NULL;
-	btn_back = NULL;
 }
 
 void GameOptionsScreen::show() {

@@ -16,7 +16,6 @@ IndicatorsScreen::IndicatorsScreen(PT(ScreenManager) manager) : Screen(manager) 
 }
 
 IndicatorsScreen::~IndicatorsScreen() {
-	unload();
 }
 
 void IndicatorsScreen::load() {
@@ -25,12 +24,6 @@ void IndicatorsScreen::load() {
 	img_indicadores.set_pos(0.0, 0.0, 0.0);
 
     configure_default_back_button(((CalangosMenuManager* ) manager.p())->get_instructions_screen());
-}
-
-void IndicatorsScreen::unload() {
-	img_indicadores.remove_node();
-	np_btn_back.remove_node();
-	btn_back = NULL;
 }
 
 void IndicatorsScreen::show() {

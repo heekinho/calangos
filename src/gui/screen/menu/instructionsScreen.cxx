@@ -19,7 +19,6 @@ InstructionsScreen::InstructionsScreen(PT(ScreenManager) manager) : Screen(manag
 }
 
 InstructionsScreen::~InstructionsScreen() {
-	unload();
 }
 
 void InstructionsScreen::load(){
@@ -35,17 +34,6 @@ void InstructionsScreen::load(){
 	default_button_config(btn_controles, np_btn_controles, "Controles", LVecBase3f(0, 0, 0.1), controles_action);
 	default_button_config(btn_indicadores, np_btn_indicadores, "Indicadores", LVecBase3f(0, 0, -0.1), indicadores_action);
 	configure_default_back_button(((CalangosMenuManager*)(manager.p()))->get_main_menu());
-}
-
-void InstructionsScreen::unload() {
-	np_lb_titulo.remove_node();
-	np_btn_controles.remove_node();
-	np_btn_indicadores.remove_node();
-	np_btn_back.remove_node();
-	lb_titulo = NULL;
-	btn_controles = NULL;
-	btn_indicadores = NULL;
-	btn_back = NULL;
 }
 
 /*! Evento de click no botão "Controles". Abre a tela de instruções sobre os controles. */
