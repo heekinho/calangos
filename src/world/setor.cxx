@@ -36,6 +36,7 @@ Setor::Setor(LPoint2d inicio, LPoint2d fim, int indice){
 	std::stringstream sector_name;
 	sector_name << "Sector " << indice;
 	_root = render.attach_new_node(sector_name.str());
+	_root.stash();
 
 //	/* Fixa o bounding box dos setores para evitar ficar recalculando */
 //	PT(BoundingBox) bounding_box = new BoundingBox(LPoint3(inicio[0], inicio[1], -10), LPoint3(fim[0], fim[1], 50));
@@ -100,6 +101,7 @@ void Setor::set_player_neighbor(bool is_neighbor){
 		_player_sector_neighbor = true;
 		//event_handler->add_hook(TimeControl::get_instance()->EV_pass_frame, event_player_next, this);
 		event_queue->queue_event(new Event(this->EV_player_next));
+		_root.unstash();
 	}
 	else {
 		_player_sector_neighbor = false;
@@ -108,6 +110,7 @@ void Setor::set_player_neighbor(bool is_neighbor){
 
 		// Lança um evento para avisar aos npcs do setor que o player não é mais vizinho.
 		event_queue->queue_event(new Event(this->EV_player_not_next));
+		_root.stash();
 	}
 }
 
