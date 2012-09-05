@@ -10,6 +10,7 @@
 #include "audioController.h"
 #include "mouseWatcher.h"
 #include "mouseWatcherGroup.h"
+#include "timeControl.h"
 
 #define ABS(a)		(((a) < 0) ? -(a) : (a))
 #define LIMITE_SUPERIOR_TEMP_LAGARTO 45.0
@@ -1665,7 +1666,7 @@ void GuiManager::show_predator_location(void* data) {
 }
 
 void GuiManager::set_predator_location_img(string image_name) {
-	bool hidden = img_arrow_predator_position.is_hidden();
+	bool hidden = img_arrow_predator_position.is_hidden() || img_arrow_predator_position.is_stashed();
 	img_arrow_predator_position.remove_node();
 	img_arrow_predator_position = ImageRepository::get_instance()->get_image(image_name);
 	img_arrow_predator_position.reparent_to(window->get_render_2d());
@@ -1682,6 +1683,11 @@ AsyncTask::DoneStatus GuiManager::arrow_predator_effect(GenericAsyncTask* task, 
 //		is_showing_arrow_predator = false;
 //		return AsyncTask::DS_done;
 //	}
+	if (TimeControl::get_instance()->get_stop_time()) {
+		img_arrow_predator_position.stash();
+		return AsyncTask::DS_again;
+	}
+
 	if (!player->get_hunted()) {
 		img_arrow_predator_position.stash();
 		is_showing_arrow_predator = false;
