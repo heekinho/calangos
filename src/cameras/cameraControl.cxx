@@ -95,9 +95,9 @@ void CameraControl::create_cameras(){
 	this->cameras.push_back(new PovCamera(new Camera("pov_camera")));
 	this->cameras.push_back(new NearCamera(new Camera("near_camera")));
 	this->cameras.push_back(new CloseCamera(new Camera("close_camera")));
-	this->cameras.push_back(new FarCamera(new Camera("far_camera")));
-	this->cameras.push_back(new TopCamera(new Camera("top_camera")));
-	this->cameras.push_back(new FreeCamera(window->get_camera(0)));
+//	this->cameras.push_back(new FarCamera(new Camera("far_camera")));
+//	this->cameras.push_back(new TopCamera(new Camera("top_camera")));
+//	this->cameras.push_back(new FreeCamera(window->get_camera(0)));
 	this->cameras.push_back(new TocaCamera(new Camera("toca_camera")));
 }
 
