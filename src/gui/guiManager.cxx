@@ -427,6 +427,7 @@ void GuiManager::init_options(const Event *, void *data) {
 				_this->gui_options_flag = false;
 				_this->gui_options_flag2 = false;
 				_this->graphics_menu->hide_all_option_graphics();
+				_this->graphics_menu->hide_all_graphics();
 				_this->game_status_bar->show_all_status_components();
 
 				event_handler->remove_hook(TimeControl::EV_pass_frame_gui_options, init_options, _this);

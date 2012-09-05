@@ -297,7 +297,7 @@ void Graphics::set_scale(float x) {
 }
 
 void Graphics::hide(){
-    this->graphic_np.hide();
+    this->graphic_np.stash();
 }
 
 void Graphics::desenha_eixoX() {
