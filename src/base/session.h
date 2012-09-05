@@ -48,6 +48,8 @@ public:
 
 	bool game_over;
 
+	bool mouse_on_screen;
+
 	/* Obtém a fase do jogo selecionada pelo jogador */
 	int get_level(){ return level; };
 	void set_level(int level) { this->level = level; };

@@ -203,6 +203,7 @@ GuiManager::GuiManager() {
 }
 
 void GuiManager::mouse_on_game_status_bar(const Event*, void *data) {
+	Session::get_instance()->mouse_on_screen = true;
 	PlayerControl::get_instance()->set_click_bite_active(false);
 }
 
@@ -213,7 +214,7 @@ void GuiManager::mouse_off_game_status_bar(const Event*, void *data) {
 //DESENHA O FRAME-----------------------------------------------------------
 void GuiManager::make_frame() {
 	menu_frame = new PGVirtualFrame("menuFrame");
-	menu_frame->setup(0.50, 2.0);
+	menu_frame->setup(0.50, 2);
 	PGFrameStyle style = menu_frame->get_frame_style(menu_frame->get_state());
 	style.set_type(PGFrameStyle::T_flat);
 	menu_frame->set_frame_style(menu_frame->get_state(), style);

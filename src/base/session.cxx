@@ -27,6 +27,7 @@ Session* Session::singleSession = NULL;
 #include "cameraControl.h"
 #include "inGameScreenManager.h"
 #include "videoManager.h"
+#include "mouseWatcher.h"
 
 /*! Constroi uma session default.*/
 //Session::Session(WindowFramework *window) {
@@ -152,6 +153,11 @@ void Session::run(){
 	Simdunas::get_framework()->define_key("escape", "Pause Game", pause_game, this);
 
 	while(Simdunas::get_framework()->do_frame(Thread::get_current_thread()) && !Session::get_instance()->game_over) {
+		MouseWatcher *mwatcher = DCAST(MouseWatcher, window->get_mouse().node());
+		if(!mwatcher->has_mouse()){
+			mouse_on_screen = false;
+		}
+
 		/* O controle de tempo precisa saber o quanto de tempo se passou.
 		 * Assim, todos os elementos de jogo que precisam ser atualizados, passam a escutar
 		 * o evento de passagem de frame do TimeControl agindo a cada frame. */

@@ -378,7 +378,10 @@ void PlayerControl::set_click_bite_active(bool active) {
 }
 
 void PlayerControl::click_bite(const Event *evt, void *data){
-	if (click_bite_active) eat(evt, data);
+	if (click_bite_active || !Session::get_instance()->mouse_on_screen) {
+		Session::get_instance()->mouse_on_screen = true;
+		eat(evt, data);
+	}
 }
 
 /*! Efetua acao de comer. Verifica se tem algum npc em volta e come */
