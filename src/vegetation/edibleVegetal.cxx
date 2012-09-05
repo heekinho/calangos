@@ -42,7 +42,7 @@ PT(EdibleVegetal) EdibleVegetal::configure_edible_vegetal(const string name, flo
 	especie->set_hydration_value(hidratacao);
 
 //	especie->set_scale(scale);
-	especie->set_width(scale*4, true);
+	especie->set_width(scale*0.75, true);
 
 //	especie->set_offset_z(offset_z);
 	return especie;
@@ -54,7 +54,7 @@ void EdibleVegetal::configure_edible_vegetables(){
 		EdibleVegetal::vegetals_food_placeholder = render.attach_new_node("Edible Vegetals Placeholder");
 
 		float fl_nut = 2, fl_hid = 6.5;
-		float fr_nut = 5, fr_hid = 8;
+		float fr_nut = 4, fr_hid = 8;
 		
 		vegetals["copaifera-flor"] = configure_edible_vegetal("copaifera-flor",0.03,-1.96,fl_nut,fl_hid);
 		vegetals["jatropha-flor"] = configure_edible_vegetal("jatropha-flor",0.04,-1.96,fl_nut,fl_hid);
