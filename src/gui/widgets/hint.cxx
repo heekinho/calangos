@@ -137,7 +137,7 @@ void Hint::buildHint(string msg) {
 	np_text = aspect2d.attach_new_node(text);
 	np_text.set_scale(0.04);
 	np_text.set_color(0.0, 0.0, 0.0, 1,0);
-	np_text.hide();
+	np_text.stash();
 
 	event_handler->add_hook(btn->get_enter_event(), enter_event, this);
 	event_handler->add_hook(btn->get_exit_event(), exit_event, this);
@@ -190,7 +190,7 @@ AsyncTask::DoneStatus Hint::show_hint(GenericAsyncTask* task, void* data) {
 		_this->np_text.set_pos(mouse_x * aspect_ratio - offset_right, 0, mouse_y + 0.03);
 	}
 
-	_this->np_text.show();
+	_this->np_text.unstash();
 
 	return AsyncTask::DS_done;
 }
@@ -198,7 +198,7 @@ AsyncTask::DoneStatus Hint::show_hint(GenericAsyncTask* task, void* data) {
 /*! Evento de quando o mouse sai de cima do botão invisível. Oculta o hint. */
 void Hint::exit_event(const Event*, void *data) {
 	Hint* _this = (Hint*) data;
-	_this->np_text.hide();
+	_this->np_text.stash();
 	_this->mouse_in = false;
 }
 

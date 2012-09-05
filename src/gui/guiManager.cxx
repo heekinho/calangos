@@ -143,7 +143,7 @@ GuiManager::GuiManager() {
 
 	img_arrow_predator_position = ImageRepository::get_instance()->get_image("predator_left");
 	img_arrow_predator_position.reparent_to(window->get_render_2d());
-	img_arrow_predator_position.hide();
+	img_arrow_predator_position.stash();
 
 	//Toca
 	moldura_toca = window->load_model(aspect2d, "models/objects/toca.png");
@@ -152,7 +152,7 @@ GuiManager::GuiManager() {
 	moldura_toca.reparent_to(window->get_render_2d());
 	moldura_toca.set_scale(0.0792, 0.095, 0.1);
 	moldura_toca.set_pos(-0.21, 0.0, 0.0);
-	moldura_toca.hide();
+	moldura_toca.stash();
 
 	make_frame();
 	cont_relogio = (TimeControl::get_instance()->get_hora())*270/6;
@@ -467,27 +467,27 @@ void GuiManager::click_event_botao_grafico_tempo(const Event*, void* data) {
 	if (grafico_tempo_ativo) {
 		_this->graphics_menu->hide_menu_graf_tempo();
 		_this->graphics_menu->hide_all_graphics();
-		_this->graphics_menu->get_led_off_graf_tempo().show();
-//		botaoEscolhaGraficoTempo_image_ativo.hide();
-		_this->graphics_menu->get_led_on_graf_tempo().hide();
-//		botaoEscolhaGraficoVariavel_image_ativo.hide();
-		_this->graphics_menu->get_led_on_graf_variavel().hide();
-//		botaoEscolhaGraficoVariavel_image.show();
-		_this->graphics_menu->get_led_off_graf_variavel().show();
+		_this->graphics_menu->get_led_off_graf_tempo().unstash();
+//		botaoEscolhaGraficoTempo_image_ativo.stash();
+		_this->graphics_menu->get_led_on_graf_tempo().stash();
+//		botaoEscolhaGraficoVariavel_image_ativo.stash();
+		_this->graphics_menu->get_led_on_graf_variavel().stash();
+//		botaoEscolhaGraficoVariavel_image.unstash();
+		_this->graphics_menu->get_led_off_graf_variavel().unstash();
 		grafico_tempo_ativo = false;
 	} else {
 		_this->graphics_menu->hide_menu_graf_variavel();
 		_this->graphics_menu->show_menu_graf_tempo();
 		_this->graphics_menu->get_graphic_variavel()->hide();
 		_this->graphics_menu->init_graphics();
-//		botaoEscolhaGraficoTempo_image.hide();
-		_this->graphics_menu->get_led_off_graf_tempo().hide();
-//		botaoEscolhaGraficoTempo_image_ativo.show();
-		_this->graphics_menu->get_led_on_graf_tempo().show();
-//		botaoEscolhaGraficoVariavel_image_ativo.hide();
-		_this->graphics_menu->get_led_on_graf_variavel().hide();
-//		botaoEscolhaGraficoVariavel_image.show();
-		_this->graphics_menu->get_led_off_graf_variavel().show();
+//		botaoEscolhaGraficoTempo_image.stash();
+		_this->graphics_menu->get_led_off_graf_tempo().stash();
+//		botaoEscolhaGraficoTempo_image_ativo.unstash();
+		_this->graphics_menu->get_led_on_graf_tempo().unstash();
+//		botaoEscolhaGraficoVariavel_image_ativo.stash();
+		_this->graphics_menu->get_led_on_graf_variavel().stash();
+//		botaoEscolhaGraficoVariavel_image.unstash();
+		_this->graphics_menu->get_led_off_graf_variavel().unstash();
 		grafico_tempo_ativo = true;
 		grafico_variavel_ativo = false;
 		_this->graficoPosicao1 = true;
@@ -521,59 +521,59 @@ void GuiManager::click_event_botao_grafico_variavel(const Event*, void* data) {
 	if (grafico_variavel_ativo) {
 		_this->graphics_menu->hide_menu_graf_variavel();
 		_this->graphics_menu->hide_all_graphics();
-//		botaoEscolhaGraficoVariavel_image_ativo.hide();
-		_this->graphics_menu->get_led_on_graf_variavel().hide();
-//		botaoEscolhaGraficoVariavel_image.show();
-		_this->graphics_menu->get_led_off_graf_variavel().show();
-//		botaoEscolhaGraficoTempo_image.show();
-		_this->graphics_menu->get_led_off_graf_tempo().show();
-//		botaoEscolhaGraficoTempo_image_ativo.hide();
-		_this->graphics_menu->get_led_on_graf_tempo().hide();
+//		botaoEscolhaGraficoVariavel_image_ativo.stash();
+		_this->graphics_menu->get_led_on_graf_variavel().stash();
+//		botaoEscolhaGraficoVariavel_image.unstash();
+		_this->graphics_menu->get_led_off_graf_variavel().unstash();
+//		botaoEscolhaGraficoTempo_image.unstash();
+		_this->graphics_menu->get_led_off_graf_tempo().unstash();
+//		botaoEscolhaGraficoTempo_image_ativo.stash();
+		_this->graphics_menu->get_led_on_graf_tempo().stash();
 		_this->graphics_menu->get_graphic_variavel()->hide();
 		grafico_variavel_ativo = false;
 	} else {
 		_this->graphics_menu->show_menu_graf_tempo();
 		_this->graphics_menu->show_menu_graf_variavel();
-//		botaoEscolhaGraficoVariavel_image_ativo.show();
-		_this->graphics_menu->get_led_on_graf_variavel().show();
-//		botaoEscolhaGraficoVariavel_image.hide();
-		_this->graphics_menu->get_led_off_graf_variavel().hide();
-//		botaoEscolhaGraficoTempo_image.show();
-		_this->graphics_menu->get_led_off_graf_tempo().show();
-//		botaoEscolhaGraficoTempo_image_ativo.hide();
-		_this->graphics_menu->get_led_on_graf_tempo().hide();
-		_this->graphics_menu->get_led_off_temp_interna().show();
-		_this->graphics_menu->get_led_on_temp_interna().hide();
-		_this->graphics_menu->get_led_off_hidratacao().show();
-		_this->graphics_menu->get_led_on_hidratacao().hide();
-		_this->graphics_menu->get_led_off_temp_ar().hide();
-		_this->graphics_menu->get_led_on_temp_ar().show();
-		_this->graphics_menu->get_led_off_umidade().show();
-		_this->graphics_menu->get_led_on_umidade().hide();
-		_this->graphics_menu->get_led_off_temp_solo().show();
-		_this->graphics_menu->get_led_on_temp_solo().hide();
-		_this->graphics_menu->get_led_off_alimentacao().show();
-		_this->graphics_menu->get_led_on_alimentacao().hide();
-		_this->graphics_menu->get_led_off_energia().show();
-		_this->graphics_menu->get_led_on_energia().hide();
-		_this->graphics_menu->get_led_off_gasto_energetico().show();
-		_this->graphics_menu->get_led_on_gasto_energetico().hide();
-		_this->graphics_menu->get_led_off_temp_interna_v().show();
-		_this->graphics_menu->get_led_on_temp_interna_v().hide();
-		_this->graphics_menu->get_led_off_hidratacao_v().show();
-		_this->graphics_menu->get_led_on_hidratacao_v().hide();
-		_this->graphics_menu->get_led_off_temp_ar_v().hide();
-		_this->graphics_menu->get_led_on_temp_ar_v().show();
-		_this->graphics_menu->get_led_off_umidade_v().show();
-		_this->graphics_menu->get_led_on_umidade_v().hide();
-		_this->graphics_menu->get_led_off_temp_solo_v().show();
-		_this->graphics_menu->get_led_on_temp_solo_v().hide();
-		_this->graphics_menu->get_led_off_alimentacao_v().show();
-		_this->graphics_menu->get_led_on_alimentacao_v().hide();
-		_this->graphics_menu->get_led_off_energia_v().show();
-		_this->graphics_menu->get_led_on_energia_v().hide();
-		_this->graphics_menu->get_led_off_gasto_energetico_v().show();
-		_this->graphics_menu->get_led_on_gasto_energetico_v().hide();
+//		botaoEscolhaGraficoVariavel_image_ativo.unstash();
+		_this->graphics_menu->get_led_on_graf_variavel().unstash();
+//		botaoEscolhaGraficoVariavel_image.stash();
+		_this->graphics_menu->get_led_off_graf_variavel().stash();
+//		botaoEscolhaGraficoTempo_image.unstash();
+		_this->graphics_menu->get_led_off_graf_tempo().unstash();
+//		botaoEscolhaGraficoTempo_image_ativo.stash();
+		_this->graphics_menu->get_led_on_graf_tempo().stash();
+		_this->graphics_menu->get_led_off_temp_interna().unstash();
+		_this->graphics_menu->get_led_on_temp_interna().stash();
+		_this->graphics_menu->get_led_off_hidratacao().unstash();
+		_this->graphics_menu->get_led_on_hidratacao().stash();
+		_this->graphics_menu->get_led_off_temp_ar().stash();
+		_this->graphics_menu->get_led_on_temp_ar().unstash();
+		_this->graphics_menu->get_led_off_umidade().unstash();
+		_this->graphics_menu->get_led_on_umidade().stash();
+		_this->graphics_menu->get_led_off_temp_solo().unstash();
+		_this->graphics_menu->get_led_on_temp_solo().stash();
+		_this->graphics_menu->get_led_off_alimentacao().unstash();
+		_this->graphics_menu->get_led_on_alimentacao().stash();
+		_this->graphics_menu->get_led_off_energia().unstash();
+		_this->graphics_menu->get_led_on_energia().stash();
+		_this->graphics_menu->get_led_off_gasto_energetico().unstash();
+		_this->graphics_menu->get_led_on_gasto_energetico().stash();
+		_this->graphics_menu->get_led_off_temp_interna_v().unstash();
+		_this->graphics_menu->get_led_on_temp_interna_v().stash();
+		_this->graphics_menu->get_led_off_hidratacao_v().unstash();
+		_this->graphics_menu->get_led_on_hidratacao_v().stash();
+		_this->graphics_menu->get_led_off_temp_ar_v().stash();
+		_this->graphics_menu->get_led_on_temp_ar_v().unstash();
+		_this->graphics_menu->get_led_off_umidade_v().unstash();
+		_this->graphics_menu->get_led_on_umidade_v().stash();
+		_this->graphics_menu->get_led_off_temp_solo_v().unstash();
+		_this->graphics_menu->get_led_on_temp_solo_v().stash();
+		_this->graphics_menu->get_led_off_alimentacao_v().unstash();
+		_this->graphics_menu->get_led_on_alimentacao_v().stash();
+		_this->graphics_menu->get_led_off_energia_v().unstash();
+		_this->graphics_menu->get_led_on_energia_v().stash();
+		_this->graphics_menu->get_led_off_gasto_energetico_v().unstash();
+		_this->graphics_menu->get_led_on_gasto_energetico_v().stash();
 		grafico_variavel_ativo = true;
 		grafico_tempo_ativo = false;
 
@@ -750,8 +750,8 @@ void GuiManager::configure_chart_y(History::HistoryItem item, const string &char
 //void GuiManager::configure_chart(bool x_axis, History::HistoryItem item, const string &chart_caption){
 //	/* TODO: Fazer função parametrizável também */
 ////	graphics_menu->desliga_leds_painel_tempo();
-////	graphics_menu->get_led_off_temp_interna().hide();
-////	graphics_menu->get_led_on_temp_interna().show();
+////	graphics_menu->get_led_off_temp_interna().stash();
+////	graphics_menu->get_led_on_temp_interna().unstash();
 //
 ////	var_y = TEMP_INTERNA;
 ////	y_values = history->get_list(item);
@@ -782,8 +782,8 @@ void GuiManager::click_event_botao1_grafico_TempInterna(const Event*, void *data
 		if (_this->grafico1Baixo || _this->grafico1Cima) {
 			//simdunas_cat.debug() << "entrou no IF da temperatura" << endl;
 			_this->graphics_menu->get_graphic()->hide();
-			_this->graphics_menu->get_led_on_temp_interna().hide();
-			_this->graphics_menu->get_led_off_temp_interna().show();
+			_this->graphics_menu->get_led_on_temp_interna().stash();
+			_this->graphics_menu->get_led_off_temp_interna().unstash();
 			if (_this->grafico1Baixo) {
 				_this->grafico1Baixo = false;
 				_this->graficoPosicao2 = false;
@@ -798,23 +798,23 @@ void GuiManager::click_event_botao1_grafico_TempInterna(const Event*, void *data
 				_this->graphics_menu->novo_grafico1_TempInterna();
 				_this->grafico1Cima = true;
 				_this->graficoPosicao1 = true;
-				_this->graphics_menu->get_led_on_temp_interna().show();
-				_this->graphics_menu->get_led_off_temp_interna().hide();
+				_this->graphics_menu->get_led_on_temp_interna().unstash();
+				_this->graphics_menu->get_led_off_temp_interna().stash();
 			} else {
 				if (!_this->graficoPosicao2) {
 					_this->graphics_menu->novo_grafico1_TempInterna();
 					_this->graphics_menu->get_graphic()->set_Position_Graphic(0.4, 0.1);
 					_this->grafico1Baixo = true;
 					_this->graficoPosicao2 = true;
-					_this->graphics_menu->get_led_on_temp_interna().show();
-					_this->graphics_menu->get_led_off_temp_interna().hide();
+					_this->graphics_menu->get_led_on_temp_interna().unstash();
+					_this->graphics_menu->get_led_off_temp_interna().stash();
 				}
 			}
 		}
 	} else {
 		_this->graphics_menu->desliga_leds_painel_tempo();
-		_this->graphics_menu->get_led_off_temp_interna().hide();
-		_this->graphics_menu->get_led_on_temp_interna().show();
+		_this->graphics_menu->get_led_off_temp_interna().stash();
+		_this->graphics_menu->get_led_on_temp_interna().unstash();
 
 //		_this->var_y = TEMP_INTERNA;
 //		_this->y_values = _this->graphics_menu->get_vector()->getVectorTemperaturaLagarto();
@@ -850,8 +850,8 @@ void GuiManager::click_event_botao2_grafico_Hidratacao(const Event*, void* data)
 		if (_this->grafico2Baixo || _this->grafico2Cima) {
 			//simdunas_cat.debug() << "entrou no IF da temperatura" << endl;
 			_this->graphics_menu->get_graphic2()->hide();
-			_this->graphics_menu->get_led_on_hidratacao().hide();
-			_this->graphics_menu->get_led_off_hidratacao().show();
+			_this->graphics_menu->get_led_on_hidratacao().stash();
+			_this->graphics_menu->get_led_off_hidratacao().unstash();
 			if (_this->grafico2Baixo) {
 				_this->grafico2Baixo = false;
 				_this->graficoPosicao2 = false;
@@ -866,23 +866,23 @@ void GuiManager::click_event_botao2_grafico_Hidratacao(const Event*, void* data)
 				_this->graphics_menu->novo_grafico2_Hidratacao();
 				_this->grafico2Cima = true;
 				_this->graficoPosicao1 = true;
-				_this->graphics_menu->get_led_on_hidratacao().show();
-				_this->graphics_menu->get_led_off_hidratacao().hide();
+				_this->graphics_menu->get_led_on_hidratacao().unstash();
+				_this->graphics_menu->get_led_off_hidratacao().stash();
 			} else {
 				if (!_this->graficoPosicao2) {
 					_this->graphics_menu->novo_grafico2_Hidratacao();
 					_this->graphics_menu->get_graphic2()->set_Position_Graphic(0.4, 0.1);
 					_this->grafico2Baixo = true;
 					_this->graficoPosicao2 = true;
-					_this->graphics_menu->get_led_on_hidratacao().show();
-					_this->graphics_menu->get_led_off_hidratacao().hide();
+					_this->graphics_menu->get_led_on_hidratacao().unstash();
+					_this->graphics_menu->get_led_off_hidratacao().stash();
 				}
 			}
 		}
 	} else {
 		_this->graphics_menu->desliga_leds_painel_tempo();
-		_this->graphics_menu->get_led_off_hidratacao().hide();
-		_this->graphics_menu->get_led_on_hidratacao().show();
+		_this->graphics_menu->get_led_off_hidratacao().stash();
+		_this->graphics_menu->get_led_on_hidratacao().unstash();
 
 //		_this->var_y = HIDRATACAO;
 //		_this->y_values = _this->graphics_menu->get_vector()->getVectorHidratacaoLagarto();
@@ -917,8 +917,8 @@ void GuiManager::click_event_botao3_grafico_TempAr(const Event*, void* data) {
 		if (_this->grafico3Baixo || _this->grafico3Cima) {
 			//simdunas_cat.debug() << "entrou no IF da temperatura_ambiente" << endl;
 			_this->graphics_menu->get_graphic3()->hide();
-			_this->graphics_menu->get_led_on_temp_ar().hide();
-			_this->graphics_menu->get_led_off_temp_ar().show();
+			_this->graphics_menu->get_led_on_temp_ar().stash();
+			_this->graphics_menu->get_led_off_temp_ar().unstash();
 			if (_this->grafico3Baixo) {
 				_this->grafico3Baixo = false;
 				_this->graficoPosicao2 = false;
@@ -933,23 +933,23 @@ void GuiManager::click_event_botao3_grafico_TempAr(const Event*, void* data) {
 				_this->graphics_menu->novo_grafico3_TempAr();
 				_this->grafico3Cima = true;
 				_this->graficoPosicao1 = true;
-				_this->graphics_menu->get_led_on_temp_ar().show();
-				_this->graphics_menu->get_led_off_temp_ar().hide();
+				_this->graphics_menu->get_led_on_temp_ar().unstash();
+				_this->graphics_menu->get_led_off_temp_ar().stash();
 			} else {
 				if (!_this->graficoPosicao2) {
 					_this->graphics_menu->novo_grafico3_TempAr();
 					_this->graphics_menu->get_graphic3()->set_Position_Graphic(0.4, 0.1);
 					_this->grafico3Baixo = true;
 					_this->graficoPosicao2 = true;
-					_this->graphics_menu->get_led_on_temp_ar().show();
-					_this->graphics_menu->get_led_off_temp_ar().hide();
+					_this->graphics_menu->get_led_on_temp_ar().unstash();
+					_this->graphics_menu->get_led_off_temp_ar().stash();
 				}
 			}
 		}
 	} else {
 		_this->graphics_menu->desliga_leds_painel_tempo();
-		_this->graphics_menu->get_led_off_temp_ar().hide();
-		_this->graphics_menu->get_led_on_temp_ar().show();
+		_this->graphics_menu->get_led_off_temp_ar().stash();
+		_this->graphics_menu->get_led_on_temp_ar().unstash();
 
 //		_this->var_y = TEMP_AR;
 //		_this->y_values = _this->graphics_menu->get_vector()->getVectorTemperaturaAr();
@@ -982,8 +982,8 @@ void GuiManager::click_event_botao4_grafico_Umidade(const Event*, void* data) {
 
 	if (grafico_tempo_ativo) {
 		if (_this->grafico4Baixo || _this->grafico4Cima) {
-			_this->graphics_menu->get_led_on_umidade().hide();
-			_this->graphics_menu->get_led_off_umidade().show();
+			_this->graphics_menu->get_led_on_umidade().stash();
+			_this->graphics_menu->get_led_off_umidade().unstash();
 			//simdunas_cat.debug() << "entrou no IF da umidade" << endl;
 			_this->graphics_menu->get_graphic4()->hide();
 			if (_this->grafico4Baixo) {
@@ -1000,23 +1000,23 @@ void GuiManager::click_event_botao4_grafico_Umidade(const Event*, void* data) {
 				_this->graphics_menu->novo_grafico4_Umidade();
 				_this->grafico4Cima = true;
 				_this->graficoPosicao1 = true;
-				_this->graphics_menu->get_led_on_umidade().show();
-				_this->graphics_menu->get_led_off_umidade().hide();
+				_this->graphics_menu->get_led_on_umidade().unstash();
+				_this->graphics_menu->get_led_off_umidade().stash();
 			} else {
 				if (!_this->graficoPosicao2) {
 					_this->graphics_menu->novo_grafico4_Umidade();
 					_this->graphics_menu->get_graphic4()->set_Position_Graphic(0.4, 0.1);
 					_this->grafico4Baixo = true;
 					_this->graficoPosicao2 = true;
-					_this->graphics_menu->get_led_on_umidade().show();
-					_this->graphics_menu->get_led_off_umidade().hide();
+					_this->graphics_menu->get_led_on_umidade().unstash();
+					_this->graphics_menu->get_led_off_umidade().stash();
 				}
 			}
 		}
 	} else {
 		_this->graphics_menu->desliga_leds_painel_tempo();
-		_this->graphics_menu->get_led_off_umidade().hide();
-		_this->graphics_menu->get_led_on_umidade().show();
+		_this->graphics_menu->get_led_off_umidade().stash();
+		_this->graphics_menu->get_led_on_umidade().unstash();
 
 //		_this->var_y = UMIDADE;
 //		_this->y_values = _this->graphics_menu->get_vector()->getVectorUmidadeAmbiente();
@@ -1051,8 +1051,8 @@ void GuiManager::click_event_botao5_grafico_TempSolo(const Event*, void* data) {
 		if (_this->grafico5Baixo || _this->grafico5Cima) {
 			//simdunas_cat.debug() << "entrou no IF da temperatura" << endl;
 			_this->graphics_menu->get_graphic5()->hide();
-			_this->graphics_menu->get_led_on_temp_solo().hide();
-			_this->graphics_menu->get_led_off_temp_solo().show();
+			_this->graphics_menu->get_led_on_temp_solo().stash();
+			_this->graphics_menu->get_led_off_temp_solo().unstash();
 			if (_this->grafico5Baixo) {
 				_this->grafico5Baixo = false;
 				_this->graficoPosicao2 = false;
@@ -1067,23 +1067,23 @@ void GuiManager::click_event_botao5_grafico_TempSolo(const Event*, void* data) {
 				_this->graphics_menu->novo_grafico5_TempSolo();
 				_this->grafico5Cima = true;
 				_this->graficoPosicao1 = true;
-				_this->graphics_menu->get_led_on_temp_solo().show();
-				_this->graphics_menu->get_led_off_temp_solo().hide();
+				_this->graphics_menu->get_led_on_temp_solo().unstash();
+				_this->graphics_menu->get_led_off_temp_solo().stash();
 			} else {
 				if (!_this->graficoPosicao2) {
 					_this->graphics_menu->novo_grafico5_TempSolo();
 					_this->graphics_menu->get_graphic5()->set_Position_Graphic(0.4, 0.1);
 					_this->grafico5Baixo = true;
 					_this->graficoPosicao2 = true;
-					_this->graphics_menu->get_led_on_temp_solo().show();
-					_this->graphics_menu->get_led_off_temp_solo().hide();
+					_this->graphics_menu->get_led_on_temp_solo().unstash();
+					_this->graphics_menu->get_led_off_temp_solo().stash();
 				}
 			}
 		}
 	} else {
 		_this->graphics_menu->desliga_leds_painel_tempo();
-		_this->graphics_menu->get_led_off_temp_solo().hide();
-		_this->graphics_menu->get_led_on_temp_solo().show();
+		_this->graphics_menu->get_led_off_temp_solo().stash();
+		_this->graphics_menu->get_led_on_temp_solo().unstash();
 
 //		_this->var_y = TEMP_SOLO;
 //		_this->y_values = _this->graphics_menu->get_vector()->getVectorTemperaturaSolo();
@@ -1117,8 +1117,8 @@ void GuiManager::click_event_botao6_grafico_Alimentacao(const Event*, void* data
 	if (grafico_tempo_ativo) {
 		if (_this->grafico6Baixo || _this->grafico6Cima) {
 			_this->graphics_menu->get_graphic6()->hide();
-			_this->graphics_menu->get_led_on_alimentacao().hide();
-			_this->graphics_menu->get_led_off_alimentacao().show();
+			_this->graphics_menu->get_led_on_alimentacao().stash();
+			_this->graphics_menu->get_led_off_alimentacao().unstash();
 			if (_this->grafico6Baixo) {
 				_this->grafico6Baixo = false;
 				_this->graficoPosicao2 = false;
@@ -1132,23 +1132,23 @@ void GuiManager::click_event_botao6_grafico_Alimentacao(const Event*, void* data
 				_this->graphics_menu->novo_grafico6_Alimentacao();
 				_this->grafico6Cima = true;
 				_this->graficoPosicao1 = true;
-				_this->graphics_menu->get_led_on_alimentacao().show();
-				_this->graphics_menu->get_led_off_alimentacao().hide();
+				_this->graphics_menu->get_led_on_alimentacao().unstash();
+				_this->graphics_menu->get_led_off_alimentacao().stash();
 			} else {
 				if (!_this->graficoPosicao2) {
 					_this->graphics_menu->novo_grafico6_Alimentacao();
 					_this->graphics_menu->get_graphic6()->set_Position_Graphic(0.4, 0.1);
 					_this->grafico6Baixo = true;
 					_this->graficoPosicao2 = true;
-					_this->graphics_menu->get_led_on_alimentacao().show();
-					_this->graphics_menu->get_led_off_alimentacao().hide();
+					_this->graphics_menu->get_led_on_alimentacao().unstash();
+					_this->graphics_menu->get_led_off_alimentacao().stash();
 				}
 			}
 		}
 	} else {
 		_this->graphics_menu->desliga_leds_painel_tempo();
-		_this->graphics_menu->get_led_off_alimentacao().hide();
-		_this->graphics_menu->get_led_on_alimentacao().show();
+		_this->graphics_menu->get_led_off_alimentacao().stash();
+		_this->graphics_menu->get_led_on_alimentacao().unstash();
 
 //		_this->var_y = ALIMENTACAO;
 //		_this->y_values = _this->graphics_menu->get_vector()->getVectorAlimentacao();
@@ -1183,8 +1183,8 @@ void GuiManager::click_event_botao7_grafico_Energia(const Event*, void* data) {
 		if (_this->grafico7Baixo || _this->grafico7Cima) {
 			//simdunas_cat.debug() << "entrou no IF da temperatura_ambiente" << endl;
 			_this->graphics_menu->get_graphic7()->hide();
-			_this->graphics_menu->get_led_on_energia().hide();
-			_this->graphics_menu->get_led_off_energia().show();
+			_this->graphics_menu->get_led_on_energia().stash();
+			_this->graphics_menu->get_led_off_energia().unstash();
 			if (_this->grafico7Baixo) {
 				_this->grafico7Baixo = false;
 				_this->graficoPosicao2 = false;
@@ -1199,23 +1199,23 @@ void GuiManager::click_event_botao7_grafico_Energia(const Event*, void* data) {
 				_this->graphics_menu->novo_grafico7_Energia();
 				_this->grafico7Cima = true;
 				_this->graficoPosicao1 = true;
-				_this->graphics_menu->get_led_on_energia().show();
-				_this->graphics_menu->get_led_off_energia().hide();
+				_this->graphics_menu->get_led_on_energia().unstash();
+				_this->graphics_menu->get_led_off_energia().stash();
 			} else {
 				if (!_this->graficoPosicao2) {
 					_this->graphics_menu->novo_grafico7_Energia();
 					_this->graphics_menu->get_graphic7()->set_Position_Graphic(0.4, 0.1);
 					_this->grafico7Baixo = true;
 					_this->graficoPosicao2 = true;
-					_this->graphics_menu->get_led_on_energia().show();
-					_this->graphics_menu->get_led_off_energia().hide();
+					_this->graphics_menu->get_led_on_energia().unstash();
+					_this->graphics_menu->get_led_off_energia().stash();
 				}
 			}
 		}
 	} else {
 		_this->graphics_menu->desliga_leds_painel_tempo();
-		_this->graphics_menu->get_led_off_energia().hide();
-		_this->graphics_menu->get_led_on_energia().show();
+		_this->graphics_menu->get_led_off_energia().stash();
+		_this->graphics_menu->get_led_on_energia().unstash();
 
 //		_this->var_y = ENERGIA;
 //		_this->y_values = _this->graphics_menu->get_vector()->getVectorEnergia();
@@ -1248,8 +1248,8 @@ void GuiManager::click_event_botao8_grafico_GastoEnergetico(const Event*, void* 
 
 	if (grafico_tempo_ativo) {
 		if (_this->grafico8Baixo || _this->grafico8Cima) {
-			_this->graphics_menu->get_led_on_gasto_energetico().hide();
-			_this->graphics_menu->get_led_off_gasto_energetico().show();
+			_this->graphics_menu->get_led_on_gasto_energetico().stash();
+			_this->graphics_menu->get_led_off_gasto_energetico().unstash();
 			//simdunas_cat.debug() << "entrou no IF da umidade" << endl;
 			_this->graphics_menu->get_graphic8()->hide();
 			if (_this->grafico8Baixo) {
@@ -1266,23 +1266,23 @@ void GuiManager::click_event_botao8_grafico_GastoEnergetico(const Event*, void* 
 				_this->graphics_menu->novo_grafico8_GastoEnergetico();
 				_this->grafico8Cima = true;
 				_this->graficoPosicao1 = true;
-				_this->graphics_menu->get_led_on_gasto_energetico().show();
-				_this->graphics_menu->get_led_off_gasto_energetico().hide();
+				_this->graphics_menu->get_led_on_gasto_energetico().unstash();
+				_this->graphics_menu->get_led_off_gasto_energetico().stash();
 			} else {
 				if (!_this->graficoPosicao2) {
 					_this->graphics_menu->novo_grafico8_GastoEnergetico();
 					_this->graphics_menu->get_graphic8()->set_Position_Graphic(0.4, 0.1);
 					_this->grafico8Baixo = true;
 					_this->graficoPosicao2 = true;
-					_this->graphics_menu->get_led_on_gasto_energetico().show();
-					_this->graphics_menu->get_led_off_gasto_energetico().hide();
+					_this->graphics_menu->get_led_on_gasto_energetico().unstash();
+					_this->graphics_menu->get_led_off_gasto_energetico().stash();
 				}
 			}
 		}
 	} else {
 		_this->graphics_menu->desliga_leds_painel_tempo();
-		_this->graphics_menu->get_led_off_gasto_energetico().hide();
-		_this->graphics_menu->get_led_on_gasto_energetico().show();
+		_this->graphics_menu->get_led_off_gasto_energetico().stash();
+		_this->graphics_menu->get_led_on_gasto_energetico().unstash();
 
 //		_this->var_y = GASTO_ENERGETICO;
 //		_this->y_values = _this->graphics_menu->get_vector()->getVectorGastoEnergeticoTotal();
@@ -1311,8 +1311,8 @@ void GuiManager::click_event_vBotao1_grafico_TempInterna(const Event*, void *dat
 
 	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
 	_this->graphics_menu->desliga_leds_painel_variavel();
-	_this->graphics_menu->get_led_off_temp_interna_v().hide();
-	_this->graphics_menu->get_led_on_temp_interna_v().show();
+	_this->graphics_menu->get_led_off_temp_interna_v().stash();
+	_this->graphics_menu->get_led_on_temp_interna_v().unstash();
 
 //	_this->var_x = TEMP_INTERNA;
 //	_this->x_values = _this->graphics_menu->get_vector()->getVectorTemperaturaLagarto();
@@ -1341,8 +1341,8 @@ void GuiManager::click_event_vBotao2_grafico_Hidratacao(const Event*, void* data
 
 	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
 	_this->graphics_menu->desliga_leds_painel_variavel();
-	_this->graphics_menu->get_led_off_hidratacao_v().hide();
-	_this->graphics_menu->get_led_on_hidratacao_v().show();
+	_this->graphics_menu->get_led_off_hidratacao_v().stash();
+	_this->graphics_menu->get_led_on_hidratacao_v().unstash();
 
 //	_this->var_x = HIDRATACAO;
 //	_this->x_values = _this->graphics_menu->get_vector()->getVectorHidratacaoLagarto();
@@ -1370,8 +1370,8 @@ void GuiManager::click_event_vBotao3_grafico_TempAr(const Event*, void* data) {
 
 	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
 	_this->graphics_menu->desliga_leds_painel_variavel();
-	_this->graphics_menu->get_led_off_temp_ar_v().hide();
-	_this->graphics_menu->get_led_on_temp_ar_v().show();
+	_this->graphics_menu->get_led_off_temp_ar_v().stash();
+	_this->graphics_menu->get_led_on_temp_ar_v().unstash();
 
 //	_this->var_x = TEMP_AR;
 //	_this->x_values = _this->graphics_menu->get_vector()->getVectorTemperaturaAr();
@@ -1399,8 +1399,8 @@ void GuiManager::click_event_vBotao4_grafico_Umidade(const Event*, void* data) {
 
 	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
 	_this->graphics_menu->desliga_leds_painel_variavel();
-	_this->graphics_menu->get_led_off_umidade_v().hide();
-	_this->graphics_menu->get_led_on_umidade_v().show();
+	_this->graphics_menu->get_led_off_umidade_v().stash();
+	_this->graphics_menu->get_led_on_umidade_v().unstash();
 
 //	_this->var_x = UMIDADE;
 //	_this->x_values = _this->graphics_menu->get_vector()->getVectorUmidadeAmbiente();
@@ -1428,8 +1428,8 @@ void GuiManager::click_event_vBotao5_grafico_TempSolo(const Event*, void* data) 
 
 	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
 	_this->graphics_menu->desliga_leds_painel_variavel();
-	_this->graphics_menu->get_led_off_temp_solo_v().hide();
-	_this->graphics_menu->get_led_on_temp_solo_v().show();
+	_this->graphics_menu->get_led_off_temp_solo_v().stash();
+	_this->graphics_menu->get_led_on_temp_solo_v().unstash();
 
 //	_this->var_x = TEMP_SOLO;
 //	_this->x_values = _this->graphics_menu->get_vector()->getVectorTemperaturaSolo();
@@ -1457,8 +1457,8 @@ void GuiManager::click_event_vBotao6_grafico_Alimentacao(const Event*, void* dat
 
 	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
 	_this->graphics_menu->desliga_leds_painel_variavel();
-	_this->graphics_menu->get_led_off_alimentacao_v().hide();
-	_this->graphics_menu->get_led_on_alimentacao_v().show();
+	_this->graphics_menu->get_led_off_alimentacao_v().stash();
+	_this->graphics_menu->get_led_on_alimentacao_v().unstash();
 
 //	_this->var_x = ALIMENTACAO;
 //	_this->x_values = _this->graphics_menu->get_vector()->getVectorAlimentacao();
@@ -1486,8 +1486,8 @@ void GuiManager::click_event_vBotao7_grafico_Energia(const Event*, void* data) {
 
 	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
 	_this->graphics_menu->desliga_leds_painel_variavel();
-	_this->graphics_menu->get_led_off_energia_v().hide();
-	_this->graphics_menu->get_led_on_energia_v().show();
+	_this->graphics_menu->get_led_off_energia_v().stash();
+	_this->graphics_menu->get_led_on_energia_v().unstash();
 
 //	_this->var_x = ENERGIA;
 //	_this->x_values = _this->graphics_menu->get_vector()->getVectorEnergia();
@@ -1515,8 +1515,8 @@ void GuiManager::click_event_vBotao8_grafico_GastoEnergetico(const Event*, void*
 
 	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
 	_this->graphics_menu->desliga_leds_painel_variavel();
-	_this->graphics_menu->get_led_off_gasto_energetico_v().hide();
-	_this->graphics_menu->get_led_on_gasto_energetico_v().show();
+	_this->graphics_menu->get_led_off_gasto_energetico_v().stash();
+	_this->graphics_menu->get_led_on_gasto_energetico_v().unstash();
 
 //	_this->var_x = GASTO_ENERGETICO;
 //	_this->x_values = _this->graphics_menu->get_vector()->getVectorGastoEnergeticoTotal();
@@ -1542,13 +1542,13 @@ void GuiManager::click_event_vBotao8_grafico_GastoEnergetico(const Event*, void*
 //Torna a toca visivel.
 void GuiManager::mostra_moldura_toca(const Event*, void *data) {
 	PT(GuiManager) this_guiManager = (PT(GuiManager)) (GuiManager*) data;
-	this_guiManager->moldura_toca.show();
+	this_guiManager->moldura_toca.unstash();
 }
 
 //Torna a toca invisivel.
 void GuiManager::esconde_moldura_toca(const Event*, void *data) {
 	PT(GuiManager) this_guiManager = (PT(GuiManager)) (GuiManager*) data;
-	this_guiManager->moldura_toca.hide();
+	this_guiManager->moldura_toca.stash();
 }
 
 
@@ -1587,11 +1587,11 @@ void GuiManager::verifica_conta(const Event*, void* data) {
 
 void GuiManager::hide_frameNode(){
 
-	menu_frame_np.hide();
+	menu_frame_np.stash();
 }
 
 void GuiManager::show_frameNode(){
-	menu_frame_np.show();
+	menu_frame_np.unstash();
 }
 
 GameStatusBar* GuiManager::get_game_status_bar() {
@@ -1607,7 +1607,7 @@ void GuiManager::activate_predator_alert(Predator* pursuer) {
 	status_seta = true;
 	show_predator_location(pursuer);
 
-	img_arrow_predator_position.show();
+	img_arrow_predator_position.unstash();
 	TimeControl::get_instance()->notify("showing_predator_location", showing_predator_location, this, 0.7);
 	TimeControl::get_instance()->notify("arrow_predator_effect", arrow_predator_effect, NULL, 1);
 	AudioController::get_instance()->play_warning();
@@ -1671,28 +1671,28 @@ void GuiManager::set_predator_location_img(string image_name) {
 	img_arrow_predator_position.set_scale(0.01);
 	img_arrow_predator_position.set_pos(0, 0, -0.7);
 	if (hidden) {
-		img_arrow_predator_position.hide();
+		img_arrow_predator_position.stash();
 	}
 }
 
 AsyncTask::DoneStatus GuiManager::arrow_predator_effect(GenericAsyncTask* task, void* data) {
 //	if (!Predator::pursuing) {
-//		img_arrow_predator_position.hide();
+//		img_arrow_predator_position.stash();
 //		is_showing_arrow_predator = false;
 //		return AsyncTask::DS_done;
 //	}
 	if (!player->get_hunted()) {
-		img_arrow_predator_position.hide();
+		img_arrow_predator_position.stash();
 		is_showing_arrow_predator = false;
 		return AsyncTask::DS_done;
 	}
 
 	if (is_showing_arrow_predator) {
-		img_arrow_predator_position.hide();
+		img_arrow_predator_position.stash();
 		is_showing_arrow_predator = false;
 	}
 	else {
-		img_arrow_predator_position.show();
+		img_arrow_predator_position.unstash();
 		is_showing_arrow_predator = true;
 	}
 

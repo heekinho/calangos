@@ -96,7 +96,7 @@ void LoadingScreen::attach_objects() {
 	np_btn_comecar = get_root().attach_new_node(btn_comecar);
 	np_btn_comecar.set_pos(0, 0, -0.7);
 	np_btn_comecar.set_alpha_scale(1, 2);
-	np_btn_comecar.hide();
+	np_btn_comecar.stash();
 }
 
 /*! Faz as chamadas para cada etapa de carregamento do jogo e atualiza a tela informando qual etapa está sendo carregada. */
@@ -116,11 +116,11 @@ void LoadingScreen::loading_process() {
 /*! Mostra o botão de começar e esconde as labels de progresso do carregamento. Também aguarda até que o botão
  * "Começar" seja clicado */
 void LoadingScreen::loading_completed() {
-	np_lb_carregando.hide();
+	np_lb_carregando.stash();
 	lb_info_processo->set_text("Concluído.");
 	np_frame.set_transparency(TransparencyAttrib::M_alpha);
 	np_frame.set_alpha_scale(0.5);
-	np_btn_comecar.show();
+	np_btn_comecar.unstash();
 
 	// espera até que o usuário tenha clicado no botão "Começar"
 	while (!start) {

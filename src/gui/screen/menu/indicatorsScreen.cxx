@@ -28,10 +28,10 @@ void IndicatorsScreen::load() {
 
 void IndicatorsScreen::show() {
 	Screen::show();
-	img_indicadores.show();
+	img_indicadores.unstash();
 }
 
 void IndicatorsScreen::hide() {
 	Screen::hide();
-	img_indicadores.hide();
+	img_indicadores.stash();
 }

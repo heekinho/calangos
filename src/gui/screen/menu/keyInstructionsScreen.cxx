@@ -46,10 +46,10 @@ void KeyInstructionsScreen::load(){
 
 void KeyInstructionsScreen::show() {
 	Screen::show();
-	img_teclas.show();
+	img_teclas.unstash();
 }
 
 void KeyInstructionsScreen::hide() {
 	Screen::hide();
-	img_teclas.hide();
+	img_teclas.stash();
 }

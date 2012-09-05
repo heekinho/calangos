@@ -189,7 +189,7 @@ void GameStatusBar::make_hidratacao_bar(NodePath menu_frame_np) {
 	hidratacao_bar_pointer_red = ImageRepository::get_instance()->get_image("ponteiro_red");
 	hidratacao_bar_pointer_red.reparent_to(hidratacao_bar);
 	hidratacao_bar_pointer_red.set_scale(0.18);
-	hidratacao_bar_pointer_red.hide();
+	hidratacao_bar_pointer_red.stash();
 
 	//Criando a barra para mostrar o nivel de hidratação.
 	hidratacao_scroll_bar = ScrollBar(menu_frame_np, hidratacao_bar, hidratacao_bar_pointer);
@@ -228,7 +228,7 @@ void GameStatusBar::make_temperatura_bar(NodePath menu_frame_np) {
 	temperatura_bar_pointer_red = ImageRepository::get_instance()->get_image("ponteiro_red");
 	temperatura_bar_pointer_red.reparent_to(temperatura_bar);
 	temperatura_bar_pointer_red.set_scale(0.18);
-	temperatura_bar_pointer_red.hide();
+	temperatura_bar_pointer_red.stash();
 
 	//Criando a barra para mostrar a temperatura.
 	temperatura_scroll_bar = ScrollBar(menu_frame_np, temperatura_bar, temperatura_bar_pointer);
@@ -397,66 +397,66 @@ void GameStatusBar::make_botao_grafico(NodePath menu_frame_np) {
 
 //Deixa os componentes de interface que estão no painel lateral invisiveis.
 void GameStatusBar::hide_all_status_components() {
-	relogio.hide();
-	relogio_pointer.hide();
-	img_life_bar.hide();
-	border_life_bar.hide();
-	np_label_life.hide();
-	hidratacao_bar.hide();
-	hidratacao_bar_pointer.hide();
-	img_hidratacao_bar.hide();
-	np_label_hidratacao.hide();
-	temperatura_bar.hide();
-	temperatura_bar_pointer.hide();
-	img_temperatura_bar.hide();
-	np_label_temperatura.hide();
-	temperatura_ambiente_bar.hide();
-	temperatura_ambiente_bar_pointer.hide();
-	img_temperatura_ambiente_bar.hide();
-	np_label_temperatura_ambiente.hide();
-	umidade_bar.hide();
-	umidade_bar_pointer.hide();
-	img_umidade_bar.hide();
-	np_label_umidade.hide();
-	estado_reprodutivo.hide();
-	led_estado_reprodutivo.hide();
-	egg.hide();
-	np_label_egg_count.hide();
-	np_label_idade.hide();
-	np_label_idade_numero.hide();
-	img_calendar.hide();
+	relogio.stash();
+	relogio_pointer.stash();
+	img_life_bar.stash();
+	border_life_bar.stash();
+	np_label_life.stash();
+	hidratacao_bar.stash();
+	hidratacao_bar_pointer.stash();
+	img_hidratacao_bar.stash();
+	np_label_hidratacao.stash();
+	temperatura_bar.stash();
+	temperatura_bar_pointer.stash();
+	img_temperatura_bar.stash();
+	np_label_temperatura.stash();
+	temperatura_ambiente_bar.stash();
+	temperatura_ambiente_bar_pointer.stash();
+	img_temperatura_ambiente_bar.stash();
+	np_label_temperatura_ambiente.stash();
+	umidade_bar.stash();
+	umidade_bar_pointer.stash();
+	img_umidade_bar.stash();
+	np_label_umidade.stash();
+	estado_reprodutivo.stash();
+	led_estado_reprodutivo.stash();
+	egg.stash();
+	np_label_egg_count.stash();
+	np_label_idade.stash();
+	np_label_idade_numero.stash();
+	img_calendar.stash();
 }
 
 //Deixa os componentes de interface que estão no painel lateral visiveis.
 void GameStatusBar::show_all_status_components(){
-	relogio.show();
-	relogio_pointer.show();
-	img_life_bar.show();
-	border_life_bar.show();
-	np_label_life.show();
-	hidratacao_bar.show();
-	hidratacao_bar_pointer.show();
-	img_hidratacao_bar.show();
-	np_label_hidratacao.show();
-	temperatura_bar.show();
-	temperatura_bar_pointer.show();
-	img_temperatura_bar.show();
-	np_label_temperatura.show();
-	temperatura_ambiente_bar.show();
-	temperatura_ambiente_bar_pointer.show();
-	img_temperatura_ambiente_bar.show();
-	np_label_temperatura_ambiente.show();
-	umidade_bar.show();
-	umidade_bar_pointer.show();
-	img_umidade_bar.show();
-	np_label_umidade.show();
-	estado_reprodutivo.show();
-	led_estado_reprodutivo.show();
-	egg.show();
-	np_label_egg_count.show();
-	np_label_idade.show();
-	np_label_idade_numero.show();
-	img_calendar.show();
+	relogio.unstash();
+	relogio_pointer.unstash();
+	img_life_bar.unstash();
+	border_life_bar.unstash();
+	np_label_life.unstash();
+	hidratacao_bar.unstash();
+	hidratacao_bar_pointer.unstash();
+	img_hidratacao_bar.unstash();
+	np_label_hidratacao.unstash();
+	temperatura_bar.unstash();
+	temperatura_bar_pointer.unstash();
+	img_temperatura_bar.unstash();
+	np_label_temperatura.unstash();
+	temperatura_ambiente_bar.unstash();
+	temperatura_ambiente_bar_pointer.unstash();
+	img_temperatura_ambiente_bar.unstash();
+	np_label_temperatura_ambiente.unstash();
+	umidade_bar.unstash();
+	umidade_bar_pointer.unstash();
+	img_umidade_bar.unstash();
+	np_label_umidade.unstash();
+	estado_reprodutivo.unstash();
+	led_estado_reprodutivo.unstash();
+	egg.unstash();
+	np_label_egg_count.unstash();
+	np_label_idade.unstash();
+	np_label_idade_numero.unstash();
+	img_calendar.unstash();
 }
 
 void GameStatusBar::set_led_estado_reprodutivo(bool on, NodePath menu_frame_np) {
@@ -486,22 +486,22 @@ void GameStatusBar::hidratacao_critica_off() {
 AsyncTask::DoneStatus GameStatusBar::efeito_alerta_hidratacao(GenericAsyncTask* task, void* data) {
 	GameStatusBar* _this = (GameStatusBar*) data;
 	if (!_this->hidrat_critica) {
-		_this->hidratacao_bar_pointer.show();
-		_this->hidratacao_bar_pointer_red.hide();
+		_this->hidratacao_bar_pointer.unstash();
+		_this->hidratacao_bar_pointer_red.stash();
 		_this->np_label_hidratacao.set_color(0, 0, 0, 1);
 		return AsyncTask::DS_done;
 	}
 
 	if (_this->num_hidrat_vermelho) {
-		_this->hidratacao_bar_pointer.show();
-		_this->hidratacao_bar_pointer_red.hide();
+		_this->hidratacao_bar_pointer.unstash();
+		_this->hidratacao_bar_pointer_red.stash();
 		_this->np_label_hidratacao.set_color(0, 0, 0, 1);
 		_this->num_hidrat_vermelho = false;
 	}
 	else {
-		_this->hidratacao_bar_pointer.hide();
+		_this->hidratacao_bar_pointer.stash();
 		_this->hidratacao_bar_pointer_red.set_pos(_this->hidratacao_bar_pointer.get_pos());
-		_this->hidratacao_bar_pointer_red.show();
+		_this->hidratacao_bar_pointer_red.unstash();
 		_this->np_label_hidratacao.set_color(1, 0, 0, 1);
 		_this->num_hidrat_vermelho = true;
 	}
@@ -523,22 +523,22 @@ void GameStatusBar::temperatura_critica_off() {
 AsyncTask::DoneStatus GameStatusBar::efeito_alerta_temperatura(GenericAsyncTask* task, void* data) {
 	GameStatusBar* _this = (GameStatusBar*) data;
 	if (!_this->temp_critica) {
-		_this->temperatura_bar_pointer.show();
-		_this->temperatura_bar_pointer_red.hide();
+		_this->temperatura_bar_pointer.unstash();
+		_this->temperatura_bar_pointer_red.stash();
 		_this->np_label_temperatura.set_color(0, 0, 0, 1);
 		return AsyncTask::DS_done;
 	}
 
 	if (_this->num_temp_vermelho) {
-		_this->temperatura_bar_pointer.show();
-		_this->temperatura_bar_pointer_red.hide();
+		_this->temperatura_bar_pointer.unstash();
+		_this->temperatura_bar_pointer_red.stash();
 		_this->np_label_temperatura.set_color(0, 0, 0, 1);
 		_this->num_temp_vermelho = false;
 	}
 	else {
-		_this->temperatura_bar_pointer.hide();
+		_this->temperatura_bar_pointer.stash();
 		_this->temperatura_bar_pointer_red.set_pos(_this->temperatura_bar_pointer.get_pos());
-		_this->temperatura_bar_pointer_red.show();
+		_this->temperatura_bar_pointer_red.unstash();
 		_this->np_label_temperatura.set_color(1, 0, 0, 1);
 		_this->num_temp_vermelho = true;
 	}

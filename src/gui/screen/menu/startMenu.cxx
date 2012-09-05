@@ -52,12 +52,12 @@ void StartMenu::load(){
 
 void StartMenu::show() {
 	Screen::show();
-	np_lagarto.show();
+	np_lagarto.unstash();
 }
 
 void StartMenu::hide() {
 	Screen::hide();
-	np_lagarto.hide();
+	np_lagarto.stash();
 }
 
 /*! Ação do botão jogar */

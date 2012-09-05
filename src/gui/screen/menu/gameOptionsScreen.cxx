@@ -37,7 +37,7 @@ void GameOptionsScreen::load() {
     auto_bind(tropidurus.node(), anims, PartGroup::HMF_ok_part_extra |
             PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
     anims.loop_all(false);
-    tropidurus.hide();
+    tropidurus.stash();
 
     //////////////////////////Eurolophosauros/////////////////
     eurolophosasurus = window->load_model(render, "models/lizards/eurolophosaurus/male/model");
@@ -50,7 +50,7 @@ void GameOptionsScreen::load() {
     auto_bind(eurolophosasurus.node(), anims, PartGroup::HMF_ok_part_extra |
             PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
     anims.loop_all(false);
-    eurolophosasurus.hide();
+    eurolophosasurus.stash();
 
     //////////////////Cnemidophorus////////////
     cnemidophorus = window->load_model(render, "models/lizards/cnemidophorus/male/model");
@@ -63,7 +63,7 @@ void GameOptionsScreen::load() {
     auto_bind(cnemidophorus.node(), anims, PartGroup::HMF_ok_part_extra |
             PartGroup::HMF_ok_anim_extra | PartGroup::HMF_ok_wrong_root_name);
     anims.loop_all(false);
-    cnemidophorus.hide();
+    cnemidophorus.stash();
 
 	///carregando titulo do menu de configurações
 	img_titulo = window->load_model(get_root(), "models/config_jogo.png");
@@ -209,12 +209,12 @@ void GameOptionsScreen::load() {
 	img_colisao_desativada.set_pos(28.0, 0.0, 0.0);
 	
 	if (collision::get_instance()->get_colisao()) {
-		img_colisao_ativada.show();
-		img_colisao_desativada.hide();
+		img_colisao_ativada.unstash();
+		img_colisao_desativada.stash();
 	}
 	else {
-		img_colisao_desativada.show();
-		img_colisao_ativada.hide();
+		img_colisao_desativada.unstash();
+		img_colisao_ativada.stash();
 	}
 
 
@@ -231,7 +231,7 @@ void GameOptionsScreen::load() {
 	np_lb_num_minutos.set_scale(0.17);
 	np_lb_num_minutos.set_pos(-1.2, 0, 0.35);
 	np_lb_num_minutos.set_color(0.87, 0.72, 0.52);
-	np_lb_num_minutos.show();
+	np_lb_num_minutos.unstash();
 
 	ostringstream letra; //convertendo minuto dia virtual em string
 	letra << TimeControl::get_instance()->get_virtual_time_hour();
@@ -244,14 +244,14 @@ void GameOptionsScreen::show() {
 
 	switch (Player::properties.species) {//mostrando especie q tava selecionada
 		case Player::LS_tropidurus :
-			tropidurus.show();
+			tropidurus.unstash();
 			break;
 		case Player::LS_eurolophosaurus :
-			eurolophosasurus.show();
+			eurolophosasurus.unstash();
 			break;
 
 		case Player::LS_cnemidophorus :
-			cnemidophorus.show();
+			cnemidophorus.unstash();
 			break;
 	}
 }
@@ -261,14 +261,14 @@ void GameOptionsScreen::hide() {
 
 	switch (Player::properties.species) {//mostrando especie q tava selecionada
 		case Player::LS_tropidurus :
-			tropidurus.hide();
+			tropidurus.stash();
 			break;
 		case Player::LS_eurolophosaurus :
-			eurolophosasurus.hide();
+			eurolophosasurus.stash();
 			break;
 
 		case Player::LS_cnemidophorus :
-			cnemidophorus.hide();
+			cnemidophorus.stash();
 			break;
 	}
 }
@@ -328,27 +328,27 @@ void GameOptionsScreen::informa_segundos(string aviso) {
 void GameOptionsScreen::tropidurus_action() {
 	switch (Player::properties.species) {
 		case Player::LS_cnemidophorus :
-			cnemidophorus.hide();
+			cnemidophorus.stash();
 			break;
 		case Player::LS_eurolophosaurus :
-			eurolophosasurus.hide();
+			eurolophosasurus.stash();
 			break;
 	}
 	Player::properties.species = Player::LS_tropidurus;
 	marcador.set_pos(4.0, 0.0, -2.2); //movendo o marcador
 	tropidurus.set_scale(0.04, 0.04, 0.04);
 	tropidurus.set_pos(4, 35, -2);
-	tropidurus.show();
+	tropidurus.unstash();
 }
 
 /*! Evento de click no botão "Eurolophosaurus". Seleciona a espécie Eurolophosaurus. */
 void GameOptionsScreen::eurolophosaurus_action() {
 	switch (Player::properties.species) {
 		case Player::LS_tropidurus :
-			tropidurus.hide();
+			tropidurus.stash();
 			break;
 		case Player::LS_cnemidophorus :
-			cnemidophorus.hide();
+			cnemidophorus.stash();
 			break;
 	}
 
@@ -356,36 +356,36 @@ void GameOptionsScreen::eurolophosaurus_action() {
 	marcador.set_pos(4.0, 0.0, -4.7); //movendo o marcador
 	eurolophosasurus.set_scale(0.04, 0.04, 0.04);
 	eurolophosasurus.set_pos(4, 35, -2);
-	eurolophosasurus.show();
+	eurolophosasurus.unstash();
 }
 
 /*! Evento de click no botão "Cnemidophorus". Seleciona a espécie Cnemidophorus. */
 void GameOptionsScreen::cnemidophorus_action() {
 	switch (Player::properties.species) {
 		case Player::LS_tropidurus :
-			tropidurus.hide();
+			tropidurus.stash();
 			break;
 		case Player::LS_eurolophosaurus :
-			eurolophosasurus.hide();
+			eurolophosasurus.stash();
 			break;
 	}
 	Player::properties.species = Player::LS_cnemidophorus;
 	marcador.set_pos(4.0, 0.0, -7.2); //movendo o marcador
 	cnemidophorus.set_scale(0.04, 0.04, 0.04);
 	cnemidophorus.set_pos(4, 35, -2);
-	cnemidophorus.show();
+	cnemidophorus.unstash();
 }
 
 void GameOptionsScreen::colisao_action() {
     //se a colisão tiver ativada, então desativa agora
     if(collision::get_instance()->get_colisao()){
-        img_colisao_ativada.hide();
-        img_colisao_desativada.show();
+        img_colisao_ativada.stash();
+        img_colisao_desativada.unstash();
         collision::get_instance()->set_colisao(false);
     }else
     { //se estiver desativada então ativa.
-    	img_colisao_ativada.show();
-    	img_colisao_desativada.hide();
+    	img_colisao_ativada.unstash();
+    	img_colisao_desativada.stash();
         collision::get_instance()->set_colisao(true);
     }
 }

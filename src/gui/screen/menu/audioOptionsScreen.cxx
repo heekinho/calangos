@@ -85,7 +85,7 @@ void AudioOptionsScreen::load(){
 	btn_sfx_disabled = new PGButton("btn_sfx_disabled");
 	btn_sfx_disabled->setup(img_btn_sfx_disabled);
 	np_btn_sfx_disabled = get_root().attach_new_node(btn_sfx_disabled);
-	np_btn_sfx_disabled.hide();
+	np_btn_sfx_disabled.stash();
 	np_btn_sfx_disabled.set_scale(0.015);
 	np_btn_sfx_disabled.set_pos(0.45, 0.0, 0.26);
 	event_handler->add_hook(btn_sfx_disabled->get_click_event(MouseButton::one()), enable_sfx, this);
@@ -141,7 +141,7 @@ void AudioOptionsScreen::load(){
 	btn_bgm_disabled = new PGButton("btn_bgm_disabled");
 	btn_bgm_disabled->setup(img_btn_bgm_disabled);
 	np_btn_bgm_disabled = get_root().attach_new_node(btn_bgm_disabled);
-	np_btn_bgm_disabled.hide();
+	np_btn_bgm_disabled.stash();
 	np_btn_bgm_disabled.set_scale(0.015);
 	np_btn_bgm_disabled.set_pos(0.45, 0.0, -0.10);
 	event_handler->add_hook(btn_bgm_disabled->get_click_event(MouseButton::one()), enable_bgm, this);
@@ -177,8 +177,8 @@ void AudioOptionsScreen::decrease_volume_action() {
 
 /*! Evento de click no botão que desabilita os efeitos sonoros. */
 void AudioOptionsScreen::disable_sfx() {
-	np_btn_sfx_enabled.hide();
-	np_btn_sfx_disabled.show();
+	np_btn_sfx_enabled.stash();
+	np_btn_sfx_disabled.unstash();
 	btn_mais->set_active(false);
 	btn_menos->set_active(false);
 	slide->set_active(false);
@@ -187,8 +187,8 @@ void AudioOptionsScreen::disable_sfx() {
 
 /*! Evento de click no botão que habilita os efeitos sonoros. */
 void AudioOptionsScreen::enable_sfx() {
-	np_btn_sfx_enabled.show();
-	np_btn_sfx_disabled.hide();
+	np_btn_sfx_enabled.unstash();
+	np_btn_sfx_disabled.stash();
 	btn_mais->set_active(true);
 	btn_menos->set_active(true);
 	slide->set_active(true);
@@ -223,8 +223,8 @@ void AudioOptionsScreen::decrease_volume_action_2() {
 
 /*! Evento de click no botão que desabilita as músicas de fundo. */
 void AudioOptionsScreen::disable_bgm() {
-	np_btn_bgm_enabled.hide();
-	np_btn_bgm_disabled.show();
+	np_btn_bgm_enabled.stash();
+	np_btn_bgm_disabled.unstash();
 	btn_mais_2->set_active(false);
 	btn_menos_2->set_active(false);
 	slide_2->set_active(false);
@@ -233,8 +233,8 @@ void AudioOptionsScreen::disable_bgm() {
 
 /*! Evento de click no botão que habilita as músicas de fundo. */
 void AudioOptionsScreen::enable_bgm() {
-	np_btn_bgm_enabled.show();
-	np_btn_bgm_disabled.hide();
+	np_btn_bgm_enabled.unstash();
+	np_btn_bgm_disabled.stash();
 	btn_mais_2->set_active(true);
 	btn_menos_2->set_active(true);
 	slide_2->set_active(true);

@@ -28,10 +28,10 @@ void CreditsScreen::load() {
 
 void CreditsScreen::show() {
 	Screen::show();
-	img_credit.show();
+	img_credit.unstash();
 }
 
 void CreditsScreen::hide() {
 	Screen::hide();
-	img_credit.hide();
+	img_credit.stash();
 }

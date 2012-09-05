@@ -108,7 +108,7 @@ NodePath(window->load_model(render, model)) {
 	sol.set_scale(10);
 	sol.set_pos(x, y, z);
 	sol.set_billboard_point_eye(0);
-	sol.hide();
+	sol.stash();
 
 
 	/* aplicando a luz na raiz da cena (todos os objetos da cena serão atingidos) */
@@ -163,7 +163,7 @@ void Sky::update_sun(){
 
 		//colocando de fato o sol na cena
 		if (hora >= 5 && !flag_sol && ClimaTempo::get_instance()->get_chuva_today() == 0) {
-			sol.show();
+			sol.unstash();
 			flag_sol = true;
 
 		}
@@ -204,7 +204,7 @@ void Sky::update_sun(){
 	else if (hora >= 20 && flag_sol) {
 		z = -10;
 		aux = -180;
-		sol.hide();//retirando o sol da cena
+		sol.stash();//retirando o sol da cena
 		flag_sol = false;
 
 	}
