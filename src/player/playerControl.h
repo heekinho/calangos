@@ -1,7 +1,7 @@
 #ifndef PLAYER_CONTROL_H
 #define PLAYER_CONTROL_H
 
-//#include "player.h"
+#include "player.h"
 #include "windowFramework.h"
 #include "maleLizard.h"
 //#include "simdunas.h"

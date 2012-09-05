@@ -659,11 +659,14 @@ void PlayerControl::root_control(const Event*, void *data){
 
 void PlayerControl::bobbing(const Event*, void *data){
 	event_queue->queue_event(new Event(PlayerControl::EV_player_bobbing));
+	if(Session::get_instance()->get_player_death_status() == Player::PDT_NOT_DEAD ){
+		/* Roda animação Bobbing */
+		player->play_anim("bobbing");
 
-	/* Roda animação Bobbing */
-	player->play_anim("bobbing");
+		AudioController::get_instance()->bobbing();
 
-	AudioController::get_instance()->bobbing();
+	}
+
 }
 
 void PlayerControl::event_female_next(const Event *, void *data){
