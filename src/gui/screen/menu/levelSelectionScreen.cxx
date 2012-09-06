@@ -28,11 +28,7 @@ void LevelSelectionScreen::load(){
 /*! Aciona carregamento da fase 1 */
 void LevelSelectionScreen::level_one_action(){
 	simdunas_cat.debug() << "Carregando Fase 1" << endl;
-	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_loading_screen());
-	Simdunas::set_play_clicked(true);
-
-	/* A partir daqui já é garantido que será carregada a fase 1 */
-	Session::get_instance()->set_level(1);
+	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_character_options_screen());
 }
 
 void LevelSelectionScreen::level_two_action(){

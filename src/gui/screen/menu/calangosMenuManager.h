@@ -31,6 +31,7 @@ public:
 	PT(Screen) get_character_editor();
 	PT(Screen) get_level_selection_screen(){ return levels_screen; };
 	PT(Screen) get_audio_options_screen();
+	PT(Screen) get_character_options_screen();
 
 	void set_loading_screen(PT(Screen) screen);
 
@@ -54,6 +55,7 @@ private:
     PT(Screen) texture_screen;
     PT(Screen) levels_screen;
     PT(Screen) audio_options_screen;
+    PT(Screen) character_options_screen;
 };
 
 #endif

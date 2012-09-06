@@ -19,6 +19,7 @@
 #include "characterEditor.h"
 #include "levelSelectionScreen.h"
 #include "audioOptionsScreen.h"
+#include "characterOptionsScreen.h";
 
 PT(CalangosMenuManager) CalangosMenuManager::instance = NULL;
 
@@ -57,6 +58,7 @@ void CalangosMenuManager::create_menus(){
 	character_editor = new CharacterEditor(this);
 	texture_screen = new editorTextureScreen(this);
 	audio_options_screen = new AudioOptionsScreen(this);
+	character_options_screen = new CharacterOptionsScreen(this);
 }
 
 void CalangosMenuManager::unload_menus() {
@@ -73,6 +75,7 @@ void CalangosMenuManager::unload_menus() {
 	audio_options_screen = NULL;
 	set_active_screen(NULL);
 	loading_screen = NULL;
+	character_options_screen = NULL;
 }
 
 
@@ -128,4 +131,8 @@ PT(Screen) CalangosMenuManager::get_audio_options_screen() {
 
 void CalangosMenuManager::set_loading_screen(PT(Screen) screen) {
 	loading_screen = screen;
+}
+
+PT(Screen) CalangosMenuManager::get_character_options_screen() {
+	return character_options_screen;
 }
