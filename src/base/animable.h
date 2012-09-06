@@ -25,10 +25,18 @@ public:
 	void play_anim(const string &anim_name);
 	void loop_anim(const string &anim_name, bool restart = false);
 
+
+	void pause_anims();
+	void continue_anims();
+
 protected:
 	AnimControlCollection anims;
-
 	bool activated;
+
+	/* stop = 0, playing = 1, looping = 2 */
+	PT(AnimControl) _last_control;
+	int _status;
+	double _last_frame;
 };
 
 #endif

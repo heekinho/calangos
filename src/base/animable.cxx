@@ -2,6 +2,8 @@
 
 Animable::Animable(){
 	activated = true;
+	_last_control = NULL;
+	_last_frame = 0;
 }
 
 /*! Responsável pela identificação e bind correto das animações. */
@@ -50,7 +52,10 @@ void Animable::play_anim(const string &anim_name){
 
 	PT(AnimControl) anim = anims.find_anim(anim_name);
 	if(!anim) nout << "Animação " << anim_name << " não existe." << endl;
-	if(anim && !anim->is_playing()) anim->play();
+	if(anim && !anim->is_playing()) {
+		_status = 1;
+		anim->play();
+	}
 }
 
 /*! Método utilizado para tocar uma determinada animação */
@@ -59,7 +64,10 @@ void Animable::loop_anim(const string &anim_name, bool restart){
 
 	PT(AnimControl) anim = anims.find_anim(anim_name);
 	if(!anim) nout << "Animação " << anim_name << " não existe." << endl;
-	if(anim && !anim->is_playing()) anim->loop(restart);
+	if(anim && !anim->is_playing()) {
+		_status = 2;
+		anim->loop(restart);
+	}
 }
 
 /*! Aciona a utilização de animações */
@@ -77,3 +85,37 @@ void Animable::deactivate_anims(){
 bool Animable::is_activated(){
 	return activated;
 }
+
+void Animable::pause_anims(){
+	bool is_playing = false;
+	for(int i = 0; i < anims.get_num_anims(); i++){
+		if(anims.get_anim(i)->is_playing()){
+			is_playing = true;
+			_last_control = anims.get_anim(i);
+		}
+	}
+
+	/* anims.is_playing() tá bugado */
+	if(!is_playing) {
+		_status = 0;
+		_last_frame = 0;
+		_last_control = NULL;
+	}
+	else {
+		//_status = // Definido no loop e play
+		_last_frame = anims.get_frame();
+		anims.stop_all();
+	}
+}
+
+void Animable::continue_anims(){
+	if(_last_control){
+		if(_status == 1){
+			_last_control->play(_last_frame, _last_control->get_num_frames());
+		}
+		else if(_status == 2){
+			_last_control->loop(false);
+		}
+	}
+}
+

@@ -13,6 +13,9 @@ public:
 	AnimatedObjetoJogo(PT(ObjetoJogo) object);
 	AnimatedObjetoJogo(PT(AnimatedObjetoJogo) object);
 
+	static void pause_game(const Event*, void* data);
+	static void continue_game(const Event*, void* data);
+
 	virtual ~AnimatedObjetoJogo();
 };
 

@@ -198,6 +198,14 @@ void Session::pause_game(const Event*, void *data){
 		simdunas_cat.debug()<<"tela de pause aberta, fechando a tela"<<endl;
 		pause_screen->show();
 	}
+
+	/* É pq pausou */
+	if(TimeControl::get_instance()->get_stop_time()){
+		event_queue->queue_event(new Event("calangos-pause-in"));
+	}
+	else {
+		event_queue->queue_event(new Event("calangos-pause-out"));
+	}
 }
 
 
