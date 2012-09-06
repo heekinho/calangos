@@ -10,6 +10,7 @@
 
 #include "window.h"
 #include "hint.h"
+#include "text.h"
 
 class AchievementsWindow : public Window {
 public:
@@ -31,7 +32,7 @@ private:
 	NodePath np_lb_andamento;
 
 	// Achievement: Senhor mordida perfeita
-	PT(TextNode) lb_senhor_mordida;
+	PT(Text) lb_senhor_mordida;
 	NodePath np_lb_senhor_mordida;
 	PT(Hint) hint_senhor_mordida_atual;
 	PT(Hint) hint_senhor_mordida_1;

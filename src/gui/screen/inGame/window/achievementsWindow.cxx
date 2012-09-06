@@ -22,15 +22,10 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	np_lb_andamento.set_color(0, 0, 0, 1);
 
 	// Achievement: Senhor mordida perfeita
-	lb_senhor_mordida = new TextNode("lb_senhor_mordida");
-	lb_senhor_mordida->set_text("- Senhor mordida perfeita");
-	//lb_senhor_mordida->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
-	np_lb_senhor_mordida = np_frame.attach_new_node(lb_senhor_mordida);
-	np_lb_senhor_mordida.set_scale(0.05);
-	np_lb_senhor_mordida.set_pos(0.06, 0, 0.95);
-	np_lb_senhor_mordida.set_color(0, 0, 0, 1);
-	float text_width = lb_senhor_mordida->get_width();
-	float text_height = lb_senhor_mordida->get_height();
+	lb_senhor_mordida = new Text("lb_senhor_mordida", "- Senhor mordida perfeita", np_frame, TextNode::get_default_font(), 0.05);
+	lb_senhor_mordida->set_pos(0.06, 0, 0.95);
+	float text_width = lb_senhor_mordida->get_text_node()->get_width();
+	float text_height = lb_senhor_mordida->get_text_node()->get_height();
 
 	string white = "white_star";
 	string yellow = "yellow_star";
@@ -39,19 +34,19 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	switch (lvl_senhor_mordida) {
 		case 0:
 			create_senhor_mordida_stars(white, white, white);
-			hint_senhor_mordida_atual = new Hint(np_frame, np_lb_senhor_mordida, text_width, text_height, "hint_senhor_mordida", "Coma 10 vezes sem errar a mordida");
+			hint_senhor_mordida_atual = new Hint(np_frame, lb_senhor_mordida, lb_senhor_mordida->get_np(), "hint_senhor_mordida", "Coma 10 vezes sem errar a mordida");
 			break;
 		case 1:
 			create_senhor_mordida_stars(yellow, white, white);
-			hint_senhor_mordida_atual = new Hint(np_frame, np_lb_senhor_mordida, text_width, text_height, "hint_senhor_mordida", "Coma 25 vezes sem errar a mordida");
+			hint_senhor_mordida_atual = new Hint(np_frame, lb_senhor_mordida, lb_senhor_mordida->get_np(), "hint_senhor_mordida", "Coma 25 vezes sem errar a mordida");
 			break;
 		case 2:
 			create_senhor_mordida_stars(yellow, yellow, white);
-			hint_senhor_mordida_atual = new Hint(np_frame, np_lb_senhor_mordida, text_width, text_height, "hint_senhor_mordida", "Coma 50 vezes sem errar a mordida");
+			hint_senhor_mordida_atual = new Hint(np_frame, lb_senhor_mordida, lb_senhor_mordida->get_np(), "hint_senhor_mordida", "Coma 50 vezes sem errar a mordida");
 			break;
 		default:
 			create_senhor_mordida_stars(yellow, yellow, yellow);
-			hint_senhor_mordida_atual = new Hint(np_frame, np_lb_senhor_mordida, text_width, text_height, "hint_senhor_mordida", "Coma 50 vezes sem errar a mordida");
+			hint_senhor_mordida_atual = new Hint(np_frame, lb_senhor_mordida, lb_senhor_mordida->get_np(), "hint_senhor_mordida", "Coma 50 vezes sem errar a mordida");
 	}
 
 	hint_senhor_mordida_1 = new Hint(np_frame, img_senhor_mordida_star_1, "hint_senhor_mordida", "Coma 10 vezes sem errar a mordida");

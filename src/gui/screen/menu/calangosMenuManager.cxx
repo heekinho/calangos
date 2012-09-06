@@ -19,7 +19,7 @@
 #include "characterEditor.h"
 #include "levelSelectionScreen.h"
 #include "audioOptionsScreen.h"
-#include "characterOptionsScreen.h";
+#include "characterOptionsScreen.h"
 
 PT(CalangosMenuManager) CalangosMenuManager::instance = NULL;
 

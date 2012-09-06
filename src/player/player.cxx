@@ -53,15 +53,17 @@ Player::Player() : AnimatedObjetoJogo(ModelRepository::get_instance()->get_anima
 	event_handler->add_hook(TimeControl::EV_pass_day, event_pday, this);
 	event_handler->add_hook(TimeControl::EV_pass_month, event_pmonth, this);
 
-	if(ModelRepository::get_instance()->get_lagarto_personalizado()){
-		simdunas_cat.debug() << "teste" << endl;
-		PT(TextureStage) ts = find_all_texture_stages().get_texture_stage(0);
-		ts->set_mode(TextureStage::M_modulate);
-		set_texture(ts, ModelRepository::get_instance()->get_lagarto_personalizado(), 10);
-		//		get_texture()->reload();
-		//ativa método que provoca o efeito de camuflagem do player
-		event_handler->add_hook("EV_SEGUNDO_REAL", event_psegundo_camuflagem, this);
+	if (Session::get_instance()->get_level() == 2) {
+		if(ModelRepository::get_instance()->get_lagarto_personalizado()){
+			simdunas_cat.debug() << "teste" << endl;
+			PT(TextureStage) ts = find_all_texture_stages().get_texture_stage(0);
+			ts->set_mode(TextureStage::M_modulate);
+			set_texture(ts, ModelRepository::get_instance()->get_lagarto_personalizado(), 10);
+			//		get_texture()->reload();
+			//ativa método que provoca o efeito de camuflagem do player
+			event_handler->add_hook("EV_SEGUNDO_REAL", event_psegundo_camuflagem, this);
 
+		}
 	}
 
 	event_handler->add_hook(TimeControl::EV_pass_frame, false_flag_under_vegetal, this);
@@ -131,16 +133,16 @@ float Player::get_speed_walking() const {
 	else {
 		Player *p = player;
 		/* A Letargia influencia na velocidade (decidiu-se por influenciar linearmente) */
-//		p->set_velocity((PlayerProperties::max_speed + PlayerProperties::min_speed) * 0.5);
+		//		p->set_velocity((PlayerProperties::max_speed + PlayerProperties::min_speed) * 0.5);
 		p->set_velocity(properties.speed * (1.0 - p->get_lethargy()));
-//		p->set_velocity(p->get_velocity()*100); // Multiplicador de velocidade
+		//		p->set_velocity(p->get_velocity()*100); // Multiplicador de velocidade
 		return p->get_velocity();
 	}
 }
 
 /*! Obtém a velocidade do jogador enquanto correndo */
 float Player::get_speed_running() const {
-//	return get_speed_walking() * 10;
+	//	return get_speed_walking() * 10;
 	return get_speed_walking() * 5;
 }
 
@@ -158,7 +160,7 @@ void Player::load_player(){
 	player->nivel_camuflagem_terreno_noite = ModelRepository::get_instance()->get_nivel_camuflagem_terreno_noite();
 
 	/* Atualiza tamanho do player */
-//	player->set_scale(player->get_visual_size());
+	//	player->set_scale(player->get_visual_size());
 	player->set_pos(255,255, 0);
 
 	/* Posicionamento inicial do Player */
@@ -352,8 +354,8 @@ void Player::set_buried(bool is_buried){
 float Player::get_mouth_size() {
 	//	return _mouth_size;
 
-//	float real_head_size = properties.head_size * get_tamanho_real() * 0.2;
-//	return real_head_size * 0.8;
+	//	float real_head_size = properties.head_size * get_tamanho_real() * 0.2;
+	//	return real_head_size * 0.8;
 }
 
 ///*! Define o tamanho da boca do lagarto */
@@ -417,8 +419,8 @@ void Player::mordida_recebida(int lizard_tamanho_base){
 
 	add_energy(-lost_energy);
 	AudioController::get_instance()->heart_beat(get_energy(), get_min_energy());
-/*	GuiManager::get_instance()->piscar_life();
- * Piscar_life já é chamado anteriormente*/
+	/*	GuiManager::get_instance()->piscar_life();
+	 * Piscar_life já é chamado anteriormente*/
 }
 
 PT(Predator) Player::get_predator(){
