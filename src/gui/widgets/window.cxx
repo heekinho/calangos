@@ -53,25 +53,13 @@ Window::Window(NodePath parent, float width, float height, string title, float p
 
 Window::~Window() {
 	simdunas_cat.debug()<<"Destruindo a window"<<endl;
-	frame = NULL;
-	header_frame = NULL;
-	header = NULL;
-	btn_close = NULL;
-	np_btn_close.remove_node();
 	np_frame.remove_node();
-	np_header.remove_node();
 	np_header_frame.remove_node();
 }
 
 void Window::close_action() {
 	simdunas_cat.debug()<<"fechando a janela!"<<endl;
-	frame = NULL;
-	header_frame = NULL;
-	header = NULL;
-	btn_close = NULL;
-	np_btn_close.remove_node();
 	np_frame.remove_node();
-	np_header.remove_node();
 	np_header_frame.remove_node();
 }
 

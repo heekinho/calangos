@@ -33,7 +33,6 @@ private:
 
 	// Achievement: Senhor mordida perfeita
 	PT(Text) lb_senhor_mordida;
-	NodePath np_lb_senhor_mordida;
 	PT(Hint) hint_senhor_mordida_atual;
 	PT(Hint) hint_senhor_mordida_1;
 	PT(Hint) hint_senhor_mordida_2;
@@ -47,8 +46,7 @@ private:
 	NodePath np_lb_senhor_mordida_andamento;
 
 	// Achievement: O bom de boca
-	PT(TextNode) lb_bom_de_boca;
-	NodePath np_lb_bom_de_boca;
+	PT(Text) lb_bom_de_boca;
 	PT(Hint) hint_bom_de_boca_atual;
 	PT(Hint) hint_bom_de_boca_1;
 	PT(Hint) hint_bom_de_boca_2;
@@ -62,8 +60,7 @@ private:
 	NodePath np_lb_bom_de_boca_andamento;
 
 	// Achievement: Sobrevivente
-	PT(TextNode) lb_sobrevivente;
-	NodePath np_lb_sobrevivente;
+	PT(Text) lb_sobrevivente;
 	PT(Hint) hint_sobrevivente_atual;
 	PT(Hint) hint_sobrevivente_1;
 	PT(Hint) hint_sobrevivente_2;
@@ -77,8 +74,7 @@ private:
 	NodePath np_lb_sobrevivente_andamento;
 
 	// Achievement: Reprodutor
-	PT(TextNode) lb_reprodutor;
-	NodePath np_lb_reprodutor;
+	PT(Text) lb_reprodutor;
 	PT(Hint) hint_reprodutor_atual;
 	PT(Hint) hint_reprodutor_1;
 	PT(Hint) hint_reprodutor_2;
@@ -92,8 +88,7 @@ private:
 	NodePath np_lb_reprodutor_andamento;
 
 	// Achievement: Temperatura
-	PT(TextNode) lb_temperatura;
-	NodePath np_lb_temperatura;
+	PT(Text) lb_temperatura;
 	PT(Hint) hint_temperatura_atual;
 	PT(Hint) hint_temperatura_1;
 	PT(Hint) hint_temperatura_2;
@@ -107,8 +102,7 @@ private:
 	NodePath np_lb_temperatura_andamento;
 
 	// Achievement: Hidratação
-	PT(TextNode) lb_hidratacao;
-	NodePath np_lb_hidratacao;
+	PT(Text) lb_hidratacao;
 	PT(Hint) hint_hidratacao_atual;
 	PT(Hint) hint_hidratacao_1;
 	PT(Hint) hint_hidratacao_2;
@@ -122,8 +116,7 @@ private:
 	NodePath np_lb_hidratacao_andamento;
 
 	// Achievement: Energia
-	PT(TextNode) lb_energia;
-	NodePath np_lb_energia;
+	PT(Text) lb_energia;
 	PT(Hint) hint_energia_atual;
 	PT(Hint) hint_energia_1;
 	PT(Hint) hint_energia_2;
@@ -137,8 +130,7 @@ private:
 	NodePath np_lb_energia_andamento;
 
 	// Achievement: Intocável
-	PT(TextNode) lb_intocavel;
-	NodePath np_lb_intocavel;
+	PT(Text) lb_intocavel;
 	PT(Hint) hint_intocavel_atual;
 	PT(Hint) hint_intocavel_1;
 	PT(Hint) hint_intocavel_2;
@@ -152,8 +144,7 @@ private:
 	NodePath np_lb_intocavel_andamento;
 
 	// Achievement: Guerreiro
-	PT(TextNode) lb_guerreiro;
-	NodePath np_lb_guerreiro;
+	PT(Text) lb_guerreiro;
 	PT(Hint) hint_guerreiro_atual;
 	PT(Hint) hint_guerreiro_1;
 	PT(Hint) hint_guerreiro_2;

@@ -24,8 +24,6 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	// Achievement: Senhor mordida perfeita
 	lb_senhor_mordida = new Text("lb_senhor_mordida", "- Senhor mordida perfeita", np_frame, TextNode::get_default_font(), 0.05);
 	lb_senhor_mordida->set_pos(0.06, 0, 0.95);
-	float text_width = lb_senhor_mordida->get_text_node()->get_width();
-	float text_height = lb_senhor_mordida->get_text_node()->get_height();
 
 	string white = "white_star";
 	string yellow = "yellow_star";
@@ -87,33 +85,26 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	// FIM DO ACHIEVEMENT
 
 	// ACHIEVEMENT: O bom de boca
-	lb_bom_de_boca = new TextNode("lb_bom_de_boca");
-	lb_bom_de_boca->set_text("- O bom de boca");
-	//lb_bom_de_boca->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
-	np_lb_bom_de_boca = np_frame.attach_new_node(lb_bom_de_boca);
-	np_lb_bom_de_boca.set_scale(0.05);
-	np_lb_bom_de_boca.set_pos(0.06, 0, 0.85);
-	np_lb_bom_de_boca.set_color(0, 0, 0, 1);
-	text_width = lb_bom_de_boca->get_width();
-	text_height = lb_bom_de_boca->get_height();
+	lb_bom_de_boca = new Text("lb_bom_de_boca", "- O bom de boca", np_frame, TextNode::get_default_font(), 0.05);
+	lb_bom_de_boca->set_pos(0.06, 0, 0.85);
 
 	int lvl_bom_de_boca = player->get_achievements()->get_lvl_bom_de_boca();
 	switch (lvl_bom_de_boca) {
 		case 0:
 			create_bom_de_boca_stars(white, white, white);
-			hint_bom_de_boca_atual = new Hint(np_frame, np_lb_bom_de_boca, text_width, text_height, "hint_bom_de_boca", "Coma 4 espécies diferentes de insetos ou plantas.");
+			hint_bom_de_boca_atual = new Hint(np_frame, lb_bom_de_boca, lb_bom_de_boca->get_np(), "hint_bom_de_boca", "Coma 4 espécies diferentes de insetos ou plantas.");
 			break;
 		case 1:
 			create_bom_de_boca_stars(yellow, white, white);
-			hint_bom_de_boca_atual = new Hint(np_frame, np_lb_bom_de_boca, text_width, text_height, "hint_bom_de_boca", "Coma mais 5 espécies diferentes de insetos ou plantas.");
+			hint_bom_de_boca_atual = new Hint(np_frame, lb_bom_de_boca, lb_bom_de_boca->get_np(), "hint_bom_de_boca", "Coma mais 5 espécies diferentes de insetos ou plantas.");
 			break;
 		case 2:
 			create_bom_de_boca_stars(yellow, yellow, white);
-			hint_bom_de_boca_atual = new Hint(np_frame, np_lb_bom_de_boca, text_width, text_height, "hint_bom_de_boca", "Coma mais 5 espécies diferentes de insetos ou plantas.");
+			hint_bom_de_boca_atual = new Hint(np_frame, lb_bom_de_boca, lb_bom_de_boca->get_np(), "hint_bom_de_boca", "Coma mais 5 espécies diferentes de insetos ou plantas.");
 			break;
 		default:
 			create_bom_de_boca_stars(yellow, yellow, yellow);
-			hint_bom_de_boca_atual = new Hint(np_frame, np_lb_bom_de_boca, text_width, text_height, "hint_bom_de_boca", "Coma mais 5 espécies diferentes de insetos ou plantas.");
+			hint_bom_de_boca_atual = new Hint(np_frame, lb_bom_de_boca, lb_bom_de_boca->get_np(), "hint_bom_de_boca", "Coma mais 5 espécies diferentes de insetos ou plantas.");
 	}
 
 	hint_bom_de_boca_1 = new Hint(np_frame, img_bom_de_boca_star_1, "hint_bom_de_boca", "Ter comido 4 espécies diferentes de insetos ou plantas");
@@ -152,33 +143,26 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	// FIM DO ACHIEVEMENT
 
 	// ACHIEVEMENT: Sobrevivente
-	lb_sobrevivente = new TextNode("lb_sobrevivente");
-	lb_sobrevivente->set_text("- Sobrevivente");
-	//lb_sobrevivente->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
-	np_lb_sobrevivente = np_frame.attach_new_node(lb_sobrevivente);
-	np_lb_sobrevivente.set_scale(0.05);
-	np_lb_sobrevivente.set_pos(0.06, 0, 0.75);
-	np_lb_sobrevivente.set_color(0, 0, 0, 1);
-	text_width = lb_sobrevivente->get_width();
-	text_height = lb_sobrevivente->get_height();
+	lb_sobrevivente = new Text("lb_sobrevivente", "- Sobrevivente", np_frame, TextNode::get_default_font(), 0.05);
+	lb_sobrevivente->set_pos(0.06, 0, 0.75);
 
 	int lvl_sobrevivente = player->get_achievements()->get_lvl_sobrevivente();
 	switch (lvl_sobrevivente) {
 		case 0:
 			create_sobrevivente_stars(white, white, white);
-			hint_sobrevivente_atual = new Hint(np_frame, np_lb_sobrevivente, text_width, text_height, "hint_sobrevivente", "Sobreviva por 4 meses.");
+			hint_sobrevivente_atual = new Hint(np_frame, lb_sobrevivente, lb_sobrevivente->get_np(), "hint_sobrevivente", "Sobreviva por 4 meses.");
 			break;
 		case 1:
 			create_sobrevivente_stars(yellow, white, white);
-			hint_sobrevivente_atual = new Hint(np_frame, np_lb_sobrevivente, text_width, text_height, "hint_sobrevivente", "Sobreviva por mais 7 meses.");
+			hint_sobrevivente_atual = new Hint(np_frame, lb_sobrevivente, lb_sobrevivente->get_np(), "hint_sobrevivente", "Sobreviva por mais 7 meses.");
 			break;
 		case 2:
 			create_sobrevivente_stars(yellow, yellow, white);
-			hint_sobrevivente_atual = new Hint(np_frame, np_lb_sobrevivente, text_width, text_height, "hint_sobrevivente", "Sobreviva por mais 11 meses");
+			hint_sobrevivente_atual = new Hint(np_frame, lb_sobrevivente, lb_sobrevivente->get_np(), "hint_sobrevivente", "Sobreviva por mais 11 meses");
 			break;
 		default:
 			create_sobrevivente_stars(yellow, yellow, yellow);
-			hint_sobrevivente_atual = new Hint(np_frame, np_lb_sobrevivente, text_width, text_height, "hint_sobrevivente", "Sobreviva por mais 11 meses");
+			hint_sobrevivente_atual = new Hint(np_frame, lb_sobrevivente, lb_sobrevivente->get_np(), "hint_sobrevivente", "Sobreviva por mais 11 meses");
 	}
 
 	hint_sobrevivente_1 = new Hint(np_frame, img_sobrevivente_star_1, "hint_sobrevivente", "Ter sobrevivido por 4 meses");
@@ -217,33 +201,27 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	// FIM DO ACHIEVEMENT
 
 	// ACHIEVEMENT: Reprodutor
-	lb_reprodutor = new TextNode("lb_reprodutor");
+	lb_reprodutor = new Text("lb_reprodutor", "- Reprodutor", np_frame, TextNode::get_default_font(), 0.05);
 	lb_reprodutor->set_text("- Reprodutor");
-	//lb_reprodutor->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
-	np_lb_reprodutor = np_frame.attach_new_node(lb_reprodutor);
-	np_lb_reprodutor.set_scale(0.05);
-	np_lb_reprodutor.set_pos(0.06, 0, 0.65);
-	np_lb_reprodutor.set_color(0, 0, 0, 1);
-	text_width = lb_reprodutor->get_width();
-	text_height = lb_reprodutor->get_height();
+	lb_reprodutor->set_pos(0.06, 0, 0.65);
 
 	int lvl_reprodutor = player->get_achievements()->get_lvl_reprodutor();
 	switch (lvl_reprodutor) {
 		case 0:
 			create_reprodutor_stars(white, white, white);
-			hint_reprodutor_atual = new Hint(np_frame, np_lb_reprodutor, text_width, text_height, "hint_reprodutor", "Reproduza 3 vezes.");
+			hint_reprodutor_atual = new Hint(np_frame, lb_reprodutor, lb_reprodutor->get_np(), "hint_reprodutor", "Reproduza 3 vezes.");
 			break;
 		case 1:
 			create_reprodutor_stars(yellow, white, white);
-			hint_reprodutor_atual = new Hint(np_frame, np_lb_reprodutor, text_width, text_height, "hint_reprodutor", "Reproduza 6 vezes.");
+			hint_reprodutor_atual = new Hint(np_frame, lb_reprodutor, lb_reprodutor->get_np(), "hint_reprodutor", "Reproduza 6 vezes.");
 			break;
 		case 2:
 			create_reprodutor_stars(yellow, yellow, white);
-			hint_reprodutor_atual = new Hint(np_frame, np_lb_reprodutor, text_width, text_height, "hint_reprodutor", "Reproduza 10 vezes.");
+			hint_reprodutor_atual = new Hint(np_frame, lb_reprodutor, lb_reprodutor->get_np(), "hint_reprodutor", "Reproduza 10 vezes.");
 			break;
 		default:
 			create_reprodutor_stars(yellow, yellow, yellow);
-			hint_reprodutor_atual = new Hint(np_frame, np_lb_reprodutor, text_width, text_height, "hint_reprodutor", "Reproduza 10 vezes.");
+			hint_reprodutor_atual = new Hint(np_frame, lb_reprodutor, lb_reprodutor->get_np(), "hint_reprodutor", "Reproduza 10 vezes.");
 	}
 
 	hint_reprodutor_1 = new Hint(np_frame, img_reprodutor_star_1, "hint_reprodutor", "Ter reproduzido 3 vezes");
@@ -282,33 +260,26 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	// FIM DO ACHIEVEMENT REPRODUTOR
 
 	// ACHIEVEMENT: Temperatura
-	lb_temperatura = new TextNode("lb_temperatura");
-	lb_temperatura->set_text("- Temperatura");
-	//lb_temperatura->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
-	np_lb_temperatura = np_frame.attach_new_node(lb_temperatura);
-	np_lb_temperatura.set_scale(0.05);
-	np_lb_temperatura.set_pos(0.06, 0, 0.55);
-	np_lb_temperatura.set_color(0, 0, 0, 1);
-	text_width = lb_temperatura->get_width();
-	text_height = lb_temperatura->get_height();
+	lb_temperatura = new Text("lb_temperatura", "- Temperatura", np_frame, TextNode::get_default_font(), 0.05);
+	lb_temperatura->set_pos(0.06, 0, 0.55);
 
 	int lvl_temperatura = player->get_achievements()->get_lvl_temperatura();
 	switch (lvl_temperatura) {
 		case 0:
 			create_temperatura_stars(white, white, white);
-			hint_temperatura_atual = new Hint(np_frame, np_lb_temperatura, text_width, text_height, "hint_temperatura", "Mantenha sua temperatura entre 35 e 40 graus durante 45 segundos.");
+			hint_temperatura_atual = new Hint(np_frame, lb_temperatura, lb_temperatura->get_np(), "hint_temperatura", "Mantenha sua temperatura entre 35 e 40 graus durante 45 segundos.");
 			break;
 		case 1:
 			create_temperatura_stars(yellow, white, white);
-			hint_temperatura_atual = new Hint(np_frame, np_lb_temperatura, text_width, text_height, "hint_temperatura", "Mantenha sua temperatura entre 35 e 40 graus durante 60 segundos.");
+			hint_temperatura_atual = new Hint(np_frame, lb_temperatura, lb_temperatura->get_np(), "hint_temperatura", "Mantenha sua temperatura entre 35 e 40 graus durante 60 segundos.");
 			break;
 		case 2:
 			create_temperatura_stars(yellow, yellow, white);
-			hint_temperatura_atual = new Hint(np_frame, np_lb_temperatura, text_width, text_height, "hint_temperatura", "Mantenha sua temperatura entre 35 e 40 graus durante 90 segundos.");
+			hint_temperatura_atual = new Hint(np_frame, lb_temperatura, lb_temperatura->get_np(), "hint_temperatura", "Mantenha sua temperatura entre 35 e 40 graus durante 90 segundos.");
 			break;
 		default:
 			create_temperatura_stars(yellow, yellow, yellow);
-			hint_temperatura_atual = new Hint(np_frame, np_lb_temperatura, text_width, text_height, "hint_temperatura", "Mantenha sua temperatura entre 35 e 40 graus durante 90 segundos.");
+			hint_temperatura_atual = new Hint(np_frame, lb_temperatura, lb_temperatura->get_np(), "hint_temperatura", "Mantenha sua temperatura entre 35 e 40 graus durante 90 segundos.");
 	}
 
 	hint_temperatura_1 = new Hint(np_frame, img_temperatura_star_1, "hint_temperatura", "Ter mantido a temperatura entre 35 e 40 graus durante 45 segundos");
@@ -347,33 +318,27 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	// FIM DO ACHIEVEMENT TEMPERATURA
 
 	// ACHIEVEMENT: Hidratação
-	lb_hidratacao = new TextNode("lb_hidratacao");
+	lb_hidratacao = new Text("lb_hidratacao", "- Hidratação", np_frame, TextNode::get_default_font(), 0.05);
 	lb_hidratacao->set_text("- hidratacao");
-	//lb_hidratacao->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
-	np_lb_hidratacao = np_frame.attach_new_node(lb_hidratacao);
-	np_lb_hidratacao.set_scale(0.05);
-	np_lb_hidratacao.set_pos(0.06, 0, 0.45);
-	np_lb_hidratacao.set_color(0, 0, 0, 1);
-	text_width = lb_hidratacao->get_width();
-	text_height = lb_hidratacao->get_height();
+	lb_hidratacao->set_pos(0.06, 0, 0.45);
 
 	int lvl_hidratacao = player->get_achievements()->get_lvl_hidratacao();
 	switch (lvl_hidratacao) {
 		case 0:
 			create_hidratacao_stars(white, white, white);
-			hint_hidratacao_atual = new Hint(np_frame, np_lb_hidratacao, text_width, text_height, "hint_hidratacao", "Mantenha sua hidratação maior que 70 durante 60 segundos.");
+			hint_hidratacao_atual = new Hint(np_frame, lb_hidratacao, lb_hidratacao->get_np(), "hint_hidratacao", "Mantenha sua hidratação maior que 70 durante 60 segundos.");
 			break;
 		case 1:
 			create_hidratacao_stars(yellow, white, white);
-			hint_hidratacao_atual = new Hint(np_frame, np_lb_hidratacao, text_width, text_height, "hint_hidratacao", "Mantenha sua hidratação maior que 80 durante 120 segundos.");
+			hint_hidratacao_atual = new Hint(np_frame, lb_hidratacao, lb_hidratacao->get_np(), "hint_hidratacao", "Mantenha sua hidratação maior que 80 durante 120 segundos.");
 			break;
 		case 2:
 			create_hidratacao_stars(yellow, yellow, white);
-			hint_hidratacao_atual = new Hint(np_frame, np_lb_hidratacao, text_width, text_height, "hint_hidratacao", "Mantenha sua hidratação maior que 90 durante 180 segundos.");
+			hint_hidratacao_atual = new Hint(np_frame, lb_hidratacao, lb_hidratacao->get_np(), "hint_hidratacao", "Mantenha sua hidratação maior que 90 durante 180 segundos.");
 			break;
 		default:
 			create_hidratacao_stars(yellow, yellow, yellow);
-			hint_hidratacao_atual = new Hint(np_frame, np_lb_hidratacao, text_width, text_height, "hint_hidratacao", "Mantenha sua hidratação maior que 90 durante 180 segundos.");
+			hint_hidratacao_atual = new Hint(np_frame, lb_hidratacao, lb_hidratacao->get_np(), "hint_hidratacao", "Mantenha sua hidratação maior que 90 durante 180 segundos.");
 	}
 
 	hint_hidratacao_1 = new Hint(np_frame, img_hidratacao_star_1, "hint_hidratacao", "Ter mantido a hidratação maior que 70 durante 60 segundos");
@@ -412,33 +377,26 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	// FIM DO ACHIEVEMENT HIDRATAÇÃO
 
 	// ACHIEVEMENT: Energia
-	lb_energia = new TextNode("lb_energia");
-	lb_energia->set_text("- Energia");
-	//lb_energia->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
-	np_lb_energia = np_frame.attach_new_node(lb_energia);
-	np_lb_energia.set_scale(0.05);
-	np_lb_energia.set_pos(0.06, 0, 0.35);
-	np_lb_energia.set_color(0, 0, 0, 1);
-	text_width = lb_energia->get_width();
-	text_height = lb_energia->get_height();
+	lb_energia = new Text("lb_energia", "- Energia", np_frame, TextNode::get_default_font(), 0.05);
+	lb_energia->set_pos(0.06, 0, 0.35);
 
 	int lvl_energia = player->get_achievements()->get_lvl_energia();
 	switch (lvl_energia) {
 		case 0:
 			create_energia_stars(white, white, white);
-			hint_energia_atual = new Hint(np_frame, np_lb_energia, text_width, text_height, "hint_energia", "Mantenha sua energia maior que 70 durante 60 segundos.");
+			hint_energia_atual = new Hint(np_frame, lb_energia, lb_energia->get_np(), "hint_energia", "Mantenha sua energia maior que 70 durante 60 segundos.");
 			break;
 		case 1:
 			create_energia_stars(yellow, white, white);
-			hint_energia_atual = new Hint(np_frame, np_lb_energia, text_width, text_height, "hint_energia", "Mantenha sua energia maior que 80 durante 120 segundos.");
+			hint_energia_atual = new Hint(np_frame, lb_energia, lb_energia->get_np(), "hint_energia", "Mantenha sua energia maior que 80 durante 120 segundos.");
 			break;
 		case 2:
 			create_energia_stars(yellow, yellow, white);
-			hint_energia_atual = new Hint(np_frame, np_lb_energia, text_width, text_height, "hint_energia", "Mantenha sua energia maior que 90 durante 180 segundos.");
+			hint_energia_atual = new Hint(np_frame, lb_energia, lb_energia->get_np(), "hint_energia", "Mantenha sua energia maior que 90 durante 180 segundos.");
 			break;
 		default:
 			create_energia_stars(yellow, yellow, yellow);
-			hint_energia_atual = new Hint(np_frame, np_lb_energia, text_width, text_height, "hint_energia", "Mantenha sua energia maior que 90 durante 180 segundos.");
+			hint_energia_atual = new Hint(np_frame, lb_energia, lb_energia->get_np(), "hint_energia", "Mantenha sua energia maior que 90 durante 180 segundos.");
 	}
 
 	hint_energia_1 = new Hint(np_frame, img_energia_star_1, "hint_energia", "Ter mantido a energia maior que 70 durante 60 segundos");
@@ -477,33 +435,26 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	// FIM DO ACHIEVEMENT ENERGIA
 
 	// ACHIEVEMENT: O intocável
-	lb_intocavel = new TextNode("lb_intocavel");
-	lb_intocavel->set_text("- O intocável");
-	//lb_intocavel->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
-	np_lb_intocavel = np_frame.attach_new_node(lb_intocavel);
-	np_lb_intocavel.set_scale(0.05);
-	np_lb_intocavel.set_pos(0.06, 0, 0.25);
-	np_lb_intocavel.set_color(0, 0, 0, 1);
-	text_width = lb_intocavel->get_width();
-	text_height = lb_intocavel->get_height();
+	lb_intocavel = new Text("lb_intocavel", "- O intocável", np_frame, TextNode::get_default_font(), 0.05);
+	lb_intocavel->set_pos(0.06, 0, 0.25);
 
 	int lvl_intocavel = player->get_achievements()->get_lvl_intocavel();
 	switch (lvl_intocavel) {
 		case 0:
 			create_intocavel_stars(white, white, white);
-			hint_intocavel_atual = new Hint(np_frame, np_lb_intocavel, text_width, text_height, "hint_intocavel", "Permaneça sem receber dano de predadores durante 60 segundos.");
+			hint_intocavel_atual = new Hint(np_frame, lb_intocavel, lb_intocavel->get_np(), "hint_intocavel", "Permaneça sem receber dano de predadores durante 60 segundos.");
 			break;
 		case 1:
 			create_intocavel_stars(yellow, white, white);
-			hint_intocavel_atual = new Hint(np_frame, np_lb_intocavel, text_width, text_height, "hint_intocavel", "Permaneça sem receber dano de predadores durante 120 segundos.");
+			hint_intocavel_atual = new Hint(np_frame, lb_intocavel, lb_intocavel->get_np(), "hint_intocavel", "Permaneça sem receber dano de predadores durante 120 segundos.");
 			break;
 		case 2:
 			create_intocavel_stars(yellow, yellow, white);
-			hint_intocavel_atual = new Hint(np_frame, np_lb_intocavel, text_width, text_height, "hint_intocavel", "Permaneça sem receber dano de predadores durante 180 segundos.");
+			hint_intocavel_atual = new Hint(np_frame, lb_intocavel, lb_intocavel->get_np(), "hint_intocavel", "Permaneça sem receber dano de predadores durante 180 segundos.");
 			break;
 		default:
 			create_intocavel_stars(yellow, yellow, yellow);
-			hint_intocavel_atual = new Hint(np_frame, np_lb_intocavel, text_width, text_height, "hint_intocavel", "Permaneça sem receber dano de predadores durante 180 segundos.");
+			hint_intocavel_atual = new Hint(np_frame, lb_intocavel, lb_intocavel->get_np(), "hint_intocavel", "Permaneça sem receber dano de predadores durante 180 segundos.");
 	}
 
 	hint_intocavel_1 = new Hint(np_frame, img_intocavel_star_1, "hint_intocavel", "Não ter recebido dano de nenhum predador durante 60 segundos");
@@ -542,33 +493,26 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	np_lb_intocavel_andamento.set_color(0, 0, 0, 1);
 
 	// ACHIEVEMENT: O Guerreiro
-	lb_guerreiro = new TextNode("lb_guerreiro");
-	lb_guerreiro->set_text("- Guerreiro");
-	//lb_guerreiro->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
-	np_lb_guerreiro = np_frame.attach_new_node(lb_guerreiro);
-	np_lb_guerreiro.set_scale(0.05);
-	np_lb_guerreiro.set_pos(0.06, 0, 0.15);
-	np_lb_guerreiro.set_color(0, 0, 0, 1);
-	text_width = lb_guerreiro->get_width();
-	text_height = lb_guerreiro->get_height();
+	lb_guerreiro = new Text("lb_guerreiro", "- Guerreiro", np_frame, TextNode::get_default_font(), 0.05);
+	lb_guerreiro->set_pos(0.06, 0, 0.15);
 
 	int lvl_guerreiro = player->get_achievements()->get_lvl_guerreiro();
 	switch (lvl_guerreiro) {
 		case 0:
 			create_guerreiro_stars(white, white, white);
-			hint_guerreiro_atual = new Hint(np_frame, np_lb_guerreiro, text_width, text_height, "hint_guerreiro", "Espante 2 lagartos machos (necessários 12 meses de vida).");
+			hint_guerreiro_atual = new Hint(np_frame, lb_guerreiro, lb_guerreiro->get_np(), "hint_guerreiro", "Espante 2 lagartos machos (necessários 12 meses de vida).");
 			break;
 		case 1:
 			create_guerreiro_stars(yellow, white, white);
-			hint_guerreiro_atual = new Hint(np_frame, np_lb_guerreiro, text_width, text_height, "hint_guerreiro", "Espante 5 lagartos machos (necessários 12 meses de vida).");
+			hint_guerreiro_atual = new Hint(np_frame, lb_guerreiro, lb_guerreiro->get_np(), "hint_guerreiro", "Espante 5 lagartos machos (necessários 12 meses de vida).");
 			break;
 		case 2:
 			create_guerreiro_stars(yellow, yellow, white);
-			hint_guerreiro_atual = new Hint(np_frame, np_lb_guerreiro, text_width, text_height, "hint_guerreiro", "Espante 10 lagartos machos (necessários 12 meses de vida).");
+			hint_guerreiro_atual = new Hint(np_frame, lb_guerreiro, lb_guerreiro->get_np(), "hint_guerreiro", "Espante 10 lagartos machos (necessários 12 meses de vida).");
 			break;
 		default:
 			create_guerreiro_stars(yellow, yellow, yellow);
-			hint_guerreiro_atual = new Hint(np_frame, np_lb_guerreiro, text_width, text_height, "hint_guerreiro", "Espante 10 lagartos machos (necessários 12 meses de vida).");
+			hint_guerreiro_atual = new Hint(np_frame, lb_guerreiro, lb_guerreiro->get_np(), "hint_guerreiro", "Espante 10 lagartos machos (necessários 12 meses de vida).");
 	}
 
 	hint_guerreiro_1 = new Hint(np_frame, img_guerreiro_star_1, "hint_guerreiro", "Ter espantado 2 lagartos machos.");
@@ -607,125 +551,6 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 }
 
 AchievementsWindow::~AchievementsWindow() {
-	hint_bom_de_boca_1 = NULL;
-	hint_bom_de_boca_2 = NULL;
-	hint_bom_de_boca_3 = NULL;
-	hint_bom_de_boca_atual = NULL;
-	hint_energia_1 = NULL;
-	hint_energia_2 = NULL;
-	hint_energia_3 = NULL;
-	hint_energia_atual = NULL;
-	hint_guerreiro_1 = NULL;
-	hint_guerreiro_2 = NULL;
-	hint_guerreiro_3 = NULL;
-	hint_guerreiro_atual = NULL;
-	hint_hidratacao_1 = NULL;
-	hint_hidratacao_2 = NULL;
-	hint_hidratacao_3 = NULL;
-	hint_hidratacao_atual = NULL;
-	hint_intocavel_1 = NULL;
-	hint_intocavel_2 = NULL;
-	hint_intocavel_3 = NULL;
-	hint_intocavel_atual = NULL;
-	hint_reprodutor_1 = NULL;
-	hint_reprodutor_2 = NULL;
-	hint_reprodutor_3 = NULL;
-	hint_reprodutor_atual = NULL;
-	hint_senhor_mordida_1 = NULL;
-	hint_senhor_mordida_2 = NULL;
-	hint_senhor_mordida_3 = NULL;
-	hint_senhor_mordida_atual = NULL;
-	hint_sobrevivente_1 = NULL;
-	hint_sobrevivente_2 = NULL;
-	hint_sobrevivente_3 = NULL;
-	hint_sobrevivente_atual = NULL;
-	hint_temperatura_1 = NULL;
-	hint_temperatura_2 = NULL;
-	hint_temperatura_3 = NULL;
-	hint_temperatura_atual = NULL;
-	lb_andamento = NULL;
-	lb_bom_de_boca = NULL;
-	lb_bom_de_boca_andamento = NULL;
-	lb_bom_de_boca_xnum = NULL;
-	lb_energia = NULL;
-	lb_energia_andamento = NULL;
-	lb_energia_xnum = NULL;
-	lb_guerreiro = NULL;
-	lb_guerreiro_andamento = NULL;
-	lb_guerreiro_xnum = NULL;
-	lb_hidratacao = NULL;
-	lb_hidratacao_andamento = NULL;
-	lb_hidratacao_xnum = NULL;
-	lb_intocavel = NULL;
-	lb_intocavel_andamento = NULL;
-	lb_intocavel_xnum = NULL;
-	lb_reprodutor = NULL;
-	lb_reprodutor_andamento = NULL;
-	lb_reprodutor_xnum = NULL;
-	lb_senhor_mordida = NULL;
-	lb_senhor_mordida_andamento = NULL;
-	lb_senhor_mordida_xnum = NULL;
-	lb_sobrevivente = NULL;
-	lb_sobrevivente_andamento = NULL;
-	lb_sobrevivente_xnum = NULL;
-	lb_temperatura = NULL;
-	lb_temperatura_andamento = NULL;
-	lb_temperatura_xnum = NULL;
-	np_lb_andamento.remove_node();
-	np_lb_bom_de_boca.remove_node();
-	np_lb_bom_de_boca_andamento.remove_node();
-	np_lb_bom_de_boca_xnum.remove_node();
-	np_lb_energia.remove_node();
-	np_lb_energia_andamento.remove_node();
-	np_lb_energia_xnum.remove_node();
-	np_lb_guerreiro.remove_node();
-	np_lb_guerreiro_andamento.remove_node();
-	np_lb_guerreiro_xnum.remove_node();
-	np_lb_hidratacao.remove_node();
-	np_lb_hidratacao_andamento.remove_node();
-	np_lb_hidratacao_xnum.remove_node();
-	np_lb_intocavel.remove_node();
-	np_lb_intocavel_andamento.remove_node();
-	np_lb_intocavel_xnum.remove_node();
-	np_lb_reprodutor.remove_node();
-	np_lb_reprodutor_andamento.remove_node();
-	np_lb_reprodutor_xnum.remove_node();
-	np_lb_senhor_mordida.remove_node();
-	np_lb_senhor_mordida_andamento.remove_node();
-	np_lb_senhor_mordida_xnum.remove_node();
-	np_lb_sobrevivente.remove_node();
-	np_lb_sobrevivente_andamento.remove_node();
-	np_lb_sobrevivente_xnum.remove_node();
-	np_lb_temperatura.remove_node();
-	np_lb_temperatura_andamento.remove_node();
-	np_lb_temperatura_xnum.remove_node();
-	img_bom_de_boca_star_1.remove_node();
-	img_bom_de_boca_star_2.remove_node();
-	img_bom_de_boca_star_3.remove_node();
-	img_energia_star_1.remove_node();
-	img_energia_star_2.remove_node();
-	img_energia_star_3.remove_node();
-	img_guerreiro_star_1.remove_node();
-	img_guerreiro_star_2.remove_node();
-	img_guerreiro_star_3.remove_node();
-	img_hidratacao_star_1.remove_node();
-	img_hidratacao_star_2.remove_node();
-	img_hidratacao_star_3.remove_node();
-	img_intocavel_star_1.remove_node();
-	img_intocavel_star_2.remove_node();
-	img_intocavel_star_3.remove_node();
-	img_reprodutor_star_1.remove_node();
-	img_reprodutor_star_2.remove_node();
-	img_reprodutor_star_3.remove_node();
-	img_senhor_mordida_star_1.remove_node();
-	img_senhor_mordida_star_2.remove_node();
-	img_senhor_mordida_star_3.remove_node();
-	img_sobrevivente_star_1.remove_node();
-	img_sobrevivente_star_2.remove_node();
-	img_sobrevivente_star_3.remove_node();
-	img_temperatura_star_1.remove_node();
-	img_temperatura_star_2.remove_node();
-	img_temperatura_star_3.remove_node();
 }
 
 void AchievementsWindow::create_senhor_mordida_stars(string star1, string star2, string star3) {
