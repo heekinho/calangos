@@ -551,6 +551,38 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 }
 
 AchievementsWindow::~AchievementsWindow() {
+	hint_bom_de_boca_1 = NULL;
+	hint_bom_de_boca_2 = NULL;
+	hint_bom_de_boca_3 = NULL;
+	hint_bom_de_boca_atual = NULL;
+	hint_energia_1 = NULL;
+	hint_energia_2 = NULL;
+	hint_energia_3 = NULL;
+	hint_energia_atual = NULL;
+	hint_guerreiro_1 = NULL;
+	hint_guerreiro_2 = NULL;
+	hint_guerreiro_3 = NULL;
+	hint_guerreiro_atual = NULL;
+	hint_hidratacao_1 = NULL;
+	hint_hidratacao_2 = NULL;
+	hint_hidratacao_3 = NULL;
+	hint_hidratacao_atual = NULL;
+	hint_intocavel_1 = NULL;
+	hint_intocavel_2 = NULL;
+	hint_intocavel_3 = NULL;
+	hint_intocavel_atual = NULL;
+	hint_reprodutor_1 = NULL;
+	hint_reprodutor_2 = NULL;
+	hint_reprodutor_3 = NULL;
+	hint_reprodutor_atual = NULL;
+	hint_sobrevivente_1 = NULL;
+	hint_sobrevivente_2 = NULL;
+	hint_sobrevivente_3 = NULL;
+	hint_sobrevivente_atual = NULL;
+	hint_temperatura_1 = NULL;
+	hint_temperatura_2 = NULL;
+	hint_temperatura_3 = NULL;
+	hint_temperatura_atual = NULL;
 }
 
 void AchievementsWindow::create_senhor_mordida_stars(string star1, string star2, string star3) {

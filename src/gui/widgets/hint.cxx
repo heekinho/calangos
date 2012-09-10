@@ -144,23 +144,35 @@ void Hint::buildHint(string msg) {
 }
 
 Hint::~Hint() {
-	btn = NULL;
-	text = NULL;
 	np_btn.remove_node();
 	np_text.remove_node();
+	btn = NULL;
+	text = NULL;
+	event_handler->remove_hooks_with(this);
 }
 
 /*! Evento de quando o mouse passa por cima do botão invisível. Programa o hint para ser exibido após 1 segundo. */
 void Hint::enter_event(const Event*, void *data) {
+	if (data == NULL) return;
 	Hint* _this = (Hint*) data;
+	if (_this->btn == NULL || _this->text == NULL) return;
 	TimeControl::get_instance()->notify("show_hint", show_hint, data, 1);
 	_this->mouse_in = true;
 }
 
 /*! Exibe o hint um pouco acima e centralizado em relação ao ponteiro do mouse.  */
 AsyncTask::DoneStatus Hint::show_hint(GenericAsyncTask* task, void* data) {
+	if (data == NULL) {
+		return AsyncTask::DS_done;
+	}
+
 	Hint* _this = (Hint*) data;
-	if (_this->np_reference.is_hidden()) {
+
+	if (_this->btn == NULL || _this->text == NULL) {
+		return AsyncTask::DS_done;
+	}
+
+	if (_this->np_reference.is_empty() || _this->np_reference.is_hidden() || _this->np_reference.is_stashed()) {
 		return AsyncTask::DS_done;
 	}
 	PT(MouseWatcher) mwatcher = DCAST(MouseWatcher, window->get_mouse().node());
@@ -171,15 +183,21 @@ AsyncTask::DoneStatus Hint::show_hint(GenericAsyncTask* task, void* data) {
 	float mouse_x = mwatcher->get_mouse_x();
 	float mouse_y = mwatcher->get_mouse_y();
 
+	if (_this->btn == NULL || _this->text == NULL) return AsyncTask::DS_done;
 	if (!_this->mouse_in) {
 		return AsyncTask::DS_done;
 	}
 
+	if (_this->btn == NULL || _this->text == NULL) return AsyncTask::DS_done;
+
 	float aspect_ratio = Simdunas::get_pixel_2d()->get_aspect_ratio();
+	if (_this->btn == NULL || _this->text == NULL) return AsyncTask::DS_done;
 	float half_text_size = _this->text->get_width() * _this->np_text.get_sx() / 2;
 	_this->np_text.set_pos((mouse_x * aspect_ratio) - half_text_size, 0, mouse_y + 0.03);
 	LPoint3f min, max;
 	_this->np_text.calc_tight_bounds(min, max);
+
+	if (_this->btn == NULL || _this->text == NULL) return AsyncTask::DS_done;
 
 	if (max.get_x() > aspect_ratio) { // o balão passou da tela e precisará ser movido para a esquerda
 		float offset_left = max.get_x() - aspect_ratio + half_text_size + 0.01;
@@ -197,7 +215,12 @@ AsyncTask::DoneStatus Hint::show_hint(GenericAsyncTask* task, void* data) {
 
 /*! Evento de quando o mouse sai de cima do botão invisível. Oculta o hint. */
 void Hint::exit_event(const Event*, void *data) {
+	if (data == NULL) return;
+
 	Hint* _this = (Hint*) data;
+
+	if (_this->btn == NULL || _this->text == NULL) return;
+
 	_this->np_text.stash();
 	_this->mouse_in = false;
 }

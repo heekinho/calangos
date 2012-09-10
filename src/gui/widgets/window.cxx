@@ -55,12 +55,14 @@ Window::~Window() {
 	simdunas_cat.debug()<<"Destruindo a window"<<endl;
 	np_frame.remove_node();
 	np_header_frame.remove_node();
+	event_handler->remove_hooks_with(this);
 }
 
 void Window::close_action() {
 	simdunas_cat.debug()<<"fechando a janela!"<<endl;
 	np_frame.remove_node();
 	np_header_frame.remove_node();
+	event_handler->remove_hooks_with(this);
 }
 
 NodePath Window::get_np_frame() {
