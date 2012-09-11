@@ -7,6 +7,7 @@
 #include "femaleLizard.h"
 #include "maleLizard.h"
 #include "youngLizard.h"
+#include "textureStageCollection.h"
 
 #include "collision.h"
 #include "utils.h"
@@ -93,6 +94,18 @@ void Lizard::load_lizards(){
 	lizard_models[LG_female] = ModelRepository::get_instance()->get_animated_model(lizard_names[LG_female])->copy_to(NodePath());
 	lizard_models[LG_male] = ModelRepository::get_instance()->get_animated_model(lizard_names[LG_male])->copy_to(NodePath());
 	lizard_models[LG_young] = ModelRepository::get_instance()->get_animated_model(lizard_names[LG_young])->copy_to(NodePath());
+
+	if (Session::get_instance()->get_level() == 2) {
+		if(ModelRepository::get_instance()->get_lagarto_personalizado()){
+			simdunas_cat.debug() << "Trocando texturas dos coespecíficos" << endl;
+
+			for(int i = 0; i < 3; i++){
+				PT(TextureStage) ts = lizard_models[i].find_all_texture_stages().get_texture_stage(0);
+				ts->set_mode(TextureStage::M_modulate);
+				lizard_models[i].set_texture(ts, ModelRepository::get_instance()->get_lagarto_personalizado(), 10);
+			}
+		}
+	}
 
 	for(int i = 0; i < 3; i++){
 		PT(Lizard) lizard = new Lizard(lizard_models[i]);
