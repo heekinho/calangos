@@ -69,6 +69,7 @@ float MorfologySimulator::calculate_relative_size(float lizard_size) const {
  *  Esse update é uma forma de cache apenas. */
 float MorfologySimulator::update_relative_size(){
 	_relative_size = calculate_relative_size(_size);
+	return _relative_size;
 }
 
 

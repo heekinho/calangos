@@ -296,6 +296,8 @@ bool Lizard::hide_from_predator(){
 //		flee(*predator);
 		return false;
 	}
+
+	return false;
 }
 
 PT(Vegetal) Lizard::get_arvore_da_sombra(){

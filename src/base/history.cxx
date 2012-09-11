@@ -56,13 +56,13 @@ float History::get_smallest_element(History::HistoryItem item) {
 }
 
 /*! Adiciona um elemento no histórico do item especificado */
-float History::add_element(History::HistoryItem item, float value){
+void History::add_element(History::HistoryItem item, float value){
 	if(_history[item].size() == _max_items) _history[item].pop_front();
 	_history[item].push_back(value);
 }
 
 /*! Limpa o histórico do item especificado */
-float History::clear(History::HistoryItem item){
+void History::clear(History::HistoryItem item){
 	_history[item].clear();
 }
 

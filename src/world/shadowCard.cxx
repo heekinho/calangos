@@ -109,7 +109,7 @@ void ShadowCard::update_active_shadows(){
 	//ShadowCard::clear_shadows(active_shadows);
 	active_shadows->fill(1);
 
-	for (int i = 0; i < sectors->size(); i++) {
+	for (unsigned int i = 0; i < sectors->size(); i++) {
 		PT(Setor) s = sectors->at(i);
 
 		int x_i = s->get_pos_start().get_x();// - sector_width;

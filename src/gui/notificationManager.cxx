@@ -42,7 +42,7 @@ void NotificationManager::show_notification(string message) {
 	float half_text_size = text->get_width() * np_text.get_sx() / 2;
 	np_text.set_pos(-half_text_size, 0, -0.7);
 
-	for (int i = 0; i < notifications.size(); i++) {
+	for (unsigned int i = 0; i < notifications.size(); i++) {
 		notifications.at(i).set_z(notifications.at(i).get_z() + 0.1);
 	}
 
@@ -53,6 +53,7 @@ void NotificationManager::show_notification(string message) {
 AsyncTask::DoneStatus NotificationManager::delay_hide_notification(GenericAsyncTask* task, void* data) {
 	notifications.front().remove_node();
 	notifications.pop_front();
+	return AsyncTask::DS_done;
 }
 
 void NotificationManager::fadein(NodePath np) {
@@ -66,4 +67,5 @@ AsyncTask::DoneStatus NotificationManager::fadeout(GenericAsyncTask* task, void*
 	PT(CLerpNodePathInterval) fade_interval = new CLerpNodePathInterval("fadeout notif", 1, CLerpNodePathInterval::BT_no_blend, true, false, np, NodePath());
 	fade_interval->set_end_color_scale(LVecBase4f(1, 1, 1, 0));
 	fade_interval->start();
+	return AsyncTask::DS_done;
 }

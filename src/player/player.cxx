@@ -352,7 +352,7 @@ void Player::set_buried(bool is_buried){
 
 /*! Obtém o tamanho da boca do lagarto */
 float Player::get_mouth_size() {
-	//	return _mouth_size;
+	return _mouth_size;
 
 	//	float real_head_size = properties.head_size * get_tamanho_real() * 0.2;
 	//	return real_head_size * 0.8;

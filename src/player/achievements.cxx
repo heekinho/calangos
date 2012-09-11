@@ -199,7 +199,7 @@ void Achievements::inc_lvl_reprodutor() {
 // verifica a espécie do alimento ingerido
 void Achievements::check_edible_specie(Edible::Specie specie) {
 	bool is_new = true;
-	for (int i = 0; i < eaten_species.size(); i++) {
+	for (unsigned int i = 0; i < eaten_species.size(); i++) {
 		if (specie == eaten_species.at(i)) {
 			is_new = false;
 			break;

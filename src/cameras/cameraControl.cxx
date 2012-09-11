@@ -122,7 +122,7 @@ void CameraControl::set_active_camera(const Event* evt, void *data){
 
 /*! Define a camera passada como ativa */
 void CameraControl::set_active_camera(PT(CameraNode) camera){
-	for(int i = 0; i < cameras.size(); i++){
+	for(unsigned int i = 0; i < cameras.size(); i++){
 		if(cameras.at(i) == camera) set_active_camera(i);
 	}
 }

@@ -260,7 +260,6 @@ AsyncTask::DoneStatus AudioController::loop_running(GenericAsyncTask* task, void
 
 	if (!_this->is_running) return AsyncTask::DS_done;
 
-	PlayerControl* playerCtrl = PlayerControl::get_instance();
 	_this->audio_repository->play_sound(AudioRepository::RUNNING);
 	return AsyncTask::DS_again;
 }

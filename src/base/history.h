@@ -43,8 +43,8 @@ public:
 	static float get_largest_element(History::HList* the_list);
 	static float get_smallest_element(History::HList* the_list);
 
-	float add_element(History::HistoryItem item, float value);
-	float clear(History::HistoryItem item);
+	void add_element(History::HistoryItem item, float value);
+	void clear(History::HistoryItem item);
 
 	void output(History::HistoryItem item, const string &name, ostream &out) const;
 

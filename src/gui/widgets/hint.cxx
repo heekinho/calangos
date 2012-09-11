@@ -172,7 +172,7 @@ AsyncTask::DoneStatus Hint::show_hint(GenericAsyncTask* task, void* data) {
 		return AsyncTask::DS_done;
 	}
 
-	if (_this->np_reference.is_empty() || _this->np_reference.is_hidden() || _this->np_reference.is_stashed()) {
+	if ((_this->np_reference.is_empty() && _this->np_reference.get_hidden_ancestor().is_empty()) || _this->np_reference.is_hidden() || _this->np_reference.is_stashed()) {
 		return AsyncTask::DS_done;
 	}
 	PT(MouseWatcher) mwatcher = DCAST(MouseWatcher, window->get_mouse().node());

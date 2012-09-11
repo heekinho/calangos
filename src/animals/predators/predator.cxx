@@ -316,7 +316,6 @@ bool Predator::find_prey(){
 	SectorItems<PT(Lizard)>* lizard_list = this->get_setor()->lizards();
 	SectorItems<PT(Lizard)>::iterator it;
 	float distance_squared_lizard  = 0;
-	float distance = this->get_distance_pursuit();
 
 	predator_to_prey = 0;
 
@@ -455,8 +454,7 @@ void Predator::act_fase_2(){
 	 * Além da questão biológica, precisa-se testar a questão de jogabilidade */
 
 
-	float distance = this->get_distance_pursuit();
-		float eat_thr = this->get_distance_bite();
+	float eat_thr = this->get_distance_bite();
 
 	float dist = get_distance(*player);
 
