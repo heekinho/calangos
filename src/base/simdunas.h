@@ -41,6 +41,7 @@ public:
 	static void setup_clickable_render_2d();
 
 	static TextFont* get_game_font();
+	static TextFont* game_font;
 
 private:
 	static GuiLayer* pixel2d;
@@ -48,7 +49,7 @@ private:
 	static WindowFramework *pwindow;
 	static NodePath clickable_render_2d;
 	static bool play_clicked;
-	static TextFont* game_font;
+
 };
 
 

@@ -88,5 +88,7 @@ calangos-want-debugtools 0
 notify-level-simdunas warning
 notify-level-player_health warning
 
+calangos-debug-terrain 1
+
 
 calangos-player-ideal-months-max-size 36

@@ -76,9 +76,6 @@ public:
 	int get_x_size();
 	int get_y_size();
 
-	int get_escala();
-	void set_escala(int escala);
-
 
 	// Manipulação com os setores
 	static const int MAX_SETORES = 64;
@@ -107,10 +104,9 @@ public:
 
 	list<PT(Prey)> list_prey;
 private:
-	static void create_default_terrain();
+	void create_default_terrain();
 	void init_sectors();
 	vector<PT(Setor)> _setores;
-	int escala;
 	
 
 	vector<PT(ObjetoJogo)> cercas;

@@ -61,6 +61,8 @@ Setor::Setor(LPoint2d inicio, LPoint2d fim, int indice){
 	_edible_vegetal_list.get_root().reparent_to(_root);
 	_lizard_list.get_root().reparent_to(_root);
 	_toca_list.get_root().reparent_to(_root);
+
+	//event_handler->add_hook(TimeControl::EV_pass_frame, optimize_display_sector, this);
 }
 
 //Setor::Setor(){}
@@ -68,6 +70,7 @@ Setor::Setor(LPoint2d inicio, LPoint2d fim, int indice){
 Setor::~Setor() {
 //	_vegetals.remove_node();
 	_root.remove_node();
+	event_handler->remove_hooks_with(this);
 }
 
 ///*! Lançado na movimentação dos NPCs */
@@ -101,7 +104,7 @@ void Setor::set_player_neighbor(bool is_neighbor){
 		_player_sector_neighbor = true;
 		//event_handler->add_hook(TimeControl::get_instance()->EV_pass_frame, event_player_next, this);
 		event_queue->queue_event(new Event(this->EV_player_next));
-		_root.unstash();
+		if(_root.is_stashed()) _root.unstash();
 	}
 	else {
 		_player_sector_neighbor = false;
@@ -110,10 +113,40 @@ void Setor::set_player_neighbor(bool is_neighbor){
 
 		// Lança um evento para avisar aos npcs do setor que o player não é mais vizinho.
 		event_queue->queue_event(new Event(this->EV_player_not_next));
-		_root.stash();
+		if(!_root.is_stashed()) _root.stash();
 	}
 }
 
+void Setor::optimize_display_sector(const Event*, void* data){
+	((Setor*) data)->optimize_display_sector();
+}
+
+#include "cameraControl.h"
+void Setor::optimize_display_sector(){
+//	if(!get_root().is_stashed()){
+		LPoint2 player_pos = player->get_pos(render).get_xy();
+//		LVector2 player_forward = render.get_relative_vector(*player, LVector3(0, 1, 0)).get_xy();
+		LVector2 player_forward = player->get_orientation(false).get_xy();
+		//player_forward.normalize();
+
+		LPoint2 v0 = LPoint2(get_pos_start()[0], get_pos_start()[1]) - player_pos;
+		LPoint2 v1 = LPoint2(get_pos_end()[0], get_pos_start()[1]) - player_pos;
+		LPoint2 v2 = LPoint2(get_pos_start()[0], get_pos_end()[1]) - player_pos;
+		LPoint2 v3 = LPoint2(get_pos_end()[0], get_pos_end()[1]) - player_pos;
+		v0.normalize();
+		v1.normalize();
+		v2.normalize();
+		v3.normalize();
+
+		nout << cos(deg_2_rad(CameraControl::get_instance()->get_current_camera()->get_real_camera()->get_lens()->get_fov()[0]*2.0)) << endl;
+		static float thr = 0.866025*0.5;
+		bool inview = (player_forward.dot(v0) > thr) || (player_forward.dot(v1) > thr)
+				   || (player_forward.dot(v2) > thr)  < (player_forward.dot(v3) > thr) ;
+
+		if(!inview && !get_root().is_stashed()) get_root().stash();
+		if(inview && get_root().is_stashed()) get_root().unstash();
+//	}
+}
 ///*! Lança um evento informando que o player está próximo
 // * A identificação é feita pelo nome do evento. */
 //void Setor::event_player_next(const Event*, void *data){

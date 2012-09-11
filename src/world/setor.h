@@ -57,6 +57,8 @@ public:
 	void set_is_closest_sector(bool is_closest);
 	bool get_is_closest_sector();
 
+	static void optimize_display_sector(const Event*, void* data);
+	void optimize_display_sector();
 private:
 	SectorItems<PT(Animal)> _animal_list;
 	SectorItems<PT(Prey)> _prey_list;

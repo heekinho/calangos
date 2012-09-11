@@ -28,7 +28,7 @@ WindowFramework* Simdunas::pwindow = NULL;
 GuiLayer* Simdunas::pixel2d = NULL;
 NodePath Simdunas::clickable_render_2d = NULL;
 bool Simdunas::play_clicked = false;
-TextFont* Simdunas::game_font = FontPool::load_font("models/gui/fonts/suplexcomic-large");
+TextFont* Simdunas::game_font = NULL;
 
 NotifyCategoryDef(simdunas, "");
 
@@ -48,6 +48,8 @@ int main(int argc, char *argv[]) {
 	load_prc_file("config/calangos.prc");
 
 	TextNode::set_default_encoding(TextNode::E_utf8);
+	Simdunas::game_font = FontPool::load_font("models/gui/fonts/suplexcomic-large");
+
 	Simdunas::init_types();
 
 	PandaFramework framework;

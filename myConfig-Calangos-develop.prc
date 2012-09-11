@@ -17,6 +17,8 @@ load-display pandagl
 #load-display pandadx9
 #load-display pandadx8
 
+garbage-collect-states #f
+
 # For flatten operations
 max-collect-indices 655350000
 max-collect-vertices 655350000
@@ -69,6 +71,9 @@ model-path    	.
 model-path    	$MAIN_DIR
 model-path    	models
 model-cache-dir modelcache
+# Enable the model-cache, but only for models, not textures.
+model-cache-dir $THIS_PRC_DIR/../modelcache
+model-cache-textures #f
 
 # This enable the automatic creation of a TK window when running
 # Direct.
@@ -94,10 +99,6 @@ use-movietexture #t
 
 # The new version of panda supports hardware vertex animation, but it's not quite ready
 hardware-animated-vertices #f
-
-# Enable the model-cache, but only for models, not textures.
-model-cache-dir $THIS_PRC_DIR/../modelcache
-model-cache-textures #f
 
 # This option specifies the default profiles for Cg shaders.
 # Setting it to #t makes them arbvp1 and arbfp1, since these

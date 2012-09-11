@@ -43,6 +43,10 @@ alpha-bits 0
 stencil-bits 0
 multisamples 0
 
+garbage-collect-states #f
+
+
+
 # These control the amount of output Panda gives for some various
 # categories.  The severity levels, in order, are "spam", "debug",
 # "info", "warning", and "error"; the default is "info".  Uncomment
@@ -90,7 +94,8 @@ hardware-animated-vertices #f
 
 # Enable the model-cache, but only for models, not textures.
 
-model-cache-dir $THIS_PRC_DIR/../modelcache
+#model-cache-dir $THIS_PRC_DIR/../modelcache
+model-cache-dir modelcache
 model-cache-textures #f
 
 # This option specifies the default profiles for Cg shaders.

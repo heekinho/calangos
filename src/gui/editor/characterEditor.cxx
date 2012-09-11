@@ -14,67 +14,8 @@
 #include "asyncTaskManager.h"
 #include "asyncTask.h"
 
-
-class DietComponent {
-public:
-
-	class DietSlider : public PGSliderBar {
-	public:
-		DietSlider(const string &name, DietComponent* diet, int id) : PGSliderBar(name){
-			_id = id;
-			_diet = diet;
-		}
-
-		/*! Chamado quando se clica (solta o botão do mouse) na barra */
-		virtual void release(const MouseWatcherParameter &param, bool background){
-			PGSliderBar::release(param, background);
-			update_value();
-		}
-
-		/*! Chamado quando se clica (solta o botão do mouse) no botão da barra */
-		virtual void item_release(PGItem *item, const MouseWatcherParameter &param){
-			PGSliderBar::item_release(item, param);
-			update_value();
-		}
-
-		/*! Verifica se é possível que este slider assuma o valor que o usuário
-		 *  colocou. Se não for possível, move para o maior valor possível */
-		void update_value(){
-			int a = _diet->components[(_id + 1) % 3]->get_value();
-			int b = _diet->components[(_id + 2) % 3]->get_value();
-
-			int available_points = DietComponent::total_points - (a + b);
-
-			if(get_value() > available_points) set_value(available_points);
-
-			set_value(int(get_value()));
-		}
-
-	private:
-		DietComponent* _diet;
-		int _id;
-	};
-
-
-	DietComponent(){
-		for(int i = 0; i < 3; i++){
-			PT(PGSliderBar) control = new DietSlider("slider_"+i, this, i);
-			control->set_range(0, total_points);
-			control->setup_slider(false, 0.5, 0.05, 0.0f);
-			control->set_value(0);
-			control->set_page_size(1.0);
-
-			components[i] = control;
-		}
-	}
-
-	INLINE float get_used_points(){
-		return components[0]->get_value() + components[1]->get_value() + components[2]->get_value();
-	}
-
-	static const int total_points = 100;
-	PT(PGSliderBar) components[3];
-};
+#include "dietSlider.h"
+#include "dietComponent.h"
 
 class EditorDietEntry : public CharacterEditorEntrySlider {
 public:

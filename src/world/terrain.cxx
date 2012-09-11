@@ -5,7 +5,7 @@
 #include "referenceCount.h"
 #include "typedReferenceCount.h"
 #include "texturePool.h"
-
+#include "utils.h"
 
 PT(Terrain)  Terrain::terrain = NULL;
 TypeHandle Terrain::_type_handle;
@@ -13,15 +13,20 @@ TypeHandle Terrain::_type_handle;
 // Constroi um novo terreno com o nome especificado
 Terrain::Terrain(const string &name) : GeoMipTerrain (name) {
 	simdunas_cat.debug() << "Criando Terreno..." << endl;
-	escala = 1;
-
-	//window->set_wireframe(true);
 
 	shadows = new ShadowCard(LPoint2f(512, 512), LPoint2f(512, 512));
 	this->get_root().set_texture(shadows->get_stage(), shadows->get_texture());
 
+	create_default_terrain();
+
+	if(ConfigVariableBool("calangos-debug-terrain", false)){
+		simdunas_cat.debug() << "Terreno possui: " << get_root().get_num_children() << " filhos" << endl;
+		for(int i = 0; i < get_root().node()->get_num_children(); i++){
+			get_root().get_child(i).set_color_scale(random(0.0, 1.0), random(0.0, 1.0), random(0.0, 1.0), 1.0f);
+		}
+	}
+
 	//event_handler->add_hook(PlayerControl::EV_player_move, update_terrain, this);
-	//get_root().hide();
 }
 
 
@@ -65,87 +70,82 @@ void Terrain::remove_all_edible_vegetals(){
 }
 
 PT(Terrain) Terrain::get_default_terrain(){
-	if(terrain==NULL){
-		create_default_terrain();
-
+	if(terrain == NULL){
+		terrain = new Terrain("Default_Dunas_Enviroment");
 	}
 	return terrain;
 }
 
 
 void Terrain::create_default_terrain(){
-	simdunas_cat.debug()<< "1 create_defalt_terrain chamado "<< endl;
-	if(terrain==NULL){
-		// Cria o Terreno -----------------------------------------------------//
-		terrain = new Terrain("Default_Dunas_Enviroment");
+	// Carrega o heightfield e a textura
+	set_heightfield(Filename("models/terrain/heightmaps/heightmap_dunes.png"));
 
-		// Carrega o heightfield e a textura
-		terrain->set_heightfield(Filename("models/terrain/heightmaps/heightmap_dunes.png"));
+	// Configuracoes de textura para perto
+	PT(Texture) terrain_tex_near = TexturePool::load_texture("models/terrain/tile_near.jpg");
+	terrain_tex_near->set_wrap_u(Texture::WM_repeat);
+	terrain_tex_near->set_wrap_v(Texture::WM_repeat);
+	terrain_tex_near->set_minfilter(Texture::FT_linear_mipmap_linear);
 
-		// Configuracoes de textura para perto
-		PT(Texture) terrain_tex_near = TexturePool::load_texture("models/terrain/tile_near.jpg");
-		terrain_tex_near->set_wrap_u(Texture::WM_repeat);
-		terrain_tex_near->set_wrap_v(Texture::WM_repeat);
-		terrain_tex_near->set_minfilter(Texture::FT_linear_mipmap_linear);
+	PT(TextureStage) stage_near = new TextureStage("stage_near");
+	get_root().set_texture(stage_near, terrain_tex_near);
+	get_root().set_tex_scale(stage_near, 4096);
 
-		PT(TextureStage) stage_near = new TextureStage("stage_near");
-		terrain->get_root().set_texture(stage_near, terrain_tex_near);
-		terrain->get_root().set_tex_scale(stage_near, 4096);
+	// Configuracoes de textura para longe
+	PT(Texture) terrain_tex_far = TexturePool::load_texture("models/terrain/tile_far.jpg");
+	terrain_tex_far->set_wrap_u(Texture::WM_repeat);
+	terrain_tex_far->set_wrap_v(Texture::WM_repeat);
+	terrain_tex_far->set_minfilter(Texture::FT_linear_mipmap_linear);
 
-		// Configuracoes de textura para longe
-		PT(Texture) terrain_tex_far = TexturePool::load_texture("models/terrain/tile_far.jpg");
-		terrain_tex_far->set_wrap_u(Texture::WM_repeat);
-		terrain_tex_far->set_wrap_v(Texture::WM_repeat);
-		terrain_tex_far->set_minfilter(Texture::FT_linear_mipmap_linear);
+	PT(TextureStage) stage_far = new TextureStage("stage_far");
+	get_root().set_texture(stage_far, terrain_tex_far);
+	get_root().set_tex_scale(stage_far, 20);
 
-		PT(TextureStage) stage_far = new TextureStage("stage_far");
-		terrain->get_root().set_texture(stage_far, terrain_tex_far);
-		terrain->get_root().set_tex_scale(stage_far, 20);
-
-		terrain->get_root().reparent_to(render);
-		terrain->set_focal_point(LPoint2d(256, 256));
+	get_root().reparent_to(render);
+	set_focal_point(LPoint2d(256, 256));
 
 
-		// Com Bruteforce: (Configuração legal: min_level: 2, 3, 4, block: 64)
-		terrain->set_bruteforce(true);
-		terrain->set_min_level(0);		/* Pode-se deixar configurável, mas precisa-se implementar o get_height de mipmap */
-		//fiz alteração no valor do size block de 128 para 64
-		terrain->set_block_size(64);	/* 128 parece oferecer o melhor trade-off. FPS melhor e mais estável */
-		terrain->generate();
+	// Com Bruteforce: (Configuração legal: min_level: 2, 3, 4, block: 64)
+	set_bruteforce(true);
+	set_min_level(0);		/* Pode-se deixar configurável, mas precisa-se implementar o get_height de mipmap */
+	//fiz alteração no valor do size block de 128 para 64
+	set_block_size(64);	/* 128 parece oferecer o melhor trade-off. FPS melhor e mais estável */
+	generate();
 
 
-		//		// Gera o Terreno, sem bruteforce.
-		//		//terrain->set_min_level(0);
-		//		terrain->set_block_size(32);
-		//		terrain->set_near_far(40, 100);
-		//		terrain->generate();
-		//		terrain->set_focal_point(*player);
-		////		terrain->set_auto_flatten(GeoMipTerrain::AFM_strong);
+	//		// Gera o Terreno, sem bruteforce.
+	//		//set_min_level(0);
+	//		set_block_size(32);
+	//		set_near_far(40, 100);
+	//		generate();
+	//		set_focal_point(*player);
+	////		set_auto_flatten(GeoMipTerrain::AFM_strong);
 
 
-		// Configuracoes do terreno
-		terrain->set_escala(1);
-		terrain->get_root().set_sz(16);
-		terrain->init_sectors();
-		//terrain->draw_map();
-		//terrain->get_root().set_render_mode_wireframe(); //ativa wire_frame do terreno
-		//--------------------------------------------------------------------//
+	// Configuracoes do terreno
+	get_root().set_sz(16);
+	init_sectors();
+	//draw_map();
+	//get_root().set_render_mode_wireframe(); //ativa wire_frame do terreno
+	//--------------------------------------------------------------------//
 
-		terrain->folhagem = new Foliage();
-
-	}
-
+	folhagem = new Foliage();
 }
 
 /*! Necessário para atualizar o ponto focal para o LOD do terreno */
 //TODO: Mudar nome para update_terrain...
 void Terrain::update_terrain(const Event*, void *data){
 	//terrain->set_focal_point(player->get_pos());
-	terrain->update();
+	//terrain->update();
+
+	((Terrain*) data)->set_focal_point(player->get_pos());
+	((Terrain*) data)->update();
 }
+
+
 void Terrain::draw_map(){
 	//#### método que tenta modificar posição do terreno para resolver o problema de sobre posição com as folhagens (sem sucesso)
-	NodePathCollection nodePathCollection = terrain->get_root().find_all_matches("**/+GeomNode");
+	NodePathCollection nodePathCollection = get_root().find_all_matches("**/+GeomNode");
 
 	simdunas_cat.debug() << "Quantidade de nodePath:  " << nodePathCollection.size() << endl; //retornou 64
 	for (int i = 0; i < nodePathCollection.size(); ++i)
@@ -154,10 +154,10 @@ void Terrain::draw_map(){
 		NodePath nodePath = nodePathCollection[i];
 
 		//obtem posição de cada NodePath em relação ao NodePath root
-		float x = nodePath.get_pos(terrain->get_root()).get_x();
-		float y = nodePath.get_pos(terrain->get_root()).get_y();
+		float x = nodePath.get_pos(get_root()).get_x();
+		float y = nodePath.get_pos(get_root()).get_y();
 		//descobre o block onde o NodePath está
-		LVecBase2f lbase2  =  terrain->get_block_from_pos(x,y);
+		LVecBase2f lbase2  =  get_block_from_pos(x,y);
 		//obtem o indice x e y do block
 		unsigned int index_x  = lbase2.get_x();
 		unsigned int index_y  = lbase2.get_y();
@@ -177,7 +177,7 @@ void Terrain::draw_map(){
 			float pos_y = (v.get_y() + 32) + 64*index_y;
 			//    simdunas_cat.debug() << "indices (x,y)" << x <<  y << endl;
 
-			float pos_z = terrain->get_elevation(pos_x, pos_y)/16;
+			float pos_z = get_elevation(pos_x, pos_y)/16;
 
 			if(pos_z != v.get_z()){ //Em nenhum momento entra nesse if
 				simdunas_cat.debug() << "Coordenadas x,y,z e novo_z" << endl;
@@ -202,21 +202,11 @@ Terrain::~Terrain(){
 
 
 int Terrain::get_x_size(){
-	return terrain->escala * (terrain->heightfield().get_x_size() - 1);
+	return get_root().get_sx() * (heightfield().get_x_size() - 1);
 }
 
 int Terrain::get_y_size(){
-	return terrain->escala * (terrain->heightfield().get_y_size() - 1);
-}
-
-
-void Terrain::set_escala(int escala){
-	terrain->escala = escala;
-	terrain->get_root().set_scale(terrain->escala);
-}
-
-int Terrain::get_escala(){
-	return terrain->escala;
+	return get_root().get_sy() * (heightfield().get_y_size() - 1);
 }
 
 
@@ -409,15 +399,15 @@ void Terrain::update_adjacent_sectors(PT(Setor) s){
 /*! Atualiza a posição Z do objeto. Como parametro opcional, um offset,
  * para efetuar pequenos ajustes. */
 void Terrain::update_node_z(NodePath node, double offset){
-	node.set_z(terrain->get_elevation(node.get_x(), node.get_y()) + offset);
+	node.set_z(get_elevation(node.get_x(), node.get_y()) + offset);
 }
 
 void Terrain::update_object_z(PT(ObjetoJogo) object, double aditional_offset){
-	object->set_z(terrain->get_elevation(object->get_x(), object->get_y()) + object->get_offset_z() + aditional_offset);
+	object->set_z(get_elevation(object->get_x(), object->get_y()) + object->get_offset_z() + aditional_offset);
 }
 
 double Terrain::get_elevation(double x, double y){
-	return terrain->GeoMipTerrain::get_elevation(x, y)*get_root().get_sz();
+	return GeoMipTerrain::get_elevation(x, y)*get_root().get_sz();
 }
 
 
@@ -425,8 +415,8 @@ double Terrain::get_elevation(double x, double y){
 void Terrain::init_sectors(){
 
 	int index = 0;
-	int x_size = terrain->get_x_size();
-	int y_size = terrain->get_y_size();
+	int x_size = get_x_size();
+	int y_size = get_y_size();
 	int width = x_size/NUM_SECTORS_X;
 	int height = y_size/NUM_SECTORS_Y;
 
@@ -446,7 +436,7 @@ void Terrain::init_sectors(){
 			//out << index;
 			//s = out.str();
 			//no_setores[index]=render.attach_new_node("setor"+s);
-			terrain->add_setor(setor);
+			add_setor(setor);
 			index++;
 
 
@@ -554,8 +544,8 @@ void Terrain::load_tocas(){
 /*! Carrega uma cerca em volta do terreno e algumas casas no limite das dunas.*/
 void Terrain::load_terrain_limit(){
 	double pos = 0;
-	int terrain_x_size = terrain->get_x_size();
-	int terrain_y_size = terrain->get_y_size();
+	int terrain_x_size = get_x_size();
+	int terrain_y_size = get_y_size();
 	double limit = terrain_x_size - 0.5;
 
 	NodePath left_fence_set = NodePath("Conjunto de cercas da Esquerda");
@@ -685,7 +675,7 @@ void Terrain::unload_vectors(){
 
 void Terrain::unload_terrain(){
 	unload_vectors();
-	terrain->get_root().remove_node();
+	get_root().remove_node();
 	water.remove_node();
 	terrain = NULL;
 }
