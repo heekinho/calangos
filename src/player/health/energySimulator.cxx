@@ -14,7 +14,7 @@ EnergySimulator::EnergySimulator(PT(PlayerHealth) health) : Simulator(health) {
 	_food_energy_buffer = 0.0;
 
 	_basal_cost = 0.0;
-	_moviment_cost = 1.0;
+	_movement_cost = 1.0;
 	_temperature_cost = 1.0;
 	_total_cost = 0.0;
 
@@ -33,9 +33,9 @@ EnergySimulator::~EnergySimulator(){
 }
 
 /*! Realiza a simulação atualizando os gastos de energia */
-void EnergySimulator::update(float updates_per_hour, float relative_size, float temperature_cost){
+void EnergySimulator::update(float updates_per_hour, float relative_size, float temperature_cost, float movement_cost){
 	update_basal_cost(updates_per_hour, relative_size);
-	update_moviment_cost();
+	update_movement_cost(movement_cost);
 	update_temperature_cost(temperature_cost);
 	update_total_cost();
 	update_energy();
@@ -65,8 +65,8 @@ void EnergySimulator::update_basal_cost(float updates_per_hour, float relative_s
 }
 
 /* Atualiza o gasto por movimento do lagarto */
-void EnergySimulator::update_moviment_cost(){
-
+void EnergySimulator::update_movement_cost(float movement_cost){
+	_movement_cost = movement_cost;
 }
 
 /*! Atualiza o gasto por temperatura do lagarto */
@@ -78,7 +78,7 @@ void EnergySimulator::update_temperature_cost(float temperature_cost){
  * O gasto de energia do lagarto é dado por:
  * Gasto Total = Gasto Basal * Gasto por Temperatura */
 void EnergySimulator::update_total_cost(){
-	_total_cost = _basal_cost * ( _temperature_cost * _moviment_cost );
+	_total_cost = _basal_cost * ( _temperature_cost * _movement_cost );
 }
 
 /*! Retorna a energia do lagarto (de 0 a 100) */

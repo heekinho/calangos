@@ -79,7 +79,7 @@ void PlayerHealthSimulator::pass_second(){
 	/* Atualiza todos os gastos de energia */
 	float relative_size = _morfology_simulator->get_relative_size();
 	float temperature_cost = _temperature_simulator->get_temperature_cost();
-	_energy_simulator->update(_num_updates_per_hour, relative_size, temperature_cost);
+	_energy_simulator->update(_num_updates_per_hour, relative_size, temperature_cost, player->get_movement_cost());
 
 
 	/* Atualiza hidratação do lagarto */

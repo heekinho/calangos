@@ -15,7 +15,7 @@ public:
 	EnergySimulator(PT(PlayerHealth) health);
 	virtual ~EnergySimulator();
 
-	void update(float updates_per_hour, float relative_size, float temperature_cost);
+	void update(float updates_per_hour, float relative_size, float temperature_cost, float movement_cost);
 
 	float get_energy() const;
 
@@ -34,7 +34,7 @@ public:
 
 protected:
 	void update_basal_cost(float updates_per_hour, float relative_size);
-	void update_moviment_cost();
+	void update_movement_cost(float movement_cost);
 	void update_temperature_cost(float temperature_cost);
 	void update_total_cost();
 	void update_energy();
@@ -51,7 +51,7 @@ private:
 	float _basal_cost;
 
 	/*! Gasto por movimento. Este gasto modula o gasto basal (ex.: 1.2 aumenta o gasto em 20%) */
-	float _moviment_cost;
+	float _movement_cost;
 
 	/*! Gasto por temperatura. Este gasto modula o gasto basal (ex.: 1.2 aumenta o gasto em 20%) */
 	float _temperature_cost;

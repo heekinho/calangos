@@ -129,6 +129,7 @@ public:
 	void set_velocity(double velocity);
 
 
+	float get_movement_cost() const;
 	void set_lagarto_parado();
 	void set_lagarto_andando();
 	void set_lagarto_correndo();

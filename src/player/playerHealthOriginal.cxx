@@ -164,6 +164,10 @@ int Player::get_num_ovos(){
 }
 
 
+float Player::get_movement_cost() const {
+	return gasto_movimento;
+}
+
 /* Vai fazer o gasto do lagarto igual ao basal */
 void Player::set_lagarto_parado(){
 	this->gasto_movimento = 1;
