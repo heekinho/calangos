@@ -9,6 +9,7 @@
 
 #include "utils.h"
 
+#include <iostream>
 using namespace std;
 
 /*! Macro de sorteio que retorna um valor de 0 e 1*/

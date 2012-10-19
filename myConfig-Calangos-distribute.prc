@@ -24,7 +24,7 @@ win-size 800 600
 # Uncomment this line if you want to run Panda fullscreen instead of
 # in a window.
 
-fullscreen #f
+fullscreen #t
 
 # The framebuffer-hardware flag forces it to use an accelerated driver.
 # The framebuffer-software flag forces it to use a software renderer.
@@ -75,7 +75,7 @@ want-tk           #f
 # Enable/disable performance profiling tool and frame-rate meter
 
 want-pstats            #f
-show-frame-rate-meter  #t
+show-frame-rate-meter  #f
 
 # Enable audio using the FMOD audio library by default:
 

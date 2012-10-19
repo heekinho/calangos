@@ -30,3 +30,8 @@ python-scripts
 backup
 .externalToolBuilders
 .autotools
+vc90.idb
+Calangos.exe
+vc90.pdb
+Calangos.suo
+Calangos.pdb
