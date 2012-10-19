@@ -88,12 +88,14 @@ void GuiLayer::window_event(){
 
 /*! Ajusta o aspect ratio e tamanho da janela */
 void GuiLayer::adjust_aspect_ratio(){
-	/* Obtém o tamanho da janela e o aspect ratio */
-	xsize = window->get_graphics_output()->get_x_size();
-	ysize = window->get_graphics_output()->get_y_size();
-	aspect_ratio = float(xsize) / float(ysize);
+	if(window->get_graphics_output()){
+		/* Obtém o tamanho da janela e o aspect ratio */
+		xsize = window->get_graphics_output()->get_x_size();
+		ysize = window->get_graphics_output()->get_y_size();
+		aspect_ratio = float(xsize) / float(ysize);
 
-	/* Ajusta o pixel2d */
-	//pixel2d.set_scale(2.0 / xsize, 1, 2.0 / ysize);
-	if(!pixel2d.is_empty()) pixel2d.set_scale(2.0 / xsize, 1, -2.0 / ysize);
+		/* Ajusta o pixel2d */
+		//pixel2d.set_scale(2.0 / xsize, 1, 2.0 / ysize);
+		if(!pixel2d.is_empty()) pixel2d.set_scale(2.0 / xsize, 1, -2.0 / ysize);
+	}
 }
