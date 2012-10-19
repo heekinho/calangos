@@ -60,12 +60,22 @@ int main(int argc, char *argv[]) {
 
 
 	/* Configurações Iniciais da Janela */
-	//	WindowProperties properties = WindowProperties();
-	//	framework.get_default_window_props(properties);
-	//	properties.set_fullscreen(true);
+	WindowProperties properties = WindowProperties();
+	framework.get_default_window_props(properties);
+	properties.set_fullscreen(true);
+	int width = framework.get_default_pipe()->get_display_width();
+	int height = framework.get_default_pipe()->get_display_height();
+	if(width > 0 && height > 0){
+		properties.set_size(width, height);
+	}
+
+#if DEBUG
+	Simdunas::set_window(framework.open_window(/*properties*/));
+#else
+	Simdunas::set_window(framework.open_window(properties,  0));
+#endif
 
 	// Define a janela, o framework, manipulação e geração de eventos e constrói uma nova sessão.
-	Simdunas::set_window(framework.open_window(/*properties*/));
 	Simdunas::set_framework(window->get_panda_framework());
 
 	PT(Thread) current_thread = Thread::get_current_thread();

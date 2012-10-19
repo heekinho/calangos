@@ -1,7 +1,7 @@
 #ifndef SIMDUNAS_H
 #define SIMDUNAS_H
 
-#define DEBUG 1
+//#define DEBUG 1
 
 #include <iostream>
 #include <string>
