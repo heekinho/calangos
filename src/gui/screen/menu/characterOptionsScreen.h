@@ -31,15 +31,20 @@ private:
 	NodePath img_escolha_especie;
 	NodePath marcador;
 	NodePath tropidurus, eurolophosasurus, cnemidophorus; //lagarto andando
-	NodePath img_colisao_ativada;
-	NodePath img_colisao_desativada;
 	NodePath np_btn_avancar;
 	PT(Button) btn_avancar;
 	ACTION(jogar_action);
-	PT(PGButton) btn_tropidurus;		NodePath np_btn_tropidurus;			NodePath img_btn_tropidurus;		ACTION(tropidurus_action);
-	PT(PGButton) btn_eurolophosaurus;	NodePath np_btn_eurolophosaurus;	NodePath img_btn_eurolophosaurus;	ACTION(eurolophosaurus_action);
-	PT(PGButton) btn_cnemidophorus;		NodePath np_btn_cnemidophorus;		NodePath img_btn_cnemidophorus;		ACTION(cnemidophorus_action);
-	PT(PGButton) btn_colisao;			NodePath np_btn_colisao;			NodePath img_btn_colisao;			ACTION(colisao_action);
+
+	PT(TextNode) lb_escolha_especie;	NodePath np_lb_escolha_especie;
+	PT(Button) btn_tropidurus;			NodePath np_btn_tropidurus;			ACTION(tropidurus_action);
+	PT(Button) btn_eurolophosaurus;		NodePath np_btn_eurolophosaurus;	ACTION(eurolophosaurus_action);
+	PT(Button) btn_cnemidophorus;		NodePath np_btn_cnemidophorus;		ACTION(cnemidophorus_action);
+
+	PT(TextNode) lb_nivel_dificuldade;	NodePath np_lb_nivel_dificuldade;
+	PT(Button) btn_nivel_facil;			NodePath np_btn_nivel_facil;		ACTION(nivel_facil_action);
+	PT(Button) btn_nivel_medio;			NodePath np_btn_nivel_medio;		ACTION(nivel_medio_action);
+	PT(Button) btn_nivel_dificil;		NodePath np_btn_nivel_dificil;		ACTION(nivel_dificil_action);
+
 };
 
 #undef ACTION

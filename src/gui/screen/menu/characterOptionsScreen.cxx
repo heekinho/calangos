@@ -23,6 +23,20 @@ CharacterOptionsScreen::~CharacterOptionsScreen() {
 
 void CharacterOptionsScreen::load() {
 
+	// nivel de dificuldade
+	lb_nivel_dificuldade = new TextNode("lb_nivel_dificuldade");
+	lb_nivel_dificuldade->set_text("Nível de Dificuldade");
+	lb_nivel_dificuldade->set_font(manager->get_default_font());
+	np_lb_nivel_dificuldade = get_root().attach_new_node(lb_nivel_dificuldade);
+	np_lb_nivel_dificuldade.set_pos(-1.2, 0.0, 0.75);
+	np_lb_nivel_dificuldade.set_scale(0.12);
+	np_lb_nivel_dificuldade.set_color(1, 1, 1, 1, 0);
+
+	// botões para escolha do nível de dificuldade
+	default_button_config(btn_nivel_facil, np_btn_nivel_facil, "Fácil", LVecBase3f(-1.03, 0, 0.55), nivel_facil_action);
+	default_button_config(btn_nivel_medio, np_btn_nivel_medio, "Médio", LVecBase3f(-1.0, 0, 0.4), nivel_medio_action);
+	default_button_config(btn_nivel_dificil, np_btn_nivel_dificil, "Difícil", LVecBase3f(-1.0, 0, 0.25), nivel_dificil_action);
+
     ////////////////////////Tropidurus////////////////////
     tropidurus = window->load_model(render, "models/lizards/tropidurus/male/model");
     tropidurus.set_scale(0.04, 0.04, 0.04);
@@ -68,9 +82,13 @@ void CharacterOptionsScreen::load() {
     default_button_config(btn_avancar, np_btn_avancar, "Avançar >>", LVecBase3f(0.7, 0, -0.9), jogar_action);
 
 	///////opção de configuração de Escolha da Espécie/////////////
-	img_escolha_especie = window->load_model(get_root(), "models/buttons/especie.png");
-	img_escolha_especie.set_scale(0.06, 0.0, 0.06);
-	img_escolha_especie.set_pos(-0.68, 0.0, 0.03);
+	lb_escolha_especie = new TextNode("lb_escolha_especie");
+	lb_escolha_especie->set_text("Escolha da Espécie");
+	lb_escolha_especie->set_font(manager->get_default_font());
+	np_lb_escolha_especie = get_root().attach_new_node(lb_escolha_especie);
+	np_lb_escolha_especie.set_pos(-1.2, 0.0, 0.03);
+	np_lb_escolha_especie.set_scale(0.12);
+	np_lb_escolha_especie.set_color(1, 1, 1, 1, 0);
 
 	//carregando o marcador/////////
 	marcador = window->load_model(img_escolha_especie, "models/buttons/marcador.png");
@@ -78,76 +96,15 @@ void CharacterOptionsScreen::load() {
 	marcador.set_pos(4.0, 0.0, -4.7);
 
 	///////Botões para escolha da especie/////////////////
-
-	//botão TROPIDURUS///////////////
-	img_btn_tropidurus = window->load_model(get_root(), "models/buttons/tropidurus");
-	img_btn_tropidurus.detach_node();
-	btn_tropidurus = new PGButton("tropidurus");
-	btn_tropidurus->setup(img_btn_tropidurus);
-	np_btn_tropidurus = get_root().attach_new_node(btn_tropidurus);
-	np_btn_tropidurus.set_scale(0.5, 0.1, 0.18);
-	np_btn_tropidurus.set_pos(-0.85, 0.0, -0.1);
-	btn_tropidurus->set_frame(-0.4, 0.4, -0.4, 0.4);
-
-	event_handler->add_hook(btn_tropidurus->get_click_event(MouseButton::one()), tropidurus_action, this);
-
-	///////botão EUROLOPHOSAURUS //////////////////////////
-	img_btn_eurolophosaurus = window->load_model(get_root(), "models/buttons/eurolophosaurus");
-	img_btn_eurolophosaurus.detach_node();
-	btn_eurolophosaurus = new PGButton("eurolophosaurus");
-	btn_eurolophosaurus->setup(img_btn_eurolophosaurus);
-	np_btn_eurolophosaurus = get_root().attach_new_node(btn_eurolophosaurus);
-	np_btn_eurolophosaurus.set_scale(0.6, 0.1, 0.18);
-	np_btn_eurolophosaurus.set_pos(-0.8, 0.0, -0.25);
-	btn_eurolophosaurus->set_frame(-0.4, 0.4, -0.4, 0.4);
-
-	event_handler->add_hook(btn_eurolophosaurus->get_click_event(MouseButton::one()), eurolophosaurus_action, this);
-
-	///////botão CNEMIDOPHORUS //////////////////////////
-	img_btn_cnemidophorus = window->load_model(get_root(), "models/buttons/cnemidophorus");
-	img_btn_cnemidophorus.detach_node();
-	btn_cnemidophorus = new PGButton("cnemidophorus");
-	btn_cnemidophorus->setup(img_btn_cnemidophorus);
-	np_btn_cnemidophorus = get_root().attach_new_node(btn_cnemidophorus);
-	np_btn_cnemidophorus.set_scale(0.6, 0.1, 0.18);
-	np_btn_cnemidophorus.set_pos(-0.8, 0.0, -0.4);
-	btn_cnemidophorus->set_frame(-0.4, 0.4, -0.4, 0.4);
-
-	event_handler->add_hook(btn_cnemidophorus->get_click_event(MouseButton::one()), cnemidophorus_action, this);
-
-	//botão de ativar/desativar colisão
-	img_btn_colisao = window->load_model(get_root(), "models/buttons/colisao");
-	img_btn_colisao.detach_node();
-	btn_colisao = new PGButton("colisao");
-	btn_colisao->setup(img_btn_colisao);
-	np_btn_colisao = get_root().attach_new_node(btn_colisao);
-	np_btn_colisao.set_scale(0.6, 0.1, 0.18);
-	np_btn_colisao.set_pos(0.6, 0.0, 0.03);
-	btn_colisao->set_frame(-0.4, 0.4, -0.4, 0.4);
-
-	event_handler->add_hook(btn_colisao->get_click_event(MouseButton::one()), colisao_action, this);
-
-	//carregando botão V (de ativar colisão)
-	img_colisao_ativada = window->load_model(img_escolha_especie, "models/buttons/v.png");
-	img_colisao_ativada.set_scale(0.2, 0.0, 0.2);
-	img_colisao_ativada.set_pos(28.0, 0.0, 0.0);
-
-	//carregando botão x (de desativar colisão)
-	img_colisao_desativada = window->load_model(img_escolha_especie, "models/buttons/x.png");
-	img_colisao_desativada.set_scale(0.2, 0.0, 0.2);
-	img_colisao_desativada.set_pos(28.0, 0.0, 0.0);
-
-	if (collision::get_instance()->get_colisao()) {
-		img_colisao_ativada.unstash();
-		img_colisao_desativada.stash();
-	}
-	else {
-		img_colisao_desativada.unstash();
-		img_colisao_ativada.stash();
-	}
+	default_button_config(btn_tropidurus, np_btn_tropidurus, "Tropidurus psammonastes", LVecBase3f(-0.41, 0, -0.175), tropidurus_action);
+	default_button_config(btn_eurolophosaurus, np_btn_eurolophosaurus, "Eurolophosaurus divaricatus", LVecBase3f(-0.33, 0, -0.325), eurolophosaurus_action);
+	default_button_config(btn_cnemidophorus, np_btn_cnemidophorus, "Cnemidophorus sp. nov.", LVecBase3f(-0.5, 0, -0.475), cnemidophorus_action);
 
 	//o lagarto default é o LS_eurolophosaurus
 	eurolophosaurus_action();
+
+	// o nível default é o fácil
+	nivel_facil_action();
 
 }
 
@@ -198,7 +155,7 @@ void CharacterOptionsScreen::tropidurus_action() {
 	Player::properties.species = Player::LS_tropidurus;
 	marcador.set_pos(4.0, 0.0, -2.2); //movendo o marcador
 	tropidurus.set_scale(0.04, 0.04, 0.04);
-	tropidurus.set_pos(4, 35, -2);
+	tropidurus.set_pos(6, 35, -2);
 	tropidurus.unstash();
 }
 
@@ -216,7 +173,7 @@ void CharacterOptionsScreen::eurolophosaurus_action() {
 	Player::properties.species = Player::LS_eurolophosaurus;
 	marcador.set_pos(4.0, 0.0, -4.7); //movendo o marcador
 	eurolophosasurus.set_scale(0.04, 0.04, 0.04);
-	eurolophosasurus.set_pos(4, 35, -2);
+	eurolophosasurus.set_pos(6, 35, -2);
 	eurolophosasurus.unstash();
 }
 
@@ -233,27 +190,25 @@ void CharacterOptionsScreen::cnemidophorus_action() {
 	Player::properties.species = Player::LS_cnemidophorus;
 	marcador.set_pos(4.0, 0.0, -7.2); //movendo o marcador
 	cnemidophorus.set_scale(0.04, 0.04, 0.04);
-	cnemidophorus.set_pos(4, 35, -2);
+	cnemidophorus.set_pos(6, 35, -2);
 	cnemidophorus.unstash();
-}
-
-void CharacterOptionsScreen::colisao_action() {
-    //se a colisão tiver ativada, então desativa agora
-    if(collision::get_instance()->get_colisao()){
-        img_colisao_ativada.stash();
-        img_colisao_desativada.unstash();
-        collision::get_instance()->set_colisao(false);
-    }else
-    { //se estiver desativada então ativa.
-    	img_colisao_ativada.unstash();
-    	img_colisao_desativada.stash();
-        collision::get_instance()->set_colisao(true);
-    }
 }
 
 void CharacterOptionsScreen::jogar_action() {
 	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_loading_screen());
 	Simdunas::set_play_clicked(true);
 	Session::get_instance()->set_level(1);
+}
+
+void CharacterOptionsScreen::nivel_facil_action() {
+	Session::get_instance()->set_difficulty_level(1);
+}
+
+void CharacterOptionsScreen::nivel_medio_action() {
+	Session::get_instance()->set_difficulty_level(2);
+}
+
+void CharacterOptionsScreen::nivel_dificil_action() {
+	Session::get_instance()->set_difficulty_level(3);
 }
 

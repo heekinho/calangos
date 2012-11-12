@@ -70,7 +70,8 @@ void StartMenu::play_action(){
 /*! Carrega menu de opções */
 void StartMenu::options_action(){
 	simdunas_cat.debug() << "Carregando Opções..." << endl;
-	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_options_screen());
+	//manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_options_screen());
+	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_game_options_screen());
 }
 
 /*! Carrega menu de instruções */

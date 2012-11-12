@@ -33,7 +33,9 @@ void OptionsScreen::load(){
 
 	//default_button_config(btn_video, np_btn_video, "Vídeo", LVecBase3f(0, 0, 0.1), video_action);
 	//default_button_config(btn_audio, np_btn_audio, "Áudio", LVecBase3f(0, 0, -0.1), audio_action);
-	default_button_config(btn_audio, np_btn_audio, "Áudio", LVecBase3f(0, 0, 0.1), audio_action);
+
+	//default_button_config(btn_audio, np_btn_audio, "Áudio", LVecBase3f(0, 0, 0.1), audio_action);
+
 	//default_button_config(btn_controles, np_btn_controles, "Controles", LVecBase3f(0, 0, -0.3), controles_action);
 	//default_button_config(btn_jogo, np_btn_jogo, "Jogo", LVecBase3f(0, 0, -0.5), jogo_action);
 	default_button_config(btn_jogo, np_btn_jogo, "Jogo", LVecBase3f(0, 0, -0.1), jogo_action);
