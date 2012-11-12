@@ -133,7 +133,18 @@ void Predator::load_predator(Predator::PredatorID type, Activity activity){
 
 	/* Pegando configuração do arquivo */
 	float length = ConfigVariableDouble("calangos-length-" + predator_name, 0.4);
-	float density = ConfigVariableDouble("calangos-density-" + predator_name, 7.0);
+
+	float density;
+	int difficulty_level = Session::get_instance()->get_difficulty_level();
+
+	if (difficulty_level == 1) {
+		density = ConfigVariableDouble("calangos-density-" + predator_name + "-easy", 7.0);
+	} else if (difficulty_level == 2) {
+		density = ConfigVariableDouble("calangos-density-" + predator_name + "-medium", 7.0);
+	} else {
+		density = ConfigVariableDouble("calangos-density-" + predator_name + "-hard", 7.0);
+	}
+
 	float speed = ConfigVariableDouble("calangos-speed-" + predator_name, 0.7);
 	int orientation = ConfigVariableInt("calangos-orientation-" + predator_name, -1);
 	

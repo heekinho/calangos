@@ -24,30 +24,42 @@ calangos-load-gui 1
 ###########################################################
 calangos-speed-prey 0.8 #TODO: Separar entre as presas
 
-calangos-density-aranha 10
+calangos-density-aranha-easy 50
+calangos-density-aranha-medium 30
+calangos-density-aranha-hard 10
 calangos-nutri-aranha 2.5
 calangos-hidra-aranha 3 
 
-calangos-density-besouro 12
+calangos-density-besouro-easy 60
+calangos-density-besouro-medium 36
+calangos-density-besouro-hard 24
 calangos-nutri-besouro 3
 calangos-hidra-besouro 3.5
 
-calangos-density-grilo 6
+calangos-density-grilo-easy 30
+calangos-density-grilo-medium 18
+calangos-density-grilo-hard 12
 calangos-nutri-grilo 2.5
 calangos-hidra-grilo 3
 
-calangos-groups-cupim 1
-calangos-density-cupim 8
+calangos-groups-cupim 5
+calangos-density-cupim-easy 8
+calangos-density-cupim-medium 6
+calangos-density-cupim-hard 4
 calangos-nutri-cupim 3.5
 calangos-hidra-cupim 2
 
-calangos-groups-formiga 2
-calangos-density-formiga 9
+calangos-groups-formiga 10
+calangos-density-formiga-easy 9
+calangos-density-formiga-medium 6
+calangos-density-formiga-hard 3
 calangos-nutri-formiga 1.5
 calangos-hidra-formiga 2
 
-calangos-groups-larva 1
-calangos-density-larva 4
+calangos-groups-larva 5
+calangos-density-larva-easy 4
+calangos-density-larva-medium 3
+calangos-density-larva-hard 2
 calangos-nutri-larva 5
 calangos-hidra-larva 3.5
 
@@ -60,19 +72,27 @@ calangos-speed-frog 4
 
 calangos-length-teiu 0.6
 calangos-speed-teiu 1.0
-calangos-density-teiu 7
+calangos-density-teiu-easy 13
+calangos-density-teiu-medium 39
+calangos-density-teiu-hard 65
 
 calangos-length-siriema 0.6
 calangos-speed-siriema 1.6
-calangos-density-siriema 6
+calangos-density-siriema-easy 12
+calangos-density-siriema-medium 36
+calangos-density-siriema-hard 60
 
 calangos-length-raposa 0.8
 calangos-speed-raposa 1.7
-calangos-density-raposa 7
+calangos-density-raposa-easy 13
+calangos-density-raposa-medium 39
+calangos-density-raposa-hard 65
 
 calangos-length-gato 0.4
 calangos-speed-gato 1.3
-calangos-density-gato 9
+calangos-density-gato-easy 15
+calangos-density-gato-medium 45
+calangos-density-gato-hard 75
 
 ###########################################################
 ### Configuração dos Lagartos (Coespecíficos, FASE 1)   ###

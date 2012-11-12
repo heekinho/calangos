@@ -57,6 +57,15 @@ public:
 
 	PT(History) history() const;
 
+	/* Obtém o nível de dificuldade selecionado pelo jogador */
+	int get_difficulty_level() {
+		return difficulty_level;
+	}
+
+	void set_difficulty_level(int difficulty_level) {
+		this->difficulty_level = difficulty_level;
+	};
+
 private:
 
 	PT(History) _history;
@@ -77,6 +86,8 @@ private:
 
 	/* Converter para enum depois? */
 	int level;
+
+	int difficulty_level;
 
 	Player::PlayerDeathType _player_death_status;
 
