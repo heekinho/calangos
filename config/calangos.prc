@@ -44,7 +44,7 @@ calangos-hidra-grilo 3
 
 calangos-groups-cupim 5
 calangos-density-cupim-easy 8
-calangos-density-cupim-medium 6
+calangos-density-cupim-medium 5
 calangos-density-cupim-hard 4
 calangos-nutri-cupim 3.5
 calangos-hidra-cupim 2
@@ -52,7 +52,7 @@ calangos-hidra-cupim 2
 calangos-groups-formiga 10
 calangos-density-formiga-easy 9
 calangos-density-formiga-medium 6
-calangos-density-formiga-hard 3
+calangos-density-formiga-hard 4
 calangos-nutri-formiga 1.5
 calangos-hidra-formiga 2
 
@@ -72,27 +72,27 @@ calangos-speed-frog 4
 
 calangos-length-teiu 0.6
 calangos-speed-teiu 1.0
-calangos-density-teiu-easy 13
-calangos-density-teiu-medium 39
-calangos-density-teiu-hard 65
+calangos-density-teiu-easy 14
+calangos-density-teiu-medium 35
+calangos-density-teiu-hard 56
 
 calangos-length-siriema 0.6
 calangos-speed-siriema 1.6
 calangos-density-siriema-easy 12
-calangos-density-siriema-medium 36
-calangos-density-siriema-hard 60
+calangos-density-siriema-medium 30
+calangos-density-siriema-hard 48
 
 calangos-length-raposa 0.8
 calangos-speed-raposa 1.7
-calangos-density-raposa-easy 13
-calangos-density-raposa-medium 39
-calangos-density-raposa-hard 65
+calangos-density-raposa-easy 14
+calangos-density-raposa-medium 35
+calangos-density-raposa-hard 56
 
 calangos-length-gato 0.4
 calangos-speed-gato 1.3
-calangos-density-gato-easy 15
+calangos-density-gato-easy 18
 calangos-density-gato-medium 45
-calangos-density-gato-hard 75
+calangos-density-gato-hard 72
 
 ###########################################################
 ### Configuração dos Lagartos (Coespecíficos, FASE 1)   ###
