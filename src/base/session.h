@@ -64,7 +64,15 @@ public:
 
 	void set_difficulty_level(int difficulty_level) {
 		this->difficulty_level = difficulty_level;
-	};
+	}
+
+	bool is_lizard_adult() {
+		return is_adult;
+	}
+
+	void set_is_adult(bool is_adult) {
+		this->is_adult = is_adult;
+	}
 
 private:
 
@@ -88,6 +96,8 @@ private:
 	int level;
 
 	int difficulty_level;
+
+	bool is_adult;
 
 	Player::PlayerDeathType _player_death_status;
 

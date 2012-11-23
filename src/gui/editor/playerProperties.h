@@ -54,6 +54,7 @@ public:
 	static const float max_lizard_density;
 	float lizards_density;
 	float lizards_aggregation;
+
 };
 
 #endif

@@ -48,4 +48,5 @@ PlayerProperties::PlayerProperties(){
 //	lizards_density = 30;
 	lizards_density = 200;
 	lizards_aggregation = 0;
+
 }

@@ -87,6 +87,7 @@ void DebugTools::special_control(const Event*, void *data){
 	char* action = (char*) data;
 
 	if(strcmp(action, "grow-old") == 0){
+		simdunas_cat.debug() << "Crescendo... " << endl;
 		event_queue->queue_event(new Event(TimeControl::EV_pass_day));
 		event_queue->queue_event(new Event(TimeControl::EV_pass_month));
 	}

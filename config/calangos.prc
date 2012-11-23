@@ -104,7 +104,7 @@ calangos-speed-lizards 0.75
 ###########################################################
 ### Configuração de Debug                               ###
 ###########################################################
-calangos-want-debugtools 0
+calangos-want-debugtools 1
 notify-level-simdunas warning
 notify-level-player_health warning
 

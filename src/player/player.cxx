@@ -163,6 +163,14 @@ void Player::load_player(){
 	//	player->set_scale(player->get_visual_size());
 	player->set_pos(255,255, 0);
 
+	if (Session::get_instance()->is_lizard_adult() == true) {
+		for (int i = 0; i < 12; i++) {
+			//player->event_pmonth(NULL, player);
+			event_queue->queue_event(new Event(TimeControl::EV_pass_day));
+			event_queue->queue_event(new Event(TimeControl::EV_pass_month));
+		}
+	}
+
 	/* Posicionamento inicial do Player */
 	PT(Setor) setor = World::get_world()->get_terrain()->get_setor_from_pos(LPoint2d(256.0, 256.0));
 	player->set_setor(setor);

@@ -32,6 +32,17 @@ void CharacterOptionsScreen::load() {
 	np_lb_nivel_dificuldade.set_scale(0.12);
 	np_lb_nivel_dificuldade.set_color(1, 1, 1, 1, 0);
 
+	lb_idade = new TextNode("lb_idade");
+	lb_idade->set_text("Idade");
+	lb_idade->set_font(manager->get_default_font());
+	np_lb_idade = get_root().attach_new_node(lb_idade);
+	np_lb_idade.set_pos(0.3, 0.0, 0.75);
+	np_lb_idade.set_scale(0.13);
+	np_lb_idade.set_color(1, 1, 1, 1, 0);
+
+	default_button_config(btn_jovem, np_btn_jovem, "Jovem", LVecBase3f(0.55, 0, 0.55), jovem_action);
+	default_button_config(btn_adulto, np_btn_adulto, "Adulto", LVecBase3f(0.55, 0, 0.4), adulto_action);
+
 	// botões para escolha do nível de dificuldade
 	default_button_config(btn_nivel_facil, np_btn_nivel_facil, "Fácil", LVecBase3f(-1.03, 0, 0.55), nivel_facil_action);
 	default_button_config(btn_nivel_medio, np_btn_nivel_medio, "Médio", LVecBase3f(-1.0, 0, 0.4), nivel_medio_action);
@@ -105,6 +116,9 @@ void CharacterOptionsScreen::load() {
 
 	// o nível default é o fácil
 	nivel_facil_action();
+
+	// por default o lagarto começa como jovem
+	jovem_action();
 
 }
 
@@ -210,5 +224,14 @@ void CharacterOptionsScreen::nivel_medio_action() {
 
 void CharacterOptionsScreen::nivel_dificil_action() {
 	Session::get_instance()->set_difficulty_level(3);
+}
+
+void CharacterOptionsScreen::jovem_action() {
+	Session::get_instance()->set_is_adult(false);
+}
+
+void CharacterOptionsScreen::adulto_action() {
+	Session::get_instance()->set_is_adult(true);
+	//Player::properties.is_adult = true;
 }
 

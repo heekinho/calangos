@@ -18,7 +18,7 @@
 #include "audioController.h"
 #include "world.h"
 #include "guiManager.h"
-
+//#include "playerHealthSimulator.h"
 
 /*! Define velocidade de rotação do player em Graus/Segundos.
  * NOTA: Quando em modo turbo (w), efetua o dobro do giro. */
@@ -145,8 +145,11 @@ void PlayerControl::special_control(const Event *theEvent, void *data){
 //	if(strcmp(str,"die")==0)
 //		me->set_energy(0);
 
+// crescer mais rápido
 //	if(strcmp(str,"grow-old")==0)
 //		me->event_pmonth(NULL, me);
+		//me->player_health_simulator->event_pass_month(NULL, me);
+		//PlayerHealthSimulator::event_pass_month(NULL, me);
 
 	if(strcmp(str,"info")==0){
 //		World::get_world()->get_terrain()->remove_all_edible_vegetals();

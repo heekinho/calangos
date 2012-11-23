@@ -7,6 +7,7 @@
 #include "achievements.h"
 
 #include "lizardBase.h"
+//#include "playerHealthSimulator.h"
 
 // Forward Declaration
 //class AnimatedObjetoJogo;

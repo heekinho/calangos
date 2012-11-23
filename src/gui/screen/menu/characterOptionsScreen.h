@@ -45,6 +45,10 @@ private:
 	PT(Button) btn_nivel_medio;			NodePath np_btn_nivel_medio;		ACTION(nivel_medio_action);
 	PT(Button) btn_nivel_dificil;		NodePath np_btn_nivel_dificil;		ACTION(nivel_dificil_action);
 
+	PT(TextNode) lb_idade;				NodePath np_lb_idade;
+	PT(Button) btn_jovem;				NodePath np_btn_jovem;				ACTION(jovem_action);
+	PT(Button) btn_adulto;				NodePath np_btn_adulto;				ACTION(adulto_action);
+
 };
 
 #undef ACTION
