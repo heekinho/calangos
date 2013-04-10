@@ -43,7 +43,7 @@ Session::Session() {
 	stage_info.push_back("Criando Repositorio de Sons...");
 	stage_info.push_back("Criando Controle de Tempo...");
 	stage_info.push_back("Carregando Jogador...");
-	stage_info.push_back("Criando Mundo...");
+	stage_info.push_back("Formação do Mundo...");
 	stage_info.push_back("Inicializando Clima e Microclima...");
 	stage_info.push_back("Criando Controle do Jogador...");
 	stage_info.push_back("Criando Controle de Camera...");
