@@ -62,9 +62,11 @@ void GameOptionsScreen::load() {
 	slide = new PGSliderBar("slid");
 	slide->set_range(1, 60);
 	slide->setup_slider(false, 1.0, 0.06, 0.01);
+	slide->set_value(3);
 	np_slide = get_root().attach_new_node(slide);
 	np_slide.set_scale(0.5, 1.0, 1.0);
 	np_slide.set_pos(-0.84, 0.0, 0.27);
+	event_handler->add_hook(slide->get_adjust_event(), slide_action, this);
 
 	//criando o botão mais//////////////////////////////////////////////////////////
 	img_btn_mais = window->load_model(get_root(), "models/buttons/mais");
