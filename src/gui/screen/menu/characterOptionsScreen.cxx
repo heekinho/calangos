@@ -101,11 +101,6 @@ void CharacterOptionsScreen::load() {
 	np_lb_escolha_especie.set_scale(0.12);
 	np_lb_escolha_especie.set_color(1, 1, 1, 1, 0);
 
-	//carregando o marcador/////////
-	marcador = window->load_model(img_escolha_especie, "models/buttons/marcador.png");
-	marcador.set_scale(0.2, 0.0, 0.2);
-	marcador.set_pos(4.0, 0.0, -4.7);
-
 	///////Botões para escolha da especie/////////////////
 	default_button_config(btn_tropidurus, np_btn_tropidurus, "Tropidurus psammonastes", LVecBase3f(-0.41, 0, -0.175), tropidurus_action);
 	default_button_config(btn_eurolophosaurus, np_btn_eurolophosaurus, "Eurolophosaurus divaricatus", LVecBase3f(-0.33, 0, -0.325), eurolophosaurus_action);
@@ -167,7 +162,9 @@ void CharacterOptionsScreen::tropidurus_action() {
 			break;
 	}
 	Player::properties.species = Player::LS_tropidurus;
-	marcador.set_pos(4.0, 0.0, -2.2); //movendo o marcador
+	np_btn_tropidurus.set_color(1, 1, 1, 1, 0);
+	np_btn_eurolophosaurus.set_color(0.25, 0.25, 0.25, 0.25, 1);
+	np_btn_cnemidophorus.set_color(0.25, 0.25, 0.25, 0.25, 1);
 	tropidurus.set_scale(0.04, 0.04, 0.04);
 	tropidurus.set_pos(6, 35, -2);
 	tropidurus.unstash();
@@ -185,7 +182,9 @@ void CharacterOptionsScreen::eurolophosaurus_action() {
 	}
 
 	Player::properties.species = Player::LS_eurolophosaurus;
-	marcador.set_pos(4.0, 0.0, -4.7); //movendo o marcador
+	np_btn_eurolophosaurus.set_color(1, 1, 1, 1, 0);
+	np_btn_cnemidophorus.set_color(0.25, 0.25, 0.25, 0.25, 1);
+	np_btn_tropidurus.set_color(0.25, 0.25, 0.25, 0.25, 1);
 	eurolophosasurus.set_scale(0.04, 0.04, 0.04);
 	eurolophosasurus.set_pos(6, 35, -2);
 	eurolophosasurus.unstash();
@@ -202,7 +201,9 @@ void CharacterOptionsScreen::cnemidophorus_action() {
 			break;
 	}
 	Player::properties.species = Player::LS_cnemidophorus;
-	marcador.set_pos(4.0, 0.0, -7.2); //movendo o marcador
+	np_btn_cnemidophorus.set_color(1, 1, 1, 1, 0);
+	np_btn_tropidurus.set_color(0.25, 0.25, 0.25, 0.25, 1);
+	np_btn_eurolophosaurus.set_color(0.25, 0.25, 0.25, 0.25, 1);
 	cnemidophorus.set_scale(0.04, 0.04, 0.04);
 	cnemidophorus.set_pos(6, 35, -2);
 	cnemidophorus.unstash();
@@ -215,23 +216,35 @@ void CharacterOptionsScreen::jogar_action() {
 }
 
 void CharacterOptionsScreen::nivel_facil_action() {
+	np_btn_nivel_facil.set_color(1, 1, 1, 1, 0);
+	np_btn_nivel_medio.set_color(0.25, 0.25, 0.25, 0.25, 1);
+	np_btn_nivel_dificil.set_color(0.25, 0.25, 0.25, 0.25, 1);
 	Session::get_instance()->set_difficulty_level(1);
 }
 
 void CharacterOptionsScreen::nivel_medio_action() {
+	np_btn_nivel_medio.set_color(1, 1, 1, 1, 0);
+	np_btn_nivel_dificil.set_color(0.25, 0.25, 0.25, 0.25, 1);
+	np_btn_nivel_facil.set_color(0.25, 0.25, 0.25, 0.25, 1);
 	Session::get_instance()->set_difficulty_level(2);
 }
 
 void CharacterOptionsScreen::nivel_dificil_action() {
+	np_btn_nivel_dificil.set_color(1, 1, 1, 1, 0);
+	np_btn_nivel_facil.set_color(0.25, 0.25, 0.25, 0.25, 1);
+	np_btn_nivel_medio.set_color(0.25, 0.25, 0.25, 0.25, 1);
 	Session::get_instance()->set_difficulty_level(3);
 }
 
 void CharacterOptionsScreen::jovem_action() {
+	np_btn_jovem.set_color(1, 1, 1, 1, 0);
+	np_btn_adulto.set_color(0.25, 0.25, 0.25, 0.25, 1);
 	Session::get_instance()->set_is_adult(false);
 }
 
 void CharacterOptionsScreen::adulto_action() {
+	np_btn_adulto.set_color(1, 1, 1, 1, 0);
+	np_btn_jovem.set_color(0.25, 0.25, 0.25, 0.25, 1);
 	Session::get_instance()->set_is_adult(true);
-	//Player::properties.is_adult = true;
 }
 

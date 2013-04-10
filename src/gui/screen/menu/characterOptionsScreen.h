@@ -29,7 +29,6 @@ public:
 private:
 	AnimControlCollection anims;
 	NodePath img_escolha_especie;
-	NodePath marcador;
 	NodePath tropidurus, eurolophosasurus, cnemidophorus; //lagarto andando
 	NodePath np_btn_avancar;
 	PT(Button) btn_avancar;
