@@ -84,7 +84,8 @@ void History::output(History::HistoryItem item, const string &name, ostream &out
 #include "microClima.h"
 #include "energySimulator.h"
 CalangosHistory::CalangosHistory(int max_items) : History (max_items) {
-	event_handler->add_hook(TimeControl::EV_segundo_real, update, this);
+	//event_handler->add_hook(TimeControl::EV_segundo_real, update, this);
+	event_handler->add_hook(TimeControl::EV_pass_ten_minutes, update, this);
 }
 
 void CalangosHistory::update(const Event*, void* data){

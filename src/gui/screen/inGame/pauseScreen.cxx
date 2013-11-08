@@ -52,6 +52,7 @@ void PauseScreen::load(){
 	default_button_config(btn_realizacoes, np_btn_realizacoes, "Realizações", LVecBase3f(0, 0, 0.15), realizacoes_action);
 	default_button_config(btn_videos, np_btn_videos, "Vídeos", LVecBase3f(0, 0, -0.05), videos_action);
 
+
 	//////construindo os botões dos videos
 //	default_button_config(btn_lagartos, np_btn_lagartos, "Lagartos", LVecBase3f(0, 0, 0.35), lagartos_action);
 //	default_button_config(btn_predadores, np_btn_predadores, "Predadores", LVecBase3f(0, 0, 0.15), predadores_action);
@@ -148,3 +149,4 @@ void PauseScreen::sair_action() {
 	exit(0); //saindo direto, fechando o jogo
 	//na tela de inicialização ou de game over
 }
+

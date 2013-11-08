@@ -47,7 +47,7 @@ void GameOverScreen::load(){
 	np_lb_indica_morte.set_pos(0, 0, 0.3);
 	np_lb_indica_morte.set_color(1, 1, 1, 1, 0);
 
-	default_button_config(btn_restart, np_btn_restart, "Reiniciar", LVecBase3f(0, 0, 0), restart);
+	//default_button_config(btn_restart, np_btn_restart, "Reiniciar", LVecBase3f(0, 0, 0), restart);
 }
 
 void GameOverScreen::show() {

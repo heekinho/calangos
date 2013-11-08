@@ -173,7 +173,9 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
 
     //Faz o calculo da escala em x de acordo com o tipo de grafico.
     if(tipoTempo){
-        escalaX = 0.63 / (tamanhoVetorX - 1);
+        //escalaX = 0.63 / (tamanhoVetorX - 1);
+    	escalaX = 0.63 / (144 - 1);
+        //cout << "\n ------------------------------ ESCALA X: " << escalaX;
         posicaoX = 0;
     } else {
         if (tamanhoVetorX > 0) {
@@ -207,26 +209,43 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
 	History::HList listaTemp (*this->vetorX);
     double maior = listaTemp.front();
     int tamanhoFor = listaTemp.size();
+    //cout << "\n ------------------------------ MAIOR x ANTES DO FOR: " << maior;
+    //cout << "\n ------------------------------ TAMANHO DA LISTA: " << tamanhoFor;
 
+    // percorrer lista e saber valores
+    // descobrir de onde os valores são inseridos
     for(int i = 1; i < tamanhoFor; i++){
+    	//cout << "\n ListaTemp na posição " << i << "é igual a: " << listaTemp.front();
         if(listaTemp.front() > maior)
             maior = listaTemp.front();
         listaTemp.pop_front();
     }
+    //cout << "\n ------------------------------ MAIOR X: " << maior;
+    //cout << "\n ------------------------------ LIMITE SUPERIOR X: " << limiteSuperiorX;
+    //cout << "\n ------------------------------ LIMITE INFERIOR X: " << limiteInferiorX << "\n\n\n";
 
 	//Gera os valores das marcações dos eixos do grafico.
+    PT(TimeControl) time_control = TimeControl::get_instance();
+    cout << "\n ------------------------------ ELAPSED TIME: " << time_control->get_elapsed_time();
+    cout << "\n ------------------------------ VIRTUAL TIME HOUR : " << time_control->get_virtual_time_hour();
     if (tipoTempo) {
         //Colocando os numeros das marcacoes do eixo X.
-        sprintf(stringMarcacaoX1, "%.2f", (maior / 5));
-        marcacaoX1_titulo->set_text(stringMarcacaoX1);
-        sprintf(stringMarcacaoX2, "%.2f", (2 * (maior / 5)));
-        marcacaoX2_titulo->set_text(stringMarcacaoX2);
-        sprintf(stringMarcacaoX3, "%.2f", (3 * (maior / 5)));
-        marcacaoX3_titulo->set_text(stringMarcacaoX3);
-        sprintf(stringMarcacaoX4, "%.2f", (4 * (maior / 5)));
-        marcacaoX4_titulo->set_text(stringMarcacaoX4);
-        sprintf(stringMarcacaoX5, "%.2f", maior);
-        marcacaoX5_titulo->set_text(stringMarcacaoX5);
+//        sprintf(stringMarcacaoX1, "%.2f", (maior / 5));
+//        marcacaoX1_titulo->set_text(stringMarcacaoX1);
+//        sprintf(stringMarcacaoX2, "%.2f", (2 * (maior / 5)));
+//        marcacaoX2_titulo->set_text(stringMarcacaoX2);
+//        sprintf(stringMarcacaoX3, "%.2f", (3 * (maior / 5)));
+//        marcacaoX3_titulo->set_text(stringMarcacaoX3);
+//        sprintf(stringMarcacaoX4, "%.2f", (4 * (maior / 5)));
+//        marcacaoX4_titulo->set_text(stringMarcacaoX4);
+//        sprintf(stringMarcacaoX5, "%.2f", maior);
+//        marcacaoX5_titulo->set_text(stringMarcacaoX5);
+        marcacaoX1_titulo->set_text("6h");
+        marcacaoX2_titulo->set_text("12h");
+        marcacaoX3_titulo->set_text("18h");
+        marcacaoX4_titulo->set_text("24h");
+//        sprintf(stringMarcacaoX5, "%.2f", 24.00);
+//        marcacaoX5_titulo->set_text(stringMarcacaoX5);
     } else {
         //Colocando os numeros das marcacoes do eixo X.
         sprintf(stringMarcacaoX1, "%.2f", (limiteInferiorX));
@@ -333,11 +352,15 @@ void Graphics::desenha_eixoY() {
 void Graphics::desenha_marcacao_eixoX(){
 
     if (tipoTempo) {
-        posicao_marcacaoX1 = 0.276;
-        posicao_marcacaoX2 = 0.402;
-        posicao_marcacaoX3 = 0.528;
-        posicao_marcacaoX4 = 0.654;
-        posicao_marcacaoX5 = 0.780;
+//        posicao_marcacaoX1 = 0.276;
+//        posicao_marcacaoX2 = 0.402;
+//        posicao_marcacaoX3 = 0.528;
+//        posicao_marcacaoX4 = 0.654;
+//        posicao_marcacaoX5 = 0.780;
+        posicao_marcacaoX1 = 0.315;
+        posicao_marcacaoX2 = 0.480;
+        posicao_marcacaoX3 = 0.625;
+        posicao_marcacaoX4 = 0.780;
     } else {
         unidade_marcacaoX = 0.0063;
         posicao_marcacaoX5 = (100 * unidade_marcacaoX) + 0.15;
@@ -403,19 +426,19 @@ void Graphics::desenha_marcacao_eixoX(){
 	marcacaoX4_titulo_np.set_scale(0.04);
   	marcacaoX4_titulo_np.set_color(0.0, 0.0, 0.0, 1,0);
 
-    LineSegs* marcacaoX5 = new LineSegs("mx5");
-    marcacaoX5->set_color(0.0, 0.0, 1.0);
-    marcacaoX5->draw_to(0.0, 0.0, 0.0);
-    marcacaoX5->draw_to(0.0, 0.0, 0.035);
-    NodePath marcacaoX5_np = graphic_np.attach_new_node(marcacaoX5->create());
-    marcacaoX5_np.set_pos(posicao_marcacaoX5, 0.0, 0.13);
-    //legenda da marcação 5
-    marcacaoX5_titulo = new TextNode("legendamarcacaoX5");
-	marcacaoX5_titulo->set_text("");
-	marcacaoX5_titulo_np = graphic_np.attach_new_node(marcacaoX5_titulo);
-	marcacaoX5_titulo_np.set_pos(posicao_marcacaoX5 - 0.03, 0.0, 0.07);
-	marcacaoX5_titulo_np.set_scale(0.04);
-  	marcacaoX5_titulo_np.set_color(0.0, 0.0, 0.0, 1,0);
+//    LineSegs* marcacaoX5 = new LineSegs("mx5");
+//    marcacaoX5->set_color(0.0, 0.0, 1.0);
+//    marcacaoX5->draw_to(0.0, 0.0, 0.0);
+//    marcacaoX5->draw_to(0.0, 0.0, 0.035);
+//    NodePath marcacaoX5_np = graphic_np.attach_new_node(marcacaoX5->create());
+//    marcacaoX5_np.set_pos(posicao_marcacaoX5, 0.0, 0.13);
+//    //legenda da marcação 5
+//    marcacaoX5_titulo = new TextNode("legendamarcacaoX5");
+//	marcacaoX5_titulo->set_text("");
+//	marcacaoX5_titulo_np = graphic_np.attach_new_node(marcacaoX5_titulo);
+//	marcacaoX5_titulo_np.set_pos(posicao_marcacaoX5 - 0.03, 0.0, 0.07);
+//	marcacaoX5_titulo_np.set_scale(0.04);
+//  	marcacaoX5_titulo_np.set_color(0.0, 0.0, 0.0, 1,0);
 }
 
 void Graphics::desenha_marcacao_eixoY() {

@@ -1305,7 +1305,7 @@ void GuiManager::click_event_botao8_grafico_GastoEnergetico(const Event*, void* 
 //		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoX(_this->graphics_menu->get_legenda_x());
 //		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(_this->graphics_menu->get_legenda_y());
 //		_this->graphics_menu->get_graphic_variavel()->create_Graphic(_this->graphics_menu->get_tamanho_vetor_x(), _this->graphics_menu->get_tamanho_vetor_y());
-		_this->configure_chart_y(History::HI_total_energy_cost, "Gasto energetico");
+		_this->configure_chart_y(History::HI_total_energy_cost, "Gasto Energético");
 	}
 }
 
@@ -1539,7 +1539,7 @@ void GuiManager::click_event_vBotao8_grafico_GastoEnergetico(const Event*, void*
 //	_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoX(_this->graphics_menu->get_legenda_x());
 //	_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(_this->graphics_menu->get_legenda_y());
 //	_this->graphics_menu->get_graphic_variavel()->create_Graphic(_this->graphics_menu->get_tamanho_vetor_x(), _this->graphics_menu->get_tamanho_vetor_y());
-	_this->configure_chart_x(History::HI_total_energy_cost, "Gasto energetico");
+	_this->configure_chart_x(History::HI_total_energy_cost, "Gasto Energético");
 }
 
 //Torna a toca visivel.

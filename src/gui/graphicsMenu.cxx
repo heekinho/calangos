@@ -403,7 +403,7 @@ void GraphicsMenu::make_tipo_graf(NodePath menu_frame_np) {
 
 void GraphicsMenu::make_txt_tipo_graf(NodePath menu_frame_np) {
 	txt_tipo_graf = new TextNode("txt_tipo_graf");
-	txt_tipo_graf->set_text("Tipo do grafico");
+	txt_tipo_graf->set_text("Tipo do gráfico");
 	label_txt_tipo_graf = menu_frame_np.attach_new_node(txt_tipo_graf);
 	label_txt_tipo_graf.set_pos(0.04, 0.0, 1.90);
 	label_txt_tipo_graf.set_scale(0.06);
@@ -434,7 +434,7 @@ void GraphicsMenu::make_btn_graf_tempo(NodePath menu_frame_np) {
 void GraphicsMenu::make_btn_graf_variavel(NodePath menu_frame_np) {
 	//BOTAO PARA VER OS GRAFICOS DE VARIAVEL.
 	btn_graf_variavel = new PGButton("btn_graf_variavel");
-	btn_graf_variavel->setup("Variavel", 0.1);
+	btn_graf_variavel->setup("Variável", 0.1);
 	np_btn_graf_variavel = menu_frame_np.attach_new_node(btn_graf_variavel);
 	np_btn_graf_variavel.set_scale(0.05);
 	np_btn_graf_variavel.set_pos(0.06, 0.0, 1.68);
@@ -1232,7 +1232,7 @@ void GraphicsMenu::novo_grafico8_GastoEnergetico() {
 //	graphic8->set_Titulo_EixoX("Tempo (h)");
 //	graphic8->set_Titulo_EixoY("Gasto energetico");
 //	graphic8->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorGastoEnergiticoTotal());
-	make_new_chart(History::HI_total_energy_cost, graphic8, "Gasto energetico", "Tempo (h)", "Gasto Energetico");
+	make_new_chart(History::HI_total_energy_cost, graphic8, "Gasto Energético", "Tempo (h)", "Gasto Energético");
 }
 
 //Desliga as luzes que indicam quais graficos estao ativos no painel de tempo.

@@ -285,45 +285,68 @@ void GameOptionsScreen::hide() {
 
 /*! Evento de click no botão "+" do slider. Aumenta 1 no valor dos minutos/hora do jogo. */
 void GameOptionsScreen::slide_direita_action() {
-	int minuto_dia_virtual = TimeControl::get_instance()->get_virtual_time_hour();
-	if (minuto_dia_virtual < 60) {
-		TimeControl::get_instance()->set_virtual_time_hour(++minuto_dia_virtual);
-
-		ostringstream letra; //convertendo float em string
-
-		//TimeControl::virtualTime = d->minuto_dia_virtual;
-
-		letra << minuto_dia_virtual;
-		std::string st(letra.str());
-
-		informa_segundos(st);
-
-		/*simdunas_cat.debug()<<"Valor :"<<(int)d->slid->get_value()<<endl;
-            simdunas_cat.debug()<<"Valor Minuto_dia_Virtual Direita:"<<d->minuto_dia_virtual<<endl;*/
-
-		slide->set_value(minuto_dia_virtual);
+//	int minuto_dia_virtual = TimeControl::get_instance()->get_virtual_time_hour();
+//	if (minuto_dia_virtual < 60) {
+//		TimeControl::get_instance()->set_virtual_time_hour(++minuto_dia_virtual);
+//
+//		ostringstream letra; //convertendo float em string
+//
+//		//TimeControl::virtualTime = d->minuto_dia_virtual;
+//
+//		letra << minuto_dia_virtual;
+//		std::string st(letra.str());
+//
+//		informa_segundos(st);
+//
+//		/*simdunas_cat.debug()<<"Valor :"<<(int)d->slid->get_value()<<endl;
+//            simdunas_cat.debug()<<"Valor Minuto_dia_Virtual Direita:"<<d->minuto_dia_virtual<<endl;*/
+//
+//		slide->set_value(minuto_dia_virtual);
+//	}
+	int minuto_dia_virtual = slide->get_value();
+	if (minuto_dia_virtual == 60) {
+		return;
 	}
+	minuto_dia_virtual++;
+	TimeControl::get_instance()->set_virtual_time_hour(minuto_dia_virtual);
+	slide->set_value(minuto_dia_virtual);
+	ostringstream letra; //convertendo float em string
+	letra << minuto_dia_virtual;
+	std::string st(letra.str());
+	informa_segundos(st);
 }
 
 /*! Evento de click no botão "-" do slider. Diminui 1 no valor dos minutos/hora do jogo. */
 void GameOptionsScreen::slide_esquerda_action() {
-	int minuto_dia_virtual = TimeControl::get_instance()->get_virtual_time_hour();
-	if (minuto_dia_virtual > 1) {
-		TimeControl::get_instance()->set_virtual_time_hour(--minuto_dia_virtual);
+//	int minuto_dia_virtual = TimeControl::get_instance()->get_virtual_time_hour();
+//	if (minuto_dia_virtual > 1) {
+//		TimeControl::get_instance()->set_virtual_time_hour(--minuto_dia_virtual);
+//
+//		ostringstream letra; //convertendo float em string
+//
+//		//TimeControl::virtualTime = d->minuto_dia_virtual;
+//
+//		letra << minuto_dia_virtual;
+//		std::string st(letra.str());
+//
+//		informa_segundos(st);
+//
+//		/*simdunas_cat.debug()<<"Valor :"<<(int)d->slid->get_value()<<endl;
+//            simdunas_cat.debug()<<"Valor Minuto_dia_Virtual Esquerda:"<<d->minuto_dia_virtual<<endl;*/
+//		slide->set_value(minuto_dia_virtual);
+//	}
 
-		ostringstream letra; //convertendo float em string
-
-		//TimeControl::virtualTime = d->minuto_dia_virtual;
-
-		letra << minuto_dia_virtual;
-		std::string st(letra.str());
-
-		informa_segundos(st);
-
-		/*simdunas_cat.debug()<<"Valor :"<<(int)d->slid->get_value()<<endl;
-            simdunas_cat.debug()<<"Valor Minuto_dia_Virtual Esquerda:"<<d->minuto_dia_virtual<<endl;*/
-		slide->set_value(minuto_dia_virtual);
+	int minuto_dia_virtual = slide->get_value();
+	if (minuto_dia_virtual == 1) {
+		return;
 	}
+	minuto_dia_virtual--;
+	TimeControl::get_instance()->set_virtual_time_hour(minuto_dia_virtual);
+	slide->set_value(minuto_dia_virtual);
+	ostringstream letra; //convertendo float em string
+	letra << minuto_dia_virtual;
+	std::string st(letra.str());
+	informa_segundos(st);
 }
 
 void GameOptionsScreen::informa_segundos(string aviso) {

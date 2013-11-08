@@ -10,11 +10,21 @@
 
 #include "pandaFramework.h"
 #include "edible.h"
+//#include "screenManager.h"
+//#include "screen.h"
+//#include "button.h"
+//#include "window.h"
+
+//#define ACTION(mn) void mn(); \
+static void mn(const Event*, void* d){ ((PT(Achievements))(Achievements*)d)->mn(); }
+
 
 class Achievements : public ReferenceCount {
 public:
+
 	Achievements();
 	virtual ~Achievements();
+	//Achievements(PT(ScreenManager) manager);
 
 	void inc_bites();
 	void clear_bites();
@@ -58,6 +68,9 @@ public:
 	static AsyncTask::DoneStatus count_seconds_energy(GenericAsyncTask* task, void* data);
 	static AsyncTask::DoneStatus count_seconds_untouched(GenericAsyncTask* task, void* data);
 
+	//void load();
+	//void hide();
+
 private:
 	int count_bites;
 	int lvl_senhor_mordida;
@@ -85,6 +98,14 @@ private:
 	int count_secs_untouched;
 	int lvl_guerreiro;
 	int count_guerreiro;
+	int adulto;
+
+//	PT(Window) wnd_realizacoes;
+//	PT(Button) btn_realizacoes;
+//	NodePath np_btn_realizacoes;
+//	ACTION(show_achievements_window);
 };
+
+//#undef ACTION
 
 #endif /* ACHIEVEMENTS_H */

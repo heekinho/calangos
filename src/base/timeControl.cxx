@@ -29,6 +29,7 @@ const string TimeControl::EV_pass_frame = "EV_PASSFRAME";
 const string TimeControl::EV_segundo_real = "EV_SEGUNDO_REAL";
 const string TimeControl::EV_pass_second = "EV_PASSSECOND";
 const string TimeControl::EV_pass_minute = "EV_PASSMINUTE";
+const string TimeControl::EV_pass_ten_minutes = "EV_PASS_TEN_MINUTES";
 const string TimeControl::EV_pass_hour = "EV_PASSHOUR";
 const string TimeControl::EV_pass_day = "EV_PASSDAY";
 const string TimeControl::EV_pass_month = "EV_PASSMONTH";
@@ -65,6 +66,7 @@ TimeControl::TimeControl() {
 	p_handler->add_hook(EV_pass_frame, event_pframe, this);
 	p_handler->add_hook(EV_segundo_real, event_psegundo_real, this);
 	p_handler->add_hook(EV_pass_minute, event_pminute, this);
+	p_handler->add_hook(EV_pass_ten_minutes, event_ptenminutes, this);
 	p_handler->add_hook(EV_pass_hour, event_phour, this);
 	p_handler->add_hook(EV_pass_day, event_pday, this);
 	p_handler->add_hook(EV_pass_month, event_pmonth, this);
@@ -116,6 +118,12 @@ void TimeControl::event_pminute(const Event *, void *data){
 	#if(DEBUG_TCONTROL)
 		simdunas_cat.debug() << "\n passed an minute"  << time->get_minuto() << endl;
 	#endif
+}
+
+void TimeControl::event_ptenminutes(const Event *, void *data) {
+		#if(DEBUG_TCONTROL)
+			simdunas_cat.debug() << "\n passed 10 minutes";
+		#endif
 }
 
 void TimeControl::event_phour(const Event *, void *data){
@@ -202,11 +210,16 @@ void TimeControl::update_time_control(float elapsed_time){
 			const Event *ev_minute = new Event(EV_pass_minute);
 			(*p_queue).queue_event(ev_minute);
 
+			if(minute % 10 == 0) {
+				const Event *ev_ten_minutes = new Event(EV_pass_ten_minutes);
+				(*p_queue).queue_event(ev_ten_minutes);
+			}
+
 			if(minute >= 60){
 				TimeControl::hour += (minute/60);
 				minute = minute % 60;
-         
-                const Event *ev_hour = new Event(EV_pass_hour);
+
+				const Event *ev_hour = new Event(EV_pass_hour);
 				(*p_queue).queue_event(ev_hour);
 
 				if(hour >= 24){
@@ -229,7 +242,7 @@ void TimeControl::update_time_control(float elapsed_time){
 						}
 					}
 				}
-			}
+			} // fecha 60 mins
 		}
 	}
 	else{
@@ -289,6 +302,9 @@ double TimeControl::get_hora_generica(){
 	int min = TimeControl::get_instance()->get_minuto();
 	int hora = TimeControl::get_instance()->get_hora();
 	double hora_generica = hora + min*0.01667;
+	//cout << "\n ------------------------------ min: " << min;
+	//cout << ", hora: " << hora;
+	//cout << ", hora generica: " << hora_generica;
 	return hora_generica;
 }
 

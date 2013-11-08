@@ -9,6 +9,10 @@
 #include "timeControl.h"
 #include "pauseScreen.h"
 #include "notificationManager.h"
+#include "last_achievement_message.h"
+#include "mouseButton.h"
+#include "achievementsWindow.h"
+#include "guiManager.h"
 
 Achievements::Achievements() {
 	count_bites = 0;
@@ -36,11 +40,30 @@ Achievements::Achievements() {
 	count_secs_untouched = 0;
 	count_guerreiro = 0;
 	lvl_guerreiro = 0;
+	if (Session::get_instance()->is_lizard_adult()) {
+		adulto = 1;
+	} else {
+		adulto = 0;
+	}
 }
 
 Achievements::~Achievements() {
 	eaten_species.clear();
 }
+
+//Achievements::Achievements(PT(ScreenManager) manager) : Screen(manager) {
+//	Achievements();
+//	load();
+//	hide();
+//}
+
+//void Achievements::load() {
+//
+//}
+//
+//void Achievements::hide() {
+//
+//}
 
 void Achievements::inc_bites() {
 	count_bites++;
@@ -64,7 +87,7 @@ void Achievements::inc_lvl_senhor_mordida() {
 	lvl_senhor_mordida++;
 	stringstream lvl_senhor_mordida_str;
 	lvl_senhor_mordida_str<<lvl_sobrevivente;
-	NotificationManager::show_notification("Você acaba concluir o nível " + lvl_senhor_mordida_str.str() + " da realização: Senhor Mordida Perfeita");
+	NotificationManager::get_instance()->show_notification("Foi alcançado o nível " + lvl_senhor_mordida_str.str() + " da realização: Senhor Mordida Perfeita");
 }
 
 void Achievements::clear_bites() {
@@ -106,11 +129,27 @@ void Achievements::inc_meses_sobrevivente() {
 }
 
 void Achievements::inc_lvl_sobrevivente() {
-	lvl_sobrevivente++;
-	stringstream lvl_sobrevivente_str;
-	lvl_sobrevivente_str<<lvl_sobrevivente;
-	NotificationManager::show_notification("Você acaba concluir o nível " + lvl_sobrevivente_str.str() + " da realização: O sobrevivente");
+	if (Session::get_instance()->is_lizard_adult() == false && adulto == 1) {
+		lvl_sobrevivente++;
+		stringstream lvl_sobrevivente_str;
+		lvl_sobrevivente_str<<lvl_sobrevivente;
+		string msg = "Foi alcançado o nível " + lvl_sobrevivente_str.str() + " da realização: O Sobrevivente";
+		NotificationManager::get_instance()->show_notification(msg);
+	}
+	adulto = 0;
+	//Last_Achievement_Message * lam;
+	//PT(Last_Achievement_Message) lam;
+	//lam->show_last_achievement(msg);
+
+	//Last_Achievement_Message::show_last_achievement(msg);
+
+	//default_button_config(btn_realizacoes, np_btn_realizacoes, msg, LVecBase3f(-0.5, 0, -0.5), show_achievements_window);
 }
+
+//void Achievements::show_achievements_window() {
+//	wnd_realizacoes = new AchievementsWindow(get_root(), 1.5, 1.1, "Realizações", -0.8, -0.8);
+//	wnd_realizacoes->set_pos_y(0);
+//}
 
 int Achievements::get_count_sobrevivente() {
 	return count_sobrevivente;
@@ -193,7 +232,7 @@ void Achievements::inc_lvl_reprodutor() {
 	lvl_reprodutor++;
 	stringstream lvl_reprodutor_str;
 	lvl_reprodutor_str<<lvl_sobrevivente;
-	NotificationManager::show_notification("Você acaba concluir o nível " + lvl_reprodutor_str.str() + " da realização: O reprodutor");
+	NotificationManager::get_instance()->show_notification("Foi alcançado o nível " + lvl_reprodutor_str.str() + " da realização: O Reprodutor");
 }
 
 // verifica a espécie do alimento ingerido
@@ -225,7 +264,7 @@ void Achievements::inc_lvl_bom_de_boca() {
 	lvl_bom_de_boca++;
 	stringstream lvl_bom_de_boca_str;
 	lvl_bom_de_boca_str<<lvl_bom_de_boca;
-	NotificationManager::show_notification("Você acaba concluir o nível " + lvl_bom_de_boca_str.str() + " da realização: O bom de boca");
+	NotificationManager::get_instance()->show_notification("Foi alcançado o nível " + lvl_bom_de_boca_str.str() + " da realização: O Bom de Boca");
 }
 
 void Achievements::check_temperature(double temperature) {
@@ -271,7 +310,7 @@ void Achievements::inc_lvl_temperatura() {
 	lvl_temperatura++;
 	stringstream lvl_temperatura_str;
 	lvl_temperatura_str<<lvl_temperatura;
-	NotificationManager::show_notification("Você acaba concluir o nível " + lvl_temperatura_str.str() + " da realização: Temperatura");
+	NotificationManager::get_instance()->show_notification("Foi alcançado o nível " + lvl_temperatura_str.str() + " da realização: Temperatura");
 }
 
 void Achievements::check_hydration(double hydration) {
@@ -319,7 +358,7 @@ void Achievements::inc_lvl_hidratacao() {
 	lvl_hidratacao++;
 	stringstream lvl_hidratacao_str;
 	lvl_hidratacao_str<<lvl_hidratacao;
-	NotificationManager::show_notification("Você acaba concluir o nível " + lvl_hidratacao_str.str() + " da realização: Hidratação");
+	NotificationManager::get_instance()->show_notification("Foi alcançado o nível " + lvl_hidratacao_str.str() + " da realização: Hidratação");
 }
 
 void Achievements::check_energy(double energy) {
@@ -367,7 +406,7 @@ void Achievements::inc_lvl_energia() {
 	lvl_energia++;
 	stringstream lvl_energia_str;
 	lvl_energia_str<<lvl_energia;
-	NotificationManager::show_notification("Você acaba concluir o nível " + lvl_energia_str.str() + " da realização: Energia");
+	NotificationManager::get_instance()->show_notification("Foi alcançado o nível " + lvl_energia_str.str() + " da realização: Energia");
 }
 
 AsyncTask::DoneStatus Achievements::count_seconds_untouched(GenericAsyncTask* task, void* data) {
@@ -397,7 +436,7 @@ void Achievements::inc_lvl_intocavel() {
 	lvl_intocavel++;
 	stringstream lvl_intocavel_str;
 	lvl_intocavel_str<<lvl_intocavel;
-	NotificationManager::show_notification("Você acaba concluir o nível " + lvl_intocavel_str.str() + " da realização: O intocável");
+	NotificationManager::get_instance()->show_notification("Foi alcançado o nível " + lvl_intocavel_str.str() + " da realização: O Intocável");
 }
 
 void Achievements::inc_guerreiro() {
@@ -422,5 +461,5 @@ void Achievements::inc_lvl_guerreiro() {
 	lvl_guerreiro++;
 	stringstream lvl_guerreiro_str;
 	lvl_guerreiro_str<<lvl_guerreiro;
-	NotificationManager::show_notification("Você acaba concluir o nível " + lvl_guerreiro_str.str() + " da realização: Guerreiro");
+	NotificationManager::get_instance()->show_notification("Foi alcançado o nível " + lvl_guerreiro_str.str() + " da realização: Guerreiro");
 }

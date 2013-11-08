@@ -10,10 +10,11 @@
 #include <list>
 using namespace std;
 #include "referenceCount.h"
+#define MAXITENS 144
 
 class History : public ReferenceCount {
 public:
-	History(int max_items = 180);
+	History(int max_items = MAXITENS);
 	virtual ~History();
 
 	enum HistoryItem {
@@ -58,7 +59,8 @@ private:
 class Event;
 class CalangosHistory : public History {
 public:
-	CalangosHistory(int max_items = 180);
+
+	CalangosHistory(int max_items = MAXITENS);
 
 	static void update(const Event*, void* data);
 	void update();

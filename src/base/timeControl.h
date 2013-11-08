@@ -69,6 +69,7 @@ public:
 	static void event_pframe(const Event *, void *data);
 	static void event_psegundo_real(const Event *, void *data);
 	static void event_pminute(const Event *, void *data);
+	static void event_ptenminutes(const Event *, void *data);
 	static void event_phour(const Event *, void *data);
 	static void event_pday(const Event *, void *data);
 	static void event_pmonth(const Event *, void *data);
@@ -79,6 +80,7 @@ public:
 	static const string EV_pass_frame;
 	static const string EV_pass_second;
 	static const string EV_pass_minute;
+	static const string EV_pass_ten_minutes;
 	static const string EV_pass_hour;
 	static const string EV_pass_day;
 	static const string EV_pass_month;
