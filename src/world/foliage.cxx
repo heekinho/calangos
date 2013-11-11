@@ -67,7 +67,7 @@ void Foliage::add_foliage(string path, NodePath vegetal){
 	}
 
 	NodePath m = Simdunas::get_window()->load_model(
-			Simdunas::get_framework()->get_models(), path + "/folhagem.egg");
+			Simdunas::get_framework()->get_models(), path + "/folhagem");
 
 	//carrega uma textura
 	//	PT(Texture) folha_texture = TexturePool::load_texture("models/vegetation/Harpochilus/folhagem.png");

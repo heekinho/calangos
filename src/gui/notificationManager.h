@@ -50,7 +50,7 @@ private:
 	ACTION(show_achievements_window);
 
 	static PT(NotificationManager) instance;
-
+	PT(TextFont) default_hud_font;
 };
 
 #undef ACTION

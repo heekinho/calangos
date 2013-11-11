@@ -18,7 +18,7 @@
 deque<NodePath> NotificationManager::notifications;
 PT(TextNode) NotificationManager::last_achievement;
 PT(NotificationManager) NotificationManager::instance;
-PT(TextFont) default_hud_font = FontPool::load_font("models/gui/fonts/suplexcomic-large");
+
 //NodePath NotificationManager::np_last_achievement;
 //PT(Window) NotificationManager::wnd_realizacoes;
 //PT(Button) NotificationManager::btn_realizacoes;
@@ -30,6 +30,7 @@ PT(TextFont) default_hud_font = FontPool::load_font("models/gui/fonts/suplexcomi
 //}
 
 NotificationManager::NotificationManager() {
+	default_hud_font = FontPool::load_font("models/gui/fonts/suplexcomic-large");
 	button = new Button("notification-button", " ", default_hud_font, 0.075);
 }
 

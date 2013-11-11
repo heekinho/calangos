@@ -43,11 +43,11 @@ AnimatedObjetoJogo::~AnimatedObjetoJogo(){
 
 
 void AnimatedObjetoJogo::pause_game(const Event*, void* data){
-	nout << "pausando animações" << endl;
+	//nout << "pausando animações" << endl;
 	((AnimatedObjetoJogo*)data)->pause_anims();
 }
 
 void AnimatedObjetoJogo::continue_game(const Event*, void* data){
-	nout << "continuando animações" << endl;
+	//nout << "continuando animações" << endl;
 	((AnimatedObjetoJogo*)data)->continue_anims();
 }

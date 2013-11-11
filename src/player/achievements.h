@@ -15,8 +15,8 @@
 //#include "button.h"
 //#include "window.h"
 
-//#define ACTION(mn) void mn(); \
-static void mn(const Event*, void* d){ ((PT(Achievements))(Achievements*)d)->mn(); }
+//#define ACTION(mn) void mn(); 
+//static void mn(const Event*, void* d){ ((PT(Achievements))(Achievements*)d)->mn(); }
 
 
 class Achievements : public ReferenceCount {
