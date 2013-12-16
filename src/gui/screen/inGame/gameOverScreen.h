@@ -25,6 +25,8 @@ public:
 
 	static void restart(const Event*, void* data);
 
+	ACTION(sair_action);
+
 private:
 	PT(PGVirtualFrame) frame_tela;
 	NodePath np_frame_tela;
@@ -34,6 +36,8 @@ private:
 	NodePath np_lb_fim_do_jogo;
 	PT(TextNode) lb_indica_morte;
 	NodePath np_lb_indica_morte;
+	PT(Button) btn_sair;
+	NodePath np_btn_sair;
 //	enum Causa_Mortis {
 //	        DESNUTRICAO = 1, DESIDRATACAO, ALTA_TEMPERATURA, BAIXA_TEMPERATURA, MORTE_IDADE
 //	};

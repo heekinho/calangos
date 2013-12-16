@@ -48,6 +48,7 @@ void GameOverScreen::load(){
 	np_lb_indica_morte.set_color(1, 1, 1, 1, 0);
 
 	//default_button_config(btn_restart, np_btn_restart, "Reiniciar", LVecBase3f(0, 0, 0), restart);
+	default_button_config(btn_sair, np_btn_sair, "Sair", LVecBase3f(0, 0, 0), sair_action);
 }
 
 void GameOverScreen::show() {
@@ -69,7 +70,7 @@ void GameOverScreen::show() {
 			break;
 
 		case Player::PDT_OLD_AGE:
-			lb_indica_morte->set_text("Causa da Morte: Atingiu a Idade Máxima.");
+			lb_indica_morte->set_text("Parabéns! Jogo finalizado!");
 			break;
 
 		case Player::PDT_DEHYDRATION:
@@ -93,4 +94,8 @@ void GameOverScreen::restart(const Event*, void* data) {
 
 
 	Session::get_instance()->receive_answer("r");
+}
+
+void GameOverScreen::sair_action() {
+	exit(0);
 }
