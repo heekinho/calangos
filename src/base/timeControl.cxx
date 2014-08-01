@@ -304,7 +304,7 @@ double TimeControl::get_hora_generica(){
 	double hora_generica = hora + min*0.01667;
 	//cout << "\n ------------------------------ min: " << min;
 	//cout << ", hora: " << hora;
-	//cout << ", hora generica: " << hora_generica;
+	cout << "\n ------------- hora generica: " << hora_generica;
 	return hora_generica;
 }
 

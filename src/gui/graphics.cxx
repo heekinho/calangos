@@ -2,12 +2,17 @@
 #include <stddef.h>
 #include <queue>
 #include "graphics.h"
+#include "simdunas.h"
+#include "timeControl.h"
+#include "mouseWatcher.h"
+#include "lineSegs.h"
 
 #define DEBUG_GUI 0
 
 //Utilizado para tornar a classe PT
 TypeHandle Graphics::_type_handle;
 
+//TODO retirar daqui!!!!!!!!!!!!!!!!!!!
 //Declaração de variavel. Foram declarados aqui como variaveis globais
 //porque quando colocadas no graphics.h dava erro de compilação.
 NodePath linha_grafico_np;
@@ -51,6 +56,15 @@ float posicao_marcacaoY4;
 float posicao_marcacaoY5;
 bool tipoTempo;
 
+LineSegs* eixo_hint;
+NodePath eixo_hint_np;
+LineSegs* eixo_hint2;
+NodePath eixo_hint2_np;
+TextNode* valor_hint;
+NodePath valor_hint_np;
+TextNode* valor_hint2;
+NodePath valor_hint2_np;
+
 //Destrutor: Remove os graficos da tela.
 Graphics::~Graphics() {
     //if(&graphic_np != NULL)
@@ -73,7 +87,7 @@ Graphics::~Graphics() {
 
 //Construtor
 //NodePath* paiNode: Node onde o grafico vai ser anexado (componente de interface grafica, ex. frame)
-//queue<double> vetorXtmp: Fila com os valores do eixo X.
+//queue<double> vetorXtmp: Fila com os valores do eixo X. Não pode ter mais de 24 horas.
 //queue<double> vetorYtmp: Fila com os valores do eixo Y.
 //double limiteSuperiorXTmp: Valor maximo do eixo X.
 //double limiteInferiorXTmp: Valor minimo do eixo X.
@@ -137,7 +151,6 @@ Graphics::Graphics(NodePath paiNode, History::HList* vetorXtmp, History::HList* 
     graphic_titulo_np.set_scale(0.06);
     graphic_titulo_np.set_color(0.0, 0.0, 0.0, 1, 0);
 
-
     //Criando o label do titulo do eixo X.
     graphic_titulo_eixoX = new TextNode("Eixo_X");
     graphic_titulo_eixoX_np = graphic_np.attach_new_node(graphic_titulo_eixoX);
@@ -173,10 +186,18 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
 
     //Faz o calculo da escala em x de acordo com o tipo de grafico.
     if(tipoTempo){
+		//this->add_hint_line_draw_hook(); // hook para atualizar a linha do hint dentro do gráfico a cada frame
         //escalaX = 0.63 / (tamanhoVetorX - 1);
+    	// TODO criar constante na classe que constroi vetores de amostragem
     	escalaX = 0.63 / (144 - 1);
-        //cout << "\n ------------------------------ ESCALA X: " << escalaX;
-        posicaoX = 0;
+        //posicaoX = 0;
+
+    	// Cada hora possui 6 amostras, então o máximo de amostras por dia é de 144.
+    	// É necessário multiplicar por 6 para fazer a equivalência de hora com o vetor de amostras.
+    	// Por ex.: A amostra da oitava hora do dia será a 48a do vetor (8 * 6)
+    	// Sendo assim, a posição inicial de X será o 48o espaço de 144 espaços possíveis no eixo X
+    	posicaoX = vetorX->front() * 6;
+
     } else {
         if (tamanhoVetorX > 0) {
             escalaX = (0.63) / (limiteSuperiorX - limiteInferiorX);//((100 * 0.0063) / limiteSuperiorX);
@@ -199,35 +220,26 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
         vetorY->pop_front();
         linha_grafico->reset();
         if (tipoTempo) {
-            linha_grafico->move_to((posicaoX * escalaX), 0.0, ((posicaoY - limiteInferiorY) * escalaY));
+        	linha_grafico->move_to((posicaoX * escalaX), 0.0, ((posicaoY - limiteInferiorY) * escalaY));
         } else {
             linha_grafico->move_to(((posicaoX - limiteInferiorX) * escalaX), 0.0, ((posicaoY - limiteInferiorY) * escalaY));
         }
     }
 
 	//Verifica qual o maior valor do vetor X.
-	History::HList listaTemp (*this->vetorX);
-    double maior = listaTemp.front();
-    int tamanhoFor = listaTemp.size();
-    //cout << "\n ------------------------------ MAIOR x ANTES DO FOR: " << maior;
-    //cout << "\n ------------------------------ TAMANHO DA LISTA: " << tamanhoFor;
-
-    // percorrer lista e saber valores
-    // descobrir de onde os valores são inseridos
-    for(int i = 1; i < tamanhoFor; i++){
-    	//cout << "\n ListaTemp na posição " << i << "é igual a: " << listaTemp.front();
-        if(listaTemp.front() > maior)
-            maior = listaTemp.front();
-        listaTemp.pop_front();
-    }
-    //cout << "\n ------------------------------ MAIOR X: " << maior;
-    //cout << "\n ------------------------------ LIMITE SUPERIOR X: " << limiteSuperiorX;
-    //cout << "\n ------------------------------ LIMITE INFERIOR X: " << limiteInferiorX << "\n\n\n";
+//	History::HList listaTemp (*this->vetorX);
+//    double maior = listaTemp.front();
+//    int tamanhoFor = listaTemp.size();
+//
+//    for(int i = 1; i < tamanhoFor; i++){
+//    	//cout << "\n ListaTemp na posição " << i << "é igual a: " << listaTemp.front();
+//        if(listaTemp.front() > maior)
+//            maior = listaTemp.front();
+//        listaTemp.pop_front();
+//    }
 
 	//Gera os valores das marcações dos eixos do grafico.
     PT(TimeControl) time_control = TimeControl::get_instance();
-    cout << "\n ------------------------------ ELAPSED TIME: " << time_control->get_elapsed_time();
-    cout << "\n ------------------------------ VIRTUAL TIME HOUR : " << time_control->get_virtual_time_hour();
     if (tipoTempo) {
         //Colocando os numeros das marcacoes do eixo X.
 //        sprintf(stringMarcacaoX1, "%.2f", (maior / 5));
@@ -256,8 +268,8 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
         marcacaoX3_titulo->set_text(stringMarcacaoX3);
         sprintf(stringMarcacaoX4, "%.2f", ((3 * ((limiteSuperiorX - limiteInferiorX) / 4))) + limiteInferiorX);
         marcacaoX4_titulo->set_text(stringMarcacaoX4);
-        sprintf(stringMarcacaoX5, "%.2f", (limiteSuperiorX));
-        marcacaoX5_titulo->set_text(stringMarcacaoX5);
+        //sprintf(stringMarcacaoX5, "%.2f", (limiteSuperiorX));
+        //marcacaoX5_titulo->set_text(stringMarcacaoX5);
     }
 
     //Colocando os numeros das marcacoes do eixo Y.
@@ -269,20 +281,28 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
     marcacaoY3_titulo->set_text(stringMarcacaoY3);
     sprintf(stringMarcacaoY4, "%.2f", ((3 * ((limiteSuperiorY - limiteInferiorY) / 4))) + limiteInferiorY);
     marcacaoY4_titulo->set_text(stringMarcacaoY4);
-    sprintf(stringMarcacaoY5, "%.2f", (limiteSuperiorY));
-    marcacaoY5_titulo->set_text(stringMarcacaoY5);
+    //sprintf(stringMarcacaoY5, "%.2f", (limiteSuperiorY));
+    //marcacaoY5_titulo->set_text(stringMarcacaoY5);
 
     /*
      * For que constroi o grafico.
      * Comeca de 1 porque a primeira amostra foi postada anteriormente.
      */
+    double front_x = 0;
+	//cout << "\n ---------- Front Y: " << vetorY->front() << "Back Y: " << vetorY->back();
+
+    // Com a iteração através de inserção e remoção dos itens da fila, armazena-se o primeiro item antes de fazer o pop_front().
+    // Este item é readicionado no final da fila (push_back()) para que o vetor não sofra alterações ao acabar a iteração.
     if ((tamanhoVetorY > 0) & (tamanhoVetorX > 0)) {
         for (int i = 1; i < tamanhoVetorX; i++) {
-            posicaoY = vetorY->front();
+        	front_x = vetorX->front(); // para ser readicionado a vetorX
+        	posicaoX = front_x * 6;
+        	vetorX->pop_front();
+        	posicaoY = vetorY->front();
             vetorY->pop_front();
             if (tipoTempo) {
-                posicaoX = posicaoX + escalaX;
-                linha_grafico->draw_to(posicaoX, 0.0, ((posicaoY - limiteInferiorY) * escalaY));
+                //posicaoX = posicaoX + escalaX;
+                linha_grafico->draw_to(posicaoX * escalaX, 0.0, ((posicaoY - limiteInferiorY) * escalaY));
             } else {
                 posicaoX = vetorX->front();
                 vetorX->pop_front();
@@ -297,8 +317,19 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
                 linha_grafico->move_to(((posicaoX - limiteInferiorX) * escalaX), 0.0, ((posicaoY - limiteInferiorY) * escalaY) + 0.008);
                 linha_grafico->draw_to(((posicaoX - limiteInferiorX) * escalaX), 0.0, (((posicaoY - limiteInferiorY) * escalaY) - 0.016));
             }
+            vetorX->push_back(front_x); // readiciona ao final da fila a última referência removida
+            vetorY->push_back(posicaoY); // readiciona ao final da fila a última referência removida
         }
+        front_x = vetorX->front(); // última referência de hora não é removida no for
+        vetorX->pop_front(); // remove última referência de hora do início
+        vetorX->push_back(front_x); // e coloca no final de vetorX
+
+//        posicaoY = vetorY->front(); // última referência de Y não é removida no for
+//        vetorY->pop_front(); // remove última referência de hora do início
+//        vetorY->push_back(posicaoY); // e coloca no final de vetorY
     }
+
+    //cout << "\n---------- Front Y: " << vetorY->front() << "Back Y: " << vetorY->back();
 
 	//Faz o attach do grafico na tela.
     linha_grafico_np = graphic_np.attach_new_node(linha_grafico->create(true));
@@ -317,6 +348,7 @@ void Graphics::set_scale(float x) {
 
 void Graphics::hide(){
     this->graphic_np.stash();
+    this->remove_hint_line_draw_hook();
 }
 
 void Graphics::desenha_eixoX() {
@@ -349,26 +381,41 @@ void Graphics::desenha_eixoY() {
 
 }
 
+//void Graphics::desenha_linha_hint(float pos_x) {
+//	eixo_hint->set_color(1.0, 0.0, 0.0);
+//	eixo_hint->draw_to(0.0, 0.0, 0.0);
+//	eixo_hint->draw_to(0.0, 0.0, 0.68);
+//	eixo_hint_np = graphic_np.attach_new_node(eixo_hint->create());
+//	//eixo_hint_np.set_pos(pos_x, 0.0, 0.10);
+//
+//	eixo_hint2->set_color(1.0, 0.0, 0.0);
+//	eixo_hint2->draw_to(0.0, 0.0, 0.0);
+//	eixo_hint2->draw_to(0.0, 0.0, 0.68);
+//	eixo_hint2_np = graphic_np.attach_new_node(eixo_hint2->create());
+//	//eixo_hint2_np.set_pos((pos_x - 0.001), 0.0, 0.10);
+//
+//}
+
 void Graphics::desenha_marcacao_eixoX(){
 
-    if (tipoTempo) {
+    //if (tipoTempo) {
 //        posicao_marcacaoX1 = 0.276;
 //        posicao_marcacaoX2 = 0.402;
 //        posicao_marcacaoX3 = 0.528;
 //        posicao_marcacaoX4 = 0.654;
 //        posicao_marcacaoX5 = 0.780;
-        posicao_marcacaoX1 = 0.315;
-        posicao_marcacaoX2 = 0.480;
-        posicao_marcacaoX3 = 0.625;
-        posicao_marcacaoX4 = 0.780;
-    } else {
-        unidade_marcacaoX = 0.0063;
-        posicao_marcacaoX5 = (100 * unidade_marcacaoX) + 0.15;
-        posicao_marcacaoX1 = (0 * unidade_marcacaoX) + 0.15;
-        posicao_marcacaoX2 = ((posicao_marcacaoX5 - posicao_marcacaoX1) / 4) + posicao_marcacaoX1;
-        posicao_marcacaoX3 = (2 * (posicao_marcacaoX5 - posicao_marcacaoX1) / 4) + posicao_marcacaoX1;
-        posicao_marcacaoX4 = (3 * (posicao_marcacaoX5 - posicao_marcacaoX1) / 4) + posicao_marcacaoX1;
-    }
+        posicao_marcacaoX1 = 0.15 + (0.63 / 4);
+        posicao_marcacaoX2 = 0.15 + (2 * 0.63 / 4);
+        posicao_marcacaoX3 = 0.15 + (3 * 0.63 / 4);
+        posicao_marcacaoX4 = 0.15 + (4 * 0.63 / 4);
+   // } else {
+        //unidade_marcacaoX = 0.0063; // largura de espaçamento entre os marcadores conforme a coordenada X da tela
+        //posicao_marcacaoX5 = (100 * unidade_marcacaoX) + 0.15;
+        //posicao_marcacaoX1 = (0 * unidade_marcacaoX) + 0.15;
+        //posicao_marcacaoX2 = ((posicao_marcacaoX5 - posicao_marcacaoX1) / 4) + posicao_marcacaoX1;
+        //posicao_marcacaoX3 = (2 * (posicao_marcacaoX5 - posicao_marcacaoX1) / 4) + posicao_marcacaoX1;
+        //posicao_marcacaoX4 = (3 * (posicao_marcacaoX5 - posicao_marcacaoX1) / 4) + posicao_marcacaoX1;
+    //}
 
     LineSegs* marcacaoX1 = new LineSegs("mx1");
     marcacaoX1->set_color(0.0, 0.0, 1.0);
@@ -532,5 +579,180 @@ void Graphics::set_Titulo_EixoX(const string& tituloEixoXString){
 
 void Graphics::set_Titulo_EixoY(const string& tituloEixoYString){
     graphic_titulo_eixoY->set_text(tituloEixoYString);
+}
+
+// Evento que atualiza a posição da linha do hint dentro do gráfico a cada frame
+void Graphics::add_hint_line_draw_hook() {
+	event_handler->add_hook(TimeControl::EV_pass_frame_gui_options, draw_hint_line, this);
+}
+
+void Graphics::remove_hint_line_draw_hook() {
+	event_handler->remove_hook(TimeControl::EV_pass_frame_gui_options, draw_hint_line, this);
+}
+
+void Graphics::draw_hint_line() {
+	float mouse_x = 0; // coordenada X do mouse na tela
+	float mouse_y = 0; // coordenada Y do mouse na tela
+	float hour = 0; // valor de X (hora) no gráfico
+	float item_value = 0; // valor de Y no gráfico
+
+	// Todas as coordenadas utilizadas nos cálculos são referentes à toda a tela de jogo
+	// Os valores de coordenadas são os mesmos para qualquer resolução da tela de jogo
+	MouseWatcher *mwatcher = DCAST(MouseWatcher, window->get_mouse().node());
+	if(mwatcher->has_mouse()) {
+		mouse_x = mwatcher->get_mouse_x();
+		mouse_y = mwatcher->get_mouse_y();
+		//cout << "\n------- X = " << mouse_x << " ; Y = " << mouse_y;
+		// Hora = (24 horas * (posição de tela atual do X do cursor - posição de tela de X na linha de início do eixo X)) /
+		// posição de tela de X no fim do eixo X - posição de tela de X na linha de início do eixo X;
+		hour = (24 * (mouse_x - 0.03)) / 0.54;
+
+		if (&eixo_hint2_np != NULL) {
+			eixo_hint2_np.remove_node();
+			valor_hint2_np.remove_node();
+		}
+		if (&eixo_hint_np != NULL) {
+			eixo_hint_np.remove_node();
+			valor_hint_np.remove_node();
+		}
+
+		// a hora pode ser igual para dias diferentes;
+		// criar sublista de vetorX somente com amostras do dia corrente
+		// usar iterator
+
+		// Itera os vetores X e Y para pegar o valor de Y equivalente à hora obtida no vetor X
+		// Pega a amostra do vetor Y a partir da posição do mouse e da hora equivalente no vetor X
+		std::list<float>::const_iterator iterator, iterator2;
+		float previous_x = 0;
+		float previous_y = 0;
+		for (iterator = vetorX->begin(), iterator2 = vetorY->begin();
+			iterator != vetorX->end(), iterator2 != vetorY->end(); ++iterator, ++iterator2) {
+			// se o valor de hora do iterator for maior do que o valor de hora equivalente à posição atual do mouse
+			// e menor ou igual que o valor de hora guardado anteriormente, pega a amostra anterior e para a iteração
+			if (*iterator > hour && previous_x <= hour) {
+				item_value = previous_y;
+				break;
+			}
+			previous_x = *iterator; // guarda o valor atual de hora que servirá de condição para a próxima iteração
+			previous_y = *iterator2;
+		}
+
+//		if (mouse_x >= 0.03 && mouse_x <= 0.57 && hour >= vetorX->front() && hour <= vetorX->back()) {
+//			if (mouse_y >= 0.12 && mouse_y <= 0.66) {
+//				eixo_hint = new LineSegs("eixo-hint");
+//				eixo_hint->set_color(1.0, 0.0, 0.0);
+//				eixo_hint->draw_to(0.0, 0.0, 0.0);
+//				eixo_hint->draw_to(0.0, 0.0, 0.54);
+//				eixo_hint_np = graphic_np.get_parent().attach_new_node(eixo_hint->create(true));
+//				eixo_hint_np.set_pos(window->get_render_2d(), mouse_x, 0.0, 0.12);
+//
+//				stringstream hint_msg;
+//				hint_msg << item_value;
+//				valor_hint = new TextNode("valor-hint");
+//				valor_hint->set_text(hint_msg.str());
+//				valor_hint_np = graphic_np.get_parent().attach_new_node(valor_hint);
+//				valor_hint_np.set_scale(0.05);
+//				valor_hint_np.set_color(0.0, 0.0, 0.0, 1, 0);
+//				//valor_hint_np.set_pos(0.7, 0.0, 1.7);
+//				valor_hint_np.set_pos(window->get_render_2d(), 0.3, 0.0, 0.7);
+//			} else if (mouse_y >= -0.77 && mouse_y <= -0.23) {
+//				eixo_hint2 = new LineSegs("eixo-hint2");
+//				eixo_hint2->set_color(0.0, 1.0, 0.0);
+//				eixo_hint2->draw_to(0.0, 0.0, 0.0);
+//				eixo_hint2->draw_to(0.0, 0.0, 0.54);
+//				eixo_hint2_np = graphic_np.get_parent().attach_new_node(eixo_hint2->create(true));
+//				eixo_hint2_np.set_pos(window->get_render_2d(), mouse_x, 0.0, -0.77);
+//
+//				stringstream hint_msg2;
+//				hint_msg2 << item_value;
+//				valor_hint2 = new TextNode("valor-hint2");
+//				valor_hint2->set_text(hint_msg2.str());
+//				valor_hint2_np = graphic_np.get_parent().attach_new_node(valor_hint2);
+//				valor_hint2_np.set_scale(0.05);
+//				valor_hint2_np.set_color(0.0, 0.0, 0.0, 1, 0);
+//				valor_hint2_np.set_pos(window->get_render_2d(), 0.3, 0.0, -0.2);
+//
+//			}
+//		}
+
+//		if (graphic_np.get_y() == 1.0) {
+//			if (mouse_x >= 0.03 && mouse_x <= 0.57 && mouse_y >= 0.12 && mouse_y <= 0.66 &&
+//					hour >= vetorX->front() && hour <= vetorX->back()) {
+//				eixo_hint = new LineSegs("eixo-hint");
+//				eixo_hint->set_color(1.0, 0.0, 0.0);
+//				eixo_hint->draw_to(0.0, 0.0, 0.0);
+//				eixo_hint->draw_to(0.0, 0.0, 0.54);
+//				eixo_hint_np = graphic_np.get_parent().attach_new_node(eixo_hint->create(true));
+//				eixo_hint_np.set_pos(window->get_render_2d(), mouse_x, 0.0, 0.12);
+//				stringstream hint_msg;
+//				hint_msg << item_value;
+//				valor_hint = new TextNode("valor-hint");
+//				valor_hint->set_text(hint_msg.str());
+//				valor_hint_np = graphic_np.get_parent().attach_new_node(valor_hint);
+//				valor_hint_np.set_scale(0.05);
+//				valor_hint_np.set_color(0.0, 0.0, 0.0, 1, 0);
+//				valor_hint_np.set_pos(window->get_render_2d(), 0.3, 0.0, 0.7);
+//			}
+//		} else if (graphic_np.get_y() == 0.1) {
+//			if (mouse_x >= 0.03 && mouse_x <= 0.57 && mouse_y >= -0.77 && mouse_y <= -0.23 &&
+//					hour >= vetorX->front() && hour <= vetorX->back()) {
+//				eixo_hint = new LineSegs("eixo-hint");
+//				eixo_hint->set_color(1.0, 0.0, 0.0);
+//				eixo_hint->draw_to(0.0, 0.0, 0.0);
+//				eixo_hint->draw_to(0.0, 0.0, 0.54);
+//				eixo_hint_np = graphic_np.get_parent().attach_new_node(eixo_hint->create(true));
+//				eixo_hint_np.set_pos(window->get_render_2d(), mouse_x, 0.0, -0.77);
+//				stringstream hint_msg;
+//				hint_msg << item_value;
+//				valor_hint = new TextNode("valor-hint");
+//				valor_hint->set_text(hint_msg.str());
+//				valor_hint_np = graphic_np.get_parent().attach_new_node(valor_hint);
+//				valor_hint_np.set_scale(0.05);
+//				valor_hint_np.set_color(0.0, 0.0, 0.0, 1, 0);
+//				valor_hint_np.set_pos(window->get_render_2d(), 0.3, 0.0, -0.2);
+//			}
+//		}
+
+	}
+
+}
+
+void Graphics::update_hint_line(float line_pos_x, float line_pos_y, float label_pos_y) {
+	float hour = (24 * (line_pos_x - 0.03)) / 0.54;
+	float item_value = 0;
+	std::list<float>::const_iterator iterator, iterator2;
+	float previous_x = 0;
+	float previous_y = 0;
+
+	// Itera os vetores X e Y para pegar o valor de Y equivalente à hora obtida no vetor X
+	// Pega a amostra do vetor Y a partir da posição do mouse e da hora equivalente no vetor X
+	for (iterator = vetorX->begin(), iterator2 = vetorY->begin();
+		iterator != vetorX->end(), iterator2 != vetorY->end(); ++iterator, ++iterator2) {
+		// se o valor de hora do iterator for maior do que o valor de hora equivalente à posição atual do mouse
+		// e menor ou igual que o valor de hora guardado anteriormente, pega a amostra anterior e para a iteração
+		if (*iterator > hour && previous_x <= hour) {
+			item_value = previous_y;
+			break;
+		}
+		previous_x = *iterator; // guarda o valor atual de hora que servirá de condição para a próxima iteração
+		previous_y = *iterator2;
+	}
+
+	if (hour >= vetorX->front() && hour <= vetorX->back()) {
+		eixo_hint = new LineSegs("eixo-hint");
+		eixo_hint->set_color(1.0, 0.0, 0.0);
+		eixo_hint->draw_to(0.0, 0.0, 0.0);
+		eixo_hint->draw_to(0.0, 0.0, 0.54);
+		eixo_hint_np = graphic_np.get_parent().attach_new_node(eixo_hint->create(true));
+		eixo_hint_np.set_pos(window->get_render_2d(), line_pos_x, 0.0, line_pos_y);
+		stringstream hint_msg;
+		hint_msg << item_value;
+		valor_hint = new TextNode("valor-hint");
+		valor_hint->set_text(hint_msg.str());
+		valor_hint_np = graphic_np.get_parent().attach_new_node(valor_hint);
+		valor_hint_np.set_scale(0.05);
+		valor_hint_np.set_color(0.0, 0.0, 0.0, 1, 0);
+		valor_hint_np.set_pos(window->get_render_2d(), 0.3, 0.0, label_pos_y);
+	}
 }
 

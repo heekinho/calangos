@@ -29,15 +29,15 @@ DebugTools::DebugTools() {
 
 	action = "grow-old";
 	Simdunas::get_framework()->define_key("control-o", "EasterEgg - Grow Old", special_control, action);
-
-	action = "kill-player";
-	Simdunas::get_framework()->define_key("control-k", "EasterEgg - Kill Player", special_control, action);
-
-	action = "see-graphs";
-	Simdunas::get_framework()->define_key("control-g", "See Scene Graphs", special_control, action);
-
-	action = "custom";
-	Simdunas::get_framework()->define_key("control-c", "Custom", special_control, action);
+//
+//	action = "kill-player";
+//	Simdunas::get_framework()->define_key("control-k", "EasterEgg - Kill Player", special_control, action);
+//
+//	action = "see-graphs";
+//	Simdunas::get_framework()->define_key("control-g", "See Scene Graphs", special_control, action);
+//
+//	action = "custom";
+//	Simdunas::get_framework()->define_key("control-c", "Custom", special_control, action);
 
 	configure_input();
 }

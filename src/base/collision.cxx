@@ -58,7 +58,7 @@ void collision::playerCollision(NodePath* node){
         CollisionNode* cNode = new CollisionNode("Player"); //cria nó de colisão
         cNode->add_solid(new CollisionSphere(0, 0, -20, 180.0)); //cria solido colisão (esfera) e add ao nó de colisão
         NodePath cplayer = node->attach_new_node(cNode);
-      //  player.show();
+        //cplayer.show();
         pusher.add_collider(cplayer, *node);
         collTravPlayer->add_collider(cplayer , &pusher);
     }
@@ -109,7 +109,7 @@ void collision::esferaCollision(NodePath* node, float x, float y, float z, float
        CollisionNode* cNode = new CollisionNode("no");
       cNode->add_solid(new CollisionSphere(x, y, z, raio));
       NodePath no = node->attach_new_node(cNode);
-    //  no.show();
+      //no.show();
   }
 }
 

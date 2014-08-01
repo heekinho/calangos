@@ -122,9 +122,9 @@ PlayerControl::PlayerControl() {
 //	action = "pause"; 		Simdunas::get_framework()->define_key("escape", "Pause Game", chama_pause, this);
 
 	//CHEATS
-	action = "die";			Simdunas::get_framework()->define_key("control-m", "Easter Egg1", special_control, action);
-	action = "grow-old";	Simdunas::get_framework()->define_key("control-o", "Easter Egg2", special_control, action);
-	action = "info";		Simdunas::get_framework()->define_key("control-i", "Print Info", special_control, action);
+//	action = "die";			Simdunas::get_framework()->define_key("control-m", "Easter Egg1", special_control, action);
+//	action = "grow-old";	Simdunas::get_framework()->define_key("control-o", "Easter Egg2", special_control, action);
+//	action = "info";		Simdunas::get_framework()->define_key("control-i", "Print Info", special_control, action);
 
 
 	/* Bury Actions. Sem necessidade de perguntar a fase. Pergunta se possui a habilidade */

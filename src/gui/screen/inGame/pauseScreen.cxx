@@ -15,6 +15,7 @@
 #include "achievementsWindow.h"
 #include "videosWindow.h"
 #include "guiManager.h"
+#include "keyInstructionsWindow.h"
 
 bool PauseScreen::selected_video = false;
 bool PauseScreen::is_opened = false;
@@ -52,6 +53,8 @@ void PauseScreen::load(){
 	default_button_config(btn_realizacoes, np_btn_realizacoes, "Realizações", LVecBase3f(0, 0, 0.15), realizacoes_action);
 	default_button_config(btn_videos, np_btn_videos, "Vídeos", LVecBase3f(0, 0, -0.05), videos_action);
 
+	default_button_config(btn_controles, np_btn_controles, "Controles", LVecBase3f(0, 0, -0.25), controles_action);
+	//default_button_config(btn_indicadores, np_btn_indicadores, "Indicadores", LVecBase3f(0, 0, -0.45), indicadores_action);
 
 	//////construindo os botões dos videos
 //	default_button_config(btn_lagartos, np_btn_lagartos, "Lagartos", LVecBase3f(0, 0, 0.35), lagartos_action);
@@ -104,6 +107,10 @@ void PauseScreen::show() {
 	if (wnd_videos != NULL && !selected_video)
 		wnd_videos = NULL;
 
+//	if(wnd_controles != NULL && !selected_video) {
+//		wnd_controles = NULL;
+//	}
+
 	pause_event();
 
 	if (selected_video) {
@@ -149,4 +156,14 @@ void PauseScreen::sair_action() {
 	exit(0); //saindo direto, fechando o jogo
 	//na tela de inicialização ou de game over
 }
+
+void PauseScreen::controles_action() {
+	wnd_controles = new KeyInstructionsWindow(get_root(), 1.5, 1.1, "Controles", -1.2, -0.8);
+//	img_teclas = window->load_model(get_root(), "models/gui/teclas.png");
+//	img_teclas.set_scale(0.075, 0.001, 0.17);
+//	img_teclas.set_pos(0.0, 0.0, 0.0);
+}
+
+//void PauseScreen::indicadores_action() {
+//}
 

@@ -11,8 +11,8 @@
 #include "pandaFramework.h"
 #include "pgVirtualFrame.h"
 #include "graphics.h"
-
 #include "history.h"
+#include "eventHandler.h"
 
 class Graphics;
 class Hint;
@@ -182,7 +182,40 @@ public:
 	void desliga_leds_painel_tempo();
 	void desliga_leds_painel_variavel();
 
+	static void click_event_botao_grafico_tempo(const Event*, void *data);
+	static void click_event_botao_grafico_variavel(const Event*, void *data);
+	static void click_event_botao_grafico_tempInterna(const Event*, void *data);
+	static void click_event_botao_grafico_hidratacao(const Event*, void *data);
+	static void click_event_botao_grafico_tempAr(const Event*, void *data);
+	static void click_event_botao_grafico_umidade(const Event*, void *data);
+	static void click_event_botao_grafico_tempSolo(const Event*, void *data);
+	static void click_event_botao_grafico_alimentacao(const Event*, void *data);
+	static void click_event_botao_grafico_energia(const Event*, void *data);
+	static void click_event_botao_grafico_gastoEnergetico(const Event*, void *data);
+	static void click_event_botao_grafico_tempInterna_v(const Event*, void *data);
+	static void click_event_botao_grafico_hidratacao_v(const Event*, void *data);
+	static void click_event_botao_grafico_tempAr_v(const Event*, void *data);
+	static void click_event_botao_grafico_umidade_v(const Event*, void *data);
+	static void click_event_botao_grafico_tempSolo_v(const Event*, void *data);
+	static void click_event_botao_grafico_alimentacao_v(const Event*, void *data);
+	static void click_event_botao_grafico_energia_v(const Event*, void *data);
+	static void click_event_botao_grafico_gastoEnergetico_v(const Event*, void *data);
 
+	void set_chart_properties(int chart_number, int chart_position);
+	void create_time_chart(int chart_number, int chart_position);
+	void create_variable_chart(History::HList *vetor_x, History::HList *vetor_y,
+			const string &legenda_x, const string &legenda_y, bool set_eixo_y);
+	void add_hooks();
+	void remove_hooks();
+	void init_variables();
+	void create_default_time_chart();
+	//void draw_hint_line(PT(Graphics) &chart, float min_y, float max_y);
+	//void draw_hint_line();
+	bool get_grafico_tempo_ativo();
+	bool get_grafico_variavel_ativo();
+	void set_grafico_variavel_ativo(bool grafico_variavel_ativo);
+
+	PT(History) get_history();
 private:
 	PT(TextNode) txt_tipo_graf;
 	NodePath label_txt_tipo_graf;
@@ -196,9 +229,6 @@ private:
 	NodePath np_btn_graf_variavel;
 	NodePath led_off_graf_variavel;
 	NodePath led_on_graf_variavel;
-
-	bool flag_graf_tempo_ativo; // esses flags provavelmente devem ficar em guiManager mesmo.
-	bool flag_graf_variavel_ativo;
 
 	PT(PGButton) btn_temp_interna;
 	NodePath np_btn_temp_interna;
@@ -358,6 +388,23 @@ private:
     double tamanho_vetor_y;
 
     PT(History) history;
+
+    bool grafico_tempo_ativo;
+    bool grafico_variavel_ativo;
+
+    bool grafico_posicao1_ativo;
+    bool grafico_posicao2_ativo;
+//
+//    // 0 - não está na tela; 1 - está em cima; 2 - está embaixo
+//    static int posicao_grafico_tempInterna;
+//    static int posicao_grafico_hidratacao;
+//    static int posicao_grafico_tempAr;
+//    static int posicao_grafico_umidade;
+//    static int posicao_grafico_tempSolo;
+//    static int posicao_grafico_alimentacao;
+//    static int posicao_grafico_energia;
+//    static int posicao_grafico_gastoEnergetico;
+
 };
 
 #endif /* GRAPHICSMENU_H */

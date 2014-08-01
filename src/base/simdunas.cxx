@@ -97,6 +97,11 @@ int main(int argc, char *argv[]) {
 //		PT(VideoScreen) video_screen = new VideoScreen(initial_manager);
 //		initial_manager->open_screen((PT(Screen)) video_screen);
 
+
+
+
+
+
 		string video_path = "models/videos/vinheta_opcao_1_mpeg4.avi";
 		Simdunas::get_framework()->define_key("escape", "stop_video", VideoManager::stop_video, VideoManager::get_instance());
 		VideoManager::get_instance()->play_openning(video_path);
@@ -108,6 +113,15 @@ int main(int argc, char *argv[]) {
 		}
 
 		event_handler->remove_hook("escape", VideoManager::stop_video, VideoManager::get_instance());
+
+
+
+
+
+
+
+
+
 
 //		/* Descarrega o manager */
 //		initial_manager->unload();

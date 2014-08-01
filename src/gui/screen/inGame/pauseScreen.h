@@ -31,6 +31,8 @@ public:
 	ACTION(videos_action);
 	ACTION(continuar_action);
 	ACTION(sair_action);
+	ACTION(controles_action);
+	ACTION(indicadores_action);
 	static bool selected_video;
 	static bool is_opened;
 
@@ -39,6 +41,7 @@ private:
 	bool stopped_time;
 	PT(Window) wnd_realizacoes;
 	PT(Window) wnd_videos;
+	PT(Window) wnd_controles;
 	/* Componentes do Menu */
 	//NodePath titulo;
 	//NodePath img_videos;
@@ -53,6 +56,9 @@ private:
 	PT(Button) btn_habitat; 		NodePath np_btn_habitat;
 	PT(Button) btn_continuar; 		NodePath np_btn_continuar;
 	PT(Button) btn_sair; 			NodePath np_btn_sair;
+	PT(Button) btn_controles;		NodePath np_btn_controles;
+	PT(Button) btn_indicadores;		NodePath np_btn_indicadores;
+	//NodePath img_teclas;
 };
 
 #undef ACTION

@@ -47,11 +47,7 @@ void NotificationManager::show_notification(string message) {
 		last_achievement = new TextNode("last_achievement");
 		last_achievement->set_shadow(0.06, 0.06);
 		last_achievement->set_shadow_color(0, 0, 0, 1);
-		cout << "\n >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ENTROU NO IF ";
-	} else {
-		cout << "\n >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ENTROU NO ELSE ";
 	}
-
 
 	//float text_width = text->get_width();
 	//float text_height = text->get_height();

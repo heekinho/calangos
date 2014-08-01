@@ -74,9 +74,9 @@ const string GuiManager::NOME_GASTO_ENERGETICO = "GASTO_ENERGÉTICO";
 
 
 
-bool grafico_tempo_ativo;
+//bool grafico_tempo_ativo;
 
-bool grafico_variavel_ativo;
+//bool grafico_variavel_ativo;
 
 
 
@@ -150,25 +150,25 @@ bool GuiManager::is_showing_arrow_predator = false;
 
 GuiManager::~GuiManager(){
 
-	simdunas_cat.debug()<< "\n inicio do destrutor... " << endl;
-
-	graphics_menu->get_graphic() = NULL;
-
-	graphics_menu->get_graphic2() = NULL;
-
-	graphics_menu->get_graphic3() = NULL;
-
-	graphics_menu->get_graphic4() = NULL;
-
-	graphics_menu->get_graphic5() = NULL;
-
-	graphics_menu->get_graphic6() = NULL;
-
-	graphics_menu->get_graphic7() = NULL;
-
-	graphics_menu->get_graphic8() = NULL;
-
-	simdunas_cat.debug()<< "\n fim do destrutor..." << endl;
+//	simdunas_cat.debug()<< "\n inicio do destrutor... " << endl;
+//
+//	graphics_menu->get_graphic() = NULL;
+//
+//	graphics_menu->get_graphic2() = NULL;
+//
+//	graphics_menu->get_graphic3() = NULL;
+//
+//	graphics_menu->get_graphic4() = NULL;
+//
+//	graphics_menu->get_graphic5() = NULL;
+//
+//	graphics_menu->get_graphic6() = NULL;
+//
+//	graphics_menu->get_graphic7() = NULL;
+//
+//	graphics_menu->get_graphic8() = NULL;
+//
+//	simdunas_cat.debug()<< "\n fim do destrutor..." << endl;
 
 }
 
@@ -197,6 +197,8 @@ PT(GuiManager) GuiManager::get_instance() {
 void GuiManager::unload_gui(){
 
 	GuiManager::get_instance()->remove_hooks();
+
+	GuiManager::get_instance()->graphics_menu->remove_hooks();
 
 	GuiManager::get_instance()->graphics_menu->get_graphic() = NULL;
 
@@ -236,25 +238,25 @@ void GuiManager::remove_hooks() {
 
 	event_handler->remove_hook(game_status_bar->get_btn_grafico()->get_click_event(MouseButton::one()), click_event_botao_grafico, this);
 
-	event_handler->remove_hook(graphics_menu->get_btn_graf_tempo()->get_click_event(MouseButton::one()), click_event_botao_grafico_tempo, this);
-
-	event_handler->remove_hook(graphics_menu->get_btn_graf_variavel()->get_click_event(MouseButton::one()), click_event_botao_grafico_variavel, this);
-
-	event_handler->remove_hook(graphics_menu->get_btn_temp_interna()->get_click_event(MouseButton::one()), click_event_botao1_grafico_TempInterna, this);
-
-	event_handler->remove_hook(graphics_menu->get_btn_hidratacao()->get_click_event(MouseButton::one()), click_event_botao2_grafico_Hidratacao, this);
-
-	event_handler->remove_hook(graphics_menu->get_btn_temp_ar()->get_click_event(MouseButton::one()), click_event_botao3_grafico_TempAr, this);
-
-	event_handler->remove_hook(graphics_menu->get_btn_umidade()->get_click_event(MouseButton::one()), click_event_botao4_grafico_Umidade, this);
-
-	event_handler->remove_hook(graphics_menu->get_btn_temp_solo()->get_click_event(MouseButton::one()), click_event_botao5_grafico_TempSolo, this);
-
-	event_handler->remove_hook(graphics_menu->get_btn_alimentacao()->get_click_event(MouseButton::one()), click_event_botao6_grafico_Alimentacao, this);
-
-	event_handler->remove_hook(graphics_menu->get_btn_energia()->get_click_event(MouseButton::one()), click_event_botao7_grafico_Energia, this);
-
-	event_handler->remove_hook(graphics_menu->get_btn_gasto_energetico()->get_click_event(MouseButton::one()), click_event_botao8_grafico_GastoEnergetico, this);
+//	event_handler->remove_hook(graphics_menu->get_btn_graf_tempo()->get_click_event(MouseButton::one()), click_event_botao_grafico_tempo, this);
+//
+//	event_handler->remove_hook(graphics_menu->get_btn_graf_variavel()->get_click_event(MouseButton::one()), click_event_botao_grafico_variavel, this);
+//
+//	event_handler->remove_hook(graphics_menu->get_btn_temp_interna()->get_click_event(MouseButton::one()), click_event_botao1_grafico_TempInterna, this);
+//
+//	event_handler->remove_hook(graphics_menu->get_btn_hidratacao()->get_click_event(MouseButton::one()), click_event_botao2_grafico_Hidratacao, this);
+//
+//	event_handler->remove_hook(graphics_menu->get_btn_temp_ar()->get_click_event(MouseButton::one()), click_event_botao3_grafico_TempAr, this);
+//
+//	event_handler->remove_hook(graphics_menu->get_btn_umidade()->get_click_event(MouseButton::one()), click_event_botao4_grafico_Umidade, this);
+//
+//	event_handler->remove_hook(graphics_menu->get_btn_temp_solo()->get_click_event(MouseButton::one()), click_event_botao5_grafico_TempSolo, this);
+//
+//	event_handler->remove_hook(graphics_menu->get_btn_alimentacao()->get_click_event(MouseButton::one()), click_event_botao6_grafico_Alimentacao, this);
+//
+//	event_handler->remove_hook(graphics_menu->get_btn_energia()->get_click_event(MouseButton::one()), click_event_botao7_grafico_Energia, this);
+//
+//	event_handler->remove_hook(graphics_menu->get_btn_gasto_energetico()->get_click_event(MouseButton::one()), click_event_botao8_grafico_GastoEnergetico, this);
 
 
 
@@ -360,41 +362,41 @@ GuiManager::GuiManager() {
 
 	event_handler->add_hook(game_status_bar->get_btn_grafico()->get_click_event(MouseButton::one()), click_event_botao_grafico,this);
 
-	event_handler->add_hook(graphics_menu->get_btn_graf_tempo()->get_click_event(MouseButton::one()), click_event_botao_grafico_tempo,this);
+//	event_handler->add_hook(graphics_menu->get_btn_graf_tempo()->get_click_event(MouseButton::one()), click_event_botao_grafico_tempo,this);
+//
+//	event_handler->add_hook(graphics_menu->get_btn_graf_variavel()->get_click_event(MouseButton::one()), click_event_botao_grafico_variavel,this);
+//
+//	event_handler->add_hook(graphics_menu->get_btn_temp_interna()->get_click_event(MouseButton::one()), click_event_botao1_grafico_TempInterna,this);
+//
+//	event_handler->add_hook(graphics_menu->get_btn_hidratacao()->get_click_event(MouseButton::one()), click_event_botao2_grafico_Hidratacao, this);
+//
+//	event_handler->add_hook(graphics_menu->get_btn_temp_ar()->get_click_event(MouseButton::one()), click_event_botao3_grafico_TempAr,this);
+//
+//	event_handler->add_hook(graphics_menu->get_btn_umidade()->get_click_event(MouseButton::one()), click_event_botao4_grafico_Umidade,this);
+//
+//	event_handler->add_hook(graphics_menu->get_btn_temp_solo()->get_click_event(MouseButton::one()), click_event_botao5_grafico_TempSolo,this);
+//
+//	event_handler->add_hook(graphics_menu->get_btn_alimentacao()->get_click_event(MouseButton::one()), click_event_botao6_grafico_Alimentacao, this);
+//
+//	event_handler->add_hook(graphics_menu->get_btn_energia()->get_click_event(MouseButton::one()), click_event_botao7_grafico_Energia,this);
+//
+//	event_handler->add_hook(graphics_menu->get_btn_gasto_energetico()->get_click_event(MouseButton::one()), click_event_botao8_grafico_GastoEnergetico,this);
 
-	event_handler->add_hook(graphics_menu->get_btn_graf_variavel()->get_click_event(MouseButton::one()), click_event_botao_grafico_variavel,this);
-
-	event_handler->add_hook(graphics_menu->get_btn_temp_interna()->get_click_event(MouseButton::one()), click_event_botao1_grafico_TempInterna,this);
-
-	event_handler->add_hook(graphics_menu->get_btn_hidratacao()->get_click_event(MouseButton::one()), click_event_botao2_grafico_Hidratacao, this);
-
-	event_handler->add_hook(graphics_menu->get_btn_temp_ar()->get_click_event(MouseButton::one()), click_event_botao3_grafico_TempAr,this);
-
-	event_handler->add_hook(graphics_menu->get_btn_umidade()->get_click_event(MouseButton::one()), click_event_botao4_grafico_Umidade,this);
-
-	event_handler->add_hook(graphics_menu->get_btn_temp_solo()->get_click_event(MouseButton::one()), click_event_botao5_grafico_TempSolo,this);
-
-	event_handler->add_hook(graphics_menu->get_btn_alimentacao()->get_click_event(MouseButton::one()), click_event_botao6_grafico_Alimentacao, this);
-
-	event_handler->add_hook(graphics_menu->get_btn_energia()->get_click_event(MouseButton::one()), click_event_botao7_grafico_Energia,this);
-
-	event_handler->add_hook(graphics_menu->get_btn_gasto_energetico()->get_click_event(MouseButton::one()), click_event_botao8_grafico_GastoEnergetico,this);
-
-	event_handler->add_hook(graphics_menu->get_btn_temp_interna_v()->get_click_event(MouseButton::one()), click_event_vBotao1_grafico_TempInterna,this);
-
-	event_handler->add_hook(graphics_menu->get_btn_hidratacao_v()->get_click_event(MouseButton::one()), click_event_vBotao2_grafico_Hidratacao, this);
-
-	event_handler->add_hook(graphics_menu->get_btn_temp_ar_v()->get_click_event(MouseButton::one()), click_event_vBotao3_grafico_TempAr,this);
-
-	event_handler->add_hook(graphics_menu->get_btn_umidade_v()->get_click_event(MouseButton::one()), click_event_vBotao4_grafico_Umidade,this);
-
-	event_handler->add_hook(graphics_menu->get_btn_temp_solo_v()->get_click_event(MouseButton::one()), click_event_vBotao5_grafico_TempSolo,this);
-
-	event_handler->add_hook(graphics_menu->get_btn_alimentacao_v()->get_click_event(MouseButton::one()), click_event_vBotao6_grafico_Alimentacao, this);
-
-	event_handler->add_hook(graphics_menu->get_btn_energia_v()->get_click_event(MouseButton::one()), click_event_vBotao7_grafico_Energia,this);
-
-	event_handler->add_hook(graphics_menu->get_btn_gasto_energetico_v()->get_click_event(MouseButton::one()), click_event_vBotao8_grafico_GastoEnergetico,this);
+//	event_handler->add_hook(graphics_menu->get_btn_temp_interna_v()->get_click_event(MouseButton::one()), click_event_vBotao1_grafico_TempInterna,this);
+//
+//	event_handler->add_hook(graphics_menu->get_btn_hidratacao_v()->get_click_event(MouseButton::one()), click_event_vBotao2_grafico_Hidratacao, this);
+//
+//	event_handler->add_hook(graphics_menu->get_btn_temp_ar_v()->get_click_event(MouseButton::one()), click_event_vBotao3_grafico_TempAr,this);
+//
+//	event_handler->add_hook(graphics_menu->get_btn_umidade_v()->get_click_event(MouseButton::one()), click_event_vBotao4_grafico_Umidade,this);
+//
+//	event_handler->add_hook(graphics_menu->get_btn_temp_solo_v()->get_click_event(MouseButton::one()), click_event_vBotao5_grafico_TempSolo,this);
+//
+//	event_handler->add_hook(graphics_menu->get_btn_alimentacao_v()->get_click_event(MouseButton::one()), click_event_vBotao6_grafico_Alimentacao, this);
+//
+//	event_handler->add_hook(graphics_menu->get_btn_energia_v()->get_click_event(MouseButton::one()), click_event_vBotao7_grafico_Energia,this);
+//
+//	event_handler->add_hook(graphics_menu->get_btn_gasto_energetico_v()->get_click_event(MouseButton::one()), click_event_vBotao8_grafico_GastoEnergetico,this);
 
 	event_handler->add_hook(menu_frame->get_within_event(), mouse_on_game_status_bar, this);
 
@@ -538,9 +540,9 @@ void GuiManager::click_event_botao_grafico(const Event*, void *data) {
 
 		_this->graphics_menu->show_all_option_graphics();
 
-		grafico_tempo_ativo = true;
+		// grafico_tempo_ativo = true;
 
-		grafico_variavel_ativo = false;
+		// grafico_variavel_ativo = false;
 
 		flag_botao_temp_interna = true;
 
@@ -919,316 +921,316 @@ void GuiManager::desliga_led_estado_reprodutivo(){
 
 //Metodo que captura o clique no botao tempo.
 
-void GuiManager::click_event_botao_grafico_tempo(const Event*, void* data) {
-
-
-
-	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
-
-
-	//Verifica se o painel de tempo ja esta aberto. Caso esteja ele esconde esse painel, se não ele oculta todos os outros paineis
-	//e torna o painel de tempo visivel.
-
-	if (grafico_tempo_ativo) {
-
-		_this->graphics_menu->hide_menu_graf_tempo();
-
-		_this->graphics_menu->hide_all_graphics();
-
-		_this->graphics_menu->get_led_off_graf_tempo().unstash();
-
-//		botaoEscolhaGraficoTempo_image_ativo.stash();
-
-		_this->graphics_menu->get_led_on_graf_tempo().stash();
-
-//		botaoEscolhaGraficoVariavel_image_ativo.stash();
-
-		_this->graphics_menu->get_led_on_graf_variavel().stash();
-
-//		botaoEscolhaGraficoVariavel_image.unstash();
-
-		_this->graphics_menu->get_led_off_graf_variavel().unstash();
-
-		grafico_tempo_ativo = false;
-
-	} else {
-
-		_this->graphics_menu->hide_menu_graf_variavel();
-
-		_this->graphics_menu->show_menu_graf_tempo();
-
-		_this->graphics_menu->get_graphic_variavel()->hide();
-
-		_this->graphics_menu->init_graphics();
-
-//		botaoEscolhaGraficoTempo_image.stash();
-
-		_this->graphics_menu->get_led_off_graf_tempo().stash();
-
-//		botaoEscolhaGraficoTempo_image_ativo.unstash();
-
-		_this->graphics_menu->get_led_on_graf_tempo().unstash();
-
-//		botaoEscolhaGraficoVariavel_image_ativo.stash();
-
-		_this->graphics_menu->get_led_on_graf_variavel().stash();
-
-//		botaoEscolhaGraficoVariavel_image.unstash();
-
-		_this->graphics_menu->get_led_off_graf_variavel().unstash();
-
-		grafico_tempo_ativo = true;
-
-		grafico_variavel_ativo = false;
-
-		_this->graficoPosicao1 = true;
-
-		_this->graficoPosicao2 = true;
-
-		_this->grafico1Cima = true;
-
-		_this->grafico1Baixo = false;
-
-		_this->grafico2Cima = false;
-
-		_this->grafico2Baixo = true;
-
-		_this->grafico3Cima = false;
-
-		_this->grafico3Baixo = false;
-
-		_this->grafico4Cima = false;
-
-		_this->grafico4Baixo = false;
-
-		_this->grafico5Cima = false;
-
-		_this->grafico5Baixo = false;
-
-		_this->grafico6Cima = false;
-
-		_this->grafico6Baixo = false;
-
-		_this->grafico7Cima = false;
-
-		_this->grafico7Baixo = false;
-
-		_this->grafico8Cima = false;
-
-		_this->grafico8Baixo = false;
-
-	}
-
-}
-
-
-//Metodo que captura o clique no botao variavel.
-
-void GuiManager::click_event_botao_grafico_variavel(const Event*, void* data) {
-
-
-
-	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
-
-
-	//Verifica se o painel de variavel ja esta aberto. Caso esteja ele esconde esse painel, se não ele oculta todos os outros paineis
-	//e torna o painel de variavel visivel.
-
-	if (grafico_variavel_ativo) {
-
-		_this->graphics_menu->hide_menu_graf_variavel();
-
-		_this->graphics_menu->hide_all_graphics();
-
-//		botaoEscolhaGraficoVariavel_image_ativo.stash();
-
-		_this->graphics_menu->get_led_on_graf_variavel().stash();
-
-//		botaoEscolhaGraficoVariavel_image.unstash();
-
-		_this->graphics_menu->get_led_off_graf_variavel().unstash();
-
-//		botaoEscolhaGraficoTempo_image.unstash();
-
-		_this->graphics_menu->get_led_off_graf_tempo().unstash();
-
-//		botaoEscolhaGraficoTempo_image_ativo.stash();
-
-		_this->graphics_menu->get_led_on_graf_tempo().stash();
-
-		_this->graphics_menu->get_graphic_variavel()->hide();
-
-		grafico_variavel_ativo = false;
-
-	} else {
-
-		_this->graphics_menu->show_menu_graf_tempo();
-
-		_this->graphics_menu->show_menu_graf_variavel();
-
-//		botaoEscolhaGraficoVariavel_image_ativo.unstash();
-
-		_this->graphics_menu->get_led_on_graf_variavel().unstash();
-
-//		botaoEscolhaGraficoVariavel_image.stash();
-
-		_this->graphics_menu->get_led_off_graf_variavel().stash();
-
-//		botaoEscolhaGraficoTempo_image.unstash();
-
-		_this->graphics_menu->get_led_off_graf_tempo().unstash();
-
-//		botaoEscolhaGraficoTempo_image_ativo.stash();
-
-		_this->graphics_menu->get_led_on_graf_tempo().stash();
-
-		_this->graphics_menu->get_led_off_temp_interna().unstash();
-
-		_this->graphics_menu->get_led_on_temp_interna().stash();
-
-		_this->graphics_menu->get_led_off_hidratacao().unstash();
-
-		_this->graphics_menu->get_led_on_hidratacao().stash();
-
-		_this->graphics_menu->get_led_off_temp_ar().stash();
-
-		_this->graphics_menu->get_led_on_temp_ar().unstash();
-
-		_this->graphics_menu->get_led_off_umidade().unstash();
-
-		_this->graphics_menu->get_led_on_umidade().stash();
-
-		_this->graphics_menu->get_led_off_temp_solo().unstash();
-
-		_this->graphics_menu->get_led_on_temp_solo().stash();
-
-		_this->graphics_menu->get_led_off_alimentacao().unstash();
-
-		_this->graphics_menu->get_led_on_alimentacao().stash();
-
-		_this->graphics_menu->get_led_off_energia().unstash();
-
-		_this->graphics_menu->get_led_on_energia().stash();
-
-		_this->graphics_menu->get_led_off_gasto_energetico().unstash();
-
-		_this->graphics_menu->get_led_on_gasto_energetico().stash();
-
-		_this->graphics_menu->get_led_off_temp_interna_v().unstash();
-
-		_this->graphics_menu->get_led_on_temp_interna_v().stash();
-
-		_this->graphics_menu->get_led_off_hidratacao_v().unstash();
-
-		_this->graphics_menu->get_led_on_hidratacao_v().stash();
-
-		_this->graphics_menu->get_led_off_temp_ar_v().stash();
-
-		_this->graphics_menu->get_led_on_temp_ar_v().unstash();
-
-		_this->graphics_menu->get_led_off_umidade_v().unstash();
-
-		_this->graphics_menu->get_led_on_umidade_v().stash();
-
-		_this->graphics_menu->get_led_off_temp_solo_v().unstash();
-
-		_this->graphics_menu->get_led_on_temp_solo_v().stash();
-
-		_this->graphics_menu->get_led_off_alimentacao_v().unstash();
-
-		_this->graphics_menu->get_led_on_alimentacao_v().stash();
-
-		_this->graphics_menu->get_led_off_energia_v().unstash();
-
-		_this->graphics_menu->get_led_on_energia_v().stash();
-
-		_this->graphics_menu->get_led_off_gasto_energetico_v().unstash();
-
-		_this->graphics_menu->get_led_on_gasto_energetico_v().stash();
-
-		grafico_variavel_ativo = true;
-
-		grafico_tempo_ativo = false;
-
-
-
-		_this->var_x = TEMP_AR;
-
-		_this->var_y = TEMP_AR;
-
-//		_this->x_values = _this->graphics_menu->get_vector()->getVectorTemperaturaAr();
-
-//		_this->y_values = _this->graphics_menu->get_vector()->getVectorTemperaturaAr();
-
-//		_this->print_queue_values(_this->x_values, _this->y_values);
-
-//		_this->graphics_menu->set_vetor_x(_this->graphics_menu->get_vector()->getVectorTemperaturaAr());
-
-//		_this->graphics_menu->set_vetor_y(_this->graphics_menu->get_vector()->getVectorTemperaturaAr());
-
-//		_this->graphics_menu->set_tamanho_vetor_x(_this->graphics_menu->get_vector()->getSizeVectorTemperaturaAr());
-
-//		_this->graphics_menu->set_tamanho_vetor_y(_this->graphics_menu->get_vector()->getSizeVectorTemperaturaAr());
-
-//		_this->graphics_menu->set_limite_superior_x(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vetor_x()));
-
-//		_this->graphics_menu->set_limite_inferior_x(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vetor_x()));
-
-//		_this->graphics_menu->set_limite_superior_y(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vetor_y()));
-
-//		_this->graphics_menu->set_limite_inferior_y(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vetor_x()));
-
-		_this->x_values = _this->history->get_list(History::HI_world_temperature);
-
-		_this->y_values = _this->history->get_list(History::HI_world_temperature);
-
-//		_this->print_queue_values(_this->x_values, _this->y_values);
-
-		_this->graphics_menu->set_vetor_x(_this->x_values);
-
-		_this->graphics_menu->set_vetor_y(_this->y_values);
-
-		_this->graphics_menu->set_tamanho_vetor_x(_this->history->get_size(History::HI_world_temperature));
-
-		_this->graphics_menu->set_tamanho_vetor_y(_this->history->get_size(History::HI_world_temperature));
-
-		_this->graphics_menu->set_limite_superior_x(_this->history->get_largest_element(History::HI_world_temperature));
-
-		_this->graphics_menu->set_limite_inferior_x(_this->history->get_smallest_element(History::HI_world_temperature));
-
-		_this->graphics_menu->set_limite_superior_y(_this->history->get_largest_element(History::HI_world_temperature));
-
-		_this->graphics_menu->set_limite_inferior_y(_this->history->get_smallest_element(History::HI_world_temperature));
-
-
-
-		_this->graphics_menu->set_legenda_x((string) "Temp ar");
-
-		_this->graphics_menu->set_legenda_y((string) "Temp ar");
-
-		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
-
-				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
-
-				_this->graphics_menu->get_limite_superior_y(), _this->graphics_menu->get_limite_inferior_y(), false));
-
-		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
-
-		_this->graphics_menu->get_graphic_variavel()->set_scale(1.2);
-
-		string titulo = _this->graphics_menu->get_legenda_x() + (string) " x " + _this->graphics_menu->get_legenda_y();
-
-		_this->graphics_menu->get_graphic_variavel()->set_Titulo_Grafico(titulo);
-
-		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoX(_this->graphics_menu->get_legenda_x());
-
-		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(_this->graphics_menu->get_legenda_y());
-
-		_this->graphics_menu->get_graphic_variavel()->create_Graphic(_this->graphics_menu->get_tamanho_vetor_x(), _this->graphics_menu->get_tamanho_vetor_y());
-
-	}
-
-}
+//void GuiManager::click_event_botao_grafico_tempo(const Event*, void* data) {
+//
+//
+//
+//	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
+//
+//
+//	//Verifica se o painel de tempo ja esta aberto. Caso esteja ele esconde esse painel, se não ele oculta todos os outros paineis
+//	//e torna o painel de tempo visivel.
+//
+//	if (grafico_tempo_ativo) {
+//
+//		_this->graphics_menu->hide_menu_graf_tempo();
+//
+//		_this->graphics_menu->hide_all_graphics();
+//
+//		_this->graphics_menu->get_led_off_graf_tempo().unstash();
+//
+////		botaoEscolhaGraficoTempo_image_ativo.stash();
+//
+//		_this->graphics_menu->get_led_on_graf_tempo().stash();
+//
+////		botaoEscolhaGraficoVariavel_image_ativo.stash();
+//
+//		_this->graphics_menu->get_led_on_graf_variavel().stash();
+//
+////		botaoEscolhaGraficoVariavel_image.unstash();
+//
+//		_this->graphics_menu->get_led_off_graf_variavel().unstash();
+//
+//		grafico_tempo_ativo = false;
+//
+//	} else {
+//
+//		_this->graphics_menu->hide_menu_graf_variavel();
+//
+//		_this->graphics_menu->show_menu_graf_tempo();
+//
+//		_this->graphics_menu->get_graphic_variavel()->hide();
+//
+//		_this->graphics_menu->init_graphics();
+//
+////		botaoEscolhaGraficoTempo_image.stash();
+//
+//		_this->graphics_menu->get_led_off_graf_tempo().stash();
+//
+////		botaoEscolhaGraficoTempo_image_ativo.unstash();
+//
+//		_this->graphics_menu->get_led_on_graf_tempo().unstash();
+//
+////		botaoEscolhaGraficoVariavel_image_ativo.stash();
+//
+//		_this->graphics_menu->get_led_on_graf_variavel().stash();
+//
+////		botaoEscolhaGraficoVariavel_image.unstash();
+//
+//		_this->graphics_menu->get_led_off_graf_variavel().unstash();
+//
+//		grafico_tempo_ativo = true;
+//
+//		grafico_variavel_ativo = false;
+//
+//		_this->graficoPosicao1 = true;
+//
+//		_this->graficoPosicao2 = true;
+//
+//		_this->grafico1Cima = true;
+//
+//		_this->grafico1Baixo = false;
+//
+//		_this->grafico2Cima = false;
+//
+//		_this->grafico2Baixo = true;
+//
+//		_this->grafico3Cima = false;
+//
+//		_this->grafico3Baixo = false;
+//
+//		_this->grafico4Cima = false;
+//
+//		_this->grafico4Baixo = false;
+//
+//		_this->grafico5Cima = false;
+//
+//		_this->grafico5Baixo = false;
+//
+//		_this->grafico6Cima = false;
+//
+//		_this->grafico6Baixo = false;
+//
+//		_this->grafico7Cima = false;
+//
+//		_this->grafico7Baixo = false;
+//
+//		_this->grafico8Cima = false;
+//
+//		_this->grafico8Baixo = false;
+//
+//	}
+//
+//}
+//
+//
+////Metodo que captura o clique no botao variavel.
+//
+//void GuiManager::click_event_botao_grafico_variavel(const Event*, void* data) {
+//
+//
+//
+//	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
+//
+//
+//	//Verifica se o painel de variavel ja esta aberto. Caso esteja ele esconde esse painel, se não ele oculta todos os outros paineis
+//	//e torna o painel de variavel visivel.
+//
+//	if (grafico_variavel_ativo) {
+//
+//		_this->graphics_menu->hide_menu_graf_variavel();
+//
+//		_this->graphics_menu->hide_all_graphics();
+//
+////		botaoEscolhaGraficoVariavel_image_ativo.stash();
+//
+//		_this->graphics_menu->get_led_on_graf_variavel().stash();
+//
+////		botaoEscolhaGraficoVariavel_image.unstash();
+//
+//		_this->graphics_menu->get_led_off_graf_variavel().unstash();
+//
+////		botaoEscolhaGraficoTempo_image.unstash();
+//
+//		_this->graphics_menu->get_led_off_graf_tempo().unstash();
+//
+////		botaoEscolhaGraficoTempo_image_ativo.stash();
+//
+//		_this->graphics_menu->get_led_on_graf_tempo().stash();
+//
+//		_this->graphics_menu->get_graphic_variavel()->hide();
+//
+//		grafico_variavel_ativo = false;
+//
+//	} else {
+//
+//		_this->graphics_menu->show_menu_graf_tempo();
+//
+//		_this->graphics_menu->show_menu_graf_variavel();
+//
+////		botaoEscolhaGraficoVariavel_image_ativo.unstash();
+//
+//		_this->graphics_menu->get_led_on_graf_variavel().unstash();
+//
+////		botaoEscolhaGraficoVariavel_image.stash();
+//
+//		_this->graphics_menu->get_led_off_graf_variavel().stash();
+//
+////		botaoEscolhaGraficoTempo_image.unstash();
+//
+//		_this->graphics_menu->get_led_off_graf_tempo().unstash();
+//
+////		botaoEscolhaGraficoTempo_image_ativo.stash();
+//
+//		_this->graphics_menu->get_led_on_graf_tempo().stash();
+//
+//		_this->graphics_menu->get_led_off_temp_interna().unstash();
+//
+//		_this->graphics_menu->get_led_on_temp_interna().stash();
+//
+//		_this->graphics_menu->get_led_off_hidratacao().unstash();
+//
+//		_this->graphics_menu->get_led_on_hidratacao().stash();
+//
+//		_this->graphics_menu->get_led_off_temp_ar().stash();
+//
+//		_this->graphics_menu->get_led_on_temp_ar().unstash();
+//
+//		_this->graphics_menu->get_led_off_umidade().unstash();
+//
+//		_this->graphics_menu->get_led_on_umidade().stash();
+//
+//		_this->graphics_menu->get_led_off_temp_solo().unstash();
+//
+//		_this->graphics_menu->get_led_on_temp_solo().stash();
+//
+//		_this->graphics_menu->get_led_off_alimentacao().unstash();
+//
+//		_this->graphics_menu->get_led_on_alimentacao().stash();
+//
+//		_this->graphics_menu->get_led_off_energia().unstash();
+//
+//		_this->graphics_menu->get_led_on_energia().stash();
+//
+//		_this->graphics_menu->get_led_off_gasto_energetico().unstash();
+//
+//		_this->graphics_menu->get_led_on_gasto_energetico().stash();
+//
+//		_this->graphics_menu->get_led_off_temp_interna_v().unstash();
+//
+//		_this->graphics_menu->get_led_on_temp_interna_v().stash();
+//
+//		_this->graphics_menu->get_led_off_hidratacao_v().unstash();
+//
+//		_this->graphics_menu->get_led_on_hidratacao_v().stash();
+//
+//		_this->graphics_menu->get_led_off_temp_ar_v().stash();
+//
+//		_this->graphics_menu->get_led_on_temp_ar_v().unstash();
+//
+//		_this->graphics_menu->get_led_off_umidade_v().unstash();
+//
+//		_this->graphics_menu->get_led_on_umidade_v().stash();
+//
+//		_this->graphics_menu->get_led_off_temp_solo_v().unstash();
+//
+//		_this->graphics_menu->get_led_on_temp_solo_v().stash();
+//
+//		_this->graphics_menu->get_led_off_alimentacao_v().unstash();
+//
+//		_this->graphics_menu->get_led_on_alimentacao_v().stash();
+//
+//		_this->graphics_menu->get_led_off_energia_v().unstash();
+//
+//		_this->graphics_menu->get_led_on_energia_v().stash();
+//
+//		_this->graphics_menu->get_led_off_gasto_energetico_v().unstash();
+//
+//		_this->graphics_menu->get_led_on_gasto_energetico_v().stash();
+//
+//		grafico_variavel_ativo = true;
+//
+//		grafico_tempo_ativo = false;
+//
+//
+//
+//		_this->var_x = TEMP_AR;
+//
+//		_this->var_y = TEMP_AR;
+//
+////		_this->x_values = _this->graphics_menu->get_vector()->getVectorTemperaturaAr();
+//
+////		_this->y_values = _this->graphics_menu->get_vector()->getVectorTemperaturaAr();
+//
+////		_this->print_queue_values(_this->x_values, _this->y_values);
+//
+////		_this->graphics_menu->set_vetor_x(_this->graphics_menu->get_vector()->getVectorTemperaturaAr());
+//
+////		_this->graphics_menu->set_vetor_y(_this->graphics_menu->get_vector()->getVectorTemperaturaAr());
+//
+////		_this->graphics_menu->set_tamanho_vetor_x(_this->graphics_menu->get_vector()->getSizeVectorTemperaturaAr());
+//
+////		_this->graphics_menu->set_tamanho_vetor_y(_this->graphics_menu->get_vector()->getSizeVectorTemperaturaAr());
+//
+////		_this->graphics_menu->set_limite_superior_x(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vetor_x()));
+//
+////		_this->graphics_menu->set_limite_inferior_x(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vetor_x()));
+//
+////		_this->graphics_menu->set_limite_superior_y(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vetor_y()));
+//
+////		_this->graphics_menu->set_limite_inferior_y(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vetor_x()));
+//
+//		_this->x_values = _this->history->get_list(History::HI_world_temperature);
+//
+//		_this->y_values = _this->history->get_list(History::HI_world_temperature);
+//
+////		_this->print_queue_values(_this->x_values, _this->y_values);
+//
+//		_this->graphics_menu->set_vetor_x(_this->x_values);
+//
+//		_this->graphics_menu->set_vetor_y(_this->y_values);
+//
+//		_this->graphics_menu->set_tamanho_vetor_x(_this->history->get_size(History::HI_world_temperature));
+//
+//		_this->graphics_menu->set_tamanho_vetor_y(_this->history->get_size(History::HI_world_temperature));
+//
+//		_this->graphics_menu->set_limite_superior_x(_this->history->get_largest_element(History::HI_world_temperature));
+//
+//		_this->graphics_menu->set_limite_inferior_x(_this->history->get_smallest_element(History::HI_world_temperature));
+//
+//		_this->graphics_menu->set_limite_superior_y(_this->history->get_largest_element(History::HI_world_temperature));
+//
+//		_this->graphics_menu->set_limite_inferior_y(_this->history->get_smallest_element(History::HI_world_temperature));
+//
+//
+//
+//		_this->graphics_menu->set_legenda_x((string) "Temp ar");
+//
+//		_this->graphics_menu->set_legenda_y((string) "Temp ar");
+//
+//		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+//
+//				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
+//
+//				_this->graphics_menu->get_limite_superior_y(), _this->graphics_menu->get_limite_inferior_y(), false));
+//
+//		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
+//
+//		_this->graphics_menu->get_graphic_variavel()->set_scale(1.2);
+//
+//		string titulo = _this->graphics_menu->get_legenda_x() + (string) " x " + _this->graphics_menu->get_legenda_y();
+//
+//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_Grafico(titulo);
+//
+//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoX(_this->graphics_menu->get_legenda_x());
+//
+//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(_this->graphics_menu->get_legenda_y());
+//
+//		_this->graphics_menu->get_graphic_variavel()->create_Graphic(_this->graphics_menu->get_tamanho_vetor_x(), _this->graphics_menu->get_tamanho_vetor_y());
+//
+//	}
+//
+//}
 
 
 
@@ -1432,7 +1434,7 @@ void GuiManager::configure_chart_x(History::HistoryItem item, const string &char
 
 	graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(graphics_menu->get_legenda_y());
 
-	graphics_menu->get_graphic_variavel()->create_Graphic(graphics_menu->get_tamanho_vetor_x(), graphics_menu->get_tamanho_vetor_y());
+	//graphics_menu->get_graphic_variavel()->create_Graphic(graphics_menu->get_tamanho_vetor_x(), graphics_menu->get_tamanho_vetor_y());
 
 }
 
@@ -1478,7 +1480,7 @@ void GuiManager::configure_chart_y(History::HistoryItem item, const string &char
 
 	graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(graphics_menu->get_legenda_y());
 
-	graphics_menu->get_graphic_variavel()->create_Graphic(graphics_menu->get_tamanho_vetor_x(), graphics_menu->get_tamanho_vetor_y());
+	//graphics_menu->get_graphic_variavel()->create_Graphic(graphics_menu->get_tamanho_vetor_x(), graphics_menu->get_tamanho_vetor_y());
 
 }
 
@@ -1541,1048 +1543,1048 @@ void GuiManager::configure_chart_y(History::HistoryItem item, const string &char
 //Verifica se está no modo variavel X tempo ou no modo variavel X variavel para saber qual grafico
 //será criado.
 
-void GuiManager::click_event_botao1_grafico_TempInterna(const Event*, void *data) {
-
-
-
-	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
-
-
-
-
-
-	if (grafico_tempo_ativo) {
-
-		if (_this->grafico1Baixo || _this->grafico1Cima) {
-
-			//simdunas_cat.debug() << "entrou no IF da temperatura" << endl;
-
-			_this->graphics_menu->get_graphic()->hide();
-
-			_this->graphics_menu->get_led_on_temp_interna().stash();
-
-			_this->graphics_menu->get_led_off_temp_interna().unstash();
-
-			if (_this->grafico1Baixo) {
-
-				_this->grafico1Baixo = false;
-
-				_this->graficoPosicao2 = false;
-
-			}
-
-			if (_this->grafico1Cima) {
-
-				_this->grafico1Cima = false;
-
-				_this->graficoPosicao1 = false;
-
-			}
-
-		} else {
-
-			//simdunas_cat.debug() << "entrou no ELSE da temperatura" << endl;
-
-			if (!_this->graficoPosicao1) {
-
-				_this->graphics_menu->novo_grafico1_TempInterna();
-
-				_this->grafico1Cima = true;
-
-				_this->graficoPosicao1 = true;
-
-				_this->graphics_menu->get_led_on_temp_interna().unstash();
-
-				_this->graphics_menu->get_led_off_temp_interna().stash();
-
-			} else {
-
-				if (!_this->graficoPosicao2) {
-
-					_this->graphics_menu->novo_grafico1_TempInterna();
-
-					_this->graphics_menu->get_graphic()->set_Position_Graphic(0.4, 0.1);
-
-					_this->grafico1Baixo = true;
-
-					_this->graficoPosicao2 = true;
-
-					_this->graphics_menu->get_led_on_temp_interna().unstash();
-
-					_this->graphics_menu->get_led_off_temp_interna().stash();
-
-				}
-
-			}
-
-		}
-
-	} else {
-
-		_this->graphics_menu->desliga_leds_painel_tempo();
-
-		_this->graphics_menu->get_led_off_temp_interna().stash();
-
-		_this->graphics_menu->get_led_on_temp_interna().unstash();
-
-
-
-//		_this->var_y = TEMP_INTERNA;
-
-//		_this->y_values = _this->graphics_menu->get_vector()->getVectorTemperaturaLagarto();
-
-//		_this->print_queue_values(_this->x_values, _this->y_values);
-
-//		_this->graphics_menu->set_vetor_y(_this->graphics_menu->get_vector()->getVectorTemperaturaLagarto());
-
-//		_this->graphics_menu->set_tamanho_vetor_y(_this->graphics_menu->get_vector()->getSizeVectorTemperaturaLagarto());
-
-//		_this->graphics_menu->set_legenda_y((string) "Temp interna");
-
-//		_this->graphics_menu->set_limite_inferior_y(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vetor_y()));
-
-//		_this->graphics_menu->set_limite_superior_y(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vetor_y()));
-
-//		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
-
-//				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
-
-//				_this->graphics_menu->get_limite_superior_y(), _this->graphics_menu->get_limite_inferior_y(), false));
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
-
-//		_this->graphics_menu->get_graphic_variavel()->set_scale(1.2);
-
-//		string titulo = _this->graphics_menu->get_legenda_x() + (string) " x " + _this->graphics_menu->get_legenda_y();
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_Grafico(titulo);
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoX(_this->graphics_menu->get_legenda_x());
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(_this->graphics_menu->get_legenda_y());
-
-//		_this->graphics_menu->get_graphic_variavel()->create_Graphic(_this->graphics_menu->get_tamanho_vetor_x(), _this->graphics_menu->get_tamanho_vetor_y());
-
-
-
-		_this->configure_chart_y(History::HI_player_temperature, "Temp Interna");
-
-	}
-
-}
-
-
-
-//Metodo chamado quando acontece um clique no botao de hidratação do painel lateral.
-//Verifica se está no modo variavel X tempo ou no modo variavel X variavel para saber qual grafico
-//será criado.
-void GuiManager::click_event_botao2_grafico_Hidratacao(const Event*, void* data) {
-
-
-
-	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
-
-
-
-	if (grafico_tempo_ativo) {
-
-		if (_this->grafico2Baixo || _this->grafico2Cima) {
-
-			//simdunas_cat.debug() << "entrou no IF da temperatura" << endl;
-
-			_this->graphics_menu->get_graphic2()->hide();
-
-			_this->graphics_menu->get_led_on_hidratacao().stash();
-
-			_this->graphics_menu->get_led_off_hidratacao().unstash();
-
-			if (_this->grafico2Baixo) {
-
-				_this->grafico2Baixo = false;
-
-				_this->graficoPosicao2 = false;
-
-			}
-
-			if (_this->grafico2Cima) {
-
-				_this->grafico2Cima = false;
-
-				_this->graficoPosicao1 = false;
-
-			}
-
-		} else {
-
-			//simdunas_cat.debug() << "entrou no ELSE da temperatura" << endl;
-
-			if (!_this->graficoPosicao1) {
-
-				_this->graphics_menu->novo_grafico2_Hidratacao();
-
-				_this->grafico2Cima = true;
-
-				_this->graficoPosicao1 = true;
-
-				_this->graphics_menu->get_led_on_hidratacao().unstash();
-
-				_this->graphics_menu->get_led_off_hidratacao().stash();
-
-			} else {
-
-				if (!_this->graficoPosicao2) {
-
-					_this->graphics_menu->novo_grafico2_Hidratacao();
-
-					_this->graphics_menu->get_graphic2()->set_Position_Graphic(0.4, 0.1);
-
-					_this->grafico2Baixo = true;
-
-					_this->graficoPosicao2 = true;
-
-					_this->graphics_menu->get_led_on_hidratacao().unstash();
-
-					_this->graphics_menu->get_led_off_hidratacao().stash();
-
-				}
-
-			}
-
-		}
-
-	} else {
-
-		_this->graphics_menu->desliga_leds_painel_tempo();
-
-		_this->graphics_menu->get_led_off_hidratacao().stash();
-
-		_this->graphics_menu->get_led_on_hidratacao().unstash();
-
-
-
-//		_this->var_y = HIDRATACAO;
-
-//		_this->y_values = _this->graphics_menu->get_vector()->getVectorHidratacaoLagarto();
-
-//		_this->print_queue_values(_this->x_values, _this->y_values);
-
-//		_this->graphics_menu->set_vetor_y(_this->graphics_menu->get_vector()->getVectorHidratacaoLagarto());
-
-//		_this->graphics_menu->set_tamanho_vetor_y(_this->graphics_menu->get_vector()->getSizeVectorHidratacaoLagarto());
-
-//		_this->graphics_menu->set_legenda_y((string) "Hidratacao");
-
-//		_this->graphics_menu->set_limite_inferior_y(0);
-
-//		_this->graphics_menu->set_limite_superior_y(100);
-
-//		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
-
-//				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
-
-//				_this->graphics_menu->get_limite_superior_y(), _this->graphics_menu->get_limite_inferior_y(), false));
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
-
-//		_this->graphics_menu->get_graphic_variavel()->set_scale(1.2);
-
-//		string titulo = _this->graphics_menu->get_legenda_x() + (string) " x " + _this->graphics_menu->get_legenda_y();
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_Grafico(titulo);
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoX(_this->graphics_menu->get_legenda_x());
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(_this->graphics_menu->get_legenda_y());
-
-//		_this->graphics_menu->get_graphic_variavel()->create_Graphic(_this->graphics_menu->get_tamanho_vetor_x(), _this->graphics_menu->get_tamanho_vetor_y());
-
-		_this->configure_chart_y(History::HI_player_hydration, "Hidratação", 0, 100);
-
-	}
-
-}
-
-
-
-//Metodo chamado quando acontece um clique no botao de temperatura do ar do painel lateral.
-//Verifica se está no modo variavel X tempo ou no modo variavel X variavel para saber qual grafico
-//será criado.
-void GuiManager::click_event_botao3_grafico_TempAr(const Event*, void* data) {
-
-
-
-	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
-
-
-
-	if (grafico_tempo_ativo) {
-
-		if (_this->grafico3Baixo || _this->grafico3Cima) {
-
-			//simdunas_cat.debug() << "entrou no IF da temperatura_ambiente" << endl;
-
-			_this->graphics_menu->get_graphic3()->hide();
-
-			_this->graphics_menu->get_led_on_temp_ar().stash();
-
-			_this->graphics_menu->get_led_off_temp_ar().unstash();
-
-			if (_this->grafico3Baixo) {
-
-				_this->grafico3Baixo = false;
-
-				_this->graficoPosicao2 = false;
-
-			}
-
-			if (_this->grafico3Cima) {
-
-				_this->grafico3Cima = false;
-
-				_this->graficoPosicao1 = false;
-
-			}
-
-		} else {
-
-			//simdunas_cat.debug() << "entrou no ELSE da temperatura_ambiente" << endl;
-
-			if (!_this->graficoPosicao1) {
-
-				_this->graphics_menu->novo_grafico3_TempAr();
-
-				_this->grafico3Cima = true;
-
-				_this->graficoPosicao1 = true;
-
-				_this->graphics_menu->get_led_on_temp_ar().unstash();
-
-				_this->graphics_menu->get_led_off_temp_ar().stash();
-
-			} else {
-
-				if (!_this->graficoPosicao2) {
-
-					_this->graphics_menu->novo_grafico3_TempAr();
-
-					_this->graphics_menu->get_graphic3()->set_Position_Graphic(0.4, 0.1);
-
-					_this->grafico3Baixo = true;
-
-					_this->graficoPosicao2 = true;
-
-					_this->graphics_menu->get_led_on_temp_ar().unstash();
-
-					_this->graphics_menu->get_led_off_temp_ar().stash();
-
-				}
-
-			}
-
-		}
-
-	} else {
-
-		_this->graphics_menu->desliga_leds_painel_tempo();
-
-		_this->graphics_menu->get_led_off_temp_ar().stash();
-
-		_this->graphics_menu->get_led_on_temp_ar().unstash();
-
-
-
-//		_this->var_y = TEMP_AR;
-
-//		_this->y_values = _this->graphics_menu->get_vector()->getVectorTemperaturaAr();
-
-//		_this->print_queue_values(_this->x_values, _this->y_values);
-
-//		_this->graphics_menu->set_vetor_y(_this->graphics_menu->get_vector()->getVectorTemperaturaAr());
-
-//		_this->graphics_menu->set_tamanho_vetor_y(_this->graphics_menu->get_vector()->getSizeVectorTemperaturaAr());
-
-//		_this->graphics_menu->set_legenda_y((string) "Temp do ar");
-
-//		_this->graphics_menu->set_limite_inferior_y(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vetor_y()));//9;
-
-//		_this->graphics_menu->set_limite_superior_y(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vetor_y()));//45;
-
-//		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
-
-//				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
-
-//				_this->graphics_menu->get_limite_superior_y(), _this->graphics_menu->get_limite_inferior_y(), false));
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
-
-//		_this->graphics_menu->get_graphic_variavel()->set_scale(1.2);
-
-//		string titulo = _this->graphics_menu->get_legenda_x() + (string) " x " + _this->graphics_menu->get_legenda_y();
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_Grafico(titulo);
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoX(_this->graphics_menu->get_legenda_x());
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(_this->graphics_menu->get_legenda_y());
-
-//		_this->graphics_menu->get_graphic_variavel()->create_Graphic(_this->graphics_menu->get_tamanho_vetor_x(), _this->graphics_menu->get_tamanho_vetor_y());
-
-		_this->configure_chart_y(History::HI_world_temperature, "Temp do ar");
-
-	}
-
-}
-
-
-//Metodo chamado quando acontece um clique no botao de umidade do painel lateral.
-//Verifica se está no modo variavel X tempo ou no modo variavel X variavel para saber qual grafico
-//será criado.
-
-void GuiManager::click_event_botao4_grafico_Umidade(const Event*, void* data) {
-
-
-
-	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
-
-
-
-	if (grafico_tempo_ativo) {
-
-		if (_this->grafico4Baixo || _this->grafico4Cima) {
-
-			_this->graphics_menu->get_led_on_umidade().stash();
-
-			_this->graphics_menu->get_led_off_umidade().unstash();
-
-			//simdunas_cat.debug() << "entrou no IF da umidade" << endl;
-
-			_this->graphics_menu->get_graphic4()->hide();
-
-			if (_this->grafico4Baixo) {
-
-				_this->grafico4Baixo = false;
-
-				_this->graficoPosicao2 = false;
-
-			}
-
-			if (_this->grafico4Cima) {
-
-				_this->grafico4Cima = false;
-
-				_this->graficoPosicao1 = false;
-
-			}
-
-		} else {
-
-			//simdunas_cat.debug() << "entrou no ELSE da umidade" << endl;
-
-			if (!_this->graficoPosicao1) {
-
-				_this->graphics_menu->novo_grafico4_Umidade();
-
-				_this->grafico4Cima = true;
-
-				_this->graficoPosicao1 = true;
-
-				_this->graphics_menu->get_led_on_umidade().unstash();
-
-				_this->graphics_menu->get_led_off_umidade().stash();
-
-			} else {
-
-				if (!_this->graficoPosicao2) {
-
-					_this->graphics_menu->novo_grafico4_Umidade();
-
-					_this->graphics_menu->get_graphic4()->set_Position_Graphic(0.4, 0.1);
-
-					_this->grafico4Baixo = true;
-
-					_this->graficoPosicao2 = true;
-
-					_this->graphics_menu->get_led_on_umidade().unstash();
-
-					_this->graphics_menu->get_led_off_umidade().stash();
-
-				}
-
-			}
-
-		}
-
-	} else {
-
-		_this->graphics_menu->desliga_leds_painel_tempo();
-
-		_this->graphics_menu->get_led_off_umidade().stash();
-
-		_this->graphics_menu->get_led_on_umidade().unstash();
-
-
-
-//		_this->var_y = UMIDADE;
-
-//		_this->y_values = _this->graphics_menu->get_vector()->getVectorUmidadeAmbiente();
-
-//		_this->print_queue_values(_this->x_values, _this->y_values);
-
-//		_this->graphics_menu->set_vetor_y(_this->graphics_menu->get_vector()->getVectorUmidadeAmbiente());
-
-//		_this->graphics_menu->set_tamanho_vetor_y(_this->graphics_menu->get_vector()->getSizeVectorUmidadeAmbiente());
-
-//		_this->graphics_menu->set_legenda_y((string) "Umidade");
-
-//		_this->graphics_menu->set_limite_inferior_y(0);
-
-//		_this->graphics_menu->set_limite_superior_y(100);
-
-//		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
-
-//				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
-
-//				_this->graphics_menu->get_limite_superior_y(),	_this->graphics_menu->get_limite_inferior_y(), false));
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
-
-//		_this->graphics_menu->get_graphic_variavel()->set_scale(1.2);
-
-//		string titulo = _this->graphics_menu->get_legenda_x() + (string) " x " + _this->graphics_menu->get_legenda_y();
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_Grafico(titulo);
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoX(_this->graphics_menu->get_legenda_x());
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(_this->graphics_menu->get_legenda_y());
-
-//		_this->graphics_menu->get_graphic_variavel()->create_Graphic(_this->graphics_menu->get_tamanho_vetor_x(), _this->graphics_menu->get_tamanho_vetor_y());
-
-		_this->configure_chart_y(History::HI_world_humidity, "Umidade", 0, 100);
-
-	}
-
-}
-
-
-//Metodo chamado quando acontece um clique no botao de temperatura do solo do painel lateral.
-//Verifica se está no modo variavel X tempo ou no modo variavel X variavel para saber qual grafico
-//será criado.
-
-void GuiManager::click_event_botao5_grafico_TempSolo(const Event*, void* data) {
-
-
-
-	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
-
-
-
-	if (grafico_tempo_ativo) {
-
-		if (_this->grafico5Baixo || _this->grafico5Cima) {
-
-			//simdunas_cat.debug() << "entrou no IF da temperatura" << endl;
-
-			_this->graphics_menu->get_graphic5()->hide();
-
-			_this->graphics_menu->get_led_on_temp_solo().stash();
-
-			_this->graphics_menu->get_led_off_temp_solo().unstash();
-
-			if (_this->grafico5Baixo) {
-
-				_this->grafico5Baixo = false;
-
-				_this->graficoPosicao2 = false;
-
-			}
-
-			if (_this->grafico5Cima) {
-
-				_this->grafico5Cima = false;
-
-				_this->graficoPosicao1 = false;
-
-			}
-
-		} else {
-
-			//simdunas_cat.debug() << "entrou no ELSE da temperatura" << endl;
-
-			if (!_this->graficoPosicao1) {
-
-				_this->graphics_menu->novo_grafico5_TempSolo();
-
-				_this->grafico5Cima = true;
-
-				_this->graficoPosicao1 = true;
-
-				_this->graphics_menu->get_led_on_temp_solo().unstash();
-
-				_this->graphics_menu->get_led_off_temp_solo().stash();
-
-			} else {
-
-				if (!_this->graficoPosicao2) {
-
-					_this->graphics_menu->novo_grafico5_TempSolo();
-
-					_this->graphics_menu->get_graphic5()->set_Position_Graphic(0.4, 0.1);
-
-					_this->grafico5Baixo = true;
-
-					_this->graficoPosicao2 = true;
-
-					_this->graphics_menu->get_led_on_temp_solo().unstash();
-
-					_this->graphics_menu->get_led_off_temp_solo().stash();
-
-				}
-
-			}
-
-		}
-
-	} else {
-
-		_this->graphics_menu->desliga_leds_painel_tempo();
-
-		_this->graphics_menu->get_led_off_temp_solo().stash();
-
-		_this->graphics_menu->get_led_on_temp_solo().unstash();
-
-
-
-//		_this->var_y = TEMP_SOLO;
-
-//		_this->y_values = _this->graphics_menu->get_vector()->getVectorTemperaturaSolo();
-
-//		_this->print_queue_values(_this->x_values, _this->y_values);
-
-//		_this->graphics_menu->set_vetor_y(_this->graphics_menu->get_vector()->getVectorTemperaturaSolo());
-
-//		_this->graphics_menu->set_tamanho_vetor_y(_this->graphics_menu->get_vector()->getSizeVectorTemperaturaSolo());
-
-//		_this->graphics_menu->set_legenda_y((string) "Temp do solo");
-
-//		_this->graphics_menu->set_limite_inferior_y(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vetor_y()));
-
-//		_this->graphics_menu->set_limite_superior_y(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vetor_y()));
-
-//		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
-
-//				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
-
-//				_this->graphics_menu->get_limite_superior_y(),	_this->graphics_menu->get_limite_inferior_y(), false));
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
-
-//		_this->graphics_menu->get_graphic_variavel()->set_scale(1.2);
-
-//		string titulo = _this->graphics_menu->get_legenda_x() + (string) " x " + _this->graphics_menu->get_legenda_y();
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_Grafico(titulo);
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoX(_this->graphics_menu->get_legenda_x());
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(_this->graphics_menu->get_legenda_y());
-
-//		_this->graphics_menu->get_graphic_variavel()->create_Graphic(_this->graphics_menu->get_tamanho_vetor_x(), _this->graphics_menu->get_tamanho_vetor_y());
-
-		_this->configure_chart_y(History::HI_soil_temperature, "Temp do solo");
-
-	}
-
-}
-
-
-//Metodo chamado quando acontece um clique no botao de alimentação do painel lateral.
-//Verifica se está no modo variavel X tempo ou no modo variavel X variavel para saber qual grafico
-//será criado.
-
-void GuiManager::click_event_botao6_grafico_Alimentacao(const Event*, void* data) {
-
-
-
-	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
-
-
-
-	if (grafico_tempo_ativo) {
-
-		if (_this->grafico6Baixo || _this->grafico6Cima) {
-
-			_this->graphics_menu->get_graphic6()->hide();
-
-			_this->graphics_menu->get_led_on_alimentacao().stash();
-
-			_this->graphics_menu->get_led_off_alimentacao().unstash();
-
-			if (_this->grafico6Baixo) {
-
-				_this->grafico6Baixo = false;
-
-				_this->graficoPosicao2 = false;
-
-			}
-
-			if (_this->grafico6Cima) {
-
-				_this->grafico6Cima = false;
-
-				_this->graficoPosicao1 = false;
-
-			}
-
-		} else {
-
-			if (!_this->graficoPosicao1) {
-
-				_this->graphics_menu->novo_grafico6_Alimentacao();
-
-				_this->grafico6Cima = true;
-
-				_this->graficoPosicao1 = true;
-
-				_this->graphics_menu->get_led_on_alimentacao().unstash();
-
-				_this->graphics_menu->get_led_off_alimentacao().stash();
-
-			} else {
-
-				if (!_this->graficoPosicao2) {
-
-					_this->graphics_menu->novo_grafico6_Alimentacao();
-
-					_this->graphics_menu->get_graphic6()->set_Position_Graphic(0.4, 0.1);
-
-					_this->grafico6Baixo = true;
-
-					_this->graficoPosicao2 = true;
-
-					_this->graphics_menu->get_led_on_alimentacao().unstash();
-
-					_this->graphics_menu->get_led_off_alimentacao().stash();
-
-				}
-
-			}
-
-		}
-
-	} else {
-
-		_this->graphics_menu->desliga_leds_painel_tempo();
-
-		_this->graphics_menu->get_led_off_alimentacao().stash();
-
-		_this->graphics_menu->get_led_on_alimentacao().unstash();
-
-
-
-//		_this->var_y = ALIMENTACAO;
-
-//		_this->y_values = _this->graphics_menu->get_vector()->getVectorAlimentacao();
-
-//		_this->print_queue_values(_this->x_values, _this->y_values);
-
-//		_this->graphics_menu->set_vetor_y(_this->graphics_menu->get_vector()->getVectorAlimentacao());
-
-//		_this->graphics_menu->set_tamanho_vetor_y(_this->graphics_menu->get_vector()->getSizeVectorAlimentacao());
-
-//		_this->graphics_menu->set_legenda_y((string) "Alimentacao");
-
-//		_this->graphics_menu->set_limite_inferior_y(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vector()->getVectorAlimentacao()));
-
-//		_this->graphics_menu->set_limite_superior_y(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vector()->getVectorAlimentacao()));
-
-//		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
-
-//				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
-
-//				_this->graphics_menu->get_limite_superior_y(),	_this->graphics_menu->get_limite_inferior_y(), false));
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
-
-//		_this->graphics_menu->get_graphic_variavel()->set_scale(1.2);
-
-//		string titulo = _this->graphics_menu->get_legenda_x() + (string) " x " + _this->graphics_menu->get_legenda_y();
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_Grafico(titulo);
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoX(_this->graphics_menu->get_legenda_x());
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(_this->graphics_menu->get_legenda_y());
-
-//		_this->graphics_menu->get_graphic_variavel()->create_Graphic(_this->graphics_menu->get_tamanho_vetor_x(), _this->graphics_menu->get_tamanho_vetor_y());
-
-		_this->configure_chart_y(History::HI_feeding, "Alimentação");
-
-	}
-
-}
-
-
-//Metodo chamado quando acontece um clique no botao de energia do painel lateral.
-//Verifica se está no modo variavel X tempo ou no modo variavel X variavel para saber qual grafico
-//será criado.
-
-void GuiManager::click_event_botao7_grafico_Energia(const Event*, void* data) {
-
-
-
-	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
-
-
-
-	if (grafico_tempo_ativo) {
-
-		if (_this->grafico7Baixo || _this->grafico7Cima) {
-
-			//simdunas_cat.debug() << "entrou no IF da temperatura_ambiente" << endl;
-
-			_this->graphics_menu->get_graphic7()->hide();
-
-			_this->graphics_menu->get_led_on_energia().stash();
-
-			_this->graphics_menu->get_led_off_energia().unstash();
-
-			if (_this->grafico7Baixo) {
-
-				_this->grafico7Baixo = false;
-
-				_this->graficoPosicao2 = false;
-
-			}
-
-			if (_this->grafico7Cima) {
-
-				_this->grafico7Cima = false;
-
-				_this->graficoPosicao1 = false;
-
-			}
-
-		} else {
-
-			//simdunas_cat.debug() << "entrou no ELSE da temperatura_ambiente" << endl;
-
-			if (!_this->graficoPosicao1) {
-
-				_this->graphics_menu->novo_grafico7_Energia();
-
-				_this->grafico7Cima = true;
-
-				_this->graficoPosicao1 = true;
-
-				_this->graphics_menu->get_led_on_energia().unstash();
-
-				_this->graphics_menu->get_led_off_energia().stash();
-
-			} else {
-
-				if (!_this->graficoPosicao2) {
-
-					_this->graphics_menu->novo_grafico7_Energia();
-
-					_this->graphics_menu->get_graphic7()->set_Position_Graphic(0.4, 0.1);
-
-					_this->grafico7Baixo = true;
-
-					_this->graficoPosicao2 = true;
-
-					_this->graphics_menu->get_led_on_energia().unstash();
-
-					_this->graphics_menu->get_led_off_energia().stash();
-
-				}
-
-			}
-
-		}
-
-	} else {
-
-		_this->graphics_menu->desliga_leds_painel_tempo();
-
-		_this->graphics_menu->get_led_off_energia().stash();
-
-		_this->graphics_menu->get_led_on_energia().unstash();
-
-
-
-//		_this->var_y = ENERGIA;
-
-//		_this->y_values = _this->graphics_menu->get_vector()->getVectorEnergia();
-
-//		_this->print_queue_values(_this->x_values, _this->y_values);
-
-//		_this->graphics_menu->set_vetor_y(_this->graphics_menu->get_vector()->getVectorEnergia());
-
-//		_this->graphics_menu->set_tamanho_vetor_y(_this->graphics_menu->get_vector()->getSizeVectorEnergia());
-
-//		_this->graphics_menu->set_legenda_y((string) "Energia");
-
-//		_this->graphics_menu->set_limite_inferior_y(0);
-
-//		_this->graphics_menu->set_limite_superior_y(100);
-
-//		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
-
-//				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
-
-//				_this->graphics_menu->get_limite_superior_y(),	_this->graphics_menu->get_limite_inferior_y(), false));
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
-
-//		_this->graphics_menu->get_graphic_variavel()->set_scale(1.2);
-
-//		string titulo = _this->graphics_menu->get_legenda_x() + (string) " x " + _this->graphics_menu->get_legenda_y();
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_Grafico(titulo);
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoX(_this->graphics_menu->get_legenda_x());
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(_this->graphics_menu->get_legenda_y());
-
-//		_this->graphics_menu->get_graphic_variavel()->create_Graphic(_this->graphics_menu->get_tamanho_vetor_x(), _this->graphics_menu->get_tamanho_vetor_y());
-
-		_this->configure_chart_y(History::HI_energy, "Energia", 0, 100);
-
-	}
-
-}
-
-
-//Metodo chamado quando acontece um clique no botao de gasto energetico do painel lateral.
-//Verifica se está no modo variavel X tempo ou no modo variavel X variavel para saber qual grafico
-//será criado.
-
-void GuiManager::click_event_botao8_grafico_GastoEnergetico(const Event*, void* data) {
-
-
-
-	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
-
-
-
-	if (grafico_tempo_ativo) {
-
-		if (_this->grafico8Baixo || _this->grafico8Cima) {
-
-			_this->graphics_menu->get_led_on_gasto_energetico().stash();
-
-			_this->graphics_menu->get_led_off_gasto_energetico().unstash();
-
-			//simdunas_cat.debug() << "entrou no IF da umidade" << endl;
-
-			_this->graphics_menu->get_graphic8()->hide();
-
-			if (_this->grafico8Baixo) {
-
-				_this->grafico8Baixo = false;
-
-				_this->graficoPosicao2 = false;
-
-			}
-
-			if (_this->grafico8Cima) {
-
-				_this->grafico8Cima = false;
-
-				_this->graficoPosicao1 = false;
-
-			}
-
-		} else {
-
-			//simdunas_cat.debug() << "entrou no ELSE da umidade" << endl;
-
-			if (!_this->graficoPosicao1) {
-
-				_this->graphics_menu->novo_grafico8_GastoEnergetico();
-
-				_this->grafico8Cima = true;
-
-				_this->graficoPosicao1 = true;
-
-				_this->graphics_menu->get_led_on_gasto_energetico().unstash();
-
-				_this->graphics_menu->get_led_off_gasto_energetico().stash();
-
-			} else {
-
-				if (!_this->graficoPosicao2) {
-
-					_this->graphics_menu->novo_grafico8_GastoEnergetico();
-
-					_this->graphics_menu->get_graphic8()->set_Position_Graphic(0.4, 0.1);
-
-					_this->grafico8Baixo = true;
-
-					_this->graficoPosicao2 = true;
-
-					_this->graphics_menu->get_led_on_gasto_energetico().unstash();
-
-					_this->graphics_menu->get_led_off_gasto_energetico().stash();
-
-				}
-
-			}
-
-		}
-
-	} else {
-
-		_this->graphics_menu->desliga_leds_painel_tempo();
-
-		_this->graphics_menu->get_led_off_gasto_energetico().stash();
-
-		_this->graphics_menu->get_led_on_gasto_energetico().unstash();
-
-
-
-//		_this->var_y = GASTO_ENERGETICO;
-
-//		_this->y_values = _this->graphics_menu->get_vector()->getVectorGastoEnergeticoTotal();
-
-//		_this->print_queue_values(_this->x_values, _this->y_values);
-
-//		_this->graphics_menu->set_vetor_y(_this->graphics_menu->get_vector()->getVectorGastoEnergeticoTotal());
-
-//		_this->graphics_menu->set_tamanho_vetor_y(_this->graphics_menu->get_vector()->getSizeVectorGastoEnergiticoTotal());
-
-//		_this->graphics_menu->set_legenda_y((string) "Gasto energetico");
-
-//		_this->graphics_menu->set_limite_inferior_y(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vector()->getVectorGastoEnergeticoTotal()));//0;
-
-//		_this->graphics_menu->set_limite_superior_y(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vector()->getVectorGastoEnergeticoTotal()));//0.4;
-
-//		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
-
-//				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
-
-//				_this->graphics_menu->get_limite_superior_y(),	_this->graphics_menu->get_limite_inferior_y(), false));
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
-
-//		_this->graphics_menu->get_graphic_variavel()->set_scale(1.2);
-
-//		string titulo = _this->graphics_menu->get_legenda_x() + (string) " x " + _this->graphics_menu->get_legenda_y();
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_Grafico(titulo);
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoX(_this->graphics_menu->get_legenda_x());
-
-//		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(_this->graphics_menu->get_legenda_y());
-
-//		_this->graphics_menu->get_graphic_variavel()->create_Graphic(_this->graphics_menu->get_tamanho_vetor_x(), _this->graphics_menu->get_tamanho_vetor_y());
-
-		_this->configure_chart_y(History::HI_total_energy_cost, "Gasto Energético");
-
-	}
-
-}
+//void GuiManager::click_event_botao1_grafico_TempInterna(const Event*, void *data) {
+//
+//
+//
+//	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
+//
+//
+//
+//
+//
+//	if (grafico_tempo_ativo) {
+//
+//		if (_this->grafico1Baixo || _this->grafico1Cima) {
+//
+//			//simdunas_cat.debug() << "entrou no IF da temperatura" << endl;
+//
+//			_this->graphics_menu->get_graphic()->hide();
+//
+//			_this->graphics_menu->get_led_on_temp_interna().stash();
+//
+//			_this->graphics_menu->get_led_off_temp_interna().unstash();
+//
+//			if (_this->grafico1Baixo) {
+//
+//				_this->grafico1Baixo = false;
+//
+//				_this->graficoPosicao2 = false;
+//
+//			}
+//
+//			if (_this->grafico1Cima) {
+//
+//				_this->grafico1Cima = false;
+//
+//				_this->graficoPosicao1 = false;
+//
+//			}
+//
+//		} else {
+//
+//			//simdunas_cat.debug() << "entrou no ELSE da temperatura" << endl;
+//
+//			if (!_this->graficoPosicao1) {
+//
+//				_this->graphics_menu->novo_grafico1_TempInterna();
+//
+//				_this->grafico1Cima = true;
+//
+//				_this->graficoPosicao1 = true;
+//
+//				_this->graphics_menu->get_led_on_temp_interna().unstash();
+//
+//				_this->graphics_menu->get_led_off_temp_interna().stash();
+//
+//			} else {
+//
+//				if (!_this->graficoPosicao2) {
+//
+//					_this->graphics_menu->novo_grafico1_TempInterna();
+//
+//					_this->graphics_menu->get_graphic()->set_Position_Graphic(0.4, 0.1);
+//
+//					_this->grafico1Baixo = true;
+//
+//					_this->graficoPosicao2 = true;
+//
+//					_this->graphics_menu->get_led_on_temp_interna().unstash();
+//
+//					_this->graphics_menu->get_led_off_temp_interna().stash();
+//
+//				}
+//
+//			}
+//
+//		}
+//
+//	} else { // tipo variável
+//
+//		_this->graphics_menu->desliga_leds_painel_tempo();
+//
+//		_this->graphics_menu->get_led_off_temp_interna().stash();
+//
+//		_this->graphics_menu->get_led_on_temp_interna().unstash();
+//
+//
+//
+////		_this->var_y = TEMP_INTERNA;
+//
+////		_this->y_values = _this->graphics_menu->get_vector()->getVectorTemperaturaLagarto();
+//
+////		_this->print_queue_values(_this->x_values, _this->y_values);
+//
+////		_this->graphics_menu->set_vetor_y(_this->graphics_menu->get_vector()->getVectorTemperaturaLagarto());
+//
+////		_this->graphics_menu->set_tamanho_vetor_y(_this->graphics_menu->get_vector()->getSizeVectorTemperaturaLagarto());
+//
+////		_this->graphics_menu->set_legenda_y((string) "Temp interna");
+//
+////		_this->graphics_menu->set_limite_inferior_y(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vetor_y()));
+//
+////		_this->graphics_menu->set_limite_superior_y(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vetor_y()));
+//
+////		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+//
+////				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
+//
+////				_this->graphics_menu->get_limite_superior_y(), _this->graphics_menu->get_limite_inferior_y(), false));
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_scale(1.2);
+//
+////		string titulo = _this->graphics_menu->get_legenda_x() + (string) " x " + _this->graphics_menu->get_legenda_y();
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Titulo_Grafico(titulo);
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoX(_this->graphics_menu->get_legenda_x());
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(_this->graphics_menu->get_legenda_y());
+//
+////		_this->graphics_menu->get_graphic_variavel()->create_Graphic(_this->graphics_menu->get_tamanho_vetor_x(), _this->graphics_menu->get_tamanho_vetor_y());
+//
+//
+//
+//		_this->configure_chart_y(History::HI_player_temperature, "Temp Interna");
+//
+//	}
+//
+//}
+//
+//
+//
+////Metodo chamado quando acontece um clique no botao de hidratação do painel lateral.
+////Verifica se está no modo variavel X tempo ou no modo variavel X variavel para saber qual grafico
+////será criado.
+//void GuiManager::click_event_botao2_grafico_Hidratacao(const Event*, void* data) {
+//
+//
+//
+//	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
+//
+//
+//
+//	if (grafico_tempo_ativo) {
+//
+//		if (_this->grafico2Baixo || _this->grafico2Cima) {
+//
+//			//simdunas_cat.debug() << "entrou no IF da temperatura" << endl;
+//
+//			_this->graphics_menu->get_graphic2()->hide();
+//
+//			_this->graphics_menu->get_led_on_hidratacao().stash();
+//
+//			_this->graphics_menu->get_led_off_hidratacao().unstash();
+//
+//			if (_this->grafico2Baixo) {
+//
+//				_this->grafico2Baixo = false;
+//
+//				_this->graficoPosicao2 = false;
+//
+//			}
+//
+//			if (_this->grafico2Cima) {
+//
+//				_this->grafico2Cima = false;
+//
+//				_this->graficoPosicao1 = false;
+//
+//			}
+//
+//		} else {
+//
+//			//simdunas_cat.debug() << "entrou no ELSE da temperatura" << endl;
+//
+//			if (!_this->graficoPosicao1) {
+//
+//				_this->graphics_menu->novo_grafico2_Hidratacao();
+//
+//				_this->grafico2Cima = true;
+//
+//				_this->graficoPosicao1 = true;
+//
+//				_this->graphics_menu->get_led_on_hidratacao().unstash();
+//
+//				_this->graphics_menu->get_led_off_hidratacao().stash();
+//
+//			} else {
+//
+//				if (!_this->graficoPosicao2) {
+//
+//					_this->graphics_menu->novo_grafico2_Hidratacao();
+//
+//					_this->graphics_menu->get_graphic2()->set_Position_Graphic(0.4, 0.1);
+//
+//					_this->grafico2Baixo = true;
+//
+//					_this->graficoPosicao2 = true;
+//
+//					_this->graphics_menu->get_led_on_hidratacao().unstash();
+//
+//					_this->graphics_menu->get_led_off_hidratacao().stash();
+//
+//				}
+//
+//			}
+//
+//		}
+//
+//	} else {
+//
+//		_this->graphics_menu->desliga_leds_painel_tempo();
+//
+//		_this->graphics_menu->get_led_off_hidratacao().stash();
+//
+//		_this->graphics_menu->get_led_on_hidratacao().unstash();
+//
+//
+//
+////		_this->var_y = HIDRATACAO;
+//
+////		_this->y_values = _this->graphics_menu->get_vector()->getVectorHidratacaoLagarto();
+//
+////		_this->print_queue_values(_this->x_values, _this->y_values);
+//
+////		_this->graphics_menu->set_vetor_y(_this->graphics_menu->get_vector()->getVectorHidratacaoLagarto());
+//
+////		_this->graphics_menu->set_tamanho_vetor_y(_this->graphics_menu->get_vector()->getSizeVectorHidratacaoLagarto());
+//
+////		_this->graphics_menu->set_legenda_y((string) "Hidratacao");
+//
+////		_this->graphics_menu->set_limite_inferior_y(0);
+//
+////		_this->graphics_menu->set_limite_superior_y(100);
+//
+////		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+//
+////				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
+//
+////				_this->graphics_menu->get_limite_superior_y(), _this->graphics_menu->get_limite_inferior_y(), false));
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_scale(1.2);
+//
+////		string titulo = _this->graphics_menu->get_legenda_x() + (string) " x " + _this->graphics_menu->get_legenda_y();
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Titulo_Grafico(titulo);
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoX(_this->graphics_menu->get_legenda_x());
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(_this->graphics_menu->get_legenda_y());
+//
+////		_this->graphics_menu->get_graphic_variavel()->create_Graphic(_this->graphics_menu->get_tamanho_vetor_x(), _this->graphics_menu->get_tamanho_vetor_y());
+//
+//		_this->configure_chart_y(History::HI_player_hydration, "Hidratação", 0, 100);
+//
+//	}
+//
+//}
+//
+//
+//
+////Metodo chamado quando acontece um clique no botao de temperatura do ar do painel lateral.
+////Verifica se está no modo variavel X tempo ou no modo variavel X variavel para saber qual grafico
+////será criado.
+//void GuiManager::click_event_botao3_grafico_TempAr(const Event*, void* data) {
+//
+//
+//
+//	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
+//
+//
+//
+//	if (grafico_tempo_ativo) {
+//
+//		if (_this->grafico3Baixo || _this->grafico3Cima) {
+//
+//			//simdunas_cat.debug() << "entrou no IF da temperatura_ambiente" << endl;
+//
+//			_this->graphics_menu->get_graphic3()->hide();
+//
+//			_this->graphics_menu->get_led_on_temp_ar().stash();
+//
+//			_this->graphics_menu->get_led_off_temp_ar().unstash();
+//
+//			if (_this->grafico3Baixo) {
+//
+//				_this->grafico3Baixo = false;
+//
+//				_this->graficoPosicao2 = false;
+//
+//			}
+//
+//			if (_this->grafico3Cima) {
+//
+//				_this->grafico3Cima = false;
+//
+//				_this->graficoPosicao1 = false;
+//
+//			}
+//
+//		} else {
+//
+//			//simdunas_cat.debug() << "entrou no ELSE da temperatura_ambiente" << endl;
+//
+//			if (!_this->graficoPosicao1) {
+//
+//				_this->graphics_menu->novo_grafico3_TempAr();
+//
+//				_this->grafico3Cima = true;
+//
+//				_this->graficoPosicao1 = true;
+//
+//				_this->graphics_menu->get_led_on_temp_ar().unstash();
+//
+//				_this->graphics_menu->get_led_off_temp_ar().stash();
+//
+//			} else {
+//
+//				if (!_this->graficoPosicao2) {
+//
+//					_this->graphics_menu->novo_grafico3_TempAr();
+//
+//					_this->graphics_menu->get_graphic3()->set_Position_Graphic(0.4, 0.1);
+//
+//					_this->grafico3Baixo = true;
+//
+//					_this->graficoPosicao2 = true;
+//
+//					_this->graphics_menu->get_led_on_temp_ar().unstash();
+//
+//					_this->graphics_menu->get_led_off_temp_ar().stash();
+//
+//				}
+//
+//			}
+//
+//		}
+//
+//	} else {
+//
+//		_this->graphics_menu->desliga_leds_painel_tempo();
+//
+//		_this->graphics_menu->get_led_off_temp_ar().stash();
+//
+//		_this->graphics_menu->get_led_on_temp_ar().unstash();
+//
+//
+//
+////		_this->var_y = TEMP_AR;
+//
+////		_this->y_values = _this->graphics_menu->get_vector()->getVectorTemperaturaAr();
+//
+////		_this->print_queue_values(_this->x_values, _this->y_values);
+//
+////		_this->graphics_menu->set_vetor_y(_this->graphics_menu->get_vector()->getVectorTemperaturaAr());
+//
+////		_this->graphics_menu->set_tamanho_vetor_y(_this->graphics_menu->get_vector()->getSizeVectorTemperaturaAr());
+//
+////		_this->graphics_menu->set_legenda_y((string) "Temp do ar");
+//
+////		_this->graphics_menu->set_limite_inferior_y(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vetor_y()));//9;
+//
+////		_this->graphics_menu->set_limite_superior_y(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vetor_y()));//45;
+//
+////		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+//
+////				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
+//
+////				_this->graphics_menu->get_limite_superior_y(), _this->graphics_menu->get_limite_inferior_y(), false));
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_scale(1.2);
+//
+////		string titulo = _this->graphics_menu->get_legenda_x() + (string) " x " + _this->graphics_menu->get_legenda_y();
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Titulo_Grafico(titulo);
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoX(_this->graphics_menu->get_legenda_x());
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(_this->graphics_menu->get_legenda_y());
+//
+////		_this->graphics_menu->get_graphic_variavel()->create_Graphic(_this->graphics_menu->get_tamanho_vetor_x(), _this->graphics_menu->get_tamanho_vetor_y());
+//
+//		_this->configure_chart_y(History::HI_world_temperature, "Temp do ar");
+//
+//	}
+//
+//}
+//
+//
+////Metodo chamado quando acontece um clique no botao de umidade do painel lateral.
+////Verifica se está no modo variavel X tempo ou no modo variavel X variavel para saber qual grafico
+////será criado.
+//
+//void GuiManager::click_event_botao4_grafico_Umidade(const Event*, void* data) {
+//
+//
+//
+//	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
+//
+//
+//
+//	if (grafico_tempo_ativo) {
+//
+//		if (_this->grafico4Baixo || _this->grafico4Cima) {
+//
+//			_this->graphics_menu->get_led_on_umidade().stash();
+//
+//			_this->graphics_menu->get_led_off_umidade().unstash();
+//
+//			//simdunas_cat.debug() << "entrou no IF da umidade" << endl;
+//
+//			_this->graphics_menu->get_graphic4()->hide();
+//
+//			if (_this->grafico4Baixo) {
+//
+//				_this->grafico4Baixo = false;
+//
+//				_this->graficoPosicao2 = false;
+//
+//			}
+//
+//			if (_this->grafico4Cima) {
+//
+//				_this->grafico4Cima = false;
+//
+//				_this->graficoPosicao1 = false;
+//
+//			}
+//
+//		} else {
+//
+//			//simdunas_cat.debug() << "entrou no ELSE da umidade" << endl;
+//
+//			if (!_this->graficoPosicao1) {
+//
+//				_this->graphics_menu->novo_grafico4_Umidade();
+//
+//				_this->grafico4Cima = true;
+//
+//				_this->graficoPosicao1 = true;
+//
+//				_this->graphics_menu->get_led_on_umidade().unstash();
+//
+//				_this->graphics_menu->get_led_off_umidade().stash();
+//
+//			} else {
+//
+//				if (!_this->graficoPosicao2) {
+//
+//					_this->graphics_menu->novo_grafico4_Umidade();
+//
+//					_this->graphics_menu->get_graphic4()->set_Position_Graphic(0.4, 0.1);
+//
+//					_this->grafico4Baixo = true;
+//
+//					_this->graficoPosicao2 = true;
+//
+//					_this->graphics_menu->get_led_on_umidade().unstash();
+//
+//					_this->graphics_menu->get_led_off_umidade().stash();
+//
+//				}
+//
+//			}
+//
+//		}
+//
+//	} else {
+//
+//		_this->graphics_menu->desliga_leds_painel_tempo();
+//
+//		_this->graphics_menu->get_led_off_umidade().stash();
+//
+//		_this->graphics_menu->get_led_on_umidade().unstash();
+//
+//
+//
+////		_this->var_y = UMIDADE;
+//
+////		_this->y_values = _this->graphics_menu->get_vector()->getVectorUmidadeAmbiente();
+//
+////		_this->print_queue_values(_this->x_values, _this->y_values);
+//
+////		_this->graphics_menu->set_vetor_y(_this->graphics_menu->get_vector()->getVectorUmidadeAmbiente());
+//
+////		_this->graphics_menu->set_tamanho_vetor_y(_this->graphics_menu->get_vector()->getSizeVectorUmidadeAmbiente());
+//
+////		_this->graphics_menu->set_legenda_y((string) "Umidade");
+//
+////		_this->graphics_menu->set_limite_inferior_y(0);
+//
+////		_this->graphics_menu->set_limite_superior_y(100);
+//
+////		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+//
+////				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
+//
+////				_this->graphics_menu->get_limite_superior_y(),	_this->graphics_menu->get_limite_inferior_y(), false));
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_scale(1.2);
+//
+////		string titulo = _this->graphics_menu->get_legenda_x() + (string) " x " + _this->graphics_menu->get_legenda_y();
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Titulo_Grafico(titulo);
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoX(_this->graphics_menu->get_legenda_x());
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(_this->graphics_menu->get_legenda_y());
+//
+////		_this->graphics_menu->get_graphic_variavel()->create_Graphic(_this->graphics_menu->get_tamanho_vetor_x(), _this->graphics_menu->get_tamanho_vetor_y());
+//
+//		_this->configure_chart_y(History::HI_world_humidity, "Umidade", 0, 100);
+//
+//	}
+//
+//}
+//
+//
+////Metodo chamado quando acontece um clique no botao de temperatura do solo do painel lateral.
+////Verifica se está no modo variavel X tempo ou no modo variavel X variavel para saber qual grafico
+////será criado.
+//
+//void GuiManager::click_event_botao5_grafico_TempSolo(const Event*, void* data) {
+//
+//
+//
+//	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
+//
+//
+//
+//	if (grafico_tempo_ativo) {
+//
+//		if (_this->grafico5Baixo || _this->grafico5Cima) {
+//
+//			//simdunas_cat.debug() << "entrou no IF da temperatura" << endl;
+//
+//			_this->graphics_menu->get_graphic5()->hide();
+//
+//			_this->graphics_menu->get_led_on_temp_solo().stash();
+//
+//			_this->graphics_menu->get_led_off_temp_solo().unstash();
+//
+//			if (_this->grafico5Baixo) {
+//
+//				_this->grafico5Baixo = false;
+//
+//				_this->graficoPosicao2 = false;
+//
+//			}
+//
+//			if (_this->grafico5Cima) {
+//
+//				_this->grafico5Cima = false;
+//
+//				_this->graficoPosicao1 = false;
+//
+//			}
+//
+//		} else {
+//
+//			//simdunas_cat.debug() << "entrou no ELSE da temperatura" << endl;
+//
+//			if (!_this->graficoPosicao1) {
+//
+//				_this->graphics_menu->novo_grafico5_TempSolo();
+//
+//				_this->grafico5Cima = true;
+//
+//				_this->graficoPosicao1 = true;
+//
+//				_this->graphics_menu->get_led_on_temp_solo().unstash();
+//
+//				_this->graphics_menu->get_led_off_temp_solo().stash();
+//
+//			} else {
+//
+//				if (!_this->graficoPosicao2) {
+//
+//					_this->graphics_menu->novo_grafico5_TempSolo();
+//
+//					_this->graphics_menu->get_graphic5()->set_Position_Graphic(0.4, 0.1);
+//
+//					_this->grafico5Baixo = true;
+//
+//					_this->graficoPosicao2 = true;
+//
+//					_this->graphics_menu->get_led_on_temp_solo().unstash();
+//
+//					_this->graphics_menu->get_led_off_temp_solo().stash();
+//
+//				}
+//
+//			}
+//
+//		}
+//
+//	} else {
+//
+//		_this->graphics_menu->desliga_leds_painel_tempo();
+//
+//		_this->graphics_menu->get_led_off_temp_solo().stash();
+//
+//		_this->graphics_menu->get_led_on_temp_solo().unstash();
+//
+//
+//
+////		_this->var_y = TEMP_SOLO;
+//
+////		_this->y_values = _this->graphics_menu->get_vector()->getVectorTemperaturaSolo();
+//
+////		_this->print_queue_values(_this->x_values, _this->y_values);
+//
+////		_this->graphics_menu->set_vetor_y(_this->graphics_menu->get_vector()->getVectorTemperaturaSolo());
+//
+////		_this->graphics_menu->set_tamanho_vetor_y(_this->graphics_menu->get_vector()->getSizeVectorTemperaturaSolo());
+//
+////		_this->graphics_menu->set_legenda_y((string) "Temp do solo");
+//
+////		_this->graphics_menu->set_limite_inferior_y(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vetor_y()));
+//
+////		_this->graphics_menu->set_limite_superior_y(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vetor_y()));
+//
+////		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+//
+////				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
+//
+////				_this->graphics_menu->get_limite_superior_y(),	_this->graphics_menu->get_limite_inferior_y(), false));
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_scale(1.2);
+//
+////		string titulo = _this->graphics_menu->get_legenda_x() + (string) " x " + _this->graphics_menu->get_legenda_y();
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Titulo_Grafico(titulo);
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoX(_this->graphics_menu->get_legenda_x());
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(_this->graphics_menu->get_legenda_y());
+//
+////		_this->graphics_menu->get_graphic_variavel()->create_Graphic(_this->graphics_menu->get_tamanho_vetor_x(), _this->graphics_menu->get_tamanho_vetor_y());
+//
+//		_this->configure_chart_y(History::HI_soil_temperature, "Temp do solo");
+//
+//	}
+//
+//}
+//
+//
+////Metodo chamado quando acontece um clique no botao de alimentação do painel lateral.
+////Verifica se está no modo variavel X tempo ou no modo variavel X variavel para saber qual grafico
+////será criado.
+//
+//void GuiManager::click_event_botao6_grafico_Alimentacao(const Event*, void* data) {
+//
+//
+//
+//	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
+//
+//
+//
+//	if (grafico_tempo_ativo) {
+//
+//		if (_this->grafico6Baixo || _this->grafico6Cima) {
+//
+//			_this->graphics_menu->get_graphic6()->hide();
+//
+//			_this->graphics_menu->get_led_on_alimentacao().stash();
+//
+//			_this->graphics_menu->get_led_off_alimentacao().unstash();
+//
+//			if (_this->grafico6Baixo) {
+//
+//				_this->grafico6Baixo = false;
+//
+//				_this->graficoPosicao2 = false;
+//
+//			}
+//
+//			if (_this->grafico6Cima) {
+//
+//				_this->grafico6Cima = false;
+//
+//				_this->graficoPosicao1 = false;
+//
+//			}
+//
+//		} else {
+//
+//			if (!_this->graficoPosicao1) {
+//
+//				_this->graphics_menu->novo_grafico6_Alimentacao();
+//
+//				_this->grafico6Cima = true;
+//
+//				_this->graficoPosicao1 = true;
+//
+//				_this->graphics_menu->get_led_on_alimentacao().unstash();
+//
+//				_this->graphics_menu->get_led_off_alimentacao().stash();
+//
+//			} else {
+//
+//				if (!_this->graficoPosicao2) {
+//
+//					_this->graphics_menu->novo_grafico6_Alimentacao();
+//
+//					_this->graphics_menu->get_graphic6()->set_Position_Graphic(0.4, 0.1);
+//
+//					_this->grafico6Baixo = true;
+//
+//					_this->graficoPosicao2 = true;
+//
+//					_this->graphics_menu->get_led_on_alimentacao().unstash();
+//
+//					_this->graphics_menu->get_led_off_alimentacao().stash();
+//
+//				}
+//
+//			}
+//
+//		}
+//
+//	} else {
+//
+//		_this->graphics_menu->desliga_leds_painel_tempo();
+//
+//		_this->graphics_menu->get_led_off_alimentacao().stash();
+//
+//		_this->graphics_menu->get_led_on_alimentacao().unstash();
+//
+//
+//
+////		_this->var_y = ALIMENTACAO;
+//
+////		_this->y_values = _this->graphics_menu->get_vector()->getVectorAlimentacao();
+//
+////		_this->print_queue_values(_this->x_values, _this->y_values);
+//
+////		_this->graphics_menu->set_vetor_y(_this->graphics_menu->get_vector()->getVectorAlimentacao());
+//
+////		_this->graphics_menu->set_tamanho_vetor_y(_this->graphics_menu->get_vector()->getSizeVectorAlimentacao());
+//
+////		_this->graphics_menu->set_legenda_y((string) "Alimentacao");
+//
+////		_this->graphics_menu->set_limite_inferior_y(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vector()->getVectorAlimentacao()));
+//
+////		_this->graphics_menu->set_limite_superior_y(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vector()->getVectorAlimentacao()));
+//
+////		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+//
+////				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
+//
+////				_this->graphics_menu->get_limite_superior_y(),	_this->graphics_menu->get_limite_inferior_y(), false));
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_scale(1.2);
+//
+////		string titulo = _this->graphics_menu->get_legenda_x() + (string) " x " + _this->graphics_menu->get_legenda_y();
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Titulo_Grafico(titulo);
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoX(_this->graphics_menu->get_legenda_x());
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(_this->graphics_menu->get_legenda_y());
+//
+////		_this->graphics_menu->get_graphic_variavel()->create_Graphic(_this->graphics_menu->get_tamanho_vetor_x(), _this->graphics_menu->get_tamanho_vetor_y());
+//
+//		_this->configure_chart_y(History::HI_feeding, "Alimentação");
+//
+//	}
+//
+//}
+//
+//
+////Metodo chamado quando acontece um clique no botao de energia do painel lateral.
+////Verifica se está no modo variavel X tempo ou no modo variavel X variavel para saber qual grafico
+////será criado.
+//
+//void GuiManager::click_event_botao7_grafico_Energia(const Event*, void* data) {
+//
+//
+//
+//	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
+//
+//
+//
+//	if (grafico_tempo_ativo) {
+//
+//		if (_this->grafico7Baixo || _this->grafico7Cima) {
+//
+//			//simdunas_cat.debug() << "entrou no IF da temperatura_ambiente" << endl;
+//
+//			_this->graphics_menu->get_graphic7()->hide();
+//
+//			_this->graphics_menu->get_led_on_energia().stash();
+//
+//			_this->graphics_menu->get_led_off_energia().unstash();
+//
+//			if (_this->grafico7Baixo) {
+//
+//				_this->grafico7Baixo = false;
+//
+//				_this->graficoPosicao2 = false;
+//
+//			}
+//
+//			if (_this->grafico7Cima) {
+//
+//				_this->grafico7Cima = false;
+//
+//				_this->graficoPosicao1 = false;
+//
+//			}
+//
+//		} else {
+//
+//			//simdunas_cat.debug() << "entrou no ELSE da temperatura_ambiente" << endl;
+//
+//			if (!_this->graficoPosicao1) {
+//
+//				_this->graphics_menu->novo_grafico7_Energia();
+//
+//				_this->grafico7Cima = true;
+//
+//				_this->graficoPosicao1 = true;
+//
+//				_this->graphics_menu->get_led_on_energia().unstash();
+//
+//				_this->graphics_menu->get_led_off_energia().stash();
+//
+//			} else {
+//
+//				if (!_this->graficoPosicao2) {
+//
+//					_this->graphics_menu->novo_grafico7_Energia();
+//
+//					_this->graphics_menu->get_graphic7()->set_Position_Graphic(0.4, 0.1);
+//
+//					_this->grafico7Baixo = true;
+//
+//					_this->graficoPosicao2 = true;
+//
+//					_this->graphics_menu->get_led_on_energia().unstash();
+//
+//					_this->graphics_menu->get_led_off_energia().stash();
+//
+//				}
+//
+//			}
+//
+//		}
+//
+//	} else {
+//
+//		_this->graphics_menu->desliga_leds_painel_tempo();
+//
+//		_this->graphics_menu->get_led_off_energia().stash();
+//
+//		_this->graphics_menu->get_led_on_energia().unstash();
+//
+//
+//
+////		_this->var_y = ENERGIA;
+//
+////		_this->y_values = _this->graphics_menu->get_vector()->getVectorEnergia();
+//
+////		_this->print_queue_values(_this->x_values, _this->y_values);
+//
+////		_this->graphics_menu->set_vetor_y(_this->graphics_menu->get_vector()->getVectorEnergia());
+//
+////		_this->graphics_menu->set_tamanho_vetor_y(_this->graphics_menu->get_vector()->getSizeVectorEnergia());
+//
+////		_this->graphics_menu->set_legenda_y((string) "Energia");
+//
+////		_this->graphics_menu->set_limite_inferior_y(0);
+//
+////		_this->graphics_menu->set_limite_superior_y(100);
+//
+////		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+//
+////				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
+//
+////				_this->graphics_menu->get_limite_superior_y(),	_this->graphics_menu->get_limite_inferior_y(), false));
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_scale(1.2);
+//
+////		string titulo = _this->graphics_menu->get_legenda_x() + (string) " x " + _this->graphics_menu->get_legenda_y();
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Titulo_Grafico(titulo);
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoX(_this->graphics_menu->get_legenda_x());
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(_this->graphics_menu->get_legenda_y());
+//
+////		_this->graphics_menu->get_graphic_variavel()->create_Graphic(_this->graphics_menu->get_tamanho_vetor_x(), _this->graphics_menu->get_tamanho_vetor_y());
+//
+//		_this->configure_chart_y(History::HI_energy, "Energia", 0, 100);
+//
+//	}
+//
+//}
+//
+//
+////Metodo chamado quando acontece um clique no botao de gasto energetico do painel lateral.
+////Verifica se está no modo variavel X tempo ou no modo variavel X variavel para saber qual grafico
+////será criado.
+//
+//void GuiManager::click_event_botao8_grafico_GastoEnergetico(const Event*, void* data) {
+//
+//
+//
+//	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
+//
+//
+//
+//	if (grafico_tempo_ativo) {
+//
+//		if (_this->grafico8Baixo || _this->grafico8Cima) {
+//
+//			_this->graphics_menu->get_led_on_gasto_energetico().stash();
+//
+//			_this->graphics_menu->get_led_off_gasto_energetico().unstash();
+//
+//			//simdunas_cat.debug() << "entrou no IF da umidade" << endl;
+//
+//			_this->graphics_menu->get_graphic8()->hide();
+//
+//			if (_this->grafico8Baixo) {
+//
+//				_this->grafico8Baixo = false;
+//
+//				_this->graficoPosicao2 = false;
+//
+//			}
+//
+//			if (_this->grafico8Cima) {
+//
+//				_this->grafico8Cima = false;
+//
+//				_this->graficoPosicao1 = false;
+//
+//			}
+//
+//		} else {
+//
+//			//simdunas_cat.debug() << "entrou no ELSE da umidade" << endl;
+//
+//			if (!_this->graficoPosicao1) {
+//
+//				_this->graphics_menu->novo_grafico8_GastoEnergetico();
+//
+//				_this->grafico8Cima = true;
+//
+//				_this->graficoPosicao1 = true;
+//
+//				_this->graphics_menu->get_led_on_gasto_energetico().unstash();
+//
+//				_this->graphics_menu->get_led_off_gasto_energetico().stash();
+//
+//			} else {
+//
+//				if (!_this->graficoPosicao2) {
+//
+//					_this->graphics_menu->novo_grafico8_GastoEnergetico();
+//
+//					_this->graphics_menu->get_graphic8()->set_Position_Graphic(0.4, 0.1);
+//
+//					_this->grafico8Baixo = true;
+//
+//					_this->graficoPosicao2 = true;
+//
+//					_this->graphics_menu->get_led_on_gasto_energetico().unstash();
+//
+//					_this->graphics_menu->get_led_off_gasto_energetico().stash();
+//
+//				}
+//
+//			}
+//
+//		}
+//
+//	} else {
+//
+//		_this->graphics_menu->desliga_leds_painel_tempo();
+//
+//		_this->graphics_menu->get_led_off_gasto_energetico().stash();
+//
+//		_this->graphics_menu->get_led_on_gasto_energetico().unstash();
+//
+//
+//
+////		_this->var_y = GASTO_ENERGETICO;
+//
+////		_this->y_values = _this->graphics_menu->get_vector()->getVectorGastoEnergeticoTotal();
+//
+////		_this->print_queue_values(_this->x_values, _this->y_values);
+//
+////		_this->graphics_menu->set_vetor_y(_this->graphics_menu->get_vector()->getVectorGastoEnergeticoTotal());
+//
+////		_this->graphics_menu->set_tamanho_vetor_y(_this->graphics_menu->get_vector()->getSizeVectorGastoEnergiticoTotal());
+//
+////		_this->graphics_menu->set_legenda_y((string) "Gasto energetico");
+//
+////		_this->graphics_menu->set_limite_inferior_y(_this->graphics_menu->get_vector()->getSmallestElement(_this->graphics_menu->get_vector()->getVectorGastoEnergeticoTotal()));//0;
+//
+////		_this->graphics_menu->set_limite_superior_y(_this->graphics_menu->get_vector()->getLargestElement(_this->graphics_menu->get_vector()->getVectorGastoEnergeticoTotal()));//0.4;
+//
+////		_this->graphics_menu->set_graphic_variavel(new Graphics((_this->graphics_menu->get_option_frame_np()), _this->graphics_menu->get_vetor_x(),
+//
+////				_this->graphics_menu->get_vetor_y(), _this->graphics_menu->get_limite_superior_x(), _this->graphics_menu->get_limite_inferior_x(),
+//
+////				_this->graphics_menu->get_limite_superior_y(),	_this->graphics_menu->get_limite_inferior_y(), false));
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_scale(1.2);
+//
+////		string titulo = _this->graphics_menu->get_legenda_x() + (string) " x " + _this->graphics_menu->get_legenda_y();
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Titulo_Grafico(titulo);
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoX(_this->graphics_menu->get_legenda_x());
+//
+////		_this->graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(_this->graphics_menu->get_legenda_y());
+//
+////		_this->graphics_menu->get_graphic_variavel()->create_Graphic(_this->graphics_menu->get_tamanho_vetor_x(), _this->graphics_menu->get_tamanho_vetor_y());
+//
+//		_this->configure_chart_y(History::HI_total_energy_cost, "Gasto Energético");
+//
+//	}
+//
+//}
 
 
 //Metodo chamado quando acontece um clique no botao de temperatura interna do painel inferior.

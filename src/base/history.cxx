@@ -57,7 +57,7 @@ float History::get_smallest_element(History::HistoryItem item) {
 
 /*! Adiciona um elemento no histórico do item especificado */
 void History::add_element(History::HistoryItem item, float value){
-	if(_history[item].size() == _max_items) _history[item].pop_front();
+	//if(_history[item].size() == _max_items) _history[item].pop_front();
 	_history[item].push_back(value);
 }
 
