@@ -1,7 +1,7 @@
 # Configurações dos usuários do makefile. Cada usuário tem um arquivo para trabalhar
 # Para correta utilização coloque esses caminhos em um arquivo chamado makefile.conf
 
-PYTHONPATH = /usr/include/python2.6
+PYTHONPATH = /usr/include/python2.7
 PANDAPATHINCLUDE = /usr/include/panda3d
 PANDAPATHLIB = /usr/lib/panda3d
  

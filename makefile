@@ -1,6 +1,6 @@
 PANDAPATHINCLUDE = /usr/include/panda3d
 PANDAPATHLIB = /usr/lib/panda3d
-PYTHONPATH = /usr/include/python2.6
+PYTHONPATH = /usr/include/python2.7
 
 .SUFFIXES: .c .cpp .cxx .cc .h .hh
 
@@ -13,7 +13,7 @@ RANLIB  	= 	ranlib
 # Flags for C++ compiler:
 CFLAGS			= 	-g -Wno-deprecated -fPIC -O2
 
-CXXFLAGS 		= 	-g -Wno-deprecated -Wno-write-strings -fPIC -O2
+CXXFLAGS 		= 	-g -Wno-deprecated -Wno-write-strings -fPIC -O0
 
 INCFLAGS 		= 	-I$(PYTHONPATH) \
 					-I$(PANDAPATHINCLUDE)
