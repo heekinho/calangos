@@ -348,7 +348,7 @@ void Graphics::set_scale(float x) {
 
 void Graphics::hide(){
     this->graphic_np.stash();
-    this->remove_hint_line_draw_hook();
+    //this->remove_hint_line_draw_hook();
 }
 
 void Graphics::desenha_eixoX() {
@@ -581,141 +581,141 @@ void Graphics::set_Titulo_EixoY(const string& tituloEixoYString){
     graphic_titulo_eixoY->set_text(tituloEixoYString);
 }
 
-// Evento que atualiza a posição da linha do hint dentro do gráfico a cada frame
-void Graphics::add_hint_line_draw_hook() {
-	event_handler->add_hook(TimeControl::EV_pass_frame_gui_options, draw_hint_line, this);
-}
-
-void Graphics::remove_hint_line_draw_hook() {
-	event_handler->remove_hook(TimeControl::EV_pass_frame_gui_options, draw_hint_line, this);
-}
-
-void Graphics::draw_hint_line() {
-	float mouse_x = 0; // coordenada X do mouse na tela
-	float mouse_y = 0; // coordenada Y do mouse na tela
-	float hour = 0; // valor de X (hora) no gráfico
-	float item_value = 0; // valor de Y no gráfico
-
-	// Todas as coordenadas utilizadas nos cálculos são referentes à toda a tela de jogo
-	// Os valores de coordenadas são os mesmos para qualquer resolução da tela de jogo
-	MouseWatcher *mwatcher = DCAST(MouseWatcher, window->get_mouse().node());
-	if(mwatcher->has_mouse()) {
-		mouse_x = mwatcher->get_mouse_x();
-		mouse_y = mwatcher->get_mouse_y();
-		//cout << "\n------- X = " << mouse_x << " ; Y = " << mouse_y;
-		// Hora = (24 horas * (posição de tela atual do X do cursor - posição de tela de X na linha de início do eixo X)) /
-		// posição de tela de X no fim do eixo X - posição de tela de X na linha de início do eixo X;
-		hour = (24 * (mouse_x - 0.03)) / 0.54;
-
-		if (&eixo_hint2_np != NULL) {
-			eixo_hint2_np.remove_node();
-			valor_hint2_np.remove_node();
-		}
-		if (&eixo_hint_np != NULL) {
-			eixo_hint_np.remove_node();
-			valor_hint_np.remove_node();
-		}
-
-		// a hora pode ser igual para dias diferentes;
-		// criar sublista de vetorX somente com amostras do dia corrente
-		// usar iterator
-
-		// Itera os vetores X e Y para pegar o valor de Y equivalente à hora obtida no vetor X
-		// Pega a amostra do vetor Y a partir da posição do mouse e da hora equivalente no vetor X
-		std::list<float>::const_iterator iterator, iterator2;
-		float previous_x = 0;
-		float previous_y = 0;
-		for (iterator = vetorX->begin(), iterator2 = vetorY->begin();
-			iterator != vetorX->end(), iterator2 != vetorY->end(); ++iterator, ++iterator2) {
-			// se o valor de hora do iterator for maior do que o valor de hora equivalente à posição atual do mouse
-			// e menor ou igual que o valor de hora guardado anteriormente, pega a amostra anterior e para a iteração
-			if (*iterator > hour && previous_x <= hour) {
-				item_value = previous_y;
-				break;
-			}
-			previous_x = *iterator; // guarda o valor atual de hora que servirá de condição para a próxima iteração
-			previous_y = *iterator2;
-		}
-
-//		if (mouse_x >= 0.03 && mouse_x <= 0.57 && hour >= vetorX->front() && hour <= vetorX->back()) {
-//			if (mouse_y >= 0.12 && mouse_y <= 0.66) {
-//				eixo_hint = new LineSegs("eixo-hint");
-//				eixo_hint->set_color(1.0, 0.0, 0.0);
-//				eixo_hint->draw_to(0.0, 0.0, 0.0);
-//				eixo_hint->draw_to(0.0, 0.0, 0.54);
-//				eixo_hint_np = graphic_np.get_parent().attach_new_node(eixo_hint->create(true));
-//				eixo_hint_np.set_pos(window->get_render_2d(), mouse_x, 0.0, 0.12);
+//// Evento que atualiza a posição da linha do hint dentro do gráfico a cada frame
+//void Graphics::add_hint_line_draw_hook() {
+//	event_handler->add_hook(TimeControl::EV_pass_frame_gui_options, draw_hint_line, this);
+//}
 //
-//				stringstream hint_msg;
-//				hint_msg << item_value;
-//				valor_hint = new TextNode("valor-hint");
-//				valor_hint->set_text(hint_msg.str());
-//				valor_hint_np = graphic_np.get_parent().attach_new_node(valor_hint);
-//				valor_hint_np.set_scale(0.05);
-//				valor_hint_np.set_color(0.0, 0.0, 0.0, 1, 0);
-//				//valor_hint_np.set_pos(0.7, 0.0, 1.7);
-//				valor_hint_np.set_pos(window->get_render_2d(), 0.3, 0.0, 0.7);
-//			} else if (mouse_y >= -0.77 && mouse_y <= -0.23) {
-//				eixo_hint2 = new LineSegs("eixo-hint2");
-//				eixo_hint2->set_color(0.0, 1.0, 0.0);
-//				eixo_hint2->draw_to(0.0, 0.0, 0.0);
-//				eixo_hint2->draw_to(0.0, 0.0, 0.54);
-//				eixo_hint2_np = graphic_np.get_parent().attach_new_node(eixo_hint2->create(true));
-//				eixo_hint2_np.set_pos(window->get_render_2d(), mouse_x, 0.0, -0.77);
+//void Graphics::remove_hint_line_draw_hook() {
+//	event_handler->remove_hook(TimeControl::EV_pass_frame_gui_options, draw_hint_line, this);
+//}
+
+//void Graphics::draw_hint_line() {
+//	float mouse_x = 0; // coordenada X do mouse na tela
+//	float mouse_y = 0; // coordenada Y do mouse na tela
+//	float hour = 0; // valor de X (hora) no gráfico
+//	float item_value = 0; // valor de Y no gráfico
 //
-//				stringstream hint_msg2;
-//				hint_msg2 << item_value;
-//				valor_hint2 = new TextNode("valor-hint2");
-//				valor_hint2->set_text(hint_msg2.str());
-//				valor_hint2_np = graphic_np.get_parent().attach_new_node(valor_hint2);
-//				valor_hint2_np.set_scale(0.05);
-//				valor_hint2_np.set_color(0.0, 0.0, 0.0, 1, 0);
-//				valor_hint2_np.set_pos(window->get_render_2d(), 0.3, 0.0, -0.2);
+//	// Todas as coordenadas utilizadas nos cálculos são referentes à toda a tela de jogo
+//	// Os valores de coordenadas são os mesmos para qualquer resolução da tela de jogo
+//	MouseWatcher *mwatcher = DCAST(MouseWatcher, window->get_mouse().node());
+//	if(mwatcher->has_mouse()) {
+//		mouse_x = mwatcher->get_mouse_x();
+//		mouse_y = mwatcher->get_mouse_y();
+//		//cout << "\n------- X = " << mouse_x << " ; Y = " << mouse_y;
+//		// Hora = (24 horas * (posição de tela atual do X do cursor - posição de tela de X na linha de início do eixo X)) /
+//		// posição de tela de X no fim do eixo X - posição de tela de X na linha de início do eixo X;
+//		hour = (24 * (mouse_x - 0.03)) / 0.54;
 //
-//			}
+//		if (&eixo_hint2_np != NULL) {
+//			eixo_hint2_np.remove_node();
+//			valor_hint2_np.remove_node();
 //		}
-
-//		if (graphic_np.get_y() == 1.0) {
-//			if (mouse_x >= 0.03 && mouse_x <= 0.57 && mouse_y >= 0.12 && mouse_y <= 0.66 &&
-//					hour >= vetorX->front() && hour <= vetorX->back()) {
-//				eixo_hint = new LineSegs("eixo-hint");
-//				eixo_hint->set_color(1.0, 0.0, 0.0);
-//				eixo_hint->draw_to(0.0, 0.0, 0.0);
-//				eixo_hint->draw_to(0.0, 0.0, 0.54);
-//				eixo_hint_np = graphic_np.get_parent().attach_new_node(eixo_hint->create(true));
-//				eixo_hint_np.set_pos(window->get_render_2d(), mouse_x, 0.0, 0.12);
-//				stringstream hint_msg;
-//				hint_msg << item_value;
-//				valor_hint = new TextNode("valor-hint");
-//				valor_hint->set_text(hint_msg.str());
-//				valor_hint_np = graphic_np.get_parent().attach_new_node(valor_hint);
-//				valor_hint_np.set_scale(0.05);
-//				valor_hint_np.set_color(0.0, 0.0, 0.0, 1, 0);
-//				valor_hint_np.set_pos(window->get_render_2d(), 0.3, 0.0, 0.7);
-//			}
-//		} else if (graphic_np.get_y() == 0.1) {
-//			if (mouse_x >= 0.03 && mouse_x <= 0.57 && mouse_y >= -0.77 && mouse_y <= -0.23 &&
-//					hour >= vetorX->front() && hour <= vetorX->back()) {
-//				eixo_hint = new LineSegs("eixo-hint");
-//				eixo_hint->set_color(1.0, 0.0, 0.0);
-//				eixo_hint->draw_to(0.0, 0.0, 0.0);
-//				eixo_hint->draw_to(0.0, 0.0, 0.54);
-//				eixo_hint_np = graphic_np.get_parent().attach_new_node(eixo_hint->create(true));
-//				eixo_hint_np.set_pos(window->get_render_2d(), mouse_x, 0.0, -0.77);
-//				stringstream hint_msg;
-//				hint_msg << item_value;
-//				valor_hint = new TextNode("valor-hint");
-//				valor_hint->set_text(hint_msg.str());
-//				valor_hint_np = graphic_np.get_parent().attach_new_node(valor_hint);
-//				valor_hint_np.set_scale(0.05);
-//				valor_hint_np.set_color(0.0, 0.0, 0.0, 1, 0);
-//				valor_hint_np.set_pos(window->get_render_2d(), 0.3, 0.0, -0.2);
-//			}
+//		if (&eixo_hint_np != NULL) {
+//			eixo_hint_np.remove_node();
+//			valor_hint_np.remove_node();
 //		}
-
-	}
-
-}
+//
+//		// a hora pode ser igual para dias diferentes;
+//		// criar sublista de vetorX somente com amostras do dia corrente
+//		// usar iterator
+//
+//		// Itera os vetores X e Y para pegar o valor de Y equivalente à hora obtida no vetor X
+//		// Pega a amostra do vetor Y a partir da posição do mouse e da hora equivalente no vetor X
+//		std::list<float>::const_iterator iterator, iterator2;
+//		float previous_x = 0;
+//		float previous_y = 0;
+//		for (iterator = vetorX->begin(), iterator2 = vetorY->begin();
+//			iterator != vetorX->end(), iterator2 != vetorY->end(); ++iterator, ++iterator2) {
+//			// se o valor de hora do iterator for maior do que o valor de hora equivalente à posição atual do mouse
+//			// e menor ou igual que o valor de hora guardado anteriormente, pega a amostra anterior e para a iteração
+//			if (*iterator > hour && previous_x <= hour) {
+//				item_value = previous_y;
+//				break;
+//			}
+//			previous_x = *iterator; // guarda o valor atual de hora que servirá de condição para a próxima iteração
+//			previous_y = *iterator2;
+//		}
+//
+////		if (mouse_x >= 0.03 && mouse_x <= 0.57 && hour >= vetorX->front() && hour <= vetorX->back()) {
+////			if (mouse_y >= 0.12 && mouse_y <= 0.66) {
+////				eixo_hint = new LineSegs("eixo-hint");
+////				eixo_hint->set_color(1.0, 0.0, 0.0);
+////				eixo_hint->draw_to(0.0, 0.0, 0.0);
+////				eixo_hint->draw_to(0.0, 0.0, 0.54);
+////				eixo_hint_np = graphic_np.get_parent().attach_new_node(eixo_hint->create(true));
+////				eixo_hint_np.set_pos(window->get_render_2d(), mouse_x, 0.0, 0.12);
+////
+////				stringstream hint_msg;
+////				hint_msg << item_value;
+////				valor_hint = new TextNode("valor-hint");
+////				valor_hint->set_text(hint_msg.str());
+////				valor_hint_np = graphic_np.get_parent().attach_new_node(valor_hint);
+////				valor_hint_np.set_scale(0.05);
+////				valor_hint_np.set_color(0.0, 0.0, 0.0, 1, 0);
+////				//valor_hint_np.set_pos(0.7, 0.0, 1.7);
+////				valor_hint_np.set_pos(window->get_render_2d(), 0.3, 0.0, 0.7);
+////			} else if (mouse_y >= -0.77 && mouse_y <= -0.23) {
+////				eixo_hint2 = new LineSegs("eixo-hint2");
+////				eixo_hint2->set_color(0.0, 1.0, 0.0);
+////				eixo_hint2->draw_to(0.0, 0.0, 0.0);
+////				eixo_hint2->draw_to(0.0, 0.0, 0.54);
+////				eixo_hint2_np = graphic_np.get_parent().attach_new_node(eixo_hint2->create(true));
+////				eixo_hint2_np.set_pos(window->get_render_2d(), mouse_x, 0.0, -0.77);
+////
+////				stringstream hint_msg2;
+////				hint_msg2 << item_value;
+////				valor_hint2 = new TextNode("valor-hint2");
+////				valor_hint2->set_text(hint_msg2.str());
+////				valor_hint2_np = graphic_np.get_parent().attach_new_node(valor_hint2);
+////				valor_hint2_np.set_scale(0.05);
+////				valor_hint2_np.set_color(0.0, 0.0, 0.0, 1, 0);
+////				valor_hint2_np.set_pos(window->get_render_2d(), 0.3, 0.0, -0.2);
+////
+////			}
+////		}
+//
+////		if (graphic_np.get_y() == 1.0) {
+////			if (mouse_x >= 0.03 && mouse_x <= 0.57 && mouse_y >= 0.12 && mouse_y <= 0.66 &&
+////					hour >= vetorX->front() && hour <= vetorX->back()) {
+////				eixo_hint = new LineSegs("eixo-hint");
+////				eixo_hint->set_color(1.0, 0.0, 0.0);
+////				eixo_hint->draw_to(0.0, 0.0, 0.0);
+////				eixo_hint->draw_to(0.0, 0.0, 0.54);
+////				eixo_hint_np = graphic_np.get_parent().attach_new_node(eixo_hint->create(true));
+////				eixo_hint_np.set_pos(window->get_render_2d(), mouse_x, 0.0, 0.12);
+////				stringstream hint_msg;
+////				hint_msg << item_value;
+////				valor_hint = new TextNode("valor-hint");
+////				valor_hint->set_text(hint_msg.str());
+////				valor_hint_np = graphic_np.get_parent().attach_new_node(valor_hint);
+////				valor_hint_np.set_scale(0.05);
+////				valor_hint_np.set_color(0.0, 0.0, 0.0, 1, 0);
+////				valor_hint_np.set_pos(window->get_render_2d(), 0.3, 0.0, 0.7);
+////			}
+////		} else if (graphic_np.get_y() == 0.1) {
+////			if (mouse_x >= 0.03 && mouse_x <= 0.57 && mouse_y >= -0.77 && mouse_y <= -0.23 &&
+////					hour >= vetorX->front() && hour <= vetorX->back()) {
+////				eixo_hint = new LineSegs("eixo-hint");
+////				eixo_hint->set_color(1.0, 0.0, 0.0);
+////				eixo_hint->draw_to(0.0, 0.0, 0.0);
+////				eixo_hint->draw_to(0.0, 0.0, 0.54);
+////				eixo_hint_np = graphic_np.get_parent().attach_new_node(eixo_hint->create(true));
+////				eixo_hint_np.set_pos(window->get_render_2d(), mouse_x, 0.0, -0.77);
+////				stringstream hint_msg;
+////				hint_msg << item_value;
+////				valor_hint = new TextNode("valor-hint");
+////				valor_hint->set_text(hint_msg.str());
+////				valor_hint_np = graphic_np.get_parent().attach_new_node(valor_hint);
+////				valor_hint_np.set_scale(0.05);
+////				valor_hint_np.set_color(0.0, 0.0, 0.0, 1, 0);
+////				valor_hint_np.set_pos(window->get_render_2d(), 0.3, 0.0, -0.2);
+////			}
+////		}
+//
+//	}
+//
+//}
 
 void Graphics::update_hint_line(float line_pos_x, float line_pos_y, float label_pos_y) {
 	float hour = (24 * (line_pos_x - 0.03)) / 0.54;
@@ -724,8 +724,16 @@ void Graphics::update_hint_line(float line_pos_x, float line_pos_y, float label_
 	float previous_x = 0;
 	float previous_y = 0;
 
+	if (&eixo_hint_np != NULL) {
+		eixo_hint_np.remove_node();
+		valor_hint_np.remove_node();
+	}
+
 	// Itera os vetores X e Y para pegar o valor de Y equivalente à hora obtida no vetor X
 	// Pega a amostra do vetor Y a partir da posição do mouse e da hora equivalente no vetor X
+
+	// ****** Quando pausa o jogo e passa o mouse pelas regiões onde são plotados os gráficos 1 e 2,
+	// capota o jogo aqui ******
 	for (iterator = vetorX->begin(), iterator2 = vetorY->begin();
 		iterator != vetorX->end(), iterator2 != vetorY->end(); ++iterator, ++iterator2) {
 		// se o valor de hora do iterator for maior do que o valor de hora equivalente à posição atual do mouse

@@ -18,6 +18,9 @@ class Graphics;
 class Hint;
 //class History;
 
+#define ACTION(mn) void mn(); \
+static void mn(const Event*, void* d){ ((PT(GraphicsMenu))(GraphicsMenu*)d)->mn(); }
+
 class GraphicsMenu : public ReferenceCount {
 public:
 	GraphicsMenu(NodePath menu_frame_np);
@@ -169,16 +172,16 @@ public:
 	void build_options();
 	void init_graphics();
 
-	void make_new_chart(History::HistoryItem item, PT(Graphics) &chart,
+	PT(Graphics) make_new_chart(History::HistoryItem item, PT(Graphics) &chart,
 			const string &title, const string &x_axis, const string &y_axis);
-	void novo_grafico1_TempInterna();
-	void novo_grafico2_Hidratacao();
-	void novo_grafico3_TempAr();
-	void novo_grafico4_Umidade();
-	void novo_grafico5_TempSolo();
-	void novo_grafico6_Alimentacao();
-	void novo_grafico7_Energia();
-	void novo_grafico8_GastoEnergetico();
+	PT(Graphics) novo_grafico1_TempInterna();
+	PT(Graphics) novo_grafico2_Hidratacao();
+	PT(Graphics) novo_grafico3_TempAr();
+	PT(Graphics) novo_grafico4_Umidade();
+	PT(Graphics) novo_grafico5_TempSolo();
+	PT(Graphics) novo_grafico6_Alimentacao();
+	PT(Graphics) novo_grafico7_Energia();
+	PT(Graphics) novo_grafico8_GastoEnergetico();
 	void desliga_leds_painel_tempo();
 	void desliga_leds_painel_variavel();
 
@@ -202,7 +205,7 @@ public:
 	static void click_event_botao_grafico_gastoEnergetico_v(const Event*, void *data);
 
 	void set_chart_properties(int chart_number, int chart_position);
-	void create_time_chart(int chart_number, int chart_position);
+	PT(Graphics) create_time_chart(int chart_number, int chart_position);
 	void create_variable_chart(History::HList *vetor_x, History::HList *vetor_y,
 			const string &legenda_x, const string &legenda_y, bool set_eixo_y);
 	void add_hooks();
@@ -214,6 +217,11 @@ public:
 	bool get_grafico_tempo_ativo();
 	bool get_grafico_variavel_ativo();
 	void set_grafico_variavel_ativo(bool grafico_variavel_ativo);
+	PT(Graphics) get_chart1();
+	PT(Graphics) get_chart2();
+	void set_chart1(PT(Graphics) chart1);
+	void set_chart2(PT(Graphics) chart2);
+	ACTION(draw_hint_line);
 
 	PT(History) get_history();
 private:
@@ -394,7 +402,10 @@ private:
 
     bool grafico_posicao1_ativo;
     bool grafico_posicao2_ativo;
-//
+
+    PT(Graphics) chart1;
+    PT(Graphics) chart2;
+
 //    // 0 - não está na tela; 1 - está em cima; 2 - está embaixo
 //    static int posicao_grafico_tempInterna;
 //    static int posicao_grafico_hidratacao;
@@ -406,5 +417,7 @@ private:
 //    static int posicao_grafico_gastoEnergetico;
 
 };
+
+#undef ACTION
 
 #endif /* GRAPHICSMENU_H */

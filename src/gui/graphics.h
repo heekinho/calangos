@@ -27,9 +27,9 @@ public:
     static TypeHandle get_class_type() { return _type_handle; }
     static void init_type() { register_type(_type_handle, "Graphics"); }
 
-	void add_hint_line_draw_hook();
-	void remove_hint_line_draw_hook();
-	ACTION(draw_hint_line);
+	//void add_hint_line_draw_hook();
+	//void remove_hint_line_draw_hook();
+	//ACTION(draw_hint_line);
 	void update_hint_line(float line_pos_x, float line_pos_y, float label_pos_y);
 
 private:

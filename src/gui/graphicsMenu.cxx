@@ -84,6 +84,8 @@ void GraphicsMenu::add_hooks() {
 	event_handler->add_hook(get_btn_alimentacao_v()->get_click_event(MouseButton::one()), click_event_botao_grafico_alimentacao_v, this);
 	event_handler->add_hook(get_btn_energia_v()->get_click_event(MouseButton::one()), click_event_botao_grafico_energia_v,this);
 	event_handler->add_hook(get_btn_gasto_energetico_v()->get_click_event(MouseButton::one()), click_event_botao_grafico_gastoEnergetico_v,this);
+	event_handler->add_hook(TimeControl::EV_pass_frame_gui_options, draw_hint_line, this);
+	//event_handler->add_hook(option_frame->get_within_event(), draw_hint_line, this);
 }
 
 void GraphicsMenu::remove_hooks() {
@@ -105,6 +107,8 @@ void GraphicsMenu::remove_hooks() {
 	event_handler->remove_hook(get_btn_alimentacao_v()->get_click_event(MouseButton::one()), click_event_botao_grafico_alimentacao_v, this);
 	event_handler->remove_hook(get_btn_energia_v()->get_click_event(MouseButton::one()), click_event_botao_grafico_energia_v,this);
 	event_handler->remove_hook(get_btn_gasto_energetico_v()->get_click_event(MouseButton::one()), click_event_botao_grafico_gastoEnergetico_v,this);
+	event_handler->remove_hook(TimeControl::EV_pass_frame_gui_options, draw_hint_line, this);
+	//event_handler->remove_hook(option_frame->get_within_event(), draw_hint_line, this);
 }
 
 void GraphicsMenu::init_variables() {
@@ -120,13 +124,15 @@ void GraphicsMenu::init_variables() {
 	posicao_grafico_alimentacao = 0;
 	posicao_grafico_energia = 0;
 	posicao_grafico_gastoEnergetico = 0;
+	//chart1 = NULL;
+	//chart2 = NULL;
 }
 
 void GraphicsMenu::click_event_botao_grafico_tempo(const Event*, void *data) {
 
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
 
-	if (graphics_menu->get_grafico_tempo_ativo()) {
+	if (graphics_menu->get_grafico_tempo_ativo()) { // o gráfico ativo é do tipo tempo; ao clicar no botão, desabilita o gráfico
 		graphics_menu->hide_menu_graf_tempo();
 		graphics_menu->hide_all_graphics();
 		graphics_menu->get_led_on_graf_tempo().stash();
@@ -134,10 +140,13 @@ void GraphicsMenu::click_event_botao_grafico_tempo(const Event*, void *data) {
 		graphics_menu->get_led_on_graf_variavel().stash();
 		graphics_menu->get_led_off_graf_variavel().unstash();
 		graphics_menu->init_variables();
+		graphics_menu->set_chart1(NULL);
+		graphics_menu->set_chart2(NULL);
 	} else { // verificar se os leds de Temperatura Interna e Hidratação são acesos por padrão
 		graphics_menu->hide_menu_graf_variavel();
 		graphics_menu->show_menu_graf_tempo();
 		graphics_menu->get_graphic_variavel()->hide();
+		graphics_menu->set_grafico_variavel_ativo(false);
 		graphics_menu->init_graphics();
 		graphics_menu->get_led_off_graf_tempo().stash();
 		graphics_menu->get_led_on_graf_tempo().unstash();
@@ -152,7 +161,9 @@ void GraphicsMenu::click_event_botao_grafico_variavel(const Event*, void *data) 
 
 	if (graphics_menu->get_grafico_variavel_ativo()) {
 		graphics_menu->hide_menu_graf_variavel(); // verificar se os leds dos botões de gráfico variável apagam
-		graphics_menu->hide_all_graphics();
+		graphics_menu->hide_menu_graf_tempo();
+		//graphics_menu->hide_all_graphics();
+		graphics_menu->get_graphic_variavel()->hide();
 		graphics_menu->get_led_on_graf_variavel().stash();
 		graphics_menu->get_led_off_graf_variavel().unstash();
 		graphics_menu->get_led_on_graf_tempo().stash();
@@ -160,9 +171,12 @@ void GraphicsMenu::click_event_botao_grafico_variavel(const Event*, void *data) 
 		//graphics_menu->init_variables();
 		graphics_menu->set_grafico_variavel_ativo(false);
 	} else {
+		//graphics_menu->hide_menu_graf_tempo();
 		graphics_menu->show_menu_graf_tempo();
 		graphics_menu->show_menu_graf_variavel();
 		graphics_menu->init_variables();
+		graphics_menu->set_chart1(NULL);
+		graphics_menu->set_chart2(NULL);
 		graphics_menu->set_grafico_variavel_ativo(true);
 		graphics_menu->get_led_off_graf_variavel().stash();
 		graphics_menu->get_led_on_graf_variavel().unstash();
@@ -174,7 +188,7 @@ void GraphicsMenu::click_event_botao_grafico_variavel(const Event*, void *data) 
 	}
 }
 
-void GraphicsMenu::create_default_time_chart() {
+void GraphicsMenu::create_default_time_chart() { // mudar nome do método; aqui se cria o gráfico padrão do tipo variável!
 	// exibe gráfico padrão do tipo Variável (Temp Ar x Temp Ar)
 	create_variable_chart(get_history()->get_list(History::HI_world_temperature),
 			get_history()->get_list(History::HI_world_temperature), "Temp Ar", "Temp Ar", true);
@@ -194,16 +208,20 @@ void GraphicsMenu::set_chart_properties(int chart_number, int chart_position) {
 	if (chart_position != 0) { // se o gráfico estiver plotado na tela
 		create_time_chart(chart_number, 0); // remove o gráfico da tela
 		if (chart_position == 1) { // se o gráfico está na posição superior da tela
+			set_chart1(NULL);
 			grafico_posicao1_ativo = false;
 		} else { // se o gráfico está na posição inferior da tela
+			set_chart2(NULL);
 			grafico_posicao2_ativo = false;
 		}
 	} else { // se o gráfico não estiver plotado na tela
 		if (!grafico_posicao1_ativo) { // verifica se a posição superior está vazia
-			create_time_chart(chart_number, 1); // plota o gráfico na posição superior
+			set_chart1(create_time_chart(chart_number, 1)); // plota o gráfico na posição superior
+			//create_time_chart(chart_number, 1);
 			grafico_posicao1_ativo = true;
 		} else if (!grafico_posicao2_ativo) {
-			create_time_chart(chart_number, 2); // plota o gráfico na posição inferior
+			set_chart2(create_time_chart(chart_number, 2)); // plota o gráfico na posição inferior
+			//create_time_chart(chart_number, 2);
 			grafico_posicao2_ativo = true;
 		}
 	}
@@ -245,95 +263,103 @@ void GraphicsMenu::create_variable_chart(History::HList *valores_vetor_x, Histor
 // Indica se o gráfico selecionado será inserido ou removido da tela.
 // chart_number é o número do gráfico selecionado pelo usuário através do clique no botão
 // chart_position indica se o grafico será removido da tela (0), se será plotado na posição superior (1) ou inferior (2)
-void GraphicsMenu::create_time_chart(int chart_number, int chart_position) {
+PT(Graphics) GraphicsMenu::create_time_chart(int chart_number, int chart_position) {
 
 	if (chart_number == 1) { // Temperatura Interna
 		posicao_grafico_tempInterna = chart_position; // atualiza a posição do gráfico
 		if (chart_position != 0) { // se o gráfico não estiver plotado, ele é criado
-			novo_grafico1_TempInterna();
 			get_led_on_temp_interna().unstash();
 			get_led_off_temp_interna().stash();
+			return novo_grafico1_TempInterna();
 		} else { // se o gráfico estiver plotado, ele é removido
 			get_graphic()->hide();
 			get_led_on_temp_interna().stash();
 			get_led_off_temp_interna().unstash();
+			return NULL;
 		}
 	} else if (chart_number == 2) { // Hidratacao
 		posicao_grafico_hidratacao = chart_position;
 		if (chart_position != 0) {
-			novo_grafico2_Hidratacao();
 			get_led_on_hidratacao().unstash();
 			get_led_off_hidratacao().stash();
+			return novo_grafico2_Hidratacao();
 		} else {
 			get_graphic2()->hide();
 			get_led_on_hidratacao().stash();
 			get_led_off_hidratacao().unstash();
+			return NULL;
 		}
 	} else if (chart_number == 3) { // Temperatura do Ar
 		posicao_grafico_tempAr = chart_position;
 		if (chart_position != 0) {
-			novo_grafico3_TempAr();
 			get_led_on_temp_ar().unstash();
 			get_led_off_temp_ar().stash();
+			return novo_grafico3_TempAr();
 		} else {
 			get_graphic3()->hide();
 			get_led_on_temp_ar().stash();
 			get_led_off_temp_ar().unstash();
+			return NULL;
 		}
 	} else if (chart_number == 4) { // Umidade
 		posicao_grafico_umidade = chart_position;
 		if (chart_position != 0) {
-			novo_grafico4_Umidade();
 			get_led_on_umidade().unstash();
 			get_led_off_umidade().stash();
+			return novo_grafico4_Umidade();
 		} else {
 			get_graphic4()->hide();
 			get_led_on_umidade().stash();
 			get_led_off_umidade().unstash();
+			return NULL;
 		}
 	} else if (chart_number == 5) { // Temperatura do Solo
 		posicao_grafico_tempSolo = chart_position;
 		if (chart_position != 0) {
-			novo_grafico5_TempSolo();
 			get_led_on_temp_solo().unstash();
 			get_led_off_temp_solo().stash();
+			return novo_grafico5_TempSolo();
 		} else {
 			get_graphic5()->hide();
 			get_led_on_temp_solo().stash();
 			get_led_off_temp_solo().unstash();
+			return NULL;
 		}
 	} else if (chart_number == 6) { // Alimentação
 		posicao_grafico_alimentacao = chart_position;
 		if (chart_position != 0) {
-			novo_grafico6_Alimentacao();
 			get_led_on_alimentacao().unstash();
 			get_led_off_alimentacao().stash();
+			return novo_grafico6_Alimentacao();
 		} else {
 			get_graphic6()->hide();
 			get_led_on_alimentacao().stash();
 			get_led_off_alimentacao().unstash();
+			return NULL;
 		}
 	} else if (chart_number == 7) { // Energia
 		posicao_grafico_energia = chart_position;
 		if (chart_position != 0) {
-			novo_grafico7_Energia();
 			get_led_on_energia().unstash();
 			get_led_off_energia().stash();
+			return novo_grafico7_Energia();
 		} else {
 			get_graphic7()->hide();
 			get_led_on_energia().stash();
 			get_led_off_energia().unstash();
+			return NULL;
 		}
 	} else if (chart_number == 8) { // Gasto Energético
 		posicao_grafico_gastoEnergetico = chart_position;
 		if (chart_position != 0) {
-			novo_grafico8_GastoEnergetico();
 			get_led_on_gasto_energetico().unstash();
 			get_led_off_gasto_energetico().stash();
+			return novo_grafico8_GastoEnergetico();
 		} else {
 			get_graphic8()->hide();
 			get_led_on_gasto_energetico().stash();
 			get_led_off_gasto_energetico().unstash();
+			return NULL;
 		}
 	}
 }
@@ -500,6 +526,22 @@ void GraphicsMenu::click_event_botao_grafico_gastoEnergetico_v(const Event*, voi
 			graphics_menu->get_vetor_y(), "Gasto Energético", graphics_menu->get_legenda_y(), true);
 	graphics_menu->get_led_on_gasto_energetico_v().unstash();
 	graphics_menu->get_led_off_gasto_energetico_v().stash();
+}
+
+PT(Graphics) GraphicsMenu::get_chart1() {
+	return chart1;
+}
+
+PT(Graphics) GraphicsMenu::get_chart2() {
+	return chart2;
+}
+
+void GraphicsMenu::set_chart1(PT(Graphics) cht1) {
+	chart1 = cht1;
+}
+
+void GraphicsMenu::set_chart2(PT(Graphics) cht2) {
+	chart2 = cht2;
 }
 
 bool GraphicsMenu::get_grafico_tempo_ativo() {
@@ -1414,6 +1456,7 @@ void GraphicsMenu::hide_all_option_graphics() {
 	np_btn_graf_variavel.stash();
 	led_off_graf_variavel.stash();
 	led_on_graf_variavel.stash();
+	init_variables();
 }
 
 //Torna invisivel o painel que contem os botoes para ativar os graficos de tempo.
@@ -1559,10 +1602,14 @@ void GraphicsMenu::build_options() {
 void GraphicsMenu::init_graphics() {
 	 // por padrão, ao abrir o painel de gráficos, mostram-se os gráficos de Temperatura Interna e Hidratação (tipo tempo)
 	grafico_tempo_ativo = true;
-	this->novo_grafico1_TempInterna();
+	PT(Graphics) chart1 = this->novo_grafico1_TempInterna();
+	//this->novo_grafico1_TempInterna();
 	posicao_grafico_tempInterna = 1;
-	this->novo_grafico2_Hidratacao();
+	set_chart1(chart1);
+	PT(Graphics) chart2 = this->novo_grafico2_Hidratacao();
+	//this->novo_grafico2_Hidratacao();
 	posicao_grafico_hidratacao = 2;
+	set_chart2(chart2);
 	//graphic2->set_Position_Graphic(0.4, 0.1);
 	this->novo_grafico3_TempAr();
 	graphic3->hide();
@@ -1578,20 +1625,27 @@ void GraphicsMenu::init_graphics() {
 	graphic8->hide();
 }
 
-//void GraphicsMenu::draw_hint_line(PT(Graphics) &chart, float min_y, float max_y) {
-//	float mouse_x = 0; // coordenada X do mouse na tela
-//	float mouse_y = 0; // coordenada Y do mouse na tela
-//	MouseWatcher *mwatcher = DCAST(MouseWatcher, window->get_mouse().node());
-//	if (mwatcher->has_mouse()) {
-//		mouse_x = mwatcher->get_mouse_x();
-//		mouse_y = mwatcher->get_mouse_y();
-//		if (mouse_x >= 0.03 && mouse_x <= 0.57 && mouse_y >= min_y && mouse_y <= max_y) { // cursor dentro do gráfico
-//			chart->update_hint_line(mouse_x, min_y, max_y);
-//		}
-//	}
-//}
+void GraphicsMenu::draw_hint_line() {
+	float mouse_x = 0; // coordenada X do mouse na tela
+	float mouse_y = 0; // coordenada Y do mouse na tela
+	MouseWatcher *mwatcher = DCAST(MouseWatcher, window->get_mouse().node());
+	if (mwatcher->has_mouse()) {
+		mouse_x = mwatcher->get_mouse_x();
+		mouse_y = mwatcher->get_mouse_y();
+		if (mouse_x >= 0.03 && mouse_x <= 0.57 && mouse_y >= 0.12 && mouse_y <= 0.66) { // cursor dentro do gráfico superior
+			if (chart1 != NULL) {
+				chart1->update_hint_line(mouse_x, 0.12, 0.66);
+			}
+		}
+		else if (mouse_x >= 0.03 && mouse_x <= 0.57 && mouse_y >= -0.77 && mouse_y <= -0.23) {
+			if (chart2 != NULL) {
+				chart2->update_hint_line(mouse_x, -0.77, -0.23);
+			}
+		}
+	}
+}
 
-void GraphicsMenu::make_new_chart(History::HistoryItem item, PT(Graphics) &chart,
+PT(Graphics) GraphicsMenu::make_new_chart(History::HistoryItem item, PT(Graphics) &chart,
 		const string &title, const string &x_axis, const string &y_axis){
 	history->output(History::HI_player_hydration, title, simdunas_cat.debug());
 
@@ -1613,10 +1667,12 @@ void GraphicsMenu::make_new_chart(History::HistoryItem item, PT(Graphics) &chart
 	chart->set_Titulo_EixoX(x_axis);
 	chart->set_Titulo_EixoY(y_axis);
 	chart->create_Graphic(history->get_size(History::HI_time), history->get_size(item));
+
+	return chart;
 }
 
 //Constroi o grafico de temperatura interna X tempo.
-void GraphicsMenu::novo_grafico1_TempInterna() {
+PT(Graphics) GraphicsMenu::novo_grafico1_TempInterna() {
 //	print_queue_values(vector->getVectorTemperaturaLagarto(), "TEMPERATURA INTERNA");
 //	history->output(History::HI_player_hydration, "Temperatura interna", simdunas_cat.debug());
 //	graphic = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorTemperaturaLagarto(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaLagarto()), vector->getSmallestElement(vector->getVectorTemperaturaLagarto()), true);
@@ -1627,11 +1683,11 @@ void GraphicsMenu::novo_grafico1_TempInterna() {
 //	graphic->set_Titulo_EixoY("Temperatura (C)");
 //	graphic->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorTemperaturaLagarto());
 
-	make_new_chart(History::HI_player_temperature, graphic, "Temperatura Interna", "Tempo (h)", "Temperatura (C)");
+	return make_new_chart(History::HI_player_temperature, graphic, "Temperatura Interna", "Tempo (h)", "Temperatura (C)");
 }
 
 //Constroi o grafico de hidratacao X tempo.
-void GraphicsMenu::novo_grafico2_Hidratacao() {
+PT(Graphics) GraphicsMenu::novo_grafico2_Hidratacao() {
 //	print_queue_values(vector->getVectorHidratacaoLagarto(), "HIDRATAÇÃO");
 //	history->output(History::HI_player_hydration, "Hidratação", simdunas_cat.debug());
 //	graphic2 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorHidratacaoLagarto(), 0, 0, 100, 0, true);
@@ -1642,11 +1698,11 @@ void GraphicsMenu::novo_grafico2_Hidratacao() {
 //	graphic2->set_Titulo_EixoY("Hidratacao (%)");
 //	graphic2->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorHidratacaoLagarto());
 
-	make_new_chart(History::HI_player_hydration, graphic2, "Hidratação do Lagarto", "Tempo (h)", "Hidratação (%)");
+	return make_new_chart(History::HI_player_hydration, graphic2, "Hidratação do Lagarto", "Tempo (h)", "Hidratação (%)");
 }
 
 //Constroi o grafico de temperatura do ar X tempo.
-void GraphicsMenu::novo_grafico3_TempAr() {
+PT(Graphics) GraphicsMenu::novo_grafico3_TempAr() {
 //	print_queue_values(vector->getVectorTemperaturaAr(), "TEMPERATURA DO AR");
 //	history->output(History::HI_player_hydration, "Temperatura do ar", simdunas_cat.debug());
 //	graphic3 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorTemperaturaAr(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaAr()), vector->getSmallestElement(vector->getVectorTemperaturaAr()), true);
@@ -1657,11 +1713,11 @@ void GraphicsMenu::novo_grafico3_TempAr() {
 //	graphic3->set_Titulo_EixoY("Temperatura (c)");
 //	graphic3->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorTemperaturaAr());
 
-	make_new_chart(History::HI_world_temperature, graphic3, "Temperatura do ar", "Tempo (h)", "Temperatura (C)");
+	return make_new_chart(History::HI_world_temperature, graphic3, "Temperatura do ar", "Tempo (h)", "Temperatura (C)");
 }
 
 //Constroi o grafico de umidade X tempo.
-void GraphicsMenu::novo_grafico4_Umidade() {
+PT(Graphics) GraphicsMenu::novo_grafico4_Umidade() {
 //	print_queue_values(vector->getVectorUmidadeAmbiente(), "UMIDADE");
 //	history->output(History::HI_player_hydration, "Umidade", simdunas_cat.debug());
 //	graphic4 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorUmidadeAmbiente(), 0, 0, 100, 0, true);
@@ -1671,11 +1727,11 @@ void GraphicsMenu::novo_grafico4_Umidade() {
 //	graphic4->set_Titulo_EixoX("Tempo (h)");
 //	graphic4->set_Titulo_EixoY("Umidade");
 //	graphic4->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorUmidadeAmbiente());
-	make_new_chart(History::HI_world_humidity, graphic4, "Umidade do ar", "Tempo (h)", "Umidade");
+	return make_new_chart(History::HI_world_humidity, graphic4, "Umidade do ar", "Tempo (h)", "Umidade");
 }
 
 //Constroi o grafico de temperatura do solo X tempo.
-void GraphicsMenu::novo_grafico5_TempSolo() {
+PT(Graphics) GraphicsMenu::novo_grafico5_TempSolo() {
 //	print_queue_values(vector->getVectorTemperaturaSolo(), "TEMPERATURA DO SOLO");
 //	history->output(History::HI_player_hydration, "Temperatura do solo", simdunas_cat.debug());
 //	graphic5 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorTemperaturaSolo(), 0, 0, vector->getLargestElement(vector->getVectorTemperaturaSolo()), vector->getSmallestElement(vector->getVectorTemperaturaSolo()), true);
@@ -1685,11 +1741,11 @@ void GraphicsMenu::novo_grafico5_TempSolo() {
 //	graphic5->set_Titulo_EixoX("Tempo (h)");
 //	graphic5->set_Titulo_EixoY("Temperatura (C)");
 //	graphic5->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorTemperaturaSolo());
-	make_new_chart(History::HI_soil_temperature, graphic5, "Temperatura do solo", "Tempo (h)", "Temperatura (C)");
+	return make_new_chart(History::HI_soil_temperature, graphic5, "Temperatura do solo", "Tempo (h)", "Temperatura (C)");
 }
 
 //Constroi o grafico de alimentacao X tempo.
-void GraphicsMenu::novo_grafico6_Alimentacao() {
+PT(Graphics) GraphicsMenu::novo_grafico6_Alimentacao() {
 //	print_queue_values(vector->getVectorAlimentacao(), "ALIMENTAÇÃO");
 //	history->output(History::HI_player_hydration, "Alimentação", simdunas_cat.debug());
 //	graphic6 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorAlimentacao(), 0, 0, vector->getLargestElement(vector->getVectorAlimentacao()), vector->getSmallestElement(vector->getVectorAlimentacao()), true);
@@ -1699,11 +1755,11 @@ void GraphicsMenu::novo_grafico6_Alimentacao() {
 //	graphic6->set_Titulo_EixoX("Tempo (h)");
 //	graphic6->set_Titulo_EixoY("Alimentacao");
 //	graphic6->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorAlimentacao());
-	make_new_chart(History::HI_feeding, graphic6, "Alimentação", "Tempo (h)", "Alimentação");
+	return make_new_chart(History::HI_feeding, graphic6, "Alimentação", "Tempo (h)", "Alimentação");
 }
 
 //Constroi o grafico de energia X tempo.
-void GraphicsMenu::novo_grafico7_Energia() {
+PT(Graphics) GraphicsMenu::novo_grafico7_Energia() {
 //	print_queue_values(vector->getVectorEnergia(), "ENERGIA");
 //	history->output(History::HI_player_hydration, "Energia", simdunas_cat.debug());
 //	graphic7 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorEnergia(), 0, 0, 100, 0, true);
@@ -1713,11 +1769,11 @@ void GraphicsMenu::novo_grafico7_Energia() {
 //	graphic7->set_Titulo_EixoX("Tempo (h)");
 //	graphic7->set_Titulo_EixoY("Energia");
 //	graphic7->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorEnergia());
-	make_new_chart(History::HI_energy, graphic7, "Energia", "Tempo (h)", "Energia");
+	return make_new_chart(History::HI_energy, graphic7, "Energia", "Tempo (h)", "Energia");
 }
 
 //Constroi o grafico de gasto energetico X tempo.
-void GraphicsMenu::novo_grafico8_GastoEnergetico() {
+PT(Graphics) GraphicsMenu::novo_grafico8_GastoEnergetico() {
 //	print_queue_values(vector->getVectorGastoEnergeticoTotal(), "GASTO ENERGÉTICO");
 //	history->output(History::HI_player_hydration, "Gasto Energético", simdunas_cat.debug());
 //	graphic8 = new Graphics((option_frame_np), vector->getVectorTempo(), vector->getVectorGastoEnergeticoTotal(), 0, 0, vector->getLargestElement(vector->getVectorGastoEnergeticoTotal()), vector->getSmallestElement(vector->getVectorGastoEnergeticoTotal()), true);
@@ -1727,7 +1783,7 @@ void GraphicsMenu::novo_grafico8_GastoEnergetico() {
 //	graphic8->set_Titulo_EixoX("Tempo (h)");
 //	graphic8->set_Titulo_EixoY("Gasto energetico");
 //	graphic8->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorGastoEnergiticoTotal());
-	make_new_chart(History::HI_total_energy_cost, graphic8, "Gasto Energético", "Tempo (h)", "Gasto Energético");
+	return make_new_chart(History::HI_total_energy_cost, graphic8, "Gasto Energético", "Tempo (h)", "Gasto Energético");
 }
 
 //Desliga as luzes que indicam quais graficos estao ativos no painel de tempo.
