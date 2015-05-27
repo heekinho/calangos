@@ -43,6 +43,7 @@ void StartMenu::load(){
     np_logo.set_scale(0.1);
     np_logo.set_pos(0.0, 0, 0.6);
 
+    //textos das opções do menu inicial
 	default_button_config(btn_play, np_play, "Jogar", LVecBase3f(0, 0, 0.1), play_action);
 	default_button_config(btn_options, np_options, "Opções", LVecBase3f(0, 0, -0.1), options_action);
 	default_button_config(btn_instructions, np_instructions, "Instruções", LVecBase3f(0, 0, -0.3), instructions_action);
