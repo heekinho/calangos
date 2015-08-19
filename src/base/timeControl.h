@@ -130,6 +130,10 @@ private:
 	float vminute_count;
 
 	float last_second;
+	// Soma de minutos virtuais
+	int count_vmin;
+	// Minuto anterior à última atualização
+	int previous_vmin;
 
 	/* Geração e controle de eventos */
 	// Ponteiro para a fila de eventos

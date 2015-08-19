@@ -1404,37 +1404,37 @@ void GuiManager::print_queue_values(queue<double> qx, queue<double> qy) {
 
 void GuiManager::configure_chart_x(History::HistoryItem item, const string &chart_caption, float min_x, float max_x){
 
-	x_values = history->get_list(item);
-
-	graphics_menu->set_vetor_x(history->get_list(item));
-
-	graphics_menu->set_tamanho_vetor_x(history->get_size(item));
-
-	graphics_menu->set_legenda_x(chart_caption);
-
-	graphics_menu->set_limite_inferior_x(min_x);
-
-	graphics_menu->set_limite_superior_x(max_x);
-
-	graphics_menu->set_graphic_variavel(new Graphics((graphics_menu->get_option_frame_np()), graphics_menu->get_vetor_x(),
-
-			graphics_menu->get_vetor_y(), graphics_menu->get_limite_superior_x(), graphics_menu->get_limite_inferior_x(),
-
-			graphics_menu->get_limite_superior_y(), graphics_menu->get_limite_inferior_y(), false));
-
-	graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
-
-	graphics_menu->get_graphic_variavel()->set_scale(1.2);
-
-	string titulo = graphics_menu->get_legenda_x() + (string) " x " + graphics_menu->get_legenda_y();
-
-	graphics_menu->get_graphic_variavel()->set_Titulo_Grafico(titulo);
-
-	graphics_menu->get_graphic_variavel()->set_Titulo_EixoX(graphics_menu->get_legenda_x());
-
-	graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(graphics_menu->get_legenda_y());
-
-	//graphics_menu->get_graphic_variavel()->create_Graphic(graphics_menu->get_tamanho_vetor_x(), graphics_menu->get_tamanho_vetor_y());
+//	x_values = history->get_list(item);
+//
+//	graphics_menu->set_vetor_x(history->get_list(item));
+//
+//	graphics_menu->set_tamanho_vetor_x(history->get_size(item));
+//
+//	graphics_menu->set_legenda_x(chart_caption);
+//
+//	graphics_menu->set_limite_inferior_x(min_x);
+//
+//	graphics_menu->set_limite_superior_x(max_x);
+//
+//	graphics_menu->set_graphic_variavel(new Graphics((graphics_menu->get_option_frame_np()), graphics_menu->get_vetor_x(),
+//
+//			graphics_menu->get_vetor_y(), graphics_menu->get_limite_superior_x(), graphics_menu->get_limite_inferior_x(),
+//
+//			graphics_menu->get_limite_superior_y(), graphics_menu->get_limite_inferior_y(), false));
+//
+//	graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
+//
+//	graphics_menu->get_graphic_variavel()->set_scale(1.2);
+//
+//	string titulo = graphics_menu->get_legenda_x() + (string) " x " + graphics_menu->get_legenda_y();
+//
+//	graphics_menu->get_graphic_variavel()->set_Titulo_Grafico(titulo);
+//
+//	graphics_menu->get_graphic_variavel()->set_Titulo_EixoX(graphics_menu->get_legenda_x());
+//
+//	graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(graphics_menu->get_legenda_y());
+//
+//	//graphics_menu->get_graphic_variavel()->create_Graphic(graphics_menu->get_tamanho_vetor_x(), graphics_menu->get_tamanho_vetor_y());
 
 }
 
@@ -1450,37 +1450,37 @@ void GuiManager::configure_chart_x(History::HistoryItem item, const string &char
 
 void GuiManager::configure_chart_y(History::HistoryItem item, const string &chart_caption, float min_y, float max_y){
 
-	y_values = history->get_list(item);
-
-	graphics_menu->set_vetor_y(history->get_list(item));
-
-	graphics_menu->set_tamanho_vetor_y(history->get_size(item));
-
-	graphics_menu->set_legenda_y(chart_caption);
-
-	graphics_menu->set_limite_inferior_y(min_y);
-
-	graphics_menu->set_limite_superior_y(max_y);
-
-	graphics_menu->set_graphic_variavel(new Graphics((graphics_menu->get_option_frame_np()), graphics_menu->get_vetor_x(),
-
-			graphics_menu->get_vetor_y(), graphics_menu->get_limite_superior_x(), graphics_menu->get_limite_inferior_x(),
-
-			graphics_menu->get_limite_superior_y(), graphics_menu->get_limite_inferior_y(), false));
-
-	graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
-
-	graphics_menu->get_graphic_variavel()->set_scale(1.2);
-
-	string titulo = graphics_menu->get_legenda_x() + (string) " x " + graphics_menu->get_legenda_y();
-
-	graphics_menu->get_graphic_variavel()->set_Titulo_Grafico(titulo);
-
-	graphics_menu->get_graphic_variavel()->set_Titulo_EixoX(graphics_menu->get_legenda_x());
-
-	graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(graphics_menu->get_legenda_y());
-
-	//graphics_menu->get_graphic_variavel()->create_Graphic(graphics_menu->get_tamanho_vetor_x(), graphics_menu->get_tamanho_vetor_y());
+//	y_values = history->get_list(item);
+//
+//	graphics_menu->set_vetor_y(history->get_list(item));
+//
+//	graphics_menu->set_tamanho_vetor_y(history->get_size(item));
+//
+//	graphics_menu->set_legenda_y(chart_caption);
+//
+//	graphics_menu->set_limite_inferior_y(min_y);
+//
+//	graphics_menu->set_limite_superior_y(max_y);
+//
+//	graphics_menu->set_graphic_variavel(new Graphics((graphics_menu->get_option_frame_np()), graphics_menu->get_vetor_x(),
+//
+//			graphics_menu->get_vetor_y(), graphics_menu->get_limite_superior_x(), graphics_menu->get_limite_inferior_x(),
+//
+//			graphics_menu->get_limite_superior_y(), graphics_menu->get_limite_inferior_y(), false));
+//
+//	graphics_menu->get_graphic_variavel()->set_Position_Graphic(0.2, 0.6);
+//
+//	graphics_menu->get_graphic_variavel()->set_scale(1.2);
+//
+//	string titulo = graphics_menu->get_legenda_x() + (string) " x " + graphics_menu->get_legenda_y();
+//
+//	graphics_menu->get_graphic_variavel()->set_Titulo_Grafico(titulo);
+//
+//	graphics_menu->get_graphic_variavel()->set_Titulo_EixoX(graphics_menu->get_legenda_x());
+//
+//	graphics_menu->get_graphic_variavel()->set_Titulo_EixoY(graphics_menu->get_legenda_y());
+//
+//	//graphics_menu->get_graphic_variavel()->create_Graphic(graphics_menu->get_tamanho_vetor_x(), graphics_menu->get_tamanho_vetor_y());
 
 }
 

@@ -204,11 +204,18 @@ void TimeControl::update_time_control(float elapsed_time){
 			(*p_queue).queue_event(new Event(pass_vmin_numbered.str()));
 			/* --------------------------------------------------------------------------- */
 
+			previous_vmin = minute;
 			minute += count_et / seconds_min;
 			count_et = count_et - seconds_min * (int) (count_et / seconds_min);
 
 			const Event *ev_minute = new Event(EV_pass_minute);
 			(*p_queue).queue_event(ev_minute);
+
+//			count_vmin = (minute - previous_vmin) / 10;
+//			for (int i = 0; i = count_vmin; i++) {
+//				const Event *ev_ten_minutes = new Event(EV_pass_ten_minutes);
+//				(*p_queue).queue_event(ev_ten_minutes);
+//			}
 
 			if(minute % 10 == 0) {
 				const Event *ev_ten_minutes = new Event(EV_pass_ten_minutes);
@@ -304,7 +311,8 @@ double TimeControl::get_hora_generica(){
 	double hora_generica = hora + min*0.01667;
 	//cout << "\n ------------------------------ min: " << min;
 	//cout << ", hora: " << hora;
-	cout << "\n ------------- hora generica: " << hora_generica;
+	cout << "\n ------------- hora generica: " << hora_generica << " e dia " << TimeControl::get_instance()->get_dia() << " e mes " <<
+	TimeControl::get_instance()->get_mes();
 	return hora_generica;
 }
 

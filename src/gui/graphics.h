@@ -15,9 +15,9 @@ static void mn(const Event*, void* d){ ((PT(Graphics))(Graphics*)d)->mn(); }
 class Graphics : public TypedReferenceCount {
 public:
 //    Graphics(NodePath pai, queue<double> vetorXtmp, queue<double> vetorYtmp, double limiteSuperiorXTmp, double limiteInferiorXTmp, double limiteSuperiorYTmp, double limiteInferiorYTmp, bool tipoTempoTmp);
-	Graphics(NodePath pai, History::HList* vetorXtmp, History::HList* vetorYtmp, double limiteSuperiorXTmp, double limiteInferiorXTmp, double limiteSuperiorYTmp, double limiteInferiorYTmp, bool tipoTempoTmp);
+	Graphics(NodePath pai, bool grafico_tipo_tempo);
     ~Graphics();
-    void create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp);
+    void create_Graphic();
     void set_Position_Graphic(float x, float y);
     void set_scale(float x);
     void hide();
@@ -31,6 +31,7 @@ public:
 	//void remove_hint_line_draw_hook();
 	//ACTION(draw_hint_line);
 	void update_hint_line(float line_pos_x, float line_pos_y, float label_pos_y);
+	void update_chart_data(History::HList* vetor_x, History::HList* vetor_y, PT(History) history);
 
 private:
     static TypeHandle _type_handle;

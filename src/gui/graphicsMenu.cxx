@@ -12,6 +12,7 @@
 #include "mouseButton.h"
 #include "timeControl.h"
 #include "mouseWatcher.h"
+#include "button.h"
 
 //bool grafico_tempo_ativo;
 //bool grafico_variavel_ativo;
@@ -32,14 +33,22 @@ int posicao_grafico_gastoEnergetico;
 GraphicsMenu::GraphicsMenu(NodePath menu_frame_np) {
 	history = Session::get_instance()->history();
 
+	set_current_day(get_elapsed_days());
+
 	make_tipo_graf(menu_frame_np);
 	make_menu_graf_tempo(menu_frame_np);
 
 	build_options();
 	make_menu_graf_variavel();
 
+	// remover daqui ou associar ao stash/unstash do gráfico
+	make_btn_previous_page_chart1(menu_frame_np);
+	make_btn_next_page_chart1(menu_frame_np);
+
 	add_hooks();
 	init_variables();
+
+	//current_day = get_elapsed_days();
 
 //	set_vetor_x(history->get_list(History::HI_world_temperature));
 //	set_vetor_y(history->get_list(History::HI_world_temperature));
@@ -84,6 +93,8 @@ void GraphicsMenu::add_hooks() {
 	event_handler->add_hook(get_btn_alimentacao_v()->get_click_event(MouseButton::one()), click_event_botao_grafico_alimentacao_v, this);
 	event_handler->add_hook(get_btn_energia_v()->get_click_event(MouseButton::one()), click_event_botao_grafico_energia_v,this);
 	event_handler->add_hook(get_btn_gasto_energetico_v()->get_click_event(MouseButton::one()), click_event_botao_grafico_gastoEnergetico_v,this);
+	event_handler->add_hook(get_btn_previous_page_chart1()->get_click_event(MouseButton::one()), click_event_btn_previous_page_chart1, this);
+	event_handler->add_hook(get_btn_next_page_chart1()->get_click_event(MouseButton::one()), click_event_btn_next_page_chart1, this);
 	event_handler->add_hook(TimeControl::EV_pass_frame_gui_options, draw_hint_line, this);
 	//event_handler->add_hook(option_frame->get_within_event(), draw_hint_line, this);
 }
@@ -107,6 +118,8 @@ void GraphicsMenu::remove_hooks() {
 	event_handler->remove_hook(get_btn_alimentacao_v()->get_click_event(MouseButton::one()), click_event_botao_grafico_alimentacao_v, this);
 	event_handler->remove_hook(get_btn_energia_v()->get_click_event(MouseButton::one()), click_event_botao_grafico_energia_v,this);
 	event_handler->remove_hook(get_btn_gasto_energetico_v()->get_click_event(MouseButton::one()), click_event_botao_grafico_gastoEnergetico_v,this);
+	event_handler->remove_hook(get_btn_previous_page_chart1()->get_click_event(MouseButton::one()), click_event_btn_previous_page_chart1,this);
+	event_handler->remove_hook(get_btn_next_page_chart1()->get_click_event(MouseButton::one()), click_event_btn_next_page_chart1,this);
 	event_handler->remove_hook(TimeControl::EV_pass_frame_gui_options, draw_hint_line, this);
 	//event_handler->remove_hook(option_frame->get_within_event(), draw_hint_line, this);
 }
@@ -235,23 +248,17 @@ void GraphicsMenu::create_variable_chart(History::HList *valores_vetor_x, Histor
 	}
 	vetor_x = valores_vetor_x;
 	vetor_y = valores_vetor_y;
-	tamanho_vetor_x = valores_vetor_x->size();
-	tamanho_vetor_y = valores_vetor_y->size();
-	limite_superior_x = history->get_largest_element(valores_vetor_x);
-	limite_inferior_x = history->get_smallest_element(valores_vetor_x);
-	limite_superior_y = history->get_largest_element(valores_vetor_y);
-	limite_inferior_y = history->get_smallest_element(valores_vetor_y);
 	legenda_x = legenda_eixo_x;
 	legenda_y = legenda_eixo_y;
 
-	graphicVariavel = new Graphics(option_frame_np, vetor_x, vetor_y, limite_superior_x, limite_inferior_x,
-			limite_superior_y, limite_inferior_y, false);
+	graphicVariavel = new Graphics(option_frame_np, false);
+	graphicVariavel->update_chart_data(vetor_x, vetor_y, history);
 	graphicVariavel->set_Position_Graphic(0.2, 0.6);
 	graphicVariavel->set_scale(1.2);
 	graphicVariavel->set_Titulo_Grafico(legenda_x + " x " + legenda_y);
 	graphicVariavel->set_Titulo_EixoX(legenda_x);
 	graphicVariavel->set_Titulo_EixoY(legenda_y);
-	graphicVariavel->create_Graphic(tamanho_vetor_x, tamanho_vetor_y);
+	graphicVariavel->create_Graphic();
 	if (set_eixo_x) {
 		desliga_leds_painel_variavel();
 	} else {
@@ -526,6 +533,22 @@ void GraphicsMenu::click_event_botao_grafico_gastoEnergetico_v(const Event*, voi
 			graphics_menu->get_vetor_y(), "Gasto Energético", graphics_menu->get_legenda_y(), true);
 	graphics_menu->get_led_on_gasto_energetico_v().unstash();
 	graphics_menu->get_led_off_gasto_energetico_v().stash();
+}
+
+void GraphicsMenu::click_event_btn_previous_page_chart1(const Event*, void *data) {
+	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
+	if (graphics_menu->get_current_day() > 1) {
+		graphics_menu->set_current_day(graphics_menu->get_current_day() - 1);
+		graphics_menu->update_chart_page();
+	}
+}
+
+void GraphicsMenu::click_event_btn_next_page_chart1(const Event*, void *data) {
+	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
+	if (graphics_menu->get_current_day() < graphics_menu->get_elapsed_days()) {
+		graphics_menu->set_current_day(graphics_menu->get_current_day() + 1);
+		graphics_menu->update_chart_page();
+	}
 }
 
 PT(Graphics) GraphicsMenu::get_chart1() {
@@ -902,6 +925,31 @@ double GraphicsMenu::get_tamanho_vetor_y() {
 
 void GraphicsMenu::set_tamanho_vetor_y(double tamanho) {
 	tamanho_vetor_y = tamanho;
+}
+
+int GraphicsMenu::get_current_day() {
+	return current_day;
+}
+
+void GraphicsMenu::set_current_day(int day) {
+	current_day = day;
+	//cout << "\n............ Current Day: " << current_day;
+}
+
+PT(PGButton) GraphicsMenu::get_btn_previous_page_chart1() {
+	return btn_previous_page_chart1;
+}
+
+PT(PGButton) GraphicsMenu::get_btn_next_page_chart1() {
+	return btn_next_page_chart1;
+}
+
+History::HistoryItem GraphicsMenu::get_item_chart1() {
+	return item_chart1;
+}
+
+History::HistoryItem GraphicsMenu::get_item_chart2() {
+	return item_chart2;
 }
 
 // Monta a parte do topo onde tem escrito "Tipo do Grafico" (label, leds e botões)
@@ -1437,9 +1485,30 @@ void GraphicsMenu::make_btn_gasto_energetico_v() {
 	btn_gasto_energetico_v->set_frame(-5.0 , 5.0 , -10.0, 10.0);
 }
 
+void GraphicsMenu::make_btn_previous_page_chart1(NodePath menu_frame_np) {
+	btn_previous_page_chart1 = new PGButton("btn_previous_page_chart1");
+	btn_previous_page_chart1->setup("<<<", 0.1);
+	np_btn_previous_page_chart1 = menu_frame_np.attach_new_node(btn_previous_page_chart1);
+	np_btn_previous_page_chart1.set_scale(0.05);
+	np_btn_previous_page_chart1.set_pos(1.0, 0.0, 0.975);
+	np_btn_previous_page_chart1.unstash();
+
+}
+
+void GraphicsMenu::make_btn_next_page_chart1(NodePath menu_frame_np) {
+	btn_next_page_chart1 = new PGButton("btn_next_page_chart1");
+	btn_next_page_chart1->setup(">>>", 0.1);
+	np_btn_next_page_chart1 = menu_frame_np.attach_new_node(btn_next_page_chart1);
+	np_btn_next_page_chart1.set_scale(0.05);
+	np_btn_next_page_chart1.set_pos(1.65, 0.0, 0.975);
+	np_btn_next_page_chart1.unstash();
+}
+
 //Torna visivel as opções relacionadas aos graficos.
 void GraphicsMenu::show_all_option_graphics() {
 	show_menu_graf_tempo();
+	set_current_day(get_elapsed_days());
+	//cout << "\nDIA CORRENTE: " << current_day;
 }
 
 //Torna invisivel as opções relacionadas aos graficos.
@@ -1645,28 +1714,222 @@ void GraphicsMenu::draw_hint_line() {
 	}
 }
 
+// Retorna a quantidade de dias decorridos de jogo de acordo com o vetor de tempo
+// Obtém a quantidade de 00:00 (meia-noite) do vetor de tempo para determinar quantos dias se passaram
+int GraphicsMenu::get_elapsed_days() {
+
+	History::HList* time_list = history->get_list(History::HI_time);
+	int days = 1; // o primeiro dia começa às 06:00
+	double front_time_list;
+	History::HList* list = new History::HList(*time_list); // cópia do vetor de tempo
+	double previous_time_value = 5; // o primeiro dia começa às 06:00, então passará na primeira iteração
+	int list_size = list->size();
+
+	// exibir o primeiro e último elemento da lista e o tamanho
+	//cout << "\nPrimeiro item da lista: " << list->front();
+	//cout << "\nÚltimo item da lista: " << list->back();
+	//cout << "\nTamanho da lista: " << list_size;
+
+	for (int i = 0; i < list_size; i++) {
+		front_time_list = list->front(); // para ser readicionado ao final do vetor
+		//if (front_time_list == 0.0) { // se chegou em 00:00 é um novo dia - pegar a transição de um dia para o outro
+		// na transição de um dia para o outro, a última referência de hora do dia anterior (23:xx) será maior que que a primeira referência de hora do dia seguinte (00:xx)
+		if (previous_time_value > front_time_list) {
+			days++;
+		}
+		previous_time_value = front_time_list;
+		list->pop_front(); // remove do início do vetor
+	}
+
+	return days;
+
+}
+
+// Obtém a lista de dados (eixo Y do gráfico) do dia passado como parâmetro
+// Por padrão o gráfico exibe a página do dia atual de jogo (último dia jogado), portanto a lista é percorrida de trás para frente
+History::HList* GraphicsMenu::get_item_list_by_day(int day_number, History::HList* item_list, History::HList* time_list) {
+
+	History::HList* time = new History::HList(*time_list); // cópia do vetor de tempo
+	History::HList* item = new History::HList(*item_list); // cópia do vetor de itens (eixo Y)
+	double last_item_time_list; // último item do vetor de horas
+	double last_item_data_list = item->back(); // último item do vetor de dados - a lista é percorrida de trás para frente
+	History::HList* result_list = new History::HList(); // retorno da função - lista de dados (eixo Y do gráfico) do dia passado como parâmetro
+	int current_day = get_elapsed_days(); // número de dias jogados
+	double previous_time_value = 25; // valor anterior na iteração do vetor de horas
+	int i = 0;
+
+	while (current_day > day_number && i < time->size()) { // enquanto não chegar ao dia desejado ou percorrer toda a lista
+		last_item_time_list = time->back(); // pega a última amostra do vetor de horas
+		last_item_data_list = item->back(); // pega o último item do vetor de dados
+		if (last_item_time_list > previous_time_value) { // é um novo dia? verifica a transição de um dia para o outro
+			current_day--; // diminui um dia
+			if (current_day == day_number) {
+				result_list->push_back(last_item_data_list); // adiciona a última amostra do dia ao vetor de resultado
+			}
+		}
+		previous_time_value = last_item_time_list; // guarda o valor atual de tempo para comparar na próxima iteração
+		time->pop_back(); // remove a última amostra do vetor de horas
+		item->pop_back(); // remove o último item do vetor de dados
+		i++;
+	}
+
+	if (current_day == day_number) { // chegou ao dia desejado?
+		// atualiza as variáveis dos vetores de horas e dados, senão ficam com as referências da amostra adicionada acima
+		last_item_time_list = time->back();
+		last_item_data_list = item->back();
+		while (last_item_time_list < previous_time_value && time->size() > 0) { // enquanto não chegar ao final da lista ou no dia anterior
+			result_list->push_back(last_item_data_list); // adiciona o item na lista de dados
+			time->pop_back();
+			item->pop_back();
+			previous_time_value = last_item_time_list;
+			last_item_time_list = time->back(); // pega a última amostra do vetor de horas
+			last_item_data_list = item->back(); // pega o último item do vetor de dados
+		}
+	}
+
+	return result_list; // o que fazer quando ela não for preenchida dentro do primeiro while?
+}
+
+// Obtém a lista de amostras de tempo (eixo X do gráfico) do dia passado como parâmetro
+// Por padrão o gráfico exibe a página do dia atual de jogo (último dia jogado), portanto a lista é percorrida de trás para frente
+History::HList* GraphicsMenu::get_time_list_by_day(int day_number, History::HList* time_list) {
+
+	History::HList* time = new History::HList(*time_list); // cópia do vetor de tempo
+	double last_item_time_list; // último item do vetor de horas
+	History::HList* result_list = new History::HList(); // retorno da função - lista de amostras de tempo (eixo X) do dia passado como parâmetro
+	int current_day = get_elapsed_days(); // número de dias jogados
+	double previous_time_value = 25; // valor anterior na iteração do vetor de horas
+	int i = 0;
+
+	while (current_day > day_number && i < time->size()) { // enquanto não chegar ao dia desejado ou percorrer toda a lista
+		last_item_time_list = time->back(); // pega a última amostra do vetor de horas
+		if (last_item_time_list > previous_time_value) { // é um novo dia? verifica a transição de um dia para o outro
+			current_day--; // diminui um dia
+			if (current_day == day_number) {
+				result_list->push_back(last_item_time_list); // adiciona a última amostra ao vetor de resultado
+			}
+		}
+		previous_time_value = last_item_time_list; // guarda o valor atual de tempo para comparar na próxima iteração
+		time->pop_back(); // remove a última amostra do vetor de horas
+		i++;
+	}
+
+	if (current_day == day_number) { // chegou ao dia desejado?
+		// atualiza a variável do vetor de horas, senão fica com a referência da amostra adicionada acima
+		last_item_time_list = time->back();
+		while (last_item_time_list < previous_time_value && time->size() > 0) { // enquanto não chegar ao final da lista ou no dia anterior
+			result_list->push_back(last_item_time_list); // adiciona o item na lista de tempo
+			time->pop_back();
+			previous_time_value = last_item_time_list;
+			last_item_time_list = time->back(); // pega a última amostra do vetor de horas
+		}
+	}
+
+	return result_list; // o que fazer quando ela não for preenchida dentro do primeiro while?
+}
+
+
+void GraphicsMenu::update_chart_page() {
+//	cout << "\n\n------------- DIA DA PAGINAÇÃO: " << current_day;
+//	History::HList* time_list = history->get_list(History::HI_time);
+//	History::HList* time_chart = get_time_list_by_day(current_day, time_list);
+//
+//	History::HList* item_list_chart1 = history->get_list(item_chart1);
+//	History::HList* items_chart1 = get_item_list_by_day(current_day, item_list_chart1, time_list);
+//	chart1->hide();
+//	chart1->update_chart_data(time_chart, items_chart1, history);
+//	chart1->create_Graphic();
+//
+//	History::HList* item_list_chart2 = history->get_list(item_chart2);
+//	History::HList* items_chart2 = get_item_list_by_day(current_day, item_list_chart2, time_list);
+//	chart2->hide();
+//	chart2->update_chart_data(time_chart, items_chart2, history);
+//	chart2->create_Graphic();
+
+	cout << "\n\n------------- DIA NA PAGINAÇÃO: " << current_day;
+//	History::HList* time_list = history->get_list(History::HI_time);
+//	History::HList* time_chart = get_time_list_by_day(current_day, time_list);
+
+//	History::HList* item_list_chart1 = history->get_list(item_chart1);
+//	History::HList* items_chart1 = get_item_list_by_day(current_day, item_list_chart1, time_list);
+	chart_1->hide();
+	grafico_posicao1_ativo = false;
+	make_new_chart(item_chart1, chart_1, title_chart1, x_axis_chart1, y_axis_chart1);
+
+//	History::HList* item_list_chart2 = history->get_list(item_chart2);
+//	History::HList* items_chart2 = get_item_list_by_day(current_day, item_list_chart2, time_list);
+	chart_2->hide();
+	grafico_posicao2_ativo = false;
+	make_new_chart(item_chart2, chart_2, title_chart2, x_axis_chart2, y_axis_chart2);
+
+}
+
+void GraphicsMenu::set_chart_page_properties(History::HistoryItem item, PT(Graphics) chart,
+		const string &title, const string &x_axis, const string &y_axis, int chart_number) {
+	if (chart_number == 1) {
+		item_chart1 = item;
+		chart_1 = chart;
+		title_chart1 = title;
+		x_axis_chart1 = x_axis;
+		y_axis_chart1 = y_axis;
+	} else {
+		item_chart2 = item;
+		chart_2 = chart;
+		title_chart2 = title;
+		x_axis_chart2 = x_axis;
+		y_axis_chart2 = y_axis;
+	}
+
+}
+
 PT(Graphics) GraphicsMenu::make_new_chart(History::HistoryItem item, PT(Graphics) &chart,
 		const string &title, const string &x_axis, const string &y_axis){
 	history->output(History::HI_player_hydration, title, simdunas_cat.debug());
 
 	History::HList* time_list = history->get_list(History::HI_time);
 	History::HList* item_list = history->get_list(item);
-	float largest_element = history->get_largest_element(item);
-	float smallest_element = history->get_smallest_element(item);
 
-	chart = new Graphics((option_frame_np), time_list, item_list, 0, 0, largest_element, smallest_element, true);
+	// o controle de paginação não deve ser feito dentro do método make_new_chart() - mover daqui
+	// função para dar o numero de dias no vetor de horas
+	// função para obter o dia corrente
+	/* para atualizar o dia corrente da paginação, basta atualizar o atributo current_day com -1 ou +1 dia
+	 * a cada vez que os botões de << (dia anterior) e >> (próximo dia) forem clicados */
+
+	// deve permanecer aqui
+	// função para obter sublista dado lista full e o dia
+
+	// função para obter sublista de tempo de acordo com o dia
+	History::HList* time = get_time_list_by_day(get_current_day(), time_list);
+
+	History::HList* items = get_item_list_by_day(get_current_day(), item_list, time_list);
+
+	//cout << "\n\n------------FRONT ITEM: " << items->front();
+	//cout << "\n------------BACK ITEM: " << items->back();
+	//cout << "\n------------SIZE ITEMS: " << items->size();
+	cout << "\n------------CURRENT DAY: " << get_current_day();
+
+	//cout << "\n\n------------FRONT TIME: " << time->front();
+	//cout << "\n------------BACK TIME: " << time->back();
+	//cout << "\n------------SIZE TIME: " << time->size();
+
+	chart = new Graphics(option_frame_np, true);
+	//chart = new Graphics((option_frame_np), time_list, item_list, 0, 0, largest_element, smallest_element, true);
+	chart->update_chart_data(time, items, history);
 	if (!grafico_posicao1_ativo) {
 		chart->set_Position_Graphic(0.4, 1.0);
+		set_chart_page_properties(item, chart, title, x_axis, y_axis, 1);
 		grafico_posicao1_ativo = true;
 	} else if (!grafico_posicao2_ativo) {
 		chart->set_Position_Graphic(0.4, 0.1);
+		//item_chart2 = item;
+		set_chart_page_properties(item, chart, title, x_axis, y_axis, 2);
 		grafico_posicao2_ativo = true;
 	}
 	chart->set_scale(0.86);
 	chart->set_Titulo_Grafico(title);
 	chart->set_Titulo_EixoX(x_axis);
 	chart->set_Titulo_EixoY(y_axis);
-	chart->create_Graphic(history->get_size(History::HI_time), history->get_size(item));
+	chart->create_Graphic();
 
 	return chart;
 }

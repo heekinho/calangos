@@ -13,6 +13,7 @@
 #include "graphics.h"
 #include "history.h"
 #include "eventHandler.h"
+#include "button.h"
 
 class Graphics;
 class Hint;
@@ -224,6 +225,27 @@ public:
 	ACTION(draw_hint_line);
 
 	PT(History) get_history();
+
+	int get_elapsed_days();
+	History::HList* get_item_list_by_day(int day_number, History::HList *item_list, History::HList *time_list);
+	History::HList* get_time_list_by_day(int day_number, History::HList *time_list);
+
+	int get_current_day();
+	void set_current_day(int current_day);
+
+	PT(PGButton) get_btn_previous_page_chart1();
+	PT(PGButton) get_btn_next_page_chart1();
+	void make_btn_previous_page_chart1(NodePath menu_frame_np);
+	void make_btn_next_page_chart1(NodePath menu_frame_np);
+	static void click_event_btn_previous_page_chart1(const Event*, void *data);
+	static void click_event_btn_next_page_chart1(const Event*, void *data);
+
+	History::HistoryItem get_item_chart1();
+	History::HistoryItem get_item_chart2();
+	void update_chart_page();
+	void set_chart_page_properties(History::HistoryItem item, PT(Graphics) chart,
+			const string &title, const string &x_axis, const string &y_axis, int chart_number);
+
 private:
 	PT(TextNode) txt_tipo_graf;
 	NodePath label_txt_tipo_graf;
@@ -403,8 +425,29 @@ private:
     bool grafico_posicao1_ativo;
     bool grafico_posicao2_ativo;
 
-    PT(Graphics) chart1;
-    PT(Graphics) chart2;
+    PT(Graphics) chart1; // gráfico posicionado na parte superior do menu de gráficos
+    PT(Graphics) chart2; // gráfico posicionado na parte inferior do menu de gráficos
+
+    int current_day; // dia atual visualizado na paginação dos gráficos
+
+    // botões "<<<" e ">>>" do gráfico
+    PT(PGButton) btn_previous_page_chart1;
+    NodePath np_btn_previous_page_chart1;
+    PT(PGButton) btn_next_page_chart1;
+    NodePath np_btn_next_page_chart1;
+
+	// itens correntes nos gráficos superior e inferior (umidade, hidratacao, energia etc)
+	History::HistoryItem item_chart1;
+	History::HistoryItem item_chart2;
+	PT(Graphics) chart_1;
+	PT(Graphics) chart_2;
+	string title_chart1;
+	string title_chart2;
+	string x_axis_chart1;
+	string x_axis_chart2;
+	string y_axis_chart1;
+	string y_axis_chart2;
+
 
 //    // 0 - não está na tela; 1 - está em cima; 2 - está embaixo
 //    static int posicao_grafico_tempInterna;

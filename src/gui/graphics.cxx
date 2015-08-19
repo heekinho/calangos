@@ -87,31 +87,9 @@ Graphics::~Graphics() {
 
 //Construtor
 //NodePath* paiNode: Node onde o grafico vai ser anexado (componente de interface grafica, ex. frame)
-//queue<double> vetorXtmp: Fila com os valores do eixo X. Não pode ter mais de 24 horas.
-//queue<double> vetorYtmp: Fila com os valores do eixo Y.
-//double limiteSuperiorXTmp: Valor maximo do eixo X.
-//double limiteInferiorXTmp: Valor minimo do eixo X.
-//double limiteSuperiorYTmp: Valor maximo do eixo Y.
-//double limiteInferiorYTmp: Valor minimo do eixo Y.
-//bool tipoTempoTmp: Indica se é grafico de tempo (tipoTempoTmp = true) ou se é do tipo variavel por variavel (tipoTempoTmp = false).
-Graphics::Graphics(NodePath paiNode, History::HList* vetorXtmp, History::HList* vetorYtmp,  double limiteSuperiorXTmp, double limiteInferiorXTmp, double limiteSuperiorYTmp, double limiteInferiorYTmp, bool tipoTempoTmp){
+Graphics::Graphics(NodePath paiNode, bool grafico_tipo_tempo) {
 
-	/* Cria cópia (através do operador =) */
-    vetorX = new History::HList(*vetorXtmp);
-    vetorY = new History::HList(*vetorYtmp);
-
-    tipoTempo = tipoTempoTmp;
-
-	if(limiteInferiorYTmp == limiteSuperiorYTmp) {
-		limiteInferiorYTmp -= 2.0;
-		limiteSuperiorYTmp += 2.0;
-	}
-
-    limiteSuperiorX = limiteSuperiorXTmp;
-    limiteInferiorX = limiteInferiorXTmp;
-    limiteSuperiorY = limiteSuperiorYTmp;
-    limiteInferiorY = limiteInferiorYTmp;
-
+	tipoTempo = grafico_tipo_tempo;
     //Cria o frame e seta a propriedade do frame onde o grafico será construido.
     graphic_frame = new PGVirtualFrame("Frame do grafico");
     graphic_frame->setup(1.1, 1.0);
@@ -171,18 +149,30 @@ Graphics::Graphics(NodePath paiNode, History::HList* vetorXtmp, History::HList* 
 //não seja chamado, o grafico não irá ser desenhado, aparecerá apenas o frame branco com os eixos azuis.
 //double tamanhoVetorXtmp: Quantidade de amostras do eixo x.
 //double tamanhoVetorYtmp: Quantidade de amostras do eixo Y.
-void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) {
+void Graphics::create_Graphic() {
 
     //Inicia a linha do grafico. Esse componente é usado tanto para desenhar um linha continua, no caso do grafico
     //de tempo, como pontos, no caso do grafico de variavel por variavel.
     linha_grafico = new LineSegs("linha-grafico");
     linha_grafico->set_color(0.0, 0.0, 0.0);
-    double tamanhoVetorX = tamanhoVetorXtmp;
-    double tamanhoVetorY = tamanhoVetorYtmp;
+    double tamanhoVetorX = vetorX->size();
+    double tamanhoVetorY = vetorY->size();
     double escalaX;
     double escalaY;
     double posicaoX;
     double posicaoY;
+
+//    int dia = 0;
+//    if (tamanhoVetorX < 108) {
+//    	dia = 1;
+//    } else {
+//    	dia = ((tamanhoVetorX + 144) / 144) + 0.25;
+//    }
+//
+//    cout << "\n....................... Dia: " << dia << " e tamanho do vetor X " << tamanhoVetorX << " e vetor Y " << tamanhoVetorY;
+
+
+
 
     //Faz o calculo da escala em x de acordo com o tipo de grafico.
     if(tipoTempo){
@@ -335,6 +325,35 @@ void Graphics::create_Graphic(double tamanhoVetorXtmp, double tamanhoVetorYtmp) 
     linha_grafico_np = graphic_np.attach_new_node(linha_grafico->create(true));
     linha_grafico_np.set_pos(0.15, 0.0, 0.15);
     linha_grafico_np.set_color(0.0, 0.0, 0.0);
+
+}
+
+//vetor_x: Fila com os valores do eixo X. Não pode ter mais de 24 horas.
+//vetor_y: Fila com os valores do eixo Y.
+//limiteSuperiorX: Valor maximo do eixo X.
+//limiteInferiorX: Valor minimo do eixo X.
+//limiteSuperiorY: Valor maximo do eixo Y.
+//limiteInferiorY: Valor minimo do eixo Y.
+void Graphics::update_chart_data(History::HList* vetor_x, History::HList* vetor_y, PT(History) history) {
+
+	vetorX = new History::HList(*vetor_x);
+    vetorY = new History::HList(*vetor_y);
+
+	if (tipoTempo) {
+		limiteSuperiorX = 0.0;
+		limiteInferiorX = 0.0;
+	} else {
+		limiteSuperiorX = history->get_largest_element(vetor_x);
+		limiteInferiorX = history->get_smallest_element(vetor_x);
+	}
+
+	limiteSuperiorY = history->get_largest_element(vetor_y);
+	limiteInferiorY = history->get_smallest_element(vetor_y);
+
+	if (limiteInferiorY == limiteSuperiorY) {
+		limiteInferiorY -= 2.0;
+		limiteSuperiorY += 2.0;
+	}
 
 }
 
