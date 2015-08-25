@@ -1801,6 +1801,10 @@ History::HList* GraphicsMenu::get_time_list_by_day(int day_number, History::HLis
 	double previous_time_value = 25; // valor anterior na iteração do vetor de horas
 	int i = 0;
 
+	// Por algum motivo obscuro, a lista de tempo não está sendo preenchida corretamente do primeiro para o segundo dia. Como se tivesse um
+	// limite de tamanho. Por exemplo, se o segundo dia tem 60 amostras, o último item da lista é 3,0 horas. Se há 63 amostras, o último é 3,5.
+	// Conforme o dia passa, last_item_time_list aumenta do segundo dia aumenta, sendo que deveria ser sempre a primeira amostra do dia;
+
 	while (current_day > day_number && i < time->size()) { // enquanto não chegar ao dia desejado ou percorrer toda a lista
 		last_item_time_list = time->back(); // pega a última amostra do vetor de horas
 		if (last_item_time_list > previous_time_value) { // é um novo dia? verifica a transição de um dia para o outro
