@@ -116,12 +116,24 @@ void Lizard::load_lizards(){
 		lizard->bind_anims(lizard->node());
 	}
 
+	float female_percent = 0.5;
+	float male_percent = 0.2;
+
+	cout << "\n\nDensidade de lagartos: " << lizard_density;
 	for(int i = 0; i < lizard_density; i++){
 		LPoint3f point = World::get_world()->get_terrain()->get_random_point();
 
 		/* Pronto... para criar instancias separadas, sem instancing... */
 
-		LizardGender gender = LizardGender(rand() % 3);
+		//LizardGender gender = LizardGender(rand() % 3);
+		LizardGender gender;
+		if (i < (lizard_density * female_percent)) {
+			gender = LizardGender(LG_female);
+		} else if (i < (lizard_density * (female_percent + male_percent))) {
+			gender = LizardGender(LG_male);
+		} else {
+			gender = LizardGender(LG_young);
+		}
 
 		NodePath base_lizard = lizard_models[gender].copy_to(NodePath());//(*ModelRepository::get_instance()->get_animated_model(lizard_names[gender])).copy_to(NodePath());
 
