@@ -17,6 +17,7 @@
 #include "gameStatusBar.h"
 #include "graphicsMenu.h"
 
+
 #include "history.h"
 
 class Player;

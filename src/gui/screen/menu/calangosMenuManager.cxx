@@ -5,7 +5,9 @@
  */
 
 #include "calangosMenuManager.h"
-
+//Crystal
+#include "languageOptionsScreen.h"
+//Crystal
 #include "startMenu.h"
 #include "loadingScreen.h"
 #include "creditsScreen.h"
@@ -26,16 +28,17 @@ PT(CalangosMenuManager) CalangosMenuManager::instance = NULL;
 CalangosMenuManager::CalangosMenuManager() : ScreenManager() {
 	/* Carrega uma fonte estática */
 	default_menu_font = FontPool::load_font("models/gui/fonts/suplexcomic-large");
-	create_menus();
 
-	/* Só carrega agora o MainMenu */
-	main_menu = new StartMenu(this);
+
+	/* Só carrega agora o LanguageOptionsScreen */
+	language_menu = new LanguageOptionsScreen(this);
 
 	/* A loading_screen é carregada separadamente porque no caso de um
 	 * reinício de jogo, somente ela precisará ser recarregada. */
-	set_loading_screen(new LoadingScreen(this));
-	open_screen(main_menu);
 
+	open_screen(language_menu);
+	//so pode carregar agora porque ja foi definida a linguagem e as mensagens
+	//create_menus();
 	//play_video("models/videos/vinheta_opcao_1_mpeg4.avi");
 }
 
@@ -47,6 +50,7 @@ PT(CalangosMenuManager) CalangosMenuManager::get_instance() {
 }
 
 void CalangosMenuManager::create_menus(){
+
 	main_menu = new StartMenu(this);
 	credits_screen = new CreditsScreen(this);
 	options_screen = new OptionsScreen(this);
@@ -59,9 +63,13 @@ void CalangosMenuManager::create_menus(){
 	texture_screen = new editorTextureScreen(this);
 	audio_options_screen = new AudioOptionsScreen(this);
 	character_options_screen = new CharacterOptionsScreen(this);
+	loading_screen = new LoadingScreen(this);
 }
 
 void CalangosMenuManager::unload_menus() {
+	//Crystal
+	language_menu = NULL;
+	//Crystal
 	main_menu = NULL;
 	credits_screen = NULL;
 	options_screen = NULL;
@@ -84,6 +92,11 @@ void CalangosMenuManager::unload_menus() {
 PT(TextFont) CalangosMenuManager::get_default_font(){
 	return default_menu_font;
 }
+//Crystal
+PT(Screen) CalangosMenuManager::get_language_menu(){
+	return language_menu;
+}
+//Crystal
 
 PT(Screen) CalangosMenuManager::get_main_menu() {
 	return main_menu;

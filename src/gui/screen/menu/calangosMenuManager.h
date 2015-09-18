@@ -18,7 +18,9 @@ class CalangosMenuManager : public ScreenManager {
 public:
 	static PT(CalangosMenuManager) get_instance();
 	~CalangosMenuManager(){}
-
+	//Crystal
+	PT(Screen) get_language_menu();
+	//Crystal
 	PT(Screen) get_main_menu();
 	PT(Screen) get_loading_screen();
 	PT(Screen) get_credits_screen();
@@ -44,6 +46,9 @@ private:
 	static PT(CalangosMenuManager) instance;
 	PT(TextFont) default_menu_font;
 	PT(Screen) character_editor;
+	//Crystal
+	PT(Screen) language_menu;
+	//Crystal
 	PT(Screen) main_menu;
 	PT(Screen) loading_screen;
 	PT(Screen) credits_screen;

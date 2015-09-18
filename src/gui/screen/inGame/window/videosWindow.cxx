@@ -40,11 +40,11 @@ VideosWindow::VideosWindow(NodePath parent, PT(ScreenManager) manager, float wid
 	img_video_habitat.set_scale(0.025);
 	img_video_habitat.set_pos(1.325, 0.0, 0.45);
 
-	default_button_config(btn_lagartos, np_btn_lagartos, "Lagartos", LVecBase3f(0.35, 0, 0.75), VideosWindow::lagartos_action);
-	default_button_config(btn_predadores, np_btn_predadores, "Predadores", LVecBase3f(1, 0, 0.75), VideosWindow::predadores_action);
-	default_button_config(btn_presas, np_btn_presas, "Presas", LVecBase3f(1.65, 0, 0.75), VideosWindow::presas_action);
-	default_button_config(btn_clima, np_btn_clima, "Clima", LVecBase3f(0.675, 0, 0.2), VideosWindow::clima_action);
-	default_button_config(btn_habitat, np_btn_habitat, "Habitat", LVecBase3f(1.325, 0, 0.2), VideosWindow::habitat_action);
+	default_button_config(btn_lagartos, np_btn_lagartos, ConfigVariableString("msg-lagarto", "Lagartos"), LVecBase3f(0.35, 0, 0.75), VideosWindow::lagartos_action);
+	default_button_config(btn_predadores, np_btn_predadores, ConfigVariableString("msg-predador", "Predadores"), LVecBase3f(1, 0, 0.75), VideosWindow::predadores_action);
+	default_button_config(btn_presas, np_btn_presas, ConfigVariableString("msg-presa", "Presas"), LVecBase3f(1.65, 0, 0.75), VideosWindow::presas_action);
+	default_button_config(btn_clima, np_btn_clima, ConfigVariableString("msg-clima", "Clima"), LVecBase3f(0.675, 0, 0.2), VideosWindow::clima_action);
+	default_button_config(btn_habitat, np_btn_habitat, ConfigVariableString("msg-habitat","Habitat"), LVecBase3f(1.325, 0, 0.2), VideosWindow::habitat_action);
 }
 
 VideosWindow::~VideosWindow() {}

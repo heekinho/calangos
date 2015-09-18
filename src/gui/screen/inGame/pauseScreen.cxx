@@ -37,7 +37,7 @@ void PauseScreen::load(){
 
 	lb_jogo_pausado = new TextNode("lb_jogo_pausado");
 	lb_jogo_pausado->set_font(Simdunas::get_game_font());
-	lb_jogo_pausado->set_text("Jogo Pausado!");
+	lb_jogo_pausado->set_text(ConfigVariableString("msg-pauselabel","Jogo Pausado!"));
 	lb_jogo_pausado->set_align(TextNode::A_boxed_center);
 	lb_jogo_pausado->set_shadow(0.05, 0.05);
 	lb_jogo_pausado->set_shadow_color(0, 0, 0, 1);
@@ -50,10 +50,10 @@ void PauseScreen::load(){
 //	img_videos.set_scale(0.025);
 //	img_videos.set_pos(0.0, 0, 0.55);
 
-	default_button_config(btn_realizacoes, np_btn_realizacoes, "Realizações", LVecBase3f(0, 0, 0.15), realizacoes_action);
-	default_button_config(btn_videos, np_btn_videos, "Vídeos", LVecBase3f(0, 0, -0.05), videos_action);
+	default_button_config(btn_realizacoes, np_btn_realizacoes, ConfigVariableString("msg-realiza","Realizações"), LVecBase3f(0, 0, 0.15), realizacoes_action);
+	default_button_config(btn_videos, np_btn_videos, ConfigVariableString("msg-videos","Vídeos"), LVecBase3f(0, 0, -0.05), videos_action);
 
-	default_button_config(btn_controles, np_btn_controles, "Controles", LVecBase3f(0, 0, -0.25), controles_action);
+	default_button_config(btn_controles, np_btn_controles, ConfigVariableString("msg-controles","Controles"), LVecBase3f(0, 0, -0.25), controles_action);
 	//default_button_config(btn_indicadores, np_btn_indicadores, "Indicadores", LVecBase3f(0, 0, -0.45), indicadores_action);
 
 	//////construindo os botões dos videos
@@ -64,8 +64,8 @@ void PauseScreen::load(){
 //	default_button_config(btn_habitat, np_btn_habitat, "Habitat", LVecBase3f(0, 0, -0.45), habitat_action);
 	///////////////////////////////////////fim dos botões de vídeos
 
-	default_button_config(btn_continuar, np_btn_continuar, "Continuar", LVecBase3f(-0.55, 0, -0.9), continuar_action);
-	default_button_config(btn_sair, np_btn_sair, "Sair", LVecBase3f(0.4, 0, -0.9), sair_action);
+	default_button_config(btn_continuar, np_btn_continuar, ConfigVariableString("msg-continue","Continuar"), LVecBase3f(-0.55, 0, -0.9), continuar_action);
+	default_button_config(btn_sair, np_btn_sair, ConfigVariableString("msg-sair","Sair"), LVecBase3f(0.4, 0, -0.9), sair_action);
 }
 
 /*! Controla o evento de pause, tanto para pausar quanto para despausar. */
@@ -135,13 +135,13 @@ bool PauseScreen::is_stopped_time() {
 
 /*! Evento de click no botão "Realizações". Abre a janela de realizações. */
 void PauseScreen::realizacoes_action() {
-	wnd_realizacoes = new AchievementsWindow(get_root(), 1.5, 1.1, "Realizações", -0.8, -0.8);
+	wnd_realizacoes = new AchievementsWindow(get_root(), 1.5, 1.1, ConfigVariableString("msg-realiza","Realizações"), -0.8, -0.8);
 	wnd_realizacoes->set_pos_y(0);
 }
 
 /*! Evento de click no botão "Videos". Abre a janela de vídeos. */
 void PauseScreen::videos_action() {
-	wnd_videos = new VideosWindow(get_root(), manager, 2, 1.3, "Vídeos", -1, -0.8);
+	wnd_videos = new VideosWindow(get_root(), manager, 2, 1.3, ConfigVariableString("msg-videos","Vídeos"), -1, -0.8);
 }
 
 /*! Evento de click no botão "Continuar". Despausa o jogo e fecha a tela de pause. */
@@ -158,7 +158,7 @@ void PauseScreen::sair_action() {
 }
 
 void PauseScreen::controles_action() {
-	wnd_controles = new KeyInstructionsWindow(get_root(), 1.5, 1.1, "Controles", -1.2, -0.8);
+	wnd_controles = new KeyInstructionsWindow(get_root(), 1.5, 1.1, ConfigVariableString("msg-controles","Controles"), -1.2, -0.8);
 //	img_teclas = window->load_model(get_root(), "models/gui/teclas.png");
 //	img_teclas.set_scale(0.075, 0.001, 0.17);
 //	img_teclas.set_pos(0.0, 0.0, 0.0);

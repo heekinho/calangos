@@ -1,11 +1,12 @@
 /*
- *  startMenu.h
- *  Created on: 21/02/2011
- *  Author: heekinho
+ * languageOptionsScreen.h
+ *
+ *  Created on: 27/07/2015
+ *      Author: crystal
  */
 
-#ifndef STARTMENU_H
-#define STARTMENU_H
+#ifndef SRC_GUI_SCREEN_MENU_LANGUAGEOPTIONSSCREEN_H_
+#define SRC_GUI_SCREEN_MENU_LANGUAGEOPTIONSSCREEN_H_
 
 #include "screenManager.h"
 #include "screen.h"
@@ -29,13 +30,13 @@
  *	uma maneira mais genérica para este define, mas precisaría-se passar o nome
  *	da classe também (poluindo). */
 #define ACTION(mn) void mn(); \
-static void mn(const Event*, void* d){ ((PT(StartMenu))(StartMenu*)d)->mn(); }
+static void mn(const Event*, void* d){ ((PT(LanguageOptionsScreen))(LanguageOptionsScreen*)d)->mn(); }
 
 /*! Representa o primeiro menu presente no Jogo */
-class StartMenu : public Screen {
+class LanguageOptionsScreen : public Screen {
 public:
-	StartMenu(PT(ScreenManager) manager);
-	~StartMenu();
+	LanguageOptionsScreen(PT(ScreenManager) manager);
+	~LanguageOptionsScreen();
 
 	void load();
 	void show();
@@ -43,23 +44,17 @@ public:
 
 	NodePath get_np_options();
 	NodePath get_np_play();
+	static int get_esco();
 
 private:
+
 	NodePath np_lagarto;
 	AnimControlCollection anims;
 	NodePath np_logo;
 
-	/* Componentes do Menu */
-
-
-
-
-	PT(Button) btn_play; 			NodePath np_play;		 	ACTION(play_action);
-	PT(Button) btn_options; 		NodePath np_options;		ACTION(options_action);
-	PT(Button) btn_instructions; 	NodePath np_instructions;	ACTION(instructions_action);
-	PT(Button) btn_credits; 		NodePath np_credits;	 	ACTION(credits_action);
-	PT(Button) btn_exit; 			NodePath np_exit;		 	ACTION(exit_action);
-
+	PT(Button) btn_portugues; 			NodePath np_portugues;		 	ACTION(portugues_action);
+	PT(Button) btn_ingles; 				NodePath np_ingles;		 		ACTION(ingles_action);
+	PT(Button) btn_espanhol; 			NodePath np_espanhol;			ACTION(espanhol_action);
 
 
 };
@@ -67,3 +62,4 @@ private:
 #undef ACTION
 
 #endif
+

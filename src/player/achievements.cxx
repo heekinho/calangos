@@ -86,7 +86,9 @@ void Achievements::inc_lvl_senhor_mordida() {
 	lvl_senhor_mordida++;
 	stringstream lvl_senhor_mordida_str;
 	lvl_senhor_mordida_str<<lvl_sobrevivente;
-	NotificationManager::get_instance()->show_notification("Foi alcançado o nível " + lvl_senhor_mordida_str.str() + " da realização: Senhor Mordida Perfeita");
+	string msg1 = ConfigVariableString("msg-conquistap1", "Foi alcançado o nível ");
+	string msg2 = ConfigVariableString("msg-senhormordidap2"," da realização: Senhor Mordida Perfeita");
+	NotificationManager::get_instance()->show_notification(msg1 + " " + lvl_senhor_mordida_str.str() + msg2);
 }
 
 void Achievements::clear_bites() {
@@ -132,8 +134,9 @@ void Achievements::inc_lvl_sobrevivente() {
 		lvl_sobrevivente++;
 		stringstream lvl_sobrevivente_str;
 		lvl_sobrevivente_str<<lvl_sobrevivente;
-		string msg = "Foi alcançado o nível " + lvl_sobrevivente_str.str() + " da realização: O Sobrevivente";
-		NotificationManager::get_instance()->show_notification(msg);
+		string msg1 = ConfigVariableString("msg-conquistap1", "Foi alcançado o nível ");
+		string msg2	= ConfigVariableString("msg-survivalp2", " da realização: O Sobrevivente");
+		NotificationManager::get_instance()->show_notification(msg1 + " " + lvl_sobrevivente_str.str() + msg2);
 	}
 	adulto = 0;
 	//Last_Achievement_Message * lam;
@@ -231,7 +234,9 @@ void Achievements::inc_lvl_reprodutor() {
 	lvl_reprodutor++;
 	stringstream lvl_reprodutor_str;
 	lvl_reprodutor_str<<lvl_sobrevivente;
-	NotificationManager::get_instance()->show_notification("Foi alcançado o nível " + lvl_reprodutor_str.str() + " da realização: O Reprodutor");
+	string msg1 = ConfigVariableString("msg-conquistap1", "Foi alcançado o nível ");
+	string msg2 = ConfigVariableString("msg-reprodutorp2", " da realização: O Reprodutor");
+	NotificationManager::get_instance()->show_notification(msg1 + " " + lvl_reprodutor_str.str() + msg2);
 }
 
 // verifica a espécie do alimento ingerido
@@ -263,7 +268,9 @@ void Achievements::inc_lvl_bom_de_boca() {
 	lvl_bom_de_boca++;
 	stringstream lvl_bom_de_boca_str;
 	lvl_bom_de_boca_str<<lvl_bom_de_boca;
-	NotificationManager::get_instance()->show_notification("Foi alcançado o nível " + lvl_bom_de_boca_str.str() + " da realização: O Bom de Boca");
+	string msg1 = ConfigVariableString("msg-conquistap1", "Foi alcançado o nível ");
+	string msg2 = ConfigVariableString("msg-bomdebocap2", " da realização: O Bom de Boca");
+	NotificationManager::get_instance()->show_notification(msg1 + " " + lvl_bom_de_boca_str.str() + msg2);
 }
 
 void Achievements::check_temperature(double temperature) {
@@ -309,7 +316,9 @@ void Achievements::inc_lvl_temperatura() {
 	lvl_temperatura++;
 	stringstream lvl_temperatura_str;
 	lvl_temperatura_str<<lvl_temperatura;
-	NotificationManager::get_instance()->show_notification("Foi alcançado o nível " + lvl_temperatura_str.str() + " da realização: Temperatura");
+	string msg1 = ConfigVariableString("msg-conquistap1", "Foi alcançado o nível ");
+	string msg2 = ConfigVariableString("msg-temperaturap2", " da realização: Temperatura");
+	NotificationManager::get_instance()->show_notification(msg1 + " " + lvl_temperatura_str.str() + msg2);
 }
 
 void Achievements::check_hydration(double hydration) {
@@ -357,7 +366,9 @@ void Achievements::inc_lvl_hidratacao() {
 	lvl_hidratacao++;
 	stringstream lvl_hidratacao_str;
 	lvl_hidratacao_str<<lvl_hidratacao;
-	NotificationManager::get_instance()->show_notification("Foi alcançado o nível " + lvl_hidratacao_str.str() + " da realização: Hidratação");
+	string msg1 = ConfigVariableString("msg-conquistap1", "Foi alcançado o nível ");
+	string msg2 = ConfigVariableString("msg-hidratacaop2", " da realização: Hidratação");
+	NotificationManager::get_instance()->show_notification(msg1 + " " + lvl_hidratacao_str.str() + msg2);
 }
 
 void Achievements::check_energy(double energy) {
@@ -405,7 +416,9 @@ void Achievements::inc_lvl_energia() {
 	lvl_energia++;
 	stringstream lvl_energia_str;
 	lvl_energia_str<<lvl_energia;
-	NotificationManager::get_instance()->show_notification("Foi alcançado o nível " + lvl_energia_str.str() + " da realização: Energia");
+	string msg1 = ConfigVariableString("msg-conquistap1", "Foi alcançado o nível ");
+	string msg2 = ConfigVariableString("msg-energiap2", " da realização: Energia");
+	NotificationManager::get_instance()->show_notification(msg1 + " " + lvl_energia_str.str() + msg2);
 }
 
 AsyncTask::DoneStatus Achievements::count_seconds_untouched(GenericAsyncTask* task, void* data) {
@@ -435,7 +448,9 @@ void Achievements::inc_lvl_intocavel() {
 	lvl_intocavel++;
 	stringstream lvl_intocavel_str;
 	lvl_intocavel_str<<lvl_intocavel;
-	NotificationManager::get_instance()->show_notification("Foi alcançado o nível " + lvl_intocavel_str.str() + " da realização: O Intocável");
+	string msg1 = ConfigVariableString("msg-conquistap1", "Foi alcançado o nível ");
+	string msg2 = ConfigVariableString("msg-intocavelp2", " da realização: O Intocável");
+	NotificationManager::get_instance()->show_notification(msg1 + " " + lvl_intocavel_str.str() + msg2);
 }
 
 void Achievements::inc_guerreiro() {
@@ -460,5 +475,7 @@ void Achievements::inc_lvl_guerreiro() {
 	lvl_guerreiro++;
 	stringstream lvl_guerreiro_str;
 	lvl_guerreiro_str<<lvl_guerreiro;
-	NotificationManager::get_instance()->show_notification("Foi alcançado o nível " + lvl_guerreiro_str.str() + " da realização: Guerreiro");
+	string msg1 = ConfigVariableString("msg-conquistap1", "Foi alcançado o nível ");
+	string msg2 = ConfigVariableString("msg-guerreirop2", " da realização: Guerreiro");
+	NotificationManager::get_instance()->show_notification(msg1 + " " +lvl_guerreiro_str.str() + msg2);
 }

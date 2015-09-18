@@ -23,7 +23,7 @@ InstructionsScreen::~InstructionsScreen() {
 
 void InstructionsScreen::load(){
 	lb_titulo = new TextNode("txt_titulo");
-	lb_titulo->set_text("Instruções");
+	lb_titulo->set_text(ConfigVariableString("msg-ins", "Instruções"));
 	lb_titulo->set_font(manager->get_default_font());
 	np_lb_titulo = get_root().attach_new_node(lb_titulo);
 	np_lb_titulo.set_scale(0.2);
@@ -31,8 +31,8 @@ void InstructionsScreen::load(){
 	np_lb_titulo.set_z(0.7);
 	np_lb_titulo.set_color(0.87, 0.72, 0.52);
 
-	default_button_config(btn_controles, np_btn_controles, "Controles", LVecBase3f(0, 0, 0.1), controles_action);
-	default_button_config(btn_indicadores, np_btn_indicadores, "Indicadores", LVecBase3f(0, 0, -0.1), indicadores_action);
+	default_button_config(btn_controles, np_btn_controles, ConfigVariableString("msg-cont", "Controles"), LVecBase3f(0, 0, 0.1), controles_action);
+	default_button_config(btn_indicadores, np_btn_indicadores, ConfigVariableString("msg-indi", "Indicadores"), LVecBase3f(0, 0, -0.1), indicadores_action);
 	configure_default_back_button(((CalangosMenuManager*)(manager.p()))->get_main_menu());
 }
 

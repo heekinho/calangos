@@ -114,6 +114,8 @@ private:
     float peso_lagarto_noite;
     float peso_lagarto_sombra;
 
+   PT(TextNode) lb_tela_cores;	NodePath np_lb_tela_cores;
+
 	static   PNMImage textura_original;
 	static   PNMImage mascara;
 	static   PNMImage textura_personalizada;
@@ -122,7 +124,7 @@ private:
     nod_bot_padrao_textura_1,nod_bot_padrao_textura_2,nod_bot_padrao_textura_3,nod_bot_padrao_textura_4,
     botao_blue_np, botao_white_np, botao_green2_np, botao_yellow_np, botao_brown_np, botao_black_np,
     botao2_red_np, botao2_green_np, botao2_blue_np, botao2_white_np, botao2_green2_np, botao2_yellow_np, botao2_brown_np,
-    botao2_black_np, title_color,npJogar,
+    botao2_black_np, /*title_color,*/  npJogar,
     //NodePaths da terceira coluna da paleta de cores
     botao3_red_np, botao3_green_np, botao3_blue_np, botao3_white_np, botao3_green2_np, botao3_yellow_np, botao3_brown_np,
     botao3_black_np;

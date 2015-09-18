@@ -152,56 +152,56 @@ void CharacterEditor::configure_controls(){
 	/* Tamanho do corpo. Obtém o range de valores do tamanho do lagarto em centímetros */
 	min = PlayerProperties::min_body_size;
 	max = PlayerProperties::max_body_size;
-	body_size = make_entry_slider(entry, "Tamanho do corpo", text_generator, min, max, valign += offset, (max + min)*0.5, "cm");
+	body_size = make_entry_slider(entry, ConfigVariableString("msg-body", "Tamanho do Corpo"), text_generator, min, max, valign += offset, (max + min)*0.5, "cm");
 
 	/* Tamanho da cabeça em relação ao corpo */
 	min = PlayerProperties::min_head_size * 100;
 	max = PlayerProperties::max_head_size * 100;
-	head_size = make_entry_slider(entry, "Tamanho da cabeça", text_generator, min, max, valign += offset, 100, "%");
+	head_size = make_entry_slider(entry, ConfigVariableString("msg-head", "Tamanho da Cabeça"), text_generator, min, max, valign += offset, 100, "%");
 
 	/* Velocidade */
 	min = PlayerProperties::min_speed;
 	max = PlayerProperties::max_speed;
-	speed = make_entry_slider(entry, "Velocidade", text_generator, min, max, valign += offset, (max + min)*0.5, "cm/s");
+	speed = make_entry_slider(entry, ConfigVariableString("msg-velo", "Velocidade"), text_generator, min, max, valign += offset, (max + min)*0.5, "cm/s");
 
 	/* Temperatura Ideal */
 	min = PlayerProperties::min_ideal_temperature;
 	max = PlayerProperties::max_ideal_temperature;
-	ideal_temperature = make_entry_slider(entry, "Temperatura Ideal", text_generator, min, max, valign += offset, 38.0, "°C");
+	ideal_temperature = make_entry_slider(entry, ConfigVariableString("msg-temp", "Temperatura Ideal"), text_generator, min, max, valign += offset, 38.0, "°C");
 
 	/* Distribuição de lagartos */
 	min = PlayerProperties::min_lizard_density;
 	max = PlayerProperties::max_lizard_density;
-	density = make_entry_slider(entry, "Densidade de Lagartos", text_generator, min, max, valign += offset);
-	aggregation = make_entry_slider(entry, "Agregação dos Lagartos", text_generator, 0, 10, valign += offset);
+	density = make_entry_slider(entry, ConfigVariableString("msg-dens", "Densidade de Lagartos"), text_generator, min, max, valign += offset);
+	aggregation = make_entry_slider(entry, ConfigVariableString("msg-agre", "Agregação dos Lagartos"), text_generator, 0, 10, valign += offset);
 
 	/* Controle de dieta */
 	diet_control = new DietComponent();
-	ant_diet = make_diet_entry(0, diet_control, entry, "(Dieta) Formigas", text_generator, valign += offset, 33, "%");
-	plant_diet = make_diet_entry(1, diet_control, entry, "(Dieta) Plantas", text_generator, valign += offset, 33, "%");
-	others_diet = make_diet_entry(2, diet_control, entry, "(Dieta) Outros", text_generator, valign += offset, 34, "%");
+	ant_diet = make_diet_entry(0, diet_control, entry, ConfigVariableString("msg-form", "(Dieta) Formigas"), text_generator, valign += offset, 33, "%");
+	plant_diet = make_diet_entry(1, diet_control, entry, ConfigVariableString("msg-plan", "(Dieta) Plantas"), text_generator, valign += offset, 33, "%");
+	others_diet = make_diet_entry(2, diet_control, entry, ConfigVariableString("msg-outr", "(Dieta) Outros"), text_generator, valign += offset, 34, "%");
 
 
 	/* Ao invés de toggle deveria usar um radio button ai embaixo */
 	/* Capacidade de se enterrar */
-	lbl_bury = new Label("Bury Label", "Capacidade de se enterrar", manager->get_default_font(),
+	lbl_bury = new Label("Bury Label", ConfigVariableString("msg-ente", "Capacidade de se Enterrar"), manager->get_default_font(),
 			entry, 0.06, LVector3f(-1.233, 0, valign += offset));
 
-	btn_bury = new ToggleButton("Bury Button", "(Sim)", "(Não)", true, entry, valign,
+	btn_bury = new ToggleButton("Bury Button", ConfigVariableString("msg-opt1", "(Sim)"), ConfigVariableString("msg-opt2", "(Não)"), true, entry, valign,
 			manager->get_default_font(), 0.06);
 	btn_bury->np().set_x(-0.34);
 
 	/* Ciclo circadiano */
-	lbl_circadian = new Label("Circadian Label", "Ciclo Circadiano", manager->get_default_font(),
+	lbl_circadian = new Label("Circadian Label", ConfigVariableString("msg-cicl", "Ciclo Circadiano"), manager->get_default_font(),
 			entry, 0.06, LVector3f(-1.233, 0, valign += offset));
 
-	btn_circadian = new ToggleButton("Circadian Button", "(Dia)", "(Noite)", true, entry, valign,
+	btn_circadian = new ToggleButton("Circadian Button", ConfigVariableString("msg-opt3", "(Dia)"), ConfigVariableString("msg-opt4", "(Noite)"), true, entry, valign,
 			manager->get_default_font(), 0.06);
 	btn_circadian->np().set_x(-0.34);
 
 
 	/* Botão: Configurar Textura */
-	btn_pattern = new Button("Lizard Pattern Button", "Avançar >>", manager->get_default_font());
+	btn_pattern = new Button("Lizard Pattern Button", ConfigVariableString("msg-avan", "Avançar >>"), manager->get_default_font());
 	np_btn_pattern = get_root().attach_new_node(btn_pattern);
 //	np_btn_pattern.set_scale(1); //np_btn_pattern.set_sz(-np_btn_pattern.get_sz());
 	np_btn_pattern.set_pos(0.7, 0, -0.9);

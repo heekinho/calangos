@@ -80,12 +80,45 @@ void editorTextureScreen::hide_tela_personalizado(){
     marcador_camada1.remove_node();
     marcador_camada2.remove_node();
     marcador_camada3.remove_node();
-    hide_paleta_cores();
-    title_color.remove_node();
+    np_lb_tela_cores.remove_node();
+    //title_color.remove_node();
     nod_bot_padrao_textura_1.remove_node();
     nod_bot_padrao_textura_2.remove_node();
     nod_bot_padrao_textura_3.remove_node();
     nod_bot_padrao_textura_4.remove_node();
+    //eu
+    if(!botao_red_np.is_empty()){
+           botao_red_np.remove_node();
+           botao_blue_np.remove_node();
+           botao_green_np.remove_node();
+           botao_yellow_np.remove_node();
+           botao_white_np.remove_node();
+           botao_black_np.remove_node();
+           botao_brown_np.remove_node();
+           botao_green2_np.remove_node();
+           }
+              if(!botao2_red_np.is_empty()){
+           botao2_red_np.remove_node();
+           botao2_blue_np.remove_node();
+           botao2_green_np.remove_node();
+           botao2_yellow_np.remove_node();
+           botao2_white_np.remove_node();
+           botao2_black_np.remove_node();
+           botao2_brown_np.remove_node();
+           botao2_green2_np.remove_node();
+           }
+              if(!botao3_red_np.is_empty()){
+           botao3_red_np.remove_node();
+           botao3_blue_np.remove_node();
+           botao3_green_np.remove_node();
+           botao3_yellow_np.remove_node();
+           botao3_white_np.remove_node();
+           botao3_black_np.remove_node();
+           botao3_brown_np.remove_node();
+           botao3_green2_np.remove_node();
+           }
+           //eu
+
 }
 
 //implementa método abstrato herdados da classe screen
@@ -125,7 +158,7 @@ void editorTextureScreen::unload(){
 void editorTextureScreen::show_tela_personalizar() {
      
 	    //botões jogar e voltar ao menu anterior
-	default_button_config(buttonJogar, npJogar, " Jogar ", LVecBase3f(0, 0, -0.8), jogo_action);
+	default_button_config(buttonJogar, npJogar, ConfigVariableString("msg-jogar1", " Jogar"), LVecBase3f(0, 0, -0.8), jogo_action);
 	npJogar.show();
      
 	configure_default_back_button(((CalangosMenuManager*) manager.p())->get_character_editor());
@@ -146,29 +179,35 @@ void editorTextureScreen::show_tela_personalizar() {
         marcador_camada3.hide();
 
     ///carregando titulo do editor de cores
-        title_color = window->load_model(aspect2d, "models/buttons/editorcores");
-        title_color.set_scale(1, 2 ,0.4);
-        title_color.set_pos(0, 0, 0.8);
-        title_color.show();
-                
+        //title_color = window->load_model(aspect2d, "models/buttons/editorcores");
+        //title_color.set_scale(1, 2 ,0.4);
+        //title_color.set_pos(0, 0, 0.8);
+        //title_color.show();
+        lb_tela_cores = new TextNode("lb_tela_cores");
+        lb_tela_cores->set_text(ConfigVariableString("msg-telacores", "Editor de Cores"));
+        lb_tela_cores->set_font(manager->get_default_font());
+        np_lb_tela_cores = aspect2d.attach_new_node(lb_tela_cores);
+        np_lb_tela_cores.set_pos(-0.5, 0, 0.8);
+        np_lb_tela_cores.set_scale(0.2);
+        np_lb_tela_cores.set_color(1, 1, 1, 1, 0);
 
 
-	default_button_config(botao_padrao_textura_1, nod_bot_padrao_textura_1, "Textura 1", -0.9, set_textura1);
+	default_button_config(botao_padrao_textura_1, nod_bot_padrao_textura_1, ConfigVariableString("msg-textura1", "Textura 1"), -0.9, set_textura1);
 	nod_bot_padrao_textura_1.set_scale(0.8, 1.0, 0.8);
         nod_bot_padrao_textura_1.set_pos(-0.8, 0.0, 0.6);
 	nod_bot_padrao_textura_1.set_alpha_scale(0.5);
 
-	default_button_config(botao_padrao_textura_2, nod_bot_padrao_textura_2, "Textura 2", -0.9, set_textura2);
+	default_button_config(botao_padrao_textura_2, nod_bot_padrao_textura_2, ConfigVariableString("msg-textura2", "Textura 2"), -0.9, set_textura2);
 	nod_bot_padrao_textura_2.set_scale(0.8, 1.0, 0.8);
         nod_bot_padrao_textura_2.set_pos(-0.2, 0.0, 0.6);
 	nod_bot_padrao_textura_2.set_alpha_scale(0.5);
 
-	default_button_config(botao_padrao_textura_3, nod_bot_padrao_textura_3, "Textura 3", -0.9, set_textura3);
+	default_button_config(botao_padrao_textura_3, nod_bot_padrao_textura_3, ConfigVariableString("msg-textura3", "Textura 3"), -0.9, set_textura3);
 	nod_bot_padrao_textura_3.set_scale(0.8, 1.0, 0.8);
         nod_bot_padrao_textura_3.set_pos(0.4, 0.0, 0.6);
 	nod_bot_padrao_textura_3.set_alpha_scale(0.5);
 
-	default_button_config(botao_padrao_textura_4, nod_bot_padrao_textura_4, "Textura 4", -0.9, set_textura4);
+	default_button_config(botao_padrao_textura_4, nod_bot_padrao_textura_4, ConfigVariableString("msg-textura3", "Textura 3"), -0.9, set_textura4);
 	nod_bot_padrao_textura_4.set_scale(0.8, 1.0, 0.8);
         nod_bot_padrao_textura_4.set_pos(1.0, 0.0, 0.6);
 	nod_bot_padrao_textura_4.set_alpha_scale(0.5);

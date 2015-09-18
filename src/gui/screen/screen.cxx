@@ -98,5 +98,5 @@ void Screen::back_action(const Event*, void* data){
  *  Força a passagem do método para evitar esquecer de setar previous */
 void Screen::configure_default_back_button(PT(Screen) previous){
 	set_previous_screen(previous);
-	default_button_config(btn_back, np_btn_back, "<< Voltar", LVecBase3f(-0.9, 0, -0.9), back_action);
+	default_button_config(btn_back, np_btn_back, ConfigVariableString("msg-volt", "<< Voltar"), LVecBase3f(-0.9, 0, -0.9), back_action);
 }

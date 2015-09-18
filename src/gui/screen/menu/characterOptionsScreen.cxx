@@ -25,7 +25,7 @@ void CharacterOptionsScreen::load() {
 
 	// nivel de dificuldade
 	lb_nivel_dificuldade = new TextNode("lb_nivel_dificuldade");
-	lb_nivel_dificuldade->set_text("Nível de Dificuldade");
+	lb_nivel_dificuldade->set_text(ConfigVariableString("msg-esco1", "Nível de Dificuldade"));
 	lb_nivel_dificuldade->set_font(manager->get_default_font());
 	np_lb_nivel_dificuldade = get_root().attach_new_node(lb_nivel_dificuldade);
 	np_lb_nivel_dificuldade.set_pos(-1.2, 0.0, 0.75);
@@ -33,20 +33,20 @@ void CharacterOptionsScreen::load() {
 	np_lb_nivel_dificuldade.set_color(1, 1, 1, 1, 0);
 
 	lb_idade = new TextNode("lb_idade");
-	lb_idade->set_text("Idade");
+	lb_idade->set_text(ConfigVariableString("msg-esco2", "Idade"));
 	lb_idade->set_font(manager->get_default_font());
 	np_lb_idade = get_root().attach_new_node(lb_idade);
 	np_lb_idade.set_pos(0.3, 0.0, 0.75);
 	np_lb_idade.set_scale(0.13);
 	np_lb_idade.set_color(1, 1, 1, 1, 0);
 
-	default_button_config(btn_jovem, np_btn_jovem, "Jovem", LVecBase3f(0.55, 0, 0.55), jovem_action);
-	default_button_config(btn_adulto, np_btn_adulto, "Adulto", LVecBase3f(0.55, 0, 0.4), adulto_action);
+	default_button_config(btn_jovem, np_btn_jovem, ConfigVariableString("msg-jovem", "Jovem"), LVecBase3f(0.55, 0, 0.55), jovem_action);
+	default_button_config(btn_adulto, np_btn_adulto, ConfigVariableString("msg-adulto", "Adulto"), LVecBase3f(0.55, 0, 0.4), adulto_action);
 
 	// botões para escolha do nível de dificuldade
-	default_button_config(btn_nivel_facil, np_btn_nivel_facil, "Fácil", LVecBase3f(-1.03, 0, 0.55), nivel_facil_action);
-	default_button_config(btn_nivel_medio, np_btn_nivel_medio, "Médio", LVecBase3f(-1.0, 0, 0.4), nivel_medio_action);
-	default_button_config(btn_nivel_dificil, np_btn_nivel_dificil, "Difícil", LVecBase3f(-1.0, 0, 0.25), nivel_dificil_action);
+	default_button_config(btn_nivel_facil, np_btn_nivel_facil, ConfigVariableString("msg-facil", "Fácil"), LVecBase3f(-1.03, 0, 0.55), nivel_facil_action);
+	default_button_config(btn_nivel_medio, np_btn_nivel_medio, ConfigVariableString("msg-medio", "Médio"), LVecBase3f(-1.0, 0, 0.4), nivel_medio_action);
+	default_button_config(btn_nivel_dificil, np_btn_nivel_dificil, ConfigVariableString("msg-dificil", "Difícil"), LVecBase3f(-1.0, 0, 0.25), nivel_dificil_action);
 
     ////////////////////////Tropidurus////////////////////
     tropidurus = window->load_model(render, "models/lizards/tropidurus/male/model");
@@ -90,11 +90,11 @@ void CharacterOptionsScreen::load() {
 	// Mostrando botão voltar
     configure_default_back_button(((CalangosMenuManager*)(manager.p()))->get_level_selection_screen());
 
-    default_button_config(btn_avancar, np_btn_avancar, "Avançar >>", LVecBase3f(0.7, 0, -0.9), jogar_action);
+    default_button_config(btn_avancar, np_btn_avancar, ConfigVariableString("msg-avan", "Avançar >>"), LVecBase3f(0.7, 0, -0.9), jogar_action);
 
 	///////opção de configuração de Escolha da Espécie/////////////
 	lb_escolha_especie = new TextNode("lb_escolha_especie");
-	lb_escolha_especie->set_text("Escolha da Espécie");
+	lb_escolha_especie->set_text(ConfigVariableString("msg-esco3", "Escolha da Espécie"));
 	lb_escolha_especie->set_font(manager->get_default_font());
 	np_lb_escolha_especie = get_root().attach_new_node(lb_escolha_especie);
 	np_lb_escolha_especie.set_pos(-1.2, 0.0, 0.03);

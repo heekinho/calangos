@@ -26,6 +26,8 @@
 
 
 
+
+
 #define ABS(a)		(((a) < 0) ? -(a) : (a))
 
 #define LIMITE_SUPERIOR_TEMP_LAGARTO 45.0
@@ -317,6 +319,7 @@ GuiManager::GuiManager() {
 	make_frame();
 
 	cont_relogio = (TimeControl::get_instance()->get_hora())*270/6;
+
 
 	game_status_bar = new GameStatusBar(menu_frame_np);
 

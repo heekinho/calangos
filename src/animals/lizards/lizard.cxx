@@ -116,8 +116,26 @@ void Lizard::load_lizards(){
 		lizard->bind_anims(lizard->node());
 	}
 
-	float female_percent = 0.5;
-	float male_percent = 0.2;
+	int difficulty_level = Session::get_instance()->get_difficulty_level();
+
+	double female_percent;
+	double male_percent;
+
+	if(difficulty_level == 1){
+	    female_percent = ConfigVariableDouble("calangos-density-female-lizards-easy", 0.5);
+		male_percent = ConfigVariableDouble("calangos-density-male-lizards-easy", 0.4);
+
+	}
+	else if(difficulty_level == 2){
+		female_percent = ConfigVariableDouble("calangos-density-female-lizards-medium", 0.5);
+		male_percent = ConfigVariableDouble("calangos-density-male-lizards-medium", 0.4);
+
+	}
+	else if(difficulty_level == 3){
+		female_percent = ConfigVariableDouble("calangos-density-female-lizards-hard", 0.5);
+		male_percent = ConfigVariableDouble("calangos-density-male-lizards-hard", 0.4);
+
+	}
 
 	cout << "\n\nDensidade de lagartos: " << lizard_density;
 	for(int i = 0; i < lizard_density; i++){

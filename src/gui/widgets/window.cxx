@@ -44,7 +44,7 @@ Window::Window(NodePath parent, float width, float height, string title, float p
 	np_header.set_pos((width / 2.0) - (header->get_width() * np_header.get_sx() / 2.0), 0, (header->get_height() * np_header.get_sz() / 2) - 0.015);
 	np_header.set_color(0, 0, 0, 1);
 
-	btn_close = new Button("btn_close", "Fechar", FontPool::load_font("models/gui/fonts/suplexcomic-large"));
+	btn_close = new Button("btn_close", ConfigVariableString("msg-fechar", "Fechar"), FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	event_handler->add_hook(btn_close->get_click_event(MouseButton::one()), close_action, this);
 	np_btn_close = np_frame.attach_new_node(btn_close);
 	np_btn_close.set_scale(0.6);

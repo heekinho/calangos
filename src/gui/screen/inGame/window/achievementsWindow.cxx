@@ -14,7 +14,7 @@
  */
 AchievementsWindow::AchievementsWindow(NodePath parent, float width, float height, string title, float pos_x, float pos_y) : Window(parent, width, height, title, pos_x, pos_y) {
 	lb_andamento = new TextNode("lb_andamento");
-	lb_andamento->set_text("ANDAMENTO");
+	lb_andamento->set_text(ConfigVariableString("msg-andamento","ANDAMENTO"));
 	//lb_andamento->set_font(FontPool::load_font("models/gui/fonts/suplexcomic-large"));
 	np_lb_andamento = np_frame.attach_new_node(lb_andamento);
 	np_lb_andamento.set_scale(0.05);
@@ -22,7 +22,7 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	np_lb_andamento.set_color(0, 0, 0, 1);
 
 	// Achievement: Senhor mordida perfeita
-	lb_senhor_mordida = new Text("lb_senhor_mordida", "- Senhor mordida perfeita", np_frame, TextNode::get_default_font(), 0.05);
+	lb_senhor_mordida = new Text("lb_senhor_mordida", ConfigVariableString("msg-senhormordida","- Senhor mordida perfeita"), np_frame, TextNode::get_default_font(), 0.05);
 	lb_senhor_mordida->set_pos(0.06, 0, 0.95);
 
 	string white = "white_star";
@@ -32,24 +32,24 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	switch (lvl_senhor_mordida) {
 		case 0:
 			create_senhor_mordida_stars(white, white, white);
-			hint_senhor_mordida_atual = new Hint(np_frame, lb_senhor_mordida, lb_senhor_mordida->get_np(), "hint_senhor_mordida", "Coma 10 vezes sem errar a mordida");
+			hint_senhor_mordida_atual = new Hint(np_frame, lb_senhor_mordida, lb_senhor_mordida->get_np(), "hint_senhor_mordida", ConfigVariableString("msg-coma10", "Coma 10 vezes sem errar a mordida"));
 			break;
 		case 1:
 			create_senhor_mordida_stars(yellow, white, white);
-			hint_senhor_mordida_atual = new Hint(np_frame, lb_senhor_mordida, lb_senhor_mordida->get_np(), "hint_senhor_mordida", "Coma 25 vezes sem errar a mordida");
+			hint_senhor_mordida_atual = new Hint(np_frame, lb_senhor_mordida, lb_senhor_mordida->get_np(), "hint_senhor_mordida", ConfigVariableString("msg-coma25", "Coma 25 vezes sem errar a mordida"));
 			break;
 		case 2:
 			create_senhor_mordida_stars(yellow, yellow, white);
-			hint_senhor_mordida_atual = new Hint(np_frame, lb_senhor_mordida, lb_senhor_mordida->get_np(), "hint_senhor_mordida", "Coma 50 vezes sem errar a mordida");
+			hint_senhor_mordida_atual = new Hint(np_frame, lb_senhor_mordida, lb_senhor_mordida->get_np(), "hint_senhor_mordida", ConfigVariableString("msg-coma50", "Coma 50 vezes sem errar a mordida"));
 			break;
 		default:
 			create_senhor_mordida_stars(yellow, yellow, yellow);
-			hint_senhor_mordida_atual = new Hint(np_frame, lb_senhor_mordida, lb_senhor_mordida->get_np(), "hint_senhor_mordida", "Coma 50 vezes sem errar a mordida");
+			hint_senhor_mordida_atual = new Hint(np_frame, lb_senhor_mordida, lb_senhor_mordida->get_np(), "hint_senhor_mordida", ConfigVariableString("msg-coma50", "Coma 50 vezes sem errar a mordida"));
 	}
 
-	hint_senhor_mordida_1 = new Hint(np_frame, img_senhor_mordida_star_1, "hint_senhor_mordida", "Coma 10 vezes sem errar a mordida");
-	hint_senhor_mordida_2 = new Hint(np_frame, img_senhor_mordida_star_2, "hint_senhor_mordida", "Coma 25 vezes sem errar a mordida");
-	hint_senhor_mordida_3 = new Hint(np_frame, img_senhor_mordida_star_3, "hint_senhor_mordida", "Coma 50 vezes sem errar a mordida");
+	hint_senhor_mordida_1 = new Hint(np_frame, img_senhor_mordida_star_1, "hint_senhor_mordida", ConfigVariableString("msg-coma10", "Coma 10 vezes sem errar a mordida"));
+	hint_senhor_mordida_2 = new Hint(np_frame, img_senhor_mordida_star_2, "hint_senhor_mordida", ConfigVariableString("msg-coma25", "Coma 25 vezes sem errar a mordida"));
+	hint_senhor_mordida_3 = new Hint(np_frame, img_senhor_mordida_star_3, "hint_senhor_mordida", ConfigVariableString("msg-coma50", "Coma 50 vezes sem errar a mordida"));
 
 	lb_senhor_mordida_xnum = new TextNode("lb_senhor_mordida_xnum");
 	stringstream senhor_mordida_adicionais;
@@ -85,31 +85,31 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	// FIM DO ACHIEVEMENT
 
 	// ACHIEVEMENT: O bom de boca
-	lb_bom_de_boca = new Text("lb_bom_de_boca", "- O bom de boca", np_frame, TextNode::get_default_font(), 0.05);
+	lb_bom_de_boca = new Text("lb_bom_de_boca", ConfigVariableString("msg-obomdeboca", "- O bom de boca"), np_frame, TextNode::get_default_font(), 0.05);
 	lb_bom_de_boca->set_pos(0.06, 0, 0.85);
 
 	int lvl_bom_de_boca = player->get_achievements()->get_lvl_bom_de_boca();
 	switch (lvl_bom_de_boca) {
 		case 0:
 			create_bom_de_boca_stars(white, white, white);
-			hint_bom_de_boca_atual = new Hint(np_frame, lb_bom_de_boca, lb_bom_de_boca->get_np(), "hint_bom_de_boca", "Coma 4 espécies diferentes de insetos ou plantas.");
+			hint_bom_de_boca_atual = new Hint(np_frame, lb_bom_de_boca, lb_bom_de_boca->get_np(), "hint_bom_de_boca", ConfigVariableString("msg-coma4dife", "Coma 4 espécies diferentes de insetos ou plantas."));
 			break;
 		case 1:
 			create_bom_de_boca_stars(yellow, white, white);
-			hint_bom_de_boca_atual = new Hint(np_frame, lb_bom_de_boca, lb_bom_de_boca->get_np(), "hint_bom_de_boca", "Coma mais 5 espécies diferentes de insetos ou plantas.");
+			hint_bom_de_boca_atual = new Hint(np_frame, lb_bom_de_boca, lb_bom_de_boca->get_np(), "hint_bom_de_boca", ConfigVariableString("msg-coma5dife", "Coma mais 5 espécies diferentes de insetos ou plantas."));
 			break;
 		case 2:
 			create_bom_de_boca_stars(yellow, yellow, white);
-			hint_bom_de_boca_atual = new Hint(np_frame, lb_bom_de_boca, lb_bom_de_boca->get_np(), "hint_bom_de_boca", "Coma mais 5 espécies diferentes de insetos ou plantas.");
+			hint_bom_de_boca_atual = new Hint(np_frame, lb_bom_de_boca, lb_bom_de_boca->get_np(), "hint_bom_de_boca", ConfigVariableString("msg-coma5dife", "Coma mais 5 espécies diferentes de insetos ou plantas."));
 			break;
 		default:
 			create_bom_de_boca_stars(yellow, yellow, yellow);
-			hint_bom_de_boca_atual = new Hint(np_frame, lb_bom_de_boca, lb_bom_de_boca->get_np(), "hint_bom_de_boca", "Coma mais 5 espécies diferentes de insetos ou plantas.");
+			hint_bom_de_boca_atual = new Hint(np_frame, lb_bom_de_boca, lb_bom_de_boca->get_np(), "hint_bom_de_boca", ConfigVariableString("msg-coma5dif", "Coma mais 5 espécies diferentes de insetos ou plantas."));
 	}
 
-	hint_bom_de_boca_1 = new Hint(np_frame, img_bom_de_boca_star_1, "hint_bom_de_boca", "Ter comido 4 espécies diferentes de insetos ou plantas");
-	hint_bom_de_boca_2 = new Hint(np_frame, img_bom_de_boca_star_2, "hint_bom_de_boca", "Ter comido 9 espécies diferentes de insetos ou plantas");
-	hint_bom_de_boca_3 = new Hint(np_frame, img_bom_de_boca_star_3, "hint_bom_de_boca", "Ter comido de todas as 14 espécies diferentes de insetos ou plantas");
+	hint_bom_de_boca_1 = new Hint(np_frame, img_bom_de_boca_star_1, "hint_bom_de_boca", ConfigVariableString("msg-tercomido4", "Ter comido 4 espécies diferentes de insetos ou plantas"));
+	hint_bom_de_boca_2 = new Hint(np_frame, img_bom_de_boca_star_2, "hint_bom_de_boca", ConfigVariableString("msg-tercomido9", "Ter comido 9 espécies diferentes de insetos ou plantas"));
+	hint_bom_de_boca_3 = new Hint(np_frame, img_bom_de_boca_star_3, "hint_bom_de_boca", ConfigVariableString("msg-tercomido14", "Ter comido de todas as 14 espécies diferentes de insetos ou plantas"));
 
 	lb_bom_de_boca_xnum = new TextNode("lb_bom_de_boca_xnum");
 	stringstream bom_de_boca_adicionais;
@@ -143,31 +143,31 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	// FIM DO ACHIEVEMENT
 
 	// ACHIEVEMENT: Sobrevivente
-	lb_sobrevivente = new Text("lb_sobrevivente", "- Sobrevivente", np_frame, TextNode::get_default_font(), 0.05);
+	lb_sobrevivente = new Text("lb_sobrevivente", ConfigVariableString("msg-sobrevivente", "- Sobrevivente"), np_frame, TextNode::get_default_font(), 0.05);
 	lb_sobrevivente->set_pos(0.06, 0, 0.75);
 
 	int lvl_sobrevivente = player->get_achievements()->get_lvl_sobrevivente();
 	switch (lvl_sobrevivente) {
 		case 0:
 			create_sobrevivente_stars(white, white, white);
-			hint_sobrevivente_atual = new Hint(np_frame, lb_sobrevivente, lb_sobrevivente->get_np(), "hint_sobrevivente", "Sobreviva por 4 meses.");
+			hint_sobrevivente_atual = new Hint(np_frame, lb_sobrevivente, lb_sobrevivente->get_np(), "hint_sobrevivente", ConfigVariableString("msg-sobreviva4", "Sobreviva por 4 meses."));
 			break;
 		case 1:
 			create_sobrevivente_stars(yellow, white, white);
-			hint_sobrevivente_atual = new Hint(np_frame, lb_sobrevivente, lb_sobrevivente->get_np(), "hint_sobrevivente", "Sobreviva por mais 7 meses.");
+			hint_sobrevivente_atual = new Hint(np_frame, lb_sobrevivente, lb_sobrevivente->get_np(), "hint_sobrevivente", ConfigVariableString("msg-sobreviva7", "Sobreviva por mais 7 meses."));
 			break;
 		case 2:
 			create_sobrevivente_stars(yellow, yellow, white);
-			hint_sobrevivente_atual = new Hint(np_frame, lb_sobrevivente, lb_sobrevivente->get_np(), "hint_sobrevivente", "Sobreviva por mais 11 meses");
+			hint_sobrevivente_atual = new Hint(np_frame, lb_sobrevivente, lb_sobrevivente->get_np(), "hint_sobrevivente", ConfigVariableString("msg-sobreviva11", "Sobreviva por mais 11 meses"));
 			break;
 		default:
 			create_sobrevivente_stars(yellow, yellow, yellow);
-			hint_sobrevivente_atual = new Hint(np_frame, lb_sobrevivente, lb_sobrevivente->get_np(), "hint_sobrevivente", "Sobreviva por mais 11 meses");
+			hint_sobrevivente_atual = new Hint(np_frame, lb_sobrevivente, lb_sobrevivente->get_np(), "hint_sobrevivente", ConfigVariableString("msg-sobreviva11", "Sobreviva por mais 11 meses"));
 	}
 
-	hint_sobrevivente_1 = new Hint(np_frame, img_sobrevivente_star_1, "hint_sobrevivente", "Ter sobrevivido por 4 meses");
-	hint_sobrevivente_2 = new Hint(np_frame, img_sobrevivente_star_2, "hint_sobrevivente", "Ter sobrevivido por 7 meses");
-	hint_sobrevivente_3 = new Hint(np_frame, img_sobrevivente_star_3, "hint_sobrevivente", "Ter sobrevivido por 11 meses");
+	hint_sobrevivente_1 = new Hint(np_frame, img_sobrevivente_star_1, "hint_sobrevivente", ConfigVariableString("msg-tersobrevivido4", "Ter sobrevivido por 4 meses"));
+	hint_sobrevivente_2 = new Hint(np_frame, img_sobrevivente_star_2, "hint_sobrevivente", ConfigVariableString("msg-tersobrevivido7", "Ter sobrevivido por 7 meses"));
+	hint_sobrevivente_3 = new Hint(np_frame, img_sobrevivente_star_3, "hint_sobrevivente", ConfigVariableString("msg-tersobrevivido11", "Ter sobrevivido por 11 meses"));
 
 	lb_sobrevivente_xnum = new TextNode("lb_sobrevivente_xnum");
 	stringstream sobrevivente_adicionais;
@@ -201,32 +201,32 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	// FIM DO ACHIEVEMENT
 
 	// ACHIEVEMENT: Reprodutor
-	lb_reprodutor = new Text("lb_reprodutor", "- Reprodutor", np_frame, TextNode::get_default_font(), 0.05);
-	lb_reprodutor->set_text("- Reprodutor");
+	lb_reprodutor = new Text("lb_reprodutor", ConfigVariableString("msg-reprodutor", "- Reprodutor"), np_frame, TextNode::get_default_font(), 0.05);
+	lb_reprodutor->set_text(ConfigVariableString("msg-reprodutor", "- Reprodutor"));
 	lb_reprodutor->set_pos(0.06, 0, 0.65);
 
 	int lvl_reprodutor = player->get_achievements()->get_lvl_reprodutor();
 	switch (lvl_reprodutor) {
 		case 0:
 			create_reprodutor_stars(white, white, white);
-			hint_reprodutor_atual = new Hint(np_frame, lb_reprodutor, lb_reprodutor->get_np(), "hint_reprodutor", "Reproduza 3 vezes.");
+			hint_reprodutor_atual = new Hint(np_frame, lb_reprodutor, lb_reprodutor->get_np(), "hint_reprodutor", ConfigVariableString("msg-reproduza3", "Reproduza 3 vezes."));
 			break;
 		case 1:
 			create_reprodutor_stars(yellow, white, white);
-			hint_reprodutor_atual = new Hint(np_frame, lb_reprodutor, lb_reprodutor->get_np(), "hint_reprodutor", "Reproduza 6 vezes.");
+			hint_reprodutor_atual = new Hint(np_frame, lb_reprodutor, lb_reprodutor->get_np(), "hint_reprodutor", ConfigVariableString("msg-reproduza6", "Reproduza 6 vezes."));
 			break;
 		case 2:
 			create_reprodutor_stars(yellow, yellow, white);
-			hint_reprodutor_atual = new Hint(np_frame, lb_reprodutor, lb_reprodutor->get_np(), "hint_reprodutor", "Reproduza 10 vezes.");
+			hint_reprodutor_atual = new Hint(np_frame, lb_reprodutor, lb_reprodutor->get_np(), "hint_reprodutor", ConfigVariableString("msg-reproduza10", "Reproduza 10 vezes."));
 			break;
 		default:
 			create_reprodutor_stars(yellow, yellow, yellow);
-			hint_reprodutor_atual = new Hint(np_frame, lb_reprodutor, lb_reprodutor->get_np(), "hint_reprodutor", "Reproduza 10 vezes.");
+			hint_reprodutor_atual = new Hint(np_frame, lb_reprodutor, lb_reprodutor->get_np(), "hint_reprodutor", ConfigVariableString("msg-reproduza10", "Reproduza 10 vezes."));
 	}
 
-	hint_reprodutor_1 = new Hint(np_frame, img_reprodutor_star_1, "hint_reprodutor", "Ter reproduzido 3 vezes");
-	hint_reprodutor_2 = new Hint(np_frame, img_reprodutor_star_2, "hint_reprodutor", "Ter reproduzido mais 6 vezes");
-	hint_reprodutor_3 = new Hint(np_frame, img_reprodutor_star_3, "hint_reprodutor", "Ter reproduzido mais 10 vezes");
+	hint_reprodutor_1 = new Hint(np_frame, img_reprodutor_star_1, "hint_reprodutor", ConfigVariableString("msg-terreproduzido3", "Ter reproduzido 3 vezes"));
+	hint_reprodutor_2 = new Hint(np_frame, img_reprodutor_star_2, "hint_reprodutor", ConfigVariableString("msg-terreproduzido6", "Ter reproduzido mais 6 vezes"));
+	hint_reprodutor_3 = new Hint(np_frame, img_reprodutor_star_3, "hint_reprodutor", ConfigVariableString("msg-terreproduzido10", "Ter reproduzido mais 10 vezes"));
 
 	lb_reprodutor_xnum = new TextNode("lb_reprodutor_xnum");
 	stringstream reprodutor_adicionais;
@@ -260,31 +260,31 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	// FIM DO ACHIEVEMENT REPRODUTOR
 
 	// ACHIEVEMENT: Temperatura
-	lb_temperatura = new Text("lb_temperatura", "- Temperatura", np_frame, TextNode::get_default_font(), 0.05);
+	lb_temperatura = new Text("lb_temperatura", ConfigVariableString("msg-temperatura", "- Temperatura"), np_frame, TextNode::get_default_font(), 0.05);
 	lb_temperatura->set_pos(0.06, 0, 0.55);
 
 	int lvl_temperatura = player->get_achievements()->get_lvl_temperatura();
 	switch (lvl_temperatura) {
 		case 0:
 			create_temperatura_stars(white, white, white);
-			hint_temperatura_atual = new Hint(np_frame, lb_temperatura, lb_temperatura->get_np(), "hint_temperatura", "Mantenha sua temperatura entre 35 e 40 graus durante 45 segundos.");
+			hint_temperatura_atual = new Hint(np_frame, lb_temperatura, lb_temperatura->get_np(), "hint_temperatura", ConfigVariableString("msg-temperatura45", "Mantenha sua temperatura entre 35 e 40 graus durante 45 segundos."));
 			break;
 		case 1:
 			create_temperatura_stars(yellow, white, white);
-			hint_temperatura_atual = new Hint(np_frame, lb_temperatura, lb_temperatura->get_np(), "hint_temperatura", "Mantenha sua temperatura entre 35 e 40 graus durante 60 segundos.");
+			hint_temperatura_atual = new Hint(np_frame, lb_temperatura, lb_temperatura->get_np(), "hint_temperatura", ConfigVariableString("msg-temperatura60", "Mantenha sua temperatura entre 35 e 40 graus durante 60 segundos."));
 			break;
 		case 2:
 			create_temperatura_stars(yellow, yellow, white);
-			hint_temperatura_atual = new Hint(np_frame, lb_temperatura, lb_temperatura->get_np(), "hint_temperatura", "Mantenha sua temperatura entre 35 e 40 graus durante 90 segundos.");
+			hint_temperatura_atual = new Hint(np_frame, lb_temperatura, lb_temperatura->get_np(), "hint_temperatura", ConfigVariableString("msg-temperatura90", "Mantenha sua temperatura entre 35 e 40 graus durante 90 segundos."));
 			break;
 		default:
 			create_temperatura_stars(yellow, yellow, yellow);
 			hint_temperatura_atual = new Hint(np_frame, lb_temperatura, lb_temperatura->get_np(), "hint_temperatura", "Mantenha sua temperatura entre 35 e 40 graus durante 90 segundos.");
 	}
 
-	hint_temperatura_1 = new Hint(np_frame, img_temperatura_star_1, "hint_temperatura", "Ter mantido a temperatura entre 35 e 40 graus durante 45 segundos");
-	hint_temperatura_2 = new Hint(np_frame, img_temperatura_star_2, "hint_temperatura", "Ter mantido a temperatura entre 35 e 40 graus durante 60 segundos");
-	hint_temperatura_3 = new Hint(np_frame, img_temperatura_star_3, "hint_temperatura", "Ter mantido a temperatura entre 35 e 40 graus durante 90 segundos");
+	hint_temperatura_1 = new Hint(np_frame, img_temperatura_star_1, "hint_temperatura", ConfigVariableString("msg-tertemperatura45", "Ter mantido a temperatura entre 35 e 40 graus durante 45 segundos"));
+	hint_temperatura_2 = new Hint(np_frame, img_temperatura_star_2, "hint_temperatura", ConfigVariableString("msg-tertemperatura60", "Ter mantido a temperatura entre 35 e 40 graus durante 60 segundos"));
+	hint_temperatura_3 = new Hint(np_frame, img_temperatura_star_3, "hint_temperatura", ConfigVariableString("msg-tertemperatura90", "Ter mantido a temperatura entre 35 e 40 graus durante 90 segundos"));
 
 	lb_temperatura_xnum = new TextNode("lb_temperatura_xnum");
 	stringstream temperatura_adicionais;
@@ -318,32 +318,32 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	// FIM DO ACHIEVEMENT TEMPERATURA
 
 	// ACHIEVEMENT: Hidratação
-	lb_hidratacao = new Text("lb_hidratacao", "- Hidratação", np_frame, TextNode::get_default_font(), 0.05);
-	lb_hidratacao->set_text("- hidratacao");
+	lb_hidratacao = new Text("lb_hidratacao", ConfigVariableString("msg-hidratacao", "- Hidratação"), np_frame, TextNode::get_default_font(), 0.05);
+	lb_hidratacao->set_text(ConfigVariableString("msg-hidratacao", "- Hidratação"));
 	lb_hidratacao->set_pos(0.06, 0, 0.45);
 
 	int lvl_hidratacao = player->get_achievements()->get_lvl_hidratacao();
 	switch (lvl_hidratacao) {
 		case 0:
 			create_hidratacao_stars(white, white, white);
-			hint_hidratacao_atual = new Hint(np_frame, lb_hidratacao, lb_hidratacao->get_np(), "hint_hidratacao", "Mantenha sua hidratação maior que 70 durante 60 segundos.");
+			hint_hidratacao_atual = new Hint(np_frame, lb_hidratacao, lb_hidratacao->get_np(), "hint_hidratacao", ConfigVariableString("msg-hidratacao70", "Mantenha sua hidratação maior que 70 durante 60 segundos."));
 			break;
 		case 1:
 			create_hidratacao_stars(yellow, white, white);
-			hint_hidratacao_atual = new Hint(np_frame, lb_hidratacao, lb_hidratacao->get_np(), "hint_hidratacao", "Mantenha sua hidratação maior que 80 durante 120 segundos.");
+			hint_hidratacao_atual = new Hint(np_frame, lb_hidratacao, lb_hidratacao->get_np(), "hint_hidratacao", ConfigVariableString("msg-hidratacao80", "Mantenha sua hidratação maior que 80 durante 120 segundos."));
 			break;
 		case 2:
 			create_hidratacao_stars(yellow, yellow, white);
-			hint_hidratacao_atual = new Hint(np_frame, lb_hidratacao, lb_hidratacao->get_np(), "hint_hidratacao", "Mantenha sua hidratação maior que 90 durante 180 segundos.");
+			hint_hidratacao_atual = new Hint(np_frame, lb_hidratacao, lb_hidratacao->get_np(), "hint_hidratacao", ConfigVariableString("msg-hidratacao90", "Mantenha sua hidratação maior que 90 durante 180 segundos."));
 			break;
 		default:
 			create_hidratacao_stars(yellow, yellow, yellow);
-			hint_hidratacao_atual = new Hint(np_frame, lb_hidratacao, lb_hidratacao->get_np(), "hint_hidratacao", "Mantenha sua hidratação maior que 90 durante 180 segundos.");
+			hint_hidratacao_atual = new Hint(np_frame, lb_hidratacao, lb_hidratacao->get_np(), "hint_hidratacao", ConfigVariableString("msg-hidratacao90", "Mantenha sua hidratação maior que 90 durante 180 segundos."));
 	}
 
-	hint_hidratacao_1 = new Hint(np_frame, img_hidratacao_star_1, "hint_hidratacao", "Ter mantido a hidratação maior que 70 durante 60 segundos");
-	hint_hidratacao_2 = new Hint(np_frame, img_hidratacao_star_2, "hint_hidratacao", "Ter mantido a hidratação maior que 80 durante 120 segundos");
-	hint_hidratacao_3 = new Hint(np_frame, img_hidratacao_star_3, "hint_hidratacao", "Ter mantido a hidratação maior que 90 durante 180 segundos");
+	hint_hidratacao_1 = new Hint(np_frame, img_hidratacao_star_1, "hint_hidratacao", ConfigVariableString("msg-terhidratacao70", "Ter mantido a hidratação maior que 70 durante 60 segundos"));
+	hint_hidratacao_2 = new Hint(np_frame, img_hidratacao_star_2, "hint_hidratacao", ConfigVariableString("msg-terhidratacao80", "Ter mantido a hidratação maior que 80 durante 120 segundos"));
+	hint_hidratacao_3 = new Hint(np_frame, img_hidratacao_star_3, "hint_hidratacao", ConfigVariableString("msg-terhidratacao90", "Ter mantido a hidratação maior que 90 durante 180 segundos"));
 
 	lb_hidratacao_xnum = new TextNode("lb_hidratacao_xnum");
 	stringstream hidratacao_adicionais;
@@ -377,31 +377,31 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	// FIM DO ACHIEVEMENT HIDRATAÇÃO
 
 	// ACHIEVEMENT: Energia
-	lb_energia = new Text("lb_energia", "- Energia", np_frame, TextNode::get_default_font(), 0.05);
+	lb_energia = new Text("lb_energia", ConfigVariableString("msg-energia", "- Energia"), np_frame, TextNode::get_default_font(), 0.05);
 	lb_energia->set_pos(0.06, 0, 0.35);
 
 	int lvl_energia = player->get_achievements()->get_lvl_energia();
 	switch (lvl_energia) {
 		case 0:
 			create_energia_stars(white, white, white);
-			hint_energia_atual = new Hint(np_frame, lb_energia, lb_energia->get_np(), "hint_energia", "Mantenha sua energia maior que 70 durante 60 segundos.");
+			hint_energia_atual = new Hint(np_frame, lb_energia, lb_energia->get_np(), "hint_energia", ConfigVariableString("msg-energia70", "Mantenha sua energia maior que 70 durante 60 segundos."));
 			break;
 		case 1:
 			create_energia_stars(yellow, white, white);
-			hint_energia_atual = new Hint(np_frame, lb_energia, lb_energia->get_np(), "hint_energia", "Mantenha sua energia maior que 80 durante 120 segundos.");
+			hint_energia_atual = new Hint(np_frame, lb_energia, lb_energia->get_np(), "hint_energia", ConfigVariableString("msg-energia80", "Mantenha sua energia maior que 80 durante 120 segundos."));
 			break;
 		case 2:
 			create_energia_stars(yellow, yellow, white);
-			hint_energia_atual = new Hint(np_frame, lb_energia, lb_energia->get_np(), "hint_energia", "Mantenha sua energia maior que 90 durante 180 segundos.");
+			hint_energia_atual = new Hint(np_frame, lb_energia, lb_energia->get_np(), "hint_energia", ConfigVariableString("msg-energia90", "Mantenha sua energia maior que 90 durante 180 segundos."));
 			break;
 		default:
 			create_energia_stars(yellow, yellow, yellow);
-			hint_energia_atual = new Hint(np_frame, lb_energia, lb_energia->get_np(), "hint_energia", "Mantenha sua energia maior que 90 durante 180 segundos.");
+			hint_energia_atual = new Hint(np_frame, lb_energia, lb_energia->get_np(), "hint_energia", ConfigVariableString("msg-energia90", "Mantenha sua energia maior que 90 durante 180 segundos."));
 	}
 
-	hint_energia_1 = new Hint(np_frame, img_energia_star_1, "hint_energia", "Ter mantido a energia maior que 70 durante 60 segundos");
-	hint_energia_2 = new Hint(np_frame, img_energia_star_2, "hint_energia", "Ter mantido a energia maior que 80 durante 120 segundos");
-	hint_energia_3 = new Hint(np_frame, img_energia_star_3, "hint_energia", "Ter mantido a energia maior que 90 durante 180 segundos");
+	hint_energia_1 = new Hint(np_frame, img_energia_star_1, "hint_energia", ConfigVariableString("msg-terenergia70", "Ter mantido a energia maior que 70 durante 60 segundos"));
+	hint_energia_2 = new Hint(np_frame, img_energia_star_2, "hint_energia", ConfigVariableString("msg-terenergia80", "Ter mantido a energia maior que 80 durante 120 segundos"));
+	hint_energia_3 = new Hint(np_frame, img_energia_star_3, "hint_energia", ConfigVariableString("msg-terenergia90", "Ter mantido a energia maior que 90 durante 180 segundos"));
 
 	lb_energia_xnum = new TextNode("lb_energia_xnum");
 	stringstream energia_adicionais;
@@ -435,31 +435,31 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	// FIM DO ACHIEVEMENT ENERGIA
 
 	// ACHIEVEMENT: O intocável
-	lb_intocavel = new Text("lb_intocavel", "- O intocável", np_frame, TextNode::get_default_font(), 0.05);
+	lb_intocavel = new Text("lb_intocavel", ConfigVariableString("msg-ointocavel", "- O intocável"), np_frame, TextNode::get_default_font(), 0.05);
 	lb_intocavel->set_pos(0.06, 0, 0.25);
 
 	int lvl_intocavel = player->get_achievements()->get_lvl_intocavel();
 	switch (lvl_intocavel) {
 		case 0:
 			create_intocavel_stars(white, white, white);
-			hint_intocavel_atual = new Hint(np_frame, lb_intocavel, lb_intocavel->get_np(), "hint_intocavel", "Permaneça sem receber dano de predadores durante 60 segundos.");
+			hint_intocavel_atual = new Hint(np_frame, lb_intocavel, lb_intocavel->get_np(), "hint_intocavel", ConfigVariableString("msg-ointocavel60", "Permaneça sem receber dano de predadores durante 60 segundos."));
 			break;
 		case 1:
 			create_intocavel_stars(yellow, white, white);
-			hint_intocavel_atual = new Hint(np_frame, lb_intocavel, lb_intocavel->get_np(), "hint_intocavel", "Permaneça sem receber dano de predadores durante 120 segundos.");
+			hint_intocavel_atual = new Hint(np_frame, lb_intocavel, lb_intocavel->get_np(), "hint_intocavel", ConfigVariableString("msg-ointocavel120", "Permaneça sem receber dano de predadores durante 120 segundos."));
 			break;
 		case 2:
 			create_intocavel_stars(yellow, yellow, white);
-			hint_intocavel_atual = new Hint(np_frame, lb_intocavel, lb_intocavel->get_np(), "hint_intocavel", "Permaneça sem receber dano de predadores durante 180 segundos.");
+			hint_intocavel_atual = new Hint(np_frame, lb_intocavel, lb_intocavel->get_np(), "hint_intocavel", ConfigVariableString("msg-ointocavel180", "Permaneça sem receber dano de predadores durante 180 segundos."));
 			break;
 		default:
 			create_intocavel_stars(yellow, yellow, yellow);
-			hint_intocavel_atual = new Hint(np_frame, lb_intocavel, lb_intocavel->get_np(), "hint_intocavel", "Permaneça sem receber dano de predadores durante 180 segundos.");
+			hint_intocavel_atual = new Hint(np_frame, lb_intocavel, lb_intocavel->get_np(), "hint_intocavel", ConfigVariableString("msg-ointocavel180", "Permaneça sem receber dano de predadores durante 180 segundos."));
 	}
 
-	hint_intocavel_1 = new Hint(np_frame, img_intocavel_star_1, "hint_intocavel", "Não ter recebido dano de nenhum predador durante 60 segundos");
-	hint_intocavel_2 = new Hint(np_frame, img_intocavel_star_2, "hint_intocavel", "Não ter recebido dano de nenhum predador durante 120 segundos");
-	hint_intocavel_3 = new Hint(np_frame, img_intocavel_star_3, "hint_intocavel", "Não ter recebido dano de nenhum predador durante 180 segundos");
+	hint_intocavel_1 = new Hint(np_frame, img_intocavel_star_1, "hint_intocavel", ConfigVariableString("msg-terointocavel60", "Não ter recebido dano de nenhum predador durante 60 segundos"));
+	hint_intocavel_2 = new Hint(np_frame, img_intocavel_star_2, "hint_intocavel", ConfigVariableString("msg-terointocavel120", "Não ter recebido dano de nenhum predador durante 120 segundos"));
+	hint_intocavel_3 = new Hint(np_frame, img_intocavel_star_3, "hint_intocavel", ConfigVariableString("msg-terointocavel180", "Não ter recebido dano de nenhum predador durante 180 segundos"));
 
 	lb_intocavel_xnum = new TextNode("lb_intocavel_xnum");
 	stringstream intocavel_adicionais;
@@ -493,31 +493,31 @@ AchievementsWindow::AchievementsWindow(NodePath parent, float width, float heigh
 	np_lb_intocavel_andamento.set_color(0, 0, 0, 1);
 
 	// ACHIEVEMENT: O Guerreiro
-	lb_guerreiro = new Text("lb_guerreiro", "- Guerreiro", np_frame, TextNode::get_default_font(), 0.05);
+	lb_guerreiro = new Text("lb_guerreiro", ConfigVariableString("msg-guerreiro", "- Guerreiro"), np_frame, TextNode::get_default_font(), 0.05);
 	lb_guerreiro->set_pos(0.06, 0, 0.15);
 
 	int lvl_guerreiro = player->get_achievements()->get_lvl_guerreiro();
 	switch (lvl_guerreiro) {
 		case 0:
 			create_guerreiro_stars(white, white, white);
-			hint_guerreiro_atual = new Hint(np_frame, lb_guerreiro, lb_guerreiro->get_np(), "hint_guerreiro", "Espante 2 lagartos machos (necessários 12 meses de vida).");
+			hint_guerreiro_atual = new Hint(np_frame, lb_guerreiro, lb_guerreiro->get_np(), "hint_guerreiro", ConfigVariableString("msg-espante2", "Espante 2 lagartos machos (necessários 12 meses de vida)."));
 			break;
 		case 1:
 			create_guerreiro_stars(yellow, white, white);
-			hint_guerreiro_atual = new Hint(np_frame, lb_guerreiro, lb_guerreiro->get_np(), "hint_guerreiro", "Espante 5 lagartos machos (necessários 12 meses de vida).");
+			hint_guerreiro_atual = new Hint(np_frame, lb_guerreiro, lb_guerreiro->get_np(), "hint_guerreiro", ConfigVariableString("msg-espante5", "Espante 5 lagartos machos (necessários 12 meses de vida)."));
 			break;
 		case 2:
 			create_guerreiro_stars(yellow, yellow, white);
-			hint_guerreiro_atual = new Hint(np_frame, lb_guerreiro, lb_guerreiro->get_np(), "hint_guerreiro", "Espante 10 lagartos machos (necessários 12 meses de vida).");
+			hint_guerreiro_atual = new Hint(np_frame, lb_guerreiro, lb_guerreiro->get_np(), "hint_guerreiro", ConfigVariableString("msg-espante10", "Espante 10 lagartos machos (necessários 12 meses de vida)."));
 			break;
 		default:
 			create_guerreiro_stars(yellow, yellow, yellow);
-			hint_guerreiro_atual = new Hint(np_frame, lb_guerreiro, lb_guerreiro->get_np(), "hint_guerreiro", "Espante 10 lagartos machos (necessários 12 meses de vida).");
+			hint_guerreiro_atual = new Hint(np_frame, lb_guerreiro, lb_guerreiro->get_np(), "hint_guerreiro", ConfigVariableString("msg-espante10", "Espante 10 lagartos machos (necessários 12 meses de vida)."));
 	}
 
-	hint_guerreiro_1 = new Hint(np_frame, img_guerreiro_star_1, "hint_guerreiro", "Ter espantado 2 lagartos machos.");
-	hint_guerreiro_2 = new Hint(np_frame, img_guerreiro_star_2, "hint_guerreiro", "Ter espantado 5 lagartos machos.");
-	hint_guerreiro_3 = new Hint(np_frame, img_guerreiro_star_3, "hint_guerreiro", "Ter espantado 10 lagartos machos.");
+	hint_guerreiro_1 = new Hint(np_frame, img_guerreiro_star_1, "hint_guerreiro", ConfigVariableString("msg-terespante2", "Ter espantado 2 lagartos machos."));
+	hint_guerreiro_2 = new Hint(np_frame, img_guerreiro_star_2, "hint_guerreiro", ConfigVariableString("msg-terespante5", "Ter espantado 5 lagartos machos."));
+	hint_guerreiro_3 = new Hint(np_frame, img_guerreiro_star_3, "hint_guerreiro", ConfigVariableString("msg-terespante10", "Ter espantado 10 lagartos machos."));
 
 	lb_guerreiro_xnum = new TextNode("lb_guerreiro_xnum");
 	stringstream guerreiro_adicionais;

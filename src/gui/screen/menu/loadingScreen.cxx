@@ -35,29 +35,27 @@ void LoadingScreen::load() {
 	np_frame = NodePath(frame);
 
 	lb_objetivo = new TextNode("lb_objetivo");
-	lb_objetivo->set_text("Objetivo");
+	lb_objetivo->set_text(ConfigVariableString("msg-objt1", "Objetivo"));
 	lb_objetivo->set_font(manager->get_default_font());
 
 	lb_descricao_objetivo = new TextNode("lb_descricao_objetivo");
-	lb_descricao_objetivo->set_text("   Seu objetivo nesta primeira fase é sobreviver, desenvolver-se e reproduzir. "
-			"Seu sucesso será medido pelo número de vezes que conseguiu se reproduzir. "
-			"Busque controlar o nível de energia e de hidratação, e também a temperatura interna. Seu lagarto vive até 36 meses.");
+	lb_descricao_objetivo->set_text(ConfigVariableString("msg-objt2", "Seu objetivo nesta primeira fase é\n sobreviver, desenvolver-se e reproduzir.\n Seu sucesso será medido pelo número de\n vezes que conseguiu se reproduzir. Busque controlar o nível de energia e de hidratação, e também a temperatura\n interna. Seu lagarto vive até 36 meses.\n"));
 	lb_descricao_objetivo->set_wordwrap(20);
 	lb_descricao_objetivo->set_font(manager->get_default_font());
 
 	lb_carregando = new TextNode("lb_carregando");
-	lb_carregando->set_text("Carregando...");
+	lb_carregando->set_text(ConfigVariableString("msg-carre", "Carregando..."));
 	lb_carregando->set_font(manager->get_default_font());
 
 	lb_processo = new TextNode("lb_processo");
-	lb_processo->set_text("Processo:");
+	lb_processo->set_text(ConfigVariableString("msg-proce", "Processo:"));
 	lb_processo->set_font(manager->get_default_font());
 
 	lb_info_processo = new TextNode("lb_info_processo");
 	lb_info_processo->set_text("");
 	lb_info_processo->set_font(manager->get_default_font());
 
-	btn_comecar = new Button("btn_comecar", "Começar", manager->get_default_font(), 0.17);
+	btn_comecar = new Button("btn_comecar", ConfigVariableString("msg-come", "Começar"), manager->get_default_font(), 0.17);
 }
 
 
@@ -117,7 +115,7 @@ void LoadingScreen::loading_process() {
  * "Começar" seja clicado */
 void LoadingScreen::loading_completed() {
 	np_lb_carregando.stash();
-	lb_info_processo->set_text("Concluído.");
+	lb_info_processo->set_text(ConfigVariableString("msg-concl", "Concluído"));
 	np_frame.set_transparency(TransparencyAttrib::M_alpha);
 	np_frame.set_alpha_scale(0.5);
 	np_btn_comecar.unstash();

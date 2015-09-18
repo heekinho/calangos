@@ -204,7 +204,7 @@ void GraphicsMenu::click_event_botao_grafico_variavel(const Event*, void *data) 
 void GraphicsMenu::create_default_time_chart() { // mudar nome do método; aqui se cria o gráfico padrão do tipo variável!
 	// exibe gráfico padrão do tipo Variável (Temp Ar x Temp Ar)
 	create_variable_chart(get_history()->get_list(History::HI_world_temperature),
-			get_history()->get_list(History::HI_world_temperature), "Temp Ar", "Temp Ar", true);
+			get_history()->get_list(History::HI_world_temperature), ConfigVariableString("msg-variatempa", "Temp Ar"), ConfigVariableString("msg-variatempa", "Temp Ar"), true);
 	// liga os leds do gráfico exibido por padrão (Temp Ar x Temp Ar) ao clicar no botão "Variável"
 	get_led_on_temp_ar().unstash();
 	get_led_off_temp_ar().stash();
@@ -379,7 +379,7 @@ void GraphicsMenu::click_event_botao_grafico_tempInterna(const Event*, void *dat
 		graphics_menu->set_chart_properties(1, posicao_grafico_tempInterna);
 	} else {
 		graphics_menu->create_variable_chart(graphics_menu->get_vetor_x(), graphics_menu->get_history()->
-				get_list(History::HI_player_temperature), graphics_menu->get_legenda_x(), "Temp Interna", false);
+				get_list(History::HI_player_temperature), graphics_menu->get_legenda_x(), ConfigVariableString("msg-variatempi", "Temp Interna"), false);
 		graphics_menu->get_led_on_temp_interna().unstash();
 		graphics_menu->get_led_off_temp_interna().stash();
 	}
@@ -391,7 +391,7 @@ void GraphicsMenu::click_event_botao_grafico_hidratacao(const Event*, void *data
 		graphics_menu->set_chart_properties(2, posicao_grafico_hidratacao);
 	} else {
 		graphics_menu->create_variable_chart(graphics_menu->get_vetor_x(), graphics_menu->get_history()->
-				get_list(History::HI_player_hydration), graphics_menu->get_legenda_x(), "Hidratação", false);
+				get_list(History::HI_player_hydration), graphics_menu->get_legenda_x(), ConfigVariableString("msg-graficohi", "Hidratação"), false);
 		graphics_menu->get_led_on_hidratacao().unstash();
 		graphics_menu->get_led_off_hidratacao().stash();
 	}
@@ -403,7 +403,7 @@ void GraphicsMenu::click_event_botao_grafico_tempAr(const Event*, void *data) {
 		graphics_menu->set_chart_properties(3, posicao_grafico_tempAr);
 	} else {
 		graphics_menu->create_variable_chart(graphics_menu->get_vetor_x(), graphics_menu->get_history()->
-				get_list(History::HI_world_temperature), graphics_menu->get_legenda_x(), "Temp Ar", false);
+				get_list(History::HI_world_temperature), graphics_menu->get_legenda_x(), ConfigVariableString("msg-variatempa", "Temp Ar"), false);
 		graphics_menu->get_led_on_temp_ar().unstash();
 		graphics_menu->get_led_off_temp_ar().stash();
 	}
@@ -415,7 +415,7 @@ void GraphicsMenu::click_event_botao_grafico_umidade(const Event*, void *data) {
 		graphics_menu->set_chart_properties(4, posicao_grafico_umidade);
 	} else {
 		graphics_menu->create_variable_chart(graphics_menu->get_vetor_x(), graphics_menu->get_history()->
-				get_list(History::HI_world_humidity), graphics_menu->get_legenda_x(), "Umidade", false);
+				get_list(History::HI_world_humidity), graphics_menu->get_legenda_x(), ConfigVariableString("msg-umidadegra", "Umidade"), false);
 		graphics_menu->get_led_on_umidade().unstash();
 		graphics_menu->get_led_off_umidade().stash();
 	}
@@ -427,7 +427,7 @@ void GraphicsMenu::click_event_botao_grafico_tempSolo(const Event*, void *data) 
 		graphics_menu->set_chart_properties(5, posicao_grafico_tempSolo);
 	} else {
 		graphics_menu->create_variable_chart(graphics_menu->get_vetor_x(), graphics_menu->get_history()->
-				get_list(History::HI_soil_temperature), graphics_menu->get_legenda_x(), "Temp Solo", false);
+				get_list(History::HI_soil_temperature), graphics_menu->get_legenda_x(), ConfigVariableString("msg-variatemps", "Temp Solo"), false);
 		graphics_menu->get_led_on_temp_solo().unstash();
 		graphics_menu->get_led_off_temp_solo().stash();
 	}
@@ -439,7 +439,7 @@ void GraphicsMenu::click_event_botao_grafico_alimentacao(const Event*, void *dat
 		graphics_menu->set_chart_properties(6, posicao_grafico_alimentacao);
 	} else {
 		graphics_menu->create_variable_chart(graphics_menu->get_vetor_x(), graphics_menu->get_history()->
-				get_list(History::HI_feeding), graphics_menu->get_legenda_x(), "Alimentacao", false);
+				get_list(History::HI_feeding), graphics_menu->get_legenda_x(), ConfigVariableString("msg-graficoal", "Alimentação"), false);
 		graphics_menu->get_led_on_alimentacao().unstash();
 		graphics_menu->get_led_off_alimentacao().stash();
 	}
@@ -451,7 +451,7 @@ void GraphicsMenu::click_event_botao_grafico_energia(const Event*, void *data) {
 		graphics_menu->set_chart_properties(7, posicao_grafico_energia);
 	} else {
 		graphics_menu->create_variable_chart(graphics_menu->get_vetor_x(), graphics_menu->get_history()->
-				get_list(History::HI_energy), graphics_menu->get_legenda_x(), "Energia", false);
+				get_list(History::HI_energy), graphics_menu->get_legenda_x(), ConfigVariableString("msg-graficoen", "Energia"), false);
 		graphics_menu->get_led_on_energia().unstash();
 		graphics_menu->get_led_off_energia().stash();
 	}
@@ -463,7 +463,7 @@ void GraphicsMenu::click_event_botao_grafico_gastoEnergetico(const Event*, void 
 		graphics_menu->set_chart_properties(8, posicao_grafico_gastoEnergetico);
 	} else {
 		graphics_menu->create_variable_chart(graphics_menu->get_vetor_x(), graphics_menu->get_history()->
-				get_list(History::HI_total_energy_cost), graphics_menu->get_legenda_x(), "Gasto Energético", false);
+				get_list(History::HI_total_energy_cost), graphics_menu->get_legenda_x(), ConfigVariableString("msg-graficogaen", "Gasto Energético"), false);
 		graphics_menu->get_led_on_gasto_energetico().unstash();
 		graphics_menu->get_led_off_gasto_energetico().stash();
 	}
@@ -474,7 +474,7 @@ void GraphicsMenu::click_event_botao_grafico_gastoEnergetico(const Event*, void 
 void GraphicsMenu::click_event_botao_grafico_tempInterna_v(const Event*, void *data) {
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
 	graphics_menu->create_variable_chart(graphics_menu->get_history()->get_list(History::HI_player_temperature),
-			graphics_menu->get_vetor_y(), "Temp Interna", graphics_menu->get_legenda_y(), true);
+			graphics_menu->get_vetor_y(), ConfigVariableString("msg-variatempi", "Temp Interna"), graphics_menu->get_legenda_y(), true);
 	graphics_menu->get_led_on_temp_interna_v().unstash();
 	graphics_menu->get_led_off_temp_interna_v().stash();
 }
@@ -482,7 +482,7 @@ void GraphicsMenu::click_event_botao_grafico_tempInterna_v(const Event*, void *d
 void GraphicsMenu::click_event_botao_grafico_hidratacao_v(const Event*, void *data) {
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
 	graphics_menu->create_variable_chart(graphics_menu->get_history()->get_list(History::HI_player_hydration),
-			graphics_menu->get_vetor_y(), "Hidratação", graphics_menu->get_legenda_y(), true);
+			graphics_menu->get_vetor_y(), ConfigVariableString("msg-graficohi", "Hidratação"), graphics_menu->get_legenda_y(), true);
 	graphics_menu->get_led_on_hidratacao_v().unstash();
 	graphics_menu->get_led_off_hidratacao_v().stash();
 }
@@ -490,7 +490,7 @@ void GraphicsMenu::click_event_botao_grafico_hidratacao_v(const Event*, void *da
 void GraphicsMenu::click_event_botao_grafico_tempAr_v(const Event*, void *data) {
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
 	graphics_menu->create_variable_chart(graphics_menu->get_history()->get_list(History::HI_world_temperature),
-			graphics_menu->get_vetor_y(), "Temp Ar", graphics_menu->get_legenda_y(), true);
+			graphics_menu->get_vetor_y(), ConfigVariableString("msg-variatempa", "Temp Ar"), graphics_menu->get_legenda_y(), true);
 	graphics_menu->get_led_on_temp_ar_v().unstash();
 	graphics_menu->get_led_off_temp_ar_v().stash();
 }
@@ -498,7 +498,7 @@ void GraphicsMenu::click_event_botao_grafico_tempAr_v(const Event*, void *data) 
 void GraphicsMenu::click_event_botao_grafico_umidade_v(const Event*, void *data) {
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
 	graphics_menu->create_variable_chart(graphics_menu->get_history()->get_list(History::HI_world_humidity),
-			graphics_menu->get_vetor_y(), "Umidade", graphics_menu->get_legenda_y(), true);
+			graphics_menu->get_vetor_y(), ConfigVariableString("msg-umidadegra", "Umidade"), graphics_menu->get_legenda_y(), true);
 	graphics_menu->get_led_on_umidade_v().unstash();
 	graphics_menu->get_led_off_umidade_v().stash();
 }
@@ -506,7 +506,7 @@ void GraphicsMenu::click_event_botao_grafico_umidade_v(const Event*, void *data)
 void GraphicsMenu::click_event_botao_grafico_tempSolo_v(const Event*, void *data) {
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
 	graphics_menu->create_variable_chart(graphics_menu->get_history()->get_list(History::HI_soil_temperature),
-			graphics_menu->get_vetor_y(), "Temp Solo", graphics_menu->get_legenda_y(), true);
+			graphics_menu->get_vetor_y(), ConfigVariableString("msg-variatemps", "Temp Solo"), graphics_menu->get_legenda_y(), true);
 	graphics_menu->get_led_on_temp_solo_v().unstash();
 	graphics_menu->get_led_off_temp_solo_v().stash();
 }
@@ -514,7 +514,7 @@ void GraphicsMenu::click_event_botao_grafico_tempSolo_v(const Event*, void *data
 void GraphicsMenu::click_event_botao_grafico_alimentacao_v(const Event*, void *data) {
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
 	graphics_menu->create_variable_chart(graphics_menu->get_history()->get_list(History::HI_feeding),
-			graphics_menu->get_vetor_y(), "Alimentação", graphics_menu->get_legenda_y(), true);
+			graphics_menu->get_vetor_y(), ConfigVariableString("msg-graficoal", "Alimentação"), graphics_menu->get_legenda_y(), true);
 	graphics_menu->get_led_on_alimentacao_v().unstash();
 	graphics_menu->get_led_off_alimentacao_v().stash();
 }
@@ -522,7 +522,7 @@ void GraphicsMenu::click_event_botao_grafico_alimentacao_v(const Event*, void *d
 void GraphicsMenu::click_event_botao_grafico_energia_v(const Event*, void *data) {
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
 	graphics_menu->create_variable_chart(graphics_menu->get_history()->get_list(History::HI_energy),
-			graphics_menu->get_vetor_y(), "Energia", graphics_menu->get_legenda_y(), true);
+			graphics_menu->get_vetor_y(), ConfigVariableString("msg-graficoen", "Energia"), graphics_menu->get_legenda_y(), true);
 	graphics_menu->get_led_on_energia_v().unstash();
 	graphics_menu->get_led_off_energia_v().stash();
 }
@@ -530,7 +530,7 @@ void GraphicsMenu::click_event_botao_grafico_energia_v(const Event*, void *data)
 void GraphicsMenu::click_event_botao_grafico_gastoEnergetico_v(const Event*, void *data) {
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
 	graphics_menu->create_variable_chart(graphics_menu->get_history()->get_list(History::HI_total_energy_cost),
-			graphics_menu->get_vetor_y(), "Gasto Energético", graphics_menu->get_legenda_y(), true);
+			graphics_menu->get_vetor_y(), ConfigVariableString("msg-graficogaen", "Gasto Energético"), graphics_menu->get_legenda_y(), true);
 	graphics_menu->get_led_on_gasto_energetico_v().unstash();
 	graphics_menu->get_led_off_gasto_energetico_v().stash();
 }
@@ -963,7 +963,7 @@ void GraphicsMenu::make_tipo_graf(NodePath menu_frame_np) {
 
 void GraphicsMenu::make_txt_tipo_graf(NodePath menu_frame_np) {
 	txt_tipo_graf = new TextNode("txt_tipo_graf");
-	txt_tipo_graf->set_text("Tipo do gráfico");
+	txt_tipo_graf->set_text(ConfigVariableString("msg-tipografico", "Tipo do gráfico"));
 	label_txt_tipo_graf = menu_frame_np.attach_new_node(txt_tipo_graf);
 	label_txt_tipo_graf.set_pos(0.04, 0.0, 1.90);
 	label_txt_tipo_graf.set_scale(0.06);
@@ -974,7 +974,7 @@ void GraphicsMenu::make_txt_tipo_graf(NodePath menu_frame_np) {
 void GraphicsMenu::make_btn_graf_tempo(NodePath menu_frame_np) {
 	//BOTAO PARA VER OS GRAFICOS DE TEMPO.
 	btn_graf_tempo = new PGButton("btn_graf_tempo");
-	btn_graf_tempo->setup("Tempo", 0.1);
+	btn_graf_tempo->setup(ConfigVariableString("msg-tipotempo", "Tempo"), 0.1);
 	np_btn_graf_tempo = menu_frame_np.attach_new_node(btn_graf_tempo);
 	np_btn_graf_tempo.set_scale(0.05);
 	np_btn_graf_tempo.set_pos(0.09, 0.0, 1.80);
@@ -994,7 +994,7 @@ void GraphicsMenu::make_btn_graf_tempo(NodePath menu_frame_np) {
 void GraphicsMenu::make_btn_graf_variavel(NodePath menu_frame_np) {
 	//BOTAO PARA VER OS GRAFICOS DE VARIAVEL.
 	btn_graf_variavel = new PGButton("btn_graf_variavel");
-	btn_graf_variavel->setup("Variável", 0.1);
+	btn_graf_variavel->setup(ConfigVariableString("msg-tipovariavel", "Variável"), 0.1);
 	np_btn_graf_variavel = menu_frame_np.attach_new_node(btn_graf_variavel);
 	np_btn_graf_variavel.set_scale(0.05);
 	np_btn_graf_variavel.set_pos(0.06, 0.0, 1.68);
@@ -1047,7 +1047,7 @@ void GraphicsMenu::make_btn_temp_interna(NodePath menu_frame_np) {
 	img_btn_temp_interna.set_scale(0.008);
 	img_btn_temp_interna.set_pos(0.08, 0.0, 1.52);
 	img_btn_temp_interna.stash();
-	hint_btn_temp_interna = new Hint(menu_frame_np, btn_temp_interna.p(), img_btn_temp_interna, "hint_btn_temp_interna", "Temperatura Interna");
+	hint_btn_temp_interna = new Hint(menu_frame_np, btn_temp_interna.p(), img_btn_temp_interna, "hint_btn_temp_interna", ConfigVariableString("msg-graficoti", "Temperatura Interna"));
 	led_off_temp_interna = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_temp_interna.reparent_to(menu_frame_np);
 	led_off_temp_interna.set_scale(0.0034);
@@ -1074,7 +1074,7 @@ void GraphicsMenu::make_btn_hidratacao(NodePath menu_frame_np) {
 	img_btn_hidratacao.set_scale(0.008);
 	img_btn_hidratacao.set_pos(0.26, 0.0, 1.52);
 	img_btn_hidratacao.stash();
-	hint_btn_hidratacao = new Hint(menu_frame_np, btn_hidratacao.p(), img_btn_hidratacao, "hint_btn_hidratacao", "Hidratação");
+	hint_btn_hidratacao = new Hint(menu_frame_np, btn_hidratacao.p(), img_btn_hidratacao, "hint_btn_hidratacao",ConfigVariableString("msg-graficohi", "Hidratação"));
 	led_off_hidratacao = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_hidratacao.reparent_to(menu_frame_np);
 	led_off_hidratacao.set_scale(0.0034);
@@ -1101,7 +1101,7 @@ void GraphicsMenu::make_btn_temp_ar(NodePath menu_frame_np) {
 	img_btn_temp_ar.set_scale(0.006);
 	img_btn_temp_ar.set_pos(0.08, 0.0, 1.30);
 	img_btn_temp_ar.stash();
-	hint_btn_temp_ar = new Hint(menu_frame_np, btn_temp_ar.p(), img_btn_temp_ar, "hint_btn_temp_ar", "Temperatura do Ar");
+	hint_btn_temp_ar = new Hint(menu_frame_np, btn_temp_ar.p(), img_btn_temp_ar, "hint_btn_temp_ar", ConfigVariableString("msg-graficota", "Temperatura do Ar"));
 	led_off_temp_ar = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_temp_ar.reparent_to(menu_frame_np);
 	led_off_temp_ar.set_scale(0.0034);
@@ -1128,7 +1128,7 @@ void GraphicsMenu::make_btn_umidade(NodePath menu_frame_np) {
 	img_btn_umidade.set_scale(0.005);
 	img_btn_umidade.set_pos(0.26, 0.0, 1.30);
 	img_btn_umidade.stash();
-	hint_btn_umidade = new Hint(menu_frame_np, btn_umidade.p(), img_btn_umidade, "hint_btn_umidade", "Umidade do Ar");
+	hint_btn_umidade = new Hint(menu_frame_np, btn_umidade.p(), img_btn_umidade, "hint_btn_umidade", ConfigVariableString("msg-graficoumi", "Umidade do Ar"));
 	led_off_umidade = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_umidade.reparent_to(menu_frame_np);
 	led_off_umidade.set_scale(0.0034);
@@ -1155,7 +1155,7 @@ void GraphicsMenu::make_btn_temp_solo(NodePath menu_frame_np) {
 	img_btn_temp_solo.set_scale(0.006);
 	img_btn_temp_solo.set_pos(0.08, 0.0, 1.08);
 	img_btn_temp_solo.stash();
-	hint_btn_temp_solo = new Hint(menu_frame_np, btn_temp_solo.p(), img_btn_temp_solo, "hint_btn_temp_solo", "Temperatura do Solo");
+	hint_btn_temp_solo = new Hint(menu_frame_np, btn_temp_solo.p(), img_btn_temp_solo, "hint_btn_temp_solo", ConfigVariableString("msg-graficots", "Temperatura do Solo"));
 	led_off_temp_solo = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_temp_solo.reparent_to(menu_frame_np);
 	led_off_temp_solo.set_scale(0.0034);
@@ -1182,7 +1182,7 @@ void GraphicsMenu::make_btn_alimentacao(NodePath menu_frame_np) {
 	img_btn_alimentacao.set_scale(0.008);
 	img_btn_alimentacao.set_pos(0.26, 0.0, 1.08);
 	img_btn_alimentacao.stash();
-	hint_btn_alimentacao = new Hint(menu_frame_np, btn_alimentacao.p(), img_btn_alimentacao, "hint_btn_alimentacao", "Alimentação");
+	hint_btn_alimentacao = new Hint(menu_frame_np, btn_alimentacao.p(), img_btn_alimentacao, "hint_btn_alimentacao", ConfigVariableString("msg-graficoal", "Alimentação"));
 	led_off_alimentacao = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_alimentacao.reparent_to(menu_frame_np);
 	led_off_alimentacao.set_scale(0.0034);
@@ -1209,7 +1209,7 @@ void GraphicsMenu::make_btn_energia(NodePath menu_frame_np) {
 	img_btn_energia.set_scale(0.008);
 	img_btn_energia.set_pos(0.08, 0.0, 0.86);
 	img_btn_energia.stash();
-	hint_btn_energia = new Hint(menu_frame_np, btn_energia.p(), img_btn_energia, "hint_btn_energia", "Energia");
+	hint_btn_energia = new Hint(menu_frame_np, btn_energia.p(), img_btn_energia, "hint_btn_energia", ConfigVariableString("msg-graficoen", "Energia"));
 	led_off_energia = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_energia.reparent_to(menu_frame_np);
 	led_off_energia.set_scale(0.0034);
@@ -1236,7 +1236,7 @@ void GraphicsMenu::make_btn_gasto_energetico(NodePath menu_frame_np) {
 	img_btn_gasto_energetico.set_scale(0.008);
 	img_btn_gasto_energetico.set_pos(0.26, 0.0, 0.86);
 	img_btn_gasto_energetico.stash();
-	hint_btn_gasto_energetico = new Hint(menu_frame_np, btn_gasto_energetico.p(), img_btn_gasto_energetico, "hint_btn_gasto_energetico", "Gasto Energético");
+	hint_btn_gasto_energetico = new Hint(menu_frame_np, btn_gasto_energetico.p(), img_btn_gasto_energetico, "hint_btn_gasto_energetico", ConfigVariableString("msg-graficogaen", "Gasto Energético"));
 	led_off_gasto_energetico = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_gasto_energetico.reparent_to(menu_frame_np);
 	led_off_gasto_energetico.set_scale(0.0034);
@@ -1281,7 +1281,7 @@ void GraphicsMenu::make_btn_temp_interna_v() {
 	img_btn_temp_interna_v.set_scale(0.009);
 	img_btn_temp_interna_v.set_pos(0.1, 0.0, 0.12);
 	//img_btn_temp_interna_v.stash();
-	hint_btn_temp_interna_v = new Hint(grafico_variavel_frame_np, btn_temp_interna_v.p(), img_btn_temp_interna_v, "hint_btn_temp_interna_v", "Temperatura Interna");
+	hint_btn_temp_interna_v = new Hint(grafico_variavel_frame_np, btn_temp_interna_v.p(), img_btn_temp_interna_v, "hint_btn_temp_interna_v", ConfigVariableString("msg-graficoti", "Temperatura Interna"));
 	led_off_temp_interna_v = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_temp_interna_v.reparent_to(grafico_variavel_frame_np);
 	led_off_temp_interna_v.set_scale(0.004);
@@ -1308,7 +1308,7 @@ void GraphicsMenu::make_btn_hidratacao_v() {
 	img_btn_hidratacao_v.set_scale(0.009);
 	img_btn_hidratacao_v.set_pos(0.26, 0.0, 0.12);
 	//img_btn_hidratacao_v.stash();
-	hint_btn_hidratacao_v = new Hint(grafico_variavel_frame_np, btn_hidratacao_v.p(), img_btn_hidratacao_v, "hint_btn_hidratacao_v", "Hidratação");
+	hint_btn_hidratacao_v = new Hint(grafico_variavel_frame_np, btn_hidratacao_v.p(), img_btn_hidratacao_v, "hint_btn_hidratacao_v", ConfigVariableString("msg-graficohi", "Hidratação"));
 	led_off_hidratacao_v = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_hidratacao_v.reparent_to(grafico_variavel_frame_np);
 	led_off_hidratacao_v.set_scale(0.004);
@@ -1335,7 +1335,7 @@ void GraphicsMenu::make_btn_temp_ar_v() {
 	img_btn_temp_ar_v.set_scale(0.009);
 	img_btn_temp_ar_v.set_pos(0.42, 0.0, 0.12);
 	//img_btn_temp_ar_v.stash();
-	hint_btn_temp_ar_v = new Hint(grafico_variavel_frame_np, btn_temp_ar_v.p(), img_btn_temp_ar_v, "hint_btn_temp_ar_v", "Temperatura do Ar");
+	hint_btn_temp_ar_v = new Hint(grafico_variavel_frame_np, btn_temp_ar_v.p(), img_btn_temp_ar_v, "hint_btn_temp_ar_v", ConfigVariableString("msg-graficota", "Temperatura do Ar"));
 	led_off_temp_ar_v = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_temp_ar_v.reparent_to(grafico_variavel_frame_np);
 	led_off_temp_ar_v.set_scale(0.004);
@@ -1362,7 +1362,7 @@ void GraphicsMenu::make_btn_umidade_v() {
 	img_btn_umidade_v.set_scale(0.008);
 	img_btn_umidade_v.set_pos(0.60, 0.0, 0.12);
 	//botao4UmidadeAr_image.stash();
-	hint_btn_umidade_v = new Hint(grafico_variavel_frame_np, btn_umidade_v.p(), img_btn_umidade_v, "hint_btn_umidade_v", "Umidade");
+	hint_btn_umidade_v = new Hint(grafico_variavel_frame_np, btn_umidade_v.p(), img_btn_umidade_v, "hint_btn_umidade_v", ConfigVariableString("msg-graficoumi", "Umidade"));
 	led_off_umidade_v = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_umidade_v.reparent_to(grafico_variavel_frame_np);
 	led_off_umidade_v.set_scale(0.004);
@@ -1389,7 +1389,7 @@ void GraphicsMenu::make_btn_temp_solo_v() {
 	img_btn_temp_solo_v.set_scale(0.009);
 	img_btn_temp_solo_v.set_pos(0.78, 0.0, 0.12);
 	//img_btn_temp_solo_v.stash();
-	hint_btn_temp_solo_v = new Hint(grafico_variavel_frame_np, btn_temp_solo_v.p(), img_btn_temp_solo_v, "hint_btn_temp_solo_v", "Temperatura do Solo");
+	hint_btn_temp_solo_v = new Hint(grafico_variavel_frame_np, btn_temp_solo_v.p(), img_btn_temp_solo_v, "hint_btn_temp_solo_v", ConfigVariableString("msg-graficots", "Temperatura do Solo"));
 	led_off_temp_solo_v = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_temp_solo_v.reparent_to(grafico_variavel_frame_np);
 	led_off_temp_solo_v.set_scale(0.004);
@@ -1416,7 +1416,7 @@ void GraphicsMenu::make_btn_alimentacao_v() {
 	img_btn_alimentacao_v.set_scale(0.009);
 	img_btn_alimentacao_v.set_pos(0.94, 0.0, 0.12);
 	//img_btn_alimentacao_v.stash();
-	hint_btn_alimentacao_v = new Hint(grafico_variavel_frame_np, btn_alimentacao_v.p(), img_btn_alimentacao_v, "hint_btn_alimentacao_v", "Alimentação");
+	hint_btn_alimentacao_v = new Hint(grafico_variavel_frame_np, btn_alimentacao_v.p(), img_btn_alimentacao_v, "hint_btn_alimentacao_v", ConfigVariableString("msg-graficoal", "Alimentação"));
 	led_off_alimentacao_v = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_alimentacao_v.reparent_to(grafico_variavel_frame_np);
 	led_off_alimentacao_v.set_scale(0.004);
@@ -1443,7 +1443,7 @@ void GraphicsMenu::make_btn_energia_v() {
 	img_btn_energia_v.set_scale(0.009);
 	img_btn_energia_v.set_pos(1.10, 0.0, 0.12);
 	//img_btn_energia_v.stash();
-	hint_btn_energia_v = new Hint(grafico_variavel_frame_np, btn_energia_v.p(), img_btn_energia_v, "hint_btn_energia_v", "Energia");
+	hint_btn_energia_v = new Hint(grafico_variavel_frame_np, btn_energia_v.p(), img_btn_energia_v, "hint_btn_energia_v", ConfigVariableString("msg-graficoen", "Energia"));
 	led_off_energia_v = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_energia_v.reparent_to(grafico_variavel_frame_np);
 	led_off_energia_v.set_scale(0.004);
@@ -1470,7 +1470,7 @@ void GraphicsMenu::make_btn_gasto_energetico_v() {
 	img_btn_gasto_energetico_v.set_scale(0.009);
 	img_btn_gasto_energetico_v.set_pos(1.28, 0.0, 0.12);
 	//img_btn_gasto_energetico_v.stash();
-	hint_btn_gasto_energetico_v = new Hint(grafico_variavel_frame_np, btn_gasto_energetico_v.p(), img_btn_gasto_energetico_v, "hint_btn_gasto_energetico_v", "Gasto Energético");
+	hint_btn_gasto_energetico_v = new Hint(grafico_variavel_frame_np, btn_gasto_energetico_v.p(), img_btn_gasto_energetico_v, "hint_btn_gasto_energetico_v", ConfigVariableString("msg-graficogaen", "Gasto Energético"));
 	led_off_gasto_energetico_v = ImageRepository::get_instance()->get_image("GrayLed");
 	led_off_gasto_energetico_v.reparent_to(grafico_variavel_frame_np);
 	led_off_gasto_energetico_v.set_scale(0.004);
@@ -1950,7 +1950,7 @@ PT(Graphics) GraphicsMenu::novo_grafico1_TempInterna() {
 //	graphic->set_Titulo_EixoY("Temperatura (C)");
 //	graphic->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorTemperaturaLagarto());
 
-	return make_new_chart(History::HI_player_temperature, graphic, "Temperatura Interna", "Tempo (h)", "Temperatura (C)");
+	return make_new_chart(History::HI_player_temperature, graphic, ConfigVariableString("msg-graficoti", "Temperatura Interna"), ConfigVariableString("msg-tempoh", "Tempo (h)"), ConfigVariableString("msg-tempecel", "Temperatura (C)"));
 }
 
 //Constroi o grafico de hidratacao X tempo.
@@ -1965,7 +1965,7 @@ PT(Graphics) GraphicsMenu::novo_grafico2_Hidratacao() {
 //	graphic2->set_Titulo_EixoY("Hidratacao (%)");
 //	graphic2->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorHidratacaoLagarto());
 
-	return make_new_chart(History::HI_player_hydration, graphic2, "Hidratação do Lagarto", "Tempo (h)", "Hidratação (%)");
+	return make_new_chart(History::HI_player_hydration, graphic2, ConfigVariableString("msg-hilagarto", "Hidratação do Lagarto"), ConfigVariableString("msg-tempoh", "Tempo (h)"), ConfigVariableString("msg-hiporcen", "Hidratação (%)"));
 }
 
 //Constroi o grafico de temperatura do ar X tempo.
@@ -1980,7 +1980,7 @@ PT(Graphics) GraphicsMenu::novo_grafico3_TempAr() {
 //	graphic3->set_Titulo_EixoY("Temperatura (c)");
 //	graphic3->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorTemperaturaAr());
 
-	return make_new_chart(History::HI_world_temperature, graphic3, "Temperatura do ar", "Tempo (h)", "Temperatura (C)");
+	return make_new_chart(History::HI_world_temperature, graphic3, ConfigVariableString("msg-graficota", "Temperatura do ar"), ConfigVariableString("msg-tempoh", "Tempo (h)"), ConfigVariableString("msg-tempecel", "Temperatura (C)"));
 }
 
 //Constroi o grafico de umidade X tempo.
@@ -1994,7 +1994,7 @@ PT(Graphics) GraphicsMenu::novo_grafico4_Umidade() {
 //	graphic4->set_Titulo_EixoX("Tempo (h)");
 //	graphic4->set_Titulo_EixoY("Umidade");
 //	graphic4->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorUmidadeAmbiente());
-	return make_new_chart(History::HI_world_humidity, graphic4, "Umidade do ar", "Tempo (h)", "Umidade");
+	return make_new_chart(History::HI_world_humidity, graphic4, ConfigVariableString("msg-graficoumi", "Umidade do ar"), ConfigVariableString("msg-tempoh", "Tempo (h)"), ConfigVariableString("msg-umidadegra", "Umidade"));
 }
 
 //Constroi o grafico de temperatura do solo X tempo.
@@ -2008,7 +2008,7 @@ PT(Graphics) GraphicsMenu::novo_grafico5_TempSolo() {
 //	graphic5->set_Titulo_EixoX("Tempo (h)");
 //	graphic5->set_Titulo_EixoY("Temperatura (C)");
 //	graphic5->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorTemperaturaSolo());
-	return make_new_chart(History::HI_soil_temperature, graphic5, "Temperatura do solo", "Tempo (h)", "Temperatura (C)");
+	return make_new_chart(History::HI_soil_temperature, graphic5, ConfigVariableString("msg-graficots", "Temperatura do solo"), ConfigVariableString("msg-tempoh", "Tempo (h)"), ConfigVariableString("msg-tempecel", "Temperatura (C)"));
 }
 
 //Constroi o grafico de alimentacao X tempo.
@@ -2022,7 +2022,7 @@ PT(Graphics) GraphicsMenu::novo_grafico6_Alimentacao() {
 //	graphic6->set_Titulo_EixoX("Tempo (h)");
 //	graphic6->set_Titulo_EixoY("Alimentacao");
 //	graphic6->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorAlimentacao());
-	return make_new_chart(History::HI_feeding, graphic6, "Alimentação", "Tempo (h)", "Alimentação");
+	return make_new_chart(History::HI_feeding, graphic6, ConfigVariableString("msg-graficoal", "Alimentação"), ConfigVariableString("msg-tempoh", "Tempo (h)"), ConfigVariableString("msg-graficoal", "Alimentação"));
 }
 
 //Constroi o grafico de energia X tempo.
@@ -2036,7 +2036,7 @@ PT(Graphics) GraphicsMenu::novo_grafico7_Energia() {
 //	graphic7->set_Titulo_EixoX("Tempo (h)");
 //	graphic7->set_Titulo_EixoY("Energia");
 //	graphic7->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorEnergia());
-	return make_new_chart(History::HI_energy, graphic7, "Energia", "Tempo (h)", "Energia");
+	return make_new_chart(History::HI_energy, graphic7, ConfigVariableString("msg-graficoen", "Energia"), ConfigVariableString("msg-tempoh", "Tempo (h)"), ConfigVariableString("msg-graficoen", "Energia"));
 }
 
 //Constroi o grafico de gasto energetico X tempo.
@@ -2050,7 +2050,7 @@ PT(Graphics) GraphicsMenu::novo_grafico8_GastoEnergetico() {
 //	graphic8->set_Titulo_EixoX("Tempo (h)");
 //	graphic8->set_Titulo_EixoY("Gasto energetico");
 //	graphic8->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorGastoEnergiticoTotal());
-	return make_new_chart(History::HI_total_energy_cost, graphic8, "Gasto Energético", "Tempo (h)", "Gasto Energético");
+	return make_new_chart(History::HI_total_energy_cost, graphic8, ConfigVariableString("msg-graficogaen", "Gasto Energético"), ConfigVariableString("msg-tempoh", "Tempo (h)"), ConfigVariableString("msg-graficogaen", "Gasto Energético"));
 }
 
 //Desliga as luzes que indicam quais graficos estao ativos no painel de tempo.

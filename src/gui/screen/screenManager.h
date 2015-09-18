@@ -27,6 +27,8 @@ public:
 
 	virtual void unload();
 
+
+
 	virtual void open_screen(PT(Screen) screen);
 	virtual void close_screen(PT(Screen) screen);
 	virtual PT(Screen) get_active_screen();

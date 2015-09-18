@@ -27,7 +27,7 @@ void GameOverScreen::load(){
 	np_frame_tela.set_alpha_scale(0.0);
 
 	lb_fim_do_jogo = new TextNode("lb_fim_de_jogo");
-	lb_fim_do_jogo->set_text("Fim do Jogo");
+	lb_fim_do_jogo->set_text(ConfigVariableString("msg-fim","Fim do Jogo"));
 	lb_fim_do_jogo->set_font(manager->get_default_font());
 	lb_fim_do_jogo->set_shadow(0.05, 0.05);
 	lb_fim_do_jogo->set_shadow_color(0, 0, 0, 1);
@@ -48,7 +48,7 @@ void GameOverScreen::load(){
 	np_lb_indica_morte.set_color(1, 1, 1, 1, 0);
 
 	//default_button_config(btn_restart, np_btn_restart, "Reiniciar", LVecBase3f(0, 0, 0), restart);
-	default_button_config(btn_sair, np_btn_sair, "Sair", LVecBase3f(0, 0, 0), sair_action);
+	default_button_config(btn_sair, np_btn_sair, ConfigVariableString("msg-sair","Sair"), LVecBase3f(0, 0, 0), sair_action);
 }
 
 void GameOverScreen::show() {
@@ -58,23 +58,23 @@ void GameOverScreen::show() {
 	/* Mostrando a causada da morte do player */
 	switch (death) {
 		case Player::PDT_MALNUTRITION:
-			lb_indica_morte->set_text("Causa da Morte: Desnutrição.");
+			lb_indica_morte->set_text(ConfigVariableString("msg-causades", "Causa da Morte: Desnutrição."));
 			break;
 
 		case Player::PDT_HIGH_TEMPERATURE:
-			lb_indica_morte->set_text("Causa da Morte: Temperatura Alta.");
+			lb_indica_morte->set_text(ConfigVariableString("msg-causata", "Causa da Morte: Temperatura Alta."));
 			break;
 
 		case Player::PDT_LOW_TEMPERATURE:
-			lb_indica_morte->set_text("Causa da Morte: Temperatura Baixa.");
+			lb_indica_morte->set_text(ConfigVariableString("msg-causatb", "Causa da Morte: Temperatura Baixa."));
 			break;
 
 		case Player::PDT_OLD_AGE:
-			lb_indica_morte->set_text("Parabéns! Jogo finalizado!");
+			lb_indica_morte->set_text(ConfigVariableString("msg-zerou", "Parabéns! Jogo finalizado!"));
 			break;
 
 		case Player::PDT_DEHYDRATION:
-			lb_indica_morte->set_text("Causa da Morte: Desidratação.");
+			lb_indica_morte->set_text(ConfigVariableString("msg-causadesi", "Causa da Morte: Desidratação."));
 			break;
 		default:
 			break;

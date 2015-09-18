@@ -8,9 +8,12 @@
 #include "fontPool.h"
 
 #include "mouseButton.h"
-
+#include "textNode.h"
+#include "nodePath.h"
 #include "simdunas.h"
 #include "calangosMenuManager.h"
+
+
 
 /*! O menu é carregado e escondido. O manager é responsável por escolher o menu */
 StartMenu::StartMenu(PT(ScreenManager) manager) : Screen(manager){
@@ -43,12 +46,21 @@ void StartMenu::load(){
     np_logo.set_scale(0.1);
     np_logo.set_pos(0.0, 0, 0.6);
 
+
+
     //textos das opções do menu inicial
-	default_button_config(btn_play, np_play, "Jogar", LVecBase3f(0, 0, 0.1), play_action);
-	default_button_config(btn_options, np_options, "Opções", LVecBase3f(0, 0, -0.1), options_action);
-	default_button_config(btn_instructions, np_instructions, "Instruções", LVecBase3f(0, 0, -0.3), instructions_action);
-	default_button_config(btn_credits, np_credits, "Créditos", LVecBase3f(0, 0, -0.5), credits_action);
-	default_button_config(btn_exit, np_exit, "Sair", LVecBase3f(0, 0, -0.7), exit_action);
+	default_button_config(btn_play, np_play, ConfigVariableString("msg-jogar", "Jogar"), LVecBase3f(0, 0, 0.1), play_action);
+	default_button_config(btn_options, np_options, ConfigVariableString("msg-config", "Configurações"), LVecBase3f(0, 0, -0.1), options_action);
+	default_button_config(btn_instructions, np_instructions, ConfigVariableString("msg-inst", "Instruções"), LVecBase3f(0, 0, -0.3), instructions_action);
+	default_button_config(btn_credits, np_credits, ConfigVariableString("msg-cred", "Créditos"), LVecBase3f(0, 0, -0.5), credits_action);
+	default_button_config(btn_exit, np_exit, ConfigVariableString("msg-sair", "Sair"), LVecBase3f(0, 0, -0.7), exit_action);
+
+
+
+
+
+
+
 }
 
 void StartMenu::show() {
@@ -90,6 +102,7 @@ void StartMenu::credits_action(){
 void StartMenu::exit_action(){
 	exit(0);
 }
+
 
 NodePath StartMenu::get_np_options() {
 	return np_options;

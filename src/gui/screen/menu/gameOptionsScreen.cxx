@@ -28,7 +28,7 @@ void GameOptionsScreen::load() {
 
 	///carregando titulo do menu de configurações
 	lb_configuracoes_jogo = new TextNode("lb_configuracoes_jogo");
-	lb_configuracoes_jogo->set_text("Configurações do Jogo");
+	lb_configuracoes_jogo->set_text(ConfigVariableString("msg-conf", "Configurações do Jogo"));
 	lb_configuracoes_jogo->set_font(manager->get_default_font());
 	np_lb_configuracoes_jogo = get_root().attach_new_node(lb_configuracoes_jogo);
 	np_lb_configuracoes_jogo.set_pos(-0.7, 0, 0.8);
@@ -37,7 +37,7 @@ void GameOptionsScreen::load() {
 
 	//relogio virtual////////////////////
 	lb_relogio_virtual = new TextNode("lb_relogio_virtual");
-	lb_relogio_virtual->set_text("Relógio Virtual");
+	lb_relogio_virtual->set_text(ConfigVariableString("msg-relo", "Rélogio Virtual"));
 	lb_relogio_virtual->set_font(manager->get_default_font());
 	np_lb_relogio_virtual = get_root().attach_new_node(lb_relogio_virtual);
 	np_lb_relogio_virtual.set_pos(-1.2, 0, 0.6);
@@ -45,7 +45,7 @@ void GameOptionsScreen::load() {
 	np_lb_relogio_virtual.set_color(1, 1, 1, 1, 0);
 
 	lb_frase_relogio = new TextNode("lb_frase_relogio");
-	lb_frase_relogio->set_text(" Minutos = Um dia virtual do jogo");
+	lb_frase_relogio->set_text(ConfigVariableString("msg-minu", " Minutos = Um dia virtual do jogo"));
 	lb_frase_relogio->set_font(manager->get_default_font());
 	np_lb_frase_relogio = get_root().attach_new_node(lb_frase_relogio);
 	np_lb_frase_relogio.set_pos(-1.05, 0, 0.375);
@@ -103,7 +103,7 @@ void GameOptionsScreen::load() {
 
 	// Opções de Áudio
 	lb_opcoes_de_audio = new TextNode("lb_opcoes_de_audio");
-	lb_opcoes_de_audio->set_text("Opções de Áudio");
+	lb_opcoes_de_audio->set_text(ConfigVariableString("msg-audi", "Opções de Áudio"));
 	lb_opcoes_de_audio->set_font(manager->get_default_font());
 	np_lb_opcoes_de_audio = get_root().attach_new_node(lb_opcoes_de_audio);
 	np_lb_opcoes_de_audio.set_pos(-1.2, 0.0, 0.075);
@@ -111,7 +111,7 @@ void GameOptionsScreen::load() {
 	np_lb_opcoes_de_audio.set_color(1, 1, 1, 1, 0);
 
 	lb_efeitos_sonoros = new TextNode("lb_efeitos_sonoros");
-	lb_efeitos_sonoros->set_text("Efeitos Sonoros:");
+	lb_efeitos_sonoros->set_text(ConfigVariableString("msg-efei", "Efeitos Sonoros:"));
 	lb_efeitos_sonoros->set_font(manager->get_default_font());
 	np_lb_efeitos_sonoros = get_root().attach_new_node(lb_efeitos_sonoros);
 	np_lb_efeitos_sonoros.set_pos(-1.2, 0.0, -0.125);
@@ -167,7 +167,7 @@ void GameOptionsScreen::load() {
 	event_handler->add_hook(btn_sfx_disabled->get_click_event(MouseButton::one()), enable_sfx, this);
 
 	lb_musicas = new TextNode("lb_musicas");
-	lb_musicas->set_text("Músicas:");
+	lb_musicas->set_text(ConfigVariableString("msg-musi", "Músicas:"));
 	lb_musicas->set_font(manager->get_default_font());
 	np_lb_musicas = get_root().attach_new_node(lb_musicas);
 	np_lb_musicas.set_pos(-0.79, 0.0, -0.35);
@@ -224,7 +224,7 @@ void GameOptionsScreen::load() {
 
 	// Opções de Colisão
 	lb_colisao = new TextNode("lb_colisao");
-	lb_colisao->set_text("Colisão:");
+	lb_colisao->set_text(ConfigVariableString("msg-coli", "Colisão:"));
 	lb_colisao->set_font(manager->get_default_font());
 	np_lb_colisao = get_root().attach_new_node(lb_colisao);
 	np_lb_colisao.set_pos(-1.2, 0.0, -0.55);

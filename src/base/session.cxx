@@ -38,17 +38,17 @@ Session::Session() {
 	_history = new CalangosHistory();
 
 	finished_loading = false;
-	stage_info.push_back("Criando Repositorio de Modelos...");
-	stage_info.push_back("Criando Repositorio de Imagens...");
-	stage_info.push_back("Criando Repositorio de Sons...");
-	stage_info.push_back("Criando Controle de Tempo...");
-	stage_info.push_back("Carregando Jogador...");
-	stage_info.push_back("Formação do Mundo...");
-	stage_info.push_back("Inicializando Clima e Microclima...");
-	stage_info.push_back("Criando Controle do Jogador...");
-	stage_info.push_back("Criando Controle de Camera...");
-	stage_info.push_back("Criando Interface...");
-	stage_info.push_back("Distribuindo animais...");
+	stage_info.push_back(ConfigVariableString("msg-cri1", "Criando Repositorio de Modelos..."));
+	stage_info.push_back(ConfigVariableString("msg-cri2", "Criando Repositorio de Imagens..."));
+	stage_info.push_back(ConfigVariableString("msg-cri3", "Criando Repositorio de Sons..."));
+	stage_info.push_back(ConfigVariableString("msg-cri4", "Criando Controle de Tempo..."));
+	stage_info.push_back(ConfigVariableString("msg-cri5", "Carregando Jogador..."));
+	stage_info.push_back(ConfigVariableString("msg-cri6", "Formação do Mundo..."));
+	stage_info.push_back(ConfigVariableString("msg-cri7", "Inicializando Clima e Microclima..."));
+	stage_info.push_back(ConfigVariableString("msg-cri8", "Criando Controle do Jogador..."));
+	stage_info.push_back(ConfigVariableString("msg-cri9", "Criando Controle de Camera..."));
+	stage_info.push_back(ConfigVariableString("msg-cri10", "Criando Interface..."));
+	stage_info.push_back(ConfigVariableString("msg-cri11", "Distribuindo Animais..."));
 }
 
 

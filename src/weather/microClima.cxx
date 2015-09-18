@@ -50,8 +50,10 @@ void MicroClima::event_player_hour_move(const Event*, void *data){
 	MicroClima::get_instance()->temp_toca_sector = ClimaTempo::get_instance()->get_temp_toca();
 	MicroClima::get_instance()->umidade_relativa_sector = ClimaTempo::get_instance()->get_umi_rel();
 
-	/*se o player est� na sombra e é entre 5h e 19h, atualiza as vari�veis*/
-	if((World::get_world()->get_terrain()->get_shadows()->is_in_shadow(*player, 0.1)) && (TimeControl::get_instance()->get_hora() > 6) && (TimeControl::get_instance()->get_hora() < 20)){
+	cout << "clima solo Antes: " << ClimaTempo::get_instance()->get_temp_solo() << endl;
+	/*se o player est� na sombra e é entre 6h e 20h, atualiza as vari�veis*/
+	if((World::get_world()->get_terrain()->get_shadows()->is_in_shadow(*player, 0.1))
+			/*&& (TimeControl::get_instance()->get_hora() > 6) && (TimeControl::get_instance()->get_hora() < 20)*/){
 		
 		#if(DEBUG_MCLIMA)
 			simdunas_cat.debug() << "\n Atualizando Microclima" << endl;
@@ -85,6 +87,7 @@ void MicroClima::event_player_hour_move(const Event*, void *data){
 				MicroClima::get_instance()->umidade_relativa_sector = 100;
 			}
 		}
+		cout << "clima solo DEPOIS: " << ClimaTempo::get_instance()->get_temp_solo() << endl;
 	}
 
 	#if(DEBUG_MCLIMA)
