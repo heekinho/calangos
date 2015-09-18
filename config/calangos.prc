@@ -98,6 +98,16 @@ calangos-density-gato-hard 72
 ### Configuração dos Lagartos (Coespecíficos, FASE 1)   ###
 ###########################################################
 calangos-density-lizards 45
+
+calangos-density-female-lizards-easy 0.6
+calangos-desity-male-lizards-easy 0.3
+
+calangos-density-female-lizards-medium 0.4
+calangos-density-male-lizards-medium 0.5
+
+calangos-density-female-lizards-hard 0.2
+calangos-density-male-lizards-hard 0.7
+
 calangos-speed-lizards 0.75
 
 
