@@ -210,13 +210,13 @@ msg-terointocavel180 Não ter recebido dano de nenhum predaor durante 180 segund
 
 
 msg-guerreiro - Guerreiro
-msg-espante2 Espante 2 lagartos machos (necessários 12 meses de vida).
-msg-espante5 Espante 5 lagartos machos (necessários 12 meses de vida).
-msg-espante10 Espante 10 lagartos machos (necessários 12 meses de vida).
+msg-espante2 Afaste 2 lagartos machos das fêmeas.
+msg-espante5 Afaste 5 lagartos machos das fêmeas.
+msg-espante10 Afaste 10 lagartos machos das fêmeas.
 
-msg-terespante2 Ter espantado 2 lagartos machos.
-msg-terespante5 Ter espantado 5 lagartos machos.
-msg-terespante10 Ter espantado 10 lagartos machos.
+msg-terespante2 Afastou 2 lagartos machos.
+msg-terespante5 Afastou 5 lagartos machos.
+msg-terespante10 Afastou 10 lagartos machos.
 
 #Achievements Hints#
 

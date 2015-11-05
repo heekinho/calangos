@@ -17,14 +17,14 @@ msg-lvl2 Level 2
 
 #Fase 1 Character Screen#
 
-msg-esco1 Difficult Level
+msg-esco1 Difficulty Level
 msg-facil Easy
 msg-medio Medium
 msg-dificil Hard
 msg-esco2 Age
 msg-jovem Young
 msg-adulto Adult
-msg-esco3 Choose Specie
+msg-esco3 Choose Species
 
 msg-avan Next >>
 
@@ -32,7 +32,7 @@ msg-avan Next >>
 
 msg-body Body Size
 msg-head Head Size
-msg-velo Velocity
+msg-velo Speed
 msg-temp Ideal Temperature
 msg-dens Lizards' Density
 msg-agre Lizards' Aggregation
@@ -40,7 +40,7 @@ msg-form (Diet) Ants
 msg-plan (Diet) Plants
 msg-outr (Diet) Others
 msg-ente Bury Ability
-msg-cicl Circadian Cicle
+msg-cicl Circadian Cycle
 
 msg-opt1 (Yes)
 msg-opt2 (No)
@@ -53,8 +53,8 @@ msg-opt4 (Night)
 msg-conf Game settings
 msg-relo Virtual Clock
 msg-minu Minutes = one virtual day in game
-msg-audi Áudio Options
-msg-efei Audible Effects:
+msg-audi Audio Options
+msg-efei Sound Effects:
 msg-musi Musics:
 msg-coli Colision:
 
@@ -67,7 +67,7 @@ msg-ins Instructions
 #Loading Screen#
 
 msg-objt1 Objective
-msg-objt2    Your objetive in this first stage is survive, grow yourself and breed. Your sucess will be measured for the number of times that you could breed. Try to control your energy level and hydration, and your internal temperature too. Your lizard live by at most 36 months.
+msg-objt2    Your objective in this first level is to survive, grow and reproduce. Your success will be measured by the number of times that you were able to breed. Try to control your energy level and hydration, and your internal temperature too. Your lizard lives for at most 36 months.
 msg-carre Loading...
 msg-proce Process:
 msg-come Start
@@ -95,7 +95,7 @@ msg-hinthidra Hydration
 msg-hinttempi Internal Temperature
 msg-hinttemps Ground Temperature
 msg-hintumi Air Humidity
-msg-hintrepro Reproduction Numbers
+msg-hintrepro Reproduction Count
 msg-hintidade Age
 msg-hintgraf Charts
 msg-mes month
@@ -135,29 +135,29 @@ msg-fechar Close
 msg-andamento PROGRESS
 
 
-msg-senhormordida - Perfect Bite lord.
+msg-senhormordida - Perfect Bite
 msg-coma10 Eat 10 times without miss a bite.
 msg-coma25 Eat 25 times without miss a bite.
 msg-coma50 Eat 50 times without miss a bite.
 
 
-msg-obomdeboca - The Good Devourer
-msg-coma4dife eat 4 especies differents of insects or plants.
-msg-coma5dife eat more 5 especies differents of insects or plants.
+msg-obomdeboca - The Devourer
+msg-coma4dife Eat 4 different species of insects or plants.
+msg-coma5dife Eat 5 more different species of insects or plants.
 
-msg-tercomido4 Have eaten 4 especies differents of insects or plants.
-msg-tercomido9 Have eaten 9 especies differents of insects or plants.
-msg-tercomido15 Have eaten all the 14 especies differents of insects or plants.
+msg-tercomido4 Ate 4 different species of insects or plants.
+msg-tercomido9 Ate 9 different species of insects or plants.
+msg-tercomido15 Ate all the 14 different species of insects or plants.
 
 
-msg-sobrevivente - Survival
+msg-sobrevivente - Survivor
 msg-sobreviva4 Survive for 4 months.
 msg-sobreviva7 Survive for more 7 months.
 msg-sobreviva11 Survive for more 11 months.
 
-msg-tersobrevivido4 Be alived for 4 months.
-msg-tersobrevivido7 Be alived for 7 months.
-msg-tersobrevivido11 Be alived for 11 months.
+msg-tersobrevivido4 Alive for 4 months.
+msg-tersobrevivido7 Alive for 7 months.
+msg-tersobrevivido11 Alive for 11 months.
 
 
 msg-reprodutor - Breeder
@@ -165,68 +165,68 @@ msg-reproduza3 Breed 3 times.
 msg-reproduza6 Breed 6 times.
 msg-reproduza10 Breed 10 times.
 
-msg-terreproduzido3 Have breeden 3 times.
-msg-terreproduzido6 Have breeden more 6 times.
-msg-terreproduzido10 Have breeden more 10 times.
+msg-terreproduzido3 Bred 3 times.
+msg-terreproduzido6 Bred 6 more times.
+msg-terreproduzido10 Bred 10 more times.
 
 
 msg-temperatura - Temperature
-msg-temperatura45 Keep your temperature between 35 and 40 deegres for 45 seconds.
-msg-temperatura60 Keep your temperature between 35 and 40 deegres for 60 seconds.
-msg-temperatura90 Keep your temperature between 35 and 40 deegres for 90 seconds.
+msg-temperatura45 Keep your temperature between 35 and 40 degrees for 45 seconds.
+msg-temperatura60 Keep your temperature between 35 and 40 degrees for 60 seconds.
+msg-temperatura90 Keep your temperature between 35 and 40 degrees for 90 seconds.
 
-msg-tertemperatura45 Had keeped your temperature between 35 and 40 deegres for 45 seconds.
-msg-tertemperatura60 Had keeped your temperature between 35 and 40 deegres for 60 seconds.
-msg-tertemperatura90 Had keeped your temperature between 35 and 40 deegres for 90 seconds.
+msg-tertemperatura45 Kept temperature between 35 and 40 degrees for 45 seconds.
+msg-tertemperatura60 Kept temperature between 35 and 40 degrees for 60 seconds.
+msg-tertemperatura90 Kept temperature between 35 and 40 degrees for 90 seconds.
 
 
 msg-hidratacao - Hydration
-msg-hidratacao70 Keep your hydration more than 70 for 60 seconds.
-msg-hidratacao80 Keep your hydration more than 80 for 120 seconds.
-msg-hidratacao90 Keep your hydration more than 90 for 180 seconds.
+msg-hidratacao70 Keep your hydration over 70 for 60 seconds.
+msg-hidratacao80 Keep your hydration over 80 for 120 seconds.
+msg-hidratacao90 Keep your hydration over 90 for 180 seconds.
 
-msg-terhidratacao70 Had keeped your hydration more than 70 for 60 seconds.
-msg-terhidratacao80 Had keeped your hydration more than 80 for 120 seconds.
-msg-terhidratacao90 Had keeped your hydration more than 90 for 180 seconds.
+msg-terhidratacao70 Kept hydration over 70 for 60 seconds.
+msg-terhidratacao80 Kept hydration over 80 for 120 seconds.
+msg-terhidratacao90 Kept hydration over 90 for 180 seconds.
 
 
 msg-energia - Energy
-msg-energia70 Keep your energy more than 70 for 60 seconds.
-msg-energia80 Keep your energy more than 80 for 120 seconds.
-msg-energia90 Keep your energy more than 90 for 180 seconds.
+msg-energia70 Keep your energy over 70 for 60 seconds.
+msg-energia80 Keep your energy over 80 for 120 seconds.
+msg-energia90 Keep your energy over 90 for 180 seconds.
 
-msg-terenergia70 Had keeped your energy more than 70 for 60 seconds.
-msg-terenergia80 Had keeped your energy more than 80 for 120 seconds.
-msg-terenergia90 Had keeped your energy more than 90 for 180 seconds.
+msg-terenergia70 Kept energy over 70 for 60 seconds.
+msg-terenergia80 Kept energy over 80 for 120 seconds.
+msg-terenergia90 Kept energy over 90 for 180 seconds.
 
 
 msg-ointocavel - The Untouchable
-msg-ointocavel60 Stay without recieve damage from the predators for 60 seconds.
-msg-ointocavel120 Stay without recieve damage from the predators for 120 seconds.
-msg-ointocavel180 Stay without recieve damage from the predators for 180 seconds.
+msg-ointocavel60 Do not receive damage from the predators for 60 seconds.
+msg-ointocavel120 Do not receive damage from the predators for 120 seconds.
+msg-ointocavel180 Do not receive damage from the predators for 180 seconds.
 
-msg-terointocavel60 Do not have recieved damage from de predators for 60 seconds.
-msg-terointocavel120 Do not have recieved damage from de predators for 120 seconds.
-msg-terointocavel180 Do not have recieved damage from de predators for 180 seconds.
+msg-terointocavel60 No damage from de predators for 60 seconds.
+msg-terointocavel120 No damage from de predators for 120 seconds.
+msg-terointocavel180 No damage from de predators for 180 seconds.
 
 
 msg-guerreiro - Warrior
-msg-espante2 Daze 2 male lizards (need 12 months alived).
-msg-espante5 Daze 5 male lizards (need 12 months alived).
-msg-espante10 Daze 10 male lizards (need 12 months alived).
+msg-espante2 Drive off 2 male lizards from females.
+msg-espante5 Drive off 5 male lizards from females.
+msg-espante10 Drive off 10 male lizards (need 12 months of life).
 
-msg-terespante2 Have dazed 2 male lizards (need 12 months alived).
-msg-terespante5 Have dazed 5 male lizards (need 12 months alived).
-msg-terespante10 Have dazed 10 male lizards (need 12 months alived).
+msg-terespante2 Drove off 2 male lizards from females.
+msg-terespante5 Drove off 5 male lizards from females.
+msg-terespante10 Drove off 10 male lizards from females.
 
 #Achievements Hints#
 
-msg-conquistap1 You reached the level  
+msg-conquistap1 You reached level  
 
-msg-senhormordidap2  of the achievement: Perfect Bite Lord
-msg-survivalp2  of the achievement: Survival
+msg-senhormordidap2  of the achievement: Perfect Bite 
+msg-survivalp2  of the achievement: Survivor
 msg-reprodutorp2  of the achievement: Breeder
-msg-bomdebocap2  of the achievement: The Good Devourer
+msg-bomdebocap2  of the achievement: The Devourer
 msg-temperaturap2 of the achievement: Temperature
 msg-hidratacaop2 of the achievement: Hydration
 msg-energiap2 of the achievement: Energy
@@ -235,17 +235,17 @@ msg-guerreirop2 of the achievement: Warrior
 
 #Graphics Menu#
 
-msg-tipografico Graphic Type
+msg-tipografico Type of Graphic 
 msg-tipotempo Time
 msg-tipovariavel Variable
 msg-graficoti Internal Temperature
 msg-graficohi Hydration
 msg-graficota Air Temperature
-msg-graficoumi Air Umidity
+msg-graficoumi Air Humidity
 msg-graficots Ground Temperature
 msg-graficoal Feeding
 msg-graficoen Energy
-msg-graficogaen Energy Waste
+msg-graficogaen Energy Expenditure
 msg-tempoh Time (h)
 msg-tempecel Temperature (C)
 msg-hiporcen Hydration (%)
