@@ -1,3 +1,6 @@
+##Imagens##
+msg-imag models/gui/teclasEspanol.png
+
 ##Main Menu##
 
 msg-jogar Jugar
@@ -8,7 +11,7 @@ msg-sair Salir
 
 ##Default Back Button##
 
-msg-volt << Voltar
+msg-volt << Volver
 
 ##Play Menu##
 
@@ -17,239 +20,243 @@ msg-lvl2 Fase 2
 
 #Fase 1 Character Screen#
 
-msg-esco1 Nível de Dificuldade
+msg-esco1 Nivel de Dificultad
 msg-facil Fácil
 msg-medio Médio
 msg-dificil Difícil
-msg-esco2 Idade
-msg-jovem Jovem
+msg-esco2 Edad
+msg-jovem Joven
 msg-adulto Adulto
-msg-esco3 Escolha da Espécie 
+msg-esco3 Elegir la Especie 
 
-msg-avan Avançar >>
+msg-avan Avanzar >>
 
 #Fase 2 Character Edit#
 
-msg-body Tamanho do Corpo
-msg-head Tamanho da Cabeça
-msg-velo Velocidade
-msg-temp Temperatuda Ideal
-msg-dens Densidade de Lagartos
-msg-agre Agregação dos Lagartos
-msg-form (Dieta) Formigas
+msg-body Tamaño del Cuerpo
+msg-head Tamaño de la Cabeza
+msg-velo Velocidad
+msg-temp Temperatura Ideal
+msg-dens Densidad de Lagartos
+msg-agre Agregacíon de Lagartos
+msg-form (Dieta) Hormigas
 msg-plan (Dieta) Plantas
-msg-outr (Dieta) Outros
-msg-ente Capacidade de se Enterrar
+msg-outr (Dieta) Otros
+msg-ente Capacidade de Enterrarse
 msg-cicl Ciclo Circadiano
 
-msg-opt1 (Sim)
-msg-opt2 (Não)
+msg-opt1 (Si)
+msg-opt2 (No)
 
 msg-opt3 (Dia)
-msg-opt4 (Noite)
+msg-opt4 (Noche)
 
 #Settings Menu#
 
-msg-conf Configurações do Jogo
-msg-relo Rélogio Virtual
-msg-minu Minutos = Um dia virtual do jogo
-msg-audi Opções de Áudio
-msg-efei Efeitos Sonoros:
-msg-musi Músicas:
-msg-coli Colisão:
+msg-conf Configuraciones del Juego
+msg-relo Reloj Virtual
+msg-minu Minutos = Un dia virtual del juego
+msg-audi Opciones de Audio
+msg-efei Efectos Sonoros:
+msg-musi Sonidos:
+msg-coli Colisión:
 
 #Instructions Menu#
 
 msg-cont Controles
 msg-indi Indicadores
-msg-ins Instruções
+msg-ins Instrucciones
 
 #Loading Screen#
 
 msg-objt1 Objetivo
-msg-objt2    Seu objetivo nesta primeira fase é sobreviver, desenvolver-se e reproduzir. Seu sucesso será medido pelo número de vezes que conseguiu se reproduzir. Busque controlar o nível de energia e de hidratação, e também a temperatura interna. Seu lagarto vive até 36 meses.
-msg-carre Carregando...
-msg-proce Processo:
-msg-come Começar
-msg-concl Concluído
+msg-objt2    Su objetivo en esta fase es sobrevivir, desarrollarse y reproducirse. Su éxito será medido por el número de veces que logre reproducirse. Busque controlar la temperatura interna, el nivel de energía e hidratación. Su lagarto vive hasta 36 meses.
+msg-carre Cargando...
+msg-proce Proceso:
+msg-come Comenzar
+msg-concl Concluido
 
 #Session Loading#
 
-msg-cri1 Criando Repositório de Modelos...
-msg-cri2 Criando Repositório de Imagens...
-msg-cri3 Criando Repositório de Sons...
-msg-cri4 Criando Controle de Tempo...
-msg-cri5 Criando Jogador...
-msg-cri6 Formação do Mundo...
-msg-cri7 Inicializando Clima e Microclima...
-msg-cri8 Criando Controle do Jogador...
-msg-cri9 Criando Controle de Camera...
-msg-cri10 Criando Interface...
-msg-cri11 Distribuindo Animais...
+msg-cri1 Creando Archivo de Modelos...
+msg-cri2 Creando Archivo de Imágenes...
+msg-cri3 Creando Archivo de Sonidos...
+msg-cri4 Creando Control de Tiempo...
+msg-cri5 Creando Jugador...
+msg-cri6 Formación del Mundo...
+msg-cri7 Inicializando Clima y Microclima...
+msg-cri8 Creando Control del Jugador...
+msg-cri9 Creando Control de Cámara...
+msg-cri10 Creando Interface...
+msg-cri11 Distribuyendo Animales...
 
 #Game Status#
 
-msg-hinttempo Tempo
-msg-hintenerg Energia
-msg-hinthidra Hidratação
+msg-hinttempo Tiempo
+msg-hintenerg Energía
+msg-hinthidra Hidratación
 msg-hinttempi Temperatura Interna
-msg-hinttemps Temperatura do Solo
-msg-hintumi Umidade do Ar
-msg-hintrepro Numero de Reproduções
-msg-hintidade Idade
+msg-hinttemps Temperatura del Suelo
+msg-hintumi Humedad del Aire
+msg-hintrepro Número de Reproducciones
+msg-hintidade Edad
 msg-hintgraf Gráficos
-msg-mes mês
+msg-mes Mes
 
 #Pause Screen#
 
-msg-pauselabel Jogo Pausado!
-msg-realiza Realizações
-msg-videos Vídeos
+msg-pauselabel Juego Pausado!
+msg-realiza Logros
+msg-videos Videos
 msg-controles Controles
 msg-continue Continuar
-msg-sair Sair
+msg-sair Salir
 
 #Game Over Screen#
 
-msg-fim Fim do Jogo
-msg-causades Causa da Morte: Desnutrição
-msg-causata Causa da Morte: Temperatura Alta
-msg-causatb Causa da Morte: temperatura Baixa
-msg-zerou Parabéns! Jogo Finalizado!
-msg-causadesi Causa da Morte: Desidratação
+msg-fim Fin del Juego
+msg-causades Causa de Muerte: Desnutrição
+msg-causata Causa de Muerte: Temperatura Alta
+msg-causatb Causa de Muerte: temperatura Baja
+msg-zerou Felicitaciones! Juego Finalizado!
+msg-causadesi Causa da Muerte: Deshidratación
 
 #Videos Window#
 
 msg-lagarto Lagartos
-msg-predador Predadores
+msg-predador Depredadores
 msg-presa Presas
 msg-clima Clima
-msg-habitat Habitat
+msg-habitat Hábitat
 
 #Window#
 
-msg-fechar Fechar
+msg-fechar Cerrar
 
 #Achievements#
 
-msg-andamento ANDAMENTO
+msg-andamento PROGRESO
 
 
-msg-senhormordida - Senhor mordida perfeita
-msg-coma10 Coma 10 vezes sem errar a mordida.
-msg-coma25 Coma 25 vezes sem errar a mordida.
-msg-coma50 Coma 50 vezes sem errar a mordida.
+msg-senhormordida - Mordida perfecta
+msg-coma10 Coma 10 veces sin fallar la mordida.
+msg-coma25 Coma 25 veces sin fallar la mordida.
+msg-coma50 Coma 50 veces sin fallar la mordida.
 
 
-msg-obomdeboca - O bom de boca
-msg-coma4dife Coma 4 espécies diferentes de insetos ou plantas.
-msg-coma5dife Coma mais 5 espécies diferentes de insetos ou plantas.
+msg-obomdeboca - Buena mordida
+msg-coma4dife Coma 4 especies diferentes de insectos o plantas.
+msg-coma5dife Coma más 5 especies diferentes de insectos o plantas.
 
-msg-tercomido4 Ter comido 4 espécies diferentes de insetos ou plantas.
-msg-tercomido9 Ter comido 9 espécies diferentes de insetos ou plantas.
-msg-tercomido15 Ter comido de todas as 14 espécies diferentes de insetos ou plantas.
+msg-tercomido4 Haber comido 4 especies diferentes de insectos o plantas.
+msg-tercomido9 Haber comido 9 especies diferentes de insectos o plantas.
+msg-tercomido15 Haber comido de todas las 14 especies diferentes de insectos o plantas.
 
 
-msg-sobrevivente - Sobrevivente
+msg-sobrevivente - Sobreviviente
 msg-sobreviva4 Sobreviva por 4 meses.
-msg-sobreviva7 Sobreviva por mais 7 meses.
-msg-sobreviva11 Sobreviva por mais 11 meses.
+msg-sobreviva7 Sobreviva por 7 meses más.
+msg-sobreviva11 Sobreviva por 11 meses más.
 
-msg-tersobrevivido4 Ter sobrevivido por 4 meses.
-msg-tersobrevivido7 Ter sobrevivido por 7 meses.
-msg-tersobrevivido11 Ter sobrevivido por 11 meses.
+msg-tersobrevivido4 Haber sobrevivido por 4 meses.
+msg-tersobrevivido7 Haber sobrevivido por 7 meses.
+msg-tersobrevivido11 Haber sobrevivido por 11 meses.
 
 
-msg-reprodutor - Reprodutor
-msg-reproduza3 Reproduza 3 vezes.
-msg-reproduza6 Reproduza 6 vezes.
-msg-reproduza10 Reproduza 10 vezes.
+msg-reprodutor - Reproductor
+msg-reproduza3 Reprodúzcase 3 veces.
+msg-reproduza6 Reprodúzcase 6 veces.
+msg-reproduza10 Reprodúzcase 10 veces.
 
-msg-terreproduzido3 Ter reproduzido 3 vezes.
-msg-terreproduzido6 Ter reproduzido mais 6 vezes.
-msg-terreproduzido10 Ter reproduzido mais 10 vezes.
+msg-terreproduzido3 Haberse reproducido 3 veces.
+msg-terreproduzido6 Haberse reproducido 6 veces más.
+msg-terreproduzido10 Haberse reproducido 10 veces más.
 
 msg-temperatura - Temperatura
-msg-temperatura45 Mantenha a sua temperatura entre 35 e 40 graus durante 45 segundos.
-msg-temperatura60 Mantenha a sua temperatura entre 35 e 40 graus durante 60 segundos.
-msg-temperatura90 Mantenha a sua temperatura entre 35 e 40 graus durante 90 segundos.
+msg-temperatura45 Mantenga su temperatura entre 35 y 40 grados durante 45 segundos.  
+msg-temperatura60 Mantenga su temperatura entre 35 y 40 grados durante 60 segundos.  
+msg-temperatura90 Mantenga su temperatura entre 35 y 40 grados durante 90 segundos.  
 
-msg-tertemperatura45 Ter mantido a temperatura entre 35 e 40 graus durante 45 segundos.
-msg-tertemperatura60 Ter mantido a temperatura entre 35 e 40 graus durante 60 segundos.
-msg-tertemperatura90 Ter mantido a temperatura entre 35 e 40 graus durante 90 segundos.
-
-
-msg-hidratacao - Hidratação
-msg-hidratacao70 Mantenha a sua hidratação maior que 70 durante 60 segundos.
-msg-hidratacao80 Mantenha a sua hidratação maior que 80 durante 120 segundos.
-msg-hidratacao90 Mantenha a sua hidratação maior que 90 durante 180 segundos.
-
-msg-terhidratacao70 Ter mantido a hidratação maior que 70 durante 60 segundos.
-msg-terhidratacao80 Ter mantido a hidratação maior que 80 durante 120 segundos.
-msg-terhidratacao90 Ter mantido a hidratação maior que 90 durante 180 segundos.
+msg-tertemperatura45 Haber mantenido la temperatura entre 35 y 40 grados durante 45 segundos.
+msg-tertemperatura60 Haber mantenido la temperatura entre 35 y 40 grados durante 60 segundos.
+msg-tertemperatura90 Haber mantenido la temperatura entre 35 y 40 grados durante 90 segundos.
 
 
-msg-energia - Energia
-msg-energia70 Mantenha a sua energia maior que 70 durante 60 segundos.
-msg-energia80 Mantenha a sua energia maior que 80 durante 120 segundos.
-msg-energia90 Mantenha a sua energia maior que 90 durante 180 segundos.
+msg-hidratacao - Hidratación
+msg-hidratacao70 Mantenga su hidratación mayor a 70 durante 60 segundos. 
+msg-hidratacao80 Mantenga su hidratación mayor a 80 durante 120 segundos. 
+msg-hidratacao90 Mantenga su hidratación mayor a 90 durante 180 segundos. 
 
-msg-terenergia70 Ter mantido a energia maior que 70 durante 60 segundos.
-msg-terenergia80 Ter mantido a energia maior que 80 durante 120 segundos.
-msg-terenergia90 Ter mantido a energia maior que 90 durante 180 segundos.
-
-
-msg-ointocavel - O intocável
-msg-ointocavel60 Permaneça sem receber dano de predadores durante 60 segundos.
-msg-ointocavel120 Permaneça sem receber dano de predadores durante 120 segundos.
-msg-ointocavel180 Permaneça sem receber dano de predadores durante 180 segundos.
-
-msg-terointocavel60 Não ter recebido dano de nenhum predador durante 60 segundos.
-msg-terointocavel120 Não ter recebido dano de nenhum predador durante 120 segundos.
-msg-terointocavel180 Não ter recebido dano de nenhum predaor durante 180 segundos.
+msg-terhidratacao70 Haber mantenido la hidratación mayor que 70 durante 60 segundos. 
+msg-terhidratacao80 Haber mantenido la hidratación mayor que 80 durante 120 segundos. 
+msg-terhidratacao90 Haber mantenido la hidratación mayor que 90 durante 180 segundos. 
 
 
-msg-guerreiro - Guerreiro
-msg-espante2 Espante 2 lagartos machos (necessários 12 meses de vida).
-msg-espante5 Espante 5 lagartos machos (necessários 12 meses de vida).
-msg-espante10 Espante 10 lagartos machos (necessários 12 meses de vida).
+msg-energia - Energía
+msg-energia70 Mantenga su energía mayor que 70 durante 60 segundos. 
+msg-energia80 Mantenga su energía mayor que 80 durante 120 segundos. 
+msg-energia90 Mantenga su energía mayor que 90 durante 180 segundos. 
 
-msg-terespante2 Ter espantado 2 lagartos machos.
-msg-terespante5 Ter espantado 5 lagartos machos.
-msg-terespante10 Ter espantado 10 lagartos machos.
+msg-terenergia70 Haber mantenido la energía mayor que 70 durante 60 segundos.
+msg-terenergia80 Haber mantenido la energía mayor que 80 durante 120 segundos.
+msg-terenergia90 Haber mantenido la energía mayor que 90 durante 180 segundos.
+
+
+msg-ointocavel - Intocable
+msg-ointocavel60 Permanezca sin ser atacado por depredadores durante 60 segundos. 
+msg-ointocavel120 Permanezca sin ser atacado por depredadores durante 120 segundos.
+msg-ointocavel180 Permanezca sin ser atacado por depredadores durante 180 segundos.
+
+msg-terointocavel60 No haber recibido lesiones de ningún depredador durante 60 segundos.
+msg-terointocavel120 No haber recibido lesiones de ningún depredador durante 120 segundos.
+msg-terointocavel180 No haber recibido lesiones de ningún depredador durante 180 segundos.
+
+
+msg-guerreiro - Guerrero
+msg-espante2 Ahuyente 2 lagartos machos (requiere edad de 12 meses).
+msg-espante5 Ahuyente 5 lagartos machos (requiere edad de 12 meses).
+msg-espante10 Ahuyente 10 lagartos machos (requiere edad de 12 meses).
+
+msg-terespante2 Haber ahuyentado 2 lagartos machos. 
+msg-terespante5 Haber ahuyentado 5 lagartos machos. 
+msg-terespante10 Haber ahuyentado 10 lagartos machos. 
 
 #Achievements Hints#
 
-msg-conquistap1 Foi alcançado o nivel 
+msg-conquistap1 Fue alcanzado el nivel 
 
-msg-senhormordidap2  da realização: Senhor Mordida Perfeita
-msg-survivalp2  da realização: Sobrevivente
-msg-reprodutorp2  da realização: Reprodutor
-msg-bomdebocap2  da realização: O Bom de Boca
-msg-temperaturap2 da realização: Temperatura
-msg-hidratacaop2 da realização: Hidratação
-msg-energiap2 da realização: Energia
-msg-intocavelp2 da realização: O Intocável
-msg-guerreirop2 da realização: Guerreiro
+msg-senhormordidap2  da logro: Mordida Perfecta
+msg-survivalp2  da logro: Sobreviviente
+msg-reprodutorp2  da logro: Reproductor
+msg-bomdebocap2  da logro: Buena Mordida
+msg-temperaturap2 da logro: Temperatura
+msg-hidratacaop2 da logro: Hidratación
+msg-energiap2 da logro: Energía
+msg-intocavelp2 da logro: Intocable
+msg-guerreirop2 da logro: Guerrero
 
 #Graphics Menu#
 
 msg-tipografico Tipo do Gráfico
-msg-tipotempo Tempo
-msg-tipovariavel Variável
+msg-tipotempo Tiempo
+msg-tipovariavel Variable
 msg-graficoti Temperatura Interna
-msg-graficohi Hidratação
-msg-graficota Temperatura do Ar
-msg-graficoumi Umidade do Ar
-msg-graficots Temperatura do Solo
-msg-graficoal Alimentação
-msg-graficoen Energia
+msg-graficohi Hidratación
+msg-graficota Temperatura del Aire
+msg-graficoumi Humedad del Aire
+msg-graficots Temperatura del Suelo
+msg-graficoal Alimentación
+msg-graficoen Energía
 msg-graficogaen Gasto Energético
-msg-tempoh Tempo (h)
+msg-tempoh Tiempo (h)
 msg-tempecel Temperatura (C)
-msg-hiporcen Hidratação (%)
-msg-hilagarto Hidratação do Lagarto
-msg-umidadegra Umidade
+msg-hiporcen Hidratación (%)
+msg-hilagarto Hidratación del Lagarto
+msg-umidadegra Hummedad
+
+msg-variatempi Temp Interna
+msg-variatempa Temp del Aire
+msg-variatemps Temp del Suelo
 
 #Texture Editor#
 
@@ -257,5 +264,5 @@ msg-textura1 Textura 1
 msg-textura2 Textura 2
 msg-textura3 Textura 3
 msg-textura4 Textura 4
-msg-jogar1  Jogar
-msg-telacores Editor de Cores
+msg-jogar1  Jugar
+msg-telacores Editor de Colores

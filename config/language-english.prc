@@ -1,3 +1,6 @@
+##Imagens##
+msg-imag models/gui/teclasIngles.png
+
 ##Main Menu##
 
 msg-jogar Play
@@ -98,7 +101,7 @@ msg-hintumi Air Humidity
 msg-hintrepro Reproduction Count
 msg-hintidade Age
 msg-hintgraf Charts
-msg-mes month
+msg-mes Month
 
 #Pause Screen#
 

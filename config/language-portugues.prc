@@ -1,3 +1,6 @@
+##Imagens##
+msg-imag models/gui/teclasPortugues.png
+
 ##Main Menu##
 
 msg-jogar Jogar
@@ -33,7 +36,7 @@ msg-avan Avançar >>
 msg-body Tamanho do Corpo
 msg-head Tamanho da Cabeça
 msg-velo Velocidade
-msg-temp Temperatuda Ideal
+msg-temp Temperatura Ideal
 msg-dens Densidade de Lagartos
 msg-agre Agregação dos Lagartos
 msg-form (Dieta) Formigas
@@ -98,7 +101,7 @@ msg-hintumi Umidade do Ar
 msg-hintrepro Numero de Reproduções
 msg-hintidade Idade
 msg-hintgraf Gráficos
-msg-mes mês
+msg-mes Mês
 
 #Pause Screen#
 
