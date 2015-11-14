@@ -303,13 +303,23 @@ void PlayerControl::update(){
 	//if(global_clock->get_frame_count()%10 == 0)
 	calc_closest_objects();
 	if(_closest_biteable){
-		LPoint3f max, min;
-		/* TODO: NÃO É PRA CALCULAR TODA HORA!!! É PRA ARMAZENAR ESSA INFORMAÇÃO! */
-		//closest_object->calc_tight_bounds(min, max);
-		_closest_biteable->calc_tight_bounds(min, max);
+
 
 		indicator.set_pos(_closest_biteable->get_pos());
-		indicator.set_z(max.get_z() + 0.01);
+
+
+		if(/*DCAST(_closest_biteable, Prey)*/_closest_biteable->get_height() != 0) {
+			indicator.set_z(_closest_biteable->get_z() + _closest_biteable->get_height() + 0.01);
+		}
+		else {
+			LPoint3f max, min;
+			/* TODO: NÃO É PRA CALCULAR TODA HORA!!! É PRA ARMAZENAR ESSA INFORMAÇÃO! */
+			//closest_object->calc_tight_bounds(min, max);
+			_closest_biteable->calc_tight_bounds(min, max);
+			indicator.set_z(max.get_z() + 0.01);
+		}
+
+
 		indicator.unstash();
 	}
 	else indicator.stash();
