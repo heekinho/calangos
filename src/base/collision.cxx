@@ -58,7 +58,7 @@ void collision::playerCollision(NodePath* node){
         CollisionNode* cNode = new CollisionNode("Player"); //cria nó de colisão
         cNode->add_solid(new CollisionSphere(0, 0, -20, 180.0)); //cria solido colisão (esfera) e add ao nó de colisão
         NodePath cplayer = node->attach_new_node(cNode);
-        //cplayer.show();
+        cplayer.show();
         pusher.add_collider(cplayer, *node);
         collTravPlayer->add_collider(cplayer , &pusher);
     }
@@ -87,45 +87,53 @@ void collision::collisionNpcFast(NodePath* node, float x, float y, float z, floa
       collTravPlayer->add_collider(npc , &pusher);
    }
 }
-   //sendo usado na classe lizard no método construtor.
-void collision::collisionNpcSlow(NodePath* node, float x, float y, float z, float raio){
-    if(get_colisao()){
 
-    CollisionNode* cNode = new CollisionNode("NPC");
-    cNode->add_solid(new CollisionSphere(x, y, z, raio));
-    NodePath npc = node->attach_new_node(cNode);
-       npc.show();
-      pusher.add_collider(npc, *node);
-      collTravSlow->add_collider(npc , &pusher);
+//sendo usado na classe lizard no método construtor.
+void collision::collisionNpcSlow(NodePath* node, float x, float y, float z, float raio) {
+	if (get_colisao()) {
 
-    }
-  }
+		CollisionNode* cNode = new CollisionNode("NPC");
+		cNode->add_solid(new CollisionSphere(x, y, z, raio));
+		NodePath npc = node->attach_new_node(cNode);
+		npc.show();
+		pusher.add_collider(npc, *node);
+		collTravSlow->add_collider(npc, &pusher);
+
+	}
+}
 
 //Adiciona sólido de colisão aos vegetais, sendo usado na classe vegetal
 //Exemplo de como usar esse método: collision::get_instance()->esferaCollision(&node,x,y,z,raio);
 void collision::esferaCollision(NodePath* node, float x, float y, float z, float raio){
-   if(get_colisao()){//verifica se a colisão foi ativada pelo jogador
+	if (get_colisao()) {  //verifica se a colisão foi ativada pelo jogador
 
-       CollisionNode* cNode = new CollisionNode("no");
-      cNode->add_solid(new CollisionSphere(x, y, z, raio));
-      NodePath no = node->attach_new_node(cNode);
-      //no.show();
-  }
+		CollisionNode* cNode = new CollisionNode("no");
+		cNode->add_solid(new CollisionSphere(x, y, z, raio));
+		NodePath no = node->attach_new_node(cNode);
+		no.show();
+
+		pusher.add_collider(no, *node);
+		collTravSlow->add_collider(no, &pusher);
+	}
 }
 
 //ESSE MÉTODO ESTÁ SENDO USADO NA CLASSE timeControl NO MÉTODO event_pframe(parâmetros);
 //ele é responsável por realizar o tratamento de colisões do jogador e da Sirema (animais rápidos)
 //devendo, por tanto, ser utilizado a cada frame.
 void collision::detectaColisaoFps(){
-    if(get_colisao() &&   collTravPlayer->get_num_colliders() > 1  ){//verifica se a colisão foi ativada pelo jogador
-    collTravPlayer->traverse(render);
+	//cout << "Colision Detection FPS!" << endl;
+    if(get_colisao() /*&&   collTravPlayer->get_num_colliders() > 1*/  ){//verifica se a colisão foi ativada pelo jogador
+    	collTravPlayer->traverse(render);
     }
 }
 //ESSE MÉTODO ESTÁ SENDO USADO NA CLASSE timeControl NO MÉTODO event_psegundo_real()
 //ele é responsável por realizar o tratamento de colisões dos lagartos NPCs. (animais lentos)
 void collision::detectaColisaoSeg(){
-    if(get_colisao() &&   collTravSlow->get_num_colliders() > 1){//verifica se a colisão foi ativada pelo jogador
-    collTravSlow->traverse(render);
+	//cout << "Colision Detection per Second!" << endl;
+	// Verifica se a colisão foi ativada pelo jogador
+    if(get_colisao() /*&& collTravSlow->get_num_colliders() > 1*/){
+    	//cout << "Passed Condition. Traversing." << endl;
+    	collTravSlow->traverse(render);
     }
 }
 

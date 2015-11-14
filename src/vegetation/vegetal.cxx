@@ -71,7 +71,7 @@ Vegetal::~Vegetal(){
 void Vegetal::configure_vegetal(PT(Vegetal) base_vegetal){
 	set_area(base_vegetal->get_area());
 	set_radius(base_vegetal->get_radius());
-	set_scale(base_vegetal->get_scale());
+	//set_scale(base_vegetal->get_scale());
 	set_offset_z(base_vegetal->get_offset_z());
 	set_h(base_vegetal->get_h());
 	set_vegetal_name(base_vegetal->get_vegetal_name());
@@ -304,13 +304,15 @@ void Vegetal::add_vegetal_model(const string &name, float radius, float scale, f
 		/* Adiciona colisão a todos os vegetais */
 		/* TODO: esses valores de raios não estão perfeitos ainda */
 		collision::get_instance()->esferaCollision(especie, x, y, z, multiplicador*radius);
-		
+
 		//especie->set_area(area);
 		especie->set_radius(radius);
-		especie->set_scale(scale);
+		especie->set_scale(scale*scale);
 		especie->set_offset_z(offset_z);
 		especie->set_vegetal_name(name);
 		especie->set_vegetal_season(current->first);
+
+		especie->flatten_light();
 
 		models[map_name] = especie;
 
@@ -321,25 +323,34 @@ void Vegetal::add_vegetal_model(const string &name, float radius, float scale, f
 
 }
 
-//handler para carregar a lista de modelos de vegetal
-void Vegetal::add_vegetal_model(const string &map_name, const string &reposit_name, const string &veg_name,
-	            Area::AreaType area, float radius, float scale, float offset_z)
-{
-	PT(Vegetal) especie = new Vegetal(*ModelRepository::get_instance()->get_model(reposit_name));
-
-
-	especie->set_area(area);
-	especie->set_radius(radius);
-	especie->set_scale(scale);
-	especie->set_offset_z(offset_z);
-	especie->set_vegetal_name(veg_name);
-
-	models[map_name] = especie;
-}
+////handler para carregar a lista de modelos de vegetal
+//void Vegetal::add_vegetal_model(const string &map_name, const string &reposit_name, const string &veg_name,
+//	            Area::AreaType area, float radius, float scale, float offset_z)
+//{
+//	PT(Vegetal) especie = new Vegetal(*ModelRepository::get_instance()->get_model(reposit_name));
+//
+//
+//	especie->set_area(area);
+//	especie->set_radius(radius);
+//	//especie->set_scale(scale);
+//	especie->set_offset_z(offset_z);
+//	especie->set_vegetal_name(veg_name);
+//
+////	especie->flatten_light();
+//	models[map_name] = especie;
+//}
 
 //handler para carregar a lista de dados gerais de vegetal
 void Vegetal::add_data(const string &map_name, int value){
 	datas[map_name] = value;
+}
+
+
+#include "multiInstanceManager.h"
+PT(MultiInstanceManager) vegetable_manager;
+void Vegetal::instancing_vegetables(){
+	vegetable_manager = new MultiInstanceManager(1024);
+//	manager->register_model(model, rows * cols, true, true);
 }
 
 /*! Carrega todos os vegetais do jogo */
@@ -348,6 +359,7 @@ void Vegetal::load_vegetals(int density) {
 
 //	Vegetal::vegetals_placeholder.reparent_to(render);		// Don't render that!
 	Vegetal::visible_vegetals_placeholder.reparent_to(render);
+//	Vegetal::visible_vegetals_placeholder.detach_node();
 
 	//Vegetal::vegetals_placeholder.reparent_to(render);
 //	Vegetal::vegetals_placeholder = NodePath("vegetals group");
@@ -518,8 +530,9 @@ void Vegetal::update_show_hide(){
 //			sector->hide_vegetals();
 
 
-		if(sector->is_player_neighbor()) sector->vegetals()->get_root().unstash();
-		else sector->vegetals()->get_root().stash();
+		// SECTOR ITEM JA FAZ ISSO!
+//		if(sector->is_player_neighbor()) sector->vegetals()->get_root().unstash();
+//		else sector->vegetals()->get_root().stash();
 	}
 	World::get_world()->get_terrain()->get_shadows()->update_active_shadows();
 }

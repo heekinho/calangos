@@ -43,8 +43,8 @@ public:
 
 	static void add_vegetal_model(const string &name, float radius = 1.0, float scale = 1.0,
                         float offset_z  = 0.0, float multiplicador = 4.0, float x = 0, float y = 0, float z = 5);
-	static void add_vegetal_model(const string &map_name, const string &reposit_name, const string &veg_name,
-	            Area::AreaType area, float radius = 1.0, float scale = 1.0, float offset_z  = 0.0);
+//	static void add_vegetal_model(const string &map_name, const string &reposit_name, const string &veg_name,
+//	            Area::AreaType area, float radius = 1.0, float scale = 1.0, float offset_z  = 0.0);
 
 	float get_radius();
 	void set_radius(float radius);
@@ -83,6 +83,8 @@ public:
 	static const int VEGETAL_PERCENT_HIGH_AREA = 30;
 
 	static void update_show_hide();
+
+	void instancing_vegetables();
 
 private:
 	Vegetal();
