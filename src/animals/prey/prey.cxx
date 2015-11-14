@@ -24,7 +24,6 @@ Prey::Prey(NodePath node) : Animal(node) {
 	this->radius_thr = 1.5;
 	this->fleing = false;
 	set_velocity(ConfigVariableDouble("calangos-speed-prey", 0.8));
-	this->hub = NULL;
 };
 
 Prey::~Prey(){
@@ -313,62 +312,11 @@ void Prey::load_prey_specie(const string name, int qtd, double scale, int living
 
 		hub->change_size(size);
 
-
-
-//		cout << model.node()->get_bounds() << endl;
-//		cout << model.node()->get_bounds()->as_bounding_sphere()->get_radius() << endl;
-//
-//		test1.node()->set_bounds(model.node()->get_bounds());
-//		test1.node()->set_final(true);
-//
-//		LPoint3 min, max;
-//		test1.calc_tight_bounds(min, max);
-//		cout << "Bounds: " << (max-min) << endl;
-
-//		test1.set_scale(10);
-//		test1.set_pos(player->get_pos(render) + LPoint3f(rand()%10, rand()%10, 0));
-
-
 		// Hub IS a Prey. We need it to keep everything working
 		PT(Prey) npc = hub;
 
-//		PT(Prey) npc = new Prey(NodePath("Prey PlaceHolder"));
-//		npc->hub = new InstanceHub("Prey Hub", *npc);
-
-//		PT(InstanceNode) instance1 = manager->make_instance(model);
-//		NodePath test1 = dummy.attach_new_node(instance1);
-//		test1.set_scale(10);
-//		npc->hub->add_child(instance1);
-		//npc->hub->instances.push_back(instance1);
-
-//		PT(InstanceNode) instance2 = manager->make_instance(model);
-//		NodePath test2 = dummy.attach_new_node(instance2);
-//		test2.set_scale(10);
-//		npc->hub->add_child(instance2);
-		//npc->hub->instances.push_back(instance2);
-
-//		NodePath instance_np = npc->attach_new_node(instance);
-//		npc->hub->instances.push_back(instance);
-
-//		PT(Prey) npc = new Prey(NodePath(new InstanceHub("Prey Placeholder")));
-//		npc->reparent_to(dummy);
-
-//		PT(InstanceNode) instance = manager->make_instance(model);
-//		npc->attach_new_node(instance);
-		//DCAST(ModifiedPrey, npc)->change_size(size);
-
-//		PT(Prey) npc = new ModifiedPrey(NodePath("Prey PlaceHolder"));
-//		PT(InstanceNode) instanceNode = manager->make_instance(model);
-////		PT(InstanceNode) instanceNodeStatic = manager->make_instance(static_model);
-//		npc->attach_new_node(instanceNode);
-////		npc->attach_new_node(instanceNodeStatic);
-////		PT(Prey) npc = new ModifiedPrey(NodePath(instanceNode));
-//		DCAST(ModifiedPrey, npc)->change_size(size);
-//		npc->set_scale(10);
-
 		npc->configure_prey(name, living_tree_prob, nutricional, hidratacao);
 		npc->reparent_to(dummy);
-
 		
 //		//=====================================================//
 //		if(comp_group){
@@ -480,7 +428,6 @@ void Prey::act(){
 	}
 	else Animal::act();
 
-//	if(hub) hub->update(*this);
 	PT(InstanceHub) hub = DCAST(InstanceHub, this);
 	if(hub) hub->update();
 }

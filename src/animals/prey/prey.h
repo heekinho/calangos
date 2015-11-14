@@ -10,8 +10,6 @@ class Prey;
 class PreyRedistributer;
 #include "preyRedistributer.h"
 
-class InstanceHub;
-
 class Prey : public Animal, public Edible {
 public:
 	Prey(NodePath node);
@@ -58,7 +56,6 @@ public:
 	/*! Relacionado ao novo sistema de redistribuição */
 	static PreyRedistributer* redistributer;
 
-	PT(InstanceHub) hub;
 protected:
 	bool fleing;
 
