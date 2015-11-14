@@ -55,7 +55,7 @@ Setor::Setor(LPoint2d inicio, LPoint2d fim, int indice){
 	_toca_list = SectorItems<PT(ObjetoJogo)>(this);
 
 	_animal_list.get_root().reparent_to(_root);
-	_prey_list.get_root().reparent_to(_root);
+	//_prey_list.get_root().reparent_to(_root);
 	_predator_list.get_root().reparent_to(_root);
 	_vegetal_list.get_root().reparent_to(_root);
 	_edible_vegetal_list.get_root().reparent_to(_root);

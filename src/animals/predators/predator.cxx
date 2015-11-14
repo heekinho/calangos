@@ -578,19 +578,22 @@ void Predator::change_state(){
 
 					Lizard* presa = (Lizard*) prey.p();
 
-					if(presa->get_distance_squared(presa->get_arvore_da_sombra()->get_pos()) < Predator::dist_player_hide){
+					if (presa->get_arvore_da_sombra()) {
+						if (presa->get_distance_squared(presa->get_arvore_da_sombra()->get_pos()) < Predator::dist_player_hide) {
 
-						act_state = Predator::AS_walking;
+							act_state = Predator::AS_walking;
 
-						hunting_lizard = false;
+							hunting_lizard = false;
 
-						this->prey->set_hunted(false);
+							this->prey->set_hunted(false);
 
 
 
-						break;
+							break;
 
+						}
 					}
+
 
 
 

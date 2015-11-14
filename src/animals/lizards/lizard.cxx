@@ -306,11 +306,12 @@ bool Lizard::hide_from_predator(){
 
 	//Atualização de árvore mais proxima
 	this->arvore_da_sombra = this->get_setor()->vegetals()->get_closest_to(this->get_pos());
-//	if(this->arvore_da_sombra == NULL){
-//		flee(*predator);
-//		return false;
-//	}
-//Verifica se o lizard está mais próximo da árvore que o predador
+	if(this->arvore_da_sombra == NULL){
+		flee(*predator);
+		return false;
+	}
+
+	// Verifica se o lizard está mais próximo da árvore que o predador
 	float predator_arvore = predator->get_distance_squared(arvore_da_sombra->get_pos());
 	float lizard_arvore = this->get_distance(arvore_da_sombra->get_pos());
 	if(lizard_arvore < predator_arvore){
@@ -321,10 +322,6 @@ bool Lizard::hide_from_predator(){
 				this->move(get_velocity()*4);
 				return true;
 			}
-	}
-	else{
-//		flee(*predator);
-		return false;
 	}
 
 	return false;
