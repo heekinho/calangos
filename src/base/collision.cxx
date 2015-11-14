@@ -112,8 +112,8 @@ void collision::esferaCollision(NodePath* node, float x, float y, float z, float
 		NodePath no = node->attach_new_node(cNode);
 		no.show();
 
-		pusher.add_collider(no, *node);
-		collTravSlow->add_collider(no, &pusher);
+		//pusher.add_collider(no, *node);
+		//collTravSlow->add_collider(no, &pusher);
 	}
 }
 

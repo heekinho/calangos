@@ -347,10 +347,80 @@ void Vegetal::add_data(const string &map_name, int value){
 
 
 #include "multiInstanceManager.h"
+#include "instanceNode.h"
+
 PT(MultiInstanceManager) vegetable_manager;
+vector<PT(InstanceNode)> vegetable_instances;
+NodePath vegetable_instances_root = NodePath("Vegetable instances Root");
+
 void Vegetal::instancing_vegetables(){
-	vegetable_manager = new MultiInstanceManager(1024);
-//	manager->register_model(model, rows * cols, true, true);
+	cout << "Number of registered vegetable species: " << models.size() << endl;
+	cout << "List of registered vegetables: " << endl;
+	map<string,PT(Vegetal)>::iterator it;
+	for(it = models.begin(); it != models.end(); it++){
+		cout << it->first << endl;
+	}
+	cout << endl << endl;
+
+	cout << "Names registered: " << vegetals_name.size() << endl;
+	cout << "List of names: " << endl;
+	vector<string>::iterator names;
+	for(names = vegetals_name.begin(); names != vegetals_name.end(); names++){
+		cout << *names << endl;
+	}
+	cout << endl << endl;
+
+
+	map<string, int> vegetables_count;
+
+	int total = 0;
+	cout << "Vegetable per Sectors" << endl;
+	PT(Terrain) terrain = World::get_world()->get_terrain();
+	for(int i = 0; i < terrain->MAX_SETORES; i++){
+		SectorItems<PT(Vegetal)>::iterator j;
+		SectorItems<PT(Vegetal)>* vegetables = terrain->get_setor(i)->vegetals();
+		for(j = vegetables->begin(); j != vegetables->end(); j++){
+			PT(Vegetal) vegetable = *j;
+			string name = vegetable->get_child(0).get_name();
+			if(!vegetables_count.count(name)) vegetables_count[name] = 1;
+			else vegetables_count[name]++;
+
+			total++;
+		}
+	}
+
+	cout << "Report Size: " << vegetables_count.size() << endl;
+	vegetable_manager = new MultiInstanceManager(total);
+
+	map<string, int>::iterator itc;
+	for(itc = vegetables_count.begin(); itc != vegetables_count.end(); itc++){
+		cout << itc->first << " : " << itc->second << endl;
+
+		models[itc->first]->reparent_to(render);
+		vegetable_manager->register_model(*models[itc->first], itc->second);
+	}
+	cout << endl << endl;
+
+	//models["bromelia-chuvoso"]->reparent_to(render);
+	//vegetable_manager->register_model(*models["bromelia-chuvoso"], vegetables_count["bromelia-chuvoso"]);
+
+
+	for(int i = 0; i < terrain->MAX_SETORES; i++){
+		SectorItems<PT(Vegetal)>::iterator j;
+		SectorItems<PT(Vegetal)>* vegetables = terrain->get_setor(i)->vegetals();
+		for(j = vegetables->begin(); j != vegetables->end(); j++){
+			PT(Vegetal) vegetable = *j;
+			string name = vegetable->get_child(0).get_name();
+
+			PT(InstanceNode) instance = vegetable_manager->make_instance(*models[name]);
+			NodePath instance_np = vegetable_instances_root.attach_new_node(instance);
+			instance_np.set_pos(vegetable->get_pos());
+		}
+	}
+
+	vegetable_manager->update();
+
+
 }
 
 /*! Carrega todos os vegetais do jogo */
@@ -358,7 +428,7 @@ void Vegetal::load_vegetals(int density) {
 	load_default_model_and_data();
 
 //	Vegetal::vegetals_placeholder.reparent_to(render);		// Don't render that!
-	Vegetal::visible_vegetals_placeholder.reparent_to(render);
+//	Vegetal::visible_vegetals_placeholder.reparent_to(render);
 //	Vegetal::visible_vegetals_placeholder.detach_node();
 
 	//Vegetal::vegetals_placeholder.reparent_to(render);
@@ -392,6 +462,9 @@ void Vegetal::load_vegetals(int density) {
 		change_season(Season::DRY);
 	else
 		change_season(Season::RAINY);
+
+
+	instancing_vegetables();
 }
 
 /*! Remove todos os vegetais e comestíveis*/

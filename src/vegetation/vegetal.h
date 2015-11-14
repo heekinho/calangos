@@ -84,7 +84,7 @@ public:
 
 	static void update_show_hide();
 
-	void instancing_vegetables();
+	static void instancing_vegetables();
 
 private:
 	Vegetal();
