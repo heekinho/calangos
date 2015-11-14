@@ -83,9 +83,9 @@ void Terrain::create_default_terrain(){
 
 	// Configuracoes de textura para perto
 	PT(Texture) terrain_tex_near = TexturePool::load_texture("models/terrain/tile_near.jpg");
-	terrain_tex_near->set_wrap_u(Texture::WM_repeat);
-	terrain_tex_near->set_wrap_v(Texture::WM_repeat);
-	terrain_tex_near->set_minfilter(Texture::FT_linear_mipmap_linear);
+	terrain_tex_near->set_wrap_u(SamplerState::WM_repeat);
+	terrain_tex_near->set_wrap_v(SamplerState::WM_repeat);
+	terrain_tex_near->set_minfilter(SamplerState::FT_linear_mipmap_linear);
 
 	PT(TextureStage) stage_near = new TextureStage("stage_near");
 	get_root().set_texture(stage_near, terrain_tex_near);
@@ -93,9 +93,9 @@ void Terrain::create_default_terrain(){
 
 	// Configuracoes de textura para longe
 	PT(Texture) terrain_tex_far = TexturePool::load_texture("models/terrain/tile_far.jpg");
-	terrain_tex_far->set_wrap_u(Texture::WM_repeat);
-	terrain_tex_far->set_wrap_v(Texture::WM_repeat);
-	terrain_tex_far->set_minfilter(Texture::FT_linear_mipmap_linear);
+	terrain_tex_far->set_wrap_u(SamplerState::WM_repeat);
+	terrain_tex_far->set_wrap_v(SamplerState::WM_repeat);
+	terrain_tex_far->set_minfilter(SamplerState::FT_linear_mipmap_linear);
 
 	PT(TextureStage) stage_far = new TextureStage("stage_far");
 	get_root().set_texture(stage_far, terrain_tex_far);
@@ -651,8 +651,8 @@ void Terrain::load_water(){
 	//	water.set_texture(ts0, tex0);
 
 	water_tex = TexturePool::load_texture("models/terrain/down.png");
-	water_tex->set_wrap_u(Texture::WM_repeat);
-	water_tex->set_wrap_v(Texture::WM_repeat);
+	water_tex->set_wrap_u(SamplerState::WM_repeat);
+	water_tex->set_wrap_v(SamplerState::WM_repeat);
 
 	water_stage = new TextureStage("water");
 	water.set_texture(water_stage, water_tex);

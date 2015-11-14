@@ -976,24 +976,24 @@ void editorTextureScreen::change_texture(LRGBColord cor, int mask_x) {
     		float bright = mask.get_bright(i, j); //pega o brilho da mascara a cada pixel
 
                 if(bright > 0.1 && print_mask == 0){ //se for pra pintar todo o lagarto...
-                    result_image.set_xel(i, j, LRGBColord(cor.get_x()*image.get_red(i, j),
+                    result_image.set_xel(i, j, LRGBColorf(cor.get_x()*image.get_red(i, j),
 											   cor.get_y()*image.get_green(i, j) ,
 											   cor.get_z()*image.get_blue(i, j)));
                 }
                else if(bright > 0.6 && bright <= 0.85 && print_mask == 1){  //se for cinza claro
     			//LRGBColord c = LRGBColord(0, 0, 1);
-    			result_image.set_xel(i, j, LRGBColord(cor.get_x()*image.get_red(i, j),
+    			result_image.set_xel(i, j, LRGBColorf(cor.get_x()*image.get_red(i, j),
 											   cor.get_y()*image.get_green(i, j) ,
 											   cor.get_z()*image.get_blue(i, j)));
     		}
                 else if(bright > 0.85 && print_mask == 2){ //se for branco
-                    result_image.set_xel(i, j, LRGBColord(cor.get_x()*image.get_red(i, j),
+                    result_image.set_xel(i, j, LRGBColorf(cor.get_x()*image.get_red(i, j),
 											   cor.get_y()*image.get_green(i, j),
 											   cor.get_z()*image.get_blue(i, j)));
 
                 }
                 else if(bright > 0.1 && bright <= 0.6 && print_mask == 3){ //se for cinza escuro
-                    result_image.set_xel(i, j, LRGBColord(cor.get_x()*image.get_red(i, j),
+                    result_image.set_xel(i, j, LRGBColorf(cor.get_x()*image.get_red(i, j),
 											   cor.get_y()*image.get_green(i, j),
 											   cor.get_z()*image.get_blue(i, j)));
 

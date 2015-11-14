@@ -26,7 +26,7 @@
 PandaFramework* Simdunas::pframework = NULL;
 WindowFramework* Simdunas::pwindow = NULL;
 GuiLayer* Simdunas::pixel2d = NULL;
-NodePath Simdunas::clickable_render_2d = NULL;
+NodePath Simdunas::clickable_render_2d;
 bool Simdunas::play_clicked = false;
 TextFont* Simdunas::game_font = NULL;
 

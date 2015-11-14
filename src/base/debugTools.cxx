@@ -131,7 +131,7 @@ NodePath DebugTools::draw_custom_terrain_wireframe(){
 			ls.draw_to(i, j, terrain->get_elevation(i, j) + 0.001);
 		}
 	}
-	return ls.create();
+	return NodePath(ls.create());
 }
 
 

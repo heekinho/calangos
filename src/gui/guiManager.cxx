@@ -140,7 +140,7 @@ int GuiManager::conta=0;
 
 
 
-NodePath GuiManager::img_arrow_predator_position = NULL;
+NodePath GuiManager::img_arrow_predator_position;
 
 bool GuiManager::is_showing_arrow_predator = false;
 
@@ -3241,9 +3241,9 @@ void GuiManager::show_predator_location(void* data) {
 
 	//simdunas_cat.debug()<<"angulo = "<<angle<<endl;
 
-	LPoint3f pos_player = player->get_pos(player->node());
+	LPoint3f pos_player = player->get_pos(*player);
 
-	LPoint3f pos_predador = pursuer->get_pos(player->node());
+	LPoint3f pos_predador = pursuer->get_pos(*player);
 
 
 

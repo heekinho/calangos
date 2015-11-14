@@ -77,7 +77,7 @@ void Vegetal::configure_vegetal(PT(Vegetal) base_vegetal){
 	set_vegetal_name(base_vegetal->get_vegetal_name());
 	set_vegetal_season(base_vegetal->get_vegetal_season());
 
-	find_texture("*")->set_minfilter(Texture::FT_linear_mipmap_linear);
+	find_texture("*")->set_minfilter(SamplerState::FT_linear_mipmap_linear);
 	//hide();
 }
 
