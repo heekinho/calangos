@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
 	framework.open_framework(argc, argv);
 
 	/* TODO: Ajustar nome a cada versão do release */
-	framework.set_window_title("Simdunas v2.0 alpha");
+	framework.set_window_title("Calangos");
 
 
 	/* Configurações Iniciais da Janela */
