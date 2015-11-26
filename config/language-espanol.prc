@@ -4,6 +4,7 @@ msg-imag models/gui/teclasEspanol.png
 ##Main Menu##
 
 msg-jogar Jugar
+msg-idioma Línguas
 msg-config Configuraciones
 msg-inst Instrucciones
 msg-cred Creditos
@@ -115,9 +116,9 @@ msg-sair Salir
 #Game Over Screen#
 
 msg-fim Fin del Juego
-msg-causades Causa de Muerte: Desnutrição
+msg-causades Causa de Muerte: Desnutrición
 msg-causata Causa de Muerte: Temperatura Alta
-msg-causatb Causa de Muerte: temperatura Baja
+msg-causatb Causa de Muerte: Temperatura Baja
 msg-zerou Felicitaciones! Juego Finalizado!
 msg-causadesi Causa da Muerte: Deshidratación
 
@@ -144,7 +145,7 @@ msg-coma25 Coma 25 veces sin fallar la mordida.
 msg-coma50 Coma 50 veces sin fallar la mordida.
 
 
-msg-obomdeboca - Buena mordida
+msg-obomdeboca - Comelón
 msg-coma4dife Coma 4 especies diferentes de insectos o plantas.
 msg-coma5dife Coma más 5 especies diferentes de insectos o plantas.
 
@@ -228,7 +229,7 @@ msg-conquistap1 Fue alcanzado el nivel
 msg-senhormordidap2  da logro: Mordida Perfecta
 msg-survivalp2  da logro: Sobreviviente
 msg-reprodutorp2  da logro: Reproductor
-msg-bomdebocap2  da logro: Buena Mordida
+msg-bomdebocap2  da logro: Comelón
 msg-temperaturap2 da logro: Temperatura
 msg-hidratacaop2 da logro: Hidratación
 msg-energiap2 da logro: Energía
