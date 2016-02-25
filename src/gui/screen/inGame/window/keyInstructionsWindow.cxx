@@ -24,7 +24,7 @@ KeyInstructionsWindow::KeyInstructionsWindow(NodePath parent, float width, float
 	//img_teclas.set_scale(0.075, 0.0004, 0.06);
 	//img_teclas.set_pos(0.0, 0.0, 0.0);
 
-	img_teclas = ImageRepository::get_instance()->get_image("teclas");
+	img_teclas = ImageRepository::get_instance()->get_image("teclas_traduzidas");
 	img_teclas.reparent_to(np_frame);
 	img_teclas.set_scale(0.10);
 	img_teclas.set_pos(1.00, 0.0, 0.75);

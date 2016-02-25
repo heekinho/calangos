@@ -31,6 +31,9 @@ int posicao_grafico_energia;
 int posicao_grafico_gastoEnergetico;
 
 GraphicsMenu::GraphicsMenu(NodePath menu_frame_np) {
+	
+	
+
 	history = Session::get_instance()->history();
 
 	set_current_day(get_elapsed_days());
@@ -142,7 +145,7 @@ void GraphicsMenu::init_variables() {
 }
 
 void GraphicsMenu::click_event_botao_grafico_tempo(const Event*, void *data) {
-
+	
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
 
 	if (graphics_menu->get_grafico_tempo_ativo()) { // o gráfico ativo é do tipo tempo; ao clicar no botão, desabilita o gráfico
@@ -1669,17 +1672,24 @@ void GraphicsMenu::build_options() {
 
 //Inicia os objetos dos graficos.
 void GraphicsMenu::init_graphics() {
+	
 	 // por padrão, ao abrir o painel de gráficos, mostram-se os gráficos de Temperatura Interna e Hidratação (tipo tempo)
 	grafico_tempo_ativo = true;
+	
 	PT(Graphics) chart1 = this->novo_grafico1_TempInterna();
+	
 	//this->novo_grafico1_TempInterna();
 	posicao_grafico_tempInterna = 1;
+	
 	set_chart1(chart1);
+	
 	PT(Graphics) chart2 = this->novo_grafico2_Hidratacao();
 	//this->novo_grafico2_Hidratacao();
+	
 	posicao_grafico_hidratacao = 2;
 	set_chart2(chart2);
 	//graphic2->set_Position_Graphic(0.4, 0.1);
+	
 	this->novo_grafico3_TempAr();
 	graphic3->hide();
 	this->novo_grafico4_Umidade();
@@ -1752,7 +1762,14 @@ History::HList* GraphicsMenu::get_item_list_by_day(int day_number, History::HLis
 	History::HList* time = new History::HList(*time_list); // cópia do vetor de tempo
 	History::HList* item = new History::HList(*item_list); // cópia do vetor de itens (eixo Y)
 	double last_item_time_list; // último item do vetor de horas
-	double last_item_data_list = item->back(); // último item do vetor de dados - a lista é percorrida de trás para frente
+	cout << "antes da declaracao"<< endl;
+	
+	double last_item_data_list;
+	if(time->size() > 0)
+		last_item_data_list = item->back(); // último item do vetor de dados - a lista é percorrida de trás para frente
+	else
+		last_item_data_list = 0;
+	cout << "depois da declaracao"<< endl;
 	History::HList* result_list = new History::HList(); // retorno da função - lista de dados (eixo Y do gráfico) do dia passado como parâmetro
 	int current_day = get_elapsed_days(); // número de dias jogados
 	double previous_time_value = 25; // valor anterior na iteração do vetor de horas
@@ -1775,28 +1792,40 @@ History::HList* GraphicsMenu::get_item_list_by_day(int day_number, History::HLis
 
 	if (current_day == day_number) { // chegou ao dia desejado?
 		// atualiza as variáveis dos vetores de horas e dados, senão ficam com as referências da amostra adicionada acima
-		last_item_time_list = time->back();
-		last_item_data_list = item->back();
+		
+		
+		
+			last_item_time_list = time->back();
+			last_item_data_list = item->back();
+	
+
+		
 		while (last_item_time_list < previous_time_value && time->size() > 0) { // enquanto não chegar ao final da lista ou no dia anterior
 			result_list->push_back(last_item_data_list); // adiciona o item na lista de dados
+			
 			time->pop_back();
 			item->pop_back();
+			
 			previous_time_value = last_item_time_list;
+			if(time->size() > 0){
 			last_item_time_list = time->back(); // pega a última amostra do vetor de horas
 			last_item_data_list = item->back(); // pega o último item do vetor de dados
-		}
+			}
+			}
 	}
-
+	
 	return result_list; // o que fazer quando ela não for preenchida dentro do primeiro while?
 }
 
 // Obtém a lista de amostras de tempo (eixo X do gráfico) do dia passado como parâmetro
 // Por padrão o gráfico exibe a página do dia atual de jogo (último dia jogado), portanto a lista é percorrida de trás para frente
 History::HList* GraphicsMenu::get_time_list_by_day(int day_number, History::HList* time_list) {
-
+	
 	History::HList* time = new History::HList(*time_list); // cópia do vetor de tempo
+	
 	double last_item_time_list; // último item do vetor de horas
 	History::HList* result_list = new History::HList(); // retorno da função - lista de amostras de tempo (eixo X) do dia passado como parâmetro
+	
 	int current_day = get_elapsed_days(); // número de dias jogados
 	double previous_time_value = 25; // valor anterior na iteração do vetor de horas
 	int i = 0;
@@ -1804,31 +1833,57 @@ History::HList* GraphicsMenu::get_time_list_by_day(int day_number, History::HLis
 	// Por algum motivo obscuro, a lista de tempo não está sendo preenchida corretamente do primeiro para o segundo dia. Como se tivesse um
 	// limite de tamanho. Por exemplo, se o segundo dia tem 60 amostras, o último item da lista é 3,0 horas. Se há 63 amostras, o último é 3,5.
 	// Conforme o dia passa, last_item_time_list aumenta do segundo dia aumenta, sendo que deveria ser sempre a primeira amostra do dia;
-
+	
 	while (current_day > day_number && i < time->size()) { // enquanto não chegar ao dia desejado ou percorrer toda a lista
+		
 		last_item_time_list = time->back(); // pega a última amostra do vetor de horas
+		
 		if (last_item_time_list > previous_time_value) { // é um novo dia? verifica a transição de um dia para o outro
+			
 			current_day--; // diminui um dia
 			if (current_day == day_number) {
+				
 				result_list->push_back(last_item_time_list); // adiciona a última amostra ao vetor de resultado
 			}
 		}
+		
 		previous_time_value = last_item_time_list; // guarda o valor atual de tempo para comparar na próxima iteração
 		time->pop_back(); // remove a última amostra do vetor de horas
 		i++;
+		
 	}
-
+	
 	if (current_day == day_number) { // chegou ao dia desejado?
 		// atualiza a variável do vetor de horas, senão fica com a referência da amostra adicionada acima
-		last_item_time_list = time->back();
+		
+				
+		
+		
+	
+			last_item_time_list = time->back();
+		
+				
+		
 		while (last_item_time_list < previous_time_value && time->size() > 0) { // enquanto não chegar ao final da lista ou no dia anterior
+			
+			
+			
 			result_list->push_back(last_item_time_list); // adiciona o item na lista de tempo
+			
+			if(time->size() > 0)
 			time->pop_back();
+			
 			previous_time_value = last_item_time_list;
+			
+			if(time->size() > 0)
 			last_item_time_list = time->back(); // pega a última amostra do vetor de horas
+			
+			
+			
 		}
+	
 	}
-
+	cout << "PASSOU o primeiro"<< endl;
 	return result_list; // o que fazer quando ela não for preenchida dentro do primeiro while?
 }
 
@@ -1888,6 +1943,7 @@ void GraphicsMenu::set_chart_page_properties(History::HistoryItem item, PT(Graph
 
 PT(Graphics) GraphicsMenu::make_new_chart(History::HistoryItem item, PT(Graphics) &chart,
 		const string &title, const string &x_axis, const string &y_axis){
+	
 	history->output(History::HI_player_hydration, title, simdunas_cat.debug());
 
 	History::HList* time_list = history->get_list(History::HI_time);
@@ -1904,21 +1960,23 @@ PT(Graphics) GraphicsMenu::make_new_chart(History::HistoryItem item, PT(Graphics
 
 	// função para obter sublista de tempo de acordo com o dia
 	History::HList* time = get_time_list_by_day(get_current_day(), time_list);
-
+	
 	History::HList* items = get_item_list_by_day(get_current_day(), item_list, time_list);
-
+	
 	//cout << "\n\n------------FRONT ITEM: " << items->front();
 	//cout << "\n------------BACK ITEM: " << items->back();
 	//cout << "\n------------SIZE ITEMS: " << items->size();
-	cout << "\n------------CURRENT DAY: " << get_current_day();
+	
 
 	//cout << "\n\n------------FRONT TIME: " << time->front();
 	//cout << "\n------------BACK TIME: " << time->back();
 	//cout << "\n------------SIZE TIME: " << time->size();
 
 	chart = new Graphics(option_frame_np, true);
+	
 	//chart = new Graphics((option_frame_np), time_list, item_list, 0, 0, largest_element, smallest_element, true);
 	chart->update_chart_data(time, items, history);
+	
 	if (!grafico_posicao1_ativo) {
 		chart->set_Position_Graphic(0.4, 1.0);
 		set_chart_page_properties(item, chart, title, x_axis, y_axis, 1);
@@ -1929,12 +1987,13 @@ PT(Graphics) GraphicsMenu::make_new_chart(History::HistoryItem item, PT(Graphics
 		set_chart_page_properties(item, chart, title, x_axis, y_axis, 2);
 		grafico_posicao2_ativo = true;
 	}
+	
 	chart->set_scale(0.86);
 	chart->set_Titulo_Grafico(title);
 	chart->set_Titulo_EixoX(x_axis);
 	chart->set_Titulo_EixoY(y_axis);
 	chart->create_Graphic();
-
+	
 	return chart;
 }
 
@@ -1949,7 +2008,7 @@ PT(Graphics) GraphicsMenu::novo_grafico1_TempInterna() {
 //	graphic->set_Titulo_EixoX("Tempo (h)");
 //	graphic->set_Titulo_EixoY("Temperatura (C)");
 //	graphic->create_Graphic(history->get_size(History::HI_time), vector->getSizeVectorTemperaturaLagarto());
-
+	
 	return make_new_chart(History::HI_player_temperature, graphic, ConfigVariableString("msg-graficoti", "Temperatura Interna"), ConfigVariableString("msg-tempoh", "Tempo (h)"), ConfigVariableString("msg-tempecel", "Temperatura (C)"));
 }
 

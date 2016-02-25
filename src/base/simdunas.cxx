@@ -37,6 +37,8 @@ PT(DebugTools) debug;
 #include "gameSession.h"
 
 int main(int argc, char *argv[]) {
+
+
 	/* Carrega o arquivo de configuração do jogo */
 #if DEBUG
 	load_prc_file("myConfig-Calangos-develop.prc");

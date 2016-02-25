@@ -23,13 +23,15 @@ KeyInstructionsScreen::~KeyInstructionsScreen() {
 
 void KeyInstructionsScreen::load(){
 	/////Carregando tela teclas
-	img_teclas = window->load_model(window->get_render_2d(), "models/gui/teclas.png");
+	string imagem = ConfigVariableString("msg-imag", "models/gui/teclas.png");
+
+	img_teclas = window->load_model(window->get_render_2d(), imagem);
 	img_teclas.set_scale(0.1, 0.001, 0.17);
 	img_teclas.set_pos(0.0, 0.0, 0.06);
 
 	lb_teclas = new TextNode("inicio");
 	lb_teclas->set_font(FontPool::load_font("models/ExpletiveDeleted.ttf"));
-	lb_teclas->set_text("Teclas");
+	lb_teclas->set_text(ConfigVariableString("msg-cont", "Teclas"));
 
 	np_lb_teclas = get_root().attach_new_node(lb_teclas);
 	np_lb_teclas.set_scale(0.17);

@@ -305,13 +305,15 @@ int TimeControl::get_ano(){
 }
 
 double TimeControl::get_hora_generica(){
-
+	
 	int min = TimeControl::get_instance()->get_minuto();
+	
 	int hora = TimeControl::get_instance()->get_hora();
+	
 	double hora_generica = hora + min*0.01667;
 	//cout << "\n ------------------------------ min: " << min;
 	//cout << ", hora: " << hora;
-	cout << "\n ------------- hora generica: " << hora_generica << " e dia " << TimeControl::get_instance()->get_dia() << " e mes " <<
+	cout << "\n ------------- hora generica: " << hora_generica << " e dia " << TimeControl::get_instance()->get_dia() << " e mes ";
 	TimeControl::get_instance()->get_mes();
 	return hora_generica;
 }

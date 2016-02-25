@@ -66,6 +66,7 @@ void ImageRepository::load_images(){
 	add_image("video_presas", "models/gui/video_presas.png");
 	add_image("video_clima", "models/gui/video_clima.png");
 	add_image("video_habitat", "models/gui/video_habitat.png");
+	add_image("teclas_traduzidas", ConfigVariableString("msg-imag", "models/gui/teclas.png"));
 }
 
 

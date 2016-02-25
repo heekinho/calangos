@@ -490,11 +490,11 @@ void GuiManager::notifyGameOver() {
 //Metodo que é chamado toda vez que o evento de clique no botao de abertura do painel dos graficos.
 
 void GuiManager::click_event_botao_grafico(const Event*, void *data) {
-
-
-
+	
+	
 	PT(GuiManager) _this = (PT(GuiManager)) (GuiManager*) data;
 
+	
 
 
 	/*Aqui, antes de chamar os graficos é verificado se o jogo não está PAUSADO,
@@ -601,11 +601,11 @@ void GuiManager::click_event_botao_grafico(const Event*, void *data) {
 
 		_this->grafico8Baixo = false;
 
-
+		
 
 		_this->graphics_menu->init_graphics();
 
-
+		
 
 		event_handler->add_hook(TimeControl::EV_pass_frame_gui_options, init_options, _this);
 
@@ -616,7 +616,7 @@ void GuiManager::click_event_botao_grafico(const Event*, void *data) {
 		_this->gui_options_flag2 = true;
 
 	}
-
+	
 
 
 }

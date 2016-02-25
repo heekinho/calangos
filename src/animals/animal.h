@@ -4,6 +4,7 @@
 #include "animatedObjetoJogo.h"
 
 class Animal : public AnimatedObjetoJogo {
+
 public:
 	enum Activity {
 		A_day,
@@ -13,7 +14,7 @@ public:
 
 	Animal(NodePath node);
 	static void load_animals();
-
+	
 	virtual ~Animal();
 	static void unload_animals();
 
