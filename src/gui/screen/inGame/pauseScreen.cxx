@@ -158,7 +158,7 @@ void PauseScreen::sair_action() {
 }
 
 void PauseScreen::controles_action() {
-	wnd_controles = new KeyInstructionsWindow(get_root(), 1.5, 1.1, ConfigVariableString("msg-controles","Controles"), -1.2, -0.8);
+	wnd_controles = new KeyInstructionsWindow(get_root(), 2, 1.3, ConfigVariableString("msg-controles","Controles"), -1, -0.8);
 //	img_teclas = window->load_model(get_root(), "models/gui/teclas.png");
 //	img_teclas.set_scale(0.075, 0.001, 0.17);
 //	img_teclas.set_pos(0.0, 0.0, 0.0);

@@ -147,8 +147,9 @@ void GraphicsMenu::init_variables() {
 void GraphicsMenu::click_event_botao_grafico_tempo(const Event*, void *data) {
 	
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
-
+	
 	if (graphics_menu->get_grafico_tempo_ativo()) { // o gráfico ativo é do tipo tempo; ao clicar no botão, desabilita o gráfico
+		
 		graphics_menu->hide_menu_graf_tempo();
 		graphics_menu->hide_all_graphics();
 		graphics_menu->get_led_on_graf_tempo().stash();
@@ -159,6 +160,7 @@ void GraphicsMenu::click_event_botao_grafico_tempo(const Event*, void *data) {
 		graphics_menu->set_chart1(NULL);
 		graphics_menu->set_chart2(NULL);
 	} else { // verificar se os leds de Temperatura Interna e Hidratação são acesos por padrão
+		//ERRO POR AQUI
 		graphics_menu->hide_menu_graf_variavel();
 		graphics_menu->show_menu_graf_tempo();
 		graphics_menu->get_graphic_variavel()->hide();
@@ -172,10 +174,11 @@ void GraphicsMenu::click_event_botao_grafico_tempo(const Event*, void *data) {
 }
 
 void GraphicsMenu::click_event_botao_grafico_variavel(const Event*, void *data) {
-
+	
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
-
+	
 	if (graphics_menu->get_grafico_variavel_ativo()) {
+		
 		graphics_menu->hide_menu_graf_variavel(); // verificar se os leds dos botões de gráfico variável apagam
 		graphics_menu->hide_menu_graf_tempo();
 		//graphics_menu->hide_all_graphics();
@@ -187,6 +190,7 @@ void GraphicsMenu::click_event_botao_grafico_variavel(const Event*, void *data) 
 		//graphics_menu->init_variables();
 		graphics_menu->set_grafico_variavel_ativo(false);
 	} else {
+		
 		//graphics_menu->hide_menu_graf_tempo();
 		graphics_menu->show_menu_graf_tempo();
 		graphics_menu->show_menu_graf_variavel();
@@ -200,15 +204,20 @@ void GraphicsMenu::click_event_botao_grafico_variavel(const Event*, void *data) 
 		graphics_menu->get_led_off_graf_tempo().unstash();
 		graphics_menu->hide_all_led_on();
 		graphics_menu->desliga_leds_painel_tempo();
+		//ERRO ESTA AQUI EMBAIXO
 		graphics_menu->create_default_time_chart();
+	
 	}
+	
 }
 
 void GraphicsMenu::create_default_time_chart() { // mudar nome do método; aqui se cria o gráfico padrão do tipo variável!
+
 	// exibe gráfico padrão do tipo Variável (Temp Ar x Temp Ar)
 	create_variable_chart(get_history()->get_list(History::HI_world_temperature),
 			get_history()->get_list(History::HI_world_temperature), ConfigVariableString("msg-variatempa", "Temp Ar"), ConfigVariableString("msg-variatempa", "Temp Ar"), true);
 	// liga os leds do gráfico exibido por padrão (Temp Ar x Temp Ar) ao clicar no botão "Variável"
+	
 	get_led_on_temp_ar().unstash();
 	get_led_off_temp_ar().stash();
 	get_led_on_temp_ar_v().unstash();
@@ -246,27 +255,34 @@ void GraphicsMenu::set_chart_properties(int chart_number, int chart_position) {
 
 void GraphicsMenu::create_variable_chart(History::HList *valores_vetor_x, History::HList *valores_vetor_y,
 		const string &legenda_eixo_x, const string &legenda_eixo_y, bool set_eixo_x) {
+
 	if (graphicVariavel != NULL) {
 		graphicVariavel->hide();
 	}
+
 	vetor_x = valores_vetor_x;
 	vetor_y = valores_vetor_y;
 	legenda_x = legenda_eixo_x;
 	legenda_y = legenda_eixo_y;
 
 	graphicVariavel = new Graphics(option_frame_np, false);
+
 	graphicVariavel->update_chart_data(vetor_x, vetor_y, history);
+
 	graphicVariavel->set_Position_Graphic(0.2, 0.6);
 	graphicVariavel->set_scale(1.2);
 	graphicVariavel->set_Titulo_Grafico(legenda_x + " x " + legenda_y);
 	graphicVariavel->set_Titulo_EixoX(legenda_x);
 	graphicVariavel->set_Titulo_EixoY(legenda_y);
+
 	graphicVariavel->create_Graphic();
+
 	if (set_eixo_x) {
 		desliga_leds_painel_variavel();
 	} else {
 		desliga_leds_painel_tempo();
 	}
+	
 }
 
 

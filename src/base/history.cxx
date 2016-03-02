@@ -84,8 +84,8 @@ void History::output(History::HistoryItem item, const string &name, ostream &out
 #include "microClima.h"
 #include "energySimulator.h"
 CalangosHistory::CalangosHistory(int max_items) : History (max_items) {
-	//event_handler->add_hook(TimeControl::EV_segundo_real, update, this);
-	event_handler->add_hook(TimeControl::EV_pass_ten_minutes, update, this);
+	event_handler->add_hook(TimeControl::EV_segundo_real, update, this);
+	//event_handler->add_hook(TimeControl::EV_pass_ten_minutes, update, this);
 }
 
 void CalangosHistory::update(const Event*, void* data){
@@ -93,7 +93,7 @@ void CalangosHistory::update(const Event*, void* data){
 }
 
 void CalangosHistory::update(){
-	cout << "PASSOU ACHO" << endl;
+	
 	//simdunas_cat.debug() << "CalangosHistory Update" << endl;
 	PT(TimeControl) time_control = TimeControl::get_instance();
 	add_element(History::HI_time, time_control->get_hora_generica());

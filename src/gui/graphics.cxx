@@ -153,6 +153,7 @@ void Graphics::create_Graphic() {
 
     //Inicia a linha do grafico. Esse componente é usado tanto para desenhar um linha continua, no caso do grafico
     //de tempo, como pontos, no caso do grafico de variavel por variavel.
+	
     linha_grafico = new LineSegs("linha-grafico");
     linha_grafico->set_color(0.0, 0.0, 0.0);
     double tamanhoVetorX = vetorX->size();
@@ -161,7 +162,7 @@ void Graphics::create_Graphic() {
     double escalaY;
     double posicaoX;
     double posicaoY;
-
+	
 //    int dia = 0;
 //    if (tamanhoVetorX < 108) {
 //    	dia = 1;
@@ -173,9 +174,10 @@ void Graphics::create_Graphic() {
 
 
 
-
+	
     //Faz o calculo da escala em x de acordo com o tipo de grafico.
     if(tipoTempo){
+		
 		//this->add_hint_line_draw_hook(); // hook para atualizar a linha do hint dentro do gráfico a cada frame
         //escalaX = 0.63 / (tamanhoVetorX - 1);
     	// TODO criar constante na classe que constroi vetores de amostragem
@@ -190,6 +192,7 @@ void Graphics::create_Graphic() {
 
     } else {
         if (tamanhoVetorX > 0) {
+			
             escalaX = (0.63) / (limiteSuperiorX - limiteInferiorX);//((100 * 0.0063) / limiteSuperiorX);
             posicaoX = vetorX->front();
             vetorX->pop_front();
@@ -203,7 +206,7 @@ void Graphics::create_Graphic() {
     }
     //Calcula a escala em y.
     escalaY = (0.63) / (limiteSuperiorY - limiteInferiorY);
-
+	
     //Se o vetor Y não for vazio ele coloca a linha do grafico na posição inicial.
 	if (tamanhoVetorY > 0) {
         posicaoY = vetorY->front();
@@ -215,7 +218,7 @@ void Graphics::create_Graphic() {
             linha_grafico->move_to(((posicaoX - limiteInferiorX) * escalaX), 0.0, ((posicaoY - limiteInferiorY) * escalaY));
         }
     }
-
+	
 	//Verifica qual o maior valor do vetor X.
 //	History::HList listaTemp (*this->vetorX);
 //    double maior = listaTemp.front();
@@ -231,6 +234,7 @@ void Graphics::create_Graphic() {
 	//Gera os valores das marcações dos eixos do grafico.
     PT(TimeControl) time_control = TimeControl::get_instance();
     if (tipoTempo) {
+		
         //Colocando os numeros das marcacoes do eixo X.
 //        sprintf(stringMarcacaoX1, "%.2f", (maior / 5));
 //        marcacaoX1_titulo->set_text(stringMarcacaoX1);
@@ -249,6 +253,7 @@ void Graphics::create_Graphic() {
 //        sprintf(stringMarcacaoX5, "%.2f", 24.00);
 //        marcacaoX5_titulo->set_text(stringMarcacaoX5);
     } else {
+		
         //Colocando os numeros das marcacoes do eixo X.
         sprintf(stringMarcacaoX1, "%.2f", (limiteInferiorX));
         marcacaoX1_titulo->set_text(stringMarcacaoX1);
@@ -261,7 +266,7 @@ void Graphics::create_Graphic() {
         //sprintf(stringMarcacaoX5, "%.2f", (limiteSuperiorX));
         //marcacaoX5_titulo->set_text(stringMarcacaoX5);
     }
-
+	
     //Colocando os numeros das marcacoes do eixo Y.
     sprintf(stringMarcacaoY1, "%.2f", (limiteInferiorY));
     marcacaoY1_titulo->set_text(stringMarcacaoY1);
@@ -280,39 +285,59 @@ void Graphics::create_Graphic() {
      */
     double front_x = 0;
 	//cout << "\n ---------- Front Y: " << vetorY->front() << "Back Y: " << vetorY->back();
-
+	
     // Com a iteração através de inserção e remoção dos itens da fila, armazena-se o primeiro item antes de fazer o pop_front().
     // Este item é readicionado no final da fila (push_back()) para que o vetor não sofra alterações ao acabar a iteração.
-    if ((tamanhoVetorY > 0) & (tamanhoVetorX > 0)) {
+   
+	// ERRO ESTA DENTRO DESSE IF GG
+	if ((tamanhoVetorY > 0) & (tamanhoVetorX > 0)) {
         for (int i = 1; i < tamanhoVetorX; i++) {
-        	front_x = vetorX->front(); // para ser readicionado a vetorX
-        	posicaoX = front_x * 6;
+        	
+			front_x = vetorX->front(); // para ser readicionado a vetorX
+        	
+			posicaoX = front_x * 6;
+			if(vetorX->size() > 0)
         	vetorX->pop_front();
+
         	posicaoY = vetorY->front();
-            vetorY->pop_front();
+            
+			//if(vetorY->size() > 0)
+			if(vetorY->size() > 0)
+			vetorY->pop_front();
             if (tipoTempo) {
                 //posicaoX = posicaoX + escalaX;
                 linha_grafico->draw_to(posicaoX * escalaX, 0.0, ((posicaoY - limiteInferiorY) * escalaY));
-            } else {
+				
+			} else {
+				
+				if(vetorX->size() > 0){
                 posicaoX = vetorX->front();
-                vetorX->pop_front();
+				vetorX->pop_front();}
+				
                 if (posicaoX > limiteSuperiorX) {
                     posicaoX = limiteSuperiorX;
                 }
                 if (posicaoX < limiteInferiorX) {
                     posicaoX = limiteInferiorX;
                 }
+				
                 linha_grafico->move_to((((posicaoX - limiteInferiorX) * escalaX) + 0.005), 0.0, ((posicaoY - limiteInferiorY) * escalaY));
                 linha_grafico->draw_to((((posicaoX - limiteInferiorX) * escalaX) - 0.01), 0.0, ((posicaoY - limiteInferiorY) * escalaY));
                 linha_grafico->move_to(((posicaoX - limiteInferiorX) * escalaX), 0.0, ((posicaoY - limiteInferiorY) * escalaY) + 0.008);
                 linha_grafico->draw_to(((posicaoX - limiteInferiorX) * escalaX), 0.0, (((posicaoY - limiteInferiorY) * escalaY) - 0.016));
-            }
+				
+			}
+			
             vetorX->push_back(front_x); // readiciona ao final da fila a última referência removida
             vetorY->push_back(posicaoY); // readiciona ao final da fila a última referência removida
-        }
+			cout << "Passou aqui 7" << endl;
+		}
+		cout << "Passou aqui 8" << endl;
         front_x = vetorX->front(); // última referência de hora não é removida no for
-        vetorX->pop_front(); // remove última referência de hora do início
+        cout << "Passou aqui 9" << endl;
+		vetorX->pop_front(); // remove última referência de hora do início
         vetorX->push_back(front_x); // e coloca no final de vetorX
+		cout << "Passou aqui 10" << endl;
 
 //        posicaoY = vetorY->front(); // última referência de Y não é removida no for
 //        vetorY->pop_front(); // remove última referência de hora do início
@@ -325,7 +350,7 @@ void Graphics::create_Graphic() {
     linha_grafico_np = graphic_np.attach_new_node(linha_grafico->create(true));
     linha_grafico_np.set_pos(0.15, 0.0, 0.15);
     linha_grafico_np.set_color(0.0, 0.0, 0.0);
-
+	
 }
 
 //vetor_x: Fila com os valores do eixo X. Não pode ter mais de 24 horas.

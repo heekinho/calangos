@@ -26,8 +26,8 @@ KeyInstructionsWindow::KeyInstructionsWindow(NodePath parent, float width, float
 
 	img_teclas = ImageRepository::get_instance()->get_image("teclas_traduzidas");
 	img_teclas.reparent_to(np_frame);
-	img_teclas.set_scale(0.10);
-	img_teclas.set_pos(1.00, 0.0, 0.75);
+	img_teclas.set_scale(0.09);
+	img_teclas.set_pos(1, 0.0, 0.75);
 //	lb_teclas = new Text("lb_teclas", "Teclas", np_frame, TextNode::get_default_font(), 0.05);
 //
 //	np_lb_teclas = get_root().attach_new_node(lb_teclas);
