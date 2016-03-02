@@ -6,6 +6,7 @@ msg-imag1 models/gui/iconesPortugues.png
 msg-jogar Jogar
 msg-config configurações
 msg-inst Instruções
+msg-idioma Idioma
 msg-cred Créditos
 msg-sair Sair
 

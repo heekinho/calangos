@@ -8,6 +8,7 @@ msg-jogar Jugar
 msg-idioma Línguas
 msg-config Configuraciones
 msg-inst Instrucciones
+msg-idioma Idioma
 msg-cred Creditos
 msg-sair Salir
 

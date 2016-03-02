@@ -7,6 +7,7 @@ msg-imag1 models/gui/iconesIngles.png
 msg-jogar Play
 msg-config Settings 
 msg-inst Instructions
+msg-idioma Language
 msg-cred Credits
 msg-sair Quit
 

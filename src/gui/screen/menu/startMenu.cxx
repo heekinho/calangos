@@ -52,8 +52,9 @@ void StartMenu::load(){
 	default_button_config(btn_play, np_play, ConfigVariableString("msg-jogar", "Jogar"), LVecBase3f(0, 0, 0.1), play_action);
 	default_button_config(btn_options, np_options, ConfigVariableString("msg-config", "Configurações"), LVecBase3f(0, 0, -0.1), options_action);
 	default_button_config(btn_instructions, np_instructions, ConfigVariableString("msg-inst", "Instruções"), LVecBase3f(0, 0, -0.3), instructions_action);
-	default_button_config(btn_credits, np_credits, ConfigVariableString("msg-cred", "Créditos"), LVecBase3f(0, 0, -0.5), credits_action);
-	default_button_config(btn_exit, np_exit, ConfigVariableString("msg-sair", "Sair"), LVecBase3f(0, 0, -0.7), exit_action);
+	default_button_config(btn_language, np_language, ConfigVariableString("msg-idioma", "Idioma"), LVecBase3f(0, 0, -0.5), language_action);
+	default_button_config(btn_credits, np_credits, ConfigVariableString("msg-cred", "Créditos"), LVecBase3f(0, 0, -0.7), credits_action);
+	default_button_config(btn_exit, np_exit, ConfigVariableString("msg-sair", "Sair"), LVecBase3f(0, 0, -0.9), exit_action);
 
 
 
@@ -91,6 +92,10 @@ void StartMenu::options_action(){
 void StartMenu::instructions_action(){
 	simdunas_cat.debug() << "Carregando Instruções..." << endl;
 	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_instructions_screen());
+}
+/*! Carrega o menu de idiomas novamente  */
+void StartMenu::language_action(){
+	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_language_menu());
 }
 
 /*! Carraga menu de créditos */

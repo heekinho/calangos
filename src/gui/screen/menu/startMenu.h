@@ -57,6 +57,7 @@ private:
 	PT(Button) btn_play; 			NodePath np_play;		 	ACTION(play_action);
 	PT(Button) btn_options; 		NodePath np_options;		ACTION(options_action);
 	PT(Button) btn_instructions; 	NodePath np_instructions;	ACTION(instructions_action);
+	PT(Button) btn_language; 		NodePath np_language;	 	ACTION(language_action);
 	PT(Button) btn_credits; 		NodePath np_credits;	 	ACTION(credits_action);
 	PT(Button) btn_exit; 			NodePath np_exit;		 	ACTION(exit_action);
 
