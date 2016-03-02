@@ -1,6 +1,6 @@
-##Imagens##
+﻿##Imagens##
 msg-imag models/gui/teclasPortugues.png
-
+msg-imag1 models/gui/iconesPortugues.png
 ##Main Menu##
 
 msg-jogar Jogar

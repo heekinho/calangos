@@ -1,5 +1,6 @@
-##Imagens##
+﻿##Imagens##
 msg-imag models/gui/teclasEspanol.png
+msg-imag1 models/gui/iconesEspanol.png
 
 ##Main Menu##
 

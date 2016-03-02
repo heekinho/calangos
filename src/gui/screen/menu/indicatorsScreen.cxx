@@ -19,7 +19,9 @@ IndicatorsScreen::~IndicatorsScreen() {
 }
 
 void IndicatorsScreen::load() {
-	img_indicadores = window->load_model(window->get_render_2d(), "models/gui/icones.png");
+	string imagem1 = ConfigVariableString("msg-imag1", "models/gui/teclasPortugues.png");
+
+	img_indicadores = window->load_model(window->get_render_2d(), imagem1);
 	img_indicadores.set_scale(0.1, 0.001, 0.15);
 	img_indicadores.set_pos(0.0, 0.0, 0.0);
 
