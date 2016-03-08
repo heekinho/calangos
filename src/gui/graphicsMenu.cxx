@@ -102,6 +102,11 @@ void GraphicsMenu::add_hooks() {
 	//event_handler->add_hook(option_frame->get_within_event(), draw_hint_line, this);
 }
 
+/*void GraphicsMenu::addPN_hooks(){
+	event_handler->add_hook(get_btn_previous_page_chart1()->get_click_event(MouseButton::one()), click_event_btn_previous_page_chart1, this);
+	event_handler->add_hook(get_btn_next_page_chart1()->get_click_event(MouseButton::one()), click_event_btn_next_page_chart1, this);
+}*/
+
 void GraphicsMenu::remove_hooks() {
 	event_handler->remove_hook(get_btn_graf_tempo()->get_click_event(MouseButton::one()), click_event_botao_grafico_tempo,this);
 	event_handler->remove_hook(get_btn_graf_variavel()->get_click_event(MouseButton::one()), click_event_botao_grafico_variavel,this);
@@ -127,6 +132,13 @@ void GraphicsMenu::remove_hooks() {
 	//event_handler->remove_hook(option_frame->get_within_event(), draw_hint_line, this);
 }
 
+/*void GraphicsMenu::removePN_hooks(){
+	event_handler->remove_hook(get_btn_previous_page_chart1()->get_click_event(MouseButton::one()), click_event_btn_previous_page_chart1,this);
+	event_handler->remove_hook(get_btn_next_page_chart1()->get_click_event(MouseButton::one()), click_event_btn_next_page_chart1,this);
+}*/
+
+
+
 void GraphicsMenu::init_variables() {
 	grafico_tempo_ativo = false;
 	grafico_variavel_ativo = false;
@@ -148,6 +160,7 @@ void GraphicsMenu::click_event_botao_grafico_tempo(const Event*, void *data) {
 	
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
 	
+
 	if (graphics_menu->get_grafico_tempo_ativo()) { // o gráfico ativo é do tipo tempo; ao clicar no botão, desabilita o gráfico
 		
 		graphics_menu->hide_menu_graf_tempo();
@@ -161,6 +174,7 @@ void GraphicsMenu::click_event_botao_grafico_tempo(const Event*, void *data) {
 		graphics_menu->set_chart2(NULL);
 	} else { // verificar se os leds de Temperatura Interna e Hidratação são acesos por padrão
 		//ERRO POR AQUI
+		
 		graphics_menu->hide_menu_graf_variavel();
 		graphics_menu->show_menu_graf_tempo();
 		graphics_menu->get_graphic_variavel()->hide();
@@ -175,8 +189,10 @@ void GraphicsMenu::click_event_botao_grafico_tempo(const Event*, void *data) {
 
 void GraphicsMenu::click_event_botao_grafico_variavel(const Event*, void *data) {
 	
+
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
 	
+
 	if (graphics_menu->get_grafico_variavel_ativo()) {
 		
 		graphics_menu->hide_menu_graf_variavel(); // verificar se os leds dos botões de gráfico variável apagam
@@ -191,7 +207,9 @@ void GraphicsMenu::click_event_botao_grafico_variavel(const Event*, void *data) 
 		graphics_menu->set_grafico_variavel_ativo(false);
 	} else {
 		
+		
 		//graphics_menu->hide_menu_graf_tempo();
+	
 		graphics_menu->show_menu_graf_tempo();
 		graphics_menu->show_menu_graf_variavel();
 		graphics_menu->init_variables();
@@ -1581,6 +1599,9 @@ void GraphicsMenu::hide_menu_graf_tempo() {
 	img_btn_gasto_energetico.stash();
 	led_on_gasto_energetico.stash();
 	led_off_gasto_energetico.stash();
+	//CRYSTAL
+	np_btn_next_page_chart1.stash();
+	np_btn_previous_page_chart1.stash();
 }
 
 //Torna invisivel o painel que contem os botoes para ativar os graficos de variaveis.
@@ -1621,6 +1642,9 @@ void GraphicsMenu::show_menu_graf_tempo() {
 	np_btn_gasto_energetico.unstash();
 	img_btn_gasto_energetico.unstash();
 	led_off_gasto_energetico.unstash();
+	//CRYSTAL
+	np_btn_next_page_chart1.unstash();
+	np_btn_previous_page_chart1.unstash();
 }
 
 void GraphicsMenu::hide_all_led_on() {
@@ -1649,6 +1673,9 @@ void GraphicsMenu::hide_all_graphics() {
 //Torna visivel o painel que contem os botoes para ativar os graficos de variaveis.
 void GraphicsMenu::show_menu_graf_variavel() {
 	this->hide_all_graphics();
+	//CRYSTAL
+	np_btn_next_page_chart1.stash();
+	np_btn_previous_page_chart1.stash();
 	grafico_variavel_frame_np.unstash();
 }
 
@@ -2150,6 +2177,7 @@ void GraphicsMenu::desliga_leds_painel_tempo() {
 
 //Desliga as luzes que indicam quais graficos estao ativos no painel de variavel.
 void GraphicsMenu::desliga_leds_painel_variavel() {
+	
 	led_on_temp_interna_v.stash();
 	led_on_hidratacao_v.stash();
 	led_on_temp_ar_v.stash();
