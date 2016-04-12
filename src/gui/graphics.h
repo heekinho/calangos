@@ -31,7 +31,7 @@ public:
 	//void remove_hint_line_draw_hook();
 	//ACTION(draw_hint_line);
 	void update_hint_line(float line_pos_x, float line_pos_y, float label_pos_y);
-	void update_chart_data(History::HList* vetor_x, History::HList* vetor_y, PT(History) history);
+	void update_chart_data(History::HList* vetor_x, History::HList* vetor_y, double menorY, double maiorY, PT(History) history);
 
 private:
     static TypeHandle _type_handle;

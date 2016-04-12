@@ -50,7 +50,7 @@ void HydrationSimulator::update_humidity_factor(float relative_humitidy_of_secto
 	/* Calcula o valor de decaímento caso as atualizações fossem de hora em hora */
 	float humidity_factor_y = (_humidity_factor_a * relative_humitidy_of_sector) + _humidity_factor_b;
 
-	cout << "humidity_factor_y ANTES: " << humidity_factor_y << endl;
+	//cout << "humidity_factor_y ANTES: " << humidity_factor_y << endl;
 	if(relative_humitidy_of_sector >= 40.0) humidity_factor_y = 0.0;
 
 	_humidity_factor = humidity_factor_y / updates_per_hour;

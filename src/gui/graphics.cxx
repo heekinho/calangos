@@ -6,6 +6,7 @@
 #include "timeControl.h"
 #include "mouseWatcher.h"
 #include "lineSegs.h"
+#include "math.h"
 
 #define DEBUG_GUI 0
 
@@ -170,38 +171,42 @@ void Graphics::create_Graphic() {
 //    	dia = ((tamanhoVetorX + 144) / 144) + 0.25;
 //    }
 //
-//    cout << "\n....................... Dia: " << dia << " e tamanho do vetor X " << tamanhoVetorX << " e vetor Y " << tamanhoVetorY;
+    //cout << "\n....................... Tamanho do vetor X " << tamanhoVetorX << " e vetor Y " << tamanhoVetorY;
 
+	if ((tamanhoVetorY < 2) || (tamanhoVetorX < 2)) { //precisa de pelo menos 2 pontos para fazer uma linha
+		//cout << "\nERRO: Vetores vazio ou com poucos elementos para os gráficos!";
+		return;
+	}
 
-
-	
     //Faz o calculo da escala em x de acordo com o tipo de grafico.
     if(tipoTempo){
 		
 		//this->add_hint_line_draw_hook(); // hook para atualizar a linha do hint dentro do gráfico a cada frame
         //escalaX = 0.63 / (tamanhoVetorX - 1);
     	// TODO criar constante na classe que constroi vetores de amostragem
-    	escalaX = 0.63 / (144 - 1);
+    	escalaX = 0.63 / 24;
         //posicaoX = 0;
 
-    	// Cada hora possui 6 amostras, então o máximo de amostras por dia é de 144.
-    	// É necessário multiplicar por 6 para fazer a equivalência de hora com o vetor de amostras.
-    	// Por ex.: A amostra da oitava hora do dia será a 48a do vetor (8 * 6)
-    	// Sendo assim, a posição inicial de X será o 48o espaço de 144 espaços possíveis no eixo X
-    	posicaoX = vetorX->front() * 6;
+    	posicaoX = vetorX->front();
 
-    } else {
+		vetorX->pop_front();            
+		
+    } else { //tipovariavel
         if (tamanhoVetorX > 0) {
 			
             escalaX = (0.63) / (limiteSuperiorX - limiteInferiorX);//((100 * 0.0063) / limiteSuperiorX);
-            posicaoX = vetorX->front();
-            vetorX->pop_front();
-            if (posicaoX > limiteSuperiorX){
+            
+			posicaoX = vetorX->front();
+			
+			vetorX->pop_front();
+            
+			if (posicaoX > limiteSuperiorX){
                 posicaoX = limiteSuperiorX;
             }
             if (posicaoX < limiteInferiorX){
                 posicaoX = limiteInferiorX;
             }
+			
         }
     }
     //Calcula a escala em y.
@@ -210,9 +215,12 @@ void Graphics::create_Graphic() {
     //Se o vetor Y não for vazio ele coloca a linha do grafico na posição inicial.
 	if (tamanhoVetorY > 0) {
         posicaoY = vetorY->front();
-        vetorY->pop_front();
-        linha_grafico->reset();
-        if (tipoTempo) {
+		
+		vetorY->pop_front();
+        
+		linha_grafico->reset();
+        
+		if (tipoTempo) {
         	linha_grafico->move_to((posicaoX * escalaX), 0.0, ((posicaoY - limiteInferiorY) * escalaY));
         } else {
             linha_grafico->move_to(((posicaoX - limiteInferiorX) * escalaX), 0.0, ((posicaoY - limiteInferiorY) * escalaY));
@@ -255,26 +263,26 @@ void Graphics::create_Graphic() {
     } else {
 		
         //Colocando os numeros das marcacoes do eixo X.
-        sprintf(stringMarcacaoX1, "%.2f", (limiteInferiorX));
+        sprintf(stringMarcacaoX1, "%.1f", (limiteInferiorX));
         marcacaoX1_titulo->set_text(stringMarcacaoX1);
-        sprintf(stringMarcacaoX2, "%.2f", (((limiteSuperiorX - limiteInferiorX) / 4)) + limiteInferiorX);
+        sprintf(stringMarcacaoX2, "%.1f", (((limiteSuperiorX - limiteInferiorX) / 4)) + limiteInferiorX);
         marcacaoX2_titulo->set_text(stringMarcacaoX2);
-        sprintf(stringMarcacaoX3, "%.2f", ((2 * ((limiteSuperiorX - limiteInferiorX) / 4))) + limiteInferiorX);
+        sprintf(stringMarcacaoX3, "%.1f", ((2 * ((limiteSuperiorX - limiteInferiorX) / 4))) + limiteInferiorX);
         marcacaoX3_titulo->set_text(stringMarcacaoX3);
-        sprintf(stringMarcacaoX4, "%.2f", ((3 * ((limiteSuperiorX - limiteInferiorX) / 4))) + limiteInferiorX);
+        sprintf(stringMarcacaoX4, "%.1f", ((3 * ((limiteSuperiorX - limiteInferiorX) / 4))) + limiteInferiorX);
         marcacaoX4_titulo->set_text(stringMarcacaoX4);
         //sprintf(stringMarcacaoX5, "%.2f", (limiteSuperiorX));
         //marcacaoX5_titulo->set_text(stringMarcacaoX5);
     }
 	
     //Colocando os numeros das marcacoes do eixo Y.
-    sprintf(stringMarcacaoY1, "%.2f", (limiteInferiorY));
+    sprintf(stringMarcacaoY1, "%.1f", (limiteInferiorY));
     marcacaoY1_titulo->set_text(stringMarcacaoY1);
-    sprintf(stringMarcacaoY2, "%.2f", (((limiteSuperiorY - limiteInferiorY) / 4)) + limiteInferiorY);
+    sprintf(stringMarcacaoY2, "%.1f", (((limiteSuperiorY - limiteInferiorY) / 4)) + limiteInferiorY);
     marcacaoY2_titulo->set_text(stringMarcacaoY2);
-    sprintf(stringMarcacaoY3, "%.2f", ((2 * ((limiteSuperiorY - limiteInferiorY) / 4))) + limiteInferiorY);
+    sprintf(stringMarcacaoY3, "%.1f", ((2 * ((limiteSuperiorY - limiteInferiorY) / 4))) + limiteInferiorY);
     marcacaoY3_titulo->set_text(stringMarcacaoY3);
-    sprintf(stringMarcacaoY4, "%.2f", ((3 * ((limiteSuperiorY - limiteInferiorY) / 4))) + limiteInferiorY);
+    sprintf(stringMarcacaoY4, "%.1f", ((3 * ((limiteSuperiorY - limiteInferiorY) / 4))) + limiteInferiorY);
     marcacaoY4_titulo->set_text(stringMarcacaoY4);
     //sprintf(stringMarcacaoY5, "%.2f", (limiteSuperiorY));
     //marcacaoY5_titulo->set_text(stringMarcacaoY5);
@@ -289,30 +297,30 @@ void Graphics::create_Graphic() {
     // Com a iteração através de inserção e remoção dos itens da fila, armazena-se o primeiro item antes de fazer o pop_front().
     // Este item é readicionado no final da fila (push_back()) para que o vetor não sofra alterações ao acabar a iteração.
    
-	// ERRO ESTA DENTRO DESSE IF GG
+	
 	if ((tamanhoVetorY > 0) & (tamanhoVetorX > 0)) {
         for (int i = 1; i < tamanhoVetorX; i++) {
-        	
+			//cout << "\n....................... i: " << i << " e tamanho do vetor X " << vetorX->size() << " e vetor Y " << vetorY->size();       	
 			front_x = vetorX->front(); // para ser readicionado a vetorX
         	
-			posicaoX = front_x * 6;
-			if(vetorX->size() > 0)
-        	vetorX->pop_front();
-
+			posicaoX = front_x;
+			
+       		vetorX->pop_front();
+			
         	posicaoY = vetorY->front();
             
-			//if(vetorY->size() > 0)
-			if(vetorY->size() > 0)
 			vetorY->pop_front();
+			
             if (tipoTempo) {
                 //posicaoX = posicaoX + escalaX;
                 linha_grafico->draw_to(posicaoX * escalaX, 0.0, ((posicaoY - limiteInferiorY) * escalaY));
 				
 			} else {
 				
-				if(vetorX->size() > 0){
+				
                 posicaoX = vetorX->front();
-				vetorX->pop_front();}
+
+				vetorX->pop_front();
 				
                 if (posicaoX > limiteSuperiorX) {
                     posicaoX = limiteSuperiorX;
@@ -329,15 +337,17 @@ void Graphics::create_Graphic() {
 			}
 			
             vetorX->push_back(front_x); // readiciona ao final da fila a última referência removida
-            vetorY->push_back(posicaoY); // readiciona ao final da fila a última referência removida
-			cout << "Passou aqui 7" << endl;
+            
+			vetorY->push_back(posicaoY); // readiciona ao final da fila a última referência removida
+			
 		}
-		cout << "Passou aqui 8" << endl;
+		
         front_x = vetorX->front(); // última referência de hora não é removida no for
-        cout << "Passou aqui 9" << endl;
+        
 		vetorX->pop_front(); // remove última referência de hora do início
-        vetorX->push_back(front_x); // e coloca no final de vetorX
-		cout << "Passou aqui 10" << endl;
+        
+		vetorX->push_back(front_x); // e coloca no final de vetorX
+		
 
 //        posicaoY = vetorY->front(); // última referência de Y não é removida no for
 //        vetorY->pop_front(); // remove última referência de hora do início
@@ -347,8 +357,11 @@ void Graphics::create_Graphic() {
     //cout << "\n---------- Front Y: " << vetorY->front() << "Back Y: " << vetorY->back();
 
 	//Faz o attach do grafico na tela.
+	
     linha_grafico_np = graphic_np.attach_new_node(linha_grafico->create(true));
-    linha_grafico_np.set_pos(0.15, 0.0, 0.15);
+    
+	linha_grafico_np.set_pos(0.15, 0.0, 0.15);
+	
     linha_grafico_np.set_color(0.0, 0.0, 0.0);
 	
 }
@@ -359,7 +372,7 @@ void Graphics::create_Graphic() {
 //limiteInferiorX: Valor minimo do eixo X.
 //limiteSuperiorY: Valor maximo do eixo Y.
 //limiteInferiorY: Valor minimo do eixo Y.
-void Graphics::update_chart_data(History::HList* vetor_x, History::HList* vetor_y, PT(History) history) {
+void Graphics::update_chart_data(History::HList* vetor_x, History::HList* vetor_y, double menorY, double maiorY, PT(History) history) {
 
 	vetorX = new History::HList(*vetor_x);
     vetorY = new History::HList(*vetor_y);
@@ -367,13 +380,16 @@ void Graphics::update_chart_data(History::HList* vetor_x, History::HList* vetor_
 	if (tipoTempo) {
 		limiteSuperiorX = 0.0;
 		limiteInferiorX = 0.0;
+		limiteSuperiorY = ceil(maiorY);
+		limiteInferiorY = floor(menorY);
+
 	} else {
 		limiteSuperiorX = history->get_largest_element(vetor_x);
 		limiteInferiorX = history->get_smallest_element(vetor_x);
+		limiteSuperiorY = history->get_largest_element(vetor_y);
+		limiteInferiorY = history->get_smallest_element(vetor_y);
 	}
 
-	limiteSuperiorY = history->get_largest_element(vetor_y);
-	limiteInferiorY = history->get_smallest_element(vetor_y);
 
 	if (limiteInferiorY == limiteSuperiorY) {
 		limiteInferiorY -= 2.0;

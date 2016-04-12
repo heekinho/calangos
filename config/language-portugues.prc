@@ -4,7 +4,7 @@ msg-imag1 models/gui/iconesPortugues.png
 ##Main Menu##
 
 msg-jogar Jogar
-msg-config configurações
+msg-config Configurações
 msg-inst Instruções
 msg-idioma Idioma
 msg-cred Créditos

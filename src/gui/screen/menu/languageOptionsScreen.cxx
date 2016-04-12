@@ -47,7 +47,7 @@ void LanguageOptionsScreen::load(){
     np_logo.set_pos(0.0, 0, 0.6);
 
     //botões de escolha da linguagem e mudança para o menu principal  by:Crystal
-    default_button_config(btn_portugues, np_portugues, "portugues", LVecBase3f(0, 0, 0.1), portugues_action);
+    default_button_config(btn_portugues, np_portugues, "português", LVecBase3f(0, 0, 0.1), portugues_action);
     default_button_config(btn_ingles, np_ingles, "english", LVecBase3f(0, 0, -0.1), ingles_action);
     default_button_config(btn_espanhol, np_espanhol, "español", LVecBase3f(0, 0, -0.3), espanhol_action);
 }
