@@ -174,7 +174,7 @@ void Graphics::create_Graphic() {
     //cout << "\n....................... Tamanho do vetor X " << tamanhoVetorX << " e vetor Y " << tamanhoVetorY;
 
 	if ((tamanhoVetorY < 2) || (tamanhoVetorX < 2)) { //precisa de pelo menos 2 pontos para fazer uma linha
-		//cout << "\nERRO: Vetores vazio ou com poucos elementos para os gráficos!";
+		cout << "\nERRO: Vetores vazio ou com poucos elementos para os gráficos!";
 		return;
 	}
 
@@ -186,7 +186,7 @@ void Graphics::create_Graphic() {
     	// TODO criar constante na classe que constroi vetores de amostragem
     	escalaX = 0.63 / 24;
         //posicaoX = 0;
-
+		
     	posicaoX = vetorX->front();
 
 		vetorX->pop_front();            
@@ -301,27 +301,25 @@ void Graphics::create_Graphic() {
 	if ((tamanhoVetorY > 0) & (tamanhoVetorX > 0)) {
         for (int i = 1; i < tamanhoVetorX; i++) {
 			//cout << "\n....................... i: " << i << " e tamanho do vetor X " << vetorX->size() << " e vetor Y " << vetorY->size();       	
+			if(vetorX->size() > 0){
 			front_x = vetorX->front(); // para ser readicionado a vetorX
-        	
-			posicaoX = front_x;
-			
-       		vetorX->pop_front();
-			
-        	posicaoY = vetorY->front();
-            
-			vetorY->pop_front();
-			
+        	posicaoX = front_x;
+			vetorX->pop_front();
+			}
+        	if(vetorY->size() > 0){
+			posicaoY = vetorY->front();
+            vetorY->pop_front();
+			}
             if (tipoTempo) {
                 //posicaoX = posicaoX + escalaX;
                 linha_grafico->draw_to(posicaoX * escalaX, 0.0, ((posicaoY - limiteInferiorY) * escalaY));
 				
 			} else {
 				
-				
+				if(vetorX->size() > 0){
                 posicaoX = vetorX->front();
-
 				vetorX->pop_front();
-				
+				}
                 if (posicaoX > limiteSuperiorX) {
                     posicaoX = limiteSuperiorX;
                 }
@@ -337,17 +335,16 @@ void Graphics::create_Graphic() {
 			}
 			
             vetorX->push_back(front_x); // readiciona ao final da fila a última referência removida
-            
-			vetorY->push_back(posicaoY); // readiciona ao final da fila a última referência removida
+            vetorY->push_back(posicaoY); // readiciona ao final da fila a última referência removida
 			
 		}
-		
+		if(vetorX->size() > 0){
         front_x = vetorX->front(); // última referência de hora não é removida no for
         
 		vetorX->pop_front(); // remove última referência de hora do início
         
 		vetorX->push_back(front_x); // e coloca no final de vetorX
-		
+		}
 
 //        posicaoY = vetorY->front(); // última referência de Y não é removida no for
 //        vetorY->pop_front(); // remove última referência de hora do início
@@ -363,7 +360,7 @@ void Graphics::create_Graphic() {
 	linha_grafico_np.set_pos(0.15, 0.0, 0.15);
 	
     linha_grafico_np.set_color(0.0, 0.0, 0.0);
-	
+	cout << vetorX->front() << endl;
 }
 
 //vetor_x: Fila com os valores do eixo X. Não pode ter mais de 24 horas.
@@ -789,23 +786,50 @@ void Graphics::update_hint_line(float line_pos_x, float line_pos_y, float label_
 		valor_hint_np.remove_node();
 	}
 
+	if(vetorX->size() < 0 || vetorY->size() < 0){
+		cout << "ERRO: um dos vetores vazios" << endl;
+		return;
+	}
+
 	// Itera os vetores X e Y para pegar o valor de Y equivalente à hora obtida no vetor X
 	// Pega a amostra do vetor Y a partir da posição do mouse e da hora equivalente no vetor X
 
 	// ****** Quando pausa o jogo e passa o mouse pelas regiões onde são plotados os gráficos 1 e 2,
 	// capota o jogo aqui ******
+
+
+	
 	for (iterator = vetorX->begin(), iterator2 = vetorY->begin();
 		iterator != vetorX->end(), iterator2 != vetorY->end(); ++iterator, ++iterator2) {
 		// se o valor de hora do iterator for maior do que o valor de hora equivalente à posição atual do mouse
 		// e menor ou igual que o valor de hora guardado anteriormente, pega a amostra anterior e para a iteração
+		
+		/*cout << "ITERADOR : " << *iterator << endl ;
+		cout << "VALOR DE ITERACAO DO X : " << previous_x << endl ;
+		cout << "VALOR DE ITERACAO DO Y : " << previous_y << endl ;
+		cout << "VALOR DE HORA : " << hour << endl ;
+		*/
+
+		// posso estar errado, mas nao é simplesmente fazer a condição
+		// if(*iterator == hour){item_value = *iterator} CRYSTAL CAMPOS
 		if (*iterator > hour && previous_x <= hour) {
 			item_value = previous_y;
+			/*
+			cout << "VALOR DO ITEM : " << item_value << endl ;
+			*/
 			break;
 		}
+		
 		previous_x = *iterator; // guarda o valor atual de hora que servirá de condição para a próxima iteração
 		previous_y = *iterator2;
 	}
-
+	//cout << "hour : " << hour << "item_value : " << item_value << "line_pos_x : "<< line_pos_x<< "line_pos_y : "<< line_pos_y << <<endl; 
+	
+	/*cout << "FRENTE DO VETOR X : " << vetorX->front() << endl ;
+	cout << "FINAL DO VETOR X : " << vetorX->back() << endl ;
+	*/
+	// if esta errado, pois para que o intervalo esteja correto tem que ser o oposto, tendo em vista que o valor inicial do vetor representa o maior valor
+	// e o valor final do vetor representa o menor, ou teria que representar. CRYSTAL CAMPOS
 	if (hour >= vetorX->front() && hour <= vetorX->back()) {
 		eixo_hint = new LineSegs("eixo-hint");
 		eixo_hint->set_color(1.0, 0.0, 0.0);

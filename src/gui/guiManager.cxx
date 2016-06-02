@@ -611,8 +611,11 @@ void GuiManager::click_event_botao_grafico(const Event*, void *data) {
 		
 		TimeControl::get_instance()->set_stop_time(true);
 		event_queue->queue_event(new Event("calangos-pause-in"));
+		
 
 	} else {
+		
+		
 		event_queue->queue_event(new Event("calangos-pause-out"));
 		_this->gui_options_flag2 = true;
 

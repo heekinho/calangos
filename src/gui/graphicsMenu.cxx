@@ -177,6 +177,7 @@ void GraphicsMenu::click_event_botao_grafico_tempo(const Event*, void *data) {
 		
 		graphics_menu->hide_menu_graf_variavel();
 		graphics_menu->show_menu_graf_tempo();
+		if(graphics_menu->get_grafico_variavel_ativo())
 		graphics_menu->get_graphic_variavel()->hide();
 		graphics_menu->set_grafico_variavel_ativo(false);
 		graphics_menu->init_graphics();
@@ -184,6 +185,7 @@ void GraphicsMenu::click_event_botao_grafico_tempo(const Event*, void *data) {
 		graphics_menu->get_led_on_graf_tempo().unstash();
 		graphics_menu->get_led_on_graf_variavel().stash();
 		graphics_menu->get_led_off_graf_variavel().unstash();
+		
 	}
 }
 
@@ -1763,11 +1765,13 @@ void GraphicsMenu::draw_hint_line() {
 		mouse_y = mwatcher->get_mouse_y();
 		if (mouse_x >= 0.03 && mouse_x <= 0.57 && mouse_y >= 0.12 && mouse_y <= 0.66) { // cursor dentro do gráfico superior
 			if (chart1 != NULL) {
+				
 				chart1->update_hint_line(mouse_x, 0.12, 0.66);
 			}
 		}
 		else if (mouse_x >= 0.03 && mouse_x <= 0.57 && mouse_y >= -0.77 && mouse_y <= -0.23) {
 			if (chart2 != NULL) {
+				
 				chart2->update_hint_line(mouse_x, -0.77, -0.23);
 			}
 		}
@@ -2008,14 +2012,7 @@ PT(Graphics) GraphicsMenu::make_new_chart(History::HistoryItem item, PT(Graphics
 	History::HList* time = get_time_list_by_day(get_current_day(), time_list);
 	History::HList* items = get_item_list_by_day(get_current_day(), item_list, time_list);
 	
-	cout << "\n\n------------FRONT ITEM: " << items->front();
-	cout << "\n------------BACK ITEM: " << items->back();
-	cout << "\n------------SIZE ITEMS: " << items->size();
 	
-
-	cout << "\n\n------------FRONT TIME: " << time->front();
-	cout << "\n------------BACK TIME: " << time->back();
-	cout << "\n------------SIZE TIME: " << time->size();
 
 	chart = new Graphics(option_frame_np, true);
 
