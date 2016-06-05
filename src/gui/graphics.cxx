@@ -161,6 +161,8 @@ void Graphics::create_Graphic() {
     double tamanhoVetorY = vetorY->size();
     double escalaX;
     double escalaY;
+	//CRYSTAL
+	double salvarPrimeiroX;
     double posicaoX;
     double posicaoY;
 	
@@ -186,9 +188,13 @@ void Graphics::create_Graphic() {
     	// TODO criar constante na classe que constroi vetores de amostragem
     	escalaX = 0.63 / 24;
         //posicaoX = 0;
+
+
+	
 		
     	posicaoX = vetorX->front();
-
+		//CRYSTAL
+		salvarPrimeiroX = vetorX->front();
 		vetorX->pop_front();            
 		
     } else { //tipovariavel
@@ -338,13 +344,18 @@ void Graphics::create_Graphic() {
             vetorY->push_back(posicaoY); // readiciona ao final da fila a última referência removida
 			
 		}
-		if(vetorX->size() > 0){
+		
+		//CRYSTAL
+		vetorX->push_front(salvarPrimeiroX);
+		
+		//CRYSTAL
+		/*if(vetorX->size() > 0){
         front_x = vetorX->front(); // última referência de hora não é removida no for
         
 		vetorX->pop_front(); // remove última referência de hora do início
         
 		vetorX->push_back(front_x); // e coloca no final de vetorX
-		}
+		}*/
 
 //        posicaoY = vetorY->front(); // última referência de Y não é removida no for
 //        vetorY->pop_front(); // remove última referência de hora do início
@@ -372,6 +383,7 @@ void Graphics::create_Graphic() {
 void Graphics::update_chart_data(History::HList* vetor_x, History::HList* vetor_y, double menorY, double maiorY, PT(History) history) {
 
 	vetorX = new History::HList(*vetor_x);
+
     vetorY = new History::HList(*vetor_y);
 
 	if (tipoTempo) {
@@ -780,7 +792,10 @@ void Graphics::update_hint_line(float line_pos_x, float line_pos_y, float label_
 	std::list<float>::const_iterator iterator, iterator2;
 	float previous_x = 0;
 	float previous_y = 0;
-
+	/*
+	cout << "FRENTE DO VETOR X : " << vetorX->front() << endl ;
+	cout << "FINAL DO VETOR X : " << vetorX->back() << endl ;
+	*/
 	if (&eixo_hint_np != NULL) {
 		eixo_hint_np.remove_node();
 		valor_hint_np.remove_node();
@@ -804,33 +819,38 @@ void Graphics::update_hint_line(float line_pos_x, float line_pos_y, float label_
 		// se o valor de hora do iterator for maior do que o valor de hora equivalente à posição atual do mouse
 		// e menor ou igual que o valor de hora guardado anteriormente, pega a amostra anterior e para a iteração
 		
-		/*cout << "ITERADOR : " << *iterator << endl ;
+		cout << "ITERADOR X : " << *iterator << endl ;
+		cout << "ITERADOR Y : " << *iterator2 << endl ;
 		cout << "VALOR DE ITERACAO DO X : " << previous_x << endl ;
 		cout << "VALOR DE ITERACAO DO Y : " << previous_y << endl ;
 		cout << "VALOR DE HORA : " << hour << endl ;
-		*/
+		
 
-		// posso estar errado, mas nao é simplesmente fazer a condição
-		// if(*iterator == hour){item_value = *iterator} CRYSTAL CAMPOS
-		if (*iterator > hour && previous_x <= hour) {
-			item_value = previous_y;
-			/*
-			cout << "VALOR DO ITEM : " << item_value << endl ;
-			*/
+		// posso estar errado, mas nao é simplesmente fazer a condição?
+		// condição crystal 
+		if(*iterator <= hour && previous_x >= hour)
+		{
+			item_value = *iterator2;
 			break;
-		}
+		} 
+		
+		//antiga condição
+		/*if (*iterator > hour && previous_x <= hour) {
+			item_value = previous_y;
+			
+			break;
+		}*/
 		
 		previous_x = *iterator; // guarda o valor atual de hora que servirá de condição para a próxima iteração
 		previous_y = *iterator2;
 	}
 	//cout << "hour : " << hour << "item_value : " << item_value << "line_pos_x : "<< line_pos_x<< "line_pos_y : "<< line_pos_y << <<endl; 
 	
-	/*cout << "FRENTE DO VETOR X : " << vetorX->front() << endl ;
-	cout << "FINAL DO VETOR X : " << vetorX->back() << endl ;
-	*/
+
+	
 	// if esta errado, pois para que o intervalo esteja correto tem que ser o oposto, tendo em vista que o valor inicial do vetor representa o maior valor
 	// e o valor final do vetor representa o menor, ou teria que representar. CRYSTAL CAMPOS
-	if (hour >= vetorX->front() && hour <= vetorX->back()) {
+	if (hour <= vetorX->front() && hour >= vetorX->back()) {
 		eixo_hint = new LineSegs("eixo-hint");
 		eixo_hint->set_color(1.0, 0.0, 0.0);
 		eixo_hint->draw_to(0.0, 0.0, 0.0);
