@@ -819,11 +819,11 @@ void Graphics::update_hint_line(float line_pos_x, float line_pos_y, float label_
 		// se o valor de hora do iterator for maior do que o valor de hora equivalente à posição atual do mouse
 		// e menor ou igual que o valor de hora guardado anteriormente, pega a amostra anterior e para a iteração
 		
-		cout << "ITERADOR X : " << *iterator << endl ;
-		cout << "ITERADOR Y : " << *iterator2 << endl ;
-		cout << "VALOR DE ITERACAO DO X : " << previous_x << endl ;
-		cout << "VALOR DE ITERACAO DO Y : " << previous_y << endl ;
-		cout << "VALOR DE HORA : " << hour << endl ;
+		//cout << "ITERADOR X : " << *iterator << endl ;
+		//cout << "ITERADOR Y : " << *iterator2 << endl ;
+		//cout << "VALOR DE ITERACAO DO X : " << previous_x << endl ;
+		//cout << "VALOR DE ITERACAO DO Y : " << previous_y << endl ;
+		//cout << "VALOR DE HORA : " << hour << endl ;
 		
 
 		// posso estar errado, mas nao é simplesmente fazer a condição?
