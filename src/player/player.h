@@ -63,7 +63,7 @@ public:
 	//Descarrega qualquer referência de objeto da classe player da memória, para que possa ser recriado
 	static void unload_player();
 
-
+	static int changed_Shadow();
 	virtual void has_moved();
 	virtual void change_sector(PT(Setor) new_sector);
 
@@ -159,6 +159,7 @@ private:
 	/* Controle Singleton */
 	Player();
 	static bool instanceFlag;
+	static bool stateShadow;
 	static PT(Player) single;
 
 	bool _captured;

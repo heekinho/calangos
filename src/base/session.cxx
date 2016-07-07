@@ -1,7 +1,7 @@
 #include "cIntervalManager.h"
 
 #include "history.h"
-
+#include "stateHistory.h"
 #include "session.h"
 
 #include "guiManager.h"
@@ -36,6 +36,7 @@ Session::Session() {
 	level = 1;
 
 	_history = new CalangosHistory();
+	
 
 	finished_loading = false;
 	stage_info.push_back(ConfigVariableString("msg-cri1", "Criando Repositorio de Modelos..."));
@@ -296,6 +297,7 @@ bool Session::is_finished_loading() {
 //void Session::stop_movie(const Event*, void* data){
 //	Menu::get_instance()->stop_movie(NULL,Menu::get_instance());
 //}
+
 
 PT(History) Session::history() const {
 	return _history;

@@ -50,6 +50,8 @@ void MicroClima::event_player_hour_move(const Event*, void *data){
 	MicroClima::get_instance()->temp_toca_sector = ClimaTempo::get_instance()->get_temp_toca();
 	MicroClima::get_instance()->umidade_relativa_sector = ClimaTempo::get_instance()->get_umi_rel();
 
+	
+
 	//cout << "clima solo Antes: " << ClimaTempo::get_instance()->get_temp_solo() << endl;
 	/*se o player est� na sombra e é entre 6h e 20h, atualiza as vari�veis*/
 	if((World::get_world()->get_terrain()->get_shadows()->is_in_shadow(*player, 0.1))

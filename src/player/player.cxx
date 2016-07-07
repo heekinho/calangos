@@ -16,20 +16,22 @@
 #include "playerHealthSimulator.h"
 
 #define DEBUG_PLAYER 0
-
+#define saiu_sombra 2
+#define entrou_sombra 1
 PlayerProperties Player::properties = PlayerProperties();
 bool Player::instanceFlag = false;
+
 PT(Player) Player::single = NULL;
 float Player::nivel_camuflagem_terreno_dia = 0;
 float Player::nivel_camuflagem_terreno_noite = 0;
 float Player::nivel_camuflagem_sombra = 0;
 float Player::nivel_camuflagem_folhagem = 0;
-
+bool Player::stateShadow;
 
 Player::Player() : AnimatedObjetoJogo(ModelRepository::get_instance()->get_animated_model(
 		get_species_name(properties.species) + "/" + get_gender_name(properties.gender))->copy_to(NodePath())),
 		LizardBase(properties.species, properties.gender) {
-
+	
 	in_toca = false;
 	_toca = NULL;
 
@@ -67,7 +69,7 @@ Player::Player() : AnimatedObjetoJogo(ModelRepository::get_instance()->get_anima
 	}
 
 	event_handler->add_hook(TimeControl::EV_pass_frame, false_flag_under_vegetal, this);
-
+	
 }
 
 /*! Obtem a instancia atual da classe Player. Observe que a classe ja deve ter
@@ -181,8 +183,12 @@ void Player::load_player(){
 	player->get_anim_control()->get_anim(0)->set_play_rate(2.5);
 	PT(AnimControl) ac = player->get_anim_control()->find_anim("fast_bite");
 	if(ac != NULL) ac->set_play_rate(2);
-
 	player->reparent_to(render);
+	if(World::get_world()->get_terrain()->get_shadows()->is_in_shadow(*player, 0.1)){
+		stateShadow = true;
+	}
+	else 
+		stateShadow = false;
 }
 
 /*! Muda de setor alem de atualizar os setores adjacentes */
@@ -382,6 +388,7 @@ float Player::get_mouth_size() {
 //textura caso ele entre na sombra.
 void Player::event_psegundo_camuflagem(const Event *, void *data){
 	//verifica se player está na sombra
+	
 	if(World::get_world()->get_terrain()->get_shadows()->is_in_shadow(*player, 0.1)){
 		//aplica alpha - provocando efeito visual de camuflagem
 		player->set_alpha_scale(1 - nivel_camuflagem_sombra/3,1); //A depender do nível de camuflagem
@@ -429,6 +436,32 @@ void Player::mordida_recebida(int lizard_tamanho_base){
 	AudioController::get_instance()->heart_beat(get_energy(), get_min_energy());
 	/*	GuiManager::get_instance()->piscar_life();
 	 * Piscar_life já é chamado anteriormente*/
+}
+
+int Player::changed_Shadow(){
+	PT(TimeControl) time_control = TimeControl::get_instance();
+	if(stateShadow == false){
+		if(World::get_world()->get_terrain()->get_shadows()->is_in_shadow(*player, 0.1)){
+			entrou_sombra;
+			stateShadow = true;
+			cout << "ENTROU NA SOMBRA : "<< time_control->get_hora_generica() << endl;
+			return entrou_sombra;
+		}
+		}
+	else if(stateShadow == true){
+
+		if(!World::get_world()->get_terrain()->get_shadows()->is_in_shadow(*player, 0.1)){
+			saiu_sombra;
+			stateShadow = false;
+			cout << "SAIU DA SOMBRA : "<< time_control->get_hora_generica() << endl;
+			return saiu_sombra;
+		}
+	}
+	
+	
+	return 0;
+
+
 }
 
 PT(Predator) Player::get_predator(){

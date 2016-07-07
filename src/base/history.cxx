@@ -74,7 +74,7 @@ void History::output(History::HistoryItem item, const string &name, ostream &out
 	HList::const_iterator it;
 	int i;
 	for(i = 0, (it = _history[item].begin()); it != _history[item].end(); it++, i++){
-		out << "[" << i << "] " << (*it) << endl;
+		cout << "[" << i << "] " << (*it) << endl;
 	}
 	out << "--" << endl;
 }

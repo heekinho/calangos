@@ -23,7 +23,6 @@ public:
 
 	bool is_in_shadow(LPoint2f pos, double threshold = 0.5);
 	bool is_in_shadow(NodePath obj, double threshold = 0.5);
-
 	PNMImage* get_shadows_channel();
 	void add_transparency_to_shadows(double value);
 

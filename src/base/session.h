@@ -23,6 +23,7 @@
 
 class History;
 
+
 class Session {
 public:
 	static Session* get_instance();
@@ -77,7 +78,7 @@ public:
 private:
 
 	PT(History) _history;
-
+	
 
 	Session();
 	static bool instanceFlag;
