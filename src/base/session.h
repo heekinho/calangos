@@ -22,7 +22,7 @@
 #include "referenceCount.h"
 
 class History;
-
+class stateHistory;
 
 class Session {
 public:
@@ -57,7 +57,7 @@ public:
 
 
 	PT(History) history() const;
-
+	PT(stateHistory) shistory() const;
 	/* Obtém o nível de dificuldade selecionado pelo jogador */
 	int get_difficulty_level() {
 		return difficulty_level;
@@ -78,7 +78,7 @@ public:
 private:
 
 	PT(History) _history;
-	
+	PT(stateHistory) _shistory;
 
 	Session();
 	static bool instanceFlag;

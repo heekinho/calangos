@@ -34,7 +34,7 @@ Session* Session::singleSession = NULL;
 Session::Session() {
 	_player_death_status = Player::PDT_NOT_DEAD;
 	level = 1;
-
+	_shistory = new stateHistory();
 	_history = new CalangosHistory();
 	
 
@@ -301,4 +301,8 @@ bool Session::is_finished_loading() {
 
 PT(History) Session::history() const {
 	return _history;
+}
+
+PT(stateHistory) Session::shistory() const {
+	return _shistory;
 }
