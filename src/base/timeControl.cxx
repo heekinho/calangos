@@ -228,10 +228,13 @@ void TimeControl::update_time_control(float elapsed_time){
 
 				const Event *ev_hour = new Event(EV_pass_hour);
 				(*p_queue).queue_event(ev_hour);
-
+				//CRYSTAL MUDANÇA
+				
 				if(hour >= 24){
 					hour = 0;
 					day += 1;
+					past_day = past_day + 1;
+				
 					const Event *ev_day = new Event(EV_pass_day);
 					(*p_queue).queue_event(ev_day);
 
@@ -287,6 +290,9 @@ float TimeControl::get_virtual_time_hour() {
 int TimeControl::get_minuto(){
 	return minute;
 }
+int TimeControl::get_dia_passado(){
+	return past_day;
+}
 
 int TimeControl::get_hora(){
 	return hour;
@@ -313,8 +319,7 @@ double TimeControl::get_hora_generica(){
 	double hora_generica = hora + min*0.01667;
 	//cout << "\n ------------------------------ min: " << min;
 	//cout << ", hora: " << hora;
-	cout << "\n ------------- hora generica: " << hora_generica << " e dia " << TimeControl::get_instance()->get_dia() << " e mes ";
-	TimeControl::get_instance()->get_mes();
+	cout << "\n ------------- hora generica: " << hora_generica << " e dia " << TimeControl::get_instance()->get_dia() << " e mes " << TimeControl::get_instance()->get_mes()<< endl;
 	return hora_generica;
 }
 

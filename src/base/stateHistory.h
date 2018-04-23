@@ -25,6 +25,7 @@ public:
 	struct state{
 		float hour_event;
 		int occurrence;
+		int event_day;
 	};
 	
 	typedef list<state> SHList;
@@ -37,7 +38,7 @@ public:
     void add_element(stateHistory::SHistoryItem item, state data);
 	void clear(stateHistory::SHistoryItem item);
 
-	void output(stateHistory::SHistoryItem item, const string &name, ostream &out) const;
+	void output(stateHistory::SHistoryItem item, const string &name) const;
 
 private:
 	SHList _shistory[SHI_enum_size];

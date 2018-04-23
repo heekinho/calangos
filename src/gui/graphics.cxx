@@ -371,7 +371,7 @@ void Graphics::create_Graphic() {
 	linha_grafico_np.set_pos(0.15, 0.0, 0.15);
 	
     linha_grafico_np.set_color(0.0, 0.0, 0.0);
-	cout << vetorX->front() << endl;
+	//cout << vetorX->front() << endl;
 }
 
 //vetor_x: Fila com os valores do eixo X. Não pode ter mais de 24 horas.
@@ -786,12 +786,17 @@ void Graphics::set_Titulo_EixoY(const string& tituloEixoYString){
 //
 //}
 
+NodePath Graphics::get_graphic_np(){
+	return graphic_np;
+}
+
 void Graphics::update_hint_line(float line_pos_x, float line_pos_y, float label_pos_y) {
 	float hour = (24 * (line_pos_x - 0.03)) / 0.54;
 	float item_value = 0;
 	std::list<float>::const_iterator iterator, iterator2;
 	float previous_x = 0;
 	float previous_y = 0;
+	
 	/*
 	cout << "FRENTE DO VETOR X : " << vetorX->front() << endl ;
 	cout << "FINAL DO VETOR X : " << vetorX->back() << endl ;

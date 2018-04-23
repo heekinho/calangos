@@ -27,6 +27,7 @@ public:
 
 	virtual void unload();
 
+	virtual PT(Screen) get_screen(PT(Screen) screen);
 
 
 	virtual void open_screen(PT(Screen) screen);

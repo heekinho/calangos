@@ -8,6 +8,7 @@
 #ifndef ACHIEVEMENTSWINDOW_H
 #define ACHIEVEMENTSWINDOW_H
 
+#include "playerAchievements.h"
 #include "window.h"
 #include "hint.h"
 #include "text.h"
@@ -15,6 +16,7 @@
 class AchievementsWindow : public Window {
 public:
 	AchievementsWindow(NodePath parent, float width = 2, float height = 1, string title = "frame", float pos_x = -0.8, float pos_y = -0.8);
+	AchievementsWindow(NodePath parent,playerAchievements player_achiev, float width = 2, float height = 1, string title = "frame", float pos_x = -0.8, float pos_y = -0.8);
 	virtual ~AchievementsWindow();
 
 	void create_senhor_mordida_stars(string star1, string star2, string star3);

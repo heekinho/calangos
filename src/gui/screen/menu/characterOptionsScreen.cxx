@@ -210,9 +210,9 @@ void CharacterOptionsScreen::cnemidophorus_action() {
 }
 
 void CharacterOptionsScreen::jogar_action() {
-	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_loading_screen());
-	Simdunas::set_play_clicked(true);
-	Session::get_instance()->set_level(1);
+	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_name_screen());
+	//Simdunas::set_play_clicked(true);
+	//Session::get_instance()->set_level(1);
 }
 
 void CharacterOptionsScreen::nivel_facil_action() {

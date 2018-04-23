@@ -5,6 +5,7 @@
  *      Author: jonatas
  */
 
+#include "playerAchievements.h"
 #include "achievements.h"
 #include "timeControl.h"
 #include "pauseScreen.h"
@@ -12,13 +13,28 @@
 #include "mouseButton.h"
 #include "achievementsWindow.h"
 #include "guiManager.h"
+#include <iostream>
+#include <fstream>
+#include <vector>
 
 Achievements::Achievements() {
+	smestrela = 0; 
+	svestrela = 0; 
+	bbestrela = 0; 
+	reestrela = 0; 
+	tmestrela = 0; 
+	hiestrela = 0; 
+	enestrela = 0;
+	inestrela = 0;
+	geestrela = 0;
+	
 	count_bites = 0;
 	lvl_senhor_mordida = 0;
 	lvl_bom_de_boca = 0;
 	count_species = 0;
 	count_sobrevivente = 0;
+	ovos = 0;
+	estrelas = 0;
 	lvl_sobrevivente = 0;
 	count_reprodutor = 0;
 	lvl_reprodutor = 0;
@@ -66,7 +82,7 @@ Achievements::~Achievements() {
 
 void Achievements::inc_bites() {
 	count_bites++;
-
+	
 	if (lvl_senhor_mordida == 0 && count_bites == 10) {
 		clear_bites();
 		inc_lvl_senhor_mordida();
@@ -84,6 +100,8 @@ void Achievements::inc_bites() {
 
 void Achievements::inc_lvl_senhor_mordida() {
 	lvl_senhor_mordida++;
+	estrelas++;
+	smestrela++;
 	stringstream lvl_senhor_mordida_str;
 	lvl_senhor_mordida_str<<lvl_sobrevivente;
 	string msg1 = ConfigVariableString("msg-conquistap1", "Foi alcançado o nível ");
@@ -114,7 +132,7 @@ int Achievements::get_count_species() {
 
 void Achievements::inc_meses_sobrevivente() {
 	count_sobrevivente++;
-
+	
 	if (lvl_sobrevivente == 0 && count_sobrevivente == 4) {
 		count_sobrevivente = 0;
 		inc_lvl_sobrevivente();
@@ -132,6 +150,8 @@ void Achievements::inc_meses_sobrevivente() {
 void Achievements::inc_lvl_sobrevivente() {
 	if (Session::get_instance()->is_lizard_adult() == false && adulto == 1) {
 		lvl_sobrevivente++;
+		estrelas++;
+		svestrela++;
 		stringstream lvl_sobrevivente_str;
 		lvl_sobrevivente_str<<lvl_sobrevivente;
 		string msg1 = ConfigVariableString("msg-conquistap1", "Foi alcançado o nível ");
@@ -160,7 +180,20 @@ int Achievements::get_count_sobrevivente() {
 int Achievements::get_lvl_sobrevivente() {
 	return lvl_sobrevivente;
 }
+int Achievements::get_estrelas(){
+	return estrelas;
+}
 
+playerAchievements Achievements::get_achiev(){
+	
+	playerAchievements achiev_player =  playerAchievements(smestrela,svestrela,bbestrela,reestrela,tmestrela,hiestrela,enestrela,inestrela,geestrela,
+		count_bites,count_sobrevivente,count_species,count_reprodutor,count_secs_temp,count_secs_hyd,count_secs_energy,count_secs_untouched,count_guerreiro);
+	return achiev_player;
+}
+
+int Achievements::get_ovos(){
+	return ovos;
+}
 int Achievements::get_count_reprodutor() {
 	return count_reprodutor;
 }
@@ -215,7 +248,8 @@ int Achievements::get_lvl_guerreiro() {
 
 void Achievements::inc_reprodutor() {
 	count_reprodutor++;
-
+	
+	ovos++;
 	if (lvl_reprodutor == 0 && count_reprodutor == 3) {
 		count_reprodutor = 0;
 		inc_lvl_reprodutor();
@@ -232,6 +266,8 @@ void Achievements::inc_reprodutor() {
 
 void Achievements::inc_lvl_reprodutor() {
 	lvl_reprodutor++;
+	estrelas++;
+	reestrela++;
 	stringstream lvl_reprodutor_str;
 	lvl_reprodutor_str<<lvl_sobrevivente;
 	string msg1 = ConfigVariableString("msg-conquistap1", "Foi alcançado o nível ");
@@ -252,7 +288,7 @@ void Achievements::check_edible_specie(Edible::Specie specie) {
 	if (is_new) {
 		eaten_species.push_back(specie);
 		count_species++;
-
+		
 		switch (eaten_species.size()) {
 			case 4:
 			case 9:
@@ -266,6 +302,8 @@ void Achievements::check_edible_specie(Edible::Specie specie) {
 
 void Achievements::inc_lvl_bom_de_boca() {
 	lvl_bom_de_boca++;
+	estrelas++;
+	bbestrela++;
 	stringstream lvl_bom_de_boca_str;
 	lvl_bom_de_boca_str<<lvl_bom_de_boca;
 	string msg1 = ConfigVariableString("msg-conquistap1", "Foi alcançado o nível ");
@@ -294,7 +332,7 @@ AsyncTask::DoneStatus Achievements::count_seconds_temperature(GenericAsyncTask* 
 
 	if (!PauseScreen::is_opened) {
 		_this->count_secs_temp++;
-
+		
 		if (_this->lvl_temperatura == 0 && _this->count_secs_temp == 45) {
 			_this->inc_lvl_temperatura();
 			_this->count_secs_temp = 0;
@@ -314,6 +352,8 @@ AsyncTask::DoneStatus Achievements::count_seconds_temperature(GenericAsyncTask* 
 
 void Achievements::inc_lvl_temperatura() {
 	lvl_temperatura++;
+	estrelas++;
+	tmestrela++;
 	stringstream lvl_temperatura_str;
 	lvl_temperatura_str<<lvl_temperatura;
 	string msg1 = ConfigVariableString("msg-conquistap1", "Foi alcançado o nível ");
@@ -342,7 +382,7 @@ AsyncTask::DoneStatus Achievements::count_seconds_hydration(GenericAsyncTask* ta
 
 	if (!PauseScreen::is_opened) {
 		_this->count_secs_hyd++;
-
+		
 		if (_this->lvl_hidratacao == 0 && _this->count_secs_hyd == 60) {
 			_this->inc_lvl_hidratacao();
 			_this->hyd_min = 80;
@@ -364,6 +404,8 @@ AsyncTask::DoneStatus Achievements::count_seconds_hydration(GenericAsyncTask* ta
 
 void Achievements::inc_lvl_hidratacao() {
 	lvl_hidratacao++;
+	estrelas++;
+	hiestrela++;
 	stringstream lvl_hidratacao_str;
 	lvl_hidratacao_str<<lvl_hidratacao;
 	string msg1 = ConfigVariableString("msg-conquistap1", "Foi alcançado o nível ");
@@ -392,7 +434,7 @@ AsyncTask::DoneStatus Achievements::count_seconds_energy(GenericAsyncTask* task,
 
 	if (!PauseScreen::is_opened) {
 		_this->count_secs_energy++;
-
+		
 		if (_this->lvl_energia == 0 && _this->count_secs_energy == 60) {
 			_this->inc_lvl_energia();
 			_this->energy_min = 80;
@@ -414,6 +456,8 @@ AsyncTask::DoneStatus Achievements::count_seconds_energy(GenericAsyncTask* task,
 
 void Achievements::inc_lvl_energia() {
 	lvl_energia++;
+	estrelas++;
+	enestrela++;
 	stringstream lvl_energia_str;
 	lvl_energia_str<<lvl_energia;
 	string msg1 = ConfigVariableString("msg-conquistap1", "Foi alcançado o nível ");
@@ -426,7 +470,7 @@ AsyncTask::DoneStatus Achievements::count_seconds_untouched(GenericAsyncTask* ta
 
 	if (!PauseScreen::is_opened) {
 		_this->count_secs_untouched++;
-
+		
 		if (_this->lvl_intocavel == 0 && _this->count_secs_untouched == 60) {
 			_this->inc_lvl_intocavel();
 			_this->count_secs_untouched = 0;
@@ -446,6 +490,8 @@ AsyncTask::DoneStatus Achievements::count_seconds_untouched(GenericAsyncTask* ta
 
 void Achievements::inc_lvl_intocavel() {
 	lvl_intocavel++;
+	estrelas++;
+	inestrela++;
 	stringstream lvl_intocavel_str;
 	lvl_intocavel_str<<lvl_intocavel;
 	string msg1 = ConfigVariableString("msg-conquistap1", "Foi alcançado o nível ");
@@ -455,6 +501,7 @@ void Achievements::inc_lvl_intocavel() {
 
 void Achievements::inc_guerreiro() {
 	count_guerreiro++;
+	
 	simdunas_cat.debug()<<"count_guerreiro = "<<count_guerreiro<<endl;
 
 	if (lvl_guerreiro == 0 && count_guerreiro == 2) {
@@ -473,6 +520,8 @@ void Achievements::inc_guerreiro() {
 
 void Achievements::inc_lvl_guerreiro() {
 	lvl_guerreiro++;
+	estrelas++;
+	geestrela++;
 	stringstream lvl_guerreiro_str;
 	lvl_guerreiro_str<<lvl_guerreiro;
 	string msg1 = ConfigVariableString("msg-conquistap1", "Foi alcançado o nível ");

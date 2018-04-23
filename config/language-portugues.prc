@@ -5,10 +5,11 @@ msg-imag1 models/gui/iconesPortugues.png
 
 msg-jogar Jogar
 msg-config Configurações
-msg-inst Instruções
+msg-inst Instruções>>
 msg-idioma Idioma
 msg-cred Créditos
 msg-sair Sair
+msg-scor Tabela de Pontuação
 
 ##Default Back Button##
 
@@ -29,8 +30,8 @@ msg-esco2 Idade
 msg-jovem Jovem
 msg-adulto Adulto
 msg-esco3 Escolha da Espécie 
-
 msg-avan Avançar >>
+msg-name Escreva seu nome abaixo
 
 #Fase 2 Character Edit#
 
@@ -99,6 +100,7 @@ msg-hinthidra Hidratação
 msg-hinttempi Temperatura Interna
 msg-hinttemps Temperatura do Solo
 msg-hintumi Umidade do Ar
+msg-hinterepro Estado Reprodutivo
 msg-hintrepro Numero de Reproduções
 msg-hintidade Idade
 msg-hintgraf Gráficos
@@ -249,6 +251,9 @@ msg-graficots Temperatura do Solo
 msg-graficoal Alimentação
 msg-graficoen Energia
 msg-graficogaen Gasto Energético
+msg-graficosh Sombra
+msg-graficorun Correndo
+msg-graficoeat Comendo
 msg-tempoh Tempo (h)
 msg-tempecel Temperatura (C)
 msg-hiporcen Hidratação (%)
@@ -258,6 +263,13 @@ msg-umidadegra Umidade
 msg-variatempi Temp Interna
 msg-variatempa Temp Ar
 msg-variatemps Temp Solo
+
+msg-legendaA1 Parado :
+msg-legendaA2 Andando :
+msg-legendaA3 Correndo :
+msg-legendaS1 Entrou na Sombra :
+msg-legendaS2 Saiu da Sombra :
+msg-legendaC1 Comeu :
 
 #Texture Editor#
 

@@ -33,7 +33,8 @@ void InstructionsScreen::load(){
 
 	default_button_config(btn_controles, np_btn_controles, ConfigVariableString("msg-cont", "Controles"), LVecBase3f(0, 0, 0.1), controles_action);
 	default_button_config(btn_indicadores, np_btn_indicadores, ConfigVariableString("msg-indi", "Indicadores"), LVecBase3f(0, 0, -0.1), indicadores_action);
-	configure_default_back_button(((CalangosMenuManager*)(manager.p()))->get_main_menu());
+	default_button_config(btn_options, np_options, ConfigVariableString("msg-volt", "<< Voltar"), LVecBase3f(-0.9, 0, -0.9), options_action);
+	
 }
 
 /*! Evento de click no botão "Controles". Abre a tela de instruções sobre os controles. */
@@ -46,4 +47,10 @@ void InstructionsScreen::controles_action(){
 void InstructionsScreen::indicadores_action(){
 	simdunas_cat.debug() << "Tela de instruções sobre os indicadores..." << endl;
 	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_indicators_screen());
+}
+
+void InstructionsScreen::options_action(){
+	simdunas_cat.debug() << "Carregando Opções..." << endl;
+	//manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_options_screen());
+	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_game_options_screen());
 }

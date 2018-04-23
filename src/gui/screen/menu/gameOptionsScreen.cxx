@@ -57,7 +57,7 @@ void GameOptionsScreen::load() {
 
 	// Mostrando botão voltar
 	configure_default_back_button(((CalangosMenuManager* ) manager.p())->get_main_menu());
-
+	default_button_config(btn_instructions, np_instructions, ConfigVariableString("msg-inst", "Instruções>>"), LVecBase3f(0.80, 0, -0.90), instructions_action);
 	//////////////////////////////////////////Opção de configuração Tempo Virtual//////////
 	slide = new PGSliderBar("slid");
 	slide->set_range(1, 60);
@@ -314,6 +314,12 @@ void GameOptionsScreen::slide_direita_action() {
 	letra << minuto_dia_virtual;
 	std::string st(letra.str());
 	informa_segundos(st);
+}
+
+
+void GameOptionsScreen::instructions_action(){
+	simdunas_cat.debug() << "Carregando Instruções..." << endl;
+	manager->open_screen(((CalangosMenuManager*)(manager.p()))->get_instructions_screen());
 }
 
 /*! Evento de click no botão "-" do slider. Diminui 1 no valor dos minutos/hora do jogo. */

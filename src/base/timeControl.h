@@ -38,6 +38,7 @@ public:
 	int get_dia();
 	int get_mes();
 	int get_ano();
+	int get_dia_passado();
 	double get_hora_generica();
 	bool get_stop_time();
 	bool get_habilita_event_frame_gui();
@@ -119,6 +120,8 @@ private:
 	// Pode ser os anos de vida do lagarto por exemplo
 	int year;
 	// Faz o controle da chamada da função AmbientControl()
+	int past_day;
+
 	int ambientControl;
 	//Variável que controla a parada do tempo
 	bool stop_time;

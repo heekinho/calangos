@@ -12,9 +12,10 @@
 #include "pgVirtualFrame.h"
 #include "graphics.h"
 #include "history.h"
+#include "stateHistory.h"
 #include "eventHandler.h"
 #include "button.h"
-
+class stateHistory;
 class Graphics;
 class Hint;
 //class History;
@@ -27,6 +28,8 @@ public:
 	GraphicsMenu(NodePath menu_frame_np);
 	virtual ~GraphicsMenu();
 
+	
+	
 	PT(PGButton) get_btn_graf_tempo();
 	NodePath get_led_off_graf_tempo();
 	NodePath get_led_on_graf_tempo();
@@ -68,6 +71,19 @@ public:
 	NodePath get_led_off_gasto_energetico();
 	NodePath get_led_on_gasto_energetico();
 
+	PT(PGButton) get_btn_sombra();
+	NodePath get_led_off_sombra();
+	NodePath get_led_on_sombra();
+	
+	PT(PGButton) get_btn_correndo();
+	NodePath get_led_off_correndo();
+	NodePath get_led_on_correndo();
+
+	PT(PGButton) get_btn_comeu();
+	NodePath get_led_off_comeu();
+	NodePath get_led_on_comeu();
+
+
 	// Métodos get dos itens referentes ao menu de gráfico variável
 	PT(PGButton) get_btn_temp_interna_v();
 	NodePath get_led_off_temp_interna_v();
@@ -100,6 +116,11 @@ public:
 	PT(PGButton) get_btn_gasto_energetico_v();
 	NodePath get_led_off_gasto_energetico_v();
 	NodePath get_led_on_gasto_energetico_v();
+
+    NodePath get_node_sombra();
+	NodePath get_node_correndo();
+	NodePath get_node_comeu();
+
 
 	NodePath get_option_frame_np();
 	NodePath get_grafico_variavel_frame_np();
@@ -138,6 +159,7 @@ public:
 
 	void make_tipo_graf(NodePath menu_frame_np);
 	void make_txt_tipo_graf(NodePath menu_frame_np);
+	void make_txt_legen_graf(NodePath menu_frame_np);
 	void make_btn_graf_tempo(NodePath menu_frame_np);
 	void make_btn_graf_variavel(NodePath menu_frame_np);
 
@@ -150,6 +172,9 @@ public:
 	void make_btn_alimentacao(NodePath menu_frame_np);
 	void make_btn_energia(NodePath menu_frame_np);
 	void make_btn_gasto_energetico(NodePath menu_frame_np);
+	void make_btn_sombra(NodePath menu_frame_np);
+	void make_btn_correndo(NodePath menu_frame_np);
+	void make_btn_comeu(NodePath menu_frame_np);
 
 	void make_menu_graf_variavel();
 	void make_btn_temp_interna_v();
@@ -160,6 +185,7 @@ public:
 	void make_btn_alimentacao_v();
 	void make_btn_energia_v();
 	void make_btn_gasto_energetico_v();
+
 
 	void hide_all_option_graphics();
 	void hide_menu_graf_tempo();
@@ -173,6 +199,7 @@ public:
 	void build_options();
 	void init_graphics();
 
+	static stateHistory::SHList list;
 	PT(Graphics) make_new_chart(History::HistoryItem item, PT(Graphics) &chart,
 			const string &title, const string &x_axis, const string &y_axis);
 	PT(Graphics) novo_grafico1_TempInterna();
@@ -196,6 +223,11 @@ public:
 	static void click_event_botao_grafico_alimentacao(const Event*, void *data);
 	static void click_event_botao_grafico_energia(const Event*, void *data);
 	static void click_event_botao_grafico_gastoEnergetico(const Event*, void *data);
+
+	static void click_event_botao_grafico_sombra(const Event*, void *data);
+	static void click_event_botao_grafico_correndo(const Event*, void *data);
+	static void click_event_botao_grafico_comeu(const Event*, void *data);
+
 	static void click_event_botao_grafico_tempInterna_v(const Event*, void *data);
 	static void click_event_botao_grafico_hidratacao_v(const Event*, void *data);
 	static void click_event_botao_grafico_tempAr_v(const Event*, void *data);
@@ -225,21 +257,24 @@ public:
 	ACTION(draw_hint_line);
 
 	PT(History) get_history();
-
+	PT(stateHistory) get_stateHistory();
 	int get_elapsed_days();
 	History::HList* get_item_list_by_day(int day_number, History::HList *item_list, History::HList *time_list);
 	History::HList* get_time_list_by_day(int day_number, History::HList *time_list);
-
+	
 	int get_current_day();
 	void set_current_day(int current_day);
-
+	
 	PT(PGButton) get_btn_previous_page_chart1();
 	PT(PGButton) get_btn_next_page_chart1();
 	void make_btn_previous_page_chart1(NodePath menu_frame_np);
 	void make_btn_next_page_chart1(NodePath menu_frame_np);
 	static void click_event_btn_previous_page_chart1(const Event*, void *data);
 	static void click_event_btn_next_page_chart1(const Event*, void *data);
-
+	
+	void set_menu_frame_np(NodePath menu_frame);
+	NodePath get_menu_frame_np();
+	NodePath menu_np;
 	History::HistoryItem get_item_chart1();
 	History::HistoryItem get_item_chart2();
 	void update_chart_page();
@@ -247,8 +282,21 @@ public:
 			const string &title, const string &x_axis, const string &y_axis, int chart_number);
 
 private:
+	PT(TextNode) get_txt_legenda();
+	void set_txt_legenda(PT(TextNode) text_legenda);
+	void set_txt_legenda_np(NodePath text_legenda_np);
+	PT(TextNode) txt_legenda;
+	NodePath txt_legenda_np;
+	NodePath get_txt_legenda_np();
+	//void set_txt_legenda_np(NodePath text_legenda_np);
+	
+
+
 	PT(TextNode) txt_tipo_graf;
 	NodePath label_txt_tipo_graf;
+
+	PT(TextNode) txt_legen_graf;
+	NodePath label_txt_legen_graf;
 
 	PT(PGButton) btn_graf_tempo;
 	NodePath np_btn_graf_tempo;
@@ -292,6 +340,11 @@ private:
 	NodePath led_on_umidade;
 	bool flag_umidade;
 
+	
+	NodePath node_sombra;
+	NodePath node_correndo;
+	NodePath node_comeu;
+
 	PT(PGButton) btn_temp_solo;
 	NodePath np_btn_temp_solo;
 	NodePath img_btn_temp_solo;
@@ -323,6 +376,31 @@ private:
 	NodePath led_off_gasto_energetico;
 	NodePath led_on_gasto_energetico;
 	bool flag_gasto_energetico;
+
+
+	PT(PGButton) btn_sombra;
+	NodePath np_btn_sombra;
+	NodePath img_btn_sombra;
+	PT(Hint) hint_btn_sombra;
+	NodePath led_off_sombra;
+	NodePath led_on_sombra;
+	bool flag_sombra;
+
+	PT(PGButton) btn_correndo;
+	NodePath np_btn_correndo;
+	NodePath img_btn_correndo;
+	PT(Hint) hint_btn_correndo;
+	NodePath led_off_correndo;
+	NodePath led_on_correndo;
+	bool flag_correndo;
+
+	PT(PGButton) btn_comeu;
+	NodePath np_btn_comeu;
+	NodePath img_btn_comeu;
+	PT(Hint) hint_btn_comeu;
+	NodePath led_off_comeu;
+	NodePath led_on_comeu;
+	bool flag_comeu;
 
 	PT(PGButton) btn_temp_interna_v; // "_v" de "variavel", para diferenciar das do gráfico de tempo
 	NodePath np_btn_temp_interna_v;
@@ -388,6 +466,10 @@ private:
 	NodePath led_on_gasto_energetico_v;
 	bool flag_gasto_energetico_v;
 
+	
+
+
+
 	PT(Graphics) graphicVariavel;
     PT(Graphics) graphic;
     PT(Graphics) graphic2;
@@ -407,6 +489,7 @@ private:
 	//CONFIGURAÇÕES DOS GRAFICOS DE VARIAVEIS.
     History::HList* vetor_x;
     History::HList* vetor_y;
+	
 
     string legenda_x;
     string legenda_y;
@@ -418,6 +501,7 @@ private:
     double tamanho_vetor_y;
 
     PT(History) history;
+	PT(stateHistory) stateHistory;
 
     bool grafico_tempo_ativo;
     bool grafico_variavel_ativo;
@@ -439,6 +523,7 @@ private:
 	// itens correntes nos gráficos superior e inferior (umidade, hidratacao, energia etc)
 	History::HistoryItem item_chart1;
 	History::HistoryItem item_chart2;
+	 
 	PT(Graphics) chart_1;
 	PT(Graphics) chart_2;
 	string title_chart1;
@@ -447,6 +532,7 @@ private:
 	string x_axis_chart2;
 	string y_axis_chart1;
 	string y_axis_chart2;
+
 
 
 //    // 0 - não está na tela; 1 - está em cima; 2 - está embaixo

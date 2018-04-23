@@ -48,7 +48,8 @@ int main(int argc, char *argv[]) {
 
 	/* Configurações de jogo */
 	load_prc_file("config/calangos.prc");
-
+	
+	
 	TextNode::set_default_encoding(TextNode::E_utf8);
 	Simdunas::game_font = FontPool::load_font("models/gui/fonts/suplexcomic-large");
 

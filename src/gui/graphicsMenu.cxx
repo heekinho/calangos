@@ -13,6 +13,8 @@
 #include "timeControl.h"
 #include "mouseWatcher.h"
 #include "button.h"
+#include "stateHistory.h"
+#include "lineSegs.h"
 
 //bool grafico_tempo_ativo;
 //bool grafico_variavel_ativo;
@@ -30,11 +32,42 @@ int posicao_grafico_alimentacao;
 int posicao_grafico_energia;
 int posicao_grafico_gastoEnergetico;
 
+int	flag_btn_sombra = 0;
+int flag_btn_correndo = 0;
+int flag_btn_comeu = 0;
+
+LineSegs* legendaS;
+NodePath legendaSnp;
+LineSegs* legendaA;
+NodePath legendaAnp;
+LineSegs* legendaC;
+NodePath legendaCnp;
+
+
+LineSegs* eixo_bot;
+NodePath eixo_bot_np;
+LineSegs* eixo2_bot;
+NodePath eixo2_bot_np;
+
+LineSegs* eixo3_bot;
+NodePath eixo3_bot_np;
+LineSegs* eixo4_bot;
+NodePath eixo4_bot_np;
+
+LineSegs* eixo5_bot;
+NodePath eixo5_bot_np;
+LineSegs* eixo6_bot;
+NodePath eixo6_bot_np;
+
+int contador = 0;
+
+int lock = 0;
 GraphicsMenu::GraphicsMenu(NodePath menu_frame_np) {
 	
+	txt_legenda = new TextNode("txt_legenda");
 	
-
 	history = Session::get_instance()->history();
+	stateHistory = Session::get_instance()->shistory();
 
 	set_current_day(get_elapsed_days());
 
@@ -47,8 +80,9 @@ GraphicsMenu::GraphicsMenu(NodePath menu_frame_np) {
 	// remover daqui ou associar ao stash/unstash do gráfico
 	make_btn_previous_page_chart1(menu_frame_np);
 	make_btn_next_page_chart1(menu_frame_np);
-
+	set_menu_frame_np(menu_frame_np);
 	add_hooks();
+	
 	init_variables();
 
 	//current_day = get_elapsed_days();
@@ -88,6 +122,9 @@ void GraphicsMenu::add_hooks() {
 	event_handler->add_hook(get_btn_alimentacao()->get_click_event(MouseButton::one()), click_event_botao_grafico_alimentacao, this);
 	event_handler->add_hook(get_btn_energia()->get_click_event(MouseButton::one()), click_event_botao_grafico_energia,this);
 	event_handler->add_hook(get_btn_gasto_energetico()->get_click_event(MouseButton::one()), click_event_botao_grafico_gastoEnergetico,this);
+	event_handler->add_hook(get_btn_sombra()->get_click_event(MouseButton::one()), click_event_botao_grafico_sombra,this);
+	event_handler->add_hook(get_btn_correndo()->get_click_event(MouseButton::one()), click_event_botao_grafico_correndo,this);
+	event_handler->add_hook(get_btn_comeu()->get_click_event(MouseButton::one()), click_event_botao_grafico_comeu,this);
 	event_handler->add_hook(get_btn_temp_interna_v()->get_click_event(MouseButton::one()), click_event_botao_grafico_tempInterna_v,this);
 	event_handler->add_hook(get_btn_hidratacao_v()->get_click_event(MouseButton::one()), click_event_botao_grafico_hidratacao_v, this);
 	event_handler->add_hook(get_btn_temp_ar_v()->get_click_event(MouseButton::one()), click_event_botao_grafico_tempAr_v,this);
@@ -118,6 +155,9 @@ void GraphicsMenu::remove_hooks() {
 	event_handler->remove_hook(get_btn_alimentacao()->get_click_event(MouseButton::one()), click_event_botao_grafico_alimentacao, this);
 	event_handler->remove_hook(get_btn_energia()->get_click_event(MouseButton::one()), click_event_botao_grafico_energia,this);
 	event_handler->remove_hook(get_btn_gasto_energetico()->get_click_event(MouseButton::one()), click_event_botao_grafico_gastoEnergetico,this);
+	event_handler->remove_hook(get_btn_sombra()->get_click_event(MouseButton::one()), click_event_botao_grafico_sombra,this);
+	event_handler->remove_hook(get_btn_correndo()->get_click_event(MouseButton::one()), click_event_botao_grafico_correndo,this);
+	event_handler->remove_hook(get_btn_comeu()->get_click_event(MouseButton::one()), click_event_botao_grafico_comeu,this);
 	event_handler->remove_hook(get_btn_temp_interna_v()->get_click_event(MouseButton::one()), click_event_botao_grafico_tempInterna_v,this);
 	event_handler->remove_hook(get_btn_hidratacao_v()->get_click_event(MouseButton::one()), click_event_botao_grafico_hidratacao_v, this);
 	event_handler->remove_hook(get_btn_temp_ar_v()->get_click_event(MouseButton::one()), click_event_botao_grafico_tempAr_v,this);
@@ -160,7 +200,7 @@ void GraphicsMenu::click_event_botao_grafico_tempo(const Event*, void *data) {
 	
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
 	
-
+	if(lock = 0){
 	if (graphics_menu->get_grafico_tempo_ativo()) { // o gráfico ativo é do tipo tempo; ao clicar no botão, desabilita o gráfico
 		
 		graphics_menu->hide_menu_graf_tempo();
@@ -187,6 +227,7 @@ void GraphicsMenu::click_event_botao_grafico_tempo(const Event*, void *data) {
 		graphics_menu->get_led_off_graf_variavel().unstash();
 		
 	}
+	}
 }
 
 void GraphicsMenu::click_event_botao_grafico_variavel(const Event*, void *data) {
@@ -194,7 +235,7 @@ void GraphicsMenu::click_event_botao_grafico_variavel(const Event*, void *data) 
 
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
 	
-
+	if(lock = 0){
 	if (graphics_menu->get_grafico_variavel_ativo()) {
 		
 		graphics_menu->hide_menu_graf_variavel(); // verificar se os leds dos botões de gráfico variável apagam
@@ -228,7 +269,7 @@ void GraphicsMenu::click_event_botao_grafico_variavel(const Event*, void *data) 
 		graphics_menu->create_default_time_chart();
 	
 	}
-	
+	}
 }
 
 void GraphicsMenu::create_default_time_chart() { // mudar nome do método; aqui se cria o gráfico padrão do tipo variável!
@@ -414,6 +455,7 @@ PT(Graphics) GraphicsMenu::create_time_chart(int chart_number, int chart_positio
 
 void GraphicsMenu::click_event_botao_grafico_tempInterna(const Event*, void *data) {
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
+	if(lock == 0){
 	if (graphics_menu->get_grafico_tempo_ativo()) {
 		graphics_menu->set_chart_properties(1, posicao_grafico_tempInterna);
 	} else {
@@ -421,11 +463,12 @@ void GraphicsMenu::click_event_botao_grafico_tempInterna(const Event*, void *dat
 				get_list(History::HI_player_temperature), graphics_menu->get_legenda_x(), ConfigVariableString("msg-variatempi", "Temp Interna"), false);
 		graphics_menu->get_led_on_temp_interna().unstash();
 		graphics_menu->get_led_off_temp_interna().stash();
-	}
+	}}
 }
 
 void GraphicsMenu::click_event_botao_grafico_hidratacao(const Event*, void *data) {
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
+	if(lock == 0){
 	if (graphics_menu->get_grafico_tempo_ativo()) {
 		graphics_menu->set_chart_properties(2, posicao_grafico_hidratacao);
 	} else {
@@ -434,10 +477,12 @@ void GraphicsMenu::click_event_botao_grafico_hidratacao(const Event*, void *data
 		graphics_menu->get_led_on_hidratacao().unstash();
 		graphics_menu->get_led_off_hidratacao().stash();
 	}
+	}
 }
 
 void GraphicsMenu::click_event_botao_grafico_tempAr(const Event*, void *data) {
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
+	if(lock == 0){
 	if (graphics_menu->get_grafico_tempo_ativo()) {
 		graphics_menu->set_chart_properties(3, posicao_grafico_tempAr);
 	} else {
@@ -446,10 +491,12 @@ void GraphicsMenu::click_event_botao_grafico_tempAr(const Event*, void *data) {
 		graphics_menu->get_led_on_temp_ar().unstash();
 		graphics_menu->get_led_off_temp_ar().stash();
 	}
+	}
 }
 
 void GraphicsMenu::click_event_botao_grafico_umidade(const Event*, void *data) {
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
+	if(lock == 0){
 	if (graphics_menu->get_grafico_tempo_ativo()) {
 		graphics_menu->set_chart_properties(4, posicao_grafico_umidade);
 	} else {
@@ -458,10 +505,12 @@ void GraphicsMenu::click_event_botao_grafico_umidade(const Event*, void *data) {
 		graphics_menu->get_led_on_umidade().unstash();
 		graphics_menu->get_led_off_umidade().stash();
 	}
+	}
 }
 
 void GraphicsMenu::click_event_botao_grafico_tempSolo(const Event*, void *data) {
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
+	if(lock == 0){
 	if (graphics_menu->get_grafico_tempo_ativo()) {
 		graphics_menu->set_chart_properties(5, posicao_grafico_tempSolo);
 	} else {
@@ -470,10 +519,12 @@ void GraphicsMenu::click_event_botao_grafico_tempSolo(const Event*, void *data) 
 		graphics_menu->get_led_on_temp_solo().unstash();
 		graphics_menu->get_led_off_temp_solo().stash();
 	}
+	}
 }
 
 void GraphicsMenu::click_event_botao_grafico_alimentacao(const Event*, void *data) {
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
+	if(lock == 0){
 	if (graphics_menu->get_grafico_tempo_ativo()) {
 		graphics_menu->set_chart_properties(6, posicao_grafico_alimentacao);
 	} else {
@@ -482,10 +533,12 @@ void GraphicsMenu::click_event_botao_grafico_alimentacao(const Event*, void *dat
 		graphics_menu->get_led_on_alimentacao().unstash();
 		graphics_menu->get_led_off_alimentacao().stash();
 	}
+	}
 }
 
 void GraphicsMenu::click_event_botao_grafico_energia(const Event*, void *data) {
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
+	if(lock == 0){
 	if (graphics_menu->get_grafico_tempo_ativo()) {
 		graphics_menu->set_chart_properties(7, posicao_grafico_energia);
 	} else {
@@ -494,10 +547,12 @@ void GraphicsMenu::click_event_botao_grafico_energia(const Event*, void *data) {
 		graphics_menu->get_led_on_energia().unstash();
 		graphics_menu->get_led_off_energia().stash();
 	}
+	}
 }
 
 void GraphicsMenu::click_event_botao_grafico_gastoEnergetico(const Event*, void *data) {
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
+	if(lock == 0){
 	if (graphics_menu->get_grafico_tempo_ativo()) {
 		graphics_menu->set_chart_properties(8, posicao_grafico_gastoEnergetico);
 	} else {
@@ -505,7 +560,329 @@ void GraphicsMenu::click_event_botao_grafico_gastoEnergetico(const Event*, void 
 				get_list(History::HI_total_energy_cost), graphics_menu->get_legenda_x(), ConfigVariableString("msg-graficogaen", "Gasto Energético"), false);
 		graphics_menu->get_led_on_gasto_energetico().unstash();
 		graphics_menu->get_led_off_gasto_energetico().stash();
-	}
+	}}
+}
+//COMPLETAR
+void GraphicsMenu::click_event_botao_grafico_sombra(const Event*, void *data) {
+		PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
+		PT(TimeControl) time_control = TimeControl::get_instance();
+		int diaPassado = time_control->get_dia_passado();
+		cout << "DIA PASSADO :" << diaPassado << "CONTADOR :" << contador <<endl; 
+		stateHistory::SHList listEvent;
+		string s1 , s2, f1;
+		
+		listEvent = *graphics_menu->get_stateHistory()->get_list(stateHistory::SH_changed_shadow);
+		std::list<stateHistory::state>::iterator iterator;
+		stateHistory::state test;
+		s1 = ConfigVariableString("msg-legendaS1", "Entrou na Sombra :");
+		s2 = ConfigVariableString("msg-legendaS2", "Saiu da Sombra :");
+		f1 = s1 + "\n" + "\n" + s2;
+		
+		//CLIQUEI COM O INTUITO DE LIGAR O BOTAO
+		if(flag_btn_sombra == 0 && flag_btn_comeu == 0 && flag_btn_correndo == 0){
+		
+		
+		
+		lock = 1;
+		graphics_menu->get_txt_legenda()->set_text(f1);
+		graphics_menu->set_txt_legenda_np(graphics_menu->get_menu_frame_np().attach_new_node(graphics_menu->get_txt_legenda()));
+		graphics_menu->get_txt_legenda_np().set_pos(0.49, 0.0, 0.76);
+		graphics_menu->get_txt_legenda_np().set_scale(0.032);
+		graphics_menu->get_txt_legenda_np().set_color(0.0, 0.0, 0.0, 1,0);
+		graphics_menu->get_txt_legenda_np().unstash();
+
+		legendaS = new LineSegs("legendaS");
+		legendaS->set_color(0.0, 1.0, 0.0);
+		legendaS->move_to(0.80, 0.0, 0.765);
+		legendaS->draw_to(0.85, 0.0, 0.765);
+		legendaS->set_color(0.0, 0.0, 1.0);
+		legendaS->move_to(0.80, 0.0, 0.70);
+		legendaS->draw_to(0.85, 0.0, 0.70);
+		legendaSnp = graphics_menu->get_menu_frame_np().attach_new_node(legendaS->create(true));
+		
+		graphics_menu->get_led_on_sombra().unstash();
+		graphics_menu->get_led_off_sombra().stash();
+		flag_btn_sombra = 1;
+		eixo_bot = new LineSegs("eixo-bot");
+		eixo_bot->move_to(0.0, 0.0, 0.0);
+		eixo2_bot = new LineSegs("eixo2-bot");
+		eixo2_bot->move_to(0.0, 0.0, 0.0);
+		for(iterator = listEvent.begin(); iterator != listEvent.end() ; ++iterator){
+			
+			test = *iterator;
+			float posicaoX = ((test.hour_event*0.54)/24)+0.03;
+			
+
+			if(test.event_day == (diaPassado + contador)){
+				if(graphics_menu->get_chart1() != NULL){
+					if(test.occurrence == 1){
+			
+				eixo_bot->set_color(0.0, 1.0, 0.0);
+				eixo_bot->move_to(posicaoX, 0.0, 0.13);
+				eixo_bot->draw_to(posicaoX, 0.0, 0.13+0.54);
+				 
+				
+					}
+					else if(test.occurrence == 2){
+					
+				eixo_bot->set_color(0, 0.0, 1.0);
+				eixo_bot->move_to(posicaoX, 0.0, 0.13);
+				eixo_bot->draw_to(posicaoX, 0.0, 0.13+0.54);
+					
+					}
+				
+				}
+				if(graphics_menu->get_chart2() != NULL){
+					if(test.occurrence == 1){
+				
+				eixo2_bot->set_color(0.0, 1.0, 0.0);
+				eixo2_bot->move_to(posicaoX, 0.0, -0.77);
+				eixo2_bot->draw_to(posicaoX, 0.0, -0.77+0.54);
+					}
+					else if(test.occurrence == 2){
+			
+				eixo2_bot->set_color(0.0, 0, 1.0);
+				eixo2_bot->move_to(posicaoX, 0.0, -0.77);
+				eixo2_bot->draw_to(posicaoX, 0.0, -0.77+0.54);
+					}
+				
+				}
+			}
+		
+		}
+		
+		}
+		else if(flag_btn_sombra == 1 && flag_btn_comeu == 0 && flag_btn_correndo == 0){
+		//CLIQUEI COM O INTUITO DE DESLIGAR
+		eixo_bot_np.remove_node();
+		eixo2_bot_np.remove_node();
+		graphics_menu->get_txt_legenda_np().stash();		
+		graphics_menu->get_led_on_sombra().stash();
+		graphics_menu->get_led_off_sombra().unstash();
+		legendaSnp.remove_node();
+		flag_btn_sombra = 0;
+		lock = 1;
+		}
+		if(graphics_menu->get_chart1() != NULL && flag_btn_sombra == 1 && flag_btn_comeu == 0 && flag_btn_correndo == 0){
+		eixo_bot_np = graphics_menu->get_chart1()->get_graphic_np().get_parent().attach_new_node(eixo_bot->create(true));
+		eixo_bot_np.set_pos(window->get_render_2d(), 0.0, 0.0, 0.0);
+		}
+		if(graphics_menu->get_chart2() != NULL && flag_btn_sombra == 1 && flag_btn_comeu == 0 && flag_btn_correndo == 0){
+		eixo2_bot_np = graphics_menu->get_chart2()->get_graphic_np().get_parent().attach_new_node(eixo2_bot->create(true));
+		eixo2_bot_np.set_pos(window->get_render_2d(), 0.0, 0.0, 0.0);
+		}
+}
+//COMPLETAR
+void GraphicsMenu::click_event_botao_grafico_correndo(const Event*, void *data) {
+		
+		PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
+		PT(TimeControl) time_control = TimeControl::get_instance();
+		int diaPassado = time_control->get_dia_passado();
+		stateHistory::SHList listEvent;
+
+		listEvent = *graphics_menu->get_stateHistory()->get_list(stateHistory::SH_running);
+		std::list<stateHistory::state>::iterator iterator;
+		stateHistory::state test;
+		string s1, s2, s3, f1;
+		s1 = ConfigVariableString("msg-legendaA1", "Parado :");
+		s2 = ConfigVariableString("msg-legendaA2", "Andando :");
+		s3 = ConfigVariableString("msg-legendaA3", "Correndo :");
+		f1 = s1 + "\n" + "\n" + s2 + "\n" + "\n" + s3;
+		
+		if(flag_btn_sombra == 0 && flag_btn_comeu == 0 && flag_btn_correndo == 0){
+
+
+
+		
+
+
+
+		//CLIQUEI COM O INTUITO DE LIGAR O BOTAO
+		lock = 1;
+		graphics_menu->get_txt_legenda()->set_text(f1);
+		graphics_menu->set_txt_legenda_np(graphics_menu->get_menu_frame_np().attach_new_node(graphics_menu->get_txt_legenda()));
+		graphics_menu->get_txt_legenda_np().set_pos(0.49, 0.0, 0.76);
+		graphics_menu->get_txt_legenda_np().set_scale(0.032);
+		graphics_menu->get_txt_legenda_np().set_color(0.0, 0.0, 0.0, 1,0);
+		graphics_menu->get_txt_legenda_np().unstash();
+
+		legendaA = new LineSegs("legendaA");
+		legendaA->set_color(0.0, 1.0, 0.0);
+		legendaA->move_to(0.80, 0.0, 0.765);
+		legendaA->draw_to(0.85, 0.0, 0.765);
+		legendaA->set_color(0.0, 0.0, 1.0);
+		legendaA->move_to(0.80, 0.0, 0.70);
+		legendaA->draw_to(0.85, 0.0, 0.70);
+		legendaA->set_color(1.0, 0.0, 1.0);
+		legendaA->move_to(0.80, 0.0, 0.635);
+		legendaA->draw_to(0.85, 0.0, 0.635);
+		legendaAnp = graphics_menu->get_menu_frame_np().attach_new_node(legendaA->create(true));
+		
+
+
+		graphics_menu->get_led_on_correndo().unstash();
+		graphics_menu->get_led_off_correndo().stash();
+		flag_btn_correndo = 1;
+		eixo3_bot = new LineSegs("eixo3-bot");
+		eixo3_bot->move_to(0.0, 0.0, 0.0);
+		eixo4_bot = new LineSegs("eixo4-bot");
+		eixo4_bot->move_to(0.0, 0.0, 0.0);
+		for(iterator = listEvent.begin(); iterator != listEvent.end() ; ++iterator){
+		
+			test = *iterator;
+			float posicaoX = ((test.hour_event*0.54)/24)+0.03;
+			
+			if(test.event_day == (diaPassado + contador)){
+				if(graphics_menu->get_chart1() != NULL){
+					if(test.occurrence == 0){
+				
+				eixo3_bot->set_color(0, 1.0, 0);
+				eixo3_bot->move_to(posicaoX, 0.0, 0.13);
+				eixo3_bot->draw_to(posicaoX, 0.0, 0.13+0.54);
+					}
+					else if(test.occurrence == 1){
+				
+				eixo3_bot->set_color(0, 0, 1.0);
+				eixo3_bot->move_to(posicaoX, 0.0, 0.13);
+				eixo3_bot->draw_to(posicaoX, 0.0, 0.13+0.54);
+					}
+					else if(test.occurrence == 2){
+				
+				eixo3_bot->set_color(1.0, 0, 1.0);
+				eixo3_bot->move_to(posicaoX, 0.0, 0.13);
+				eixo3_bot->draw_to(posicaoX, 0.0, 0.13+0.54);
+					}
+				}
+				if(graphics_menu->get_chart2() != NULL){
+					if(test.occurrence == 0){
+				
+				eixo4_bot->set_color(0, 1.0, 0);
+				eixo4_bot->move_to(posicaoX, 0.0, -0.77);
+				eixo4_bot->draw_to(posicaoX, 0.0, -0.77+0.54);
+					}
+					else if(test.occurrence == 1){
+				
+				eixo4_bot->set_color(0, 0, 1.0);
+				eixo4_bot->move_to(posicaoX, 0.0, -0.77);
+				eixo4_bot->draw_to(posicaoX, 0.0, -0.77+0.54);
+					}
+					else if(test.occurrence == 2){
+				
+				eixo4_bot->set_color(1.0, 0, 1.0);
+				eixo4_bot->move_to(posicaoX, 0.0, -0.77);
+				eixo4_bot->draw_to(posicaoX, 0.0, -0.77+0.54);
+					}
+				}
+			}
+		
+		}
+
+		}
+		else if (flag_btn_sombra == 0 && flag_btn_comeu == 0 && flag_btn_correndo == 1){
+		//CLIQUEI COM O INTUITO DE DESLIGAR
+		eixo3_bot_np.remove_node();
+		eixo4_bot_np.remove_node();
+		graphics_menu->get_led_on_correndo().stash();
+		graphics_menu->get_txt_legenda_np().stash();
+		graphics_menu->get_led_off_correndo().unstash();
+		flag_btn_correndo = 0;
+		legendaAnp.remove_node();
+		lock = 0;
+		}
+		if(graphics_menu->get_chart1() != NULL && flag_btn_sombra == 0 && flag_btn_comeu == 0 && flag_btn_correndo == 1){
+		eixo3_bot_np = graphics_menu->get_chart1()->get_graphic_np().get_parent().attach_new_node(eixo3_bot->create(true));
+		eixo3_bot_np.set_pos(window->get_render_2d(), 0.0, 0.0, 0.0);
+		}
+		if(graphics_menu->get_chart2() != NULL && flag_btn_sombra == 0 && flag_btn_comeu == 0 && flag_btn_correndo == 1){
+		eixo4_bot_np = graphics_menu->get_chart1()->get_graphic_np().get_parent().attach_new_node(eixo4_bot->create(true));
+		eixo4_bot_np.set_pos(window->get_render_2d(), 0.0, 0.0, 0.0);
+		}
+}
+
+void GraphicsMenu::click_event_botao_grafico_comeu(const Event*, void *data) {
+		
+	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
+	PT(TimeControl) time_control = TimeControl::get_instance();
+	int diaPassado = time_control->get_dia_passado();
+	stateHistory::SHList listEvent;
+
+	listEvent = *graphics_menu->get_stateHistory()->get_list(stateHistory::SH_eating);
+	std::list<stateHistory::state>::iterator iterator;
+	stateHistory::state test;	
+		
+		if(flag_btn_sombra == 0 && flag_btn_comeu == 0 && flag_btn_correndo == 0){
+		
+		
+		
+
+		lock = 1;
+		//CLIQUEI COM O INTUITO DE LIGAR O BOTAO
+		graphics_menu->get_txt_legenda()->set_text(ConfigVariableString("msg-legendaC1", "Parado :"));
+		graphics_menu->set_txt_legenda_np(graphics_menu->get_menu_frame_np().attach_new_node(graphics_menu->get_txt_legenda()));
+		graphics_menu->get_txt_legenda_np().set_pos(0.49, 0.0, 0.76);
+		graphics_menu->get_txt_legenda_np().set_scale(0.032);
+		graphics_menu->get_txt_legenda_np().set_color(0.0, 0.0, 0.0, 1,0);
+		graphics_menu->get_txt_legenda_np().unstash();
+		
+		graphics_menu->get_led_on_comeu().unstash();
+		graphics_menu->get_led_off_comeu().stash();
+		flag_btn_comeu = 1;
+
+		legendaC = new LineSegs("legendaC");
+		legendaC->set_color(0.0, 1.0, 0.0);
+		legendaC->move_to(0.80, 0.0, 0.765);
+		legendaC->draw_to(0.85, 0.0, 0.765);
+		legendaCnp = graphics_menu->get_menu_frame_np().attach_new_node(legendaC->create(true));
+		
+
+		eixo5_bot = new LineSegs("eixo5-bot");
+		eixo5_bot->move_to(0.0, 0.0, 0.0);
+		eixo6_bot = new LineSegs("eixo6-bot");
+		eixo6_bot->move_to(0.0, 0.0, 0.0);
+		for(iterator = listEvent.begin(); iterator != listEvent.end() ; ++iterator){
+		
+			test = *iterator;
+			float posicaoX = ((test.hour_event*0.54)/24)+0.03;
+			
+			if(test.event_day == (diaPassado + contador)){
+				if(graphics_menu->get_chart1() != NULL){
+				
+				eixo5_bot->set_color(0, 1.0, 0);
+				eixo5_bot->move_to(posicaoX, 0.0, 0.13);
+				eixo5_bot->draw_to(posicaoX, 0.0, 0.13+0.54);
+				
+				}
+				if(graphics_menu->get_chart2() != NULL){
+				
+				eixo6_bot->set_color(0, 1.0, 0);
+				eixo6_bot->move_to(posicaoX, 0.0, -0.77);
+				eixo6_bot->draw_to(posicaoX, 0.0, -0.77+0.54);
+				
+				}
+			}
+		
+		}
+
+		}
+		else if(flag_btn_sombra == 0 && flag_btn_comeu == 1 && flag_btn_correndo == 0){
+		//CLIQUEI COM O INTUITO DE DESLIGAR
+		eixo5_bot_np.remove_node();
+		eixo6_bot_np.remove_node();
+		graphics_menu->get_led_on_comeu().stash();
+		graphics_menu->get_txt_legenda_np().stash();
+		graphics_menu->get_led_off_comeu().unstash();
+		flag_btn_comeu = 0;
+		legendaCnp.remove_node();
+		lock = 0;
+		}
+		if(graphics_menu->get_chart1() != NULL && flag_btn_sombra == 0 && flag_btn_comeu == 1 && flag_btn_correndo == 0){
+		eixo5_bot_np = graphics_menu->get_chart1()->get_graphic_np().get_parent().attach_new_node(eixo5_bot->create(true));
+		eixo5_bot_np.set_pos(window->get_render_2d(), 0.0, 0.0, 0.0);
+		}
+		if(graphics_menu->get_chart2() != NULL && flag_btn_sombra == 0 && flag_btn_comeu == 1 && flag_btn_correndo == 0){
+		eixo6_bot_np = graphics_menu->get_chart1()->get_graphic_np().get_parent().attach_new_node(eixo6_bot->create(true));
+		eixo6_bot_np.set_pos(window->get_render_2d(), 0.0, 0.0, 0.0);
+		}
 }
 
 // Botões exibidos somente nos gráficos do tipo Variável (eixo X)
@@ -577,10 +954,10 @@ void GraphicsMenu::click_event_botao_grafico_gastoEnergetico_v(const Event*, voi
 void GraphicsMenu::click_event_btn_previous_page_chart1(const Event*, void *data) {
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
 	
-	if (graphics_menu->get_current_day() > 1) {
+	if (graphics_menu->get_current_day() > 1 && lock == 0) {
 		
 		graphics_menu->set_current_day(graphics_menu->get_current_day() - 1);
-		
+		contador = contador - 1;
 		graphics_menu->update_chart_page();
 		
 	}
@@ -591,8 +968,9 @@ void GraphicsMenu::click_event_btn_previous_page_chart1(const Event*, void *data
 
 void GraphicsMenu::click_event_btn_next_page_chart1(const Event*, void *data) {
 	PT(GraphicsMenu) graphics_menu = (PT(GraphicsMenu)) (GraphicsMenu*) data;
-	if (graphics_menu->get_current_day() < graphics_menu->get_elapsed_days()) {
+	if (graphics_menu->get_current_day() < graphics_menu->get_elapsed_days() && lock == 0) {
 		graphics_menu->set_current_day(graphics_menu->get_current_day() + 1);
+		contador = contador + 1;
 		graphics_menu->update_chart_page();
 	}
 }
@@ -604,6 +982,15 @@ PT(Graphics) GraphicsMenu::get_chart1() {
 PT(Graphics) GraphicsMenu::get_chart2() {
 	return chart2;
 }
+
+//CRYSTAL CAMPOS
+NodePath GraphicsMenu::get_menu_frame_np(){
+	return menu_np;
+}
+void GraphicsMenu::set_menu_frame_np(NodePath menu_frame){
+	menu_np = menu_frame;
+}
+//CRYSTAL CAMPOS
 
 void GraphicsMenu::set_chart1(PT(Graphics) cht1) {
 	chart1 = cht1;
@@ -627,6 +1014,10 @@ void GraphicsMenu::set_grafico_variavel_ativo(bool graf_variavel_ativo) {
 
 PT(History) GraphicsMenu::get_history() {
 	return history;
+}
+
+PT(stateHistory) GraphicsMenu::get_stateHistory(){
+	return stateHistory;
 }
 
 PT(PGButton) GraphicsMenu::get_btn_graf_tempo() {
@@ -749,6 +1140,42 @@ NodePath GraphicsMenu::get_led_on_gasto_energetico() {
 	return led_on_gasto_energetico;
 }
 
+PT(PGButton) GraphicsMenu::get_btn_sombra() {
+	return btn_sombra;
+}
+
+NodePath GraphicsMenu::get_led_off_sombra() {
+	return led_off_sombra;
+}
+
+NodePath GraphicsMenu::get_led_on_sombra() {
+	return led_on_sombra;
+}
+
+PT(PGButton) GraphicsMenu::get_btn_correndo() {
+	return btn_correndo;
+}
+
+NodePath GraphicsMenu::get_led_off_correndo() {
+	return led_off_correndo;
+}
+
+NodePath GraphicsMenu::get_led_on_correndo() {
+	return led_on_correndo;
+}
+
+PT(PGButton) GraphicsMenu::get_btn_comeu() {
+	return btn_comeu;
+}
+
+NodePath GraphicsMenu::get_led_off_comeu() {
+	return led_off_comeu;
+}
+
+NodePath GraphicsMenu::get_led_on_comeu() {
+	return led_on_comeu;
+}
+
 PT(PGButton) GraphicsMenu::get_btn_temp_interna_v() {
 	return btn_temp_interna_v;
 }
@@ -844,6 +1271,7 @@ NodePath GraphicsMenu::get_led_off_gasto_energetico_v() {
 NodePath GraphicsMenu::get_led_on_gasto_energetico_v() {
 	return led_on_gasto_energetico_v;
 }
+
 
 NodePath GraphicsMenu::get_option_frame_np() {
 	return option_frame_np;
@@ -977,9 +1405,41 @@ int GraphicsMenu::get_current_day() {
 	return current_day;
 }
 
+PT(TextNode) GraphicsMenu::get_txt_legenda() {
+	
+	return txt_legenda;
+}
+
+void GraphicsMenu::set_txt_legenda(PT(TextNode) text_legenda){
+	txt_legenda = text_legenda;
+}
+
+NodePath GraphicsMenu::get_txt_legenda_np() {
+	return txt_legenda_np;
+}
+
+void GraphicsMenu::set_txt_legenda_np(NodePath text_legenda_np){
+	txt_legenda_np = text_legenda_np;
+}
+
+/*void GraphicsMenu::set_txt_legenda(NodePath text_legenda_np){
+	txt_legenda_np = text_legenda_np;
+}*/
+
+NodePath GraphicsMenu::get_node_sombra() {
+	return node_sombra;
+}
+
+NodePath GraphicsMenu::get_node_correndo() {
+	return node_correndo;
+}
+
+NodePath GraphicsMenu::get_node_comeu() {
+	return node_comeu;
+}
+
 void GraphicsMenu::set_current_day(int day) {
 	current_day = day;
-	//cout << "\n............ Current Day: " << current_day;
 }
 
 PT(PGButton) GraphicsMenu::get_btn_previous_page_chart1() {
@@ -998,9 +1458,13 @@ History::HistoryItem GraphicsMenu::get_item_chart2() {
 	return item_chart2;
 }
 
+
+
 // Monta a parte do topo onde tem escrito "Tipo do Grafico" (label, leds e botões)
 void GraphicsMenu::make_tipo_graf(NodePath menu_frame_np) {
 	make_txt_tipo_graf(menu_frame_np);
+
+	make_txt_legen_graf(menu_frame_np);
 
 	make_btn_graf_tempo(menu_frame_np);
 
@@ -1015,6 +1479,16 @@ void GraphicsMenu::make_txt_tipo_graf(NodePath menu_frame_np) {
 	label_txt_tipo_graf.set_scale(0.06);
 	label_txt_tipo_graf.set_color(0.0, 0.0, 0.0, 1,0);
 	label_txt_tipo_graf.stash();
+}
+
+void GraphicsMenu::make_txt_legen_graf(NodePath menu_frame_np) {
+	txt_legen_graf = new TextNode("txt_legen_graf");
+	txt_legen_graf->set_text(ConfigVariableString("msg-legengrafico", "Legenda :"));
+	label_txt_legen_graf = menu_frame_np.attach_new_node(txt_legen_graf);
+	label_txt_legen_graf.set_pos(0.49, 0.0, 0.86);
+	label_txt_legen_graf.set_scale(0.04);
+	label_txt_legen_graf.set_color(0.0, 0.0, 0.0, 1,0);
+	label_txt_legen_graf.stash();
 }
 
 void GraphicsMenu::make_btn_graf_tempo(NodePath menu_frame_np) {
@@ -1079,6 +1553,12 @@ void GraphicsMenu::make_menu_graf_tempo(NodePath menu_frame_np) {
 	make_btn_energia(menu_frame_np);
 
 	make_btn_gasto_energetico(menu_frame_np);
+
+	make_btn_sombra(menu_frame_np);
+
+	make_btn_correndo(menu_frame_np);
+
+	make_btn_comeu(menu_frame_np);
 }
 
 void GraphicsMenu::make_btn_temp_interna(NodePath menu_frame_np) {
@@ -1295,6 +1775,96 @@ void GraphicsMenu::make_btn_gasto_energetico(NodePath menu_frame_np) {
 	led_on_gasto_energetico.stash();
 	btn_gasto_energetico->setup(img_btn_gasto_energetico);
 	btn_gasto_energetico->set_frame(-1.3 , 1.3 , -2.8, 2.8);
+}
+
+void GraphicsMenu::make_btn_sombra(NodePath menu_frame_np) {
+	btn_sombra = new PGButton("btn_sombra");
+	// USAR O METODO DE TRADUÇÃO DEPOIS
+
+	btn_sombra->setup(ConfigVariableString("msg-graficosh", "Sombra"), 0.1);
+	
+	np_btn_sombra = menu_frame_np.attach_new_node(btn_sombra);
+	np_btn_sombra.set_scale(0.05);
+	// X,0,Y
+	np_btn_sombra.set_pos(0.50, 0.0, 1.52);
+	np_btn_sombra.stash();
+	//np_btn_gasto_energetico_v.stash();
+	
+	//img_btn_gasto_energetico_v.stash();
+	//hint_btn_gasto_energetico_v = new Hint(grafico_variavel_frame_np, btn_gasto_energetico_v.p(), img_btn_gasto_energetico_v, "hint_btn_gasto_energetico_v", ConfigVariableString("msg-graficogaen", "Gasto Energético"));
+	led_off_sombra = ImageRepository::get_instance()->get_image("GrayLed");
+	led_off_sombra.reparent_to(menu_frame_np);
+	led_off_sombra.set_scale(0.004);
+	led_off_sombra.set_pos(0.59, 0.0, 1.46);
+	led_off_sombra.stash();
+	//led_off_gasto_energetico_v.stash();
+	led_on_sombra = ImageRepository::get_instance()->get_image("GreenLed");
+	led_on_sombra.reparent_to(menu_frame_np);
+	led_on_sombra.set_scale(0.004);
+	led_on_sombra.set_pos(0.59, 0.0, 1.46);
+	led_on_sombra.stash();
+	
+
+}
+
+void GraphicsMenu::make_btn_correndo(NodePath menu_frame_np) {
+	btn_correndo = new PGButton("btn_correndo");
+	// USAR O METODO DE TRADUÇÃO DEPOIS
+
+	btn_correndo->setup(ConfigVariableString("msg-graficorun", "Correndo"), 0.1);
+	
+	np_btn_correndo = menu_frame_np.attach_new_node(btn_correndo);
+	np_btn_correndo.set_scale(0.05);
+	// X,0,Y
+	np_btn_correndo.set_pos(0.49, 0.0, 1.30);
+	np_btn_correndo.stash();
+	//np_btn_gasto_energetico_v.stash();
+	
+	//img_btn_gasto_energetico_v.stash();
+	//hint_btn_gasto_energetico_v = new Hint(grafico_variavel_frame_np, btn_gasto_energetico_v.p(), img_btn_gasto_energetico_v, "hint_btn_gasto_energetico_v", ConfigVariableString("msg-graficogaen", "Gasto Energético"));
+	led_off_correndo = ImageRepository::get_instance()->get_image("GrayLed");
+	led_off_correndo.reparent_to(menu_frame_np);
+	led_off_correndo.set_scale(0.004);
+	led_off_correndo.set_pos(0.59, 0.0, 1.24);
+	led_off_correndo.stash();
+	//led_off_gasto_energetico_v.stash();
+	led_on_correndo = ImageRepository::get_instance()->get_image("GreenLed");
+	led_on_correndo.reparent_to(menu_frame_np);
+	led_on_correndo.set_scale(0.004);
+	led_on_correndo.set_pos(0.59, 0.0, 1.24);
+	led_on_correndo.stash();
+	
+
+}
+
+void GraphicsMenu::make_btn_comeu(NodePath menu_frame_np) {
+	btn_comeu = new PGButton("btn_comeu");
+	// USAR O METODO DE TRADUÇÃO DEPOIS
+
+	btn_comeu->setup(ConfigVariableString("msg-graficoeat", "Comendo"), 0.1);
+	
+	np_btn_comeu = menu_frame_np.attach_new_node(btn_comeu);
+	np_btn_comeu.set_scale(0.05);
+	// X,0,Y
+	np_btn_comeu.set_pos(0.49, 0.0, 1.08);
+	np_btn_comeu.stash();
+	//np_btn_gasto_energetico_v.stash();
+	
+	//img_btn_gasto_energetico_v.stash();
+	//hint_btn_gasto_energetico_v = new Hint(grafico_variavel_frame_np, btn_gasto_energetico_v.p(), img_btn_gasto_energetico_v, "hint_btn_gasto_energetico_v", ConfigVariableString("msg-graficogaen", "Gasto Energético"));
+	led_off_comeu = ImageRepository::get_instance()->get_image("GrayLed");
+	led_off_comeu.reparent_to(menu_frame_np);
+	led_off_comeu.set_scale(0.004);
+	led_off_comeu.set_pos(0.59, 0.0, 1.02);
+	led_off_comeu.stash();
+	//led_off_gasto_energetico_v.stash();
+	led_on_comeu = ImageRepository::get_instance()->get_image("GreenLed");
+	led_on_comeu.reparent_to(menu_frame_np);
+	led_on_comeu.set_scale(0.004);
+	led_on_comeu.set_pos(0.59, 0.0, 1.02);
+	led_on_comeu.stash();
+	
+
 }
 
 void GraphicsMenu::make_menu_graf_variavel() {
@@ -1531,6 +2101,8 @@ void GraphicsMenu::make_btn_gasto_energetico_v() {
 	btn_gasto_energetico_v->set_frame(-5.0 , 5.0 , -10.0, 10.0);
 }
 
+
+
 void GraphicsMenu::make_btn_previous_page_chart1(NodePath menu_frame_np) {
 	btn_previous_page_chart1 = new PGButton("btn_previous_page_chart1");
 	btn_previous_page_chart1->setup("<<<", 0.1);
@@ -1565,6 +2137,7 @@ void GraphicsMenu::hide_all_option_graphics() {
 		graphicVariavel->hide();
 	}
 	label_txt_tipo_graf.stash();
+	label_txt_legen_graf.stash();
 	np_btn_graf_tempo.stash();
 	led_off_graf_tempo.stash();
 	led_on_graf_tempo.stash();
@@ -1608,6 +2181,25 @@ void GraphicsMenu::hide_menu_graf_tempo() {
 	img_btn_gasto_energetico.stash();
 	led_on_gasto_energetico.stash();
 	led_off_gasto_energetico.stash();
+	label_txt_legen_graf.stash();
+	//CRYSTAL
+	np_btn_sombra.stash();
+	img_btn_sombra.stash();
+	led_on_sombra.stash();
+	led_off_sombra.stash();
+
+	//CRYSTAL
+	np_btn_correndo.stash();
+	img_btn_correndo.stash();
+	led_on_correndo.stash();
+	led_off_correndo.stash();
+	
+	//CRYSTAL
+	np_btn_comeu.stash();
+	img_btn_comeu.stash();
+	led_on_comeu.stash();
+	led_off_comeu.stash();
+	
 	//CRYSTAL
 	np_btn_next_page_chart1.stash();
 	np_btn_previous_page_chart1.stash();
@@ -1623,6 +2215,7 @@ void GraphicsMenu::hide_menu_graf_variavel() {
 void GraphicsMenu::show_menu_graf_tempo() {
 	hide_all_led_on();
 	label_txt_tipo_graf.unstash();
+	label_txt_legen_graf.unstash();
 	np_btn_graf_tempo.unstash();
 	led_on_graf_tempo.unstash();
 	np_btn_graf_variavel.unstash();
@@ -1652,6 +2245,19 @@ void GraphicsMenu::show_menu_graf_tempo() {
 	img_btn_gasto_energetico.unstash();
 	led_off_gasto_energetico.unstash();
 	//CRYSTAL
+	np_btn_sombra.unstash();
+	img_btn_sombra.unstash();
+	led_off_sombra.unstash();
+	//CRYSTAL
+	np_btn_correndo.unstash();
+	img_btn_correndo.unstash();
+	led_off_correndo.unstash();
+	//CRYSTAL
+	np_btn_comeu.unstash();
+	img_btn_comeu.unstash();
+	led_off_comeu.unstash();
+	
+	label_txt_legen_graf.unstash();
 	np_btn_next_page_chart1.unstash();
 	np_btn_previous_page_chart1.unstash();
 }
@@ -1665,6 +2271,9 @@ void GraphicsMenu::hide_all_led_on() {
 	led_on_temp_interna.stash();
 	led_on_temp_solo.stash();
 	led_on_umidade.stash();
+	led_on_sombra.stash();
+	led_on_correndo.stash();
+	led_on_comeu.stash();
 }
 
 //Faz com que os graficos nao fiquem visiveis.
@@ -1685,6 +2294,16 @@ void GraphicsMenu::show_menu_graf_variavel() {
 	//CRYSTAL
 	np_btn_next_page_chart1.stash();
 	np_btn_previous_page_chart1.stash();
+	np_btn_sombra.stash();
+	led_off_sombra.stash();
+	led_on_sombra.stash();
+	np_btn_correndo.stash();
+	led_off_correndo.stash();
+	led_on_correndo.stash();
+	np_btn_comeu.stash();
+	led_off_comeu.stash();
+	led_on_comeu.stash();
+	label_txt_legen_graf.stash();
 	grafico_variavel_frame_np.unstash();
 }
 
@@ -1804,7 +2423,7 @@ int GraphicsMenu::get_elapsed_days() {
 		previous_time_value = front_time_list;
 		list->pop_front(); // remove do início do vetor
 	}
-
+	
 	return days;
 
 }
@@ -1951,25 +2570,23 @@ void GraphicsMenu::update_chart_page() {
 //	chart2->update_chart_data(time_chart, items_chart2, history);
 //	chart2->create_Graphic();
 
-	cout << "\n\n------------- DIA NA PAGINAÇÃO: " << current_day;
+	//cout << "\n\n------------- DIA NA PAGINAÇÃO: " << current_day;
 //	History::HList* time_list = history->get_list(History::HI_time);
 //	History::HList* time_chart = get_time_list_by_day(current_day, time_list);
-
+	
 //	History::HList* item_list_chart1 = history->get_list(item_chart1);
 //	History::HList* items_chart1 = get_item_list_by_day(current_day, item_list_chart1, time_list);
 	
 	chart_1->hide();
 	
 	grafico_posicao1_ativo = false;
-
-	make_new_chart(item_chart1, chart_1, title_chart1, x_axis_chart1, y_axis_chart1);
+	set_chart1(make_new_chart(item_chart1, chart_1, title_chart1, x_axis_chart1, y_axis_chart1));
 //	History::HList* item_list_chart2 = history->get_list(item_chart2);
 //	History::HList* items_chart2 = get_item_list_by_day(current_day, item_list_chart2, time_list);
 	chart_2->hide();
+	
 	grafico_posicao2_ativo = false;
-	
-	make_new_chart(item_chart2, chart_2, title_chart2, x_axis_chart2, y_axis_chart2);
-	
+	set_chart2(make_new_chart(item_chart2, chart_2, title_chart2, x_axis_chart2, y_axis_chart2));
 }
 
 void GraphicsMenu::set_chart_page_properties(History::HistoryItem item, PT(Graphics) chart,
@@ -1993,7 +2610,7 @@ void GraphicsMenu::set_chart_page_properties(History::HistoryItem item, PT(Graph
 PT(Graphics) GraphicsMenu::make_new_chart(History::HistoryItem item, PT(Graphics) &chart,
 		const string &title, const string &x_axis, const string &y_axis){
 	
-	history->output(History::HI_player_hydration, title, simdunas_cat.debug());
+	//history->output(History::HI_player_hydration, title, simdunas_cat.debug());
 	
 	History::HList* time_list = history->get_list(History::HI_time);
 	History::HList* item_list = history->get_list(item);
@@ -2044,9 +2661,9 @@ PT(Graphics) GraphicsMenu::make_new_chart(History::HistoryItem item, PT(Graphics
 	chart->set_Titulo_Grafico(title);
 	chart->set_Titulo_EixoX(x_axis);
 	chart->set_Titulo_EixoY(y_axis);
-	//cout << "1 teste menu" <<endl;
+	
 	chart->create_Graphic();
-	//cout << "2 teste menu" <<endl;
+	
 	return chart;
 }
 
@@ -2196,6 +2813,7 @@ void GraphicsMenu::desliga_leds_painel_variavel() {
 	led_on_alimentacao_v.stash();
 	led_on_energia_v.stash();
 	led_on_gasto_energetico_v.stash();
+	
 	led_off_temp_interna_v.unstash();
 	led_off_hidratacao_v.unstash();
 	led_off_temp_ar_v.unstash();

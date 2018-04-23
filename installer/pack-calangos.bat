@@ -1,1 +1,1 @@
-packpanda --dir Calangos --bam --rmext egg --pyc --rmext py --rmdir CVS --version 2.3
+packpanda --dir Calangos --pyc --rmext py --rmdir CVS --version 2.4

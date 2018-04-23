@@ -36,7 +36,9 @@ void ScreenManager::unload(){
 PT(Screen) ScreenManager::get_active_screen(){
 	return active_screen;
 }
-
+PT(Screen) ScreenManager::get_screen(PT(Screen) screen){
+	return screen;
+}
 /*! Define a tela ativa. Este método é protegido, sendo que para o uso comum
  *  de definição de telas outras classes devem utilizar o método "open_screen". */
 void ScreenManager::set_active_screen(PT(Screen) screen){

@@ -79,6 +79,20 @@ void Screen::default_button_config(PT(Button) button, NodePath &np,
 	manager->get_event_handler()->add_hook(event_name, action, this);
 }
 
+void Screen::default_button_size_config(PT(Button) button, NodePath &np,
+										const string &text, LVecBase3f pos, EventCallbackFunction *action, float size){
+
+	/* Cria um botão padrão, coloca no nó root e define o z */
+	button = new Button(text + "-button", text, manager->get_default_font(),size);
+	np = get_root().attach_new_node(button);
+	np.set_pos(pos);
+
+	/* Cadastrando o evento */
+	string event_name = button->get_click_event(MouseButton::one());
+	manager->get_event_handler()->add_hook(event_name, action, this);
+
+}
+
 /*! Obtém a tela anterior (cadastrada manualmente por set_previous_screen) */
 PT(Screen) Screen::get_previous_screen(){
 	return previous;

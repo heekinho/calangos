@@ -66,6 +66,8 @@ private:
 	PT(TextNode) lb_relogio_virtual;	NodePath np_lb_relogio_virtual;
 
 	PT(TextNode) lb_frase_relogio;		NodePath np_lb_frase_relogio;
+
+	PT(Button) btn_instructions; 	NodePath np_instructions;	ACTION(instructions_action);
 };
 
 #undef ACTION
