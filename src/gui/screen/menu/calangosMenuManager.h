@@ -22,6 +22,7 @@ public:
 	PT(Screen) get_language_menu();
 	//Crystal
 	PT(Screen) get_main_menu();
+	PT(Screen) get_name_screen();
 	PT(Screen) get_loading_screen();
 	PT(Screen) get_credits_screen();
 	PT(Screen) get_options_screen();
@@ -34,6 +35,7 @@ public:
 	PT(Screen) get_level_selection_screen(){ return levels_screen; };
 	PT(Screen) get_audio_options_screen();
 	PT(Screen) get_character_options_screen();
+	PT(Screen) get_scoreboard_screen();
 
 	void set_loading_screen(PT(Screen) screen);
 
@@ -50,6 +52,7 @@ private:
 	PT(Screen) language_menu;
 	//Crystal
 	PT(Screen) main_menu;
+	PT(Screen) name_screen;
 	PT(Screen) loading_screen;
 	PT(Screen) credits_screen;
 	PT(Screen) options_screen;
@@ -61,6 +64,7 @@ private:
     PT(Screen) levels_screen;
     PT(Screen) audio_options_screen;
     PT(Screen) character_options_screen;
+	PT(Screen) scoreboard_screen;
 };
 
 #endif

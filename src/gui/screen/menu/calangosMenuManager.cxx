@@ -8,10 +8,12 @@
 //Crystal
 #include "languageOptionsScreen.h"
 //Crystal
+#include "nameScreen.h"
 #include "startMenu.h"
 #include "loadingScreen.h"
 #include "creditsScreen.h"
 #include "optionsScreen.h"
+#include "scoreboardScreen.h"
 #include "instructionsScreen.h"
 #include "keyInstructionsScreen.h"
 #include "indicatorsScreen.h"
@@ -54,6 +56,8 @@ void CalangosMenuManager::create_menus(){
 	main_menu = new StartMenu(this);
 	credits_screen = new CreditsScreen(this);
 	options_screen = new OptionsScreen(this);
+	name_screen = new NameScreen(this);
+	scoreboard_screen = new ScoreboardScreen(this); 
 	instructions_screen = new InstructionsScreen(this);
 	key_instructions_screen = new KeyInstructionsScreen(this);
 	indicators_screen = new IndicatorsScreen(this);
@@ -71,6 +75,7 @@ void CalangosMenuManager::unload_menus() {
 	language_menu = NULL;
 	//Crystal
 	main_menu = NULL;
+	scoreboard_screen = NULL;
 	credits_screen = NULL;
 	options_screen = NULL;
 	instructions_screen = NULL;
@@ -102,8 +107,16 @@ PT(Screen) CalangosMenuManager::get_main_menu() {
 	return main_menu;
 }
 
+PT(Screen) CalangosMenuManager::get_name_screen(){
+	return name_screen;
+}
+
 PT(Screen) CalangosMenuManager::get_loading_screen() {
 	return loading_screen;
+}
+
+PT(Screen) CalangosMenuManager::get_scoreboard_screen(){
+	return scoreboard_screen;
 }
 
 PT(Screen) CalangosMenuManager::get_credits_screen() {

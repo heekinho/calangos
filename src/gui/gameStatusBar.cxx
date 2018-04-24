@@ -346,7 +346,7 @@ void GameStatusBar::make_estado_reprodutivo(NodePath menu_frame_np) {
 	np_label_egg_count.set_scale(0.065);
 	np_label_egg_count.set_color(0.0, 0.0, 0.0, 1,0);
 
-	hint_estado_reprodutivo = new Hint(menu_frame_np, estado_reprodutivo, "hint_estado_reprodutivo", ConfigVariableString("msg-hintrepro","Número de Reproduções"));
+	hint_estado_reprodutivo = new Hint(menu_frame_np, estado_reprodutivo, "hint_estado_reprodutivo", ConfigVariableString("msg-hinterepro","Estado Reprodutivo"));
 	hint_egg = new Hint(menu_frame_np, egg, "hint_egg", ConfigVariableString("msg-hintrepro","Número de Reproduções"));
 }
 

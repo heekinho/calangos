@@ -7,10 +7,11 @@ msg-imag1 models/gui/iconesEspanol.png
 msg-jogar Jugar
 msg-idioma Línguas
 msg-config Configuraciones
-msg-inst Instrucciones
+msg-inst Instrucciones>>
 msg-idioma Idioma
 msg-cred Creditos
 msg-sair Salir
+msg-scor Tabla de Puntos
 
 ##Default Back Button##
 
@@ -31,8 +32,8 @@ msg-esco2 Edad
 msg-jovem Joven
 msg-adulto Adulto
 msg-esco3 Elegir la Especie 
-
 msg-avan Avanzar >>
+msg-name Escriba su nombre abajo
 
 #Fase 2 Character Edit#
 
@@ -101,6 +102,7 @@ msg-hinthidra Hidratación
 msg-hinttempi Temperatura Interna
 msg-hinttemps Temperatura del Suelo
 msg-hintumi Humedad del Aire
+msg-hinterepro Estado Reproductivo
 msg-hintrepro Número de Reproducciones
 msg-hintidade Edad
 msg-hintgraf Gráficos
@@ -251,6 +253,9 @@ msg-graficots Temperatura del Suelo
 msg-graficoal Alimentación
 msg-graficoen Energía
 msg-graficogaen Gasto Energético
+msg-graficosh Sombra
+msg-graficorun Corriendo
+msg-graficoeat Comiendo
 msg-tempoh Tiempo (h)
 msg-tempecel Temperatura (C)
 msg-hiporcen Hidratación (%)
@@ -260,6 +265,13 @@ msg-umidadegra Hummedad
 msg-variatempi Temp Interna
 msg-variatempa Temp del Aire
 msg-variatemps Temp del Suelo
+
+msg-legendaA1 Estacionario :
+msg-legendaA2 Caminando :
+msg-legendaA3 Corriendo :
+msg-legendaS1 Entró en la Sombra :
+msg-legendaS2 Fuera de la Sombra :
+msg-legendaC1 Comeu :
 
 #Texture Editor#
 

@@ -6,10 +6,11 @@ msg-imag1 models/gui/iconesIngles.png
 
 msg-jogar Play
 msg-config Settings 
-msg-inst Instructions
+msg-inst Instructions>>
 msg-idioma Language
 msg-cred Credits
 msg-sair Quit
+msg-scor Scoreboard
 
 ##Default Back Button##
 
@@ -30,8 +31,8 @@ msg-esco2 Age
 msg-jovem Young
 msg-adulto Adult
 msg-esco3 Choose Species
-
 msg-avan Next >>
+msg-name Write your name below
 
 #Fase 2 Character Edit#
 
@@ -100,6 +101,7 @@ msg-hinthidra Hydration
 msg-hinttempi Internal Temperature
 msg-hinttemps Ground Temperature
 msg-hintumi Air Humidity
+msg-hinterepro Reproductive status
 msg-hintrepro Reproduction Count
 msg-hintidade Age
 msg-hintgraf Charts
@@ -251,6 +253,9 @@ msg-graficots Ground Temperature
 msg-graficoal Feeding
 msg-graficoen Energy
 msg-graficogaen Energy Expenditure
+msg-graficosh Shadow
+msg-graficorun Running
+msg-graficoeat Eating
 msg-tempoh Time (h)
 msg-tempecel Temperature (C)
 msg-hiporcen Hydration (%)
@@ -260,6 +265,13 @@ msg-umidadegra Umidity
 msg-variatempi Internal Temp
 msg-variatempa Air Temp
 msg-variatemps Ground Temp
+
+msg-legendaA1 Standing :
+msg-legendaA2 Walking :
+msg-legendaA3 Running :
+msg-legendaS1 Entered the Shadow :
+msg-legendaS2 Left the Shadow :
+msg-legendaC1 Ate :
 
 #Texture Editor#
 

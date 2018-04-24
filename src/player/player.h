@@ -64,6 +64,9 @@ public:
 	static void unload_player();
 
 	static int changed_Shadow();
+	static int ate();
+	
+
 	virtual void has_moved();
 	virtual void change_sector(PT(Setor) new_sector);
 
@@ -108,6 +111,7 @@ public:
 
 	static void event_psegundo_camuflagem(const Event *, void *data);
 	static void false_flag_under_vegetal(const Event *, void *data);
+
 
 private:
 	float visual_size_factor;

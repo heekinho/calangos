@@ -39,6 +39,8 @@ PlayerControl* PlayerControl::single = NULL;
 bool PlayerControl::wire_frame_terrain = false;
 bool PlayerControl::mouse_on_button = false;
 bool PlayerControl::click_bite_active = true;
+int flag_correndo = -1 ;
+int flag_correndo1 = -1;
 
 PlayerControl::~PlayerControl() {
 	event_handler->remove_hooks_with(this);
@@ -270,13 +272,22 @@ void PlayerControl::update(){
 
 		/* FIX: Conserta giro sobre o próprio eixo */
 		if(!key_map_player["forward"]){
-			if(fastturn) move(p->get_speed_walking() * 0.5);
-			else move(p->get_speed_walking() * 0.25);
+			if(fastturn){
+				flag_correndo1 = 2;
+				move(p->get_speed_walking() * 0.5);
+			
+			}
+			else{ 
+				flag_correndo1 = 1;
+				move(p->get_speed_walking() * 0.25);
+			
+			}
 		}
 	}
 
 	/* Concretiza movimentos e roda animações */
 	if(key_map_player["fastforward"] || key_map_player["shift"]){
+		flag_correndo1 = 2;
 		move(p->get_speed_running());
 		p->set_lagarto_correndo();
 
@@ -284,6 +295,7 @@ void PlayerControl::update(){
 	}
 	else if(key_map_player["forward"]){
 		// Se for soh caminhando
+		flag_correndo1 = 1;
 		move(p->get_speed_walking());
 		p->set_lagarto_andando();
 		AudioController::get_instance()->stop_running();
@@ -293,6 +305,7 @@ void PlayerControl::update(){
 		AudioController::get_instance()->stop_running();
 	}
 	else {
+		flag_correndo1 = 0;
 		/* Lagarto está parado */
 		p->get_anim_control()->stop("walk");
 		p->set_lagarto_parado();
@@ -339,6 +352,24 @@ void PlayerControl::update(){
         t.~PStatTimer();
 #endif
        
+}
+
+int PlayerControl::get_running(){
+	PT(Player) p = player;
+	if(flag_correndo1 == 0 && (flag_correndo == 1 || flag_correndo == 2 || flag_correndo == -1)){
+		flag_correndo = 0;
+		return 0;
+	
+	}
+	else if(flag_correndo1 == 1 && (flag_correndo == 0 || flag_correndo == 2 || flag_correndo == -1)){
+		flag_correndo = 1;
+		return 1;
+	}
+	else if(flag_correndo1 == 2 && (flag_correndo == 0 || flag_correndo == 1 || flag_correndo == -1)){
+		flag_correndo = 2;
+		return 2;
+
+	}
 }
 
 void PlayerControl::move(float velocity){

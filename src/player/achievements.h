@@ -8,8 +8,13 @@
 #ifndef ACHIEVEMENTS_H
 #define ACHIEVEMENTS_H
 
+#include "playerAchievements.h"
 #include "pandaFramework.h"
 #include "edible.h"
+#include <vector>
+#include <iostream>
+#include <fstream>
+
 //#include "screenManager.h"
 //#include "screen.h"
 //#include "button.h"
@@ -28,6 +33,10 @@ public:
 
 	void inc_bites();
 	void clear_bites();
+	
+	playerAchievements get_achiev();
+	int get_estrelas();
+	int get_ovos();
 	int get_count_bites();
 	int get_lvl_senhor_mordida();
 	void inc_lvl_senhor_mordida();
@@ -99,7 +108,10 @@ private:
 	int lvl_guerreiro;
 	int count_guerreiro;
 	int adulto;
-
+	int estrelas;
+	int ovos;
+	int smestrela, svestrela, bbestrela, reestrela, tmestrela, hiestrela, enestrela, inestrela, geestrela;
+	
 //	PT(Window) wnd_realizacoes;
 //	PT(Button) btn_realizacoes;
 //	NodePath np_btn_realizacoes;

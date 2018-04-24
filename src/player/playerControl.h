@@ -34,7 +34,7 @@ public:
 	void update();
 	static void event_female_next(const Event *, void *data);
 
-
+	int get_running();
 	// Testando... Mesmo que não vá ficar aqui.
 	static void eat(const Event*, void *data);
 	static void click_bite(const Event*, void *data);

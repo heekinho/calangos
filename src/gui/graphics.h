@@ -26,6 +26,8 @@ public:
     void set_Titulo_EixoY(const string& tituloEixoYString);
     static TypeHandle get_class_type() { return _type_handle; }
     static void init_type() { register_type(_type_handle, "Graphics"); }
+	NodePath get_graphic_np();
+	
 
 	//void add_hint_line_draw_hook();
 	//void remove_hint_line_draw_hook();

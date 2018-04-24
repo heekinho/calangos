@@ -18,6 +18,10 @@
 #define DEBUG_PLAYER 0
 #define saiu_sombra 2
 #define entrou_sombra 1
+#define comeu 1
+int flag_comeu = 0;
+
+
 PlayerProperties Player::properties = PlayerProperties();
 bool Player::instanceFlag = false;
 
@@ -26,6 +30,7 @@ float Player::nivel_camuflagem_terreno_dia = 0;
 float Player::nivel_camuflagem_terreno_noite = 0;
 float Player::nivel_camuflagem_sombra = 0;
 float Player::nivel_camuflagem_folhagem = 0;
+
 bool Player::stateShadow;
 
 Player::Player() : AnimatedObjetoJogo(ModelRepository::get_instance()->get_animated_model(
@@ -54,6 +59,7 @@ Player::Player() : AnimatedObjetoJogo(ModelRepository::get_instance()->get_anima
 	event_handler->add_hook(TimeControl::EV_segundo_real, event_gasto_energia, this);
 	event_handler->add_hook(TimeControl::EV_pass_day, event_pday, this);
 	event_handler->add_hook(TimeControl::EV_pass_month, event_pmonth, this);
+
 
 	if (Session::get_instance()->get_level() == 2) {
 		if(ModelRepository::get_instance()->get_lagarto_personalizado()){
@@ -91,8 +97,9 @@ Player::~Player() {
 /*! Ao comer um objeto, a respectiva hidratacao e energia eh adquirida */
 /* type: 0:formiga   1:plantas 2:outros */
 void Player::eat(Edible* food, int type){
+	flag_comeu = 1;
 	achievements->check_edible_specie(food->get_specie_value());
-
+	
 	simdunas_cat.debug() << "type: " << type << " : ";
 	simdunas_cat.debug() << "ant: " << properties.ant_diet << " : " << properties.plant_diet << " : " << properties.general_diet << endl;
 
@@ -121,6 +128,7 @@ void Player::eat(Edible* food, int type){
 /*! Retorna a velocidade do jogador */
 /* TODO: Deveria ser speed e não velocity. Velocity é vetor */
 double Player::get_velocity() const {
+	
 	return this->velocity;
 }
 
@@ -131,6 +139,8 @@ void Player::set_velocity(double velocity){
 
 /*! Obtém a velocidade do jogador quando andando */
 float Player::get_speed_walking() const {
+	
+	
 	if(Session::get_instance()->get_level() > 1) return properties.speed;
 	else {
 		Player *p = player;
@@ -144,6 +154,7 @@ float Player::get_speed_walking() const {
 
 /*! Obtém a velocidade do jogador enquanto correndo */
 float Player::get_speed_running() const {
+		
 	//	return get_speed_walking() * 10;
 	return get_speed_walking() * 5;
 }
@@ -264,6 +275,7 @@ void Player::unload_player(){
 	event_handler->remove_hook(TimeControl::EV_segundo_real, event_gasto_energia, player);
 	event_handler->remove_hook(TimeControl::EV_pass_day, event_pday, player);
 	event_handler->remove_hook(TimeControl::EV_pass_month, event_pmonth, player);
+	
 
 	instanceFlag = false;
 	single->remove_node();
@@ -444,7 +456,7 @@ int Player::changed_Shadow(){
 		if(World::get_world()->get_terrain()->get_shadows()->is_in_shadow(*player, 0.1)){
 			entrou_sombra;
 			stateShadow = true;
-			cout << "ENTROU NA SOMBRA : "<< time_control->get_hora_generica() << endl;
+			
 			return entrou_sombra;
 		}
 		}
@@ -453,7 +465,7 @@ int Player::changed_Shadow(){
 		if(!World::get_world()->get_terrain()->get_shadows()->is_in_shadow(*player, 0.1)){
 			saiu_sombra;
 			stateShadow = false;
-			cout << "SAIU DA SOMBRA : "<< time_control->get_hora_generica() << endl;
+			
 			return saiu_sombra;
 		}
 	}
@@ -463,6 +475,19 @@ int Player::changed_Shadow(){
 
 
 }
+
+int Player::ate(){
+	if(flag_comeu == 0){
+
+		return 0;
+	
+	}
+	else if(flag_comeu == 1){
+		flag_comeu = 0;
+		return comeu;
+	}	
+}
+
 
 PT(Predator) Player::get_predator(){
 	return this->predator;

@@ -45,6 +45,9 @@ public:
 
 	void default_button_config(PT(Button) button, NodePath &np,
 			const string &text, LVecBase3f pos, EventCallbackFunction *action);
+	void default_button_size_config(PT(Button) button, NodePath &np,
+			const string &text, LVecBase3f pos, EventCallbackFunction *action, float size);
+
 
 	PT(Screen)  get_previous_screen();
 	void set_previous_screen(PT(Screen) previous);

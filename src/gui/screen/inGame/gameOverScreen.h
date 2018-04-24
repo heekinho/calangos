@@ -9,6 +9,7 @@
 
 #include "screenManager.h"
 #include "screen.h"
+#include "playerAchievements.h"
 #include "button.h"
 #include "pgVirtualFrame.h"
 
@@ -22,7 +23,7 @@ public:
 
 	void load();
 	void show();
-
+    void save_player();
 	static void restart(const Event*, void* data);
 
 	ACTION(sair_action);
