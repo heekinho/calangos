@@ -79,6 +79,59 @@ void History::output(History::HistoryItem item, const string &name, ostream &out
 	out << "--" << endl;
 }
 
+/*! (JOHNNY) Imprime o histórico do item especificado em um arquivo */
+#include <iostream>
+#include <fstream>
+void History::output_to_file(History::HistoryItem item, string filePath) const {
+	ofstream file;
+	file.open(filePath.c_str());
+	HList::const_iterator it;
+	int i;
+	for (i = 0, (it = _history[item].begin()); it != _history[item].end(); it++, i++) {
+		file << (*it);
+		file << endl;
+	}
+	file.close();
+}
+
+/*(JOHNNY) chamar esse método pra gerar todo o calangosreport (chamar esse método apenas #if(PUPIL))*/
+#include "nameScreen.h"
+#include "calangosMenuManager.h"
+#include "stateHistory.h"
+void History::output_pupil() const {
+	string nomeUsuario = ((NameScreen*)CalangosMenuManager::get_instance()->get_name_screen().p())->get_name();
+	//Criando a pasta que irá armazenar os arquivos do usuário atual:
+	CreateDirectory("calangosreport", NULL);
+	string pathPasta = "calangosreport/" + nomeUsuario;
+	CreateDirectory(pathPasta.c_str(), NULL);
+	//paths de cada um dos arquivos a serem gerados (calangosreport/nomeJogador/-----.csv):
+	string pathWT = pathPasta + "/worldTemperature.csv";
+	string pathPT = pathPasta + "/playerTemperature.csv";
+	string pathPH = pathPasta + "/playerHydration.csv";
+	string pathST = pathPasta + "/soilTemperature.csv";
+	string pathWH = pathPasta + "/worldHumidity.csv";
+	string pathT = pathPasta + "/time.csv";
+	string pathE = pathPasta + "/energy.csv";
+	string pathF = pathPasta + "/feeding.csv";
+	string pathTEC = pathPasta + "/totalEnergyCost.csv";
+	string pathS = pathPasta + "/sombra.csv";
+	string pathC = pathPasta + "/comeu.csv";
+	string pathCr = pathPasta + "/correu.csv";
+	//Gerando todos os arquivos csv:
+	Session::get_instance()->history()->output_to_file(History::HI_world_temperature, pathWT);
+	Session::get_instance()->history()->output_to_file(History::HI_player_temperature, pathPT);
+	Session::get_instance()->history()->output_to_file(History::HI_player_hydration, pathPH);
+	Session::get_instance()->history()->output_to_file(History::HI_soil_temperature, pathST);
+	Session::get_instance()->history()->output_to_file(History::HI_world_humidity, pathWH);
+	Session::get_instance()->history()->output_to_file(History::HI_time, pathT);
+	Session::get_instance()->history()->output_to_file(History::HI_energy, pathE);
+	Session::get_instance()->history()->output_to_file(History::HI_feeding, pathF);
+	Session::get_instance()->history()->output_to_file(History::HI_total_energy_cost, pathTEC);
+	Session::get_instance()->shistory()->output_to_file(stateHistory::SH_changed_shadow, pathS);
+	Session::get_instance()->shistory()->output_to_file(stateHistory::SH_eating, pathC);
+	Session::get_instance()->shistory()->output_to_file(stateHistory::SH_running, pathCr);
+}
+
 #include "simdunas.h"
 #include "player.h"
 #include "microClima.h"

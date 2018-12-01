@@ -48,6 +48,8 @@ public:
 	void clear(History::HistoryItem item);
 
 	void output(History::HistoryItem item, const string &name, ostream &out) const;
+	void output_to_file(History::HistoryItem item, string path) const;
+	void History::output_pupil() const;
 
 
 private:

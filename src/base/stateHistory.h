@@ -39,6 +39,8 @@ public:
 	void clear(stateHistory::SHistoryItem item);
 
 	void output(stateHistory::SHistoryItem item, const string &name) const;
+	void output_to_file(stateHistory::SHistoryItem item, string filePath) const;
+
 
 private:
 	SHList _shistory[SHI_enum_size];

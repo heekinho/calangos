@@ -39,6 +39,10 @@ NodePath GameStatusBar::get_relogio() {
 	return relogio;
 }
 
+NodePath GameStatusBar::get_ponteiro() {
+	return relogio_pointer;
+}
+
 PT(TextNode) GameStatusBar::get_label_life() {
 	return label_life;
 }
@@ -119,7 +123,12 @@ void GameStatusBar::make_relogio(NodePath menu_frame_np) {
 	relogio_pointer.set_scale(0.005);
 	relogio_pointer.set_pos(0.22, 0.0, 1.94);
 	relogio_pointer.set_hpr(0.0, 0.0, 180.0);
-//	relogio_pointer.set_transparency(TransparencyAttrib::M_alpha);
+
+	//(JOHNNY) faz o ponteiro começar transparente caso esteja no modo pupil
+	if (ConfigVariableInt("pupil-mode")) {
+		relogio_pointer.set_transparency(TransparencyAttrib::M_alpha);
+	}
+
 //	relogio_pointer.set_alpha_scale(1.0);
 
 	hint_relogio = new Hint(menu_frame_np, relogio, "hint_relogio", ConfigVariableString("msg-hinttempo","Tempo"));

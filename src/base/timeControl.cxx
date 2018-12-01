@@ -109,8 +109,8 @@ void TimeControl::event_psegundo_real(const Event *evt, void *data){
 	#endif
 	//A cada segundo verifica se houve colisão dos Lagartos NPCs com os demais objetos
 	
-                
 	//simdunas_cat.debug() << "\n PASSOU 1 SEGUNDO" << endl;
+
 }
 
 void TimeControl::event_pminute(const Event *, void *data){

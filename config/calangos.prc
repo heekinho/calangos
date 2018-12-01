@@ -1,5 +1,10 @@
-# Lê as configurações implementadas no jogo propriamente. Para 
+﻿# Lê as configurações implementadas no jogo propriamente. Para 
 # configurações do panda ver os prcs da pasta root.
+
+###########################################################
+### Utilização em capturas com pupil labs               ###
+###########################################################
+pupil-mode 1
 
 ###########################################################
 ### Configuração de Loading                             ###

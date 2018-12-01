@@ -1,3 +1,6 @@
+#include <iostream>
+using namespace std;
+
 #include "simdunas.h"
 
 #include "load_prc_file.h"
@@ -37,7 +40,6 @@ PT(DebugTools) debug;
 #include "gameSession.h"
 
 int main(int argc, char *argv[]) {
-
 
 	/* Carrega o arquivo de configuração do jogo */
 #if DEBUG

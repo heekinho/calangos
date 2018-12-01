@@ -22,6 +22,7 @@ public:
 	virtual ~GameStatusBar();
 
 	NodePath get_relogio();
+	NodePath get_ponteiro();
 	ImageBar get_life_bar();
 	PT(TextNode) get_label_life();
 	NodePath get_piscar_model();

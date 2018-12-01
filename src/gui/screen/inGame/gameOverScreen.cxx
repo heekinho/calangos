@@ -13,6 +13,8 @@
 #include "player.h"
 #include "load_prc_file.h"
 
+#include "graphicsMenu.h"
+
 GameOverScreen::GameOverScreen(PT(ScreenManager) manager) : Screen(manager){
 	load();
 	hide();
@@ -24,6 +26,7 @@ GameOverScreen::~GameOverScreen() {
 void GameOverScreen::load(){
 	//Tela de game over
 	//save_player();
+
 	frame_tela = new PGVirtualFrame("fundo_tela");
 	frame_tela->setup(1, 2);
 	
@@ -58,11 +61,16 @@ void GameOverScreen::load(){
 }
 
 void GameOverScreen::show() {
+	
+
 	Screen::show();
 	Player::PlayerDeathType death = Session::get_instance()->get_player_death_status();
 
 	if(death){
-		save_player();
+		save_player(); //Método de Crystal p/ salvar os ovos e achievements.		
+		if (ConfigVariableInt("pupil-mode")) { //Caso esteja no modo pupil -> Gerar os arquivos csv.
+			Session::get_instance()->history()->output_pupil();
+		}
 	}
 	/* Mostrando a causada da morte do player */
 	switch (death) {

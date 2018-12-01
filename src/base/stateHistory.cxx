@@ -58,6 +58,22 @@ void stateHistory::output(stateHistory::SHistoryItem item, const string &name) c
 	cout << "--" << endl;
 }
 
+/*! (JOHNNY) Imprime o histórico do item especificado em um arquivo */
+#include <iostream>
+#include <fstream>
+void stateHistory::output_to_file(stateHistory::SHistoryItem item, string filePath) const {
+	ofstream file;
+	file.open(filePath.c_str());
+	SHList::const_iterator it;
+	int i;
+	for (i = 0, (it = _shistory[item].begin()); it != _shistory[item].end(); it++, i++) {
+		state acontecimento = (*it);
+		file << acontecimento.occurrence;
+		file << endl;
+	}
+	file.close();
+}
+
 void stateHistory::event_add_states(){
 	state dataShadow;
 	state dataComeu;
