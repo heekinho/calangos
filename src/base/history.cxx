@@ -85,13 +85,15 @@ void History::output(History::HistoryItem item, const string &name, ostream &out
 void History::output_to_file(History::HistoryItem item, string filePath) const {
 	ofstream file;
 	file.open(filePath.c_str());
-	HList::const_iterator it;
-	int i;
-	for (i = 0, (it = _history[item].begin()); it != _history[item].end(); it++, i++) {
-		file << (*it);
-		file << endl;
+	if (file != NULL) {
+		HList::const_iterator it;
+		int i;
+		for (i = 0, (it = _history[item].begin()); it != _history[item].end(); it++, i++) {
+			file << (*it);
+			file << endl;
+		}
+		file.close();
 	}
-	file.close();
 }
 
 /*(JOHNNY) chamar esse método pra gerar todo o calangosreport (chamar esse método apenas #if(PUPIL))*/

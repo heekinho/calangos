@@ -132,9 +132,9 @@ PT(GuiManager) GuiManager::instance = NULL;
 
 //////////////////////////////////////////////////
 //Variáveis utilizadas no pupil-mode (JOHNNY)
-int flagP = 0;
-int last_second = 0;
-int ponteiroAtual = 1;
+//int flagP = 0;
+//int last_second = 0;
+//int ponteiroAtual = 1;
 /////////////////////////////////////////////////
 
 
