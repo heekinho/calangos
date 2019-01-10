@@ -54,6 +54,7 @@ public:
 	void hide_all_status_components();
 	void show_all_status_components();
 	void set_led_estado_reprodutivo(bool on, NodePath menu_frame_np);
+	void GameStatusBar::set_pointer_color(int opcao, NodePath menu_frame_np);
 
 	void hidratacao_critica_on();
 	void hidratacao_critica_off();

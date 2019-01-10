@@ -130,13 +130,6 @@ bool GuiManager::instanceFlag = false;
 
 PT(GuiManager) GuiManager::instance = NULL;
 
-//////////////////////////////////////////////////
-//Variáveis utilizadas no pupil-mode (JOHNNY)
-//int flagP = 0;
-//int last_second = 0;
-//int ponteiroAtual = 1;
-/////////////////////////////////////////////////
-
 
 bool GuiManager::flag_piscar=false;
 
@@ -150,7 +143,12 @@ NodePath GuiManager::img_arrow_predator_position = NULL;
 
 bool GuiManager::is_showing_arrow_predator = false;
 
-
+//////////////////////////////////////////////////
+//Variáveis utilizadas no pupil-mode (JOHNNY)
+int flagP = 0;
+int last_second = 0;
+int ponteiroAtual = 1;
+/////////////////////////////////////////////////
 
 //Destrutor: Somente coloca os objetos graphics igual a null devido ao
 
@@ -808,28 +806,28 @@ void GuiManager::update_gui(const Event*, void *data) {
 
 		}
 
-		///(JOHNNY) rotina de modificar ponteiro do relogio a cada segundo, caso esteja no modo pupil (arquivo prc)
-		//if (ConfigVariableInt("pupil-mode")) {			
-		//	NodePath pointer = game_status_bar->get_ponteiro();
-		//	int current_second = global_clock->get_long_time();
-		//	if (flagP == 0) { //Jogo acabou de começar
-		//		flagP = 1;				
-		//		last_second = current_second;
-		//	}
-		//	int ponteiroAtual;
-		//	if (current_second >= last_second + 1) {
-		//		last_second = current_second;				
-		//		if (ponteiroAtual == 1) {
-		//			std::cout << "a";
-		//			ponteiroAtual = 2;
-		//			//pointer.set_transparency(TransparencyAttrib::M_none);
-		//		}else{
-		//			std::cout << "b";
-		//			ponteiroAtual = 1;					
-		//			//pointer.set_transparency(TransparencyAttrib::M_alpha);
-		//		}
-		//	}
-		//}
+		//(JOHNNY) rotina de modificar ponteiro do relogio a cada segundo, caso esteja no modo pupil (arquivo prc)
+		if (ConfigVariableInt("pupil-mode")) {					
+			NodePath pointer = game_status_bar->get_ponteiro();
+			pointer.remove_node();
+			int current_second = global_clock->get_long_time();
+			if (flagP == 0) { //Jogo acabou de começar
+				flagP = 1;
+				last_second = current_second;
+			}
+			if (current_second >= last_second + 1) {
+				last_second = current_second;				
+				if (ponteiroAtual == 1) {
+					std::cout << "a";
+					ponteiroAtual = 2;
+					_this->muda_cor_ponteiro(1);
+				}else{
+					std::cout << "b";
+					ponteiroAtual = 1;					
+					_this->muda_cor_ponteiro(2);
+				}
+			}
+		}
 
 		_this->cont_relogio = 180+TimeControl::get_instance()->get_hora()*360.0/24+TimeControl::get_instance()->get_minuto()*360.0/(24*60);
 
@@ -951,6 +949,13 @@ void GuiManager::liga_led_estado_reprodutivo() {
 void GuiManager::desliga_led_estado_reprodutivo(){
 
 	game_status_bar->set_led_estado_reprodutivo(false, menu_frame_np);
+
+}
+
+//(JOHNNY) Define a cor do ponteiro do relógio
+void GuiManager::muda_cor_ponteiro(int color) {
+
+	game_status_bar->set_pointer_color(color, menu_frame_np);
 
 }
 

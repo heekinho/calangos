@@ -124,11 +124,6 @@ void GameStatusBar::make_relogio(NodePath menu_frame_np) {
 	relogio_pointer.set_pos(0.22, 0.0, 1.94);
 	relogio_pointer.set_hpr(0.0, 0.0, 180.0);
 
-	//(JOHNNY) faz o ponteiro começar transparente caso esteja no modo pupil
-	if (ConfigVariableInt("pupil-mode")) {
-		relogio_pointer.set_transparency(TransparencyAttrib::M_alpha);
-	}
-
 //	relogio_pointer.set_alpha_scale(1.0);
 
 	hint_relogio = new Hint(menu_frame_np, relogio, "hint_relogio", ConfigVariableString("msg-hinttempo","Tempo"));
@@ -479,6 +474,20 @@ void GameStatusBar::set_led_estado_reprodutivo(bool on, NodePath menu_frame_np) 
 	led_estado_reprodutivo.reparent_to(menu_frame_np);
 	led_estado_reprodutivo.set_scale(0.004);
 	led_estado_reprodutivo.set_pos(0.16, 0.0, 0.32);
+}
+
+void GameStatusBar::set_pointer_color(int opcao, NodePath menu_frame_np) {
+	relogio_pointer.remove_node();
+	if (opcao == 1) {
+		relogio_pointer = ImageRepository::get_instance()->get_image("ponteiro");
+	}
+	else {
+		relogio_pointer = ImageRepository::get_instance()->get_image("ponteiro_red");
+	}
+	relogio_pointer.reparent_to(menu_frame_np);
+	relogio_pointer.set_scale(0.005);
+	relogio_pointer.set_pos(0.22, 0.0, 1.94);
+	relogio_pointer.set_hpr(0.0, 0.0, 180.0);
 }
 
 void GameStatusBar::hidratacao_critica_on() {

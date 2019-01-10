@@ -55,6 +55,7 @@ public:
 
     void liga_led_estado_reprodutivo();
     void desliga_led_estado_reprodutivo();
+	void muda_cor_ponteiro(int color);
     void hide_frameNode();
     void show_frameNode();
     static void click_event_botao_grafico(const Event*, void *data);
