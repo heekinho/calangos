@@ -153,6 +153,9 @@ void PauseScreen::continuar_action() {
 void PauseScreen::sair_action() {
 	//	Session::get_instance()->end_session();
 
+	if (ConfigVariableInt("pupil-mode")) { //Caso esteja no modo pupil -> Gerar os arquivos csv.
+		Session::get_instance()->history()->output_pupil();
+	}
 	exit(0); //saindo direto, fechando o jogo
 	//na tela de inicialização ou de game over
 }

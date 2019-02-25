@@ -630,7 +630,7 @@ void GuiManager::click_event_botao_grafico(const Event*, void *data) {
 }
 
 
-//Metodo que é chamado a cada frame do jogo para atualizar a interface de acordo com as variaveis de ambiente.
+//Metodo que é chamado a cada segundo do jogo para atualizar a interface de acordo com as variaveis de ambiente.
 
 void GuiManager::update_gui(const Event*, void *data) {
 
@@ -818,11 +818,9 @@ void GuiManager::update_gui(const Event*, void *data) {
 			if (current_second >= last_second + 1) {
 				last_second = current_second;				
 				if (ponteiroAtual == 1) {
-					std::cout << "a";
 					ponteiroAtual = 2;
 					_this->muda_cor_ponteiro(1);
 				}else{
-					std::cout << "b";
 					ponteiroAtual = 1;					
 					_this->muda_cor_ponteiro(2);
 				}

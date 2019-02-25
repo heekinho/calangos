@@ -56,6 +56,8 @@ public:
 	void update_real_seconds();
 	float get_vminute_count();
 
+	int get_segundo_real_atual();
+
 	void notify(const string &task_name, GenericAsyncTask::TaskFunc *function, void* data, double delay = 0.0);
 	void notify_after_n_frames(int after_n_frames, EventCallbackFunction *function, void *data);
 	void notify_after_n_seconds(int after_n_secs, EventCallbackFunction *function, void *data);

@@ -424,6 +424,17 @@ float TimeControl::get_vminute_count(){
 }
 
 
+//(Johnny)
+#include <time.h>
+int TimeControl::get_segundo_real_atual(){
+	time_t ti = time(0);
+	struct tm x;
+	localtime_s(&x, &ti);
+	int segundoAtual = x.tm_sec;
+	return segundoAtual;
+}
+
+
 PT(TimeControl) TimeControl::get_instance(){
 	if(!instanceFlag) {
 		#if(DEBUG_TCONTROL)
@@ -451,3 +462,4 @@ void TimeControl::unload_timeControl(){
 	TimeControl::instanceFlag = false;
 	TimeControl::single = NULL;
 }
+

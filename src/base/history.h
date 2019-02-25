@@ -28,7 +28,13 @@ public:
 		HI_feeding,
 		HI_total_energy_cost,
 
-		HI_enum_size
+		//(Johnny)
+		HI_system_seconds,
+		HI_shadow,
+		HI_ate,
+		HI_running,
+
+		HI_enum_size		
 	};
 
 	typedef list<float> HList;

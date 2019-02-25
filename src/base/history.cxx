@@ -96,7 +96,7 @@ void History::output_to_file(History::HistoryItem item, string filePath) const {
 	}
 }
 
-/*(JOHNNY) chamar esse método pra gerar todo o calangosreport (chamar esse método apenas #if(PUPIL))*/
+//(JOHNNY) chamar esse método pra gerar todo o calangosreport
 #include "nameScreen.h"
 #include "calangosMenuManager.h"
 #include "stateHistory.h"
@@ -116,9 +116,10 @@ void History::output_pupil() const {
 	string pathE = pathPasta + "/energy.csv";
 	string pathF = pathPasta + "/feeding.csv";
 	string pathTEC = pathPasta + "/totalEnergyCost.csv";
-	string pathS = pathPasta + "/sombra.csv";
-	string pathC = pathPasta + "/comeu.csv";
-	string pathCr = pathPasta + "/correu.csv";
+	string pathSS = pathPasta + "/systemSeconds.csv";
+	string pathS = pathPasta + "/shadowChange.csv";
+	string pathC = pathPasta + "/ate.csv";
+	string pathCr = pathPasta + "/isRunning.csv";
 	//Gerando todos os arquivos csv:
 	Session::get_instance()->history()->output_to_file(History::HI_world_temperature, pathWT);
 	Session::get_instance()->history()->output_to_file(History::HI_player_temperature, pathPT);
@@ -129,9 +130,14 @@ void History::output_pupil() const {
 	Session::get_instance()->history()->output_to_file(History::HI_energy, pathE);
 	Session::get_instance()->history()->output_to_file(History::HI_feeding, pathF);
 	Session::get_instance()->history()->output_to_file(History::HI_total_energy_cost, pathTEC);
-	Session::get_instance()->shistory()->output_to_file(stateHistory::SH_changed_shadow, pathS);
-	Session::get_instance()->shistory()->output_to_file(stateHistory::SH_eating, pathC);
-	Session::get_instance()->shistory()->output_to_file(stateHistory::SH_running, pathCr);
+	Session::get_instance()->history()->output_to_file(History::HI_system_seconds, pathSS);
+	Session::get_instance()->history()->output_to_file(History::HI_shadow, pathS);
+	Session::get_instance()->history()->output_to_file(History::HI_ate, pathC);
+
+	//Session::get_instance()->history()->output_to_file(History::HI_running, pathCr);
+	//Session::get_instance()->shistory()->output_to_file(stateHistory::SH_changed_shadow, pathS);
+	//Session::get_instance()->shistory()->output_to_file(stateHistory::SH_eating, pathC);
+	//Session::get_instance()->shistory()->output_to_file(stateHistory::SH_running, pathCr);
 }
 
 #include "simdunas.h"
@@ -166,4 +172,10 @@ void CalangosHistory::update(){
 	add_element(History::HI_world_temperature, micro_clima->get_temp_ar_sector());
 	add_element(History::HI_world_humidity, micro_clima->get_umidade_relativa_sector());
 	add_element(History::HI_soil_temperature, player->get_environment_temp());
+	
+	add_element(History::HI_system_seconds, (float)time_control->get_segundo_real_atual());
+
+	add_element(History::HI_shadow, (float)Player::get_instance()->changed_Shadow());
+	add_element(History::HI_ate, (float)Player::get_instance()->ate());
+	add_element(History::HI_running, (float)PlayerControl::get_instance()->get_running());
 }
