@@ -35,6 +35,7 @@ public:
 	static void event_female_next(const Event *, void *data);
 
 	int get_running();
+
 	// Testando... Mesmo que não vá ficar aqui.
 	static void eat(const Event*, void *data);
 	static void click_bite(const Event*, void *data);
@@ -51,6 +52,7 @@ public:
 
     int last_eating_frame;
     static void eating(const Event*, void *data);
+	void reset_flags(int flag1, int flag2);
 	void move(float vel);
 	void walk();
 	void run();

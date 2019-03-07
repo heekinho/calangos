@@ -30,9 +30,6 @@ public:
 
 		//(Johnny)
 		HI_system_seconds,
-		HI_shadow,
-		HI_ate,
-		HI_running,
 
 		HI_enum_size		
 	};

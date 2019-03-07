@@ -102,10 +102,13 @@ void History::output_to_file(History::HistoryItem item, string filePath) const {
 #include "stateHistory.h"
 void History::output_pupil() const {
 	string nomeUsuario = ((NameScreen*)CalangosMenuManager::get_instance()->get_name_screen().p())->get_name();
-	//Criando a pasta que irá armazenar os arquivos do usuário atual:
+
+	//Criando a pasta que irá armazenar os arquivos do usuário atual 
+	//(MUDAR ISSO PARA SER CROSSPLATAFORMA, DESSA FORMA SO FUNCIONA EM WINDOWS (CreateDirectory))
 	CreateDirectory("calangosreport", NULL);
 	string pathPasta = "calangosreport/" + nomeUsuario;
 	CreateDirectory(pathPasta.c_str(), NULL);
+
 	//paths de cada um dos arquivos a serem gerados (calangosreport/nomeJogador/-----.csv):
 	string pathWT = pathPasta + "/worldTemperature.csv";
 	string pathPT = pathPasta + "/playerTemperature.csv";
@@ -120,6 +123,9 @@ void History::output_pupil() const {
 	string pathS = pathPasta + "/shadowChange.csv";
 	string pathC = pathPasta + "/ate.csv";
 	string pathCr = pathPasta + "/isRunning.csv";
+	string pathBc = pathPasta + "/isBeingChased.csv";
+	string pathBa = pathPasta + "/isBeingAttacked.csv";
+
 	//Gerando todos os arquivos csv:
 	Session::get_instance()->history()->output_to_file(History::HI_world_temperature, pathWT);
 	Session::get_instance()->history()->output_to_file(History::HI_player_temperature, pathPT);
@@ -131,13 +137,13 @@ void History::output_pupil() const {
 	Session::get_instance()->history()->output_to_file(History::HI_feeding, pathF);
 	Session::get_instance()->history()->output_to_file(History::HI_total_energy_cost, pathTEC);
 	Session::get_instance()->history()->output_to_file(History::HI_system_seconds, pathSS);
-	Session::get_instance()->history()->output_to_file(History::HI_shadow, pathS);
-	Session::get_instance()->history()->output_to_file(History::HI_ate, pathC);
 
-	//Session::get_instance()->history()->output_to_file(History::HI_running, pathCr);
-	//Session::get_instance()->shistory()->output_to_file(stateHistory::SH_changed_shadow, pathS);
-	//Session::get_instance()->shistory()->output_to_file(stateHistory::SH_eating, pathC);
-	//Session::get_instance()->shistory()->output_to_file(stateHistory::SH_running, pathCr);
+	Session::get_instance()->shistory()->output_to_file(stateHistory::SH_changed_shadow, pathS);
+	Session::get_instance()->shistory()->output_to_file(stateHistory::SH_eating, pathC);
+	Session::get_instance()->shistory()->output_to_file(stateHistory::SH_running, pathCr);
+	Session::get_instance()->shistory()->output_to_file(stateHistory::SH_being_chased, pathBc);
+	Session::get_instance()->shistory()->output_to_file(stateHistory::SH_being_attacked, pathBa);
+
 }
 
 #include "simdunas.h"
@@ -175,7 +181,8 @@ void CalangosHistory::update(){
 	
 	add_element(History::HI_system_seconds, (float)time_control->get_segundo_real_atual());
 
-	add_element(History::HI_shadow, (float)Player::get_instance()->changed_Shadow());
+	
+	/*add_element(History::HI_shadow, (float)Player::get_instance()->changed_Shadow());
 	add_element(History::HI_ate, (float)Player::get_instance()->ate());
-	add_element(History::HI_running, (float)PlayerControl::get_instance()->get_running());
+	add_element(History::HI_running, (float)PlayerControl::get_instance()->get_running());*/
 }

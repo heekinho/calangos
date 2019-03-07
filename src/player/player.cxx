@@ -19,8 +19,10 @@
 #define saiu_sombra 2
 #define entrou_sombra 1
 #define comeu 1
-int flag_comeu = 0;
 
+int flag_comeu = 0;
+bool flag_is_being_chased;
+int flag_was_bited;
 
 PlayerProperties Player::properties = PlayerProperties();
 bool Player::instanceFlag = false;
@@ -30,6 +32,7 @@ float Player::nivel_camuflagem_terreno_dia = 0;
 float Player::nivel_camuflagem_terreno_noite = 0;
 float Player::nivel_camuflagem_sombra = 0;
 float Player::nivel_camuflagem_folhagem = 0;
+
 
 bool Player::stateShadow;
 
@@ -427,12 +430,21 @@ void Player::set_predator(PT(Predator) other){
 	if(other == NULL){//Se não houver predador, termina a música
 		AudioController::get_instance()->pursuit_finished();
 	}
-	else if(!GuiManager::get_instance()->is_status_seta()){//Se já existir um seta criada, não se cria outra
-		AudioController::get_instance()->predator_pursuing();
-		GuiManager::get_instance()->activate_predator_alert(other);
+	else {
+		flag_is_being_chased = true;
+		if (!GuiManager::get_instance()->is_status_seta()) {//Se já existir um seta criada, não se cria outra
+			AudioController::get_instance()->predator_pursuing();
+			GuiManager::get_instance()->activate_predator_alert(other);
+		}
 	}
+}
 
-
+//(Johnny)
+int Player::is_being_chased() {
+	if (flag_is_being_chased)
+		return 1;
+	else
+		return 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -450,12 +462,20 @@ void Player::mordida_recebida(int lizard_tamanho_base){
 	 * Piscar_life já é chamado anteriormente*/
 }
 
+void Player::be_bited() {
+	flag_was_bited = 1;
+	ObjetoJogo::be_bited();
+}
+
+int Player::is_being_bited() {
+	return flag_was_bited;
+}
+
 int Player::changed_Shadow(){
-	PT(TimeControl) time_control = TimeControl::get_instance();
+	//PT(TimeControl) time_control = TimeControl::get_instance();
 	if(stateShadow == false){
 		if(World::get_world()->get_terrain()->get_shadows()->is_in_shadow(*player, 0.1)){
-			entrou_sombra;
-			stateShadow = true;
+			
 			
 			return entrou_sombra;
 		}
@@ -463,8 +483,7 @@ int Player::changed_Shadow(){
 	else if(stateShadow == true){
 
 		if(!World::get_world()->get_terrain()->get_shadows()->is_in_shadow(*player, 0.1)){
-			saiu_sombra;
-			stateShadow = false;
+
 			
 			return saiu_sombra;
 		}
@@ -472,12 +491,11 @@ int Player::changed_Shadow(){
 	
 	
 	return 0;
-
-
 }
 
 int Player::ate(){
-	if(flag_comeu == 0){
+	return flag_comeu;
+	/*if(flag_comeu == 0){
 
 		return 0;
 	
@@ -485,7 +503,23 @@ int Player::ate(){
 	else if(flag_comeu == 1){
 		flag_comeu = 0;
 		return comeu;
-	}	
+	}	*/
+}
+
+//(Johnny) Aqui, os flags flag_comeu são resetados, esse método é chamado a cada segundo em event_add_states, na classe statehistory
+void Player::reset_flags(int estavaNaSombra) {
+	flag_comeu = 0;
+
+	if (estavaNaSombra)
+		stateShadow = true;
+	else
+		stateShadow = false;
+
+	if (this->predator == NULL)
+		flag_is_being_chased = false;
+
+	flag_was_bited = 0;
+
 }
 
 

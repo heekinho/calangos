@@ -17,6 +17,10 @@ public:
 		SH_changed_shadow,
 		SH_eating,
 		SH_running,
+
+		//(Johnny)
+		SH_being_chased,
+		SH_being_attacked,
 		
 		SHI_enum_size
 	};

@@ -355,21 +355,34 @@ void PlayerControl::update(){
 }
 
 int PlayerControl::get_running(){
-	PT(Player) p = player;
-	if(flag_correndo1 == 0 && (flag_correndo == 1 || flag_correndo == 2 || flag_correndo == -1)){
-		flag_correndo = 0;
-		return 0;
+	return flag_correndo1;
+	/*(Johnny) 
+	Eu comentei tudo porque não entendi pra que serve o flag_correndo, então simplesmente mudei pra retornar 
+	o flag_correndo1, que tambem poderia se chamar "o_que_o_lagarto_esta_fazendo", 0 parado, 1 andando e 2 correndo, 
+	quem define isso é o método PlayerControl::update
 	
-	}
-	else if(flag_correndo1 == 1 && (flag_correndo == 0 || flag_correndo == 2 || flag_correndo == -1)){
-		flag_correndo = 1;
-		return 1;
-	}
-	else if(flag_correndo1 == 2 && (flag_correndo == 0 || flag_correndo == 1 || flag_correndo == -1)){
-		flag_correndo = 2;
-		return 2;
+	EDIT: 
+	Entendi, o flag_correndo servia para, por exemplo, caso o jogador estivesse andando antes e continua andando
+	agora, ele não deveria retornar que ele continua andando. Não sei porque o método deveria fazer isso e da forma que
+	foi implementado não funciona porque não tem um else, então o log de dados fica cheio de bugs já que, se o jogador
+	correr por algum tempo, esse método vai retornar um 2 e depois ficar retornando um bug até o jogador parar de correr
+	e passar a fazer outra coisa.
+	*/
 
-	}
+	//PT(Player) p = player;
+	//if(flag_correndo1 == 0 && (flag_correndo == 1 || flag_correndo == 2 || flag_correndo == -1)){
+	//	//flag_correndo = 0;
+	//	return 0;
+	//
+	//}
+	//else if(flag_correndo1 == 1 && (flag_correndo == 0 || flag_correndo == 2 || flag_correndo == -1)){
+	//	//flag_correndo = 1;
+	//	return 1;
+	//}
+	//else if(flag_correndo1 == 2 && (flag_correndo == 0 || flag_correndo == 1 || flag_correndo == -1)){
+	//	//flag_correndo = 2;
+	//	return 2;
+	//}
 }
 
 void PlayerControl::move(float velocity){

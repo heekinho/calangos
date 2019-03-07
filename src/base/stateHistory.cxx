@@ -6,6 +6,7 @@
 #include "simdunas.h"
 #include "microClima.h"
 #include "energySimulator.h"
+#include "world.h"
 
 
 int anterior_correndo = 0;
@@ -68,16 +69,19 @@ void stateHistory::output_to_file(stateHistory::SHistoryItem item, string filePa
 	int i;
 	for (i = 0, (it = _shistory[item].begin()); it != _shistory[item].end(); it++, i++) {
 		state acontecimento = (*it);
-		file << acontecimento.occurrence;
-		file << endl;
+		file << acontecimento.occurrence << " ; " << acontecimento.hour_event << " ; " << acontecimento.event_day << endl;
 	}
 	file.close();
 }
 
 void stateHistory::event_add_states(){
+	
 	state dataShadow;
 	state dataComeu;
 	state dataCorrendo;
+	state dataSendoPerseguido;
+	state dataSendoAtacado;
+
 
 	PT(TimeControl) time_control = TimeControl::get_instance();
 	dataShadow.occurrence = Player::get_instance()->changed_Shadow();
@@ -91,6 +95,7 @@ void stateHistory::event_add_states(){
 		
 	}
 	dataComeu.occurrence = Player::get_instance()->ate();
+
 	if(dataComeu.occurrence == 1){
 		dataComeu.event_day = time_control->get_dia_passado();
 		dataComeu.hour_event = time_control->get_hora_generica();
@@ -98,17 +103,31 @@ void stateHistory::event_add_states(){
 		//stateHistory::output(stateHistory::SH_eating,"COMEU");
 		
 	}
+
 	dataCorrendo.occurrence = PlayerControl::get_instance()->get_running();
 	if(dataCorrendo.occurrence == 0 || dataCorrendo.occurrence == 1 || dataCorrendo.occurrence == 2){
 		dataCorrendo.event_day = time_control->get_dia_passado();
 		dataCorrendo.hour_event = time_control->get_hora_generica();
 		add_element(stateHistory::SH_running, dataCorrendo);
 		//stateHistory::output(stateHistory::SH_running,"CORRENDO");
-	
-	
 	}
-		
-	
+
+	dataSendoPerseguido.occurrence = Player::get_instance()->is_being_chased();
+	dataSendoPerseguido.event_day = time_control->get_dia_passado();
+	dataSendoPerseguido.hour_event = time_control->get_hora_generica();
+	add_element(stateHistory::SH_being_chased, dataSendoPerseguido);
+
+
+	dataSendoAtacado.occurrence = Player::get_instance()->is_being_bited();
+	if (dataSendoAtacado.occurrence == 1) {
+		dataSendoAtacado.event_day = time_control->get_dia_passado();
+		dataSendoAtacado.hour_event = time_control->get_hora_generica();
+		add_element(stateHistory::SH_being_attacked, dataSendoAtacado);
+	}
+
+
+	//resetando o flag de ate, stateShadow, flag_is_being_chased, flag_is_being_bited em player. (Johnny)
+	Player::get_instance()->reset_flags(World::get_world()->get_terrain()->get_shadows()->is_in_shadow(*player, 0.1));
 	
 }
 void stateHistory::event_add_states(const Event*, void* data){

@@ -65,6 +65,9 @@ public:
 
 	static int changed_Shadow();
 	static int ate();
+
+	void reset_flags(int estavaNaSombra);
+
 	
 
 	virtual void has_moved();
@@ -152,6 +155,10 @@ public:
 	 * hidrataçao proporcionalmente */
 	void mordida_recebida(int tamanho_lagarto_base);
 
+	void be_bited();
+
+	int is_being_bited();
+
 	/* Incrementa em 1, a quantidade de ovos desse lagarto.
 	 * Esse valor está associado ao sucesso do lagarto nas reproduções (quanto mais melhor).*/
 	void add_eggs();
@@ -197,6 +204,7 @@ private:
 
 public:
 	void set_predator(PT(Predator) other);
+	int is_being_chased();
 	PT(Predator) get_predator();
 
 	virtual float get_indice_camuflagem() const;
